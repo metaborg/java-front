@@ -125,9 +125,16 @@ rules
       where <not-empty> exprs
           ; <separate-by-comma> exprs => args
 
-  separate-by-comma :
-    xs -> box |[ H hs=1 [~*vals ] ]|
-      where <separate-by(comma)> xs => vals
+  separate-by-comma =
+    rec x(
+      ?[<id>]
+    <+ \ [] -> H hs=0 [] \
+    <+ {b1, b2:
+         ?[b1 | <x>]
+       ; ?b2
+       ; !H hs=1 [H hs=0 [b1 ","] b2]
+       }
+    )
 
   list-to-args:
     [] -> box |[ H hs=1 ["(" ")"] ]|

@@ -1,6 +1,5 @@
 module pp-Java-Statements
-
-strategies
+rules
 
   stm-box:
     x -> box |[ H hs=0 [~x ";"] ]|
@@ -15,13 +14,24 @@ strategies
   java-to-box: Expr(e)  -> <try(expr-to-box); stm-box> e
   java-to-box: Empty()  -> box |[ ";" ]|
 
+rules
+
+  /**
+   * LocalVarDecStm
+   */
   java-to-box=
-    ?LocalVarDec(type, decs)
+    ?LocalVarDec(type, ds)
     ; LocalVarDec-to-box
     ; stm-box
 
   LocalVarDec-to-box :
-    LocalVarDec(type, decs) -> H hs=1 [~type ~*decs]
+    LocalVarDec(type, ds) -> H hs=1 [~type ~decs]
+      where <separate-by-comma> ds => decs
+
+  LocalVarDec-to-box :
+    FinalLocalVarDec(type, decs) -> H hs=1 [KW["final"] ~LocalVarDec(type, decs) ]
+
+rules
 
   java-to-box:
     Try(block, catches) -> V vs=0 [KW["try"] ~block ~*catches]

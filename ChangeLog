@@ -1,5 +1,11 @@
 2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/pp-Java.str: improved pretty-printing of all constructs
+	separated by commas: use a, b instead of a , b.
+
+	* pp/pp-Java.str: fix in the pretty-printing of multiple variable
+	declarations in a single local variable declaration statement.
+	
 	* pp/pp-Java-Statements.str: fix in the pretty-printing of switch
 	statements.
 
