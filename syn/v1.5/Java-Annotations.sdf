@@ -1,0 +1,22 @@
+module Java-Annotations
+imports
+  Java-Names
+  Java-Expressions
+
+exports
+  context-free start-symbols Anno
+  sorts Anno ElemVal ElemValPair
+
+  context-free syntax
+    "@" TypeName "(" {ElemValPair ","}* ")" -> Anno {cons("Anno")}
+    "@" TypeName "(" ElemVal ")"            -> Anno {cons("SingleElemAnno")}
+    "@" TypeName                            -> Anno {cons("MarkerAnno")}
+
+    Id "=" ElemVal -> ElemValPair {cons("ElemValPair")}
+
+    %% Expr is too general: assignments are not allowed.
+    Expr -> ElemVal
+    Anno -> ElemVal
+
+    "{" {ElemVal ","}*     "}" -> ElemVal {cons("ElemValArrayInit")}
+    "{" {ElemVal ","}* "," "}" -> ElemVal {cons("ElemValArrayInit")}

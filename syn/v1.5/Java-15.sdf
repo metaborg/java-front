@@ -3,6 +3,7 @@ imports
   Java-Classes
   Java-Enums
   Java-StaticImport
+  Java-Annotations
 
 imports
   Java-Lexical
