@@ -20,3 +20,5 @@ DISTCHECK_CONFIGURE_FLAGS = \
   --with-pt-support=$(PT_SUPPORT) \
   --with-asf-library=$(ASF_LIBRARY) \
   --with-aterm=$(ATERM)
+
+ACLOCAL_AMFLAGS = -I .

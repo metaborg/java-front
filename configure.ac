@@ -1,5 +1,6 @@
 AC_PREREQ([2.58])
 AC_INIT([java-front],[0.6],[stratego-bugs@cs.uu.nl])
+AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 
 # comment to make this a stable release
