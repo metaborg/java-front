@@ -28,7 +28,8 @@ rules
       where <separate-by-comma> ds => decs
 
   LocalVarDec-to-box :
-    FinalLocalVarDec(type, decs) -> H hs=1 [KW["final"] ~LocalVarDec(type, decs) ]
+    FinalLocalVarDec(type, decs) -> H hs=1 [KW["final"] b]
+      where <LocalVarDec-to-box> LocalVarDec(type, decs) => b
 
 rules
 

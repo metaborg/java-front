@@ -62,7 +62,7 @@ rules
 rules
 
   java-to-box:
-    Semicolon() -> box |[ "" ]|
+    Semicolon() -> box |[ ";" ]|
 
   java-to-box:
     InterfaceDec(mods, Id(name), implements, body)
