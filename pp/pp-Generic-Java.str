@@ -81,10 +81,10 @@ strategies
             > parts => content
 
   java-to-box:
-    ParamClass(i, args) -> box |[ H hs=0 [~lit:i ~args] ]|
+    ParamClass(Id(i), args) -> box |[ H hs=0 [~lit:i ~args] ]|
 
   java-to-box:
-    ParamInterface(i, args) -> box |[ H hs=0 [~lit:i ~args] ]|
+    ParamInterface(Id(i), args) -> box |[ H hs=0 [~lit:i ~args] ]|
 
   java-to-box:
     TypeParams(params) -> box |[ H hs=0 ["<" ~parameters ">"] ]|
