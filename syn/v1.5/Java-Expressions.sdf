@@ -1,8 +1,6 @@
 module Java-Expressions
 imports
-  Java-Literals
   Java-Names
-  Java-Types
   Java-Classes
 
 exports
@@ -23,6 +21,11 @@ exports
     FieldAccess           -> Expr
     ArrayAccess           -> Expr
     ArrayCreationExpr     -> Expr
+
+  context-free syntax
+    ClassLiteral -> Literal
+    Type "." "class"   -> ClassLiteral {cons("Class")}
+    "void" "." "class" -> ClassLiteral {cons("VoidClass")}
 
   context-free syntax
 

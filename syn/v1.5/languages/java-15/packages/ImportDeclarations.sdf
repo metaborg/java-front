@@ -1,7 +1,19 @@
 module languages/java-15/packages/ImportDeclarations
 exports
-  sorts StaticImport
+  sorts
+    ImportDec
+    TypeImportDec
+    PackageImportDec
+    StaticImport
+
   context-free syntax
+    TypeImportDec             -> ImportDec {cons("ImportDec")}
+    PackageImportDec          -> ImportDec {cons("ImportDec")}
+
+
+    "import" TypeName ";" -> TypeImportDec  {cons("TypeRef")}
+    "import" PackageName "." "*" ";"  -> PackageImportDec {cons("PackageRef")}
+
     StaticImport -> ImportDec {cons("ImportDec")}
 
     "import" "static" TypeName "." Id  ";"  -> StaticImport {cons("TypeMemberRef")}

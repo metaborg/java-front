@@ -1,6 +1,9 @@
-module Java-Types
-imports Java-Names
-
+%%%
+ %% Chapter 4: Types, Values, and Variables
+ %%
+ %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/types/Main
 exports
   sorts
     Type

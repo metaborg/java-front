@@ -1,7 +1,6 @@
 module Java-MethodDecs
 imports
   Java-Modifiers 
-  Java-Types
   Java-Names
   Java-VarDecs
 

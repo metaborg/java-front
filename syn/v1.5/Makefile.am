@@ -25,7 +25,6 @@ JAVA15_MODS = \
   Java-Names.sdf \
   Java-Statements.sdf \
   Java-TypeDecs.sdf \
-  Java-Types.sdf \
   Java-VarDecs.sdf \
   $(wildcard languages/java-15/lexical/*.sdf) \
   $(wildcard languages/java-15/pacakges/*.sdf) \

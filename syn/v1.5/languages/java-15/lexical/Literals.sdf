@@ -1,7 +1,9 @@
-module Java-Literals
-imports
-  Java-Types
-
+%%%
+ %% Section 3.10: Literals
+ %%
+ %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/lexical/Literals
 exports
   sorts
     Literal    
@@ -11,38 +13,27 @@ exports
     CharLiteral
     StringLiteral
     NullLiteral
-    ClassLiteral
+
+  context-free syntax
+    IntLiteral    -> Literal
+    FloatLiteral  -> Literal {cons("Float")}
+    BoolLiteral   -> Literal {cons("Bool")}
+    CharLiteral   -> Literal
+    StringLiteral -> Literal
+    NullLiteral   -> Literal
+
+  sorts
     DeciLiteral
     HexaLiteral
     OctaLiteral
-
-  context-free syntax
-
-      IntLiteral -> Literal
-    FloatLiteral -> Literal {cons("Float")}
-     BoolLiteral -> Literal {cons("Bool")}
-     CharLiteral -> Literal
-   StringLiteral -> Literal
-     NullLiteral -> Literal
-    ClassLiteral -> Literal
-
-    DeciLiteral -> IntLiteral {cons("Deci")}
-    HexaLiteral -> IntLiteral {cons("Hexa")}
-    OctaLiteral -> IntLiteral {cons("Octa")}
-
-    "true"  -> BoolLiteral {cons("True")  }
-    "false" -> BoolLiteral {cons("False") }
-    "null"  -> NullLiteral {cons("Null")}
-
-  context-free syntax
-
-    Type "." "class"   -> ClassLiteral {cons("Class")}
-    "void" "." "class" -> ClassLiteral {cons("VoidClass")}
-
-  sorts
     DeciNumeral
     HexaNumeral
     OctaNumeral
+
+  context-free syntax
+    DeciLiteral -> IntLiteral {cons("Deci")}
+    HexaLiteral -> IntLiteral {cons("Hexa")}
+    OctaLiteral -> IntLiteral {cons("Octa")}
 
   lexical syntax
     DeciNumeral [lL]? -> DeciLiteral
@@ -77,6 +68,10 @@ exports
     Sign? [0-9]+ -> SignedInt
     [\-\+] -> Sign
 
+  context-free syntax
+    "true"  -> BoolLiteral {cons("True")}
+    "false" -> BoolLiteral {cons("False")}
+
   sorts
     StringPart
     CharContent
@@ -108,7 +103,6 @@ exports
     OctaEscape  -> EscapeSeq
     NamedEscape -> EscapeSeq
 
-    "\\" [u]+ [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] -> UnicodeEscape {cons("UnicodeEscape")}
     "\\" [btnfr\"\'\\]     -> NamedEscape {cons("NamedEscape")}
     "\\" LastOcta          -> OctaEscape  {cons("OctaEscape")}
     "\\" [0-7] LastOcta    -> OctaEscape  {cons("OctaEscape")}
@@ -122,3 +116,6 @@ exports
   restrictions
     StringChars -/- ~[\"\\\n\13]
     LastOcta    -/- [0-7]
+
+  context-free syntax
+    "null"  -> NullLiteral {cons("Null")}

@@ -4,7 +4,6 @@ imports
   Java-Modifiers
   Java-MethodDecs
   Java-Statements
-  Java-Types
 
 exports
   context-free start-symbols

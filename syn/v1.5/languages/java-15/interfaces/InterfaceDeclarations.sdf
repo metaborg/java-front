@@ -10,7 +10,7 @@ imports
   Java-Names
   Java-Modifiers
   Java-MethodDecs
-  Java-Types
+  languages/java-15/types/Main
 
 exports
   context-free start-symbols

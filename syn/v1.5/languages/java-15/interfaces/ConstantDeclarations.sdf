@@ -8,7 +8,7 @@ imports
   languages/java-15/interfaces/Annotations
   Java-Modifiers
   Java-MethodDecs
-  Java-Types
+  languages/java-15/types/Main
 
 exports
   sorts

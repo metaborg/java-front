@@ -3,16 +3,15 @@ imports
   Java-Names
   Java-Classes
   Java-Expressions
-  Java-Literals
   Java-MethodDecs
   Java-Modifiers
   Java-Names
   Java-Statements
   Java-TypeDecs
-  Java-Types
   Java-VarDecs
 
   languages/java-15/lexical/Main
+  languages/java-15/types/Main
   languages/java-15/packages/ImportDeclarations
   languages/java-15/classes/Main
   languages/java-15/interfaces/Main
@@ -29,11 +28,5 @@ exports
     PackageDec? ImportDec* TypeDec+ -> CompilationUnit   {cons("CompilationUnit")}
 
     "package" PackageName ";" -> PackageDec {cons("PackageDec")}
-
-    TypeImportDec             -> ImportDec {cons("ImportDec")}
-    PackageImportDec          -> ImportDec {cons("ImportDec")}
-
     ";" -> TypeDec {cons("Semicolon")}
 
-    "import" TypeName ";"     -> TypeImportDec  {cons("TypeRef")}
-    "import" PackageName "." "*" ";"  -> PackageImportDec {cons("PackageRef")}
