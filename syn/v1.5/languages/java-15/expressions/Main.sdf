@@ -12,6 +12,7 @@ imports
   languages/java-15/expressions/ArrayAccess
   languages/java-15/expressions/MethodInvocation
   languages/java-15/expressions/Postfix
+  languages/java-15/expressions/UnaryOperators
   languages/java-15/expressions/BinaryOperators
   languages/java-15/expressions/AssignmentOperators
   languages/java-15/expressions/Restrictions

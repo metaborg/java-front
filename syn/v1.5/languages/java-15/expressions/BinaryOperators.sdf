@@ -1,6 +1,7 @@
 module languages/java-15/expressions/BinaryOperators
 imports
   languages/java-15/expressions/Main
+  languages/java-15/types/Main
 
 exports
   context-free syntax
@@ -31,4 +32,4 @@ exports
     Expr "^" Expr -> Expr {left, cons("ExcOr")}
     Expr "|" Expr -> Expr {left, cons("Or")}
 
-    Expr "?" Expr ":" Expr -> Expr {right, cons("Cond")}
+    Expr "?" Expr ":" Expr -> Expr {cons("Cond")}

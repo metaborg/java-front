@@ -6,6 +6,7 @@
 module languages/java-15/expressions/ClassInstanceCreation
 imports
   languages/java-15/expressions/Main
+  languages/java-15/classes/ClassDeclarations
 
 exports
   context-free syntax

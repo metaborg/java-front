@@ -1,14 +1,15 @@
 module languages/java-15/expressions/Priorities
 imports
+  languages/java-15/lexical/Identifiers
   languages/java-15/expressions/Main
 
 exports
   context-free priorities
-    Expr "." "new" Id "(" {Expr ","}* ")" ClassBody? -> Expr
+    Expr "." "new" TypeArgs? Id TypeArgs? "(" {Expr ","}* ")" ClassBody? -> Expr
   > {
       Expr ArraySubscript -> ArrayAccess
       Expr "." Id -> FieldAccess
-      Expr "." Id -> MethodId
+      Expr "." TypeArgs? Id -> MethodId
     }
   > {right:
       Expr "++" -> Expr

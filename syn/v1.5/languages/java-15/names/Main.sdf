@@ -25,6 +25,11 @@ exports
                 Id -> MethodName  {cons("MethodName")}
     AmbName "." Id -> MethodName  {cons("MethodName")}
 
+  %% todo: workaround for missing definition in JLS.    
+  sorts ClassName
+  context-free syntax
+    {Id "."}+ -> ClassName {cons("ClassName")}
+
   sorts PackageOrTypeName
   context-free syntax
     {Id "."}+ -> PackageOrTypeName {cons("PackageOrTypeName")}

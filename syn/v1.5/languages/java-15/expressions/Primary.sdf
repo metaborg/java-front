@@ -5,12 +5,15 @@
  %%%
 module languages/java-15/expressions/Primary
 imports
+  languages/java-15/lexical/Literals
+  languages/java-15/names/Main
   languages/java-15/expressions/Main
 
 exports
   %%%
    %% Section 15.8.1: Lexical Literals
    %%%
+  sorts Literal
   context-free syntax
     Literal -> Expr {cons("Lit")}
 

@@ -24,18 +24,16 @@ exports
     HexaNumeral [lL]? -> HexaLiteral
     OctaNumeral [lL]? -> OctaLiteral
 
+    "0" -> DeciNumeral
     [1-9][0-9]*  -> DeciNumeral
     [0][xX] [0-9a-fA-F]+ -> HexaNumeral
     [0]     [0-9a-fA-F]+ -> OctaNumeral
 
   sorts
+    Float
     FloatLiteral
-    FloatNumeral
-    FloatTypeSuffix
     FloatDigits
     ExponentPart
-    Sign
-    SignedInt
 
   context-free syntax
     Float -> FloatLiteral {cons("Float")}

@@ -64,7 +64,7 @@ exports
     ClassMemberDec -> ClassBodyDec
     InstanceInit   -> ClassBodyDec
     StaticInit     -> ClassBodyDec
-    ConstructorDec -> ClassBodyDec
+    ConstrDec      -> ClassBodyDec
 
   context-free syntax
     FieldDec     -> ClassMemberDec

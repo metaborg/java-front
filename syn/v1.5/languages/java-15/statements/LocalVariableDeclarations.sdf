@@ -14,5 +14,5 @@ exports
     LocalVarDec
 
   context-free syntax
-    LocalVarDec -> LocalVarDecStm {cons("LocalVarDecStm")}
+    LocalVarDec ";" -> LocalVarDecStm {cons("LocalVarDecStm")}
     VarMod* Type {VarDec ","}+ -> LocalVarDec {cons("LocalVarDec")}
