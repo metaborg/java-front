@@ -1,3 +1,9 @@
+2004-02-05  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/basic/Java-Prefixed.sdf: renamings for some (not all yet)
+	Java sorts by prefixing them with Java. This module should be used
+	for embedding concrete object syntax in Java.
+
 2004-02-04  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/basic/Java-Comments.sdf: added follow restriction on

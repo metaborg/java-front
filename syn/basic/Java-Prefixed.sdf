@@ -1,0 +1,46 @@
+module Java-Prefixed
+imports
+  Java [
+    %% Java
+    CompilationUnit  => JavaCompilationUnit
+    PackageDec       => JavaPackageDec
+    ImportDec        => JavaImportDec
+    TypeDec          => JavaTypeDec
+    TypeImportDec    => JavaTypeImportDec
+    PackageImportDec => JavaPackageImportDec
+
+    %% Java-Statements
+    Block           => JavaBlock
+    LocalVarDec     => Java
+    Stm             => Java
+    ClassDec        => Java 
+    
+    %% Java-Expressions
+    Expr            => JavaExpr
+
+    %% Java-Literals
+    Id              => JavaId
+    Literal         => JavaLiteral
+    IntLiteral      => JavaIntLiteral
+    FloatLiteral    => JavaFloatLiteral
+    BoolLiteral     => JavaBoolLiteral
+    CharLiteral     => JavaCharLiteral
+    StringLiteral   => JavaStringLiteral
+    NullLiteral     => JavaNullLiteral
+    ClassLiteral    => JavaClassLiteral
+    DeciLiteral     => JavaDeciLiteral
+    HexaLiteral     => HexaLiteral
+    OctaLiteral     => OctaLiteral
+    OctaDigit       => JavaOctaDigit
+    DeciDigit       => JavaDeciDigit
+    HexaDigit       => JavaHexaDigit
+    DeciNumeral     => JavaDeciNumeral
+    HexaNumeral     => JavaHexaNumeral
+    OctaNumeral     => JavaOctaNumeral
+    FloatTypeSuffix => JavaFloatTypeSuffix
+    UnicodeEscape   => JavaUnicodeEscape
+    InputChar       => JavaInputChar
+    EscapeSeq       => JavaEscapeSeq
+    OctaEscape      => JavaOctaEscape
+    StringChar      => JavaStringChar    
+  ]

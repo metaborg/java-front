@@ -33,7 +33,7 @@ Java.def : \
   Java-Types.sdf \
   Java-VarDecs.sdf \
   Java-WhiteSpace.sdf
-  
+
 Stratego-Java.def : \
   Java.def \
   Stratego-Java.sdf
