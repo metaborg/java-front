@@ -122,6 +122,7 @@ exports
     "e"    [0-9]*     -> JavaExpr {prefer}
     "t"    [0-9]*     -> JavaType {prefer}
     "e"    [0-9]* "*" -> {JavaVarInit ","}* {prefer}
+    "e"    [0-9]* "*" -> {JavaExpr ","}*    {prefer}
 
     "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
     [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
