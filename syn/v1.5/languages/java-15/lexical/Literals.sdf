@@ -46,7 +46,7 @@ exports
            "."        -> FloatDigits {reject}
     [0-9]+            -> FloatDigits
 
-    [eE] [\-\+] [0-9]+ -> ExponentPart
+    [eE] [\-\+]? [0-9]+ -> ExponentPart
 
   sorts
     Bool

@@ -19,12 +19,15 @@ strategies
     (q, name) -> box |[ H hs=0 [~*prefix "." ~lit:name] ]|
       where <name-to-boxes> q; ?prefix
 
-  name-to-boxes :
-    Name(ids) ->
-      < map(\ Id(s) -> S(s) \)
+  name-to-box :
+    Name(ids) -> H hs=0 [b*]
+    where
+      < map(\ Id(s) -> box |[ s ]| \)
       ; separate-by(point)
-      > ids
+      > ids => b*
 
   name-to-box =
       name-to-boxes
-    ; ! box |[ H hs=0 [~*<id> ] ]|
+    ; 
+
+  name-to-box =
