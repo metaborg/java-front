@@ -1,0 +1,26 @@
+%%%
+ %% Section 4.3: Reference Types and Values
+ %%
+ %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/types/ReferenceTypes
+exports
+  sorts
+    RefType
+    ClassOrInterfaceType
+    ClassType
+    InterfaceType
+    ArrayType
+    TypeVar
+
+  context-free syntax
+    ClassOrInterfaceType -> RefType
+    ArrayType            -> RefType
+    TypeVar              -> RefType
+
+    TypeName TypeArgs? -> ClassOrInterfaceType {cons("ClassOrInterfaceType")}
+
+    TypeName TypeArgs? -> ClassType {cons("ClassType")}
+    TypeName TypeArgs? -> InterfaceType {cons("InterfaceType")}
+
+    Type "[" "]" -> ArrayType  {cons("ArrayType")}
