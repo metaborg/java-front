@@ -105,33 +105,33 @@ rules
       <for-head> f => b1
       ; !b2 => Block(_)
 
-/**
- * For Each Statements
- */
-
-  java-to-box:
-    f@ForEach(param, source, b2) -> box |[ V vs=0 [b1 b2] ]|
-    where
-      <for-each-head> f => b1
-      ; !b2 => Block(_)
-
   for-head :
     For(init, cond, update, body)
       ->
-    box |[ H hs=0 [KW["for"] "(" ~*binit ";" ~*bcond ";" ~*bupdate ")"] ]|
+    H hs=0 [
+      KW["for"]
+      "("
+      ~binit
+      H hs=1 [";" ~*bcond]
+      H hs=1 [";" ~bupdate]
+      ")"
+    ]
     where
-      < map(java-to-box)
-      ; separate-by(comma)
-      > update => bupdate
+      <separate-by-comma> update => bupdate
 
       ; < LocalVarDec-to-box; ![<id>]
           <+ map(java-to-box)
-             ; separate-by(comma)
+             ; separate-by-comma
         > init => binit
 
       ; < ?Some(<id>); java-to-box; ![<id>]
            <+ ?None(); ![]
         > cond => bcond
+
+/**
+ * For Each Statements
+ */
+rules
 
   java-to-box:
     f@ForEach(param, source, b2) -> box |[ V is=2 vs=0 [b1 b2] ]|
