@@ -1,5 +1,4 @@
 include $(top_srcdir)/Makefile.xt
-include $(top_srcdir)/Makefile.regular
 
 SIGS = \
   Java.str \

@@ -1,5 +1,4 @@
 include $(top_srcdir)/Makefile.xt
-include $(top_srcdir)/Makefile.regular
 include $(wildcard *.dep)
 
 TBLS_DEFS = \
@@ -8,7 +7,7 @@ TBLS_DEFS = \
   Stratego-Java-EBlock.tbl 
 
 sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Java-EBlock-Prefixed.sdf
-pkgdata_DATA   = Java-EBlock.rtg Java-EBlock.rtg-nf
+pkgdata_DATA   = Java-EBlock.rtg
 
 EXTRA_DIST     = $(sdfdata_DATA)
 BOOTCLEANFILES = $(TBLS_DEFS) Java-EBlock-Prefixed.sdf

@@ -5,7 +5,6 @@ AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 test "x$prefix" = xNONE && prefix=$ac_default_prefix
 
 USE_XT_PACKAGES
-USE_STRATEGO_REGULAR
 
 AC_PROG_CC
 AC_PROG_INSTALL
