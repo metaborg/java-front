@@ -143,8 +143,14 @@ exports
    %% Variables for Modifiers
    %%%
   variables
-    "mmod" [0-9]*     -> JavaMethodMod  {prefer}
-    "mmod" [0-9]* "*" -> JavaMethodMod* {prefer}
+     "mod" [0-9]*     -> JavaMethodMod  {prefer}
+     "mod" [0-9]* "*" -> JavaMethodMod* {prefer}
+
+     "mod" [0-9]*     -> JavaClassMod  {prefer}
+     "mod" [0-9]* "*" -> JavaClassMod* {prefer}
+
+     "mod" [0-9]*     -> JavaConstrMod  {prefer}
+     "mod" [0-9]* "*" -> JavaConstrMod* {prefer}
 
   %%%
    %% Quotations for Modifiers
