@@ -2,8 +2,8 @@ include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
 TBLS_DEFS = \
-  Java-1.5.def \
-  Java-1.5.tbl \
+  Java-15.def \
+  Java-15.tbl \
   Generic-Java.def \
   Generic-Java.tbl \
   Stratego-Generic-Java.tbl
