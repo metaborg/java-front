@@ -27,6 +27,7 @@ AC_CONFIG_FILES([
   syn/Makefile
   syn/basic/Makefile
   syn/v1.5/Makefile
+  syn/stratego-v1.5/Makefile
   syn/generic/Makefile
   syn/eblock/Makefile
 

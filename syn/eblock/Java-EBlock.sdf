@@ -1,5 +1,5 @@
 module Java-EBlock
-imports Generic-Java
+imports Java-15
    
 exports
   context-free syntax

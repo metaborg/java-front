@@ -1,2 +1,2 @@
 module Stratego-Java-EBlock
-imports Stratego-Generic-Java Java-EBlock-Prefixed
+imports Stratego-Java-15 Java-EBlock-Prefixed

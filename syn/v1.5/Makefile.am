@@ -3,13 +3,14 @@ include $(wildcard *.dep)
 
 TBLS_DEFS = \
   Java-15.def \
-  Java-15.tbl
+  Java-15.tbl \
+  Java-15-Prefixed.def
 
-sdfdata_DATA   = $(TBLS_DEFS) $(JAVA15_MODS)
+sdfdata_DATA   = $(TBLS_DEFS) Java-15-Prefixed.sdf
 pkgdata_DATA   = Java-15.rtg
 
 EXTRA_DIST = $(JAVA15_MODS)
-CLEANFILES = $(TBLS_DEFS) Java-15.rtg
+CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Java-15
@@ -28,3 +29,5 @@ JAVA15_MODS = \
   $(wildcard languages/java-15/statements/*.sdf) \
   $(wildcard languages/java-15/expressions/*.sdf)
 
+Java-15-Prefixed.sdf: Java-15.def
+	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Java-15 --name Java-15-Prefixed --prefix Java
