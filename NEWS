@@ -24,7 +24,7 @@ Java-front for Stratego/XT
 
    * Added quotations for variables, quotations, names, and modifiers.
 
-   * Added disambiguations to support disabling of heurstic filters in
+   * Added disambiguations to support disabling of heuristic filters in
      SGLR. These can be disabled by specifying =HeuristicFilters(Off)=
      in the =.meta= file. See the new of StrategoXT 0.13 for more
      information.
