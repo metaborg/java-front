@@ -1,7 +1,7 @@
 include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
-bin_PROGRAMS   = parse-java jtree2text
+bin_PROGRAMS   = parse-java jtree2text files2parse-unit-testsuite
 
 EXTRA_DIST     = $(wildcard *.str) $(wildcard *.meta)
 CLEANFILES     = $(wildcard *.dep)

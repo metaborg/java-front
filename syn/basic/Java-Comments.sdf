@@ -9,7 +9,7 @@ exports
 
     "/*"  CommentChar* "*/" -> Comment
     "/**" CommentChar* "*/" -> Comment
-    "/**/"                  -> Comment %% Strange javadoc comment
+    "/**/"                   -> Comment %% Strange javadoc comment
 
     ~[\*\\]       -> CommentChar
     EscapeChar    -> CommentChar

@@ -1,0 +1,24 @@
+module files2parse-unit-testsuite
+imports string-misc parse-unit-testsuite xtc-lib stratego-xt-xtc-tools
+
+strategies
+
+  main-files2parse-unit-testsuite =
+    xtc-io-wrap(
+      xtc-open-fd
+    ; <fdopen> (<id>, "r")
+    ; read-text-from-stream
+    ; get-lines 
+    ; files2testsuite(|"GNU Classpath testsuite", "CompilationUnit")
+    ; write-to
+    )
+
+  files2testsuite(|name, sort) =
+    !TestSuite(
+       Name(name)
+     , Sort(sort)
+     , Tests(<map(file2test)>)
+     )
+
+  file2test =
+    !Test(Descr(<id>), File(<id>), Success())

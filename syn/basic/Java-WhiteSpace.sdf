@@ -1,13 +1,10 @@
 module Java-WhiteSpace
 exports
   lexical syntax
-    WhiteSpace     -> LAYOUT
+    [\ \t\12\13\n] -> LAYOUT
 
     [\13]          -> LineTerminator
     [\n][\13]?     -> LineTerminator
-
-    [\ \t\12]      -> WhiteSpace
-    LineTerminator -> WhiteSpace
 
   context-free restrictions
     LAYOUT? -/- [\ \t\n\13]

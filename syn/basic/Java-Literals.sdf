@@ -64,26 +64,21 @@ exports
 
 %% module Java-CharacterLiterals
 
-    "\\" UnicodeMarker HexaDigit HexaDigit HexaDigit HexaDigit -> UnicodeEscape
-    [u]+ -> UnicodeMarker
-    
-    UnicodeEscape -> UnicodeInputChar
-    ~[]           -> UnicodeInputChar
-    
-    UnicodeInputChar -> InputChar
-    [\12\13]         -> InputChar {reject}
+    "\\" [u]+ UnicodeMarker HexaDigit HexaDigit HexaDigit HexaDigit -> UnicodeEscape
+   
+    UnicodeEscape -> InputChar
+    ~[\n\12\13]   -> InputChar
 
-    "'" InputChar "'" -> CharLiteral
-    "'" [\'\\]    "'" -> CharLiteral {reject}
-    "'" EscapeSeq "'" -> CharLiteral
+    "'" UnicodeEscape "'" -> CharLiteral
+    "'" ~[\12\13\'\\] "'" -> CharLiteral
+    "'" EscapeSeq "'"     -> CharLiteral
 
     "\\" [btnfr\"\'\\] -> EscapeSeq
     OctaEscape         -> EscapeSeq
 
-    "\\" OctaDigit                     -> OctaEscape
-    "\\" OctaDigit OctaDigit           -> OctaEscape
-    "\\" OctaDigit OctaDigit OctaDigit -> OctaEscape
-    "\\" [4-7]     OctaDigit OctaDigit -> OctaEscape {reject}
+    "\\" OctaDigit                 -> OctaEscape
+    "\\" OctaDigit OctaDigit       -> OctaEscape
+    "\\" [0-3]     OctaDigit OctaDigit -> OctaEscape
 
 %% module Java-StringLiterals
 

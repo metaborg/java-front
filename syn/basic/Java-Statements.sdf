@@ -26,7 +26,7 @@ exports
     Id ":" Stm -> Stm {cons("Labeled")}
 
     "if" "(" Expr ")" Stm -> Stm {prefer, cons("If")}
-    "if" "(" Expr ")" Stm "else" Stm -> Stm {cons("If")}
+    "if" "(" Expr ")" Stm  "else" Stm -> Stm {cons("If")}
 
     "while" "(" Expr ")" Stm -> Stm {cons("While")}
     "do" Stm "while" "(" Expr ")" ";" -> Stm {cons("DoWhile")}
@@ -48,7 +48,7 @@ exports
 
     "synchronized" "(" Expr ")" Block -> Stm {cons("Synchronized")}
 
-    "switch" "(" Expr ")" SwitchBlock -> Statement {cons("Switch")}
+    "switch" "(" Expr ")" SwitchBlock -> Stm {cons("Switch")}
     "{" SwitchGroup* SwitchLabel* "}" -> SwitchBlock {cons("SwitchBlock")}
     SwitchLabel+ BlockStm+ -> SwitchGroup  {cons("SwitchGroup")}
 

@@ -14,9 +14,8 @@ AC_SUBST(STRATEGO_REGULAR)
 AC_PROG_CC
 AC_PROG_INSTALL
 
-SET_SVN_REVISION
+DETECT_SVN_REVISION
 AC_SUBST(SVN_REVISION)
-echo "** INFO -- SVN Revision is: $SVN_REVISION"
 
 AC_CONFIG_FILES([
   java-front.spec
@@ -41,5 +40,6 @@ AC_CONFIG_FILES([
   test/basic/statements/Makefile  
   test/generic/Makefile
   test/generic/compilation-units/Makefile
+  test/gnu-classpath/Makefile
 ])
 AC_OUTPUT
