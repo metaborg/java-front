@@ -5,8 +5,8 @@ Release: 1
 License: LGPL
 Group: Development/Languages/Stratego
 URL: http://www.stratego-language.org/Stratego/JavaFront
-Source: @PACKAGE_TARNAME@-@PACAKGE_VERSION@.tar.gz
-BuildRoot: %{_tmppath}/%{name}-@PACAKGE_VERSION@-buildroot
+Source: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+BuildRoot: %{_tmppath}/%{name}-@PACKAGE_VERSION@-buildroot
 Requires: aterm >= 2.1
 Requires: sdf2-bundle >= 2.1
 Requires: strategoxt >= 0.11
