@@ -5,13 +5,17 @@ imports
   Java-Classes
 
 exports
+  sorts EnumBody EnumConst EnumBodyDecs EnumConstArgs
   context-free syntax
-    ClassMod* "enum" Id Interfaces? EnumBody -> ClassDec
+    ClassMod* "enum" Id Interfaces? EnumBody -> ClassDec {cons("EnumDec")}
 
-    "{" {EnumConstant ","}* Comma? (";" ClassBodyDec*)? "}" -> EnumBody {cons("EnumBody")}
+    "{" {EnumConst ","}*     EnumBodyDecs? "}" -> EnumBody {cons("EnumBody")}
+    "{" {EnumConst ","}* "," EnumBodyDecs? "}" -> EnumBody {cons("EnumBody")}
 
-    Annotations Identifier ("(" {Expr ","}* ")")? ClassBody? -> EnumConstant
-    
+    Id EnumConstArgs? ClassBody?  -> EnumConst {cons("EnumConst")}
+    "(" {Expr ","}* ")"  -> EnumConstArgs {bracket}
+
+    ";" ClassBodyDec* -> EnumBodyDecs {cons("EnumBodyDecs")}
 
   lexical syntax
     "enum" -> Keyword

@@ -19,7 +19,19 @@ SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Generic-Java
 
-Generic-Java.def : \
+Java-15.def : $(JAVA15_MODS)
+Generic-Java.def : $(JAVA14_MODS) Generic-Java.sdf
+
+Stratego-Generic-Java.def : \
+  Generic-Java.def \
+  Generic-Java-Prefixed.sdf \
+  Stratego-Generic-Java.sdf \
+  ${top_srcdir}/syn/v1.4/Stratego-Java.sdf
+
+Generic-Java-Prefixed.sdf: Generic-Java.def
+	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Generic-Java --name Generic-Java-Prefixed --prefix Java
+
+JAVA14_MODS = \
   ${top_srcdir}/syn/v1.4/Java.sdf \
   ${top_srcdir}/syn/v1.4/Java-Classes.sdf \
   ${top_srcdir}/syn/v1.4/Java-Comments.sdf \
@@ -36,15 +48,11 @@ Generic-Java.def : \
   ${top_srcdir}/syn/v1.4/Java-TypeDecs.sdf \
   ${top_srcdir}/syn/v1.4/Java-Types.sdf \
   ${top_srcdir}/syn/v1.4/Java-VarDecs.sdf \
-  ${top_srcdir}/syn/v1.4/Java-WhiteSpace.sdf \
-  Generic-Java.sdf \
+  ${top_srcdir}/syn/v1.4/Java-WhiteSpace.sdf 
+
+JAVA15_MODS = \
+  $(JAVA14_MODS) \
+  Java-Enums.sdf \
   Java-StaticImport.sdf
 
-Stratego-Generic-Java.def : \
-  Generic-Java.def \
-  Generic-Java-Prefixed.sdf \
-  Stratego-Generic-Java.sdf \
-  ${top_srcdir}/syn/v1.4/Stratego-Java.sdf
 
-Generic-Java-Prefixed.sdf: Generic-Java.def
-	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Generic-Java --name Generic-Java-Prefixed --prefix Java
