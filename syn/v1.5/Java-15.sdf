@@ -2,9 +2,9 @@ module Java-15
 imports
   Java-Classes
   Java-Enums
-  Java-StaticImport
-  Java-Annotations
-  Java-AnnotationTypes
+  languages/java-15/packages/ImportDeclarations
+  languages/java-15/interfaces/Annotations
+  languages/java-15/interfaces/AnnotationTypes
 
 imports
   Java-Lexical

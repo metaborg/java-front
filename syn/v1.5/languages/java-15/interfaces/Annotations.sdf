@@ -1,4 +1,4 @@
-module Java-Annotations
+module languages/java-15/interfaces/Annotations
 imports
   Java-Names
   Java-Expressions

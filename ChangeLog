@@ -1,3 +1,20 @@
+2004-08-03  Martin Bravenboer <martin@cs.uu.nl>
+	
+	* syn/v1.5/*: JavaFront will use hierarchical SDF module names for
+	the new syntax definition of Java 1.5 (Java 2 version 5.0). These
+	hierarchical module names are nice, and it reduces the number of
+	changes that the guys at CWI need to make if they are going to use
+	the JavaFront syntax definitions.
+
+	The structure will be an exact copy of the Java Language
+	Specification 3rd edition, which is available in the JSR 14 final
+	draft.
+
+	Maybe the version scheme of Java in JavaFront should be based in
+	the JLS, since that version scheme appears to be the one and only
+	consistent version scheme invented by Sun (1-2-3, that makes
+	sense!).
+	
 2004-08-02  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/v1.5/*: working on full support for Java 1.5. This

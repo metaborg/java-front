@@ -5,7 +5,7 @@ TBLS_DEFS = \
   Java-15.def \
   Java-15.tbl
 
-sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
+sdfdata_DATA   = $(TBLS_DEFS) $(JAVA15_MODS)
 pkgdata_DATA   = Java-15.rtg
 
 EXTRA_DIST = $(sdfdata_DATA)
@@ -34,8 +34,9 @@ JAVA15_MODS = \
   Java-Types.sdf \
   Java-VarDecs.sdf \
   Java-WhiteSpace.sdf \
-  Java-Annotations.sdf \
-  Java-AnnotationTypes.sdf \
+  languages/java-15/packages/ImportDeclarations.sdf \
+  languages/java-15/interfaces/Annotations.sdf \
+  languages/java-15/interfaces/AnnotationTypes.sdf \
   Java-Enums.sdf \
   Java-StaticImport.sdf
 
