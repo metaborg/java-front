@@ -1,0 +1,65 @@
+%%%
+ %% Section 8.4: Method Declarations
+ %%
+ %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/classes/MethodDeclarations
+imports
+  languages/java-15/lexical/Identifiers
+  languages/java-15/lexical/Modifiers
+  languages/java-15/types/Main
+  languages/java-15/classes/FieldDeclarations
+  languages/java-15/interfaces/Annotations
+
+exports
+  sorts
+    MethodDec
+    MethodHead
+    ResultType
+
+  context-free syntax
+    MethodHead MethodBody -> MethodDec {cons("MethodDec")}
+
+    MethodMod* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Throws?      -> MethodHead {cons("Head")}
+    MethodMod* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Dim+ Throws? -> MethodHead {cons("DeprHead")}
+
+    Type   -> ResultType
+    "void" -> ResultType {cons("Void")}
+
+  sorts
+    FormalParam
+    VarArityFormalParam
+    VarMod
+
+  context-free syntax
+    {FormalParam ","}* VarArityFormalParam -> {FormalParam ","}*
+
+    VarMod* Type       VarDecId -> FormalParam {cons("Param")}
+    VarMod* Type "..." VarDecId -> VarArityFormalParam
+
+    Anno  -> VarMod
+    Final -> VarMod
+
+  sorts Throws 
+  context-free syntax
+    "throws" {ClassType ","}+ -> Throws {cons("Throws")}
+
+  sorts MethodBody
+  context-free syntax
+    Block -> MethodBody
+    ";"   -> MethodBody
+
+
+
+  sorts MethodMod
+  context-free syntax
+    Public         -> MethodMod
+    Protected      -> MethodMod
+    Private        -> MethodMod
+    AccessMod      -> MethodMod
+    Static         -> MethodMod
+    Abstract       -> MethodMod
+    Final          -> MethodMod
+    Synchronized   -> MethodMod
+    Native         -> MethodMod
+    StrictFP       -> MethodMod

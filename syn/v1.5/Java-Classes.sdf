@@ -2,7 +2,6 @@ module Java-Classes
 imports
   languages/java-15/lexical/Modifiers
   languages/java-15/interfaces/Annotations
-  Java-MethodDecs
   Java-Statements
 
 exports

@@ -9,9 +9,10 @@ imports
   languages/java-15/lexical/Modifiers
   languages/java-15/names/Main
   languages/java-15/types/Main
+  languages/java-15/classes/MethodDeclarations
   languages/java-15/interfaces/ConstantDeclarations
   languages/java-15/interfaces/AbstractMethodDeclarations
-  Java-MethodDecs
+
 
 exports
   context-free start-symbols

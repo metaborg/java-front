@@ -20,7 +20,6 @@ JAVA15_MODS = \
   Java-15.sdf \
   Java-Classes.sdf \
   Java-Expressions.sdf \
-  Java-MethodDecs.sdf \
   Java-Statements.sdf \
   Java-VarDecs.sdf \
   $(wildcard languages/java-15/lexical/*.sdf) \

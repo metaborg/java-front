@@ -2,7 +2,6 @@ module Java-15
 imports
   Java-Classes
   Java-Expressions
-  Java-MethodDecs
   Java-Statements
   Java-VarDecs
 
