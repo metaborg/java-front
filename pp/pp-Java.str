@@ -148,13 +148,16 @@ rules
   java-to-box:
     MethodDec(dec)       -> box |[ H hs=0 [~dec ";"] ]|
 
-  /**
-   * @todo  support pretty-printing of DeprHead?
-   */
   java-to-box:
     Head(mods, type, Id(n), params, throws)
       ->
     box |[ H hs=1 [~*mods ~type ~lit:n ~args ~throws] ]|
+      where <list-to-args> params => args
+
+  java-to-box:
+    DeprHead(mods, type, Id(n), params, dims, throws)
+      ->
+    box |[ H hs=1 [~*mods ~type ~lit:n ~args H hs=0 [~*dims] ~throws] ]|
       where <list-to-args> params => args
 
   java-to-box:
