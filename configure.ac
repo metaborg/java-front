@@ -1,5 +1,5 @@
 AC_PREREQ(2.57)
-AC_INIT([java-front],[0.3.0],[mbravenb@cs.uu.nl])
+AC_INIT([java-front],[0.4.0],[martin@cs.uu.nl])
 AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 
 USE_XT_PACKAGES

@@ -1,5 +1,12 @@
 2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
 
+	* Follow restriction for /* */ and LAYOUT?. All of GNU Classpath
+	java.* is now accepted by the Java grammar of java-front :) .
+
+	* Version to 0.4.
+
+2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
+
 	* Fixed typo causing unicode escape to be rejected.
 
 	* Added final local variabele declarations.

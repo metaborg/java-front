@@ -17,7 +17,7 @@ PARSE_UNIT_PTABLE = $(sdfdatadir)/Java.tbl
 installcheck : $(PARSE_UNIT_TESTSUITES:.testsuite=.runtestsuite)
 
 %.runtestsuite : %.testsuite
-	$(SDF_TOOLS)/bin/parse-unit -i $< -p $(PARSE_UNIT_PTABLE) --verbose 1 -o $@
+	$(SDF_TOOLS)/bin/parse-unit -i $< -p $(PARSE_UNIT_PTABLE) --verbose 1 -o /dev/null
 
 %.jasfix : %.java $(prefix)/share/sdf/java-front/Java.tbl
 	sglr -2lv -p $(prefix)/share/sdf/java-front/Java.tbl -i $< -o $@

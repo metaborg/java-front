@@ -67,7 +67,7 @@ exports
     "\\" [u]+ HexaDigit HexaDigit HexaDigit HexaDigit -> UnicodeEscape
    
     UnicodeEscape -> InputChar
-    ~[\n\12\13]   -> InputChar
+    ~[\n\13]      -> InputChar
 
     "'" UnicodeEscape "'" -> CharLiteral
     "'" ~[\12\13\'\\] "'" -> CharLiteral

@@ -9,18 +9,23 @@ exports
 
     "/*"  CommentChar* "*/" -> Comment
     "/**" CommentChar* "*/" -> Comment
-    "/**/"                   -> Comment %% Strange javadoc comment
+    "/**/"                  -> Comment %% Strange javadoc comment
 
     ~[\*\\]       -> CommentChar
-    EscapeChar    -> CommentChar
+    EscChar       -> CommentChar
+    EscEscChar    -> CommentChar
     Asterisk      -> CommentChar
     UnicodeEscape -> CommentChar
 
-    "*"  -> Asterisk
-    "\\" -> EscapeChar
+    "*"    -> Asterisk
+    "\\\\" -> EscEscChar
+    "\\"   -> EscChar
 
   lexical restrictions
 
-    "/*"       -/- [\*]
-    Asterisk   -/- [\/]
-    EscapeChar -/- [u]
+    "/*"     -/- [\*]
+    Asterisk -/- [\/]
+    EscChar  -/- [\\u]
+
+  context-free restrictions
+    LAYOUT?  -/- [\/].[\*]
