@@ -2,26 +2,29 @@ module pp-Java-Names
 
 strategies
 
-  java-to-box: PackageName(name) -> <name-to-box> name
-  java-to-box: ClassName(name)   -> <name-to-box> name
-  java-to-box: AmbName(name)     -> <name-to-box> name
+  java-to-box: PackageName(Id(name)) -> <name-to-box> name
+  java-to-box: ClassName(Id(name))   -> <name-to-box> name
+  java-to-box: AmbName(Id(name))     -> <name-to-box> name
 
-  java-to-box: TypeName(name)     -> S(name)
-  java-to-box: QTypeName(q, name) -> <qid-to-box> (q, name)
+  java-to-box: TypeName(Id(name))     -> S(name)
+  java-to-box: QTypeName(q, Id(name)) -> <qid-to-box> (q, name)
 
-  java-to-box: MethodName(name)             -> S(name)
-  java-to-box: MethodName(AmbName(q), name) -> <qid-to-box> (q, name)
+  java-to-box: MethodName(Id(name))             -> S(name)
+  java-to-box: MethodName(AmbName(q), Id(name)) -> <qid-to-box> (q, name)
 
-  java-to-box: ExprName(name)               -> S(name)
-  java-to-box: ExprName(AmbName(q), name)   -> <qid-to-box> (q, name)
+  java-to-box: ExprName(Id(name))               -> S(name)
+  java-to-box: ExprName(AmbName(q), Id(name))   -> <qid-to-box> (q, name)
 
   qid-to-box:
     (q, name) -> box |[ H hs=0 [~*prefix "." ~lit:name] ]|
       where <name-to-boxes> q; ?prefix
 
-  name-to-boxes =
-    map(!S(<id>)); separate-by(point)
+  name-to-boxes :
+    Name(ids) ->
+      < map(\ Id(s) -> S(s) \)
+      ; separate-by(point)
+      > ids
 
   name-to-box =
-    name-to-boxes; ! box |[ H hs=0 [~*<id> ] ]|
-
+      name-to-boxes
+    ; ! box |[ H hs=0 [~*<id> ] ]|

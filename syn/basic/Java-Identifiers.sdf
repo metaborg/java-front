@@ -4,6 +4,9 @@ imports Java-Keywords
 exports
   sorts Id
 
+  context-free syntax
+    ID -> Id {cons("Id")}
+
   lexical syntax
     [A-Za-z\_\$]    -> JavaLetter
     [A-Za-z0-9\_\$] -> JavaLetterOrDigit
@@ -13,12 +16,11 @@ exports
     [0-9a-fA-F] -> HexDigit
     [0-7]       -> OctalDigit
 
-    JavaLetter JavaLetterOrDigit* -> Id
-
-    Keyword         -> Id {reject}
-    BooleanLiteral  -> Id {reject}
-    NullLiteral     -> Id {reject}
+    JavaLetter JavaLetterOrDigit* -> ID
+    
+    Keyword         -> ID {reject}
+    BooleanLiteral  -> ID {reject}
+    NullLiteral     -> ID {reject}
 
   lexical restrictions
-    Id -/- [a-zA-Z0-9\_\$]
-
+    ID -/- [a-zA-Z0-9\_\$]

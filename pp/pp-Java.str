@@ -49,12 +49,12 @@ strategies
     Semicolon() -> box |[ "" ]|
 
   java-to-box:
-    InterfaceDec(mods, name, implements, body)
+    InterfaceDec(mods, Id(name), implements, body)
       ->
     box |[ V vs=0 [H hs=1 [ ~*mods KW["interface"] ~lit:name ~implements] ~body] ]|
 
   java-to-box:
-    ClassDec(mods, name, extends, implements, body)
+    ClassDec(mods, Id(name), extends, implements, body)
       ->
     box |[ V vs=0 [H hs=1 [~*mods KW["class"] ~lit:name ~extends ~implements] ~body] ]|
 

@@ -57,7 +57,7 @@ TestSuite(
     , String("x = 1"), Assign(ExprName("x"), Lit(Deci("1")))
     )
   , Test(Descr("Field access on expression")
-    , String("blaat().field"), Field(Invoke(Method(MethodName("blaat")), []), "field")
+    , String("blaat().field"), Field(Invoke(Method(MethodName(Name([Id("blaat")]), []), "field")
     )
   , Test(Descr("Method invocation has higher priority than assignment")
     , String("x = var.method()"),

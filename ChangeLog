@@ -1,3 +1,13 @@
+2003-08-29  Martin Bravenboer <mbravenb@cs.uu.nl>
+
+  * Improving the ast of java-front:
+    - syn/basic/Java-Identifiers.sdf: Id is now a context-free sort
+      and uses the constructor Id.
+    - ayn/basic/Java-Names.sdf: Name now has a constructor Name.
+
+  * pp/pp-Java-Names.str, pp/pp-Java.str: using the new
+    ast structure.
+
 2003-08-28  Martin Bravenboer <mbravenb@cs.uu.nl>
 
   * configure.in: java-front requires stratego-regular

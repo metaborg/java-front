@@ -8,7 +8,9 @@ exports
   %% TODO: is layout allowed between parts of names?
   %% javac accepts layout
 
-    {Id "."}+  -> Name {cons("Name")} %% TODO: fix for sdfg2rtg
+    {Id "."}+ -> Name {cons("Name")}
+
+
 
     Name -> PackageName {cons("PackageName")}
     Name -> ClassName   {cons("ClassName")}
