@@ -6,7 +6,7 @@ TBLS_DEFS      = Generic-Java.tbl Stratego-Generic-Java.tbl \
                  Generic-Java.def Stratego-Generic-Java.def
 
 sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Generic-Java-Prefixed.sdf
-pkgdata_DATA   = Generic-Java.rtg-nf
+pkgdata_DATA   = Generic-Java.rtg Generic-Java.rtg-nf
 
 EXTRA_DIST     = $(sdfdata_DATA)
 BOOTCLEANFILES = $(TBLS_DEFS) Generic-Java-Prefixed.sdf

@@ -14,13 +14,13 @@ PSIGS =  \
 pkgdata_DATA = $(SIGS) $(PSIGS)
 EXTRA_DIST   = $(SIGS) $(PSIGS)
 
-BOOTCLEANFILES = $(pkgdata_DATA) $(SIGS) $(PSIGS) Java.rtg-nf Generic-Java.rtg-nf Java-EBlock.rtg-nf
+BOOTCLEANFILES = $(pkgdata_DATA) $(SIGS) $(PSIGS) Java.rtg Generic-Java.rtg Java-EBlock.rtg
 
-Java.rtg-nf :
-	$(LN_S) $(top_srcdir)/syn/basic/Java.rtg-nf $@
+Java.rtg :
+	$(LN_S) $(top_srcdir)/syn/basic/Java.rtg $@
 
-Generic-Java.rtg-nf :
-	$(LN_S) $(top_srcdir)/syn/generic/Generic-Java.rtg-nf $@
+Generic-Java.rtg :
+	$(LN_S) $(top_srcdir)/syn/generic/Generic-Java.rtg $@
 
-Java-EBlock.rtg-nf :
-	$(LN_S) $(top_srcdir)/syn/eblock/Java-EBlock.rtg-nf $@
+Java-EBlock.rtg :
+	$(LN_S) $(top_srcdir)/syn/eblock/Java-EBlock.rtg $@

@@ -1,0 +1,19 @@
+SUFFIXES += .artg .rtg .rtg-nf .arhg .rhg .rhg-nf -typematch.str
+
+# sdf def -> rtg
+.def.rtg :
+	$(STRATEGO_REGULAR)/bin/sdf2rtg $(SDF2RTG_FLAGS) -i $< -o $@
+
+# rtg -> str
+.rtg.str :
+	$(STRATEGO_REGULAR)/bin/rtg2sig --module $* -i $< -o $@
+
+# rtg -> rtg-nf
+.rtg.rtg-nf :
+	$(STRATEGO_REGULAR)/bin/parse-rtg -i $< | \
+	$(STRATEGO_REGULAR)/libexec/rtg-reduce | \
+	$(STRATEGO_REGULAR)/libexec/rtg-group -o $@
+
+# rtg-nf -> typematch
+.rtg-nf-typematch.str :
+	$(STRATEGO_REGULAR)/bin/rtg2typematch -i $*.rtg-nf -o $@
