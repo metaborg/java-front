@@ -1,5 +1,8 @@
 2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/pp-Java-Statements.str: fix in the pretty-printing of switch
+	statements.
+
 	* pp/pp-Java-Expressions.str: fix in the pretty-printing of
 	fields.
 

@@ -130,21 +130,21 @@ strategies
     Assert(e) -> box |[ H hs=0 [H hs=1 [KW["assert"] ~e] ";"] ]| 
 
   java-to-box:
-    Assert(e1, e2) -> box |[ H hs=0 [H hs=1 [KW["assert"] ~e1 ":" ~e2] ";"] ]| 
+    Assert(e1, e2) -> H hs=0 [H hs=1 [KW["assert"] ~e1 ":" ~e2] ";"]
 
   java-to-box:
-    Switch(e, b) -> box |[ V vs=0 [H hs=0 [KW["switch"] "(" ~e ")"] ~b] ]|
+    Switch(b1, b2) -> V vs=0 [H hs=0 [KW["switch"] "(" b1 ")"] b2]
 
   java-to-box:
-    SwitchBlock(groups, labels) -> <conc; block-structure> (groups, labels)
+    SwitchBlock(groups, labels) ->
+      <block-structure> (1, <conc> (groups, labels))
 
   java-to-box:
-    SwitchGroup(labels, stms) -> box |[ V vs=0 [ ~*lines ] ]|
-      where <conc> (labels, stms) => lines
+    SwitchGroup(labels, stms) -> V is=2 vs=0 [ V vs=0 [~*labels] ~*stms ]
 
   java-to-box:
-    Case(e) -> box |[ H hs=0 [H hs=1 [KW["case"] ~e] ":"] ]| 
+    Case(e) -> H hs=0 [H hs=1 [KW["case"] ~e] ":"]
 
   java-to-box:
-    Default() -> box |[ H hs=0 [KW["default"] ":"] ]|
+    Default() -> H hs=0 [KW["default"] ":"]
 
