@@ -1,4 +1,4 @@
-module pp-Java
+module pp-Generic-Java
 imports Generic-Java abox option
 
 strategies
@@ -102,4 +102,3 @@ strategies
 
   java-to-box:
     TypeVar(s) ->  box |[ ~lit:s ]|
-

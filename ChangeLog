@@ -1,3 +1,7 @@
+2003-02-25  Martin Bravenboer <martin@mbravenboer.org>
+
+  * pp/Makefile.am: Include sdf/gpp, not sdf/box-tools.
+
 2002-11-23  Martin Bravenboer <martin@mbravenboer.org>
 
   * Small changes to configure.in to profit from new
@@ -125,4 +129,3 @@
 
   * Initial version of the GNU build system powered
     version of Java Front for XT.
-
