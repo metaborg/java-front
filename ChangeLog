@@ -1,5 +1,8 @@
 2004-07-25  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/pp-Java-Statements.str: fixes in break, continue and labeled
+	statements.
+
 	* syn/basic/Java-Literals.sdf: improved representation of class
 	literals. A class literal is now Lit(Class(type)).
 
