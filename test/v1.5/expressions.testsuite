@@ -231,3 +231,11 @@ test Array creation 1
 test Array creation 2
   "new Class<Foo>[5]" fails
 
+test Expression hedged in conditional 1
+  "x ? y && z : a || b" -> Cond(_, LazyAnd(_, _), LazyOr(_, _))
+
+test Expression hedged in conditional 2
+  "x ? x = z : a" -> Cond(_, Assign(_, _), _)
+
+test Expression hedged in conditional 3
+  "x = z ? y = z : a" -> Assign(_, Cond(_, Assign(_, _), _))

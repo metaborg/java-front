@@ -1,8 +1,7 @@
 include $(top_srcdir)/Makefile.xt
 
 SUBDIRS=. v1.5
-
-GNUCP_VERSION=0.10
+GNUCP_VERSION=0.11
 
 # create GNU classpath testsuites
 classpath-$(GNUCP_VERSION).tar.gz :

@@ -95,7 +95,7 @@ exports
   >   Expr "|"   Expr -> Expr
   >   Expr "&&"  Expr -> Expr
   >   Expr "||"  Expr -> Expr
-  >   Expr "?" Expr ":" Expr -> Expr
+  >   Expr CondMid Expr -> Expr
   > {right:
       LHS "="    Expr -> Expr
       LHS "*="   Expr -> Expr
