@@ -5,15 +5,22 @@ exports
   lexical syntax
     Comment -> LAYOUT
 
-    "//" InputChar* LineTerminator  -> Comment
-    "/*" (~[\*] | Asterisk)* "*/"  -> Comment
+    "//" InputChar* LineTerminator -> Comment
 
-    "/**/"                         -> Comment %% Strange javadoc comment
-    "/**" (~[\*] | Asterisk)* "*/" -> Comment
+    "/*"  CommentChar* "*/" -> Comment
+    "/**" CommentChar* "*/" -> Comment
+    "/**/"                  -> Comment %% Strange javadoc comment
 
-    "*" -> Asterisk
+    ~[\*\\]       -> CommentChar
+    EscapeChar    -> CommentChar
+    Asterisk      -> CommentChar
+    UnicodeEscape -> CommentChar
+
+    "*"  -> Asterisk
+    "\\" -> EscapeChar
 
   lexical restrictions
-    "/*" -/- [\*]
-    Asterisk -/- [\/]
 
+    "/*"       -/- [\*]
+    Asterisk   -/- [\/]
+    EscapeChar -/- [u]

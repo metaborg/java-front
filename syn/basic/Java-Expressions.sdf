@@ -10,8 +10,8 @@ exports
     "this"                -> Expr {cons("This")}
     ClassName "." "this"  -> Expr {cons("QThis")}
     "(" Type ")" Expr     -> Expr {cons("Cast")}
-    ExprName              -> Expr {cons("Name")}
 
+    ExprName              -> Expr
     FieldAccess           -> Expr
     ArrayAccess           -> Expr
     ArrayCreationExpr     -> Expr

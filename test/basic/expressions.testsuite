@@ -57,7 +57,7 @@ TestSuite(
     , String("1 < 2 == 3 < 4"), Eq(Lt(Lit(Deci("1")), Lit(Deci("2"))), Lt(Lit(Deci("3")), Lit(Deci("4"))))
     )
   , Test(Descr("simple name")
-    , String("x") , Name(ExprName(Id("x")))
+    , String("x") , ExprName(Id("x"))
     )
   , Test(Descr("post increment has higher priority than pre increment")
     , String("++ 1 ++") , PreIncr(PostIncr(Lit(Deci("1"))))
@@ -78,7 +78,7 @@ TestSuite(
   , Test(Descr("Method invocation has higher priority than assignment")
     , String("country = _loader.getname(countryID)"),
       Assign(ExprName(Id("country")), Invoke(Method(MethodName(AmbName(Name([Id("_loader")])), Id("getname"))), 
-        [Name(ExprName(Id("countryID")))]))
+        [ExprName(Id("countryID"))]))
     )
   , Test(Descr("Method invocation has higher priority than addition")
     , String("\"Literal\" + \" Literal \".trim()"),
@@ -103,7 +103,7 @@ TestSuite(
     )
   , Test(Descr("Mod"), String("i % radix"), Success())
   , Test(Descr("Minus"), String("-(i % radix)"), Success())
-  , Test(Descr("Array subscript 0"), String("buf[x]"), ArrayAccess(Name(ExprName(Id("buf"))), Name(ExprName(Id("x")))))
+  , Test(Descr("Array subscript 0"), String("buf[x]"), ArrayAccess(ExprName(Id("buf")), ExprName(Id("x"))))
   , Test(Descr("Array subscript 1"), String("buf[charPos--]"), Success())
   , Test(Descr("Array subscript 2"), String("digits[-(i % radix)]"), Success())
   ])

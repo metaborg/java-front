@@ -21,5 +21,9 @@ TestSuite(
   , Test(Descr("private, static, final field declaration"), File("compilation-units/Test15.java"), Success())
   , Test(Descr("full class"),           File("compilation-units/MailSystem1.java"), Success())
   , Test(Descr("full class with docs"), File("compilation-units/MailSystem2.java"), Success())
+
+  , Test(Descr("3.2-invalid-3: The parser must consume the largest token, even if another interpretation is valid")
+    , String("classT32i3 {}"), Failure()
+    )
   ])
 )

@@ -55,7 +55,7 @@ strategies
   expr-to-box: Not(e)                -> box |[ H hs=0 ["!" ~e] ]|
   expr-to-box: Cond(e1, e2, e3)    -> box |[ H hs=1 [~e1  "?" ~e2 ":"  ~e3] ]|
 
-  java-to-box: Name(s) -> s
+  /* java-to-box: Name(s) -> s */
 
   java-to-box: This()   -> box |[ KW["this"] ]|
   java-to-box: QThis(q) -> box |[ H hs=0 [~q "." KW["this"]] ]|
@@ -112,4 +112,3 @@ strategies
 
   java-to-box: 
     QSuperField(q, n) -> box |[ H hs=0 [~q "." KW["super"] "." ~S(n)] ]|
-
