@@ -42,7 +42,7 @@ exports
     "\\" [u]+ [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] -> UnicodeEscape
 
   lexical restrictions
-
+    "/**"    -/- [\/]
     "/*"     -/- [\*]
     Asterisk -/- [\/]
     EscChar  -/- [\\u]
