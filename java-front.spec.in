@@ -19,7 +19,7 @@ Provides: %{name} = %{version}
 %setup -q
 
 %build
-CFLAGS="-D__NO_CTYPE" ./configure --prefix=%{_prefix} --with-stratego-xt=%{_prefix} --with-aterm=%{_prefix} --with-sdf=%{_prefix}
+CFLAGS="-D__NO_CTYPE" ./configure --prefix=%{_prefix} --with-stratego-xt=%{_prefix} --with-stratego-regular=%{_prefix} --with-aterm=%{_prefix} --with-sdf=%{_prefix}
 make
 
 %install
