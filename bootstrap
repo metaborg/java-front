@@ -2,8 +2,7 @@
 
 rm -f config.cache config.log acconfig.h aclocal.m4
 
-wget -nv -nd -N https://svn.cs.uu.nl:12443/repos/StrategoXT/trunk/stratego-regular/xtc/Makefile.regular || exit -1
-
+auto-regular || exit -1
 autoxt || exit -1
 aclocal -I . || exit -1
 autoconf -f --warnings=all --warnings=no-cross || exit -1
