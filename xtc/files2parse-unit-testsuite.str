@@ -17,8 +17,9 @@ strategies
     !TestSuite(
        Name(name)
      , Sort(sort)
-     , Tests(<map(file2test)>)
+     , Tests(<filter(file2test)>)
      )
 
-  file2test =
-    !Test(Descr(<id>), File(<id>), Success())
+  file2test :
+    s -> Test(Descr(<id>), File(<id>), Success())
+      where <gt> (<string-length> s, 0)
