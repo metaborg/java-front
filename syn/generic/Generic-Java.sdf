@@ -19,8 +19,11 @@ exports
 
     %% types
 
-    { ClassTypePart "."}+     -> ClassType {cons("GClassType"), prefer}
-    { InterfaceTypePart "."}+ -> InterfaceType {cons("GInterfaceType"), prefer}
+    TypeName -> ClassType {reject}
+    TypeName -> InterfaceType {reject}
+
+    { ClassTypePart "."}+     -> ClassType {cons("GClassType")}
+    { InterfaceTypePart "."}+ -> InterfaceType {cons("GInterfaceType")}
 
     Id          -> ClassTypePart
     Id TypeArgs -> ClassTypePart {cons("ParamClass")}
@@ -31,8 +34,10 @@ exports
     %% misc
 
     "<" {TypeParam ","}+ ">" -> TypeParams {cons("TypeParams")}
-    "<" {RefType   ","}+ ">" -> TypeArgs   {cons("TypeArgs")}
 
+    %% this should in fact by RefType, but I hate all these non terminals for types.
+    "<" {Type   ","}+ ">"    -> TypeArgs   {cons("TypeArgs")}
+    
     TypeVar Bound? -> TypeParam {cons("TypeParam")}
 
     "extends" ClassOrInterfaceType IBound? -> Bound {cons("Bound")}

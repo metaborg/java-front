@@ -119,11 +119,11 @@ exports
     "~" <StrategoTerm-CF> <LAYOUT?-CF> -> JavaSingleChar  {cons("FromTerm"), prefer}
 
   variables
-    "e"    [0-9]*     -> JavaExpr
-    "t"    [0-9]*     -> JavaType
-    "e"    [0-9]* "*" -> {JavaVarInit ","}*
+    "e"    [0-9]*     -> JavaExpr {prefer}
+    "t"    [0-9]*     -> JavaType {prefer}
+    "e"    [0-9]* "*" -> {JavaVarInit ","}* {prefer}
 
-    "bstm" [0-9]* "*" -> JavaBlockStm*
-    [ij]   [0-9]*     -> JavaDeciLiteral
-    [xyz]  [0-9]*     -> JavaID
+    "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
+    [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
+    [xyz]  [0-9]*     -> JavaID          {prefer}
 
