@@ -31,12 +31,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}
-%{_libexecdir}
-%{_includedir}
-%{_libdir}
 %{_datadir}
 %doc
-%{_prefix}/man/
-%{_prefix}/doc/
 
 %changelog
