@@ -2,14 +2,10 @@ AC_PREREQ(2.57)
 AC_INIT([java-front],[0.4.0pre],[stratego-bugs@cs.uu.nl])
 AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 
-USE_XT_PACKAGES
+test "x$prefix" = xNONE && prefix=$ac_default_prefix
 
-AC_ARG_WITH(stratego-regular, 
-  AC_HELP_STRING([--with-stratego-regular=DIR], [use stratego-regular at DIR @<:@PREFIX@:>@]), 
-  STRATEGO_REGULAR="$withval", 
-  STRATEGO_REGULAR="$prefix"
-)
-AC_SUBST(STRATEGO_REGULAR)
+USE_XT_PACKAGES
+USE_STRATEGO_REGULAR
 
 AC_PROG_CC
 AC_PROG_INSTALL
