@@ -6,7 +6,7 @@ exports
 
   context-free syntax
     "|[" JavaBlockStm  "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
+%%%    "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
 
     "|[" JavaLocalVarDec "]|" -> E {cons("ToMetaExpr")}
     "|[" JavaVarDec      "]|" -> E {cons("ToMetaExpr")}
@@ -17,13 +17,13 @@ exports
     "|[" JavaExprName   "]|" -> E {cons("ToMetaExpr")}
     "|[" JavaMethodName "]|" -> E {cons("ToMetaExpr")}
     "|[" JavaTypeName   "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaClassName  "]|" -> E {cons("ToMetaExpr")}
+%%%    "|[" JavaClassName  "]|" -> E {cons("ToMetaExpr")}
     "|[" JavaPackageOrTypeName "]|" -> E {cons("ToMetaExpr")}
 
     "|[" JavaModifier   "]|" -> E {cons("ToMetaExpr")}
 
     "|[" JavaFormalParam        "]|" -> E {cons("ToMetaExpr")}
-    "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+%%%%    "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaListExpr")}
 
     "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
 
@@ -33,13 +33,13 @@ exports
 
     "|["  JavaClassBodyDec  "]|" -> E {cons("ToMetaExpr")}
 
-    "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaListExpr")}
+%%%    "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaListExpr")}
 
     "|["  JavaStm "]|" -> E {cons("ToMetaExpr")}
 
     "|["  JavaAbstractMethodDec  "]|" -> E {cons("ToMetaExpr")}
 
-    "|["  JavaAbstractMethodDec*  "]|" -> E {cons("ToMetaExpr ")}
+%%%    "|["  JavaAbstractMethodDec*  "]|" -> E {cons("ToMetaListExpr ")}
 
 exports
 
@@ -51,7 +51,7 @@ exports
     MetaVarID -/- [A-Za-z0-9\_\$]
 
   variables
-    MetaVarID -> JavaDeciLiteral
+%%%    MetaVarID -> JavaDeciLiteral
 
     MetaVarID -> JavaID 
 

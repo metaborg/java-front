@@ -252,6 +252,11 @@ exports
      "mod" [0-9]* "*"        -> JavaVarMod* {prefer}
      "mod_" [a-zA-Z0-9]* "*" -> JavaVarMod* {prefer}
 
+     "mod" [0-9]*            -> JavaFieldMod  {prefer}
+     "mod_" [a-zA-Z0-9]*     -> JavaFieldMod  {prefer}
+     "mod" [0-9]* "*"        -> JavaFieldMod* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> JavaFieldMod* {prefer}
+
 
   %%%
    %% Quotations for Modifiers
