@@ -77,6 +77,9 @@ rules
     If(b1, b2, b3) -> V vs=0 [KW["else"] b3]
       where !b3 => Block(_)
 
+/**
+ * While Statements
+ */
 rules
 
   java-to-box:
@@ -85,22 +88,73 @@ rules
   java-to-box:
     DoWhile(b, cond) -> V vs=0 [KW["do"] ~b H hs=0 [KW["while"] "(" ~cond ")" ";"]]
 
+/**
+ * For Statements
+ */
+rules
+
   java-to-box:
-    For(init, cond, update, body) ->
-      box |[ V vs=0[H hs=0 [KW["for"] "(" ~*binit ";" ~*bcond ";" ~*bupdate ")"] ~body] ]|
+    f@For(init, cond, update, b2) -> box |[ V is=2 vs=0 [b1 b2] ]|
+    where
+      <for-head> f => b1
+      ; not(!b2 => Block(_))
 
-        where < map(java-to-box)
-              ; separate-by(comma)
-              > update => bupdate
+  java-to-box:
+    f@For(init, cond, update, b2) -> box |[ V vs=0 [b1 b2] ]|
+    where
+      <for-head> f => b1
+      ; !b2 => Block(_)
 
-            ; < LocalVarDec-to-box; ![<id>]
-                <+ map(java-to-box)
-                 ; separate-by(comma)
-              > init => binit
+/**
+ * For Each Statements
+ */
 
-            ; < ?Some(<id>); java-to-box; ![<id>]
-                <+ ?None(); ![]
-              > cond => bcond
+  java-to-box:
+    f@ForEach(param, source, b2) -> box |[ V vs=0 [b1 b2] ]|
+    where
+      <for-each-head> f => b1
+      ; !b2 => Block(_)
+
+  for-head :
+    For(init, cond, update, body)
+      ->
+    box |[ H hs=0 [KW["for"] "(" ~*binit ";" ~*bcond ";" ~*bupdate ")"] ]|
+    where
+      < map(java-to-box)
+      ; separate-by(comma)
+      > update => bupdate
+
+      ; < LocalVarDec-to-box; ![<id>]
+          <+ map(java-to-box)
+             ; separate-by(comma)
+        > init => binit
+
+      ; < ?Some(<id>); java-to-box; ![<id>]
+           <+ ?None(); ![]
+        > cond => bcond
+
+  java-to-box:
+    f@ForEach(param, source, b2) -> box |[ V is=2 vs=0 [b1 b2] ]|
+    where
+      <for-each-head> f => b1
+      ; not(!b2 => Block(_))
+
+  java-to-box:
+    f@ForEach(param, source, b2) -> box |[ V vs=0 [b1 b2] ]|
+    where
+      <for-each-head> f => b1
+      ; !b2 => Block(_)
+
+  for-each-head :
+    ForEach(param, source, body)
+      ->
+    H hs=1 [
+      H hs=0 [KW["for"] KW["("] ~param]
+      KW[":"]
+      H hs=0 [~source KW[")"]]
+    ]
+
+rules
 
   java-to-box:
     Synchronized(e, b) -> box |[ V vs=0 [H hs=0 [KW["synchronized"] "(" ~e ")"] ~b] ]|
