@@ -6,11 +6,15 @@ USE_XT_PACKAGES
 AC_PROG_CC
 AC_PROG_INSTALL
 
-AC_CONFIG_FILES([
-  NEWS
-  README
-	Makefile
+SET_SVN_REVISION
+AC_SUBST(SVN_REVISION)
+echo "** INFO -- SVN Revision is: $SVN_REVISION"
 
+
+AC_CONFIG_FILES([
+  java-front.spec
+	Makefile
+    
 	syn/Makefile
 	syn/basic/Makefile
 	syn/generic/Makefile

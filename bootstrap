@@ -2,12 +2,7 @@
 
 rm -f config.cache config.log acconfig.h aclocal.m4
 
-touch README
-touch NEWS
-
 autoxt
 aclocal -I .
 autoconf -f 
-automake -a -c -f 
-
-#autoreconf --include=. --warnings=all --warnings=no-portability
+automake -a 

@@ -1,73 +1,29 @@
 --------------------------------------------------------------------------
-java-front* (version @VERSION@)
+java-front
 --------------------------------------------------------------------------
 
-This package is distributed under the terms of the GNU Public License
-(GPL). See the file COPYING for more information.
+  Copyright (C) 2003 Eelco Visser <visser@acm.org>
+  
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2 of the License, or (at your option) any later version.
+  
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+  
+--------------------------------------------------------------------------
 
 Author:
-  Martin Bravenboer <martin@mbravenboer.org>
+  Martin Bravenboer <mbravenb@cs.uu.nl>
 
 --------------------------------------------------------------------------
-IN THIS PACKAGE
 
-You find an SDF syntax definition for Java. I'm still working on this
-grammar, so don't expect it to be flawless, but it should do the job
-pretty well. This package also includes a Stratego signature generated
-from this grammar and a hand-crafted pretty-printer for this signature.
-
-The grammar is trying to be compatible with the Java Language of the
-Java 2 SDK v1.4.x. This means that it tries to be compatible with the
-Java Language Specifcation 2.0 and that it additionally supports the
-assertion facility introduces in 1.4.
-
-For more information:
-
-Java Language Specification 2.0 -
-http://java.sun.com/docs/books/jls/
-
-Assert specification -
-http://java.sun.com/docs/books/jls/assert-spec.html
-
-In the future you will find in this package:
-
-- Up to date SDF grammar for Java,
-- Stratego signature for the abstract syntax of Java,
-- desugaring from the generated signature to this abstract syntax,
-- sugaring from the abstract syntax signature to the generated grammar.
-
---------------------------------------------------------------------------
-INSTALLATION
-
-To install this program first install the StrategoXT package of program
-transformation tools that can be found at
-  
-  http://www.stratego-language.org/
-
-The StrategoXT package must be installed with concrete syntax support.
-You will also need the Stratego-box package. This package is available at
-
-  http://www.mbravenboer.org/software/stratego-box/
-
-then configure java-front by
-
-  ./configure --prefix=${prefix} \
-              --with-sdf=${sdf-prefix}
-              --with-stratego-xt=${stratego-prefix}
-
-which assumes that StrategoXT is installed at ${stratego-prefix}, 
-SDF2 (which is required for StrategoXT) is installed at ${sdf-prefix},
-and declares that the programs in this package should be installed
-at ${prefix}. 
-
-Make the components of java-front by invoking
-  
-  gmake
-
-and install them by means of
-
-  gmake install
-
---------------------------------------------------------------------------
-* Java is a registered trademark of Sun Microsystems
-
+Instructions are available online:
+   * http://www.stratego-language.org/Stratego/JavaFront
