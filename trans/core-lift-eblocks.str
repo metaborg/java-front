@@ -7,7 +7,7 @@ strategies
     io-wrap(core-lift-eblocks)
 
   core-lift-eblocks =
-    topdown(try(lift-to-block-level))
+    bottomup(try(lift-to-block-level))
 
   lift-to-block-level =
     ?Block(<id>)
