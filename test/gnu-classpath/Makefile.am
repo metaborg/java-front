@@ -48,9 +48,7 @@ ppcheck : gnu-classpath.java.list
 %.ppjtree : %.java
 	$(PARSEJAVA) -i $<  \
 	| $(PPJAVA) \
-	| $(PARSEJAVA) \
-	| $(ATERM_FRONT)/bin/pp-aterm -o $@
+	| $(PARSEJAVA) -o $@
 
 %.jtree : %.java
-	$(PARSEJAVA) -i $< \
-	| $(ATERM_FRONT)/bin/pp-aterm -o $@
+	$(PARSEJAVA) -i $< -o $@

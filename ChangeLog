@@ -1,5 +1,10 @@
 2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/pp-Java-Statements.str: fixed the pretty-printing of
+	if-then-else. All cases were implemented in separate rules, and as
+	a consequence one case (block block) was missing. Cleaner rules
+	now.
+
 	* pp/pp-Java.str: improved pretty-printing of all constructs
 	separated by commas: use a, b instead of a , b.
 
@@ -15,8 +20,6 @@
 	* pp/pp-Java.str: fix in the pretty-printing of
 	constant declarations in interfaces.
 		
-2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
-
 	* syn/basic/Java-Statements.sdf: improved the representation of
 	the for statement. This first subterm is now a list of
 	expressions or a single local variable declaration. The second
