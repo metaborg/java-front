@@ -14,6 +14,6 @@ TESTSUITES = \
   lexical-translations.testsuite \
   statements.testsuite
 
-PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java.tbl`"
+PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Basic-Java.tbl`"
 
 check : $(TESTSUITES:.testsuite=.runtestsuite)
