@@ -1,3 +1,8 @@
+2005-01-04  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/stratego-v1.5/Embedded-Java-15.sdf: added a variable for the
+	LeftHandSide of an assignment.
+	
 2004-11-01  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/v1.5/languages/java-15/types/ParameterizedTypes.sdf: allow
