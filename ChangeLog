@@ -1,5 +1,27 @@
 2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
 
+	* Unattractive fix to an ambiguity: the declaration "Foo<Bar>
+	fred;" can be parsed as an expression of < and >, or a variable
+	declaration. It should be a variable declaration, since relational
+	expressions are in fact not allowed as expression
+	statements. However, the SDF syntax definition allows any
+	expression as statement. This not correct.
+
+	However, I can see no concise way to define the expressions that
+	are allowed. Using specific non-terminal names (such as
+	Assignment) will break the priority mechanism, since injections to
+	expressions have to be defined.
+
+	Unfortunately, this is something that cannot be expressed
+	concisely in SDF. It makes using just one sort for Expression less
+	attractive.
+
+	For now, I've added an avoid to the expression -> statement
+	production. This solves the ambiguity, but I would prefer a
+	solution without prefer/avoid. Suggestions are welcome ...
+	
+2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+
 	* syn/v1.5/languages/java-15/expressions/ArrayCreationExpressions.sdf:
 	added support for the unbounded wildcard array base type, which is
 	going to be part of 1.5, but is not yet supported by the proposed

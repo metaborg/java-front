@@ -10,6 +10,9 @@ test Another stupid comment
 test final declaration
   "final int x = 1;" succeeds
 
+test param declaration
+  "Foo<Bar> fred;" -> LocalVarDecStm(_)
+
 test dangling else and while
   "if(a)
     while(b)
