@@ -35,6 +35,7 @@ AC_CONFIG_FILES([
   syn/eblock/Makefile
 
   sig/Makefile
+  lib/Makefile
   pp/Makefile
   pp/v1.5/Makefile
   pp/basic/Makefile

@@ -1,4 +1,4 @@
-module pp-Java-Literals
+module java/pp/literal
 
 rules
 

@@ -1,4 +1,4 @@
-module pp-Java-PrimitiveTypes
+module java/pp/type/primitive
 strategies
 
   java-to-box: Boolean() -> box |[ KW["boolean"] ]|

@@ -1,4 +1,4 @@
-module pp-Java-EnumDeclarations
+module java/pp/class/enum-declaration
 rules
 
   java-to-box:

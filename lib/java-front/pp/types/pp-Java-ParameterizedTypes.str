@@ -1,4 +1,4 @@
-module pp-Java-ParameterizedTypes
+module java/pp/type/parameterized
 rules
 
   type-args-to-boxes :

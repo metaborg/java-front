@@ -1,5 +1,5 @@
 module jtree15-to-abox
-imports pp-Java
+imports java/pp/main
 
 strategies
 

@@ -1,30 +1,26 @@
-module pp-Java
+module java/pp/main
 imports
   liblib
   Box
   Java-15
-  concrete-syntax
-  pp-Java-helpers
+  
+  java/pp/helpers
+  java/pp/statement
+  java/pp/expression
+  java/pp/literal
+  java/pp/name
+  java/pp/modifier
 
-  pp-Java-Statements
-  pp-Java-Expressions
-  pp-Java-Literals 
-  pp-Java-Names
-  pp-Java-Modifiers
+  java/pp/type/parameterized
+  java/pp/type/variable
+  java/pp/type/pritimive
+  java/pp/type/reference
 
-  // types
-  pp-Java-ParameterizedTypes
-  pp-Java-TypeVariables
-  pp-Java-PrimitiveTypes
-  pp-Java-ReferenceTypes
+  java/pp/class/enum-declaration
+  java/pp/class/method-declaration
 
-  // classes
-  pp-Java-EnumDeclarations
-  pp-Java-MethodDeclarations
-
-  // interfaces
-  pp-Java-AnnotationTypes
-  pp-Java-Annotations
+  java/pp/interface/annotation
+  java/pp/interface/annotation-type
 
 strategies
 

@@ -1,4 +1,4 @@
-module pp-Java-AnnotationTypes
+module java/pp/interface/annotation-type
 rules
 
   java-to-box :
