@@ -1,3 +1,17 @@
+2005-03-05  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/v1.5/languages/java-15/Main.sdf: new main module that
+	imports all Java modules and does not declare context-free
+	start-symbols.
+
+	* syn/v1.5/Java-15.sdf: declare all context-free start-symbols in
+	the main module for creating the parse table. If you import this
+	module in an extension, then you will inherit all contxt-free
+	symbols. Import 'languages/java-15/Main' if you don't want this.
+
+	* syn/v1.5/languages/java-15/*/*.sdf: removed all context-free
+	start-symbols from the specific SDF modules.
+
 2005-01-05  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/stratego-v1.5/Embedded-Java-15.sdf: 'lhs' is rather confusing

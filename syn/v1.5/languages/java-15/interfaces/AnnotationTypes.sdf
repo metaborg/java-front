@@ -14,9 +14,6 @@ imports
   languages/java-15/interfaces/Annotations
 
 exports
-  context-free start-symbols
-    AnnoDec
-
   sorts
     AnnoDec
     AnnoDecHead

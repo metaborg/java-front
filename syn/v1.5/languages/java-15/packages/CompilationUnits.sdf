@@ -10,9 +10,6 @@ imports
   languages/java-15/packages/TypeDeclarations
 
 exports
-  context-free start-symbols
-    CompilationUnit
-
   sorts
     CompilationUnit
 

@@ -9,9 +9,6 @@ imports
   languages/java-15/interfaces/InterfaceDeclarations
 
 exports
-  context-free start-symbols
-    TypeDec
-
   sorts
     TypeDec
 

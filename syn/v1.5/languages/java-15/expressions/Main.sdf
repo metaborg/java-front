@@ -19,8 +19,5 @@ imports
   languages/java-15/expressions/Priorities
 
 exports
-  context-free start-symbols
-    Expr
-
   sorts
     Expr

@@ -17,9 +17,6 @@ imports
   languages/java-15/interfaces/Annotations
 
 exports
-  context-free start-symbols
-    InterfaceDec
-
   sorts
     InterfaceDec
     InterfaceDecHead

@@ -11,9 +11,6 @@ imports
   languages/java-15/types/ParameterizedTypes
 
 exports
-  context-free start-symbols
-    Type
-
   sorts
     Type
 

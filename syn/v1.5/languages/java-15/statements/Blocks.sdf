@@ -10,10 +10,6 @@ imports
   languages/java-15/statements/Statements
 
 exports
-  context-free start-symbols
-    Block
-    BlockStm
-
   sorts
     BlockStm
     Block

@@ -10,9 +10,6 @@ imports
   languages/java-15/expressions/Main
 
 exports
-  context-free start-symbols
-    Stm
-
   sorts
     Stm
 

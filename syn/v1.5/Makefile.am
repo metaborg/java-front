@@ -19,6 +19,7 @@ Java-15.def : $(JAVA15_MODS)
 
 JAVA15_MODS = \
   Java-15.sdf \
+  $(wildcard languages/java-15/*.sdf) \
   $(wildcard languages/java-15/lexical/*.sdf) \
   $(wildcard languages/java-15/names/*.sdf) \
   $(wildcard languages/java-15/types/*.sdf) \
