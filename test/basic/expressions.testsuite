@@ -48,39 +48,39 @@ TestSuite(
     , String("1 < 2 == 3 < 4"), Eq(Lt(Lit(Deci("1")), Lit(Deci("2"))), Lt(Lit(Deci("3")), Lit(Deci("4"))))
     )
   , Test(Descr("simple name")
-    , String("x") , Name(ExprName("x"))
+    , String("x") , Name(ExprName(Id("x")))
     )
   , Test(Descr("post increment has higher priority than pre increment")
     , String("++ 1 ++") , PreIncr(PostIncr(Lit(Deci("1"))))
     )
   , Test(Descr("simple assignment")
-    , String("x = 1"), Assign(ExprName("x"), Lit(Deci("1")))
+    , String("x = 1"), Assign(ExprName(Id("x")), Lit(Deci("1")))
     )
   , Test(Descr("Field access on expression")
-    , String("blaat().field"), Field(Invoke(Method(MethodName(Name([Id("blaat")]), []), "field")
+    , String("blaat().field"), Field(Invoke(Method(MethodName(Id("blaat"))), []), Id("field"))
     )
   , Test(Descr("Method invocation has higher priority than assignment")
     , String("x = var.method()"),
-      Assign(ExprName("x"), Invoke(Method(MethodName(AmbName(["var"]), "method")), []))
+      Assign(ExprName(Id("x")), Invoke(Method(MethodName(AmbName(Name([Id("var")])), Id("method"))), []))
     )
   , Test(Descr("Simple literal")
     , String("\"Literal\""), Lit(String("\"Literal\""))
     )
   , Test(Descr("Method invocation has higher priority than assignment")
     , String("country = _loader.getname(countryID)"),
-      Assign(ExprName("country"), Invoke(Method(MethodName(AmbName(["_loader"]), "getname")), 
-        [Name(ExprName("countryID"))]))
+      Assign(ExprName(Id("country")), Invoke(Method(MethodName(AmbName(Name([Id("_loader")])), Id("getname"))), 
+        [Name(ExprName(Id("countryID")))]))
     )
   , Test(Descr("Method invocation has higher priority than addition")
     , String("\"Literal\" + \" Literal \".trim()"),
-      Plus(Lit(String("\"Literal\"")), Invoke(Method(Lit(String("\" Literal \"")), "trim"), []))
+      Plus(Lit(String("\"Literal\"")), Invoke(Method(Lit(String("\" Literal \"")), Id("trim")), []))
     )
   , Test(Descr("Prefer a methodname over an expression")
-    , String("blaat.trim()"), Invoke(Method(MethodName(AmbName(["blaat"]), "trim")), [])
+    , String("blaat.trim()"), Invoke(Method(MethodName(AmbName(Name([Id("blaat")])), Id("trim"))), [])
     )
   , Test(Descr("field access has higher priority than addition")
     , String("\"Literal\" + \" Literal \".notreallyafield"),
-      Plus(Lit(String("\"Literal\"")), Field(Lit(String("\" Literal \"")), "notreallyafield"))
+      Plus(Lit(String("\"Literal\"")), Field(Lit(String("\" Literal \"")), Id("notreallyafield")))
     )
   , Test(Descr("method invocations")
     , String("x.blaat1().blaat2().blaat3()"),
@@ -89,9 +89,8 @@ TestSuite(
           Invoke(
             Method(
               Invoke(
-                Method(MethodName(AmbName(["x"]), "blaat1")), [])
-            , "blaat2"), [])
-        , "blaat3"), [])
+                Method(MethodName(AmbName(Name([Id("x")])), Id("blaat1"))), [])
+            , Id("blaat2")), []), Id("blaat3")), [])
     )
   ])
 )
