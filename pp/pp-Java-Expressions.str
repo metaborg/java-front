@@ -81,7 +81,7 @@ strategies
       where <list-to-args> exprs => args
 
   java-to-box: 
-    QNewInstance(e, n, exprs, None()) -> box |[ H hs=0 [~e "." H hs=1 [KW["new"] ~S(n)] ~args] ]|
+    QNewInstance(e, Id(s), exprs, None()) -> box |[ H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 
