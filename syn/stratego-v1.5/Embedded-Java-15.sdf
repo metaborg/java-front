@@ -332,7 +332,7 @@ exports
     "java:class-body-dec*" "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
          "class-body-dec*" "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
     "java"                 "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
-                           "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
+                           "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaListExpr")}
 
     "java:stm" "|["  JavaStm "]|" -> E {cons("ToMetaExpr")}
          "stm" "|["  JavaStm "]|" -> E {cons("ToMetaExpr")}
