@@ -1,0 +1,62 @@
+testsuite Java Compilation Units
+topsort CompilationUnit
+
+test simple interface
+  file compilation-units/Cancelable1.java succeeds
+
+test simple interface
+  file compilation-units/Cancelable2.java succeeds
+
+test simple class with imports
+  file compilation-units/Test1.java succeeds
+
+test simple public class
+  file compilation-units/Test2.java succeeds
+
+test simple class
+  file compilation-units/Test3.java succeeds
+
+test simple class with superclass
+  file compilation-units/Test4.java succeeds
+
+test simple class with qualified superclass
+  file compilation-units/Test5.java succeeds
+
+test static initializer
+  file compilation-units/Test6.java succeeds
+
+test static intializer
+  file compilation-units/Test7.java succeeds
+
+test simple method
+  file compilation-units/Test8.java succeeds
+
+test abstract method
+  file compilation-units/Test9.java succeeds
+
+test instance initializer
+  file compilation-units/Test10.java succeeds
+
+test silly semicolon
+  file compilation-units/Test11.java succeeds
+
+test field declaration
+  file compilation-units/Test12.java succeeds
+
+test field declaration with initial value
+  file compilation-units/Test13.java succeeds
+
+test private field declaration
+  file compilation-units/Test14.java succeeds
+
+test private, static, final field declaration
+  file compilation-units/Test15.java succeeds
+
+test full class
+  file compilation-units/MailSystem1.java succeeds
+
+test full class with docs
+  file compilation-units/MailSystem2.java succeeds
+
+test 3.2-invalid-3: The parser must consume the largest token, even if another interpretation is valid
+  "classT32i3 {}" fails
