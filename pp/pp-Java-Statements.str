@@ -15,62 +15,64 @@ strategies
   java-to-box: Expr(e)  -> <try(expr-to-box); stm-box> e
   java-to-box: Empty()  -> box |[ ";" ]|
 
-  java-to-box:
-    LocalVarDec(type, decs) -> <stm-box> box |[ H hs=1 [~type ~*vardecs] ]|
-      where <separate-by(comma)> decs; ?vardecs
+  java-to-box=
+    ?LocalVarDec(type, decs)
+    ; LocalVarDec-to-box
+    ; stm-box
+
+  LocalVarDec-to-box :
+    LocalVarDec(type, decs) -> H hs=1 [~type ~*decs]
 
   java-to-box:
-    LVarDec(type, decs) -> box |[ H hs=1 [~type ~*vardecs] ]|
-      where <separate-by(comma)> decs; ?vardecs
-
-  java-to-box:
-    Try(block, catches) -> box |[ V vs=0 [KW["try"] ~block ~*catches] ]|
+    Try(block, catches) -> V vs=0 [KW["try"] ~block ~*catches]
 
   java-to-box:
     Try(block, catches, finally)
       ->
-    box |[ V vs=0 [KW["try"] ~block ~*catches KW["finally"] ~finally] ]|
+    V vs=0 [KW["try"] ~block ~*catches KW["finally"] ~finally]
 
   java-to-box:
-    Catch(param, block) -> box |[ V vs=0 [H hs=0 [KW["catch"] "(" ~param ")"] ~block] ]|
+    Catch(param, block)
+      ->
+     V vs=0 [H hs=0 [KW["catch"] "(" ~param ")"] ~block]
 
   java-to-box:
-    Throw(e) -> box |[ H hs=1 [KW["throw"] H hs=0[~e ";" ]] ]|
+    Throw(e) -> H hs=1 [KW["throw"] H hs=0[~e ";" ]]
 
   java-to-box:
-    If(b1, b2) -> box |[
-      V vs=0 [
-        V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
-      ]
-    ]|
+    If(b1, b2)
+      ->
+    V vs=0 [
+      V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+    ]
       where <not(?Block(_))> b2
 
   java-to-box:
-    If(b1, b2) -> box |[
-      V vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
-    ]|
+    If(b1, b2)
+      ->
+    V vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
       where <?Block(_)> b2
 
   /**
    * @todo make "else if" more pretty
    */
   java-to-box:
-    If(b1, b2, b3) -> box |[
-      V vs=0 [
-        V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
-        V is=2 vs=0 [KW["else"] b3]
-      ]
-    ]|
+    If(b1, b2, b3)
+      ->
+    V vs=0 [
+      V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+      V is=2 vs=0 [KW["else"] b3]
+    ]
       where <not(?Block(_))> b2
           ; <not(?Block(_))> b3
 
   java-to-box:
-    If(b1, b2, b3) -> box |[
-      V vs=0 [
-        V vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
-        V is=2 vs=0 [KW["else"] b3]
-      ]
-    ]|
+    If(b1, b2, b3)
+      ->
+    V vs=0 [
+      V vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+      V is=2 vs=0 [KW["else"] b3]
+    ]
       where <?Block(_)> b2
           ; <not(?Block(_))> b3
 
@@ -95,13 +97,22 @@ strategies
     DoWhile(body, cond) -> box |[ V vs=0 [KW["do"] ~b H hs=0 [KW["while"] "(" ~cond ")" ";"]] ]|
       where <ensure-block> body => b
 
-  // TODO: for with None() init, cond1 and step1
   java-to-box:
-    For(Some(init1), Some(cond1), Some(Exprs(step1)), body1) -> box |[ V vs=0[H hs=0 [KW["for"] "(" ~init ";" ~cond ";" ~*step ")"] ~body] ]|
-      where <map(java-to-box); separate-by(comma)> step1 => step
-          ; <?Exprs(<id>) < (map(java-to-box); separate-by(comma)) + id> init1 => init
-          ; <ensure-block> body1 => body
-          ; <java-to-box>  cond1 => cond
+    For(init, cond, update, body) ->
+      box |[ V vs=0[H hs=0 [KW["for"] "(" ~*binit ";" ~*bcond ";" ~*bupdate ")"] ~body] ]|
+
+        where < map(java-to-box)
+              ; separate-by(comma)
+              > update => bupdate
+
+            ; < LocalVarDec-to-box; ![<id>]
+                <+ map(java-to-box)
+                 ; separate-by(comma)
+              > init => binit
+
+            ; < ?Some(<id>); java-to-box; ![<id>]
+                <+ ?None(); ![]
+              > cond => bcond
 
   java-to-box:
     Synchronized(e, b) -> box |[ V vs=0 [H hs=0 [KW["synchronized"] "(" ~e ")"] ~b] ]|

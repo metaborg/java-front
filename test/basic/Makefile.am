@@ -1,7 +1,7 @@
 include $(top_srcdir)/Makefile.xt
 include $(top_srcdir)/test/Makefile.parse-unit
 
-SUBDIRS           = comments compilation-units expressions statements
+SUBDIRS           = comments compilation-units expressions
 BOOTCLEAN_SUBDIRS = $(SUBDIRS)
 EXTRA_DIST        = $(wildcard *.testsuite) $(wildcard *.atestsuite)
 

@@ -39,7 +39,6 @@ AC_CONFIG_FILES([
   test/basic/comments/Makefile
   test/basic/compilation-units/Makefile
   test/basic/expressions/Makefile
-  test/basic/statements/Makefile  
   test/generic/Makefile
   test/generic/compilation-units/Makefile
   test/gnu-classpath/Makefile

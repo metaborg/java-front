@@ -3,15 +3,15 @@ imports Java-Expressions Java-Types
 
 exports
   context-free start-symbols BlockStm Block Stm
-  sorts BlockStm Block Stm
+  sorts BlockStm Block Stm LocalVarDec
 
   context-free syntax
-    Stm         -> BlockStm
-    LocalVarDec -> BlockStm
-    ClassDec    -> BlockStm
+    Stm             -> BlockStm
+    LocalVarDecStm  -> BlockStm
+    ClassDec        -> BlockStm
 
-    "final" Type {VarDec ","}+ ";" -> LocalVarDec {cons("FinalLocalVarDec")}
-            Type {VarDec ","}+ ";" -> LocalVarDec {cons("LocalVarDec")}
+    "final" Type {VarDec ","}+ ";" -> LocalVarDecStm {cons("FinalLocalVarDec")}
+            Type {VarDec ","}+ ";" -> LocalVarDecStm {cons("LocalVarDec")}
 
     Block -> Stm
     "{" BlockStm* "}" -> Block {cons("Block")}
@@ -26,12 +26,10 @@ exports
              "while" "(" Expr ")" Stm -> Stm {cons("While")}
     "do" Stm "while" "(" Expr ")" ";" -> Stm {cons("DoWhile")}
 
-    "for" "(" ForInit? ";" Expr? ";" ForUpdate? ")" Stm -> Stm {cons("For")}
+    "for" "(" LocalVarDec ";" Expr? ";" {Expr ","}* ")" Stm -> Stm {cons("For")}
+    "for" "(" {Expr ","}* ";" Expr? ";" {Expr ","}* ")" Stm -> Stm {cons("For")}
 
-    LVarDec -> ForInit {cons("VarDec")}      %% TODO: fix for sdf2rtg
-    {Expr ","}+ -> ForInit   {cons("Exprs")} %% TODO: fix for sdf2rtg
-    {Expr ","}+ -> ForUpdate {cons("Exprs")} %% TODO: fix for sdf2rtg
-    Type {VarDec ","}+  -> LVarDec {cons("LVarDec")}
+    Type {VarDec ","}+ -> LocalVarDec {cons("LocalVarDec")}
 
     "break"    Id? ";"   -> Stm {cons("Break")}
     "continue" Id? ";"   -> Stm {cons("Continue")}

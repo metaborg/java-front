@@ -1,3 +1,22 @@
+2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/basic/Java-Statements.sdf: improved the representation of
+	the for statement. This first subterm is now a list of
+	expressions or a single local variable declaration. The second
+	subterm is an optional expression, the third subterm is a list of
+	expressions.
+
+	* test/basic/statements.testsuite: parse-unit testsuite rewritten
+	to concrete syntax. All test input is now inline and wildcards are
+	used to abstract over the output structure.
+
+	* pp/pp-Java-Statements.str: pretty-printing a for statement no
+	longer uses a block if the statement is not a block. Enforcing
+	this is a job for a separate tool.
+
+	* pp/pp-Java-Statements.str: finally fixed several known problems
+	in the pretty-printing of for statements.
+	
 2004-07-21  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/basic/Stratego-Java.sdf: added the stm meta variable, stm |[
