@@ -9,7 +9,7 @@ XT_PRE_RELEASE
 test "x$prefix" = xNONE && prefix=$ac_default_prefix
 
 XT_SETUP
-USE_XT_PACKAGES
+XT_USE_XT_PACKAGES
 
 XT_PKG_ATERM
 XT_PKG_SDF
