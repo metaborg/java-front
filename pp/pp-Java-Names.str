@@ -3,8 +3,8 @@ module pp-Java-Names
 strategies
 
   java-to-box: PackageName(name) -> <name-to-box> name
-  java-to-box: ClassName(Id(name))   -> <name-to-box> name
-  java-to-box: AmbName(Id(name))     -> <name-to-box> name
+  java-to-box: ClassName(name)   -> <name-to-box> name
+  java-to-box: AmbName(name)     -> <name-to-box> name
 
   java-to-box: TypeName(Id(name))     -> S(name)
   java-to-box: QTypeName(q, Id(name)) -> <qid-to-box> (q, name)

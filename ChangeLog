@@ -1,5 +1,7 @@
 2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/pp-Java-Names.str: fixed pretty-printing of ClassName.
+
 	* pp/pp-Java-Statements.str: fixed the pretty-printing of
 	if-then-else. All cases were implemented in separate rules, and as
 	a consequence one case (block block) was missing. Cleaner rules
