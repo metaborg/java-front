@@ -79,14 +79,17 @@ exports
    %% Variables for Types
    %%%
   variables
-    TypeVar -> JavaType {prefer}
+    MetaTypeVar -> JavaType {prefer}
 
   lexical syntax
-    "t"  [0-9]* -> TypeVar
-    "ty" [0-9]* -> TypeVar
+    "t"  [0-9]* -> MetaTypeVar
+    "ty" [0-9]* -> MetaTypeVar
+
+    "t"  -> JavaID {reject}
+    "ty" -> JavaID {reject}
 
   lexical restrictions
-    TypeVar -/- [a-zA-Z0-9\_\$]
+    MetaTypeVar -/- [a-zA-Z0-9\_\$]
 
   %%%
    %% Quotation for Types
