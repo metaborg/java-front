@@ -1,15 +1,20 @@
 include $(top_srcdir)/Makefile.xt
+include $(top_srcdir)/Makefile.regular
 include $(wildcard *.dep)
 
 TBLS_DEFS      = Generic-Java.tbl Stratego-Generic-Java.tbl \
                  Generic-Java.def Stratego-Generic-Java.def
+
 sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
+pkgdata_DATA   = Generic-Java.rtg-nf
+
 EXTRA_DIST     = $(sdfdata_DATA)
 BOOTCLEANFILES = $(TBLS_DEFS)
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
                  -I ${top_srcdir}/syn/basic
 PGEN_FLAGS     = -m $*
+SDF2RTG_FLAGS  = --main Generic-Java
 
 Generic-Java.def : \
   ${top_srcdir}/syn/basic/Java.sdf \

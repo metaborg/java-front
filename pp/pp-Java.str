@@ -128,7 +128,7 @@ strategies
   //TODO: support pretty-printing of DeprHead?
 
   java-to-box:
-    Head(mods, type, n, params, throws)
+    Head(mods, type, Id(n), params, throws)
       ->
     box |[ H hs=1 [~*mods ~type ~lit:n ~args ~throws] ]|
       where <list-to-args> params => args
@@ -168,7 +168,7 @@ strategies
     VarDec(i, init) -> box |[ H hs=1 [~i "=" ~init] ]|
 
   java-to-box:
-    VarId(i) -> S(i)
+    VarId(Id(i)) -> S(i)
 
   java-to-box:
     VarId(i, dims) -> box |[ H hs=0 [~i ~*dims] ]|

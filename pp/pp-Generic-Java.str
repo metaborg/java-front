@@ -12,12 +12,12 @@ strategies
 
   /* parameterized */
   java-to-box:
-    InterfaceDec(mods, name, Some(typeparams), implements, body)
+    InterfaceDec(mods, Id(name), Some(typeparams), implements, body)
       ->
     box |[ V vs=0 [H hs=1 [~*mods KW["interface"] ~lit:name ~typeparams ~implements] ~body] ]|
 
   java-to-box:
-    ClassDec(mods, name, Some(typeparams), extends, implements, body)
+    ClassDec(mods, Id(name), Some(typeparams), extends, implements, body)
       ->
     box |[ V vs=0 [H hs=1 [~*mods KW["class"] ~S(name) ~typeparams ~extends ~implements] ~body] ]|
 
@@ -29,7 +29,7 @@ strategies
 
   /* parameterized */
   java-to-box:
-    Head(mods, Some(typeparams), type, n, params, throws)
+    Head(mods, Some(typeparams), type, Id(n), params, throws)
       ->
     box |[ H hs=1 [~*mods ~typeparams ~type ~lit:n ~args ~throws] ]|
       where <list-to-args> params => args
@@ -71,10 +71,14 @@ strategies
   java-to-box:  GClassType(parts)     -> <type-parts-to-box> parts
   java-to-box:  GInterfaceType(parts) -> <type-parts-to-box> parts
 
+  /**
+   *
+   */
   type-parts-to-box:
     parts -> box |[ H hs=0 [~*content] ]|
-      where < map(try(is-string; !S(<id>)))
-            ; separate-by(point) > parts => content
+      where < map(try( \ Id(s) -> S(s) \ ))
+            ; separate-by(point)
+            > parts => content
 
   java-to-box:
     ParamClass(i, args) -> box |[ H hs=0 [~lit:i ~args] ]|
