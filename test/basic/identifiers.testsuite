@@ -4,21 +4,21 @@ topsort Id
 test simple x
   "x" -> Id("x")
 
-test true as identifier is not allowed
+test true literal is not a valid identifier
   "true" fails
 
-test true as identifier is not allowed
+test
   "false" fails
 
-test if is not a valid identifier
+test if keywords is not a valid identifier
   "if" fails
 
-test else is not a valid identifier
+test
   "else" fails
 
-test class is not a valid identifier
+test
   "class" fails
 
-test null is not a valid identifier
+test
   "null" fails
 
