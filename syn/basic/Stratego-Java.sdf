@@ -120,8 +120,10 @@ exports
 
   variables
     "e"    [0-9]*     -> JavaExpr
+    "t"    [0-9]*     -> JavaType
     "e"    [0-9]* "*" -> {JavaVarInit ","}*
 
     "bstm" [0-9]* "*" -> JavaBlockStm*
     [ij]   [0-9]*     -> JavaDeciLiteral
     [xyz]  [0-9]*     -> JavaID
+
