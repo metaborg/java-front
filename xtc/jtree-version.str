@@ -16,12 +16,12 @@ strategies
       )
     + Option("-basic"
       , <set-release-option> "basic"
-      , !HelpString("-basic", <conc-strings> (msg, " as basic Java, which is similar to Java 2 version 1.4. 
+      , !HelpString("-basic", <conc-strings> (msg, " as Basic-Java, which is similar to Java 2 version 1.4. 
             WARNING: This version is obsolete and only available for use by legacy programs."))
       )
     + Option("-generic"
       , <set-release-option> "generic"
-      , !HelpString("-generic", <conc-strings> (msg, " as Generic Java, which is 
+      , !HelpString("-generic", <conc-strings> (msg, " as Generic-Java, which is 
              similar to the early access compiler for JSR14.
             WARNING: This version is obsolete and only available for use by legacy programs."))
       )
