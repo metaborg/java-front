@@ -1,8 +1,8 @@
 --------------------------------------------------------------------------
-java-front
+JavaFront
 --------------------------------------------------------------------------
 
-  Copyright (C) 2003 Martin Bravenboer <martin@cs.uu.nl>
+  Copyright (C) 2003-2004 Martin Bravenboer <martin@cs.uu.nl>
   
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -22,5 +22,6 @@ java-front
 Authors and contributors are listed in the AUTHORS file.
 
 --------------------------------------------------------------------------
+
 Instructions are available online:
    * http://www.stratego-language.org/Stratego/JavaFront
