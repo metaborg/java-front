@@ -187,6 +187,9 @@ test field access has higher priority than addition
   [ "Literal" + " Literal ".notreallyafield ] ->
       Plus(Lit(String([Chars("Literal")])), Field(Lit(String([Chars(" Literal ")])), Id("notreallyafield")))
 
+test Generic static method invocation
+  "Collections.<String>emptySet();" -> Invoke(GenericStaticMethod(_,  _, _), _)
+
 test method invocations
   "x.blaat1().blaat2().blaat3()" ->
     Invoke(

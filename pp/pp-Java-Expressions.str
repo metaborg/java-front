@@ -60,6 +60,10 @@ strategies
   java-to-box: This()   -> box |[ KW["this"] ]|
   java-to-box: QThis(q) -> box |[ H hs=0 [~q "." KW["this"]] ]|
 
+/**
+ * Method Invocations
+ */
+rules
   java-to-box: 
     Invoke(method, exprs) -> box |[ H hs=0 [~method ~args] ]|
       where <list-to-args> exprs => args
@@ -68,29 +72,64 @@ strategies
     Method(n) -> n
 
   java-to-box: 
-    Method(e, None(), Id(s)) -> box |[ H hs=0 [~e "." s] ]|
+    Method(e, type-args, Id(s)) -> box |[ H hs=0 [~e "." ~*type-args' s] ]|
+    where
+      <type-args-to-boxes> type-args => type-args'
 
   java-to-box: 
-    SuperMethod(None(), Id(s)) -> box |[ H hs=0 [KW["super"] "." s] ]|
+    SuperMethod(type-args, Id(s)) -> box |[ H hs=0 [KW["super"] "." ~*type-args' s] ]|
+    where
+      <type-args-to-boxes> type-args => type-args'
 
   java-to-box: 
-    QSuperMethod(q, None(), Id(s)) -> box |[ H hs=0 [~q "." KW["super"] "." s] ]|
+    QSuperMethod(q, type-args, Id(s)) -> box |[ H hs=0 [~q "." KW["super"] "." ~*type-args' s] ]|
+    where
+      <type-args-to-boxes> type-args => type-args'
 
   java-to-box: 
-    NewInstance(None(), type, exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~args] ]|
-      where <list-to-args> exprs => args
+    GenericStaticMethod(type-name, type-args, Id(s)) -> box |[ H hs=0 [~type-name "." ~*type-args' s] ]|
+    where
+      <type-args-to-boxes> Some(type-args) => type-args'
+
+/**
+ * New instance without body
+ */
+rules
 
   java-to-box: 
-    QNewInstance(e, None(), Id(s), None(), exprs, None()) -> box |[ H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ]|
-      where <list-to-args> exprs => args
+    NewInstance(type-args, type, exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] H hs=0[~type-args' ~type]] ~args] ]|
+    where
+      <list-to-args> exprs => args
+      ; <type-args-to-boxes> type-args => type-args'
 
   java-to-box: 
-    NewInstance(None(), type, exprs, Some(body)) -> box |[ V vs=0[H hs=0 [H hs=1 [KW["new"] ~type] ~args] ~body] ]|
-      where <list-to-args> exprs => args
+    QNewInstance(e, type-args1, Id(s), type-args2, exprs, None())
+      ->
+    box |[ H hs=0 [~e "." H hs=1 [KW["new"] H hs=0 [~*type-args1' s ~*type-args2']] ~args] ]|
+    where
+      <list-to-args> exprs => args
+      ; <type-args-to-boxes> type-args1 => type-args1'
+      ; <type-args-to-boxes> type-args2 => type-args2'
+
+/**
+ * New instance with body
+ */
+rules
 
   java-to-box: 
-    QNewInstance(e, None(), s, None(), exprs, Some(body)) -> box |[ V vs=0 [H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ~body] ]|
-      where <list-to-args> exprs => args
+    NewInstance(type-args, type, exprs, Some(body)) -> box |[ V vs=0[H hs=0 [H hs=1 [KW["new"] H hs=0 [~*type-args' ~type]] ~args] ~body] ]|
+    where
+      <list-to-args> exprs => args
+      ; <type-args-to-boxes> type-args => type-args'
+
+  java-to-box: 
+    QNewInstance(e, type-args1, s, type-args2, exprs, Some(body))
+      ->
+    box |[ V vs=0 [H hs=0 [~e "."  H hs=1 [KW["new"] H hs=0 [~*type-args1' s ~*type-args2']] ~args] ~body] ]|
+    where
+      <list-to-args> exprs => args
+      ; <type-args-to-boxes> type-args1 => type-args1'
+      ; <type-args-to-boxes> type-args2 => type-args2'
 
 rules
 
