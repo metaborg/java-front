@@ -33,6 +33,8 @@ ppcheck : j2sdk.list
 	  if   test "$${file}" = "j2sdk-src/com/sun/org/apache/xalan/internal/xsltc/compiler/FunctionCall.java" \
             || test "$${file}" = "j2sdk-src/com/sun/org/apache/xml/internal/utils/StringComparable.java" \
             || test "$${file}" = "j2sdk-src/java/util/jar/Attributes.java" \
+            || test "$${file}" = "j2sdk-src/javax/sql/rowset/spi/SyncFactory.java" \
+            || test "$${file}" = "j2sdk-src/javax/swing/text/html/parser/ContentModelState" \
           ; then \
             $(MAKE) "$${file%.java}.jtree" "$${file%.java}.ppjtree" || exit 1; \
           else \
@@ -41,8 +43,13 @@ ppcheck : j2sdk.list
 	done
 
 %.ppdiff : %.jtree %.ppjtree
-	diff $*.jtree $*.ppjtree > $@
-	cat $@
+	if diff $*.jtree $*.ppjtree > /dev/null ; then \
+	  touch $@; \
+	else \
+	  $(ATERM_FRONT)/bin/pp-aterm -i $*.jtree -o $*.jtree ; \
+	  $(ATERM_FRONT)/bin/pp-aterm -i $*.ppjtree -o $*.ppjtree ; \
+	  diff $*.jtree $*.ppjtree > $@ ; \
+	fi
 
 %.ppjtree : %.jtree
 	$(PPJAVA) -i $< | $(PARSEJAVA) -1.5 -o $@
