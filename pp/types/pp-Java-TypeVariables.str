@@ -21,6 +21,6 @@ rules
     TypeParam(var, Some(bound)) -> box |[ H hs=1 [~var ~bound] ]|
 
   java-to-box:
-    TypeBound(bounds) -> box |[ H hs=1 ["extends" ~bounds' ] ]|
+    TypeBound(bounds) -> box |[ H hs=1 ["extends" ~*bounds' ] ]|
     where
       <separate-by(!S("&"))> bounds => bounds'
