@@ -2,8 +2,7 @@ include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
 LOCAL_PP_MODULES = \
-  jtree15-to-abox.str \
-  concrete-syntax.str
+  jtree15-to-abox.str
 
 libexec_PROGRAMS = \
   jtree15-to-abox \
