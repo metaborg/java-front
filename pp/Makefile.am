@@ -10,4 +10,5 @@ SCFLAGS        = --main io-$*
 STRINCLUDES    = -I $(top_srcdir)/lib \
                  -I $(top_srcdir)/sig/basic \
                  -I $(top_srcdir)/sig/generic \
-                 -I $(GPP)/share/sdf/gpp
+                 -I $(GPP)/share/sdf/gpp \
+                 -I $(GPP)/share/gpp

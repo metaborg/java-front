@@ -1,5 +1,5 @@
 module pp-Java
-imports Java abox concrete-syntax
+imports Java Box concrete-syntax
         pp-Java-Statements pp-Java-Expressions pp-Java-Literals 
         pp-Java-Names pp-Java-Modifiers
         pp-Generic-Java
@@ -194,4 +194,3 @@ strategies
   java-to-box:
     QSuperCInvoke(q, exprs) -> box |[ H hs=0 [~q "." KW["super"] ~args ";"] ]|
       where <list-to-args> exprs => args
-
