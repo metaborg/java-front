@@ -1,15 +1,33 @@
 include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
+MODULES = \
+  concrete-syntax.str \
+  pp-Generic-Java.str \
+  pp-Java-Literals.str \
+  pp-Java-Names.str \
+  pp-Java.str \
+  pp-Java-Expressions.str \
+  pp-Java-Modifiers.str \
+  pp-Java-Statements.str \
+  jtree2abox.str
+
 bin_PROGRAMS   = jtree2abox
-EXTRA_DIST     = $(wildcard *.str) $(wildcard *.meta)
-CLEANFILES     = $(wildcard *.dep)
-BOOTCLEANFILES = $(wildcard *.c)
+EXTRA_DIST     = $(MODULES) $(wildcard *.meta)
+CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) java-parenthesize.str
 
 SCFLAGS        = --main io-$*
 STRINCLUDES    = -I $(top_srcdir)/lib \
-                 -I $(top_srcdir)/sig \
+                 -I $(top_builddir)/sig \
+                 -I $(top_srcdir)/pp \
                  -I $(GPP)/share/sdf/gpp \
                  -I $(GPP)/share/gpp
+LDADD += $(SSL_LIBS)
 
-noinst_jtree2abox_SOURCES = jtree2abox.c
+nodist_jtree2abox_SOURCES = jtree2abox.c
+
+# generate a parenthesize Java module
+jtree2abox.c : java-parenthesize.str
+
+java-parenthesize.str : $(top_builddir)/syn/generic/Generic-Java.def
+	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ -m Generic-Java --omod java-parenthesize --lang Java

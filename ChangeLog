@@ -1,3 +1,12 @@
+2004-06-30  Martin Bravenboer <martin@cs.uu.nl>
+
+	* pp/pp-Java.str: now uses a generated java-parenthesize
+	module. This module places parenthesis only where really
+	necessary.
+
+	* pp/pp-Java-Statements.str: improved pretty-printing of
+	if-statements.
+	
 2004-04-20  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/basic/Java-Identifiers.sdf: context-free to lexical rejects

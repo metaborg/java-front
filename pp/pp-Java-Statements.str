@@ -38,14 +38,51 @@ strategies
     Throw(e) -> box |[ H hs=1 [KW["throw"] H hs=0[~e ";" ]] ]|
 
   java-to-box:
-    If(cond, then) -> box |[ V vs=0 [H hs=0 [KW["if"] "(" ~cond ")"] ~b] ]|
-      where <ensure-block> then => b
+    If(b1, b2) -> box |[
+      V vs=0 [
+        V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+      ]
+    ]|
+      where <not(?Block(_))> b2
 
-  // TODO: make "else if" more pretty
   java-to-box:
-    If(cond, then, else) -> box |[ V vs=0 [H hs=0 [KW["if"] "(" ~cond ")"] ~b1 KW["else"] ~b2] ]|
-      where <ensure-block> then => b1
-          ; <ensure-block> else => b2
+    If(b1, b2) -> box |[
+      V vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+    ]|
+      where <?Block(_)> b2
+
+  /**
+   * @todo make "else if" more pretty
+   */
+  java-to-box:
+    If(b1, b2, b3) -> box |[
+      V vs=0 [
+        V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+        V is=2 vs=0 [KW["else"] b3]
+      ]
+    ]|
+      where <not(?Block(_))> b2
+          ; <not(?Block(_))> b3
+
+  java-to-box:
+    If(b1, b2, b3) -> box |[
+      V vs=0 [
+        V vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+        V is=2 vs=0 [KW["else"] b3]
+      ]
+    ]|
+      where <?Block(_)> b2
+          ; <not(?Block(_))> b3
+
+  java-to-box:
+    If(b1, b2, b3) -> box |[
+      V vs=0 [
+        V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
+        V vs=0 [KW["else"] b3]
+      ]
+    ]|
+      where <not(?Block(_))> b2
+          ; <?Block(_)> b3
 
   ensure-block =
     ?Block(_) < id + !Block([<id>])

@@ -1,5 +1,5 @@
 module pp-Generic-Java
-imports Generic-Java Box option
+imports Generic-Java Box
 
 strategies
 

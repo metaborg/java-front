@@ -4,5 +4,5 @@ imports pp-Java
 strategies
 
   io-jtree2abox = 
-    iowrap(java-pretty-print)
+    io-wrap(java-pretty-print)
 

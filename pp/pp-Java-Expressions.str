@@ -2,12 +2,12 @@ module pp-Java-Expressions
 
 strategies
 
-  //TODO: use priorities to remove unnecessary ( )
   java-to-box =
-    expr-to-box; ?box; !|[ H hs=0 ["(" ~box ")"] ]|
+    expr-to-box
 
   java-to-box: Lit(l) -> l
 
+  expr-to-box: Parenthetical(e)           -> box |[ H hs=0 ["(" ~e ")"] ]|
   expr-to-box: Assign(lval, e)            -> box |[ H hs=1 [~lval "="    ~e] ]|
   expr-to-box: AssignMul(lval, e)         -> box |[ H hs=1 [~lval "*="   ~e] ]|
   expr-to-box: AssignDiv(lval, e)         -> box |[ H hs=1 [~lval "/="   ~e] ]|
