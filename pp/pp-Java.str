@@ -4,6 +4,8 @@ imports
   Box
   Java-15
   concrete-syntax
+  pp-Java-helpers
+
   pp-Java-Statements
   pp-Java-Expressions
   pp-Java-Literals 
@@ -12,11 +14,13 @@ imports
 
   // types
   pp-Java-ParameterizedTypes
+  pp-Java-TypeVariables
   pp-Java-PrimitiveTypes
   pp-Java-ReferenceTypes
 
   // classes
   pp-Java-EnumDeclarations
+  pp-Java-MethodDeclarations
 
   // interfaces
   pp-Java-Annotations
@@ -28,8 +32,6 @@ strategies
     ; concat-content
 
 strategies
-
-  java-to-box: Void() -> box |[ KW["void"] ]|
 
   java-to-box:
     CompilationUnit(Some(package), imports, types) -> box |[ V vs=1 [~package V vs=0 [ ~*imports ] V vs=1 [ ~*types ]] ]|
@@ -75,23 +77,6 @@ rules
   java-to-box:
     ClassBody(decs) -> <block-structure> (1, decs)
 
-  // TODO: use the integer in the vs.
-  block-structure:
-    (1, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=1 [~*elems]]] "}"] ]|
-    where
-      <not-empty> elems
-
-  block-structure:
-    (0, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=0 [~*elems]]] "}"] ]|
-      where
-        <not-empty> elems
-
-  block-structure:
-    (_, []) -> box |[ H hs=1 ["{" "}"] ]|
-
-  not-empty =
-    not(?[])
-
   java-to-box:
     None() -> box |[ H hs=0 [""] ]|
 
@@ -111,37 +96,6 @@ rules
 
 rules
 
-  hbox = 
-      ( is-list < id + ![<id>])
-    ; !box |[ H hs=0 [ ~*<id> ] ]|
-
-  comma = 
-    !box |[ "," ]|
-
-  point = 
-    !box |[ "." ]|
-
-  list-to-args:
-    [] -> box |[ H hs=0 ["(" ")"] ]|
-
-  list-to-args:
-    exprs@[_ | _ ] -> box |[ H hs=0 ["(" ~args ")"] ]|
-    where
-      <separate-by-comma> exprs => args
-
-  separate-by-comma =
-    rec x(
-      ?[<id>]
-    <+ \ [] -> H hs=0 [] \
-    <+ {b1, b2:
-         ?[b1 | <x>]
-       ; ?b2
-       ; !H hs=1 [H hs=0 [b1 ","] b2]
-       }
-    )
-
-rules
-
   java-to-box:
     StaticInit(b)   -> box |[ V vs=0 [KW["static"] ~b] ]|
 
@@ -151,41 +105,9 @@ rules
 rules
 
   java-to-box:
-    MethodDec(dec, b@Block(_)) -> V vs=0 [~dec b]
-
-  java-to-box:
-    MethodDec(dec, NoMethodBody()) -> H hs=0 [~dec ";"]
-
-  java-to-box:
     AbstractMethodDec(mods, type-params, type, Id(n), params, throws)
       ->
     box |[ H hs=0 [ ~MethodDecHead(mods, type-params, type, Id(n), params, throws) ";" ] ]|
-
-  java-to-box:
-    MethodDecHead(mods, type-params, type, Id(n), params, None())
-      ->
-    box |[ H hs=1 [~*foo ~type H hs=0 [~lit:n ~args]] ]|
-    where
-      <list-to-args> params => args
-    ; <type-args-to-boxes> type-params => targboxes
-    ; !Conc(mods, targboxes) => foo
-
-  java-to-box:
-    MethodDecHead(mods, type-params, type, Id(n), params, Some(throws))
-      ->
-    box |[ H hs=1 [~*foo ~type H hs=0 [~lit:n ~args] ~throws] ]|
-    where
-      <list-to-args> params => args
-    ; <type-args-to-boxes> type-params => targboxes
-    ; !Conc(mods, targboxes) => foo
-
-  java-to-box:
-    DeprMethodDecHead(mods, type-params, type, Id(n), params, dims, throws)
-      ->
-    H hs=1 [~*mods ~type b* H hs=0 [~lit:n ~args] H hs=0 [~*dims] ~throws]
-    where
-      <list-to-args> params => args
-    ; <type-args-to-boxes> type-params => b*
 
   java-to-box:
     ConstrDec(ConstrDecHead(mods, type-params, class, params, throws), body)
@@ -201,14 +123,6 @@ rules
 
   java-to-box:
     ConstrBody(Some(cinvoke), stms) -> <block-structure> (0, [cinvoke | stms])
-
-  java-to-box:
-    Param(mods, type, vardecid) -> H hs=1 [~*mods ~type ~vardecid]
-
-  java-to-box:
-    ThrowsDec(exceptions) -> H hs=1 [KW["throws"] ~excs]
-    where
-      <separate-by-comma> exceptions => excs
 
   java-to-box:
     FieldDec(mods, type, ds)

@@ -11,8 +11,11 @@ PP_MODULES = \
   pp-Java-Modifiers.str \
   pp-Java-Statements.str \
   classes/pp-java-EnumDeclarations.str \
+  classes/pp-java-MethodDeclarations.str \
   types/pp-Java-PrimitiveTypes.str \
   types/pp-Java-ReferenceTypes.str \
+  types/pp-Java-ParameterizedTypes.str \
+  types/pp-Java-TypeVariables.str \
   interfaces/pp-Java-Annotations.str \
   jtree2abox.str
 

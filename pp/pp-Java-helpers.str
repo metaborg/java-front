@@ -1,0 +1,61 @@
+module pp-Java-helpers
+rules
+
+  // TODO: use the integer in the vs.
+  block-structure:
+    (1, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=1 [~*elems]]] "}"] ]|
+    where
+      <not-empty> elems
+
+  block-structure:
+    (0, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=0 [~*elems]]] "}"] ]|
+      where
+        <not-empty> elems
+
+  block-structure:
+    (_, []) -> box |[ H hs=1 ["{" "}"] ]|
+
+  not-empty =
+    not(?[])
+
+  java-to-box:
+    SuperDec(c) -> box |[ H hs=1 [KW["extends"] ~c] ]|
+
+  java-to-box:
+    ImplementsDec(is) -> box |[ H hs=1 [KW["implements"] ~interfaces] ]|
+      where <separate-by-comma> is; ?interfaces
+
+  java-to-box:
+    ExtendsInterfaces(is) -> box |[ H hs=1 [KW["extends"] ~interfaces] ]|
+      where <separate-by-comma> is; ?interfaces
+
+rules
+
+  hbox = 
+      ( is-list < id + ![<id>])
+    ; !box |[ H hs=0 [ ~*<id> ] ]|
+
+  comma = 
+    !box |[ "," ]|
+
+  point = 
+    !box |[ "." ]|
+
+  list-to-args:
+    [] -> box |[ H hs=0 ["(" ")"] ]|
+
+  list-to-args:
+    exprs@[_ | _ ] -> box |[ H hs=0 ["(" ~args ")"] ]|
+    where
+      <separate-by-comma> exprs => args
+
+  separate-by-comma =
+    rec x(
+      ?[<id>]
+    <+ \ [] -> H hs=0 [] \
+    <+ {b1, b2:
+         ?[b1 | <x>]
+       ; ?b2
+       ; !H hs=1 [H hs=0 [b1 ","] b2]
+       }
+    )
