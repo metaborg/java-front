@@ -25,10 +25,42 @@ exports
     "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
 
   %%%
+   %% Quotations for Statements
+   %%%
+  context-free syntax
+    "java:bstm"  "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+         "bstm"  "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"       "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+                 "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:bstm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+         "bstm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:block-stm"  "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+         "block-stm"  "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"            "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+                      "|[" JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:block-stm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+         "block-stm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+
+  %%%
+   %% Anti Quotations for Statements
+   %%%
+  context-free syntax
+    "~"       StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
+    "~bstm:"  StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
+    "~*"      StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
+    "~bstm*:" StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
+
+    "~stm:"   StrategoTerm  -> JavaStm {cons("FromTerm"), prefer}
+    "~"       StrategoTerm  -> JavaStm {cons("FromTerm")}
+
+  %%%
    %% Variables for Types
    %%%
   variables
-    "t"  [0-9]* -> JavaType {prefer}
+    "t"  [0-9]* -> JavaType
     "ty" [0-9]* -> JavaType {prefer}
 
   %%%
@@ -69,7 +101,6 @@ exports
 
 
   context-free syntax
-
             "e" "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
     "java:expr" "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
          "expr" "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
@@ -101,26 +132,6 @@ exports
     "java"                 "|[" JavaClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
                            "|[" JavaClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
 
-    "java:bstm" "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-         "bstm" "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-    "java"      "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-                "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-
-    "java:bstm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-         "bstm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-    "java"       "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-                 "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-
-    "java:block-stm" "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-         "block-stm" "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-    "java"           "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-                     "|["  JavaBlockStm "]|" -> StrategoTerm {cons("ToTerm")}
-
-    "java:block-stm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-         "block-stm*" "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-    "java"            "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-                      "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
-
     "java:stm" "|["  JavaStm "]|" -> StrategoTerm {cons("ToTerm")}
          "stm" "|["  JavaStm "]|" -> StrategoTerm {cons("ToTerm")}
 
@@ -145,7 +156,6 @@ exports
                         "|["  JavaAbstractMethodDec*  "]|" -> StrategoTerm {cons("ToTerm")}
 
   %% Anti-quotation
-
   context-free syntax
 
     "~"      StrategoTerm -> JavaName {cons("FromTerm")}
@@ -167,15 +177,6 @@ exports
 
     "~"  StrategoTerm  ->  JavaFormalParam       {cons("FromTerm")}
     "~*" StrategoTerm  -> {JavaFormalParam ","}* {cons("FromTerm")}
-
-    "~"       StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
-    "~*"      StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
-    "~bstm:"  StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
-    "~bstm*:" StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
-
-    "~stm:" StrategoTerm  -> JavaStm {prefer, cons("FromTerm")}
-
-    "~"  StrategoTerm  -> JavaStm  {cons("FromTerm")}
 
     "~"      StrategoTerm  ->  JavaExpr {cons("FromTerm")}
     "~e:"    StrategoTerm  ->  JavaExpr {prefer, cons("FromTerm")}

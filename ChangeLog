@@ -1,4 +1,11 @@
-2004-15-10  Martin Bravenboer <martin@cs.uu.nl>
+2004-10-16  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/stratego-v1.5/Stratego-Java-15.sdf: removed the quotation
+	with explicit disambiguation for a list of block statement. This
+	is always ambiguous with a single block statement, which only
+	shows up if you disable the heuristic filters of sglr.
+	
+2004-10-15  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/v1.5/languages/java-15/lexical/Modifiers.sdf: added a
 	general sort Modifier.
