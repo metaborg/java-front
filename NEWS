@@ -4,35 +4,35 @@ Java Front for XT
 
 2002-11-13
 
-	* The Stratego-Box grammar has been removed from Java Front. It is temporary available
-    as a separate package stratego-box until it will be available as a part of GPP.
-    Please see the README for the INSTALLATION procedure.
+The Stratego-Box grammar has been removed from Java Front. It is
+temporary available as a separate package stratego-box until it will
+be available as a part of GPP.
 
 2002-08-21
 
-	* Java Front now comes with a grammar for Generic-Java.
-    Although Generic-Java is a language shared by many proposals for parameterized
-    types, this grammar is designed to be compatible with 
-    JSR-14: "Adding Generics to the Java Programming Language". Of course there is
-    also a Stratego-Generic-Java grammar. The pretty-printer has been extended to handle
-    generics.
+Java Front now comes with a grammar for Generic-Java.  Although
+Generic-Java is a language shared by many proposals for parameterized
+types, this grammar is designed to be compatible with JSR-14: "Adding
+Generics to the Java Programming Language". Of course there is also a
+Stratego-Generic-Java grammar. The pretty-printer has been extended to
+handle generics.
 
 2002-08-20
 
-	* The grammar for mixing Stratego and Java has been improved after some
-    code generation experiments. Future versions of Java Front might include
-    some strategies for code-generation in Stratego.
+The grammar for mixing Stratego and Java has been improved after some
+code generation experiments. Future versions of Java Front might
+include some strategies for code-generation in Stratego.
 
 2002-08-19
 
-	* Java Front now comes with a hand-crafted pretty printer
-    This pretty-printer has been written in Stratego with concrete syntax for the box language
-    of Merijn de Jonge.
+Java Front now comes with a hand-crafted pretty printer This
+pretty-printer has been written in Stratego with concrete syntax for
+the box language of Merijn de Jonge.
 
 2002-08-05
 
-	* Started including the huge test-suite 'Jacks'.
+Started including the huge test-suite 'Jacks'.
 
 2002-07-27
 
-	* Creation of package
+Creation of package
