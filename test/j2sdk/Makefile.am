@@ -27,8 +27,6 @@ PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java
 PARSEJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call parse-java
 PPJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call pp-java
 
-check : ppcheck
-
 # pretty-print tests
 ppcheck : j2sdk.list
 	FILES="`cat j2sdk.list`" && \
