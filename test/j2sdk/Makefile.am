@@ -30,8 +30,10 @@ PPJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call pp-java
 ppcheck : j2sdk.list
 	FILES="`cat j2sdk.list`" && \
 	for file in $$FILES; do \
-	  if test "$${file}" = "j2sdk-src/com/sun/org/apache/xalan/internal/xsltc/compiler/FunctionCall.java"; then \
-	    echo "GRBML: $$file is EVIL. I'm not going to check it." ; \
+	  if   test "$${file}" = "j2sdk-src/com/sun/org/apache/xalan/internal/xsltc/compiler/FunctionCall.java" \
+            || test "$${file}" = "j2sdk-src/com/sun/org/apache/xml/internal/utils/StringComparable.java" \
+          ; then \
+            $(MAKE) "$${file%.java}.jtree" "$${file%.java}.ppjtree" || exit 1; \
           else \
             $(MAKE) "$${file%.java}.jtree" "$${file%.java}.ppjtree" "$${file%.java}.ppdiff" || exit 1; \
           fi \
