@@ -12,7 +12,7 @@ classpath-0.07 : classpath-0.07.tar.gz
 gnu-classpath.%.list : classpath-0.07
 	find classpath-0.07/$* -name '*.java' | sort > $@
 
-gnu-classpath.%.testsuite : gnu-classpath.%.list $(prefix)/bin/files2parse-unit-testsuite
+gnu-classpath.%.atestsuite : gnu-classpath.%.list $(prefix)/bin/files2parse-unit-testsuite
 	$(prefix)/bin/files2parse-unit-testsuite -i $< -o $@
 
 gnucheck : $(GNU_TESTSUITES:.testsuite=.runtestsuite)

@@ -9,7 +9,7 @@ j2sdk-src : src.zip
 j2sdk.%.list : j2sdk-src
 	find j2sdk-src/$* -name '*.java' | sort > $@
 
-j2sdk.%.testsuite : j2sdk.%.list $(prefix)/bin/files2parse-unit-testsuite
+j2sdk.%.atestsuite : j2sdk.%.list $(prefix)/bin/files2parse-unit-testsuite
 	$(prefix)/bin/files2parse-unit-testsuite -i $< -o $@
 
 j2sdkcheck : $(J2SDK_TESTSUITES:.testsuite=.runtestsuite)

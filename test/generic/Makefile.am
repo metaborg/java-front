@@ -2,7 +2,7 @@ include $(top_srcdir)/Makefile.xt
 
 SUBDIRS           = compilation-units
 BOOTCLEAN_SUBDIRS = $(SUBDIRS)
-EXTRA_DIST        = $(wildcard *.testsuite)
+EXTRA_DIST        = $(wildcard *.testsuite) $(wildcard *.atestsuite)
 
 PARSE_UNIT_TESTSUITES = \
   generic-compilation-unit.testsuite
