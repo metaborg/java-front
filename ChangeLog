@@ -1,4 +1,10 @@
 2004-07-25  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/basic/Java-Literals.sdf: improved representation of class
+	literals. A class literal is now Lit(Class(type)).
+
+	* pp/pp-Java-Literals.str: fixed pretty-printing of class
+	literals.
 	
 	* pp/jtree-parenthesize.str: parenthesize requires latest
 	StrategoXT sources (2004-07-25) to handle all priority problems in

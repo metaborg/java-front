@@ -24,7 +24,7 @@ exports
      CharLiteral -> Literal
    StringLiteral -> Literal
      NullLiteral -> Literal
-    ClassLiteral -> Literal {cons("Class")}
+    ClassLiteral -> Literal
 
     DeciLiteral -> IntLiteral {cons("Deci")}
     HexaLiteral -> IntLiteral {cons("Hexa")}
