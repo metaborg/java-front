@@ -29,7 +29,7 @@ check : parsecheck
 parsecheck : gnu-classpath.list
 	FILES="`cat gnu-classpath.list`" && \
 	for file in $$FILES; do \
-	    grep ' enum ' "$$file" \
+	    grep ' enum =' "$$file" \
             || $(MAKE) "$${file%.java}.jtree" \
             || exit 1; \
 	done
