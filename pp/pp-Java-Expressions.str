@@ -68,13 +68,13 @@ strategies
     Method(n) -> n
 
   java-to-box: 
-    Method(e, i) -> box |[ H hs=0 [~e "." ~S(i)] ]|
+    Method(e, Id(i)) -> box |[ H hs=0 [~e "." ~S(i)] ]|
 
   java-to-box: 
-    SuperMethod(i) -> box |[ H hs=0 [KW["super"] "." ~S(i)] ]|
+    SuperMethod(Id(i)) -> box |[ H hs=0 [KW["super"] "." ~S(i)] ]|
 
   java-to-box: 
-    QSuperMethod(q, i) -> box |[ H hs=0 [~q "." KW["super"] "." ~S(i)] ]|
+    QSuperMethod(q, Id(i)) -> box |[ H hs=0 [~q "." KW["super"] "." ~S(i)] ]|
 
   java-to-box: 
     NewInstance(type, exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~args] ]|
