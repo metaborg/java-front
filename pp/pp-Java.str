@@ -23,6 +23,7 @@ imports
   pp-Java-MethodDeclarations
 
   // interfaces
+  pp-Java-AnnotationTypes
   pp-Java-Annotations
 
 strategies

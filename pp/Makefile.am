@@ -16,6 +16,7 @@ PP_MODULES = \
   types/pp-Java-ReferenceTypes.str \
   types/pp-Java-ParameterizedTypes.str \
   types/pp-Java-TypeVariables.str \
+  interfaces/pp-Java-AnnotationTypes.str \
   interfaces/pp-Java-Annotations.str \
   jtree2abox.str
 
