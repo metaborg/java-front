@@ -1,5 +1,5 @@
 AC_INIT(java-front, 0.3.0, martin@mbravenboer.org)
-AM_INIT_AUTOMAKE([dist-bzip2])
+AM_INIT_AUTOMAKE
 
 USE_XT_PACKAGES
 
@@ -34,7 +34,5 @@ AC_CONFIG_FILES([
   test/basic/statements/Makefile  
   test/generic/Makefile
   test/generic/compilation-units/Makefile
-
-
 ])
 AC_OUTPUT

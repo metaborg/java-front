@@ -7,3 +7,6 @@ DIST_SUBDIRS      = $(SUBDIRS)
 EXTRA_DIST        = Makefile.xt java-front.spec java-front.spec.in
 
 XTC_IMPORT = $(STRATEGOXT)/share/StrategoXT/XTC
+
+fixeddist : dist
+	mv $(PACKAGE)-$(VERSION).tar.gz $(PACKAGE).tar.gz
