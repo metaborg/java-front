@@ -1,12 +1,14 @@
 module Java
-imports Java-Lexical
-        Java-Names
-        Java-TypeDecs
+imports
+  Java-Lexical
+  Java-Names
+  Java-TypeDecs
+
 exports
-  sorts CompilationUnit
+  context-free start-symbols CompilationUnit
 
+  sorts CompilationUnit PackageDec ImportDec TypeDec TypeImportDec PackageImportDec
   context-free syntax
-
     PackageDec? ImportDec* TypeDec+ -> CompilationUnit   {cons("CompilationUnit")}
 
     "package" PackageName ";" -> PackageDec {cons("PackageDec")}

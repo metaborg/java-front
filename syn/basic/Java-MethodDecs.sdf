@@ -5,7 +5,7 @@ imports Java-Lexical
         Java-Names
         Java-VarDecs
 exports
-
+  sorts MethodDec MethodHead ResultType FormalParam Throws
   context-free syntax
 
     MethodHead Block -> MethodDec {cons("MethodDec")}

@@ -6,8 +6,8 @@ imports Java-Names
         Java-Types
 
 exports
+  context-free start-symbols ClassDec
   sorts ClassDec ClassBodyDec
-
   context-free syntax
 
     ClassMod* "class" Id  Super? Interfaces? ClassBody -> ClassDec {cons("ClassDec")}

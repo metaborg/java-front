@@ -2,8 +2,8 @@ module Java-StaticImport
 imports Java
 
 exports
+  sorts StaticImport
   context-free syntax
-
     StaticImport -> ImportDec {cons("ImportDec")}
 
     "import" "static" TypeName "." Id  ";"  -> StaticImport {cons("TypeMemberRef")}

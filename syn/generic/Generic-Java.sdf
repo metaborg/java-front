@@ -2,6 +2,7 @@ module Generic-Java
 imports Java Java-StaticImport
 
 exports
+  sorts ClassDec MethodHead AMethodHead 
   context-free syntax
 
     %% declarations

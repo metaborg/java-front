@@ -3,6 +3,7 @@ imports Java-Interfaces
         Java-Classes
 
 exports
+  context-free start-symbols TypeDec
   sorts TypeDec
 
   context-free syntax

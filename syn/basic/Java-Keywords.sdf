@@ -1,7 +1,7 @@
 module Java-Keywords
 
 exports
-
+  sorts Keyword
   lexical syntax
     "abstract"      -> Keyword
     "assert"        -> Keyword

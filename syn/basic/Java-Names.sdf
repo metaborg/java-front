@@ -2,7 +2,6 @@ module Java-Names
 imports Java-Identifiers
 
 exports
-
   context-free syntax
 
   %% TODO: is layout allowed between parts of names?

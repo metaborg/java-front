@@ -2,6 +2,7 @@ module Java-Expressions
 imports Java-Literals
 
 exports
+  context-free start-symbols Expr
   sorts Expr
 
   context-free syntax

@@ -2,6 +2,7 @@ module Java-Statements
 imports Java-Expressions Java-Types
 
 exports
+  context-free start-symbols BlockStm Block Stm
   sorts BlockStm Block Stm
 
   context-free syntax

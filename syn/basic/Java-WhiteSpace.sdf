@@ -2,13 +2,13 @@ module Java-WhiteSpace
 exports
   sorts LineTerminator
   lexical syntax
-    [\ \t\12\13\n] -> LAYOUT
+    [\ \t\12\r\n] -> LAYOUT
 
-    [\13]          -> LineTerminator
-    [\n][\13]?     -> LineTerminator
+    [\r]          -> LineTerminator
+    [\n][\r]?     -> LineTerminator
 
   context-free restrictions
-    LAYOUT? -/- [\ \t\n\13]
+    LAYOUT? -/- [\ \t\n\r]
 
-%%% f = 12
-%%% r = 13
+  %%% f = 12
+

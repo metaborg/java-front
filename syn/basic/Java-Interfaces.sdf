@@ -6,6 +6,7 @@ imports Java-Names
         Java-VarDecs
 
 exports
+  context-free start-symbols InterfaceDec
   sorts InterfaceDec
 
   context-free syntax

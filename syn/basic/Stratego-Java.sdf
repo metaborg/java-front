@@ -2,6 +2,7 @@ module Stratego-Java
 imports Java-Prefixed StrategoRenamed
 
 exports
+  context-free start-symbols StrategoModule
   context-free syntax
 
             "e" "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
