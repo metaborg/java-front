@@ -1,5 +1,13 @@
 2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/pp-Java-Expressions.str: fix in the pretty-printing of
+	fields.
+
+	* pp/pp-Java.str: fix in the pretty-printing of
+	constant declarations in interfaces.
+		
+2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
+
 	* syn/basic/Java-Statements.sdf: improved the representation of
 	the for statement. This first subterm is now a list of
 	expressions or a single local variable declaration. The second

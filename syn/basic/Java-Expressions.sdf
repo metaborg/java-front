@@ -22,6 +22,7 @@ exports
              "new" ClassOrInterfaceType "(" {Expr ","}* ")" ClassBody? -> Expr {cons("NewInstance")}
     Expr "." "new" Id                   "(" {Expr ","}* ")" ClassBody? -> Expr {cons("QNewInstance")}
 
+  sorts FieldAccess
   context-free syntax
 
                      Expr "." Id -> FieldAccess {cons("Field")}
@@ -29,6 +30,7 @@ exports
                   "super" "." Id -> FieldAccess {cons("SuperField")}
     ClassName "." "super" "." Id -> FieldAccess {cons("QSuperField")}
 
+  sorts ArrayAccess ArraySubscript ArrayCreationExpr ArrayBaseType Dim DimExpr
   context-free syntax
 
     Expr ArraySubscript -> ArrayAccess {cons("ArrayAccess")}
@@ -45,6 +47,7 @@ exports
     "[" Expr "]" -> DimExpr {cons("Dim")}
     "[" "]"      -> Dim     {cons("Dim")}
 
+  sorts MethodId LHS
   context-free syntax
 
     MethodId "(" {Expr ","}* ")" -> Expr {cons("Invoke")}

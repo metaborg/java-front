@@ -21,35 +21,35 @@ strategies
   expr-to-box: AssignExcOr(lval, e)       -> box |[ H hs=1 [~lval "^="   ~e] ]|
   expr-to-box: AssignOr(lval, e)          -> box |[ H hs=1 [~lval "|="   ~e] ]|
 
-  expr-to-box: Plus(e)     -> box |[ H hs=0 [   "+"  ~e] ]|
-  expr-to-box: Minus(e)    -> box |[ H hs=0 [   "-"  ~e] ]|
-  expr-to-box: PreIncr(e)  -> box |[ H hs=0 [   "++" ~e] ]|
-  expr-to-box: PreDecr(e)  -> box |[ H hs=0 [   "--" ~e] ]|
-  expr-to-box: PostIncr(e) -> box |[ H hs=0 [~e "++"   ] ]|
-  expr-to-box: PostDecr(e) -> box |[ H hs=0 [~e "--"   ] ]|
+  expr-to-box: Plus(e)     -> H hs=0 [   "+"  ~e]
+  expr-to-box: Minus(e)    -> H hs=0 [   "-"  ~e]
+  expr-to-box: PreIncr(e)  -> H hs=0 [   "++" ~e]
+  expr-to-box: PreDecr(e)  -> H hs=0 [   "--" ~e]
+  expr-to-box: PostIncr(e) -> H hs=0 [~e "++"   ]
+  expr-to-box: PostDecr(e) -> H hs=0 [~e "--"   ]
 
-  expr-to-box: Mul(e1, e2)          -> box |[ H hs=1 [~e1  "*"   ~e2] ]|
-  expr-to-box: Div(e1, e2)          -> box |[ H hs=1 [~e1  "/"   ~e2] ]|
-  expr-to-box: Remain(e1, e2)       -> box |[ H hs=1 [~e1  "%"   ~e2] ]|
-  expr-to-box: Plus(e1, e2)         -> box |[ H hs=1 [~e1  "+"   ~e2] ]|
-  expr-to-box: Minus(e1, e2)        -> box |[ H hs=1 [~e1  "-"   ~e2] ]|
-  expr-to-box: LeftShift(e1, e2)    -> box |[ H hs=1 [~e1  "<<"  ~e2] ]|
-  expr-to-box: RightShift(e1, e2)   -> box |[ H hs=1 [~e1  ">>"  ~e2] ]|
-  expr-to-box: URightShift(e1, e2)  -> box |[ H hs=1 [~e1  ">>>" ~e2] ]|
+  expr-to-box: Mul(e1, e2)          -> H hs=1 [~e1  "*"   ~e2]
+  expr-to-box: Div(e1, e2)          -> H hs=1 [~e1  "/"   ~e2]
+  expr-to-box: Remain(e1, e2)       -> H hs=1 [~e1  "%"   ~e2]
+  expr-to-box: Plus(e1, e2)         -> H hs=1 [~e1  "+"   ~e2]
+  expr-to-box: Minus(e1, e2)        -> H hs=1 [~e1  "-"   ~e2]
+  expr-to-box: LeftShift(e1, e2)    -> H hs=1 [~e1  "<<"  ~e2]
+  expr-to-box: RightShift(e1, e2)   -> H hs=1 [~e1  ">>"  ~e2]
+  expr-to-box: URightShift(e1, e2)  -> H hs=1 [~e1  ">>>" ~e2]
 
-  expr-to-box: Lt(e1, e2)           -> box |[ H hs=1 [~e1  "<"   ~e2] ]|
-  expr-to-box: Gt(e1, e2)           -> box |[ H hs=1 [~e1  ">"   ~e2] ]|
-  expr-to-box: LtEq(e1, e2)         -> box |[ H hs=1 [~e1  "<="  ~e2] ]|
-  expr-to-box: GtEq(e1, e2)         -> box |[ H hs=1 [~e1  ">="  ~e2] ]|
-  expr-to-box: Eq(e1, e2)           -> box |[ H hs=1 [~e1  "=="  ~e2] ]|
-  expr-to-box: NotEq(e1, e2)        -> box |[ H hs=1 [~e1  "!="  ~e2] ]|
-  expr-to-box: LazyAnd(e1, e2)      -> box |[ H hs=1 [~e1  "&&"  ~e2] ]|
-  expr-to-box: LazyOr(e1, e2)       -> box |[ H hs=1 [~e1  "||"  ~e2] ]|
-  expr-to-box: And(e1, e2)          -> box |[ H hs=1 [~e1  "&"   ~e2] ]|
-  expr-to-box: ExcOr(e1, e2)        -> box |[ H hs=1 [~e1  "^"   ~e2] ]|
-  expr-to-box: Or(e1, e2)           -> box |[ H hs=1 [~e1  "|"   ~e2] ]|
+  expr-to-box: Lt(e1, e2)           -> H hs=1 [~e1  "<"   ~e2]
+  expr-to-box: Gt(e1, e2)           -> H hs=1 [~e1  ">"   ~e2]
+  expr-to-box: LtEq(e1, e2)         -> H hs=1 [~e1  "<="  ~e2]
+  expr-to-box: GtEq(e1, e2)         -> H hs=1 [~e1  ">="  ~e2]
+  expr-to-box: Eq(e1, e2)           -> H hs=1 [~e1  "=="  ~e2]
+  expr-to-box: NotEq(e1, e2)        -> H hs=1 [~e1  "!="  ~e2]
+  expr-to-box: LazyAnd(e1, e2)      -> H hs=1 [~e1  "&&"  ~e2]
+  expr-to-box: LazyOr(e1, e2)       -> H hs=1 [~e1  "||"  ~e2]
+  expr-to-box: And(e1, e2)          -> H hs=1 [~e1  "&"   ~e2]
+  expr-to-box: ExcOr(e1, e2)        -> H hs=1 [~e1  "^"   ~e2]
+  expr-to-box: Or(e1, e2)           -> H hs=1 [~e1  "|"   ~e2]
 
-  expr-to-box: InstanceOf(e1, e2)   -> box |[ H hs=1 [~e1 "instanceof" ~e2] ]|
+  expr-to-box: InstanceOf(e1, e2)   -> H hs=1 [~e1 "instanceof" ~e2]
 
   expr-to-box: Complement(e)         -> box |[ H hs=0 ["~" ~e] ]|
   expr-to-box: Not(e)                -> box |[ H hs=0 ["!" ~e] ]|
@@ -68,13 +68,13 @@ strategies
     Method(n) -> n
 
   java-to-box: 
-    Method(e, Id(i)) -> box |[ H hs=0 [~e "." ~S(i)] ]|
+    Method(e, Id(s)) -> box |[ H hs=0 [~e "." s] ]|
 
   java-to-box: 
-    SuperMethod(Id(i)) -> box |[ H hs=0 [KW["super"] "." ~S(i)] ]|
+    SuperMethod(Id(s)) -> box |[ H hs=0 [KW["super"] "." s] ]|
 
   java-to-box: 
-    QSuperMethod(q, Id(i)) -> box |[ H hs=0 [~q "." KW["super"] "." ~S(i)] ]|
+    QSuperMethod(q, Id(s)) -> box |[ H hs=0 [~q "." KW["super"] "." s] ]|
 
   java-to-box: 
     NewInstance(type, exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~args] ]|
@@ -89,7 +89,7 @@ strategies
       where <list-to-args> exprs => args
 
   java-to-box: 
-    QNewInstance(e, n, exprs, Some(body)) -> box |[ V vs=0 [H hs=0 [~e "." H hs=1 [KW["new"] ~S(n)] ~args] ~body] ]|
+    QNewInstance(e, s, exprs, Some(body)) -> box |[ V vs=0 [H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ~body] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 
@@ -99,16 +99,16 @@ strategies
     NewArray(type, dims, init@ArrayInit(_, _)) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dims ~init] ]|
 
   java-to-box: 
-    ArrayAccess(e1, e2) -> box |[ H hs=0 [ ~e1 "[" ~e2 "]"] ]|
+    ArrayAccess(b1, b2) -> H hs=0 [ b1 "[" b2 "]"]
 
   java-to-box: 
-    Cast(t, e) -> box |[ H hs=0 ["(" ~t ")" ~e] ]|
+    Cast(b1, b2) -> H hs=0 ["(" b1 ")" b2]
 
   java-to-box: 
-    Field(e, n) -> box |[ H hs=0 [~e "." ~S(n)] ]|
+    Field(b, Id(s)) -> H hs=0 [b "." s]
 
   java-to-box: 
-    SuperField(n) -> box |[ H hs=0 [KW["super"] "." ~S(n)] ]|
+    SuperField(Id(s)) -> H hs=0 [KW["super"] "." s]
 
   java-to-box: 
-    QSuperField(q, n) -> box |[ H hs=0 [~q "." KW["super"] "." ~S(n)] ]|
+    QSuperField(b, Id(s)) -> H hs=0 [b "." KW["super"] "." s]

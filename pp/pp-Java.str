@@ -181,6 +181,9 @@ rules
       where <separate-by-comma> ds => decs
 
   java-to-box:
+    ConstantDec(mods, type, ds) -> FieldDec(mods, type, ds)
+
+  java-to-box:
     VarDec(i) -> i
 
   java-to-box:

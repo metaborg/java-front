@@ -30,5 +30,27 @@ GNU_TESTSUITES = \
   gnu-classpath.gnu.testsuite
 
 PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java.tbl`"
+PARSEJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call parse-java
+PPJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call pp-java
 
-check : gnucheck
+check : gnucheck ppcheck
+
+# pretty-print tests
+ppcheck : gnu-classpath.java.list
+	FILES="`cat gnu-classpath.java.list`" && \
+	for file in $$FILES; do \
+		$(MAKE) "$${file%.java}.ppjtree" || exit 1; \
+	done
+
+%.ppdiff : %.jtree %.ppjtree
+	diff $*.jtree $*.ppjtree 
+
+%.ppjtree : %.java
+	$(PARSEJAVA) -i $<  \
+	| $(PPJAVA) \
+	| $(PARSEJAVA) \
+	| $(ATERM_FRONT)/bin/pp-aterm -o $@
+
+%.jtree : %.java
+	$(PARSEJAVA) -i $< \
+	| $(ATERM_FRONT)/bin/pp-aterm -o $@
