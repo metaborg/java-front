@@ -80,7 +80,8 @@ exports
     "~name:" StrategoTerm -> JavaName {cons("FromTerm")}
     "~*:"    StrategoTerm -> JavaName {cons("FromTerm")}
 
-    "~"  StrategoTerm  -> JavaType {cons("FromTerm")}
+    "~"       StrategoTerm -> JavaType {cons("FromTerm")}
+    "~type:"  StrategoTerm -> JavaType {cons("FromTerm")}
 
     "~"     StrategoTerm     -> JavaId   {cons("FromTerm")}
     "~id:"  StrategoTerm     -> JavaId   {cons("FromTerm")}
@@ -128,4 +129,4 @@ exports
     "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
     [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
     [xyz]  [0-9]*     -> JavaID          {prefer}
-
+    "ty"   [0-9]*     -> JavaType        {prefer}
