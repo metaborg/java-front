@@ -29,24 +29,38 @@ exports
     [0][xX] [0-9a-fA-F]+ -> HexaNumeral
     [0]     [0-7]+       -> OctaNumeral
 
+  lexical restrictions
+    DeciNumeral -/- [0-9\.fFdD]
+    HexaNumeral -/- [0-9a-fA-F]
+    OctaNumeral -/- [0-7]
+
+    DeciLiteral -/- [lL]
+    HexaLiteral -/- [lL]
+    OctaLiteral -/- [lL]
+
   sorts
-    Float
+    FloatNumeral
     FloatLiteral
     FloatDigits
     ExponentPart
 
   context-free syntax
-    Float -> FloatLiteral {cons("Float")}
+    FloatNumeral -> FloatLiteral {cons("Float")}
 
   lexical syntax
-    FloatDigits ExponentPart?  [fFdD]? -> Float
-    [0-9]+ -> Float {reject}
+    FloatDigits ExponentPart? [fFdD]? -> FloatNumeral
+    [0-9]+ -> FloatNumeral {reject}
 
     [0-9]* "." [0-9]* -> FloatDigits
            "."        -> FloatDigits {reject}
     [0-9]+            -> FloatDigits
 
     [eE] [\-\+]? [0-9]+ -> ExponentPart
+
+  lexical restrictions
+    FloatDigits  -/- [0-9]
+    ExponentPart -/- [0-9]
+    FloatNumeral -/- [fFdD]
 
   sorts
     Bool

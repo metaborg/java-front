@@ -27,6 +27,9 @@ test string literal with lots of unicode escapes
 test 0F
   "0F" -> Lit(Float("0F"))
 
+test 0.f
+  "0.f" -> Lit(Float("0.f"))
+
 test simple addition
   "2 + 3" -> Plus(Lit(Deci("2")), Lit(Deci("3")))
 
