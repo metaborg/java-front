@@ -39,10 +39,8 @@ ppcheck : gnu-classpath.list
 %.ppdiff : %.jtree %.ppjtree
 	diff $*.jtree $*.ppjtree
 
-%.ppjtree : %.java
-	$(PARSEJAVA) -i $<  \
-	| $(PPJAVA) \
-	| $(PARSEJAVA) -o $@
+%.ppjtree : %.jtree
+	$(PPJAVA) -i $< | $(PARSEJAVA) -o $@
 
 %.jtree : %.java
 	$(PARSEJAVA) -i $< -o $@
