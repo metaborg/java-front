@@ -1,10 +1,71 @@
+/**
+ * Parses a Java source file to an abstract syntax tree.
+ *
+ * @author  Martin Bravenboer <martin@cs.uu.nl>
+ */
 module parse-java
-imports liblib strategoxt-xtc-tools
+imports liblib strategoxt-xtc-tools tool-doc
 
 strategies
 
   main-parse-java =
     xtc-io-wrap(
-      xtc-sglr(!"Generic-Java.tbl", !"CompilationUnit")
-    ; xtc-implode-asfix
+      release-option
+    , parse-java-usage
+    , parse-java-about
+    , !["sglr", "implode-asfix", "Generic-Java.tbl", "Java.tbl"]
+    , parse-java
     )
+
+  parse-java =
+      xtc-sglr(get-parse-table, !"CompilationUnit")
+    ; xtc-implode-asfix
+
+/**
+ * Release option
+ */
+strategies
+
+  release-option =
+    ArgOption("--release"
+    , set-release-option
+    , !HelpString("--release r", "parse for release r [1.5]")
+    )
+
+  set-release-option = 
+    switch id 
+      case "1.4" : !"Java.tbl"
+      case "1.5" : !"Generic-Java.tbl"
+      otherwise :
+        <fprint> (<stderr-stream>, ["parse-java: parsing for release ", <id>, " is not supported.\n"])
+    end
+    ; <set-config> ("parsetable", <id>)
+
+  get-parse-table =
+    <get-config> "parsetable" <+ !"Generic-Java.tbl"
+
+/**
+ * Documentation
+ */
+strategies
+
+  parse-java-usage =
+    <tool-doc>
+      [ Usage("parse-java [OPTIONS]")
+      , Summary(
+         "Parses a Java source file to an abstract syntax 
+          tree in the ATerm format.")
+      , OptionUsage()
+      , AutoReportBugs()
+      ]
+
+  parse-java-about =
+    <tool-doc>
+      [ AutoProgram()
+      , Author(Person("Martin Bravenboer", "martin@cs.uu.nl"))
+      , GNU_LGPL("2002-2004", "Martin Bravenboer <martin@cs.uu.nl>")
+      , Config([
+          DefaultXTCRepository()
+        , CurrentXTCRepository()
+        ])
+      ]

@@ -1,3 +1,12 @@
+2004-07-07  Martin Bravenboer <martin@cs.uu.nl>
+
+	* xtc/parse-java.str: added a --release flag to the parse-java
+	util. Use parse-java --release 1.4 to parse classic Java. Default
+	is 1.5.
+
+	* xtc/parse-java.str: added some documentation in the form of
+	tool-doc.
+	
 2004-06-30  Martin Bravenboer <martin@cs.uu.nl>
 
 	* pp/pp-Java.str: now uses a generated java-parenthesize
