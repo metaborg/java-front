@@ -20,6 +20,7 @@ AC_CONFIG_FILES([
 	sig/generic/Makefile
 
 	pp/Makefile
+	xtc/Makefile
   
   test/Makefile
   test/basic/Makefile
@@ -29,5 +30,7 @@ AC_CONFIG_FILES([
   test/basic/statements/Makefile  
   test/generic/Makefile
   test/generic/compilation-units/Makefile
+
+
 ])
 AC_OUTPUT

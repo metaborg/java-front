@@ -1,0 +1,10 @@
+module parse-java
+imports xtc-lib stratego-xt-xtc-tools
+
+strategies
+
+  main-parse-java =
+    xtc-io-wrap(
+      xtc-sglr(!"Generic-Java.tbl", !"CompilationUnit")
+    ; xtc-implode-asfix
+    )

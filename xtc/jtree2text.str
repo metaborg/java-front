@@ -1,0 +1,10 @@
+module jtree2text
+imports xtc-lib stratego-xt-xtc-tools
+
+strategies
+
+  main-jtree2text =
+    xtc-io-wrap(
+      xtc-transform(!"jtree2abox")
+    ; xtc-abox2text
+    )
