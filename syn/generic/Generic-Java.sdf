@@ -1,5 +1,5 @@
 module Generic-Java
-imports Java
+imports Java Java-StaticImport
 
 exports
   context-free syntax

@@ -1,3 +1,10 @@
+2004-04-07  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/generic/Java-StaticImport.sdf: added production rules for
+	the static import facility of 1.5.
+
+	* pp/pp-Java.str: added pretty-print rules for static import.
+	
 2004-03-16  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/eblock/*: implemented an extension of Generic-Java with

@@ -37,13 +37,23 @@ strategies
   java-to-box:
     PackageDec(name) -> box |[ H [KW["package"] H hs=0 [~name ";"]] ]|
 
+rules
+
   java-to-box:
     ImportDec(r) ->  r
 
   java-to-box:
     TypeRef(tname) -> box |[ H [KW["import"] H hs=0 [~tname ";"]] ]|
+
   java-to-box:
     PackageRef(pname) -> box |[ H hs=1 [KW["import"] H hs=0 [~pname ".*;"]] ]|
+
+  java-to-box:
+    TypeMemberRef(tname, Id(s)) -> box |[ H hs=1 [KW["import"] KW["static"] H hs=0 [~tname "." s ";"]] ]|
+  java-to-box:
+    TypeMembersRef(tname)  -> box |[ H hs=1 [KW["import"] KW["static"] H hs=0 [~tname "." "*" ";"]] ]|
+
+rules
 
   java-to-box:
     Semicolon() -> box |[ "" ]|

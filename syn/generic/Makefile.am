@@ -34,7 +34,8 @@ Generic-Java.def : \
   ${top_srcdir}/syn/basic/Java-Types.sdf \
   ${top_srcdir}/syn/basic/Java-VarDecs.sdf \
   ${top_srcdir}/syn/basic/Java-WhiteSpace.sdf \
-  Generic-Java.sdf
+  Generic-Java.sdf \
+  Java-StaticImport.sdf
 
 Stratego-Generic-Java.def : \
   Generic-Java.def \

@@ -20,5 +20,6 @@ TestSuite(
   , Test(Descr("field declaration with initial value"), File("compilation-units/Test13.java"), Success())
   , Test(Descr("private field declaration"), File("compilation-units/Test14.java"), Success())
   , Test(Descr("private, static, final field declaration"), File("compilation-units/Test15.java"), Success())
+  , Test(Descr("static imports"), File("compilation-units/StaticImport.java"), Success())
   ])
 )
