@@ -1,5 +1,6 @@
 module Java-WhiteSpace
 exports
+  sorts LineTerminator
   lexical syntax
     [\ \t\12\13\n] -> LAYOUT
 

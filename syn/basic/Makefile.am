@@ -8,7 +8,7 @@ sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
 pkgdata_DATA   = Java.rhg-nf
 
 EXTRA_DIST     = $(sdfdata_DATA)
-BOOTCLEANFILES = $(TBLS_DEFS)
+BOOTCLEANFILES = $(TBLS_DEFS) Java-Prefixed.sdf
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front
 PGEN_FLAGS     = -m $*
@@ -35,5 +35,8 @@ Java.def : \
   Java-WhiteSpace.sdf
 
 Stratego-Java.def : \
-  Java.def \
+  Java-Prefixed.sdf \
   Stratego-Java.sdf
+
+Java-Prefixed.sdf: Java.def
+	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Java --name Java-Prefixed --prefix Java

@@ -58,9 +58,9 @@ exports
     CharLiteral   -> <CharLiteral-CF>
 
     "\"" StringPart* "\"" -> StringLiteral {cons("String")}
-    <StringChars-LEX> -> StringPart {cons("Chars")}
-    UnicodeEscape     -> StringPart
-    EscapeSeq         -> StringPart
+    StringChars    -> StringPart {cons("Chars")}
+    UnicodeEscape  -> StringPart
+    EscapeSeq      -> StringPart
 
     "'" CharContent "'" -> CharLiteral {cons("Char")}
     ~[\12\13\'\\] -> CharContent {cons("Single")}
@@ -71,15 +71,16 @@ exports
     NamedEscape -> EscapeSeq
 
     "\\" [u]+ [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] -> UnicodeEscape {cons("UnicodeEscape")}
-    "\\" [btnfr\"\'\\]        -> NamedEscape {cons("NamedEscape")}
-    "\\" <LastOcta-LEX>       -> OctaEscape  {cons("OctaEscape")}
-    "\\" [0-7] <LastOcta-LEX> -> OctaEscape  {cons("OctaEscape")}
-    "\\" [0-3] [0-7] [0-7]    -> OctaEscape  {cons("OctaEscape")}
+    "\\" [btnfr\"\'\\]     -> NamedEscape {cons("NamedEscape")}
+    "\\" LastOcta          -> OctaEscape  {cons("OctaEscape")}
+    "\\" [0-7] LastOcta    -> OctaEscape  {cons("OctaEscape")}
+    "\\" [0-3] [0-7] [0-7] -> OctaEscape  {cons("OctaEscape")}
 
-  lexical syntax
     [0-7]          -> LastOcta
-    ~[\"\\\n\13]+  -> StringChars
+    <FooStringChars-LEX> -> StringChars
 
-  lexical restrictions
+    ~[\"\\\n\13]+  -> <FooStringChars-LEX>
+
+  restrictions
     StringChars -/- ~[\"\\\n\13]
     LastOcta    -/- [0-7]

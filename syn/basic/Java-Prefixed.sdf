@@ -1,101 +1,141 @@
 module Java-Prefixed
-imports
-  Java [
-    %% Java
-    CompilationUnit  => JavaCompilationUnit
-    PackageDec       => JavaPackageDec
-    ImportDec        => JavaImportDec
-    TypeDec          => JavaTypeDec
-    TypeImportDec    => JavaTypeImportDec
-    PackageImportDec => JavaPackageImportDec
-
-    %% Statements
-    Block           => JavaBlock
-    LocalVarDec     => JavaLocalVarDec
-    Stm             => JavaStm
-    ClassDec        => JavaClassDec
-    BlockStm        => JavaBlockStm
-    
-    %% Expressions
-    Expr            => JavaExpr
-    MethodId        => JavaMethodId
-
-    %% Literals
-    Id              => JavaId
-    Literal         => JavaLiteral
-    IntLiteral      => JavaIntLiteral
-    FloatLiteral    => JavaFloatLiteral
-    BoolLiteral     => JavaBoolLiteral
-    CharLiteral     => JavaCharLiteral
-    StringLiteral   => JavaStringLiteral
-    NullLiteral     => JavaNullLiteral
-    ClassLiteral    => JavaClassLiteral
-    DeciLiteral     => JavaDeciLiteral
-    HexaLiteral     => JavaHexaLiteral
-    OctaLiteral     => JavaOctaLiteral
-    OctaDigit       => JavaOctaDigit
-    DeciDigit       => JavaDeciDigit
-    HexaDigit       => JavaHexaDigit
-    DeciNumeral     => JavaDeciNumeral
-    HexaNumeral     => JavaHexaNumeral
-    OctaNumeral     => JavaOctaNumeral
-    FloatTypeSuffix => JavaFloatTypeSuffix
-    UnicodeEscape   => JavaUnicodeEscape
-    InputChar       => JavaInputChar
-    EscapeSeq       => JavaEscapeSeq
-    OctaEscape      => JavaOctaEscape
-    StringChar      => JavaStringChar
-
-    %% Names
-    Name            => JavaName
-    PackageName     => JavaPackageName
-    ClassName       => JavaClassName
-    AmbName         => JavaAmbName
-    MethodName      => JavaMethodName
-    ExprName        => JavaExprName
-    QTypeName       => JavaQTypeName
-    SimpleTypeName  => JavaSimpleTypeName
-    TypeName        => JavaTypeName
-
-    %% VarDecs
-    VarDec          => JavaVarDec
-    VarDecId        => JavaVarDecId
-    Dim             => JavaDim
-    VarInit         => JavaVarInit
-    ArrayInit       => JavaArrayInit
-    Comma           => JavaComma
-
-    %% Classes
-    ClassDec        => JavaClassDec
-    Super           => JavaSuper
-    Interfaces      => JavaInterfaces
-    ClassBody       => JavaClassBody
-    ClassBodyDec    => JavaClassBodyDec
-    ClassMemberDec  => JavaClassMemberDec
-    FieldDec        => JavaFieldDec
-    StaticInit      => JavaStaticInit
-    InstanceInit    => JavaInstanceInt
-    ConstructorDec  => JavaConstructorDec
-    ConstructorBody => JavaConstructorBody
-    CInvoke         => JavaCInvoke
-
-    MethodDec       => JavaMethodDec
-    MethodHead      => JavaMethodHead
-    ResultType      => JavaResultType
-    FormalParam     => JavaFormalParam
-    Throws          => JavaThrows
-
-    %% Types
-    Type            => JavaType
-    PrimType        => JavaPrimType
-    RefType         => JavaRefType
-    NumType         => JavaNumType
-    IntType         => JavaIntType
-    FloatType       => JavaFloatType
-    ClassType       => JavaClassType
-    InterfaceType   => JavaInterfaceType
-    ClassOrInterfaceType => JavaClassOrInterfaceType
-    ArrayType       => JavaArrayType
-  ]
-
-
+imports Java
+          [ PackageImportDec     => JavaPackageImportDec
+            TypeImportDec        => JavaTypeImportDec
+            ImportDec            => JavaImportDec
+            PackageDec           => JavaPackageDec
+            CompilationUnit      => JavaCompilationUnit
+            TypeDec              => JavaTypeDec
+            CInvoke              => JavaCInvoke
+            ConstructorBody      => JavaConstructorBody
+            ConstructorDec       => JavaConstructorDec
+            InstanceInit         => JavaInstanceInit
+            StaticInit           => JavaStaticInit
+            FieldDec             => JavaFieldDec
+            ClassMemberDec       => JavaClassMemberDec
+            ClassBodyDec         => JavaClassBodyDec
+            ClassBody            => JavaClassBody
+            Interfaces           => JavaInterfaces
+            Super                => JavaSuper
+            ClassDec             => JavaClassDec
+            SwitchLabel          => JavaSwitchLabel
+            SwitchGroup          => JavaSwitchGroup
+            SwitchBlock          => JavaSwitchBlock
+            CatchClause          => JavaCatchClause
+            LVarDec              => JavaLVarDec
+            ForUpdate            => JavaForUpdate
+            ForInit              => JavaForInit
+            Block                => JavaBlock
+            Stm                  => JavaStm
+            LocalVarDec          => JavaLocalVarDec
+            BlockStm             => JavaBlockStm
+            AMethodHead          => JavaAMethodHead
+            AMethodDec           => JavaAMethodDec
+            ConstantDec          => JavaConstantDec
+            InterfaceMemberDec   => JavaInterfaceMemberDec
+            InterfaceBody        => JavaInterfaceBody
+            ExtendsInterfaces    => JavaExtendsInterfaces
+            InterfaceDec         => JavaInterfaceDec
+            Throws               => JavaThrows
+            FormalParam          => JavaFormalParam
+            ResultType           => JavaResultType
+            MethodHead           => JavaMethodHead
+            MethodDec            => JavaMethodDec
+            Comma                => JavaComma
+            ArrayInit            => JavaArrayInit
+            VarInit              => JavaVarInit
+            VarDecId             => JavaVarDecId
+            VarDec               => JavaVarDec
+            LHS                  => JavaLHS
+            Dim                  => JavaDim
+            DimExpr              => JavaDimExpr
+            ArrayBaseType        => JavaArrayBaseType
+            ArrayCreationExpr    => JavaArrayCreationExpr
+            ArraySubscript       => JavaArraySubscript
+            ArrayType            => JavaArrayType
+            InterfaceType        => JavaInterfaceType
+            ClassType            => JavaClassType
+            ClassOrInterfaceType => JavaClassOrInterfaceType
+            RefType              => JavaRefType
+            FloatType            => JavaFloatType
+            IntType              => JavaIntType
+            NumType              => JavaNumType
+            PrimType             => JavaPrimType
+            Type                 => JavaType
+            StrictFP             => JavaStrictFP
+            Synchronized         => JavaSynchronized
+            Volatile             => JavaVolatile
+            Transient            => JavaTransient
+            Native               => JavaNative
+            Static               => JavaStatic
+            Final                => JavaFinal
+            Abstract             => JavaAbstract
+            Protected            => JavaProtected
+            Private              => JavaPrivate
+            Public               => JavaPublic
+            MethodMod            => JavaMethodMod
+            AMethodMod           => JavaAMethodMod
+            AccessMod            => JavaAccessMod
+            ConstantMod          => JavaConstantMod
+            ConstructorMod       => JavaConstructorMod
+            FieldMod             => JavaFieldMod
+            InterfaceMod         => JavaInterfaceMod
+            ClassMod             => JavaClassMod
+            TypeName             => JavaTypeName
+            SimpleTypeName       => JavaSimpleTypeName
+            QTypeName            => JavaQTypeName
+            ExprName             => JavaExprName
+            MethodName           => JavaMethodName
+            AmbName              => JavaAmbName
+            ClassName            => JavaClassName
+            PackageName          => JavaPackageName
+            Name                 => JavaName
+            Id                   => JavaId
+            ID                   => JavaID
+            OctalDigit           => JavaOctalDigit
+            HexDigit             => JavaHexDigit
+            NonZeroDigit         => JavaNonZeroDigit
+            Digit                => JavaDigit
+            JavaLetterOrDigit    => JavaJavaLetterOrDigit
+            JavaLetter           => JavaJavaLetter
+            Keyword              => JavaKeyword
+            EscChar              => JavaEscChar
+            EscEscChar           => JavaEscEscChar
+            Asterisk             => JavaAsterisk
+            BlockCommentChars    => JavaBlockCommentChars
+            CommentPart          => JavaCommentPart
+            EOLCommentChars      => JavaEOLCommentChars
+            Comment              => JavaComment
+            FooStringChars       => JavaFooStringChars
+            StringChars          => JavaStringChars
+            LastOcta             => JavaLastOcta
+            OctaEscape           => JavaOctaEscape
+            NamedEscape          => JavaNamedEscape
+            UnicodeEscape        => JavaUnicodeEscape
+            EscapeSeq            => JavaEscapeSeq
+            CharContent          => JavaCharContent
+            StringPart           => JavaStringPart
+            CharLiteral          => JavaCharLiteral
+            StringLiteral        => JavaStringLiteral
+            ClassLiteral         => JavaClassLiteral
+            NullLiteral          => JavaNullLiteral
+            BoolLiteral          => JavaBoolLiteral
+            IntLiteral           => JavaIntLiteral
+            Literal              => JavaLiteral
+            Sign                 => JavaSign
+            SignedInt            => JavaSignedInt
+            ExponentPart         => JavaExponentPart
+            FloatDigits          => JavaFloatDigits
+            FloatLiteral         => JavaFloatLiteral
+            FloatTypeSuffix      => JavaFloatTypeSuffix
+            OctaNumeral          => JavaOctaNumeral
+            HexaNumeral          => JavaHexaNumeral
+            DeciNumeral          => JavaDeciNumeral
+            OctaLiteral          => JavaOctaLiteral
+            HexaLiteral          => JavaHexaLiteral
+            DeciLiteral          => JavaDeciLiteral
+            LineTerminator       => JavaLineTerminator
+            ArrayAccess          => JavaArrayAccess
+            FieldAccess          => JavaFieldAccess
+            MethodId             => JavaMethodId
+            Expr                 => JavaExpr ]

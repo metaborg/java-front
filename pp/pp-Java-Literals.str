@@ -10,12 +10,14 @@ strategies
   java-to-box: Bool(b)  -> b
   java-to-box: Class(c) -> c
 
-  // TODO: escapes
-  java-to-box: Char(Single(c))  -> S(s)
+  java-to-box: Char(c)  -> box |[ H hs=0 ["'" ~c "'"] ]|
+
+  java-to-box: Single(c) -> S(s)
     where <implode-string> [c] => s
 
   // TODO: escapes
-  java-to-box: String([Chars(s)]) -> S(s)
+  java-to-box: String(parts) -> box |[ H hs=0 ["\"" ~*parts "\""] ]|
+  java-to-box: Chars(s) -> S(s)
 
   java-to-box: Float(f)  -> box |[ NUM[ ~S(f) ] ]|
   java-to-box: Deci(d)   -> box |[ NUM[ ~S(d) ] ]|
