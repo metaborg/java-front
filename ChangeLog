@@ -1,3 +1,10 @@
+2004-11-01  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/v1.5/languages/java-15/types/ParameterizedTypes.sdf: allow
+	any type as actual type argument. I hate semantic limitations that
+	are enforced by the syntax. The make the syntax definition unclear
+	and make meta-programming more difficult.
+	
 2004-10-17  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/stratego-v1.5/Stratego-Java-15.sdf: another interesting

@@ -16,7 +16,7 @@ exports
   context-free syntax
     "<" {ActualTypeArg ","}+ ">" -> TypeArgs {cons("TypeArgs")}
 
-    RefType            -> ActualTypeArg
+    Type               -> ActualTypeArg
     "?" WildcardBound? -> ActualTypeArg {cons("Wildcard")}
 
     "extends" RefType -> WildcardBound {cons("WildcardUpperBound")}
