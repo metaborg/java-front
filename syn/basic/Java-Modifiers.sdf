@@ -1,6 +1,27 @@
 module Java-Modifiers
 
 exports
+  sorts
+    ClassMod
+    InterfaceMod
+    FieldMod
+    ConstructorMod
+    ConstantMod
+    AccessMod
+    AMethodMod
+    MethodMod
+    Public
+    Private
+    Protected
+    Abstract
+    Final
+    Static
+    Native
+    Transient
+    Volatile
+    Synchronized
+    StrictFP
+
   context-free syntax
 
     AccessMod      -> ClassMod

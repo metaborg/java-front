@@ -2,6 +2,17 @@ module Java-Names
 imports Java-Identifiers
 
 exports
+  sorts
+    Name
+    PackageName
+    ClassName
+    AmbName
+    MethodName
+    ExprName
+    QTypeName
+    SimpleTypeName
+    TypeName
+
   context-free syntax
 
   %% TODO: is layout allowed between parts of names?

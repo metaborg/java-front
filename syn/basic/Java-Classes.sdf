@@ -1,13 +1,30 @@
 module Java-Classes
-imports Java-Names
-        Java-Modifiers
-        Java-MethodDecs
-        Java-Statements
-        Java-Types
+imports
+  Java-Names
+  Java-Modifiers
+  Java-MethodDecs
+  Java-Statements
+  Java-Types
+  Java-Interfaces
 
 exports
-  context-free start-symbols ClassDec
-  sorts ClassDec ClassBodyDec
+  context-free start-symbols
+    ClassDec
+
+  sorts
+    ClassDec
+    ClassBodyDec
+    Super
+    Interfaces
+    ClassBody
+    ClassMemberDec
+    FieldDec
+    StaticInit
+    InstanceInit
+    ConstructorDec
+    ConstructorBody
+    CInvoke
+
   context-free syntax
 
     ClassMod* "class" Id  Super? Interfaces? ClassBody -> ClassDec {cons("ClassDec")}

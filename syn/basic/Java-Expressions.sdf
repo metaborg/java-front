@@ -1,9 +1,16 @@
 module Java-Expressions
-imports Java-Literals
+imports
+  Java-Literals
+  Java-Names
+  Java-Types
+  Java-Classes
 
 exports
-  context-free start-symbols Expr
-  sorts Expr
+  context-free start-symbols
+    Expr
+
+  sorts
+    Expr
 
   context-free syntax
     "(" Expr ")"          -> Expr {bracket}

@@ -12,7 +12,7 @@ MODULES = \
   pp-Java-Statements.str \
   jtree2abox.str
 
-bin_PROGRAMS   = jtree2abox
+libexec_PROGRAMS = jtree2abox jtree-parenthesize
 EXTRA_DIST     = $(MODULES) $(wildcard *.meta)
 CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) java-parenthesize.str
 
@@ -26,8 +26,5 @@ LDADD += $(SSL_LIBS)
 
 nodist_jtree2abox_SOURCES = jtree2abox.c
 
-# generate a parenthesize Java module
-jtree2abox.c : java-parenthesize.str
-
-java-parenthesize.str : $(top_builddir)/syn/generic/Generic-Java.def
-	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ -m Generic-Java --omod java-parenthesize --lang Java
+jtree-parenthesize.str : $(top_builddir)/syn/generic/Generic-Java.def
+	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ -m Generic-Java --omod jtree-parenthesize --lang Java

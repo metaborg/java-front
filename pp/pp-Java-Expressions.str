@@ -112,3 +112,7 @@ strategies
 
   java-to-box: 
     QSuperField(b, Id(s)) -> H hs=0 [b "." KW["super"] "." s]
+
+signature
+  constructors
+    Parenthetical : Unknown -> Unknown

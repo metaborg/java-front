@@ -4,7 +4,6 @@ imports
   Box
   Java
   concrete-syntax
-  java-parenthesize
   pp-Java-Statements
   pp-Java-Expressions
   pp-Java-Literals 
@@ -15,8 +14,7 @@ imports
 strategies
 
   java-pretty-print = 
-      parenthesize-Java
-    ; topdown(try(repeat(java-to-box)))
+      topdown(try(repeat(java-to-box)))
     ; concat-content
 
 strategies

@@ -1,6 +1,6 @@
 module pp-Java-Literals
 
-strategies
+rules
 
   java-to-box: True()        -> box |[ KW["true"]    ]|
   java-to-box: False()       -> box |[ KW["false"]   ]|
@@ -12,20 +12,44 @@ strategies
 
   java-to-box: Char(c)  -> box |[ H hs=0 ["'" ~c "'"] ]|
 
-  java-to-box: Single(c) -> S(s)
+  java-to-box: Single(c) -> box |[ s ]|
     where <implode-string> [c] => s
 
-  java-to-box: NamedEscape(c) -> S(s)
-    where <implode-string> ['\', c] => s
+rules
 
-  // TODO: escapes
+  java-to-box:
+    NamedEscape(c) -> box |[ s ]|
+      where <implode-string> ['\', c] => s
+
+  java-to-box:
+    UnicodeEscape(us, c1, c2, c3, c4) -> box |[ s ]|
+      where <implode-string> ['\' | <conc> (us, [c1, c2, c3, c4])] => s
+
+  java-to-box:
+    OctaEscape(c1) -> box |[ s ]|
+      where <implode-string> ['\', c1] => s
+
+  java-to-box:
+    OctaEscape(c1, c2) -> box |[ s ]|
+      where <implode-string> ['\', c1, c2] => s
+
+  java-to-box:
+    OctaEscape(c1, c2, c3) -> box |[ s ]|
+      where <implode-string> ['\', c1, c2, c3] => s
+
+rules
+
   java-to-box: String(parts) -> box |[ H hs=0 ["\"" ~*parts "\""] ]|
-  java-to-box: Chars(s) -> S(s)
+  java-to-box: Chars(s) -> box |[ s ]|
+
+rules
 
   java-to-box: Float(f)  -> box |[ NUM[ ~S(f) ] ]|
   java-to-box: Deci(d)   -> box |[ NUM[ ~S(d) ] ]|
   java-to-box: Hexa(h)   -> box |[ NUM[ ~S(h) ] ]|
   java-to-box: Octa(o)   -> box |[ NUM[ ~S(o) ] ]|
+
+strategies
 
   is-double-quote = 
     is-quote(?34)

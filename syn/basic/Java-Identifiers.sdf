@@ -3,7 +3,16 @@ imports Java-Keywords
 
 exports
   context-free start-symbols Id
-  sorts Id
+
+  sorts
+    Id
+    JavaLetter
+    JavaLetterOrDigit
+    Digit
+    NonZeroDigit
+    HexDigit
+    OctalDigit
+    ID
 
   context-free syntax
     ID -> Id {cons("Id")}

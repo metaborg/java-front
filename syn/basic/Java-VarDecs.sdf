@@ -1,9 +1,10 @@
 module Java-VarDecs
-imports Java-Expressions
-        Java-Types
+imports
+  Java-Expressions
+  Java-Types
 
 exports
-
+  sorts VarDec VarDecId Dim VarInit ArrayInit Comma
   context-free syntax
 
     VarDecId             -> VarDec {cons("VarDec")}

@@ -1,5 +1,17 @@
 2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/Makefile.am: jtree-parenthesize is now a separate tool.
+
+	* pp/pp-java.str: invoke jtree-parenthesize.
+
+	* syn/basic/*: declare all sorts.
+
+	* pp/pp-Java-Literals.str: implemented pretty-printing of octal
+	escapes.
+
+	* pp/pp-Java-Literals.str: implemented pretty-printing of Unicode
+	escapes.
+
 	* pp/pp-Java-Names.str: fixed pretty-printing of ClassName.
 
 	* pp/pp-Java-Statements.str: fixed the pretty-printing of

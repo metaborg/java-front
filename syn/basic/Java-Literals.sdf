@@ -1,7 +1,20 @@
 module Java-Literals
+imports
+  Java-Types
 
 exports
-  sorts BooleanLiteral NullLiteral IntegerLiteral FloatingPointLiteral Literal
+  sorts
+    Literal    
+    IntLiteral
+    FloatLiteral
+    BoolLiteral
+    CharLiteral
+    StringLiteral
+    NullLiteral
+    ClassLiteral
+    DeciLiteral
+    HexaLiteral
+    OctaLiteral
 
   context-free syntax
 
@@ -26,6 +39,11 @@ exports
     Type "." "class"   -> ClassLiteral {cons("Class")}
     "void" "." "class" -> ClassLiteral {cons("VoidClass")}
 
+  sorts
+    DeciNumeral
+    HexaNumeral
+    OctaNumeral
+
   lexical syntax
     DeciNumeral [lL]? -> DeciLiteral
     HexaNumeral [lL]? -> HexaLiteral
@@ -36,6 +54,13 @@ exports
 
     [0][xX] [0-9a-fA-F]+ -> HexaNumeral
     [0]     [0-9a-fA-F]+ -> OctaNumeral
+
+  sorts
+    FloatTypeSuffix
+    FloatDigits
+    ExponentPart
+    Sign
+    SignedInt
 
   lexical syntax
     [fFdD] -> FloatTypeSuffix
@@ -52,7 +77,18 @@ exports
     Sign? [0-9]+ -> SignedInt
     [\-\+] -> Sign
 
-  %% char and string literals
+  sorts
+    StringPart
+    CharContent
+    SingleChar
+    EscapeSeq
+    UnicodeEscape
+    NamedEscape
+    OctaEscape
+    LastOcta
+    StringChars
+    FooStringChars
+
   syntax
     StringLiteral -> <StringLiteral-CF>
     CharLiteral   -> <CharLiteral-CF>

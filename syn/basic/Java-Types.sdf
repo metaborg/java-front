@@ -2,6 +2,17 @@ module Java-Types
 imports Java-Names
 
 exports
+  sorts
+    Type
+    PrimType
+    NumType
+    IntType  
+    FloatType
+    RefType
+    ClassOrInterfaceType
+    ClassType
+    InterfaceType
+    ArrayType
 
   context-free syntax
     PrimType -> Type

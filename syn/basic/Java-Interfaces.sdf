@@ -1,13 +1,23 @@
 module Java-Interfaces
-imports Java-Names
-        Java-Modifiers
-        Java-MethodDecs
-        Java-Types
-        Java-VarDecs
+imports
+  Java-Names
+  Java-Modifiers
+  Java-MethodDecs
+  Java-Types
+  Java-VarDecs
 
 exports
-  context-free start-symbols InterfaceDec
-  sorts InterfaceDec
+  context-free start-symbols
+    InterfaceDec
+
+  sorts
+    InterfaceDec
+    ExtendsInterfaces
+    InterfaceBody
+    InterfaceMemberDec
+    ConstantDec
+    AMethodDec
+    AMethodHead
 
   context-free syntax
 

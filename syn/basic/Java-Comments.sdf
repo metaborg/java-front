@@ -1,8 +1,19 @@
 module Java-Comments
-imports Java-Literals Java-WhiteSpace
+imports
+  Java-Literals
+  Java-WhiteSpace
 
 exports
-  sorts Comment EOLCommentChar CommentPart UnicodeEscape
+  sorts
+    Comment
+    EOLCommentChars
+    CommentPart
+    UnicodeEscape
+    BlockCommentChars
+    Asterisk
+    EscEscChar
+    EscChar
+
   lexical syntax
     Comment -> LAYOUT
 
