@@ -18,9 +18,10 @@ exports
 
     JavaLetter JavaLetterOrDigit* -> ID
     
-    Keyword         -> ID {reject}
-    BooleanLiteral  -> ID {reject}
-    NullLiteral     -> ID {reject}
+    Keyword -> ID {reject}
+    "true"  -> ID {reject}
+    "false" -> ID {reject}
+    "null"  -> ID {reject}
 
   lexical restrictions
     ID -/- [a-zA-Z0-9\_\$]

@@ -1,3 +1,12 @@
+2004-04-20  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/basic/Java-Identifiers.sdf: context-free to lexical rejects
+	are not allowed (BoolLiteral). Replaced by the token true, false
+	and null. Reported by Jurgen Vinju.
+
+	* test/basic/identifiers.testsuite: parse-unit testsuite for
+        Java identifiers.	
+	
 2004-04-07  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/generic/Java-StaticImport.sdf: added production rules for

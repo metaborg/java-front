@@ -9,3 +9,16 @@ test true as identifier is not allowed
 
 test true as identifier is not allowed
   "false" fails
+
+test if is not a valid identifier
+  "if" fails
+
+test else is not a valid identifier
+  "else" fails
+
+test class is not a valid identifier
+  "class" fails
+
+test null is not a valid identifier
+  "null" fails
+
