@@ -10,3 +10,5 @@ classpath-$(GNUCP_VERSION).tar.gz :
 
 check_DATA=\
   classpath-$(GNUCP_VERSION).tar.gz
+
+CLEANFILES=classpath-$(GNUCP_VERSION).tar.gz
