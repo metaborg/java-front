@@ -53,4 +53,6 @@ strategies
       <+
     ?[ x | xs ];![ x | <flatten-inner-block>xs ]
       <+
+    ?[ InnerBlock(ys) | [] ] ; <flatten-inner-block> ys
+      <+
     ?[ x | [] ];![ x ]
