@@ -24,6 +24,9 @@ test string literal with lots of unicode escapes
   [ "\ufe8f\u0344\uff85\uff65\ufdb5\ufda1\033\u02c4\034G\ufea8" ]
   succeeds
 
+test 0F
+  "0F" -> Lit(Float("0F"))
+
 test simple addition
   "2 + 3" -> Plus(Lit(Deci("2")), Lit(Deci("3")))
 

@@ -27,7 +27,7 @@ exports
     "0" -> DeciNumeral
     [1-9][0-9]*  -> DeciNumeral
     [0][xX] [0-9a-fA-F]+ -> HexaNumeral
-    [0]     [0-9a-fA-F]+ -> OctaNumeral
+    [0]     [0-7]+       -> OctaNumeral
 
   sorts
     Float
