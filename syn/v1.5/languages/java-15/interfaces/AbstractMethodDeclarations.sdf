@@ -1,0 +1,23 @@
+module languages/java-15/interfaces/AbstractMethodDeclarations
+imports
+  Java-Names
+  Java-Modifiers
+  Java-MethodDecs
+  Java-Types
+
+exports
+  sorts
+    AbstractMethodDec
+    AbstractMethodMod
+
+  context-free syntax
+    AbstractMethodMod* TypeParam* ResultType
+      Id "(" {FormalParam ","}* ")" Throws? ";" -> AbstractMethodDec {cons("AbstractMethodDec")}
+
+    AbstractMethodMod* TypeParam* ResultType
+      Id "(" {FormalParam ","}* ")" Dim+ Throws? ";" -> AbstractMethodDec {cons("DeprAbstractMethodDec")}
+
+    Anno     -> AbstractMethodMod
+    Public   -> AbstractMethodMod
+    Abstract -> AbstractMethodMod
+

@@ -5,7 +5,6 @@ imports
   Java-MethodDecs
   Java-Statements
   Java-Types
-  Java-Interfaces
 
 exports
   context-free start-symbols

@@ -1,6 +1,7 @@
 module Java-TypeDecs
-imports Java-Interfaces
-        Java-Classes
+imports
+  languages/java-15/interfaces/InterfaceDeclarations
+  Java-Classes
 
 exports
   context-free start-symbols TypeDec

@@ -1,13 +1,27 @@
-module Java-Enums
+%%%
+ %% Section 8.9: Enums
+ %%
+ %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/classes/EnumDeclarations
 imports
   Java-Keywords
   Java-Modifiers
   Java-Classes
 
 exports
-  sorts EnumBody EnumConst EnumBodyDecs EnumConstArgs
+  sorts
+    EnumDec
+    EnumDecHead
+    EnumBody
+    EnumConst
+    EnumConstArgs
+    EnumBodyDecs
+
   context-free syntax
-    ClassMod* "enum" Id Interfaces? EnumBody -> EnumDec {cons("EnumDec")}
+    EnumDecHead EnumBody -> EnumDec {cons("EnumDec")}
+
+    ClassMod* "enum" Id Interfaces? -> EnumDecHead {cons("EnumDecHead")}
 
     "{" {EnumConst ","}*     EnumBodyDecs? "}" -> EnumBody {cons("EnumBody")}
     "{" {EnumConst ","}* "," EnumBodyDecs? "}" -> EnumBody {cons("EnumBody")}

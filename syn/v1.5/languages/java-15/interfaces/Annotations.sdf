@@ -1,3 +1,8 @@
+%%%
+ %% Section 9.7: Annotations
+ %%
+ %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %%%
 module languages/java-15/interfaces/Annotations
 imports
   Java-Names

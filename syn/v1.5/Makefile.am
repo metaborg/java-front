@@ -22,7 +22,6 @@ JAVA15_MODS = \
   Java-Comments.sdf \
   Java-Expressions.sdf \
   Java-Identifiers.sdf \
-  Java-Interfaces.sdf \
   Java-Keywords.sdf \
   Java-Lexical.sdf \
   Java-Literals.sdf \
@@ -34,9 +33,6 @@ JAVA15_MODS = \
   Java-Types.sdf \
   Java-VarDecs.sdf \
   Java-WhiteSpace.sdf \
-  languages/java-15/packages/ImportDeclarations.sdf \
-  languages/java-15/interfaces/Annotations.sdf \
-  languages/java-15/interfaces/AnnotationTypes.sdf \
-  Java-Enums.sdf \
-  Java-StaticImport.sdf
-
+  $(wildcard languages/java-15/pacakges/*.sdf) \
+  $(wildcard languages/java-15/classes/*.sdf) \
+  $(wildcard languages/java-15/interfaces/*.sdf)

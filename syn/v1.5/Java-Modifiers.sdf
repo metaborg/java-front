@@ -3,12 +3,9 @@ module Java-Modifiers
 exports
   sorts
     ClassMod
-    InterfaceMod
     FieldMod
     ConstructorMod
-    ConstantMod
     AccessMod
-    AMethodMod
     MethodMod
     Public
     Private
@@ -30,11 +27,6 @@ exports
     Final          -> ClassMod
     StrictFP       -> ClassMod
 
-    AccessMod      -> InterfaceMod
-    Static         -> InterfaceMod
-    Abstract       -> InterfaceMod
-    StrictFP       -> InterfaceMod
-
     AccessMod      -> FieldMod
     Static         -> FieldMod
     Transient      -> FieldMod
@@ -43,16 +35,9 @@ exports
 
     AccessMod      -> ConstructorMod
 
-    Public         -> ConstantMod
-    Static         -> ConstantMod
-    Final          -> ConstantMod
-
     Public         -> AccessMod
     Protected      -> AccessMod
     Private        -> AccessMod
-
-    Abstract       -> AMethodMod
-    Public         -> AMethodMod
 
     AccessMod      -> MethodMod
     Static         -> MethodMod
