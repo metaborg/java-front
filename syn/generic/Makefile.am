@@ -10,7 +10,7 @@ TBLS_DEFS = \
 sdfdata_DATA   = $(TBLS_DEFS) Generic-Java-Prefixed.sdf
 pkgdata_DATA   = Generic-Java.rtg
 
-EXTRA_DIST     = $(sdfdata_DATA)
+EXTRA_DIST     = $(sdfdata_DATA) $(wildcard *.sdf)
 CLEANFILES     = $(TBLS_DEFS) Generic-Java-Prefixed.sdf Generic-Java.rtg
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
