@@ -1,0 +1,11 @@
+testsuite Java Identifiers
+topsort Id
+
+test simple x
+  "x" -> Id("x")
+
+test true as identifier is not allowed
+  "true" fails
+
+test true as identifier is not allowed
+  "false" fails

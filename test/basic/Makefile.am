@@ -6,6 +6,7 @@ BOOTCLEAN_SUBDIRS = $(SUBDIRS)
 EXTRA_DIST        = $(wildcard *.testsuite) $(wildcard *.atestsuite)
 
 TESTSUITES = \
+  identifiers.testsuite \
   comments.testsuite \
   compilation-unit.testsuite \
   expressions.testsuite \
