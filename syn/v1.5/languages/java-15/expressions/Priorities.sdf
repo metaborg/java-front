@@ -15,6 +15,7 @@ exports
       Expr "++" -> Expr
       Expr "--" -> Expr
     }
+  > "(" Type ")" Expr -> Expr
   > {right:
       "++" Expr -> Expr
       "--" Expr -> Expr
@@ -22,7 +23,6 @@ exports
       "-"  Expr -> Expr
       "~"  Expr -> Expr
       "!"  Expr -> Expr
-      "(" Type ")" Expr -> Expr
     }
   > {left:
       Expr "*" Expr -> Expr

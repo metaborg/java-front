@@ -1,3 +1,13 @@
+2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/v1.5/languages/java-15/expressions/Priorities.sdf: parsing
+	the jdk1.5.0 beta sources revealed an error in the priority of
+	cast expressions. The cast expression should not be in the same
+	group as the unary operators: it has higher priority.
+
+	* syn/basic/Java-Expressions.sdf: same fix in the legacy Java
+	syntax definition.
+	
 2004-08-05  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/v1.5/*: Java 1.5 syntax definition is more or less

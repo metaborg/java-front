@@ -72,6 +72,19 @@ test illegal array access
 test relational operators have higher priority than equational ones
   "1 < 2 == 3 < 4" -> Eq(Lt(_, _), Lt(_, _))
 
+test priority of cast is higher the plus minus expressions
+  "1 + (n) + 3 + 4" ->
+  Plus(
+    Plus(
+      Plus(
+        Lit(Deci("1"))
+      , ExprName(Id("n"))
+      )
+    , Lit(Deci("3"))
+    )
+  , Lit(Deci("4"))
+  )
+
 test simple name
   "x" -> ExprName(Id("x"))
 
