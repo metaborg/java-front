@@ -64,7 +64,7 @@ exports
 
 %% module Java-CharacterLiterals
 
-    "\\" [u]+ UnicodeMarker HexaDigit HexaDigit HexaDigit HexaDigit -> UnicodeEscape
+    "\\" [u]+ HexaDigit HexaDigit HexaDigit HexaDigit -> UnicodeEscape
    
     UnicodeEscape -> InputChar
     ~[\n\12\13]   -> InputChar
