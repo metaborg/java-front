@@ -1,5 +1,5 @@
 testsuite Java Enum Declarations
-topsort ClassDec
+topsort TypeDec
 
 test Empty enum
   " enum Foo { } " succeeds

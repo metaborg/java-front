@@ -7,7 +7,7 @@ module languages/java-15/statements/Statements
 imports
   languages/java-15/statements/LocalVariableDeclarations
   languages/java-15/statements/Blocks
-  Java-Expressions
+  languages/java-15/expressions/Main
 
 exports
   context-free start-symbols

@@ -27,7 +27,7 @@ exports
     EnumDec -> ClassDec
 
     ClassDecHead ClassBody -> ClassDec {cons("ClassDec")}
-    "{" ClassBodyDec* "}" -> ClassBody {bracket}
+    "{" ClassBodyDec* "}" -> ClassBody {cons("ClassBody")}
 
     ClassMod* "class" Id  TypeParams? Super? Interfaces? -> ClassDecHead {cons("ClassDecHead")}
 

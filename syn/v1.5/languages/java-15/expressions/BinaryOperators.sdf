@@ -1,18 +1,8 @@
-module Java-Expressions
+module languages/java-15/expressions/BinaryOperators
+imports
+  languages/java-15/expressions/Main
+
 exports
-
-  context-free syntax
-    ArrayAccess           -> Expr
-
-  sorts ArrayAccess ArraySubscript ArrayCreationExpr ArrayBaseType Dim DimExpr
-  context-free syntax
-
-    Expr ArraySubscript -> ArrayAccess {cons("ArrayAccess")}
-    "[" Expr "]" -> ArraySubscript {bracket}
-
-    ArrayCreationExpr ArraySubscript -> ArrayAccess {reject}
-
-  sorts MethodId
   context-free syntax
     Expr "instanceof" RefType -> Expr {cons("InstanceOf")}
 

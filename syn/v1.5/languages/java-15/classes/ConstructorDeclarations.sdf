@@ -9,9 +9,7 @@ imports
   languages/java-15/lexical/Modifiers
   languages/java-15/interfaces/Annotations
   languages/java-15/statements/Main
-
-imports
-  Java-Expressions
+  languages/java-15/expressions/Main
 
 exports
   sorts

@@ -6,23 +6,7 @@
 module languages/java-15/lexical/Literals
 exports
   sorts
-    Literal    
     IntLiteral
-    FloatLiteral
-    BoolLiteral
-    CharLiteral
-    StringLiteral
-    NullLiteral
-
-  context-free syntax
-    IntLiteral    -> Literal
-    FloatLiteral  -> Literal {cons("Float")}
-    BoolLiteral   -> Literal {cons("Bool")}
-    CharLiteral   -> Literal
-    StringLiteral -> Literal
-    NullLiteral   -> Literal
-
-  sorts
     DeciLiteral
     HexaLiteral
     OctaLiteral
@@ -40,39 +24,44 @@ exports
     HexaNumeral [lL]? -> HexaLiteral
     OctaNumeral [lL]? -> OctaLiteral
 
-        [0-9]+  -> DeciNumeral
-    [0] [0-9]+  -> DeciNumeral {reject}
-
+    [1-9][0-9]*  -> DeciNumeral
     [0][xX] [0-9a-fA-F]+ -> HexaNumeral
     [0]     [0-9a-fA-F]+ -> OctaNumeral
 
   sorts
+    FloatLiteral
+    FloatNumeral
     FloatTypeSuffix
     FloatDigits
     ExponentPart
     Sign
     SignedInt
 
-  lexical syntax
-    [fFdD] -> FloatTypeSuffix
+  context-free syntax
+    Float -> FloatLiteral {cons("Float")}
 
-    FloatDigits ExponentPart?  FloatTypeSuffix? -> FloatLiteral
-    [0-9]+ -> FloatLiteral {reject}
+  lexical syntax
+    FloatDigits ExponentPart?  [fFdD]? -> Float
+    [0-9]+ -> Float {reject}
 
     [0-9]* "." [0-9]* -> FloatDigits
-    "."    -> FloatDigits {reject}
-    [0-9]+ -> FloatDigits
+           "."        -> FloatDigits {reject}
+    [0-9]+            -> FloatDigits
 
-    [eE] SignedInt -> ExponentPart
-
-    Sign? [0-9]+ -> SignedInt
-    [\-\+] -> Sign
-
-  context-free syntax
-    "true"  -> BoolLiteral {cons("True")}
-    "false" -> BoolLiteral {cons("False")}
+    [eE] [\-\+] [0-9]+ -> ExponentPart
 
   sorts
+    Bool
+    BoolLiteral
+
+  context-free syntax
+    Bool -> BoolLiteral {cons("Bool")}
+    "true"  -> Bool {cons("True")}
+    "false" -> Bool {cons("False")}
+
+  sorts
+    StringLiteral
+    CharLiteral
     StringPart
     CharContent
     SingleChar
@@ -117,5 +106,6 @@ exports
     StringChars -/- ~[\"\\\n\13]
     LastOcta    -/- [0-7]
 
+  sorts NullLiteral
   context-free syntax
     "null"  -> NullLiteral {cons("Null")}

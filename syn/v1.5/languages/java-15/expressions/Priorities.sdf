@@ -1,0 +1,70 @@
+module languages/java-15/expressions/Priorities
+imports
+  languages/java-15/expressions/Main
+
+exports
+  context-free priorities
+    Expr "." "new" Id "(" {Expr ","}* ")" ClassBody? -> Expr
+  > {
+      Expr ArraySubscript -> ArrayAccess
+      Expr "." Id -> FieldAccess
+      Expr "." Id -> MethodId
+    }
+  > {right:
+      Expr "++" -> Expr
+      Expr "--" -> Expr
+    }
+  > {right:
+      "++" Expr -> Expr
+      "--" Expr -> Expr
+      "+"  Expr -> Expr
+      "-"  Expr -> Expr
+      "~"  Expr -> Expr
+      "!"  Expr -> Expr
+      "(" Type ")" Expr -> Expr
+    }
+  > {left:
+      Expr "*" Expr -> Expr
+      Expr "/" Expr -> Expr
+      Expr "%" Expr -> Expr
+    } 
+  > {left:
+      Expr "+" Expr -> Expr
+      Expr "-" Expr -> Expr
+    }
+  > {left:
+      Expr "<<"  Expr -> Expr
+      Expr ">>"  Expr -> Expr
+      Expr ">>>" Expr -> Expr
+    }
+  > {left:
+      Expr "instanceof" RefType -> Expr
+      Expr "<"   Expr -> Expr
+      Expr ">"   Expr -> Expr
+      Expr "<="  Expr -> Expr
+      Expr ">="  Expr -> Expr
+    }
+  > {left:
+      Expr "=="  Expr -> Expr
+      Expr "!="  Expr -> Expr
+    }
+  >   Expr "&"   Expr -> Expr
+  >   Expr "^"   Expr -> Expr
+  >   Expr "|"   Expr -> Expr
+  >   Expr "&&"  Expr -> Expr
+  >   Expr "||"  Expr -> Expr
+  >   Expr "?" Expr ":" Expr -> Expr
+  > {right:
+      LHS "="    Expr -> Expr
+      LHS "*="   Expr -> Expr
+      LHS "/="   Expr -> Expr
+      LHS "%="   Expr -> Expr
+      LHS "+="   Expr -> Expr
+      LHS "-="   Expr -> Expr
+      LHS "<<="  Expr -> Expr
+      LHS ">>="  Expr -> Expr
+      LHS ">>>=" Expr -> Expr
+      LHS "&="   Expr -> Expr
+      LHS "^="   Expr -> Expr
+      LHS "|="   Expr -> Expr
+    }

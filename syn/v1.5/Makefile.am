@@ -18,10 +18,12 @@ Java-15.def : $(JAVA15_MODS)
 
 JAVA15_MODS = \
   Java-15.sdf \
-  Java-Expressions.sdf \
   $(wildcard languages/java-15/lexical/*.sdf) \
   $(wildcard languages/java-15/names/*.sdf) \
   $(wildcard languages/java-15/types/*.sdf) \
   $(wildcard languages/java-15/packages/*.sdf) \
   $(wildcard languages/java-15/classes/*.sdf) \
-  $(wildcard languages/java-15/interfaces/*.sdf)
+  $(wildcard languages/java-15/interfaces/*.sdf) \
+  $(wildcard languages/java-15/statements/*.sdf) \
+  $(wildcard languages/java-15/expressions/*.sdf)
+

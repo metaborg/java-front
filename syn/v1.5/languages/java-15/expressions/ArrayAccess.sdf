@@ -1,0 +1,15 @@
+module languages/java-15/expressions/ArrayAccess
+imports
+  languages/java-15/expressions/Main
+exports
+  sorts
+    ArrayAccess
+    ArraySubscript
+
+  context-free syntax
+    ArrayAccess -> Expr
+
+    Expr ArraySubscript -> ArrayAccess {cons("ArrayAccess")}
+    "[" Expr "]" -> ArraySubscript {bracket}
+
+    ArrayCreationExpr ArraySubscript -> ArrayAccess {reject}
