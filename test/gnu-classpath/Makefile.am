@@ -1,6 +1,6 @@
 include $(top_srcdir)/Makefile.xt
 
-SUBDIRS=. basic v1.5
+SUBDIRS=. v1.5
 
 GNUCP_VERSION=0.10
 
