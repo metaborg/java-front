@@ -3,6 +3,7 @@ imports
   liblib
   Box
   Java
+  Java-15
   concrete-syntax
   pp-Java-Statements
   pp-Java-Expressions
@@ -69,8 +70,19 @@ rules
       ->
     box |[ V vs=0 [H hs=1 [ ~*mods KW["interface"] ~lit:name ~implements] ~body] ]|
 
+  /**
+   * Java basic 1.4
+   */
   java-to-box:
     ClassDec(mods, Id(name), extends, implements, body)
+      ->
+    ClassDec(ClassDecHead(mods, Id(name), None(), extends, implements), body)
+
+  /**
+   * Java 1.5
+   */
+  java-to-box:
+    ClassDec(ClassDecHead(mods, Id(name), None(), extends, implements), body)
       ->
     box |[ V vs=0 [H hs=1 [~*mods KW["class"] ~lit:name ~extends ~implements] ~body] ]|
 
@@ -96,10 +108,28 @@ rules
 
   java-to-box:
     Some(c) -> c
-  
-  java-to-box:
-    Extends(c) -> box |[ H hs=1 [KW["extends"] ~c] ]|
 
+  /**
+   * Java basic
+   */
+  java-to-box:
+    Extends(c) -> SuperDec(c)
+  
+  /**
+   * Java 1.5
+   */
+  java-to-box:
+    SuperDec(c) -> box |[ H hs=1 [KW["extends"] ~c] ]|
+
+  /**
+   * Java basic 1.4
+   */
+  java-to-box:
+    Implements(is) -> ImplementsDec(is)
+
+  /**
+   * Java 1.5
+   */
   java-to-box:
     Implements(is) -> box |[ H hs=1 [KW["implements"] ~interfaces] ]|
       where <separate-by-comma> is; ?interfaces
@@ -197,11 +227,26 @@ rules
   java-to-box:
     VarDec(i, init) -> box |[ H hs=1 [~i "=" ~init] ]|
 
+  /**
+   * Java basic 1.4
+   */
   java-to-box:
-    VarId(Id(s)) -> box |[ s ]|
+    VarId(Id(s)) -> Id(s)
 
   java-to-box:
-    VarId(Id(s), b*) -> H hs=0 [s b*]
+    Id(s) -> box |[ s ]|
+
+  /**
+   * Java basic 1.4
+   */
+  java-to-box:
+    VarId(Id(s), b*) -> ArrayVarDecId(Id(s), b*)
+
+  /**
+   * Java 1.5
+   */
+  java-to-box:
+    ArrayVarDecId(Id(s), b*) -> H hs=0 [s b*]
 
   java-to-box:
     Dim() -> H hs=0 ["[" "]"]

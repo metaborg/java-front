@@ -70,5 +70,5 @@ exports
   sorts MethodBody
   context-free syntax
     Block -> MethodBody
-    ";"   -> MethodBody
+    ";"   -> MethodBody {cons("NoMethodBody")}
 

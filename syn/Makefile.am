@@ -1,5 +1,5 @@
 include $(top_srcdir)/Makefile.xt
 
-SUBDIRS           = v1.4 v1.5 generic eblock
+SUBDIRS           = v1.5 basic generic eblock
 BOOTCLEAN_SUBDIRS = $(SUBDIRS)
 

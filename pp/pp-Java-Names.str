@@ -6,19 +6,22 @@ strategies
   java-to-box: ClassName(name)   -> <name-to-box> name
   java-to-box: AmbName(name)     -> <name-to-box> name
 
-  java-to-box: TypeName(Id(name))     -> S(name)
-  java-to-box: QTypeName(q, Id(name)) -> <qid-to-box> (q, name)
+  java-to-box: TypeName(Id(s)) -> box |[ s ]|
+  java-to-box: QTypeName(q, Id(x)) -> <qid-to-box> (q, x)
 
-  java-to-box: MethodName(Id(name))             -> S(name)
-  java-to-box: MethodName(AmbName(q), Id(name)) -> <qid-to-box> (q, name)
+  java-to-box: MethodName(Id(s)) -> box |[ s ]|
+  java-to-box: MethodName(AmbName(q), Id(x)) -> <qid-to-box> (q, x)
 
-  java-to-box: ExprName(Id(name))               -> S(name)
-  java-to-box: ExprName(AmbName(q), Id(name))   -> <qid-to-box> (q, name)
+  java-to-box: ExprName(Id(s)) -> box |[ s ]|
+  java-to-box: ExprName(AmbName(q), Id(x)) -> <qid-to-box> (q, x)
 
   qid-to-box:
-    (q, name) -> box |[ H hs=0 [~*prefix "." ~lit:name] ]|
-      where <name-to-boxes> q; ?prefix
+    (q, name) -> box |[ H hs=0 [~prefix "." ~lit:name] ]|
+      where <name-to-box> q => prefix
 
+  /**
+   * Java basic 1.4 Name
+   */
   name-to-box :
     Name(ids) -> H hs=0 [b*]
     where
@@ -26,8 +29,14 @@ strategies
       ; separate-by(point)
       > ids => b*
 
-  name-to-box =
-      name-to-boxes
-    ; 
-
-  name-to-box =
+  /**
+   * Java 1.5 Name is a plain list of identifiers.
+   */
+  name-to-box :
+    ids -> H hs=0 [b*]
+    where
+      <is-list> ids
+      ; map(\ Id(s) -> box |[ s ]| \)
+      ; separate-by(point)
+      ; ?b*
+    

@@ -17,19 +17,38 @@ rules
 rules
 
   /**
-   * LocalVarDecStm
+   * Java basic 1.4
    */
   java-to-box=
-    LocalVarDec-to-box
-    ; stm-box
+    (?LocalVarDec(_, _) + ?FinalLocalVarDec(_, _))
+    ; !LocalVarDecStm(<id>)
 
+
+  /**
+   * Java 1.5
+   */
+  java-to-box :
+    LocalVarDecStm(lvardec) -> H hs=0 [b ";"]
+      where <LocalVarDec-to-box> lvardec => b
+
+  /**
+   * Java 1.5
+   */
   LocalVarDec-to-box :
-    LocalVarDec(type, ds) -> H hs=1 [~type ~decs]
+    LocalVarDec(mods, type, ds) -> H hs=1 [~*mods ~type ~decs]
       where <separate-by-comma> ds => decs
 
+  /**
+   * Java basic 1.4
+   */
   LocalVarDec-to-box :
-    FinalLocalVarDec(type, decs) -> H hs=1 [KW["final"] b]
-      where <LocalVarDec-to-box> LocalVarDec(type, decs) => b
+    LocalVarDec(type, decs) -> <LocalVarDec-to-box> LocalVarDec([], type, decs)
+
+  /**
+   * Java basic 1.4
+   */
+  LocalVarDec-to-box :
+    FinalLocalVarDec(type, decs) -> <LocalVarDec-to-box> LocalVarDec([Final()], type, decs)
 
 rules
 
@@ -107,11 +126,17 @@ rules
   java-to-box:
     Synchronized(e, b) -> box |[ V vs=0 [H hs=0 [KW["synchronized"] "(" ~e ")"] ~b] ]|
 
-  java-to-box: Break(Some(Id(s))) -> H hs=0 [H hs=1 [KW["break"] s] ";"]
-  java-to-box: Break(None())      -> H hs=0 [KW["break"] ";"]
+  java-to-box:
+    Break(Some(Id(s))) -> H hs=0 [H hs=1 [KW["break"] s] ";"]
 
-  java-to-box: Continue(Some(Id(s))) -> H hs=0 [H hs=1 [KW["continue"] s] ";"]
-  java-to-box: Continue(None())      -> H hs=0 [KW["continue"] ";"]
+  java-to-box:
+    Break(None()) -> H hs=0 [KW["break"] ";"]
+
+  java-to-box:
+    Continue(Some(Id(s))) -> H hs=0 [H hs=1 [KW["continue"] s] ";"]
+
+  java-to-box:
+    Continue(None())      -> H hs=0 [KW["continue"] ";"]
 
   java-to-box:
     Labeled(Id(s), stm) -> box |[ H hs=1 [s ":" ~stm] ]| 
