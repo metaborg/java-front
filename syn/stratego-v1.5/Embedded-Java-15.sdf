@@ -4,10 +4,13 @@ imports
 
 exports
   variables
-    [ij]   [0-9]*          -> JavaDeciLiteral {prefer}
-    [ij]  "_" [a-zA-Z0-9]* -> JavaDeciLiteral {prefer}
-    [xyz]  [0-9]*          -> JavaID          {prefer}
-    [xyz] "_" [a-zA-Z0-9]* -> JavaID          {prefer}
+    [ij]  [0-9]*            -> JavaDeciLiteral {prefer}
+    [ij]  [\_] [a-zA-Z0-9]* -> JavaDeciLiteral {prefer}
+    [xyz] [0-9]*            -> JavaID          {prefer}
+    [xyz] [\_] [a-zA-Z0-9]* -> JavaID          {prefer}
+
+  context-free restrictions
+    JavaID          -/- [\_a-zA-Z0-9]
 
 %%%
  %% Expressions
