@@ -8,9 +8,9 @@ TBLS_DEFS = \
   Stratego-Basic-Java.tbl
 
 sdfdata_DATA   = $(TBLS_DEFS) Basic-Java-Prefixed.sdf
-pkgdata_DATA   = Basic-Java.rtg $(wildcard *.sdf)
+pkgdata_DATA   = Basic-Java.rtg 
 
-EXTRA_DIST     = $(sdfdata_DATA) 
+EXTRA_DIST     = $(sdfdata_DATA) $(wildcard *.sdf) 
 CLEANFILES     = $(TBLS_DEFS) Basic-Java-Prefixed.sdf Basic-Java.rtg
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front
