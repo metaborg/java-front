@@ -8,7 +8,7 @@ TBLS_DEFS = \
 sdfdata_DATA   = $(TBLS_DEFS) $(JAVA15_MODS)
 pkgdata_DATA   = Java-15.rtg
 
-EXTRA_DIST = $(sdfdata_DATA)
+EXTRA_DIST = $(JAVA15_MODS)
 CLEANFILES = $(TBLS_DEFS) Java-15.rtg
 
 PGEN_FLAGS     = -m $*
@@ -24,6 +24,7 @@ JAVA15_MODS = \
   $(wildcard languages/java-15/packages/*.sdf) \
   $(wildcard languages/java-15/classes/*.sdf) \
   $(wildcard languages/java-15/interfaces/*.sdf) \
+  $(wildcard languages/java-15/arrays/*.sdf) \
   $(wildcard languages/java-15/statements/*.sdf) \
   $(wildcard languages/java-15/expressions/*.sdf)
 

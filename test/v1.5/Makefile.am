@@ -5,11 +5,11 @@ EXTRA_DIST = $(wildcard *.testsuite)
 
 TESTSUITES = \
   enum-decs.testsuite \
-  $(top_srcdir)/test/basic/identifiers.testsuite \
-  $(top_srcdir)/test/basic/compilation-unit.testsuite \
+  identifiers.testsuite \
+  compilation-unit.testsuite \
   expressions.testsuite \
-  $(top_srcdir)/test/basic/floating-point-literals.testsuite \
-  $(top_srcdir)/test/basic/lexical-translations.testsuite \
+  floating-point-literals.testsuite \
+  lexical-translations.testsuite \
   statements.testsuite \
   types.testsuite
 

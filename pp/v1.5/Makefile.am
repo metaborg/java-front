@@ -2,7 +2,9 @@ include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
 LOCAL_PP_MODULES = \
+  jtree15-to-abox.str \
   concrete-syntax.str \
+  pp-Java-helpers.str \
   pp-Java-Literals.str \
   pp-Java-Names.str \
   pp-Java.str \
@@ -41,6 +43,7 @@ STRINCLUDES = \
 
 LDADD += $(SSL_LIBS)
 
+nodist_jtree15_parenthesize_SOURCES = jtree15-parenthesize.c
 nodist_jtree15_to_abox_SOURCES = jtree15-to-abox.c
 
 jtree15-parenthesize.str : $(top_builddir)/syn/v1.5/Java-15.def

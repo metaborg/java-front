@@ -21,6 +21,8 @@ SDFINCLUDES = \
   -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
   -I $(srcdir) \
   -I $(top_builddir)/syn/eblock \
+  -I $(top_builddir)/syn/basic \
+  -I $(top_builddir)/syn/generic \
   -I $(top_srcdir)/syn/basic \
   -I $(top_srcdir)/syn/generic
 

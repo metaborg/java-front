@@ -10,15 +10,17 @@ TBLS_DEFS = \
 sdfdata_DATA   = $(TBLS_DEFS) Basic-Java-Prefixed.sdf
 pkgdata_DATA   = Basic-Java.rtg 
 
-EXTRA_DIST     = $(sdfdata_DATA) $(wildcard *.sdf) 
+EXTRA_DIST     = $(BASIC_MODULES) $(STRATEGO_BASIC_MODULES)
 CLEANFILES     = $(TBLS_DEFS) Basic-Java-Prefixed.sdf Basic-Java.rtg
 
-SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front
-PGEN_FLAGS     = -m $*
+SDFINCLUDES = \
+  -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
+  -I $(top_builddir)/syn/basic
 
-SDF2RTG_FLAGS  = --main Basic-Java
+PGEN_FLAGS    = -m $*
+SDF2RTG_FLAGS = --main Basic-Java
 
-Basic-Java.def : \
+BASIC_MODULES = \
   Basic-Java.sdf \
   Java-Classes.sdf \
   Java-Comments.sdf \
@@ -37,9 +39,14 @@ Basic-Java.def : \
   Java-VarDecs.sdf \
   Java-WhiteSpace.sdf
 
+STRATEGO_BASIC_MODULES = \
+  Stratego-Basic-Java.sdf
+
+Basic-Java.def : $(BASIC_MODULES)
+
 Stratego-Basic-Java.def : \
   Basic-Java-Prefixed.sdf \
-  Stratego-Basic-Java.sdf
+  $(STRATEGO_BASIC_MODULES)
 
 Basic-Java-Prefixed.sdf: Basic-Java.def
 	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Basic-Java --name Basic-Java-Prefixed --prefix Java

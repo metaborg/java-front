@@ -19,12 +19,13 @@ CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) jtree-generic-parenthesize.st
 SCFLAGS        = --main io-$* 
 STRINCLUDES    = -I $(top_srcdir)/lib \
                  -I $(top_builddir)/sig \
-                 -I $(top_srcdir)/basic/pp \
+                 -I $(top_srcdir)/pp/basic \
                  -I $(GPP)/share/sdf/gpp \
                  -I $(GPP)/share/gpp
 LDADD += $(SSL_LIBS)
 
 nodist_jtree_generic2abox_SOURCES = jtree-generic2abox.c
+nodist_jtree_generic_parenthesize_SOURCES = jtree-generic-parenthesize.c
 
 jtree-generic-parenthesize.str : $(top_builddir)/syn/generic/Generic-Java.def
 	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ -m Generic-Java --omod jtree-generic-parenthesize --lang Generic-Java
