@@ -6,7 +6,7 @@ exports
 
   context-free syntax
     "|[" JavaBlockStm  "]|" -> E {cons("ToMetaExpr")}
-%%%    "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
+    "|[" JavaBlockStm* "]|" -> E {cons("ToMetaStmListExpr")}
 
     "|[" JavaLocalVarDec "]|" -> E {cons("ToMetaExpr")}
     "|[" JavaVarDec      "]|" -> E {cons("ToMetaExpr")}
@@ -23,7 +23,7 @@ exports
     "|[" JavaModifier   "]|" -> E {cons("ToMetaExpr")}
 
     "|[" JavaFormalParam        "]|" -> E {cons("ToMetaExpr")}
-%%%%    "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaListExpr")}
+    "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExprListExpr")}
 
     "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
 
@@ -53,48 +53,48 @@ exports
   variables
 %%%    MetaVarID -> JavaDeciLiteral
 
-    MetaVarID -> JavaID 
+       MetaVarID -> JavaID 
 
     MetaVarID -> JavaExpr
 
-    MetaVarID -> {JavaVarInit ","}*
+%%%    MetaVarID -> {JavaVarInit ","}*
 
-    MetaVarID -> JavaStm
+%%%    MetaVarID -> JavaStm
 
-    MetaVarID -> JavaBlockStm 
-    MetaVarID -> JavaBlockStm*
+       MetaVarID -> JavaBlockStm 
+%%%    MetaVarID -> JavaBlockStm*
 
     MetaVarID -> JavaLocalVarDec
     MetaVarID -> JavaVarDec
-    MetaVarID -> {JavaVarDec ","}+
+%%%    MetaVarID -> {JavaVarDec ","}+
 
-    MetaVarID -> JavaLHS
+%%%    MetaVarID -> JavaLHS
 
     MetaVarID -> JavaType
     MetaVarID -> JavaPrimType
     MetaVarID -> JavaRefType
 
-    MetaVarID -> JavaAmbName
-    MetaVarID -> JavaExprName 
-    MetaVarID -> JavaMethodName
-    MetaVarID -> JavaTypeName
-    MetaVarID -> JavaClassName
-    MetaVarID -> JavaPackageOrTypeName
+%%%    MetaVarID -> JavaAmbName
+%%%    MetaVarID -> JavaExprName 
+%%%    MetaVarID -> JavaMethodName
+%%%    MetaVarID -> JavaTypeName
+%%%    MetaVarID -> JavaClassName
+%%%    MetaVarID -> JavaPackageOrTypeName
 
     MetaVarID -> JavaMethodMod
-    MetaVarID -> JavaMethodMod*
+%%%    MetaVarID -> JavaMethodMod*
 
     MetaVarID -> JavaClassMod
-    MetaVarID -> JavaClassMod*
+%%%    MetaVarID -> JavaClassMod*
 
     MetaVarID -> JavaConstrMod
-    MetaVarID -> JavaConstrMod*
+%%%    MetaVarID -> JavaConstrMod*
 
     MetaVarID -> JavaVarMod
-    MetaVarID -> JavaVarMod*
+%%%    MetaVarID -> JavaVarMod*
 
     MetaVarID -> JavaFormalParam
-    MetaVarID -> JavaFormalParam*
+%%%    MetaVarID -> JavaFormalParam*
 
 
 
