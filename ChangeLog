@@ -1,5 +1,11 @@
 2004-07-25  Martin Bravenboer <martin@cs.uu.nl>
 
+	* test/gnu=classpath/Makefile.am: Pretty-print and parse all Java
+	source files in GN Classpath. All files can now be pretty-printed
+	(and parsed afterwards) with java-front. The result is not yet
+	compared to the original AST. Hope to add this check (and fix the
+	problems that will probably show up) next week.
+
 	* pp/pp-Java-Statements.str: fixes in break, continue and labeled
 	statements.
 
