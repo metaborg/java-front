@@ -1,20 +1,15 @@
+%%%
+ %% Section 7.5: Import Declarations
+ %%
+ %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %%%
 module languages/java-15/packages/ImportDeclarations
 exports
   sorts
     ImportDec
-    TypeImportDec
-    PackageImportDec
-    StaticImport
 
   context-free syntax
-    TypeImportDec             -> ImportDec {cons("ImportDec")}
-    PackageImportDec          -> ImportDec {cons("ImportDec")}
-
-
-    "import" TypeName ";" -> TypeImportDec  {cons("TypeRef")}
-    "import" PackageName "." "*" ";"  -> PackageImportDec {cons("PackageRef")}
-
-    StaticImport -> ImportDec {cons("ImportDec")}
-
-    "import" "static" TypeName "." Id  ";"  -> StaticImport {cons("TypeMemberRef")}
-    "import" "static" TypeName "." "*" ";"  -> StaticImport {cons("TypeMembersRef")}
+    "import" TypeName                  ";"  -> ImportDec {cons("TypeImportDec")}
+    "import" PackageName       "." "*" ";"  -> ImportDec {cons("TypeImportOnDemandDec")}
+    "import" "static" TypeName "." Id  ";"  -> ImportDec {cons("StaticImportDec")}
+    "import" "static" TypeName "." "*" ";"  -> ImportDec {cons("StaticImportOnDemandDec")}

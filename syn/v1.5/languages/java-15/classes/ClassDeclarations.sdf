@@ -5,12 +5,26 @@
  %%%
 module languages/java-15/classes/ClassDeclarations
 imports
+  languages/java-15/lexical/Identifiers
   languages/java-15/lexical/Modifiers
+  languages/java-15/types/ReferenceTypes
+  languages/java-15/types/TypeVariables
+  languages/java-15/classes/EnumDeclarations
 
 exports
   sorts
-    ClassMod
+    ClassDec
+    ClassDecHead
 
+  context-free syntax
+    EnumDec -> ClassDec
+
+    ClassDecHead "{" ClassBodyDec* "}" -> ClassDec {cons("ClassDec")}
+
+    ClassMod* "class" Id  TypeParams? Super? Interfaces? -> ClassDecHead {cons("ClassDecHead")}
+
+  %% 8.1.1: Class Modifiers
+  sorts ClassMod
   context-free syntax
     Anno      -> ClassMod
     Abstract  -> ClassMod
@@ -20,3 +34,33 @@ exports
     Static    -> ClassMod
     Final     -> ClassMod
     StrictFP  -> ClassMod
+
+  %% 8.1.4: Superclasses and Subclasses
+  sorts Super
+  context-free syntax
+
+    "extends" ClassType               -> Super        {cons("SuperSpec")}
+
+  %% 8.1.5: Superinterfaces
+  sorts Interfaces
+  context-free syntax
+    "implements" {InterfaceType ","}+ -> Interfaces   {cons("ImplementsSpec")}
+
+
+  %% 8.1.6: Class Body and Member Declarations
+  sorts
+    ClassBodyDec
+    ClassMemberDec
+
+  context-free syntax
+    ClassMemberDec -> ClassBodyDec
+    InstanceInit   -> ClassBodyDec
+    StaticInit     -> ClassBodyDec
+    ConstructorDec -> ClassBodyDec
+
+  context-free syntax
+    FieldDec     -> ClassMemberDec
+    MethodDec    -> ClassMemberDec
+    ClassDec     -> ClassMemberDec
+    InterfaceDec -> ClassMemberDec
+    ";"          -> ClassMemberDec {cons("Semicolon")}

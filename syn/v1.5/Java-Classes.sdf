@@ -10,12 +10,6 @@ exports
     ClassDec
 
   sorts
-    ClassDec
-    ClassBodyDec
-    Super
-    Interfaces
-    ClassBody
-    ClassMemberDec
     FieldDec
     StaticInit
     InstanceInit
@@ -24,23 +18,6 @@ exports
     CInvoke
 
   context-free syntax
-    EnumDec -> ClassDec
-    ClassDecHead "{" ClassBodyDec* "}" -> ClassDec {cons("ClassDec")}
-
-    ClassMod* "class" Id  Super? Interfaces? -> ClassDecHead {cons("ClassDecHead")}
-    "extends" ClassType                      -> Super        {cons("Extends")}
-    "implements" {InterfaceType ","}+        -> Interfaces   {cons("Implements")}
-
-    StaticInit     -> ClassBodyDec
-    InstanceInit   -> ClassBodyDec
-    ClassMemberDec -> ClassBodyDec
-    ConstructorDec -> ClassBodyDec
-
-    FieldDec     -> ClassMemberDec
-    MethodDec    -> ClassMemberDec
-    ClassDec     -> ClassMemberDec
-    InterfaceDec -> ClassMemberDec
-    ";"          -> ClassMemberDec {cons("Semicolon")}
 
     FieldMod* Type { VarDec ","}+ ";" -> FieldDec {cons("FieldDec")}
 

@@ -25,6 +25,6 @@ JAVA15_MODS = \
   Java-VarDecs.sdf \
   $(wildcard languages/java-15/lexical/*.sdf) \
   $(wildcard languages/java-15/types/*.sdf) \
-  $(wildcard languages/java-15/pacakges/*.sdf) \
+  $(wildcard languages/java-15/packages/*.sdf) \
   $(wildcard languages/java-15/classes/*.sdf) \
   $(wildcard languages/java-15/interfaces/*.sdf)
