@@ -117,7 +117,8 @@ exports
     "/" -/- [\/]
 
   context-free priorities
-    {
+    Expr "." "new" Id "(" {Expr ","}* ")" ClassBody? -> Expr
+  > {
       Expr ArraySubscript -> ArrayAccess
       Expr "." Id -> FieldAccess
       Expr "." Id -> MethodId
