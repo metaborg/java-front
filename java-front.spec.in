@@ -1,12 +1,12 @@
 Summary: java-front
 Name: @PACKAGE_TARNAME@
 Version: @PACKAGE_VERSION@
-Release: @SVN_REVISION@
+Release: 1
 License: LGPL
 Group: Development/Languages/Stratego
-URL: http://www.stratego-language.org
-Source: @PACKAGE_TARNAME@-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
+URL: http://www.stratego-language.org/Stratego/JavaFront
+Source: @PACKAGE_TARNAME@-@PACAKGE_VERSION@.tar.gz
+BuildRoot: %{_tmppath}/%{name}-@PACAKGE_VERSION@-buildroot
 Requires: aterm >= 2.1
 Requires: sdf2-bundle >= 2.1
 Requires: strategoxt >= 0.11
