@@ -1,6 +1,13 @@
+2004-07-26  Martin Bravenboer <martin@cs.uu.nl>
+
+	* test/gnu-classpath/Makefile.am: check diff of `parse | pp |
+	parse' and `parse' abstract syntax tree. This diff should be a
+	very good test of the pretty-printer. The check succeeds, so the
+	pretty-printer is safe to use on large codebases.
+
 2004-07-25  Martin Bravenboer <martin@cs.uu.nl>
 
-	* test/gnu=classpath/Makefile.am: Pretty-print and parse all Java
+	* test/gnu-classpath/Makefile.am: Pretty-print and parse all Java
 	source files in GN Classpath. All files can now be pretty-printed
 	(and parsed afterwards) with java-front. The result is not yet
 	compared to the original AST. Hope to add this check (and fix the

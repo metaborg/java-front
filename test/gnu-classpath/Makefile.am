@@ -36,11 +36,11 @@ check : parsecheck ppcheck
 ppcheck : gnu-classpath.list
 	FILES="`cat gnu-classpath.list`" && \
 	for file in $$FILES; do \
-		$(MAKE) "$${file%.java}.ppjtree" || exit 1; \
+		$(MAKE) "$${file%.java}.ppdiff" || exit 1; \
 	done
 
 %.ppdiff : %.jtree %.ppjtree
-	diff $*.jtree $*.ppjtree 
+	diff $*.jtree $*.ppjtree
 
 %.ppjtree : %.java
 	$(PARSEJAVA) -i $<  \
