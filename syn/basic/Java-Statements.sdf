@@ -13,8 +13,9 @@ exports
     Stm         -> BlockStm
     ClassDec    -> BlockStm
 
-    Type {VarDec ","}+ ";" -> LocalVarDec {cons("LocalVarDec")}
-    Type {VarDec ","}+     -> LVarDec {cons("LVarDec")}
+    "final" Type {VarDec ","}+ ";" -> LocalVarDec {cons("FinalLocalVarDec")}
+    Type {VarDec ","}+ ";"         -> LocalVarDec {cons("LocalVarDec")}
+    Type {VarDec ","}+             -> LVarDec {cons("LVarDec")}
 
     %% TODO: not all expressions are allowed as statements. 
     %% I do not want to inject certain specific expressions in a statement,

@@ -5,6 +5,9 @@ TestSuite(
   [ Test(Descr("simple assignment")
     , String("x = 1;"), Expr(Assign(ExprName(Id("x")), Lit(Deci("1"))))
     )
+   , Test(Descr("final declaration")
+    , String("final int x = 1;"), Success()
+    )
   , Test(Descr("dangling else and while"), File("statements/dangling-else-while.java")
     , If(ExprName(Id("a")),
         While(ExprName(Id("b")),

@@ -1,5 +1,13 @@
 2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
 
+	* Fixed typo causing unicode escape to be rejected.
+
+	* Added final local variabele declarations.
+
+	* Still 3 of 1035 GNU Classpath java.* don't parse.
+	
+2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
+
 	* Major performance improvements by removing a horrible reject
 	construct on 'InputChar'. This appeared to have an amazing bad
 	influence on the performance in modules with newline terminated
