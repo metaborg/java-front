@@ -109,6 +109,7 @@ exports
    %%%
   variables
     "lhs" [0-9]* -> JavaLHS {prefer}
+    "e"   [0-9]* -> JavaLHS {prefer}
 
   lexical syntax
     "lhs" [0-9]* -> JavaID {reject}

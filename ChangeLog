@@ -1,3 +1,9 @@
+2005-01-05  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/stratego-v1.5/Embedded-Java-15.sdf: 'lhs' is rather confusing
+	for the left-hand side. Added 'e' as a meta-variable for the
+	left-hand side. This is not ambiguous.
+
 2005-01-04  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/stratego-v1.5/Embedded-Java-15.sdf: added a variable for the
