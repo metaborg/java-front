@@ -1,5 +1,6 @@
+AC_PREREQ(2.57)
 AC_INIT([java-front],[0.3.0],[mbravenb@cs.uu.nl])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 
 USE_XT_PACKAGES
 
@@ -19,18 +20,18 @@ echo "** INFO -- SVN Revision is: $SVN_REVISION"
 
 AC_CONFIG_FILES([
   java-front.spec
-	Makefile
+  Makefile
     
-	syn/Makefile
-	syn/basic/Makefile
-	syn/generic/Makefile
+  syn/Makefile
+  syn/basic/Makefile
+  syn/generic/Makefile
 
-	sig/Makefile
-	sig/basic/Makefile
-	sig/generic/Makefile
+  sig/Makefile
+  sig/basic/Makefile
+  sig/generic/Makefile
 
-	pp/Makefile
-	xtc/Makefile
+  pp/Makefile
+  xtc/Makefile
   
   test/Makefile
   test/basic/Makefile

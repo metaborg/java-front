@@ -5,7 +5,7 @@ include $(wildcard *.dep)
 TBLS_DEFS      = Java.tbl Stratego-Java.tbl Java.def Stratego-Java.def
 
 sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
-pkgdata_DATA   = Java.rtg-nf
+pkgdata_DATA   = Java.rhg-nf
 
 EXTRA_DIST     = $(sdfdata_DATA)
 BOOTCLEANFILES = $(TBLS_DEFS)
