@@ -4,8 +4,10 @@ imports
 
 exports
   variables
-    [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
-    [xyz]  [0-9]*     -> JavaID          {prefer}
+    [ij]   [0-9]*          -> JavaDeciLiteral {prefer}
+    [ij]  "_" [a-zA-Z0-9]* -> JavaDeciLiteral {prefer}
+    [xyz]  [0-9]*          -> JavaID          {prefer}
+    [xyz] "_" [a-zA-Z0-9]* -> JavaID          {prefer}
 
 %%%
  %% Expressions
@@ -16,12 +18,16 @@ exports
    %% Variables for Expressions
    %%%
   variables
-    "e"    [0-9]*     -> JavaExpr           {prefer}
-    "e"    [0-9]* "*" -> {JavaVarInit ","}* {prefer}
-    "e"    [0-9]* "*" -> {JavaExpr ","}*    {prefer}
+    "e"    [0-9]*         -> JavaExpr           {prefer}
+    "e_" [a-zA-Z0-9]*     -> JavaExpr           {prefer}
+    "e"    [0-9]* "*"     -> {JavaVarInit ","}* {prefer}
+    "e_" [a-zA-Z0-9]* "*" -> {JavaVarInit ","}* {prefer}
+    "e"    [0-9]* "*"     -> {JavaExpr ","}*    {prefer}
+    "e_" [a-zA-Z0-9]* "*" -> {JavaExpr ","}*    {prefer}
 
   lexical syntax
-    "e" [0-9]* -> JavaID {reject}
+    "e" [0-9]*               -> JavaID {reject}
+    "e_" [a-zA-Z0-9]*        -> JavaID {reject}
 
 %%%
  %% Statements
@@ -32,10 +38,12 @@ exports
    %% Variables for Statements
    %%%
   variables
-    "stm"  [0-9]*     -> JavaStm         {prefer}
-    "bstm" [0-9]*     -> JavaBlockStm    {prefer}
-    "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
-
+    "stm"  [0-9]*             -> JavaStm         {prefer}
+    "stm_" [a-zA-Z0-9]*       -> JavaStm         {prefer}
+    "bstm" [0-9]*             -> JavaBlockStm    {prefer}
+    "bstm_" [a-zA-Z0-9]*      -> JavaBlockStm    {prefer}
+    "bstm" [0-9]* "*"         -> JavaBlockStm*   {prefer}    
+    "bstm_" [a-zA-Z0-9]* "*"  -> JavaBlockStm*   {prefer}
   %%%
    %% Quotations for Statements
    %%%
@@ -76,13 +84,17 @@ exports
    %% Variables for Variable Declarations
    %%%
   variables
-    "lvdec" [0-9]*     -> JavaLocalVarDec    {prefer}
-     "vdec" [0-9]*     -> JavaVarDec         {prefer}
-     "vdec" [0-9]* "*" -> {JavaVarDec ","}+  {prefer}
+    "lvdec" [0-9]*            -> JavaLocalVarDec    {prefer}
+    "lvdec_" [a-zA-Z0-9]*     -> JavaLocalVarDec    {prefer}
+     "vdec" [0-9]*            -> JavaVarDec         {prefer}
+     "vdec_" [a-zA-Z0-9]*     -> JavaVarDec         {prefer}
+     "vdec_" [a-zA-Z0-9]* "*" -> {JavaVarDec ","}+  {prefer}
 
   lexical syntax
-    "lvdec" -> JavaID {reject}
-     "vdec" -> JavaID {reject}
+    "lvdec"               -> JavaID {reject}
+    "lvdec_" [a-zA-Z0-9]* -> JavaID {reject}
+     "vdec"               -> JavaID {reject}
+     "vdec_" [a-zA-Z0-9]* -> JavaID {reject}
 
   %%%
    %% Quotations for Local Variable Declarations
@@ -128,20 +140,32 @@ exports
     MetaRefTypeVar  -> JavaRefType  {prefer}
 
   lexical syntax
-    "t"  [0-9]* -> MetaTypeVar
-    "ty" [0-9]* -> MetaTypeVar
+    "t"  [0-9]*        -> MetaTypeVar
+    "t_" [a-zA-Z0-9]*  -> MetaTypeVar
+    "ty" [0-9]*        -> MetaTypeVar
+    "ty_" [a-zA-Z0-9]* -> MetaTypeVar
 
-    "primt"  [0-9]* -> MetaPrimTypeVar
-    "primty" [0-9]* -> MetaPrimTypeVar
-    "reft"   [0-9]* -> MetaRefTypeVar
-    "refty"  [0-9]* -> MetaRefTypeVar
+    "primt"  [0-9]*        -> MetaPrimTypeVar
+    "primt_" [a-zA-Z0-9]*  -> MetaPrimTypeVar
+    "primty" [0-9]*        -> MetaPrimTypeVar
+    "primty_" [a-zA-Z0-9]* -> MetaPrimTypeVar
+    "reft"   [0-9]*        -> MetaRefTypeVar
+    "reft_" [a-zA-Z0-9]*   -> MetaRefTypeVar
+    "refty"  [0-9]*        -> MetaRefTypeVar
+    "refty_" [a-zA-Z0-9]*  -> MetaRefTypeVar
 
-    "t"  [0-9]* -> JavaID {reject}
-    "ty" [0-9]* -> JavaID {reject}
-    "primt"  [0-9]* -> JavaID {reject}
-    "primty" [0-9]* -> JavaID {reject}
-    "reft"   [0-9]* -> JavaID {reject}
-    "refty"  [0-9]* -> JavaID {reject}
+    "t"  [0-9]*            -> JavaID {reject}
+    "t_" [a-zA-Z0-9]*      -> JavaID {reject}
+    "ty" [0-9]*            -> JavaID {reject}
+    "ty_" [a-zA-Z0-9]*     -> JavaID {reject}
+    "primt"  [0-9]*        -> JavaID {reject}
+    "primt_" [a-zA-Z0-9]*  -> JavaID {reject}
+    "primty" [0-9]*        -> JavaID {reject}
+    "primty_" [a-zA-Z0-9]* -> JavaID {reject}
+    "reft"   [0-9]*        -> JavaID {reject}
+    "reft_" [a-zA-Z0-9]*   -> JavaID {reject}    
+    "refty"  [0-9]*        -> JavaID {reject}
+    "refty_" [a-zA-Z0-9]*  -> JavaID {reject}
 
   lexical restrictions
     MetaTypeVar -/- [a-zA-Z0-9\_\$]
@@ -174,12 +198,18 @@ exports
    %% Variables for Names
    %%%
   variables
-    "ambname"  [0-9]* -> JavaAmbName    {prefer}
-    "ename"    [0-9]* -> JavaExprName   {prefer}
-    "fname"    [0-9]* -> JavaMethodName {prefer}
-    "tname"    [0-9]* -> JavaTypeName   {prefer}
-    "cname"    [0-9]* -> JavaClassName  {prefer}
-    "pkgtname" [0-9]* -> JavaPackageOrTypeName  {prefer}
+    "ambname"  [0-9]*        -> JavaAmbName    {prefer}
+    "ambname_" [a-zA-Z0-9]*  -> JavaAmbName    {prefer}
+    "ename"    [0-9]*        -> JavaExprName   {prefer}
+    "ename_" [a-zA-Z0-9]*    -> JavaExprName   {prefer}
+    "fname"    [0-9]*        -> JavaMethodName {prefer}
+    "fname_" [a-zA-Z0-9]*    -> JavaMethodName {prefer}
+    "tname"    [0-9]*        -> JavaTypeName   {prefer}
+    "tname_" [a-zA-Z0-9]*    -> JavaTypeName   {prefer}
+    "cname"    [0-9]*        -> JavaClassName  {prefer}
+    "cname_" [a-zA-Z0-9]*    -> JavaClassName  {prefer}
+    "pkgtname" [0-9]*        -> JavaPackageOrTypeName  {prefer}
+    "pkgtname_" [a-zA-Z0-9]* -> JavaPackageOrTypeName  {prefer}
 
   %%%
    %% Quotations for Names
@@ -201,17 +231,26 @@ exports
    %% Variables for Modifiers
    %%%
   variables
-     "mod" [0-9]*     -> JavaMethodMod  {prefer}
-     "mod" [0-9]* "*" -> JavaMethodMod* {prefer}
+     "mod" [0-9]*            -> JavaMethodMod  {prefer}
+     "mod_" [a-zA-Z0-9]*     -> JavaMethodMod  {prefer}
+     "mod" [0-9]* "*"        -> JavaMethodMod* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> JavaMethodMod* {prefer}
+     
+     "mod" [0-9]*            -> JavaClassMod  {prefer}
+     "mod_" [a-zA-Z0-9]*     -> JavaClassMod  {prefer}
+     "mod" [0-9]* "*"        -> JavaClassMod* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> JavaClassMod* {prefer}
+     
+     "mod" [0-9]*            -> JavaConstrMod  {prefer}
+     "mod_" [a-zA-Z0-9]*     -> JavaConstrMod  {prefer}
+     "mod" [0-9]* "*"        -> JavaConstrMod* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> JavaConstrMod* {prefer}
+     
+     "mod" [0-9]*            -> JavaVarMod  {prefer}
+     "mod_" [a-zA-Z0-9]*     -> JavaVarMod  {prefer}
+     "mod" [0-9]* "*"        -> JavaVarMod* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> JavaVarMod* {prefer}
 
-     "mod" [0-9]*     -> JavaClassMod  {prefer}
-     "mod" [0-9]* "*" -> JavaClassMod* {prefer}
-
-     "mod" [0-9]*     -> JavaConstrMod  {prefer}
-     "mod" [0-9]* "*" -> JavaConstrMod* {prefer}
-
-     "mod" [0-9]*     -> JavaVarMod  {prefer}
-     "mod" [0-9]* "*" -> JavaVarMod* {prefer}
 
   %%%
    %% Quotations for Modifiers
@@ -230,8 +269,10 @@ exports
    %% Variables for Formal Parameters
    %%%
   variables
-     "param" [0-9]*     -> JavaFormalParam  {prefer}
-     "param" [0-9]* "*" -> JavaFormalParam* {prefer}
+     "param" [0-9]*            -> JavaFormalParam  {prefer}
+     "param_" [a-zA-Z0-9]*     -> JavaFormalParam  {prefer}
+     "param" [0-9]* "*"        -> JavaFormalParam* {prefer}
+     "param_" [a-zA-Z0-9]* "*" -> JavaFormalParam* {prefer}
 
   %%%
    %% Quotations for Formal Parameters
