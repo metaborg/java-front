@@ -1,0 +1,20 @@
+module Java-Enums
+imports
+  Java-Keywords
+  Java-Modifiers
+  Java-Classes
+
+exports
+  context-free syntax
+    ClassMod* "enum" Id Interfaces? EnumBody -> ClassDec
+
+    "{" {EnumConstant ","}* Comma? (";" ClassBodyDec*)? "}" -> EnumBody {cons("EnumBody")}
+
+    Annotations Identifier ("(" {Expr ","}* ")")? ClassBody? -> EnumConstant
+    
+
+  lexical syntax
+    "enum" -> Keyword
+
+  lexical restrictions
+    "enum" -/- [A-Za-z0-9\_\$]

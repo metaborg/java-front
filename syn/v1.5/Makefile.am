@@ -1,8 +1,12 @@
 include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
-TBLS_DEFS      = Generic-Java.tbl Stratego-Generic-Java.tbl \
-                 Generic-Java.def Stratego-Generic-Java.def
+TBLS_DEFS = \
+  Java-1.5.def \
+  Java-1.5.tbl \
+  Generic-Java.def \
+  Generic-Java.tbl \
+  Stratego-Generic-Java.tbl
 
 sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Generic-Java-Prefixed.sdf
 pkgdata_DATA   = Generic-Java.rtg
