@@ -5,6 +5,7 @@
  %%%
 module languages/java-15/interfaces/InterfaceDeclarations
 imports
+  languages/java-15/interfaces/ConstantDeclarations
   languages/java-15/interfaces/AbstractMethodDeclarations
   Java-Names
   Java-Modifiers
@@ -27,7 +28,7 @@ exports
 
     InterfaceDecHead "{" InterfaceMemberDec* "}" -> InterfaceDec {cons("InterfaceDec")}
 
-    InterfaceMod* "interface" Id ExtendsInterfaces? -> InterfaceDecHead {cons("InterfaceDecHead")}
+    InterfaceMod* "interface" Id TypeParams? ExtendsInterfaces? -> InterfaceDecHead {cons("InterfaceDecHead")}
     "extends" {InterfaceType ","}+ -> ExtendsInterfaces {cons("ExtendsInterfaces")}
 
   context-free syntax

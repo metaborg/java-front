@@ -4,11 +4,6 @@
  %% @author  Martin Bravenboer <martin@cs.uu.nl>
  %%%
 module languages/java-15/classes/EnumDeclarations
-imports
-  Java-Keywords
-  Java-Modifiers
-  Java-Classes
-
 exports
   sorts
     EnumDec
@@ -30,9 +25,3 @@ exports
     "(" {Expr ","}* ")"  -> EnumConstArgs {bracket}
 
     ";" ClassBodyDec* -> EnumBodyDecs {cons("EnumBodyDecs")}
-
-  lexical syntax
-    "enum" -> Keyword
-
-  lexical restrictions
-    "enum" -/- [A-Za-z0-9\_\$]

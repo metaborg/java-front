@@ -9,14 +9,20 @@ imports
   Java-Expressions
 
 exports
-  context-free start-symbols Anno
-  sorts Anno ElemVal ElemValPair
+  context-free start-symbols
+    Anno
+
+  sorts
+    Anno
+    ElemVal
+    ElemValPair
 
   context-free syntax
     "@" TypeName "(" {ElemValPair ","}* ")" -> Anno {cons("Anno")}
     "@" TypeName "(" ElemVal ")"            -> Anno {cons("SingleElemAnno")}
     "@" TypeName                            -> Anno {cons("MarkerAnno")}
 
+  context-free syntax  
     Id "=" ElemVal -> ElemValPair {cons("ElemValPair")}
 
     %% Expr is too general: assignments are not allowed.

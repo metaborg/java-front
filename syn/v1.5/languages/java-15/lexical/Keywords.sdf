@@ -1,5 +1,9 @@
-module Java-Keywords
-
+%%%
+ %% Section 3.7: Comments
+ %%
+ %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/lexical/Keywords
 exports
   sorts Keyword
   lexical syntax
@@ -18,6 +22,7 @@ exports
     "do"            -> Keyword
     "double"        -> Keyword
     "else"          -> Keyword
+    "enum"          -> Keyword
     "extends"       -> Keyword
     "final"         -> Keyword
     "finally"       -> Keyword
@@ -70,6 +75,7 @@ exports
     "do"       
     "double"   
     "else"     
+    "enum"
     "extends"  
     "final"     
     "finally"   

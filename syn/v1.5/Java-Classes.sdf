@@ -25,7 +25,7 @@ exports
     CInvoke
 
   context-free syntax
-
+    EnumDec -> ClassDec
     ClassDecHead "{" ClassBodyDec* "}" -> ClassDec {cons("ClassDec")}
 
     ClassMod* "class" Id  Super? Interfaces? -> ClassDecHead {cons("ClassDecHead")}

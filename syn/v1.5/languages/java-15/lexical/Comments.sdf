@@ -1,8 +1,9 @@
-module Java-Comments
-imports
-  Java-Literals
-  Java-WhiteSpace
-
+%%%
+ %% Section 3.7: Comments
+ %%
+ %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/lexical/Comments
 exports
   sorts
     Comment

@@ -1,6 +1,4 @@
 module Java-Names
-imports Java-Identifiers
-
 exports
   sorts
     Name

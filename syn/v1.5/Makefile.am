@@ -19,12 +19,7 @@ Java-15.def : $(JAVA15_MODS)
 JAVA15_MODS = \
   Java-15.sdf \
   Java-Classes.sdf \
-  Java-Comments.sdf \
   Java-Expressions.sdf \
-  Java-Identifiers.sdf \
-  Java-Keywords.sdf \
-  Java-Lexical.sdf \
-  Java-Literals.sdf \
   Java-MethodDecs.sdf \
   Java-Modifiers.sdf \
   Java-Names.sdf \
@@ -32,7 +27,7 @@ JAVA15_MODS = \
   Java-TypeDecs.sdf \
   Java-Types.sdf \
   Java-VarDecs.sdf \
-  Java-WhiteSpace.sdf \
+  $(wildcard languages/java-15/lexical/*.sdf) \
   $(wildcard languages/java-15/pacakges/*.sdf) \
   $(wildcard languages/java-15/classes/*.sdf) \
   $(wildcard languages/java-15/interfaces/*.sdf)

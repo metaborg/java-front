@@ -1,9 +1,10 @@
 module Java-MethodDecs
-imports Java-Lexical
-        Java-Modifiers 
-        Java-Types
-        Java-Names
-        Java-VarDecs
+imports
+  Java-Modifiers 
+  Java-Types
+  Java-Names
+  Java-VarDecs
+
 exports
   sorts MethodDec MethodHead ResultType FormalParam Throws
   context-free syntax

@@ -4,6 +4,12 @@
  %% @author  Martin Bravenboer <martin@cs.uu.nl
  %%%
 module languages/java-15/interfaces/AnnotationTypes
+imports
+  languages/java-15/classes/EnumDeclarations
+  languages/java-15/interfaces/AbstractMethodDeclarations
+  languages/java-15/interfaces/ConstantDeclarations
+  languages/java-15/interfaces/Annotations
+
 exports
   context-free start-symbols
     AnnoDec
@@ -17,10 +23,14 @@ exports
     AnnoDecHead "{" AnnoElemDec* "}" -> AnnoDec {cons("AnnoDec")}
     InterfaceMod* "@" "interface" Id -> AnnoDecHead {cons("AnnoDecHead")}
 
-    
+  context-free syntax
+    AbstractMethodMod* Type Identifier "(" ")" DefaultVal? ";" -> AnnoElemDec {cons("AnnoMethodDec")}
+
     ConstantDec  -> AnnoElemDec
     ClassDec     -> AnnoElemDec
     InterfaceDec -> AnnoElemDec
     EnumDec      -> AnnoElemDec
     AnnoDec      -> AnnoElemDec
     ";"          -> AnnoElemDec {cons("Semicolon")}
+
+    "default" ElemVal -> DefaultVal {cons("DefaultVal")}

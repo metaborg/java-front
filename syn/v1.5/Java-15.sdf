@@ -1,12 +1,23 @@
 module Java-15
 imports
+  Java-Names
   Java-Classes
+  Java-Expressions
+  Java-Literals
+  Java-MethodDecs
+  Java-Modifiers
+  Java-Names
+  Java-Statements
+  Java-TypeDecs
+  Java-Types
+  Java-VarDecs
+
+  languages/java-15/lexical/Main
   languages/java-15/packages/ImportDeclarations
   languages/java-15/classes/Main
   languages/java-15/interfaces/Main
 
 imports
-  Java-Lexical
   Java-Names
   Java-TypeDecs
 
