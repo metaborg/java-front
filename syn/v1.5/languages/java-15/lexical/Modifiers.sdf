@@ -12,6 +12,7 @@ exports
     Volatile
     Synchronized
     StrictFP
+    Modifier
 
   context-free syntax
     "public"       -> Public       {cons("Public")}
@@ -27,28 +28,14 @@ exports
     "synchronized" -> Synchronized {cons("Synchronized")}
     "strictfp"     -> StrictFP     {cons("StrictFP")}
 
-%%    AccessMod      -> ClassMod
-%%    Static         -> ClassMod
-%%    Abstract       -> ClassMod
-%%    Final          -> ClassMod
-%%    StrictFP       -> ClassMod
-
-%%    AccessMod      -> FieldMod
-%%    Static         -> FieldMod
-%%    Transient      -> FieldMod
-%%    Volatile       -> FieldMod
-%%    Final          -> FieldMod
-
-%%    AccessMod      -> ConstructorMod
-
-%%    Public         -> AccessMod
-%%    Protected      -> AccessMod
-%%    Private        -> AccessMod
-
-%%    AccessMod      -> MethodMod
-%%    Static         -> MethodMod
-%%    Abstract       -> MethodMod
-%%    Final          -> MethodMod
-%%    Synchronized   -> MethodMod
-%%    Native         -> MethodMod
-%%    StrictFP       -> MethodMod
+    Public       -> Modifier
+    Private      -> Modifier
+    Protected    -> Modifier
+    Abstract     -> Modifier
+    Final        -> Modifier
+    Static       -> Modifier
+    Native       -> Modifier
+    Transient    -> Modifier
+    Volatile     -> Modifier
+    Synchronized -> Modifier
+    StrictFP     -> Modifier

@@ -1,3 +1,16 @@
+2004-15-10  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/v1.5/languages/java-15/lexical/Modifiers.sdf: added a
+	general sort Modifier.
+
+	* syn/stratego-v1.5/Stratego-Java-15.sdf: added variables and
+	quotations for names, modifiers. Several other improvements of the
+	Java embedding in Stratego. This embedding really needs to be
+	parameterized with the symbols of the host language, since you
+	definitely do not want to define this for every host language.
+
+	* java-front.m4: use AS_HELP_STRING instead of AC_HELP_STRING.
+
 2004-09-08  Martin Bravenboer <martin@cs.uu.nl>
 
 	* xtc/parse-java.str: now supports the --preserve-comments and

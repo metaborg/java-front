@@ -11,7 +11,7 @@ AC_DEFUN([USE_JAVA_FRONT], [
   AC_REQUIRE([AC_PROG_CC])
 
   AC_ARG_WITH([java-front], 
-    AC_HELP_STRING([--with-java-front=DIR], [use java-front at DIR  @<:@PREFIX@:>@]), 
+    AS_HELP_STRING([--with-java-front=DIR], [use java-front at DIR  @<:@PREFIX@:>@]), 
     [JAVA_FRONT=$withval], 
     [JAVA_FRONT=$prefix]
   )
@@ -42,7 +42,7 @@ AC_DEFUN([USE_J2SDK], [
   AC_REQUIRE([AC_PROG_CC])
 
   AC_ARG_WITH([j2sdk],
-    AC_HELP_STRING([--j2sdk=DIR],
+    AS_HELP_STRING([--j2sdk=DIR],
                    [use J2SDK at DIR @<:@prefix@:>@]),
     [J2SDK=$withval],
     [J2SDK=$prefix]

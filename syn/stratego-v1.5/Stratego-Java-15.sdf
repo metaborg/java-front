@@ -4,22 +4,69 @@ imports Java-15-Prefixed StrategoRenamed
 exports
   context-free start-symbols StrategoModule
 
-  %% Variables
+  variables
+    [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
+    [xyz]  [0-9]*     -> JavaID          {prefer}
 
+  %%%
+   %% Variables for Expressions
+   %%%
   variables
     "e"    [0-9]*     -> JavaExpr {prefer}
-    "t"    [0-9]*     -> JavaType {prefer}
     "e"    [0-9]* "*" -> {JavaVarInit ","}* {prefer}
     "e"    [0-9]* "*" -> {JavaExpr ","}*    {prefer}
 
-    "stm" [0-9]*      -> JavaStm         {prefer}
+  %%%
+   %% Variables for Statements
+   %%%
+  variables
+    "stm"  [0-9]*     -> JavaStm         {prefer}
     "bstm" [0-9]*     -> JavaBlockStm    {prefer}
     "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
-    [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
-    [xyz]  [0-9]*     -> JavaID          {prefer}
-    "ty"   [0-9]*     -> JavaType        {prefer}
 
-  %% Quotation
+  %%%
+   %% Variables for Types
+   %%%
+  variables
+    "t"  [0-9]* -> JavaType {prefer}
+    "ty" [0-9]* -> JavaType {prefer}
+
+  %%%
+   %% Variables for Names
+   %%%
+  variables
+    "ambname"  [0-9]* -> JavaAmbName    {prefer}
+    "ename"    [0-9]* -> JavaExprName   {prefer}
+    "fname"    [0-9]* -> JavaMethodName {prefer}
+    "tname"    [0-9]* -> JavaTypeName   {prefer}
+    "cname"    [0-9]* -> JavaClassName  {prefer}
+    "pkgtname" [0-9]* -> JavaPackageOrTypeName  {prefer}
+
+  %%%
+   %% Quotations for Names
+   %%%
+  context-free syntax
+    "ambname"  "|[" JavaAmbName    "]|" -> StrategoTerm {cons("ToTerm")}
+    "ename"    "|[" JavaExprName   "]|" -> StrategoTerm {cons("ToTerm")}
+    "fname"    "|[" JavaMethodName "]|" -> StrategoTerm {cons("ToTerm")}
+    "tname"    "|[" JavaTypeName   "]|" -> StrategoTerm {cons("ToTerm")}
+    "cname"    "|[" JavaClassName  "]|" -> StrategoTerm {cons("ToTerm")}
+    "pkgtname" "|[" JavaPackageOrTypeName "]|" -> StrategoTerm {cons("ToTerm")}
+
+  %%%
+   %% Variables for Modifiers
+   %%%
+  variables
+    "mmod" [0-9]*     -> JavaMethodMod  {prefer}
+    "mmod" [0-9]* "*" -> JavaMethodMod* {prefer}
+
+  %%%
+   %% Quotations for Modifiers
+   %%%
+  context-free syntax
+           "|[" JavaModifier "]|" -> StrategoTerm {cons("ToTerm")}
+    "mod"  "|[" JavaModifier "]|" -> StrategoTerm {cons("ToTerm")}
+
 
   context-free syntax
 
@@ -121,10 +168,10 @@ exports
     "~"  StrategoTerm  ->  JavaFormalParam       {cons("FromTerm")}
     "~*" StrategoTerm  -> {JavaFormalParam ","}* {cons("FromTerm")}
 
-    "~"      StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
-    "~*"     StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
-    "~bstm:" StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
-    "~bstm*" StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
+    "~"       StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
+    "~*"      StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
+    "~bstm:"  StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
+    "~bstm*:" StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
 
     "~stm:" StrategoTerm  -> JavaStm {prefer, cons("FromTerm")}
 
@@ -146,6 +193,7 @@ exports
     "~"  StrategoTerm  -> JavaInterfaceMemberDec  {cons("FromTerm")}
     "~*" StrategoTerm  -> JavaInterfaceMemberDec* {cons("FromTerm")}
 
+    "~i:"      StrategoTerm -> JavaDeciLiteral   {cons("FromTerm")}
     "~deci:"   StrategoTerm -> JavaDeciLiteral   {cons("FromTerm")}
     "~hexa:"   StrategoTerm -> JavaHexaLiteral   {cons("FromTerm")}
     "~octa:"   StrategoTerm -> JavaOctaLiteral   {cons("FromTerm")}
