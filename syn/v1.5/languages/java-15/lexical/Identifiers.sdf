@@ -18,7 +18,7 @@ exports
     ID -> Id {cons("Id")}
 
   lexical syntax
-    [A-Za-z\_\$] [A-Za-z0-9\_\$]* -> ID
+    [A-Za-z\_\$][A-Za-z0-9\_\$]* -> ID
     
     Keyword -> ID {reject}
     "true"  -> ID {reject}

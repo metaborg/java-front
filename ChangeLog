@@ -1,3 +1,24 @@
+2004-10-17  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/stratego-v1.5/Stratego-Java-15.sdf: another interesting
+	problem related to heuristic filters and ambiguities. We are all
+	writing variables in the following way:
+
+	variables
+	  "e" [0-9]* -> JavaExpr {prefer}
+
+	Unfortunately, this can cause many ambiguities! There is no follow
+	restriction for the variable name, which means that identifiers or
+	keywords might be split. For example, I was hit by 'transient'
+	being parsed as 't' 'ransient'. Since variables are often
+	preferred, this option was chosen instead of the correct parse:
+	the keyword transient.
+
+	So, always put follow restrictions on meta-variables. Usually,
+	meta-variables are not allowed to be followed by the identifiers
+	of the host language. Maybe we could generate this stuff by
+	analyzing the follow restrictions of the object language.
+
 2004-10-16  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/stratego-v1.5/Stratego-Java-15.sdf: removed the quotation

@@ -60,8 +60,14 @@ exports
    %% Variables for Types
    %%%
   variables
-    "t"  [0-9]* -> JavaType
-    "ty" [0-9]* -> JavaType {prefer}
+    TypeVar -> JavaType 
+
+  lexical syntax
+    "t"  [0-9]* -> TypeVar
+    "ty" [0-9]* -> TypeVar
+
+  lexical restrictions
+    TypeVar -/- [a-zA-Z0-9\_\$]
 
   %%%
    %% Variables for Names
