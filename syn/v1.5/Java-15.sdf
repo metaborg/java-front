@@ -4,6 +4,7 @@ imports
   Java-Enums
   Java-StaticImport
   Java-Annotations
+  Java-AnnotationTypes
 
 imports
   Java-Lexical
