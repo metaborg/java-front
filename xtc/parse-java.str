@@ -34,11 +34,11 @@ strategies
 
     ; if must-preserve-comments then
         xtc-transform(!"asfix-anno-comments")
-      else id end
+      end
 
     ; if must-preserve-positions then
         xtc-transform(!"addPosInfo", !["-p", "Foo.java"])
-      else id end
+      end
 
     ; xtc-implode-asfix
 
