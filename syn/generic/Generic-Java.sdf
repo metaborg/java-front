@@ -19,8 +19,8 @@ exports
 
     %% types
 
-    TypeName -> ClassType {reject}
-    TypeName -> InterfaceType {reject}
+    TypeName -> ClassType {avoid}
+    TypeName -> InterfaceType {avoid}
 
     { ClassTypePart "."}+     -> ClassType {cons("GClassType")}
     { InterfaceTypePart "."}+ -> InterfaceType {cons("GInterfaceType")}
