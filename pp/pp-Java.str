@@ -168,10 +168,10 @@ strategies
     VarDec(i, init) -> box |[ H hs=1 [~i "=" ~init] ]|
 
   java-to-box:
-    VarId(Id(i)) -> S(i)
+    VarId(Id(s)) -> box |[ s ]|
 
   java-to-box:
-    VarId(i, dims) -> box |[ H hs=0 [~i ~*dims] ]|
+    VarId(Id(s), b*) -> box |[ H hs=0 [s b*] ]|
 
   java-to-box:
     Dim() -> box |[ H hs=0 ["[" "]"] ]|
