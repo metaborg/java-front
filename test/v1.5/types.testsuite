@@ -1,0 +1,5 @@
+testsuite Java 1.5 Types
+topsort Type
+
+test param array
+  "Class<?>[]" -> Foo

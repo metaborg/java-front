@@ -1,5 +1,12 @@
 2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
 
+	* pp/pp-Java.str: ad-hoc fix for an interesting problem:
+	Minus(Minus(e)) was pretty-printed as --e and therefore parsed as
+	PreDecr afterwards. This cannot be derived from the priorities,
+	but maybe the lexical restrictions could be used ... scary!
+	
+2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+
 	* syn/v1.5/languages/java-15/expressions/UnaryOperators.sdf: the
 	priority of a primitive cast "(int) e", is different from the cast
 	to a reference type "(Foo) e". In the 'basic' SDF syntax

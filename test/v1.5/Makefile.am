@@ -10,7 +10,8 @@ TESTSUITES = \
   expressions.testsuite \
   $(top_srcdir)/test/basic/floating-point-literals.testsuite \
   $(top_srcdir)/test/basic/lexical-translations.testsuite \
-  statements.testsuite
+  statements.testsuite \
+  types.testsuite
 
 PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java-15.tbl`"
 

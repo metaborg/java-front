@@ -29,10 +29,19 @@ imports
 strategies
 
   java-pretty-print = 
-      topdown(try(repeat(java-to-box)))
+      topdown(try(very-special-conflict))
+    ; topdown(try(repeat(java-to-box)))
     ; concat-content
 
-strategies
+rules
+
+  very-special-conflict:
+    Minus(Minus(e)) -> Minus(Parenthetical(Minus(e)))
+
+  very-special-conflict:
+    Plus(Plus(e)) -> Plus(Parenthetical(Plus(e)))
+
+rules
 
   java-to-box:
     CompilationUnit(Some(package), imports, types) -> box |[ V vs=1 [~package V vs=0 [ ~*imports ] V vs=1 [ ~*types ]] ]|
