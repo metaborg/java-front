@@ -5,11 +5,11 @@ include $(wildcard *.dep)
 TBLS_DEFS      = Generic-Java.tbl Stratego-Generic-Java.tbl \
                  Generic-Java.def Stratego-Generic-Java.def
 
-sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
+sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Generic-Java-Prefixed.sdf
 pkgdata_DATA   = Generic-Java.rtg-nf
 
 EXTRA_DIST     = $(sdfdata_DATA)
-BOOTCLEANFILES = $(TBLS_DEFS)
+BOOTCLEANFILES = $(TBLS_DEFS) Generic-Java-Prefixed.sdf
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
                  -I ${top_srcdir}/syn/basic
@@ -40,3 +40,6 @@ Stratego-Generic-Java.def : \
   Generic-Java.def \
   Stratego-Generic-Java.sdf \
   ${top_srcdir}/syn/basic/Stratego-Java.sdf
+
+Generic-Java-Prefixed.sdf: Generic-Java.def
+	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Generic-Java --name Generic-Java-Prefixed --prefix Java

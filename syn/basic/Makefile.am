@@ -4,7 +4,7 @@ include $(wildcard *.dep)
 
 TBLS_DEFS      = Java.tbl Stratego-Java.tbl Java.def Stratego-Java.def
 
-sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
+sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Java-Prefixed.sdf
 pkgdata_DATA   = Java.rtg-nf
 
 EXTRA_DIST     = $(sdfdata_DATA)
