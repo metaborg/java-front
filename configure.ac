@@ -1,5 +1,5 @@
 AC_PREREQ(2.57)
-AC_INIT([java-front],[0.4.0],[martin@cs.uu.nl])
+AC_INIT([java-front],[0.4.0pre],[stratego-bugs@cs.uu.nl])
 AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 
 USE_XT_PACKAGES
@@ -41,5 +41,6 @@ AC_CONFIG_FILES([
   test/generic/Makefile
   test/generic/compilation-units/Makefile
   test/gnu-classpath/Makefile
+  test/j2sdk/Makefile
 ])
 AC_OUTPUT

@@ -1,3 +1,11 @@
+2004-02-31  Martin Bravenboer <martin@cs.uu.nl>
+
+	* test/j2sdk: separate directory for j2sdk testsuites.
+
+	* Version to 0.4pre.
+
+	* Bugs to stratego-bugs@cs.uu.nl
+
 2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
 
 	* Follow restriction for /* */ and LAYOUT?. All of GNU Classpath
