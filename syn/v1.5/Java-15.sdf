@@ -1,8 +1,6 @@
 module Java-15
 imports
   Java-Expressions
-  Java-Statements
-  Java-VarDecs
 
 imports
   languages/java-15/names/Main

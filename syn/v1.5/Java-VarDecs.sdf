@@ -1,9 +1,0 @@
-module Java-VarDecs
-imports
-  Java-Expressions
-
-exports
-  sorts ArrayInit
-  context-free syntax
-    "{" {VarInit ","}*     "}" -> ArrayInit {cons("ArrayInit")}
-    "{" {VarInit ","}* "," "}" -> ArrayInit {cons("ArrayInit")}

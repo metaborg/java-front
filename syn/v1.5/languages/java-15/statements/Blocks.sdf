@@ -1,0 +1,26 @@
+%%%
+ %% Section 14.2: Blocks
+ %%
+ %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/statements/Blocks
+imports
+  languages/java-15/classes/ClassDeclarations
+  languages/java-15/statements/LocalVariableDeclarations
+  languages/java-15/statements/Statements
+
+exports
+  context-free start-symbols
+    Block
+    BlockStm
+
+  sorts
+    BlockStm
+    Block
+
+  context-free syntax
+    "{" BlockStm* "}" -> Block {cons("Block")}
+
+    LocalVarDecStm  -> BlockStm
+    ClassDec        -> BlockStm
+    Stm             -> BlockStm

@@ -14,6 +14,7 @@ imports
   languages/java-15/interfaces/ConstantDeclarations
   languages/java-15/interfaces/AbstractMethodDeclarations
   languages/java-15/interfaces/AnnotationTypes
+  languages/java-15/interfaces/Annotations
 
 exports
   context-free start-symbols
@@ -42,6 +43,7 @@ exports
     ";"               -> InterfaceMemberDec {cons("Semicolon")}
 
   context-free syntax
+    Anno           -> InterfaceMod
     Public         -> InterfaceMod
     Protected      -> InterfaceMod
     Private        -> InterfaceMod

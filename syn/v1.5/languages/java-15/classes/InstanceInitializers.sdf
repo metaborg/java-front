@@ -5,7 +5,7 @@
  %%%
 module languages/java-15/classes/InstanceInitializers
 imports
-  Java-Statements
+  languages/java-15/statements/Blocks
 
 exports
   sorts
