@@ -15,7 +15,7 @@ sdfdata_DATA = $(TBLS_DEFS) Java-EBlock-Prefixed.sdf
 pkgdata_DATA = Java-EBlock.rtg
 
 EXTRA_DIST = $(MODULES)
-CLEANFILES = $(TBLS_DEFS) Java-EBlock.rtg Java-EBlock-Prefixed.sdf
+CLEANFILES = $(TBLS_DEFS) Java-EBlock.rtg Java-EBlock-Prefixed.sdf $(wildcard *.dep)
 
 SDFINCLUDES = \
   -I $(STRATEGO_FRONT)/share/sdf/stratego-front \

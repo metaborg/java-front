@@ -10,7 +10,7 @@ sdfdata_DATA   = $(TBLS_DEFS) Java-15-Prefixed.sdf
 pkgdata_DATA   = Java-15.rtg
 
 EXTRA_DIST = $(JAVA15_MODS)
-CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf
+CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf $(wildcard *.dep)
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Java-15

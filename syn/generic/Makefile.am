@@ -11,7 +11,7 @@ sdfdata_DATA   = $(TBLS_DEFS) Generic-Java-Prefixed.sdf
 pkgdata_DATA   = Generic-Java.rtg
 
 EXTRA_DIST     = Generic-Java.sdf Stratego-Generic-Java.sdf Java-StaticImport.sdf
-CLEANFILES     = $(TBLS_DEFS) Generic-Java-Prefixed.sdf Generic-Java.rtg
+CLEANFILES     = $(TBLS_DEFS) Generic-Java-Prefixed.sdf Generic-Java.rtg $(wildcard *.dep)
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
                  -I $(top_srcdir)/syn/basic \
