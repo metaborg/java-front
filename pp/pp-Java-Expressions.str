@@ -77,7 +77,7 @@ strategies
     QSuperMethod(q, None(), Id(s)) -> box |[ H hs=0 [~q "." KW["super"] "." s] ]|
 
   java-to-box: 
-    NewInstance(None(), type, None(), exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~args] ]|
+    NewInstance(None(), type, exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~args] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 
@@ -85,7 +85,7 @@ strategies
       where <list-to-args> exprs => args
 
   java-to-box: 
-    NewInstance(None(), type, None(), exprs, Some(body)) -> box |[ V vs=0[H hs=0 [H hs=1 [KW["new"] ~type] ~args] ~body] ]|
+    NewInstance(None(), type, exprs, Some(body)) -> box |[ V vs=0[H hs=0 [H hs=1 [KW["new"] ~type] ~args] ~body] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 

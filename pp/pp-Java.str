@@ -15,6 +15,9 @@ imports
   pp-Java-PrimitiveTypes
   pp-Java-ReferenceTypes
 
+  // classes
+  pp-Java-EnumDeclarations
+
   // interfaces
   pp-Java-Annotations
 

@@ -10,6 +10,7 @@ PP_MODULES = \
   pp-Java-Expressions.str \
   pp-Java-Modifiers.str \
   pp-Java-Statements.str \
+  classes/pp-java-EnumDeclarations.str \
   types/pp-Java-PrimitiveTypes.str \
   types/pp-Java-ReferenceTypes.str \
   interfaces/pp-Java-Annotations.str \
@@ -24,6 +25,7 @@ STRINCLUDES    = -I $(top_srcdir)/lib \
                  -I $(top_builddir)/sig \
                  -I $(top_srcdir)/pp \
                  -I $(top_srcdir)/pp/types \
+                 -I $(top_srcdir)/pp/classes \
                  -I $(top_srcdir)/pp/interfaces \
                  -I $(GPP)/share/sdf/gpp \
                  -I $(GPP)/share/gpp

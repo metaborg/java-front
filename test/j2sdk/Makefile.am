@@ -30,17 +30,20 @@ PPJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call pp-java
 ppcheck : j2sdk.list
 	FILES="`cat j2sdk.list`" && \
 	for file in $$FILES; do \
-		$(MAKE) "$${file%.java}.ppdiff" || exit 1; \
+		$(MAKE) "$${file%.java}.jtree" "$${file%.java}.ppjtree" "$${file%.java}.ppdiff" || exit 1; \
 	done
 
 %.ppdiff : %.jtree %.ppjtree
-	diff $*.jtree $*.ppjtree
+	diff $*.jtree $*.ppjtree > $@
+	cat $@
 
-%.ppjtree : %.java
-	$(PARSEJAVA) -1.5 -i $<  \
-	| $(PPJAVA) \
-	| $(PARSEJAVA) -1.5 -o $@
+%.ppjtree : %.jtree
+	$(PPJAVA) -i $< | $(PARSEJAVA) -1.5 -o $@
 
 %.jtree : %.java
 	$(PARSEJAVA) -1.5 -i $< -o $@
 
+clean:
+	find . -name "*.jtree" | xargs rm
+	find . -name "*.ppjtree" | xargs rm
+	find . -name "*.ppdiff" | xargs rm
