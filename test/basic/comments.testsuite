@@ -79,7 +79,7 @@ TestSuite(
     , String("class T3715 {} /*"), Failure()
     )
   , Test(Descr("// may not end at EOF, only LineTerminator")
-    , File("comments/T3716.java"), Failure()
+    , String("class T3716 {} //"), Failure()
     )
   , Test(Descr("*/ is not a comment, but an opening for /* */")
     , String("class T3726 { /*/}"), Failure()
