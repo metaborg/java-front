@@ -7,7 +7,7 @@ TESTSUITES = \
   enum-decs.testsuite \
   $(top_srcdir)/test/basic/identifiers.testsuite \
   $(top_srcdir)/test/basic/compilation-unit.testsuite \
-  $(top_srcdir)/test/basic/expressions.testsuite \
+  expressions.testsuite \
   $(top_srcdir)/test/basic/floating-point-literals.testsuite \
   $(top_srcdir)/test/basic/lexical-translations.testsuite \
   $(top_srcdir)/test/basic/statements.testsuite
