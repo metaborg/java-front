@@ -1,3 +1,13 @@
+2004-08-02  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/v1.5/*: working on full support for Java 1.5. This
+	will not be an extension of the syntax definition Java 1.4, since
+	the changes in Java 1.5 affect many exisiting production rules in
+	1.4.
+
+	* syn/generic/*: the current definition of Generic Java in SDF is
+	still available but will not be extended to cover 1.5.
+	
 2004-07-26  Martin Bravenboer <martin@cs.uu.nl>
 
 	* test/gnu-classpath/Makefile.am: check diff of `parse | pp |

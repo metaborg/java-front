@@ -1,5 +1,27 @@
 module Java-15
 imports
-  Java
+  Java-Classes
   Java-Enums
   Java-StaticImport
+
+imports
+  Java-Lexical
+  Java-Names
+  Java-TypeDecs
+
+exports
+  context-free start-symbols CompilationUnit
+
+  sorts CompilationUnit PackageDec ImportDec TypeDec TypeImportDec PackageImportDec
+  context-free syntax
+    PackageDec? ImportDec* TypeDec+ -> CompilationUnit   {cons("CompilationUnit")}
+
+    "package" PackageName ";" -> PackageDec {cons("PackageDec")}
+
+    TypeImportDec             -> ImportDec {cons("ImportDec")}
+    PackageImportDec          -> ImportDec {cons("ImportDec")}
+
+    ";" -> TypeDec {cons("Semicolon")}
+
+    "import" TypeName ";"     -> TypeImportDec  {cons("TypeRef")}
+    "import" PackageName "." "*" ";"  -> PackageImportDec {cons("PackageRef")}

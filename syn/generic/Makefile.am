@@ -2,19 +2,31 @@ include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
 TBLS_DEFS = \
-  Java-15.def \
-  Java-15.tbl
+  Generic-Java.def \
+  Generic-Java.tbl \
+  Stratego-Generic-Java.tbl
 
-sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
-pkgdata_DATA   = Java-15.rtg
+sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Generic-Java-Prefixed.sdf
+pkgdata_DATA   = Generic-Java.rtg
 
-EXTRA_DIST = $(sdfdata_DATA)
-CLEANFILES = $(TBLS_DEFS) Java-15.rtg
+EXTRA_DIST     = $(sdfdata_DATA)
+CLEANFILES = $(TBLS_DEFS) Generic-Java-Prefixed.sdf Generic-Java.rtg
 
+SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
+                 -I ${top_srcdir}/syn/v1.4
 PGEN_FLAGS     = -m $*
-SDF2RTG_FLAGS  = --main Java-15
+SDF2RTG_FLAGS  = --main Generic-Java
 
-Java-15.def : $(JAVA15_MODS)
+Generic-Java.def : $(JAVA14_MODS) Generic-Java.sdf
+
+Stratego-Generic-Java.def : \
+  Generic-Java.def \
+  Generic-Java-Prefixed.sdf \
+  Stratego-Generic-Java.sdf \
+  ${top_srcdir}/syn/v1.4/Stratego-Java.sdf
+
+Generic-Java-Prefixed.sdf: Generic-Java.def
+	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Generic-Java --name Generic-Java-Prefixed --prefix Java
 
 JAVA14_MODS = \
   ${top_srcdir}/syn/v1.4/Java.sdf \
@@ -34,8 +46,3 @@ JAVA14_MODS = \
   ${top_srcdir}/syn/v1.4/Java-Types.sdf \
   ${top_srcdir}/syn/v1.4/Java-VarDecs.sdf \
   ${top_srcdir}/syn/v1.4/Java-WhiteSpace.sdf 
-
-JAVA15_MODS = \
-  $(JAVA14_MODS) \
-  Java-Enums.sdf \
-  Java-StaticImport.sdf

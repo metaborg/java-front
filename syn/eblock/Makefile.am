@@ -22,7 +22,7 @@ SDFINCLUDES = \
   -I $(srcdir) \
   -I $(top_builddir)/syn/eblock \
   -I $(top_srcdir)/syn/v1.4 \
-  -I $(top_srcdir)/syn/v1.5
+  -I $(top_srcdir)/syn/generic
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Java-EBlock
@@ -45,14 +45,14 @@ Java-EBlock.def : \
   $(top_srcdir)/syn/v1.4/Java-Types.sdf \
   $(top_srcdir)/syn/v1.4/Java-VarDecs.sdf \
   $(top_srcdir)/syn/v1.4/Java-WhiteSpace.sdf \
-  $(top_srcdir)/syn/v1.5/Generic-Java.sdf \
+  $(top_srcdir)/syn/generic/Generic-Java.sdf \
   Java-EBlock.sdf
 
 Stratego-Java-EBlock.def : \
   Java-EBlock.def \
   Java-EBlock-Prefixed.sdf \
   Stratego-Java-EBlock.sdf \
-  $(top_srcdir)/syn/v1.5/Stratego-Generic-Java.sdf
+  $(top_srcdir)/syn/generic/Stratego-Generic-Java.sdf
 
 Java-EBlock-Prefixed.sdf: Java-EBlock.def
 	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Java-EBlock --name Java-EBlock-Prefixed --prefix Java

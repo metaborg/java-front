@@ -27,6 +27,7 @@ AC_CONFIG_FILES([
   syn/Makefile
   syn/v1.4/Makefile
   syn/v1.5/Makefile
+  syn/generic/Makefile
   syn/eblock/Makefile
 
   sig/Makefile

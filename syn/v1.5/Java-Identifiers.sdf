@@ -1,0 +1,37 @@
+module Java-Identifiers
+imports Java-Keywords
+
+exports
+  context-free start-symbols Id
+
+  sorts
+    Id
+    JavaLetter
+    JavaLetterOrDigit
+    Digit
+    NonZeroDigit
+    HexDigit
+    OctalDigit
+    ID
+
+  context-free syntax
+    ID -> Id {cons("Id")}
+
+  lexical syntax
+    [A-Za-z\_\$]    -> JavaLetter
+    [A-Za-z0-9\_\$] -> JavaLetterOrDigit
+
+    [0-9]       -> Digit
+    [1-9]       -> NonZeroDigit
+    [0-9a-fA-F] -> HexDigit
+    [0-7]       -> OctalDigit
+
+    JavaLetter JavaLetterOrDigit* -> ID
+    
+    Keyword -> ID {reject}
+    "true"  -> ID {reject}
+    "false" -> ID {reject}
+    "null"  -> ID {reject}
+
+  lexical restrictions
+    ID -/- [a-zA-Z0-9\_\$]

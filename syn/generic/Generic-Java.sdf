@@ -47,4 +47,3 @@ exports
     Id -> TypeVar {cons("TypeVar")}
 
     %% TODO: constructors can be parameterized too, although the specification doesn't mention this
-

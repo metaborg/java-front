@@ -17,7 +17,7 @@ Java.rtg :
 	$(LN_S) $(top_builddir)/syn/v1.4/Java.rtg $@
 
 Generic-Java.rtg :
-	$(LN_S) $(top_builddir)/syn/v1.5/Generic-Java.rtg $@
+	$(LN_S) $(top_builddir)/syn/generic/Generic-Java.rtg $@
 
 Java-EBlock.rtg :
 	$(LN_S) $(top_builddir)/syn/eblock/Java-EBlock.rtg $@
