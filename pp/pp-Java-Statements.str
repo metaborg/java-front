@@ -80,16 +80,11 @@ rules
 
 rules
 
-  ensure-block =
-    ?Block(_) < id + !Block([<id>])
+  java-to-box:
+    While(cond, b) -> V vs=0 [H hs=0 [KW["while"] "(" ~cond ")"] ~b]
 
   java-to-box:
-    While(cond, body) -> box |[ V vs=0 [H hs=0 [KW["while"] "(" ~cond ")"] ~b] ]|
-      where <ensure-block> body => b
-
-  java-to-box:
-    DoWhile(body, cond) -> box |[ V vs=0 [KW["do"] ~b H hs=0 [KW["while"] "(" ~cond ")" ";"]] ]|
-      where <ensure-block> body => b
+    DoWhile(b, cond) -> V vs=0 [KW["do"] ~b H hs=0 [KW["while"] "(" ~cond ")" ";"]]
 
   java-to-box:
     For(init, cond, update, body) ->
