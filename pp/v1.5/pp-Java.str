@@ -47,7 +47,7 @@ rules
     ?t{a*}
 
     ; where(
-        <fetch(?(Comment(), s))> a*
+        <fetch(?(Comment(_), s))> a*
       ; <java-to-box> t => b
       )
 
@@ -210,4 +210,4 @@ rules
 
 signature
   constructors
-    Comment : AnnoKey
+    Comment : String -> AnnoKey
