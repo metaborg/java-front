@@ -1,16 +1,18 @@
 include $(top_srcdir)/Makefile.xt
 include $(top_srcdir)/test/Makefile.parse-unit
 
+GNUCP_VERSION=0.09
+
 # create GNU classpath testsuites
-classpath-0.07.tar.gz :
-	wget --passive-ftp ftp://alpha.gnu.org/gnu/classpath/classpath-0.07.tar.gz
+classpath-$(GNUCP_VERSION).tar.gz :
+	wget --passive-ftp ftp://ftp.gnu.org/pub/gnu/classpath/classpath-$(GNUCP_VERSION).tar.gz
 
-classpath-0.07 : classpath-0.07.tar.gz
-	rm -rf classpath-0.07
-	tar zxvf classpath-0.07.tar.gz
+classpath-$(GNUCP_VERSION) : classpath-$(GNUCP_VERSION).tar.gz
+	rm -rf classpath-$(GNUCP_VERSION)
+	tar zxvf classpath-$(GNUCP_VERSION).tar.gz
 
-gnu-classpath.%.list : classpath-0.07
-	find classpath-0.07/$* -name '*.java' | sort > $@
+gnu-classpath.%.list : classpath-$(GNUCP_VERSION)
+	find classpath-$(GNUCP_VERSION)/$* -name '*.java' | sort > $@
 
 gnu-classpath.%.atestsuite : gnu-classpath.%.list $(prefix)/bin/files2parse-unit-testsuite
 	$(prefix)/bin/files2parse-unit-testsuite -i $< -o $@
