@@ -1,0 +1,31 @@
+%%%
+ %% Chapter 6: Names
+ %%
+ %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/names/Main
+exports
+  sorts
+    PackageName
+    TypeName
+    ExprName
+    MethodName
+    AmbName
+
+  context-free syntax
+    {Id "."}+ -> PackageName {cons("PackageName")}
+
+                          Id -> TypeName {cons("TypeName")}
+    PackageOrTypeName "." Id -> TypeName {cons("TypeName")}
+
+                Id -> ExprName {cons("ExprName")}
+    AmbName "." Id -> ExprName {cons("ExprName")}
+
+                Id -> MethodName  {cons("MethodName")}
+    AmbName "." Id -> MethodName  {cons("MethodName")}
+
+  context-free syntax
+    {Id "."}+ -> PackageOrTypeName {cons("PackageOrTypeName")}
+
+  context-free syntax
+    {Id "."}+ -> AmbName {cons("AmbName")}

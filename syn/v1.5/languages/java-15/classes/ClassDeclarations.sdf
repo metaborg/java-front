@@ -1,0 +1,22 @@
+%%%
+ %% Section 8.1: Class Declaration
+ %%
+ %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %%%
+module languages/java-15/classes/ClassDeclarations
+imports
+  languages/java-15/lexical/Modifiers
+
+exports
+  sorts
+    ClassMod
+
+  context-free syntax
+    Anno      -> ClassMod
+    Abstract  -> ClassMod
+    Public    -> ClassMod
+    Protected -> ClassMod
+    Private   -> ClassMod
+    Static    -> ClassMod
+    Final     -> ClassMod
+    StrictFP  -> ClassMod

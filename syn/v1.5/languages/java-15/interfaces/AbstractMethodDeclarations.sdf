@@ -1,9 +1,11 @@
 module languages/java-15/interfaces/AbstractMethodDeclarations
 imports
-  Java-Names
-  Java-Modifiers
-  Java-MethodDecs
+  languages/java-15/lexical/Modifiers
+  languages/java-15/names/Main
   languages/java-15/types/Main
+
+imports
+  Java-MethodDecs
 
 exports
   sorts

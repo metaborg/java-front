@@ -1,13 +1,17 @@
 module Java-MethodDecs
 imports
-  Java-Modifiers 
-  Java-Names
+  languages/java-15/lexical/Modifiers
   Java-VarDecs
 
 exports
-  sorts MethodDec MethodHead ResultType FormalParam Throws
-  context-free syntax
+  sorts
+    MethodDec
+    MethodHead
+    ResultType
+    FormalParam
+    Throws
 
+  context-free syntax
     MethodHead Block -> MethodDec {cons("MethodDec")}
     MethodHead ";"   -> MethodDec {cons("MethodDec")}
 
@@ -22,4 +26,13 @@ exports
     Final? Type VarDecId -> FormalParam {cons("Param")}
     "throws" {ClassType ","}+ -> Throws {cons("Throws")}
 
-
+    Public         -> MethodMod
+    Protected      -> MethodMod
+    Private        -> MethodMod
+    AccessMod      -> MethodMod
+    Static         -> MethodMod
+    Abstract       -> MethodMod
+    Final          -> MethodMod
+    Synchronized   -> MethodMod
+    Native         -> MethodMod
+    StrictFP       -> MethodMod

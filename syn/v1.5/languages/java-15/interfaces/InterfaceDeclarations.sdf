@@ -5,13 +5,13 @@
  %%%
 module languages/java-15/interfaces/InterfaceDeclarations
 imports
+  languages/java-15/lexical/Identifiers
+  languages/java-15/lexical/Modifiers
+  languages/java-15/names/Main
   languages/java-15/types/Main
   languages/java-15/interfaces/ConstantDeclarations
   languages/java-15/interfaces/AbstractMethodDeclarations
-  Java-Names
-  Java-Modifiers
   Java-MethodDecs
-  languages/java-15/types/Main
 
 exports
   context-free start-symbols

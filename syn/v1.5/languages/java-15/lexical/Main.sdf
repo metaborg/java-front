@@ -11,4 +11,5 @@ imports
   languages/java-15/lexical/Comments
   languages/java-15/lexical/Identifiers
   languages/java-15/lexical/Keywords
+  languages/java-15/lexical/Modifiers
   languages/java-15/lexical/Literals

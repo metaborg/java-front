@@ -5,7 +5,7 @@
  %%%
 module languages/java-15/interfaces/Annotations
 imports
-  Java-Names
+  languages/java-15/names/Main
   Java-Expressions
 
 exports

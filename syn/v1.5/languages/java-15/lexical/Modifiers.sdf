@@ -1,12 +1,6 @@
-module Java-Modifiers
-
+module languages/java-15/lexical/Modifiers
 exports
   sorts
-    ClassMod
-    FieldMod
-    ConstructorMod
-    AccessMod
-    MethodMod
     Public
     Private
     Protected
@@ -20,33 +14,6 @@ exports
     StrictFP
 
   context-free syntax
-
-    AccessMod      -> ClassMod
-    Static         -> ClassMod
-    Abstract       -> ClassMod
-    Final          -> ClassMod
-    StrictFP       -> ClassMod
-
-    AccessMod      -> FieldMod
-    Static         -> FieldMod
-    Transient      -> FieldMod
-    Volatile       -> FieldMod
-    Final          -> FieldMod
-
-    AccessMod      -> ConstructorMod
-
-    Public         -> AccessMod
-    Protected      -> AccessMod
-    Private        -> AccessMod
-
-    AccessMod      -> MethodMod
-    Static         -> MethodMod
-    Abstract       -> MethodMod
-    Final          -> MethodMod
-    Synchronized   -> MethodMod
-    Native         -> MethodMod
-    StrictFP       -> MethodMod
-
     "public"       -> Public       {cons("Public")}
     "private"      -> Private      {cons("Private")}
     "protected"    -> Protected    {cons("Protected")}
@@ -60,3 +27,28 @@ exports
     "synchronized" -> Synchronized {cons("Synchronized")}
     "strictfp"     -> StrictFP     {cons("StrictFP")}
 
+%%    AccessMod      -> ClassMod
+%%    Static         -> ClassMod
+%%    Abstract       -> ClassMod
+%%    Final          -> ClassMod
+%%    StrictFP       -> ClassMod
+
+%%    AccessMod      -> FieldMod
+%%    Static         -> FieldMod
+%%    Transient      -> FieldMod
+%%    Volatile       -> FieldMod
+%%    Final          -> FieldMod
+
+%%    AccessMod      -> ConstructorMod
+
+%%    Public         -> AccessMod
+%%    Protected      -> AccessMod
+%%    Private        -> AccessMod
+
+%%    AccessMod      -> MethodMod
+%%    Static         -> MethodMod
+%%    Abstract       -> MethodMod
+%%    Final          -> MethodMod
+%%    Synchronized   -> MethodMod
+%%    Native         -> MethodMod
+%%    StrictFP       -> MethodMod

@@ -5,6 +5,7 @@
  %%%
 module languages/java-15/interfaces/AnnotationTypes
 imports
+  languages/java-15/lexical/Identifiers
   languages/java-15/classes/EnumDeclarations
   languages/java-15/interfaces/AbstractMethodDeclarations
   languages/java-15/interfaces/ConstantDeclarations

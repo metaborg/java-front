@@ -1,7 +1,7 @@
 module Java-Classes
 imports
-  Java-Names
-  Java-Modifiers
+  languages/java-15/lexical/Modifiers
+  languages/java-15/interfaces/Annotations
   Java-MethodDecs
   Java-Statements
 
@@ -47,7 +47,8 @@ exports
     "static" Block -> StaticInit   {cons("StaticInit")}
              Block -> InstanceInit {cons("InstanceInit")}
 
-    ConstructorMod* SimpleTypeName "(" {FormalParam ","}* ")" Throws? ConstructorBody
+    %% todo: should be SimpleTypeName
+    ConstructorMod* Id "(" {FormalParam ","}* ")" Throws? ConstructorBody
           ->  ConstructorDec {cons("ConstructorDec")}
 
     "{" CInvoke? BlockStm* "}" -> ConstructorBody {cons("ConstructorBody")}
@@ -56,3 +57,15 @@ exports
              "super" "(" {Expr ","}* ")" ";" -> CInvoke {cons("SuperCInvoke")}
     Expr "." "super" "(" {Expr ","}* ")" ";" -> CInvoke {cons("QSuperCInvoke")}
 
+    Static    -> FieldMod
+    Transient -> FieldMod
+    Volatile  -> FieldMod
+    Final     -> FieldMod
+    Public    -> FieldMod
+    Protected -> FieldMod
+    Private   -> FieldMod
+
+    Anno      -> ConstructorMod
+    Public    -> ConstructorMod
+    Protected -> ConstructorMod
+    Private   -> ConstructorMod

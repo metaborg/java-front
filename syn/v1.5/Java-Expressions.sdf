@@ -1,6 +1,5 @@
 module Java-Expressions
 imports
-  Java-Names
   Java-Classes
 
 exports
