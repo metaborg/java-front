@@ -4,9 +4,17 @@ imports Java-15-Prefixed StrategoRenamed
 exports
   context-free start-symbols StrategoModule
 
+
+exports
   variables
     [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
     [xyz]  [0-9]*     -> JavaID          {prefer}
+
+
+%%%
+ %% Expressions
+ %%%
+exports
 
   %%%
    %% Variables for Expressions
@@ -15,6 +23,11 @@ exports
     "e"    [0-9]*     -> JavaExpr {prefer}
     "e"    [0-9]* "*" -> {JavaVarInit ","}* {prefer}
     "e"    [0-9]* "*" -> {JavaExpr ","}*    {prefer}
+
+%%%
+ %% Statements
+ %%%
+exports
 
   %%%
    %% Variables for Statements
@@ -56,6 +69,12 @@ exports
     "~stm:"   StrategoTerm  -> JavaStm {cons("FromTerm"), prefer}
     "~"       StrategoTerm  -> JavaStm {cons("FromTerm")}
 
+
+%%%
+ %% Types
+ %%%
+exports
+
   %%%
    %% Variables for Types
    %%%
@@ -68,6 +87,30 @@ exports
 
   lexical restrictions
     TypeVar -/- [a-zA-Z0-9\_\$]
+
+  %%%
+   %% Quotation for Types
+   %%%
+  context-free syntax
+            "t" "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
+           "ty" "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
+
+    "java:type" "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
+         "type" "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
+    "java"      "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
+                "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
+
+  %%%
+   %% Anti-Quotation for Types
+   %%%
+  context-free syntax
+    "~"       StrategoTerm -> JavaType {cons("FromTerm")}
+    "~type:"  StrategoTerm -> JavaType {cons("FromTerm")}
+
+%%%
+ %% Names
+ %%%
+exports
 
   %%%
    %% Variables for Names
@@ -91,6 +134,11 @@ exports
     "cname"    "|[" JavaClassName  "]|" -> StrategoTerm {cons("ToTerm")}
     "pkgtname" "|[" JavaPackageOrTypeName "]|" -> StrategoTerm {cons("ToTerm")}
 
+%%%
+ %% Modifiers
+ %%%
+exports
+
   %%%
    %% Variables for Modifiers
    %%%
@@ -106,17 +154,16 @@ exports
     "mod"  "|[" JavaModifier "]|" -> StrategoTerm {cons("ToTerm")}
 
 
+%%%
+ %% Must be cleaned up
+ %%%
+exports
   context-free syntax
             "e" "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
     "java:expr" "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
          "expr" "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
     "java"      "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
                 "|[" JavaExpr "]|"   -> StrategoTerm {cons("ToTerm")}
-
-    "java:type" "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
-         "type" "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
-    "java"      "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
-                "|[" JavaType "]|"   -> StrategoTerm {cons("ToTerm")}
 
     "java:compilation-unit" "|[" JavaCompilationUnit "]|"  -> StrategoTerm {cons("ToTerm")}
          "compilation-unit" "|[" JavaCompilationUnit "]|"  -> StrategoTerm {cons("ToTerm")}
@@ -167,9 +214,6 @@ exports
     "~"      StrategoTerm -> JavaName {cons("FromTerm")}
     "~name:" StrategoTerm -> JavaName {cons("FromTerm")}
     "~*:"    StrategoTerm -> JavaName {cons("FromTerm")}
-
-    "~"       StrategoTerm -> JavaType {cons("FromTerm")}
-    "~type:"  StrategoTerm -> JavaType {cons("FromTerm")}
 
     "~"     StrategoTerm     -> JavaId   {cons("FromTerm")}
     "~id:"  StrategoTerm     -> JavaId   {cons("FromTerm")}
