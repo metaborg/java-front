@@ -25,7 +25,6 @@ exports
     TypeVar              -> RefType
 
     TypeName TypeArgs? -> ClassOrInterfaceType {cons("ClassOrInterfaceType")}
-
     TypeName TypeArgs? -> ClassType {cons("ClassType")}
     TypeName TypeArgs? -> InterfaceType {cons("InterfaceType")}
 

@@ -23,7 +23,6 @@ j2sdkcheck : ppcheck
 # %.jasfix : %.java $(prefix)/share/sdf/java-front/Java.tbl
 # 	sglr -2lv -p $(prefix)/share/sdf/java-front/Java.tbl -i $< -o $@
 
-PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java.tbl`"
 PARSEJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call parse-java
 PPJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call pp-java
 
@@ -38,10 +37,10 @@ ppcheck : j2sdk.list
 	diff $*.jtree $*.ppjtree
 
 %.ppjtree : %.java
-	$(PARSEJAVA) -i $<  \
+	$(PARSEJAVA) -1.5 -i $<  \
 	| $(PPJAVA) \
-	| $(PARSEJAVA) -o $@
+	| $(PARSEJAVA) -1.5 -o $@
 
 %.jtree : %.java
-	$(PARSEJAVA) -i $< -o $@
+	$(PARSEJAVA) -1.5 -i $< -o $@
 

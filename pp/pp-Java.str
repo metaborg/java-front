@@ -10,6 +10,14 @@ imports
   pp-Java-Names
   pp-Java-Modifiers
 
+  // types
+  pp-Java-ParameterizedTypes
+  pp-Java-PrimitiveTypes
+  pp-Java-ReferenceTypes
+
+  // interfaces
+  pp-Java-Annotations
+
 strategies
 
   java-pretty-print = 
@@ -18,33 +26,7 @@ strategies
 
 strategies
 
-  java-to-box:
-    ClassType(b1, type-args) -> H hs=0 [ b1 b2*]
-    where
-      <type-args-to-boxes> type-args => b2*
-
-  java-to-box:
-    InterfaceType(b1, type-args) -> box |[ H hs=0 [ b1 b2*] ]|
-    where
-      <type-args-to-boxes> type-args => b2*
-
-  java-to-box:
-    ClassOrInterfaceType(b1, type-args) -> H hs=0 [ b1 b2*]
-    where
-      <type-args-to-boxes> type-args => b2*
-
-  java-to-box: ArrayType(t)    -> box |[ H hs=0 [~t "[" "]"] ]|
-
-  java-to-box: Void()    -> box |[ KW["void"] ]|
-
-  java-to-box: Boolean() -> box |[ KW["boolean"] ]|
-  java-to-box: Byte()    -> box |[ KW["byte"]    ]|
-  java-to-box: Short()   -> box |[ KW["short"]   ]|
-  java-to-box: Int()     -> box |[ KW["int"]     ]|
-  java-to-box: Long()    -> box |[ KW["long"]    ]|
-  java-to-box: Char()    -> box |[ KW["char"]    ]|
-  java-to-box: Float()   -> box |[ KW["float"]   ]|
-  java-to-box: Double()  -> box |[ KW["double"]  ]|
+  java-to-box: Void() -> box |[ KW["void"] ]|
 
   java-to-box:
     CompilationUnit(Some(package), imports, types) -> box |[ V vs=1 [~package V vs=0 [ ~*imports ] V vs=1 [ ~*types ]] ]|
@@ -275,11 +257,3 @@ rules
     where
       <list-to-args> exprs => b2
     ; <type-args-to-boxes> type-args => b1*
-
-  type-args-to-boxes :
-    None -> []
-
-  type-args-to-boxes :
-    Some(TypeArgs(types)) -> [ H hs=0 ["<" b* ">"] ]
-    where
-      <separate-by-comma> types => b*

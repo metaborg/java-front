@@ -1,0 +1,18 @@
+module pp-Java-Annotations
+
+/*
+   Anno                                  -- KW["@"] _1 KW["("] _2 KW[")"],
+   Anno.2:iter-star-sep                  -- _1 KW[","],
+   SingleElemAnno                        -- KW["@"] _1 KW["("] _2 KW[")"],
+   MarkerAnno                            -- KW["@"] _1,
+   ElemValPair                           -- _1 KW["="] _2,
+   ElemValArrayInit                      -- KW["{"] _1 KW["}"],
+   ElemValArrayInit.1:iter-star-sep      -- _1 KW[","],
+   ElemValArrayInit                      -- KW["{"] _1 KW[","] KW["}"],
+   ElemValArrayInit.1:iter-star-sep      -- _1 KW[","],
+*/
+
+rules
+
+  java-to-box:
+    MarkerAnno(name) -> box |[ H hs=0 ["@" ~name ] ]|
