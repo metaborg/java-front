@@ -13,7 +13,7 @@ imports
 
   java/pp/type/parameterized
   java/pp/type/variable
-  java/pp/type/pritimive
+  java/pp/type/primitive
   java/pp/type/reference
 
   java/pp/class/enum-declaration
