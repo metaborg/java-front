@@ -1,0 +1,335 @@
+module Embedded-Java-15[E]
+imports
+  Java-15-Prefixed
+
+exports
+  variables
+    [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
+    [xyz]  [0-9]*     -> JavaID          {prefer}
+
+%%%
+ %% Expressions
+ %%%
+exports
+
+  %%%
+   %% Variables for Expressions
+   %%%
+  variables
+    "e"    [0-9]*     -> JavaExpr           {prefer}
+    "e"    [0-9]* "*" -> {JavaVarInit ","}* {prefer}
+    "e"    [0-9]* "*" -> {JavaExpr ","}*    {prefer}
+
+  lexical syntax
+    "e" [0-9]* -> JavaID {reject}
+
+%%%
+ %% Statements
+ %%%
+exports
+
+  %%%
+   %% Variables for Statements
+   %%%
+  variables
+    "stm"  [0-9]*     -> JavaStm         {prefer}
+    "bstm" [0-9]*     -> JavaBlockStm    {prefer}
+    "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
+
+  %%%
+   %% Quotations for Statements
+   %%%
+  context-free syntax
+    "java:bstm"  "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+         "bstm"  "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+    "java"       "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+                 "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+
+    "java:bstm*" "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
+         "bstm*" "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
+
+    "java:block-stm"  "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+         "block-stm"  "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+    "java"            "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+                      "|[" JavaBlockStm "]|" -> E {cons("ToMetaExpr")}
+
+    "java:block-stm*" "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
+         "block-stm*" "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
+
+  %%%
+   %% Anti Quotations for Statements
+   %%%
+  context-free syntax
+    "~"       E  -> JavaBlockStm  {cons("FromMetaExpr")}
+    "~bstm:"  E  -> JavaBlockStm  {cons("FromMetaExpr")}
+    "~*"      E  -> JavaBlockStm* {cons("FromMetaExpr")}
+    "~bstm*:" E  -> JavaBlockStm* {cons("FromMetaExpr")}
+
+    "~stm:"   E  -> JavaStm {cons("FromMetaExpr"), prefer}
+    "~"       E  -> JavaStm {cons("FromMetaExpr")}
+
+%%%
+ %% Variable Declarations
+ %%%
+
+  %%%
+   %% Variables for Variable Declarations
+   %%%
+  variables
+    "lvdec" [0-9]*     -> JavaLocalVarDec    {prefer}
+     "vdec" [0-9]*     -> JavaVarDec         {prefer}
+     "vdec" [0-9]* "*" -> {JavaVarDec ","}+  {prefer}
+
+  lexical syntax
+    "lvdec" -> JavaID {reject}
+     "vdec" -> JavaID {reject}
+
+  %%%
+   %% Quotations for Local Variable Declarations
+   %%%
+  context-free syntax
+    "java:lvdec"  "|[" JavaLocalVarDec "]|" -> E {cons("ToMetaExpr")}
+         "lvdec"  "|[" JavaLocalVarDec "]|" -> E {cons("ToMetaExpr")}
+
+    "java:vdec" "|[" JavaVarDec "]|" -> E {cons("ToMetaExpr")}
+         "vdec" "|[" JavaVarDec "]|" -> E {cons("ToMetaExpr")}
+
+  %%%
+   %% Anti Quotations for Local Variable Declarations
+   %%%
+  context-free syntax
+
+%%%
+ %% Types
+ %%%
+exports
+
+  %%%
+   %% Variables for Types
+   %%%
+  variables
+    MetaTypeVar     -> JavaType     {prefer}
+    MetaPrimTypeVar -> JavaPrimType {prefer}
+    MetaRefTypeVar  -> JavaRefType  {prefer}
+
+  lexical syntax
+    "t"  [0-9]* -> MetaTypeVar
+    "ty" [0-9]* -> MetaTypeVar
+
+    "primt"  [0-9]* -> MetaPrimTypeVar
+    "primty" [0-9]* -> MetaPrimTypeVar
+    "reft"   [0-9]* -> MetaRefTypeVar
+    "refty"  [0-9]* -> MetaRefTypeVar
+
+    "t"  [0-9]* -> JavaID {reject}
+    "ty" [0-9]* -> JavaID {reject}
+    "primt"  [0-9]* -> JavaID {reject}
+    "primty" [0-9]* -> JavaID {reject}
+    "reft"   [0-9]* -> JavaID {reject}
+    "refty"  [0-9]* -> JavaID {reject}
+
+  lexical restrictions
+    MetaTypeVar -/- [a-zA-Z0-9\_\$]
+
+  %%%
+   %% Quotation for Types
+   %%%
+  context-free syntax
+            "t" "|[" JavaType "]|"   -> E {cons("ToMetaExpr")}
+           "ty" "|[" JavaType "]|"   -> E {cons("ToMetaExpr")}
+
+    "java:type" "|[" JavaType "]|"   -> E {cons("ToMetaExpr")}
+         "type" "|[" JavaType "]|"   -> E {cons("ToMetaExpr")}
+    "java"      "|[" JavaType "]|"   -> E {cons("ToMetaExpr")}
+                "|[" JavaType "]|"   -> E {cons("ToMetaExpr")}
+
+  %%%
+   %% Anti-Quotation for Types
+   %%%
+  context-free syntax
+    "~"       E -> JavaType {cons("FromMetaExpr")}
+    "~type:"  E -> JavaType {cons("FromMetaExpr")}
+
+%%%
+ %% Names
+ %%%
+exports
+
+  %%%
+   %% Variables for Names
+   %%%
+  variables
+    "ambname"  [0-9]* -> JavaAmbName    {prefer}
+    "ename"    [0-9]* -> JavaExprName   {prefer}
+    "fname"    [0-9]* -> JavaMethodName {prefer}
+    "tname"    [0-9]* -> JavaTypeName   {prefer}
+    "cname"    [0-9]* -> JavaClassName  {prefer}
+    "pkgtname" [0-9]* -> JavaPackageOrTypeName  {prefer}
+
+  %%%
+   %% Quotations for Names
+   %%%
+  context-free syntax
+    "ambname"  "|[" JavaAmbName    "]|" -> E {cons("ToMetaExpr")}
+    "ename"    "|[" JavaExprName   "]|" -> E {cons("ToMetaExpr")}
+    "fname"    "|[" JavaMethodName "]|" -> E {cons("ToMetaExpr")}
+    "tname"    "|[" JavaTypeName   "]|" -> E {cons("ToMetaExpr")}
+    "cname"    "|[" JavaClassName  "]|" -> E {cons("ToMetaExpr")}
+    "pkgtname" "|[" JavaPackageOrTypeName "]|" -> E {cons("ToMetaExpr")}
+
+%%%
+ %% Modifiers
+ %%%
+exports
+
+  %%%
+   %% Variables for Modifiers
+   %%%
+  variables
+     "mod" [0-9]*     -> JavaMethodMod  {prefer}
+     "mod" [0-9]* "*" -> JavaMethodMod* {prefer}
+
+     "mod" [0-9]*     -> JavaClassMod  {prefer}
+     "mod" [0-9]* "*" -> JavaClassMod* {prefer}
+
+     "mod" [0-9]*     -> JavaConstrMod  {prefer}
+     "mod" [0-9]* "*" -> JavaConstrMod* {prefer}
+
+     "mod" [0-9]*     -> JavaVarMod  {prefer}
+     "mod" [0-9]* "*" -> JavaVarMod* {prefer}
+
+  %%%
+   %% Quotations for Modifiers
+   %%%
+  context-free syntax
+           "|[" JavaModifier "]|" -> E {cons("ToMetaExpr")}
+    "mod"  "|[" JavaModifier "]|" -> E {cons("ToMetaExpr")}
+
+
+%%%
+ %% Formal Parameters
+ %%%
+exports
+
+  %%%
+   %% Variables for Formal Parameters
+   %%%
+  variables
+     "param" [0-9]*     -> JavaFormalParam  {prefer}
+     "param" [0-9]* "*" -> JavaFormalParam* {prefer}
+
+  %%%
+   %% Quotations for Formal Parameters
+   %%%
+  context-free syntax
+
+         "param"  "|[" JavaFormalParam "]|" -> E {cons("ToMetaExpr")}
+    "java:param"  "|[" JavaFormalParam "]|" -> E {cons("ToMetaExpr")}
+
+         "param*" "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+    "java:param*" "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+
+    "java:formal-param" "|[" JavaFormalParam "]|" -> E {cons("ToMetaExpr")}
+         "formal-param" "|[" JavaFormalParam "]|" -> E {cons("ToMetaExpr")}
+    "java"              "|[" JavaFormalParam "]|" -> E {cons("ToMetaExpr")}
+                        "|[" JavaFormalParam "]|" -> E {cons("ToMetaExpr")}
+
+    "java:formal-param*" "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+         "formal-param*" "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+    "java"               "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+                         "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+
+  %%%
+   %% Anti Quotations for Formal Parameters
+   %%%
+  context-free syntax
+    "~"  E  ->  JavaFormalParam       {cons("FromMetaExpr")}
+    "~*" E  -> {JavaFormalParam ","}* {cons("FromMetaExpr")}
+
+%%%
+ %% Must be cleaned up
+ %%%
+exports
+  context-free syntax
+            "e" "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+    "java:expr" "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+         "expr" "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+    "java"      "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+                "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+
+    "java:compilation-unit" "|[" JavaCompilationUnit "]|"  -> E {cons("ToMetaExpr")}
+         "compilation-unit" "|[" JavaCompilationUnit "]|"  -> E {cons("ToMetaExpr")}
+    "java"                  "|[" JavaCompilationUnit "]|"  -> E {cons("ToMetaExpr")}
+                            "|[" JavaCompilationUnit "]|"  -> E {cons("ToMetaExpr")}
+
+    "java:type-dec" "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
+         "type-dec" "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
+    "java"          "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
+                    "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
+
+    "java:class-body-dec" "|["  JavaClassBodyDec  "]|" -> E {cons("ToMetaExpr")}
+         "class-body-dec" "|["  JavaClassBodyDec  "]|" -> E {cons("ToMetaExpr")}
+    "java"                "|["  JavaClassBodyDec  "]|" -> E {cons("ToMetaExpr")}
+                          "|["  JavaClassBodyDec  "]|" -> E {cons("ToMetaExpr")}
+
+    "java:class-body-dec*" "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
+         "class-body-dec*" "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
+    "java"                 "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
+                           "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaExpr")}
+
+    "java:stm" "|["  JavaStm "]|" -> E {cons("ToMetaExpr")}
+         "stm" "|["  JavaStm "]|" -> E {cons("ToMetaExpr")}
+
+    "java:imember-dec" "|["  JavaAbstractMethodDec  "]|" -> E {cons("ToMetaExpr")}
+         "imember-dec" "|["  JavaAbstractMethodDec  "]|" -> E {cons("ToMetaExpr")}
+    "java"             "|["  JavaAbstractMethodDec  "]|" -> E {cons("ToMetaExpr")}
+                       "|["  JavaAbstractMethodDec  "]|" -> E {cons("ToMetaExpr")}
+
+    "java:imember-dec*" "|["  JavaAbstractMethodDec*  "]|" -> E {cons("ToMetaExpr")}
+         "imember-dec*" "|["  JavaAbstractMethodDec*  "]|" -> E {cons("ToMetaExpr")}
+    "java"              "|["  JavaAbstractMethodDec*  "]|" -> E {cons("ToMetaExpr")}
+                        "|["  JavaAbstractMethodDec*  "]|" -> E {cons("ToMetaExpr ")}
+
+  %% Anti-quotation
+  context-free syntax
+
+    "~"      E -> JavaName {cons("FromMetaExpr")}
+    "~name:" E -> JavaName {cons("FromMetaExpr")}
+    "~*:"    E -> JavaName {cons("FromMetaExpr")}
+
+    "~"     E     -> JavaId   {cons("FromMetaExpr")}
+    "~id:"  E     -> JavaId   {cons("FromMetaExpr")}
+    "~idd:" E ":" -> JavaId   {cons("FromMetaExpr")}
+
+    "~x:" E -> JavaID {cons("FromMetaExpr")}
+
+    "~"  E -> JavaTypeParam        {cons("FromMetaExpr")}
+    "~*" E -> {JavaTypeParam ","}+ {cons("FromMetaExpr")}
+
+    "~"      E  ->  JavaExpr {cons("FromMetaExpr")}
+    "~e:"    E  ->  JavaExpr {prefer, cons("FromMetaExpr")}
+    "~expr:" E  ->  JavaExpr {prefer, cons("FromMetaExpr")}
+
+    "~*" E      -> {JavaExpr ","}*    {cons("FromMetaExpr")}
+    "~*" E      -> {JavaVarInit ","}* {cons("FromMetaExpr")}
+
+    "~"  E  -> JavaTypeDec  {cons("FromMetaExpr")}
+    "~*" E  -> JavaTypeDec* {cons("FromMetaExpr")}
+
+    "~"  E  -> JavaClassBodyDec  {cons("FromMetaExpr")}
+    "~*" E  -> JavaClassBodyDec* {cons("FromMetaExpr")}
+
+    "~"  E  -> JavaInterfaceMemberDec  {cons("FromMetaExpr")}
+    "~*" E  -> JavaInterfaceMemberDec* {cons("FromMetaExpr")}
+
+    "~i:"      E -> JavaDeciLiteral   {cons("FromMetaExpr")}
+    "~deci:"   E -> JavaDeciLiteral   {cons("FromMetaExpr")}
+    "~hexa:"   E -> JavaHexaLiteral   {cons("FromMetaExpr")}
+    "~octa:"   E -> JavaOctaLiteral   {cons("FromMetaExpr")}
+    "~float:"  E -> JavaFloatLiteral  {cons("FromMetaExpr")}
+    "~string:" E -> JavaStringLiteral {cons("FromMetaExpr")}
+    "~char:"   E -> JavaCharLiteral   {cons("FromMetaExpr")}
+
+  syntax
+    "~" <E-CF> -> JavaStringChars {cons("FromMetaExpr"), prefer}
+    "~" <E-CF> <LAYOUT?-CF> -> JavaSingleChar  {cons("FromMetaExpr"), prefer}
