@@ -32,6 +32,8 @@ AC_CONFIG_FILES([
 
   sig/Makefile
   pp/Makefile
+  pp/v1.5/Makefile
+  pp/basic/Makefile
   trans/Makefile
   xtc/Makefile
   
@@ -44,7 +46,7 @@ AC_CONFIG_FILES([
   test/generic/compilation-units/Makefile
   test/v1.5/Makefile
   test/gnu-classpath/Makefile
-  test/gnu-classpath/v1.4/Makefile
+  test/gnu-classpath/basic/Makefile
   test/gnu-classpath/v1.5/Makefile
   test/j2sdk/Makefile
   test/fc/Makefile

@@ -2,23 +2,23 @@ include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
 TBLS_DEFS = \
-  Java.def \
-  Java.tbl \
-  Stratego-Java.tbl
+  Basic-Java.def \
+  Basic-Java.tbl \
+  Stratego-Basic-Java.tbl
 
-sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Java-Prefixed.sdf
-pkgdata_DATA   = Java.rtg
+sdfdata_DATA   = $(TBLS_DEFS) Basic-Java-Prefixed.sdf
+pkgdata_DATA   = Basic-Java.rtg
 
 EXTRA_DIST     = $(sdfdata_DATA)
-CLEANFILES     = $(TBLS_DEFS) Java-Prefixed.sdf Java.rtg
+CLEANFILES     = $(TBLS_DEFS) Basic-Java-Prefixed.sdf Basic-Java.rtg
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front
 PGEN_FLAGS     = -m $*
 
-SDF2RTG_FLAGS  = --main Java
+SDF2RTG_FLAGS  = --main Basic-Java
 
-Java.def : \
-  Java.sdf \
+Basic-Java.def : \
+  Basic-Java.sdf \
   Java-Classes.sdf \
   Java-Comments.sdf \
   Java-Expressions.sdf \
@@ -36,9 +36,9 @@ Java.def : \
   Java-VarDecs.sdf \
   Java-WhiteSpace.sdf
 
-Stratego-Java.def : \
-  Java-Prefixed.sdf \
-  Stratego-Java.sdf
+Stratego-Basic-Java.def : \
+  Basic-Java-Prefixed.sdf \
+  Stratego-Basic-Java.sdf
 
-Java-Prefixed.sdf: Java.def
-	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Java --name Java-Prefixed --prefix Java
+Basic-Java-Prefixed.sdf: Basic-Java.def
+	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Basic-Java --name Basic-Java-Prefixed --prefix Java

@@ -1,5 +1,5 @@
 module Generic-Java
-imports Java Java-StaticImport
+imports Basic-Java Java-StaticImport
 
 exports
   sorts ClassDec MethodHead AMethodHead 

@@ -1,8 +1,8 @@
-module jtree2abox
+module jtree15-to-abox
 imports pp-Java
 
 strategies
 
-  io-jtree2abox = 
+  io-jtree15-to-abox = 
     io-wrap(java-pretty-print)
 

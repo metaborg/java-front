@@ -47,7 +47,7 @@ ppcheck : gnu-classpath.list
 	diff $*.jtree $*.ppjtree
 
 %.ppjtree : %.jtree
-	$(PPJAVA) -i $< | $(PARSEJAVA) -$(JAVA_VERSION) -o $@
+	$(PPJAVA) -$(JAVA_VERSION) -i $< | $(PARSEJAVA) -$(JAVA_VERSION) -o $@
 
 %.jtree : %.java
 	$(PARSEJAVA) -$(JAVA_VERSION) -i $< -o $@

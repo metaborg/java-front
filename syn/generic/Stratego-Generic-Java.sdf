@@ -1,5 +1,5 @@
 module Stratego-Generic-Java
-imports Generic-Java-Prefixed Stratego-Java
+imports Generic-Java-Prefixed Stratego-Basic-Java
 exports
   context-free syntax
 

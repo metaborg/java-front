@@ -11,7 +11,7 @@ TBLS_DEFS = \
   Stratego-Java-EBlock.def \
   Stratego-Java-EBlock.tbl 
 
-sdfdata_DATA = $(TBLS_DEFS) $(wildcard *.sdf) Java-EBlock-Prefixed.sdf
+sdfdata_DATA = $(TBLS_DEFS) Java-EBlock-Prefixed.sdf
 pkgdata_DATA = Java-EBlock.rtg
 
 EXTRA_DIST = $(MODULES)
@@ -28,7 +28,7 @@ PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Java-EBlock
 
 Java-EBlock.def : \
-  $(top_srcdir)/syn/basic/Java.sdf \
+  $(top_srcdir)/syn/basic/Basic-Java.sdf \
   $(top_srcdir)/syn/basic/Java-Classes.sdf \
   $(top_srcdir)/syn/basic/Java-Comments.sdf \
   $(top_srcdir)/syn/basic/Java-Expressions.sdf \

@@ -1,5 +1,5 @@
-module Stratego-Java
-imports Java-Prefixed StrategoRenamed
+module Stratego-Basic-Java
+imports Basic-Java-Prefixed StrategoRenamed
 
 exports
   context-free start-symbols StrategoModule

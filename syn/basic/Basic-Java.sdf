@@ -1,4 +1,4 @@
-module Java
+module Basic-Java
 imports
   Java-Lexical
   Java-Names

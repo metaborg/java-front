@@ -6,7 +6,7 @@ TBLS_DEFS = \
   Generic-Java.tbl \
   Stratego-Generic-Java.tbl
 
-sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Generic-Java-Prefixed.sdf
+sdfdata_DATA   = $(TBLS_DEFS) Generic-Java-Prefixed.sdf
 pkgdata_DATA   = Generic-Java.rtg
 
 EXTRA_DIST     = $(sdfdata_DATA)
@@ -17,19 +17,19 @@ SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Generic-Java
 
-Generic-Java.def : $(JAVA14_MODS) Generic-Java.sdf
+Generic-Java.def : $(BASICJAVA_MODS) Generic-Java.sdf
 
 Stratego-Generic-Java.def : \
   Generic-Java.def \
   Generic-Java-Prefixed.sdf \
   Stratego-Generic-Java.sdf \
-  ${top_srcdir}/syn/basic/Stratego-Java.sdf
+  ${top_srcdir}/syn/basic/Stratego-Basic-Java.sdf
 
 Generic-Java-Prefixed.sdf: Generic-Java.def
 	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Generic-Java --name Generic-Java-Prefixed --prefix Java
 
-JAVA14_MODS = \
-  ${top_srcdir}/syn/basic/Java.sdf \
+BASICJAVA_MODS = \
+  ${top_srcdir}/syn/basic/Basic-Java.sdf \
   ${top_srcdir}/syn/basic/Java-Classes.sdf \
   ${top_srcdir}/syn/basic/Java-Comments.sdf \
   ${top_srcdir}/syn/basic/Java-Expressions.sdf \

@@ -1,3 +1,16 @@
+2004-08-09  Martin Bravenboer <martin@cs.uu.nl>
+
+	* xtc/jtree2text.str: gone.
+
+	* xtc/pp-java.str: now takes the same release options as pp-java.
+
+	* pp/basic: restored the old pretty-printer for use with the old
+	syntax definition.
+
+	* syn/basic/Basic-Java.sdf: new name for Java.sdf. Java.sdf
+	suggests that this is the primary syntax definition, which is not
+	the case.
+	
 2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
 
 	* Unattractive fix to an ambiguity: the declaration "Foo<Bar>

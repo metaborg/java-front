@@ -4,57 +4,33 @@
  * @author  Martin Bravenboer <martin@cs.uu.nl>
  */
 module parse-java
-imports liblib strategoxt-xtc-tools tool-doc
+imports liblib strategoxt-xtc-tools tool-doc jtree-version
 
 strategies
 
   main-parse-java =
     xtc-io-wrap(
-      release-option + symbol-option
+      release-option(|"parse source") + symbol-option
     , parse-java-usage
     , parse-java-about
-    , !["sglr", "implode-asfix", "Java-15.tbl", "Java.tbl"]
+    , !["sglr", "implode-asfix", "Java-15.tbl"]
     , parse-java
     )
 
+strategies
+
   parse-java =
-    xtc-sglr-no-heuristics(get-parse-table, get-start-symbol)
+    if get-release => "1.5" then
+      xtc-sglr-no-heuristics(get-parse-table, get-start-symbol)
+    else 
+      xtc-sglr(get-parse-table, get-start-symbol)
+    end
     ; xtc-implode-asfix
 
   xtc-sglr-no-heuristics(tbl, sort) =
     xtc-transform(!"sglr", !["-fi", "-fe", "-2A", "-p", <tbl; xtc-find> (), "-s", <sort> () | <pass-v-verbose> ()])
 
-/**
- * Release option
- */
 strategies
-
-  release-option =
-      ArgOption("--release"
-      , set-release-option
-      , !HelpString("--release r", "parse for release r [1.5]")
-      )
-    + Option("-1.5"
-      , <set-release-option> "1.5"
-      , !HelpString("-1.5", "parse source as Java 2 version 1.5")
-      )
-    + Option("-basic"
-      , <set-release-option> "basic"
-      , !HelpString("-basic", "parse source as basic Java, which is similar to Java 2 version 1.4. This version
-                               is obsolete and only available for use by legacy programs.")
-      )
-
-  set-release-option = 
-    switch id 
-      case "basic" : !"Java.tbl"
-      case "1.5"   : !"Java-15.tbl"
-      otherwise :
-        <fprint> (<stderr-stream>, ["parse-java: parsing for release ", <id>, " is not supported.\n"])
-    end
-    ; <set-config> ("parsetable", <id>)
-
-  get-parse-table =
-    <get-config> "parsetable" <+ !"Java-15.tbl"
 
   symbol-option =
     ArgOption("-s" + "--start-symbol"

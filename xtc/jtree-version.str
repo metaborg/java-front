@@ -1,0 +1,68 @@
+module jtree-version
+
+/**
+ * Release option
+ */
+strategies
+
+  release-option(|msg) =
+      ArgOption("--release"
+      , set-release-option
+      , !HelpString("--release r", <conc-strings> (msg, " for release r [1.5]"))
+      )
+    + Option("-1.5"
+      , <set-release-option> "1.5"
+      , !HelpString("-1.5", <conc-strings> (msg, " as Java 2 version 1.5"))
+      )
+    + Option("-basic"
+      , <set-release-option> "basic"
+      , !HelpString("-basic", <conc-strings> (msg, " as basic Java, which is similar to Java 2 version 1.4. 
+            WARNING: This version is obsolete and only available for use by legacy programs."))
+      )
+    + Option("-generic"
+      , <set-release-option> "generic"
+      , !HelpString("-generic", <conc-strings> (msg, " as Generic Java, which is 
+             similar to the early access compiler for JSR14.
+            WARNING: This version is obsolete and only available for use by legacy programs."))
+      )
+
+  set-release-option = 
+    where(<set-config> ("--release", <id>))
+  ; where(
+      switch id 
+        case "basic"   : !"Basic-Java.tbl"
+        case "generic" : !"Generic-Java.tbl"
+        case "1.5"     : !"Java-15.tbl"
+        otherwise :
+          <fprint> (<stderr-stream>, ["parse-java: parsing for release ", <id>, " is not supported.\n"])
+      end
+      ; <set-config> ("parsetable", <id>)
+    )
+  ; where(
+      switch id 
+        case "basic"   : !"jtree-generic-parenthesize"
+        case "generic" : !"jtree-generic-parenthesize"
+        case "1.5"     : !"jtree15-parenthesize"
+      end
+      ; <set-config> ("parenthesize", <id>)
+    )
+  ; where(
+      switch id 
+        case "basic"   : !"jtree-generic2abox"
+        case "generic" : !"jtree-generic2abox"
+        case "1.5"     : !"jtree15-to-abox"
+      end
+      ; <set-config> ("2abox", <id>)
+    )
+
+  get-release =
+    <get-config> "--release" <+ !"1.5"
+
+  get-parse-table =
+    <get-config> "parsetable" <+ !"Java-15.tbl"
+
+  get-parenthesize =
+    <get-config> "parenthesize" <+ !"jtree15-parenthesize"
+
+  get-2abox =
+    <get-config> "2abox" <+ !"jtree15-to-abox"
