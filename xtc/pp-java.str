@@ -24,7 +24,7 @@ strategies
   pp-java-usage =
     <tool-doc>
       [ Usage("pp-java [OPTIONS]")
-      , Summary("Pretty-prints a jtree in ATerm format to a Java source file.")
+      , Summary("Pretty-prints a Java abstract syntax tree in ATerm format to a Java source file.")
       , OptionUsage()
       , AutoReportBugs()
       ]
