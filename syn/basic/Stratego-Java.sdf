@@ -56,6 +56,9 @@ exports
     "java"            "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
                       "|[" JavaBlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
 
+    "java:stm" "|["  JavaStm "]|" -> StrategoTerm {cons("ToTerm")}
+         "stm" "|["  JavaStm "]|" -> StrategoTerm {cons("ToTerm")}
+
     "java:formal-param" "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
          "formal-param" "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
     "java"              "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
@@ -92,8 +95,12 @@ exports
     "~"  StrategoTerm  ->  JavaFormalParam       {cons("FromTerm")}
     "~*" StrategoTerm  -> {JavaFormalParam ","}* {cons("FromTerm")}
 
-    "~"  StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
-    "~*" StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
+    "~"      StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
+    "~*"     StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
+    "~bstm:" StrategoTerm  -> JavaBlockStm  {cons("FromTerm")}
+    "~bstm*" StrategoTerm  -> JavaBlockStm* {cons("FromTerm")}
+
+    "~stm:" StrategoTerm  -> JavaStm {prefer, cons("FromTerm")}
 
     "~"  StrategoTerm  -> JavaStm  {cons("FromTerm")}
 
@@ -130,6 +137,8 @@ exports
     "e"    [0-9]* "*" -> {JavaVarInit ","}* {prefer}
     "e"    [0-9]* "*" -> {JavaExpr ","}*    {prefer}
 
+    "stm" [0-9]*      -> JavaStm         {prefer}
+    "bstm" [0-9]*     -> JavaBlockStm    {prefer}
     "bstm" [0-9]* "*" -> JavaBlockStm*   {prefer}
     [ij]   [0-9]*     -> JavaDeciLiteral {prefer}
     [xyz]  [0-9]*     -> JavaID          {prefer}
