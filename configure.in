@@ -1,4 +1,4 @@
-AC_INIT(java-front, 0.3.0, martin@mbravenboer.org)
+AC_INIT([java-front],[0.3.0],[mbravenb@cs.uu.nl])
 AM_INIT_AUTOMAKE
 
 USE_XT_PACKAGES
@@ -9,7 +9,6 @@ AC_PROG_INSTALL
 SET_SVN_REVISION
 AC_SUBST(SVN_REVISION)
 echo "** INFO -- SVN Revision is: $SVN_REVISION"
-
 
 AC_CONFIG_FILES([
   java-front.spec

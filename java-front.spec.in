@@ -9,7 +9,7 @@ Source: @PACKAGE_TARNAME@-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 Requires: aterm = 2.0
 Requires: sdf2-bundle = 1.6
-Required: strategoxt = 0.9.2
+Requires: strategoxt = 0.9.2
 Provides:  %{name} = %{version}
 
 %description
