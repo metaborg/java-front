@@ -8,8 +8,8 @@ URL: http://www.stratego-language.org
 Source: @PACKAGE_TARNAME@-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 Requires: aterm >= 2.1
-Requires: sdf2-bundle >= 2.0.1
-Requires: strategoxt >= 0.10
+Requires: sdf2-bundle >= 2.1
+Requires: strategoxt >= 0.11
 Provides: %{name} = %{version}
 
 %description
