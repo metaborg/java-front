@@ -92,11 +92,21 @@ strategies
     QNewInstance(e, None(), s, None(), exprs, Some(body)) -> box |[ V vs=0 [H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ~body] ]|
       where <list-to-args> exprs => args
 
+rules
+
   java-to-box: 
     NewArray(type, dimexprs, dims) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dimexprs ~*dims] ]|
 
   java-to-box: 
     NewArray(type, dims, init@ArrayInit(_)) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dims ~init] ]|
+
+  /**
+   * Special ArrayBaseType
+   */
+  java-to-box: 
+    UnboundWld(name) -> box |[ H hs=0 [ ~name "<" "?" ">"] ]|
+
+rules
 
   java-to-box: 
     ArrayAccess(b1, b2) -> H hs=0 [ b1 "[" b2 "]"]

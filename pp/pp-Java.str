@@ -74,15 +74,17 @@ rules
   java-to-box:
     InterfaceDec(InterfaceDecHead(mods, Id(name), type-args, implements), body)
       ->
-    V vs=0 [H hs=1 [ ~*mods KW["interface"] b* ~lit:name ~implements] b2]
+    V vs=0 [H hs=1 [ ~*mods KW["interface"] H hs=0[~lit:name b*] ~implements] b2]
     where
-      <type-args-to-boxes> type-args => b*
+      <type-params-to-boxes> type-args => b*
     ; <block-structure> (1, body) => b2
 
   java-to-box:
-    ClassDec(ClassDecHead(mods, Id(name), None(), extends, implements), body)
+    ClassDec(ClassDecHead(mods, Id(name), type-args, extends, implements), body)
       ->
-    V vs=0 [H hs=1 [~*mods KW["class"] ~lit:name ~extends ~implements] ~body]
+    V vs=0 [H hs=1 [~*mods KW["class"] H hs=0[~lit:name b*] ~extends ~implements] ~body]
+    where
+      <type-params-to-boxes> type-args => b*
 
   java-to-box:
     ClassBody(decs) -> <block-structure> (1, decs)

@@ -1,5 +1,17 @@
 testsuite Java 1.5 Types
 topsort Type
 
+test Plain type
+  "Class" ->
+    ClassOrInterfaceType(TypeName(Id("Class")),None)
+
+test param wildcard
+  "Class<?>" -> 
+    ClassOrInterfaceType(
+      TypeName(Id("Class"))
+    , Some(TypeArgs([Wildcard(None)]))
+    )
+
 test param array
-  "Class<?>[]" -> Foo
+  "Class<?>[]" -> 
+    ArrayType(ClassOrInterfaceType(_,Some(TypeArgs([Wildcard(None)]))))

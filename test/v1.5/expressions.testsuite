@@ -221,3 +221,10 @@ test Array subscript 1
 
 test Array subscript 2
   "digits[-(i % radix)]" succeeds
+
+test Array creation 1
+  "new Class<?>[5]" succeeds
+
+test Array creation 2
+  "new Class<Foo>[5]" fails
+

@@ -1,5 +1,18 @@
 2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
 
+	* syn/v1.5/languages/java-15/expressions/ArrayCreationExpressions.sdf:
+	added support for the unbounded wildcard array base type, which is
+	going to be part of 1.5, but is not yet supported by the proposed
+	final draft of JSR 14.
+
+	* pp/pp-Java-Expressions.str: pretty-printing of the unbounded
+	wildcard array base type.
+
+	* pp/pp-Java.str: fixed pretty-printing of parameterized classes
+	and interfaces.
+	
+2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+
 	* pp/pp-Java.str: ad-hoc fix for an interesting problem:
 	Minus(Minus(e)) was pretty-printed as --e and therefore parsed as
 	PreDecr afterwards. This cannot be derived from the priorities,

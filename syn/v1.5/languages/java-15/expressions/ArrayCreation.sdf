@@ -20,8 +20,9 @@ exports
     "new" ArrayBaseType DimExpr+ Dim*  -> ArrayCreationExpr {cons("NewArray")}
     "new" ArrayBaseType Dim+ ArrayInit -> ArrayCreationExpr {cons("NewArray")}
 
-    TypeName -> ArrayBaseType
     PrimType -> ArrayBaseType
+    TypeName -> ArrayBaseType
+    TypeName "<" "?" ">" -> ArrayBaseType {cons("UnboundWld")}
 
     "[" Expr "]" -> DimExpr {cons("Dim")}
     "[" "]"      -> Dim     {cons("Dim")}
