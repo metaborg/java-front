@@ -3,6 +3,13 @@ AM_INIT_AUTOMAKE
 
 USE_XT_PACKAGES
 
+AC_ARG_WITH(stratego-regular, 
+  AC_HELP_STRING([--with-stratego-regular=DIR], [use stratego-regular at DIR @<:@PREFIX@:>@]), 
+  STRATEGO_REGULAR="$withval", 
+  STRATEGO_REGULAR="$prefix"
+)
+AC_SUBST(STRATEGO_REGULAR)
+
 AC_PROG_CC
 AC_PROG_INSTALL
 

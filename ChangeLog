@@ -1,3 +1,13 @@
+2003-08-28  Martin Bravenboer <mbravenb@cs.uu.nl>
+
+  * configure.in: java-front requires stratego-regular
+    from now (who doesn't? ;) )
+
+  * Makefile.regular: copied from xml-tools. Should
+    not be modified (subversion should support links)
+
+  * syn/basic/Makefile.am: install Java.rtg-nf
+
 2003-02-25  Martin Bravenboer <martin@mbravenboer.org>
 
   * pp/Makefile.am: Include sdf/gpp, not sdf/box-tools.
