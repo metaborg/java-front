@@ -79,7 +79,7 @@ exports
    %% Variables for Types
    %%%
   variables
-    TypeVar -> JavaType 
+    TypeVar -> JavaType {prefer}
 
   lexical syntax
     "t"  [0-9]* -> TypeVar
@@ -152,6 +152,9 @@ exports
      "mod" [0-9]*     -> JavaConstrMod  {prefer}
      "mod" [0-9]* "*" -> JavaConstrMod* {prefer}
 
+     "mod" [0-9]*     -> JavaVarMod  {prefer}
+     "mod" [0-9]* "*" -> JavaVarMod* {prefer}
+
   %%%
    %% Quotations for Modifiers
    %%%
@@ -159,6 +162,46 @@ exports
            "|[" JavaModifier "]|" -> StrategoTerm {cons("ToTerm")}
     "mod"  "|[" JavaModifier "]|" -> StrategoTerm {cons("ToTerm")}
 
+
+%%%
+ %% Formal Parameters
+ %%%
+exports
+
+  %%%
+   %% Variables for Formal Parameters
+   %%%
+  variables
+     "param" [0-9]*     -> JavaFormalParam  {prefer}
+     "param" [0-9]* "*" -> JavaFormalParam* {prefer}
+
+  %%%
+   %% Quotations for Formal Parameters
+   %%%
+  context-free syntax
+
+         "param"  "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+    "java:param"  "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+
+         "param*" "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+    "java:param*" "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:formal-param" "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+         "formal-param" "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"              "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+                        "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:formal-param*" "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+         "formal-param*" "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"               "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+                         "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+
+  %%%
+   %% Anti Quotations for Formal Parameters
+   %%%
+  context-free syntax
+    "~"  StrategoTerm  ->  JavaFormalParam       {cons("FromTerm")}
+    "~*" StrategoTerm  -> {JavaFormalParam ","}* {cons("FromTerm")}
 
 %%%
  %% Must be cleaned up
@@ -194,16 +237,6 @@ exports
     "java:stm" "|["  JavaStm "]|" -> StrategoTerm {cons("ToTerm")}
          "stm" "|["  JavaStm "]|" -> StrategoTerm {cons("ToTerm")}
 
-    "java:formal-param" "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
-         "formal-param" "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
-    "java"              "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
-                        "|[" JavaFormalParam "]|" -> StrategoTerm {cons("ToTerm")}
-
-    "java:formal-param*" "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
-         "formal-param*" "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
-    "java"               "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
-                         "|[" {JavaFormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
-
     "java:imember-dec" "|["  JavaAbstractMethodDec  "]|" -> StrategoTerm {cons("ToTerm")}
          "imember-dec" "|["  JavaAbstractMethodDec  "]|" -> StrategoTerm {cons("ToTerm")}
     "java"             "|["  JavaAbstractMethodDec  "]|" -> StrategoTerm {cons("ToTerm")}
@@ -229,10 +262,6 @@ exports
 
     "~"  StrategoTerm -> JavaTypeParam        {cons("FromTerm")}
     "~*" StrategoTerm -> {JavaTypeParam ","}+ {cons("FromTerm")}
-
-
-    "~"  StrategoTerm  ->  JavaFormalParam       {cons("FromTerm")}
-    "~*" StrategoTerm  -> {JavaFormalParam ","}* {cons("FromTerm")}
 
     "~"      StrategoTerm  ->  JavaExpr {cons("FromTerm")}
     "~e:"    StrategoTerm  ->  JavaExpr {prefer, cons("FromTerm")}
