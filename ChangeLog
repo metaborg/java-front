@@ -1,3 +1,8 @@
+2004-07-10  Martin Bravenboer <martin@cs.uu.nl>
+
+	* xtc/parse-java.str: added an -s|--start-symbol option to parse
+	different start symbols then a full CompilationUnit.
+	
 2004-07-07  Martin Bravenboer <martin@cs.uu.nl>
 
 	* xtc/parse-java.str: added a --release flag to the parse-java

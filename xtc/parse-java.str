@@ -10,7 +10,7 @@ strategies
 
   main-parse-java =
     xtc-io-wrap(
-      release-option
+      release-option + symbol-option
     , parse-java-usage
     , parse-java-about
     , !["sglr", "implode-asfix", "Generic-Java.tbl", "Java.tbl"]
@@ -18,7 +18,7 @@ strategies
     )
 
   parse-java =
-      xtc-sglr(get-parse-table, !"CompilationUnit")
+      xtc-sglr(get-parse-table, get-start-symbol)
     ; xtc-implode-asfix
 
 /**
@@ -43,6 +43,18 @@ strategies
 
   get-parse-table =
     <get-config> "parsetable" <+ !"Generic-Java.tbl"
+
+  symbol-option =
+    ArgOption("-s" + "--start-symbol"
+    , set-start-symbol
+    , !HelpString("-s|--start-symbol s", "start parsing with symbol s [CompilationUnit]")
+    )
+
+  set-start-symbol =
+    <set-config> ("start-symbol", <id>)
+
+  get-start-symbol = 
+    <get-config> "start-symbol" <+ !"CompilationUnit"
 
 /**
  * Documentation
