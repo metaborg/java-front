@@ -27,15 +27,23 @@ strategies
 strategies
 
   release-option =
-    ArgOption("--release"
-    , set-release-option
-    , !HelpString("--release r", "parse for release r [1.5]")
-    )
+      ArgOption("--release"
+      , set-release-option
+      , !HelpString("--release r", "parse for release r [1.5]")
+      )
+    + Option("-1.4"
+      , <set-release-option> "1.4"
+      , !HelpString("-1.4", "parse source as Java 2 version 1.4")
+      )
+    + Option("-1.5"
+      , <set-release-option> "1.5"
+      , !HelpString("-1.5", "parse source as Java 2 version 1.5")
+      )
 
   set-release-option = 
     switch id 
       case "1.4" : !"Java.tbl"
-      case "1.5" : !"Generic-Java.tbl"
+      case "1.5" : !"Java-15.tbl"
       otherwise :
         <fprint> (<stderr-stream>, ["parse-java: parsing for release ", <id>, " is not supported.\n"])
     end

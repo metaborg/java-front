@@ -1,3 +1,16 @@
+2004-08-05  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/v1.5/*: Java 1.5 syntax definition is more or less
+	finished. Currently performing tests on the GNU classpath and
+	J2SDK sources to find bugs. Interesting detail is that the GNU
+	Classpath uses quite some variables with the name 'enum', which is
+	forbidden in Java 1.5.
+
+	* test/gnu-classpath/*: upgrade to GNU Classpath 0.10.
+	
+	* test/gnu-classpath/v1.4,v1.5: test both Java versions (currently
+	parsing only: I still need to update the pretty-printer for 1.5).
+	
 2004-08-03  Martin Bravenboer <martin@cs.uu.nl>
 	
 	* syn/v1.5/*: JavaFront will use hierarchical SDF module names for
