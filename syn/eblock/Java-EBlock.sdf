@@ -5,3 +5,4 @@ exports
   context-free syntax
     "{|" BlockStm* "|" Expr "|}" -> Expr {cons("PreEBlock")}
     "{|" Expr "|" BlockStm* "|}" -> Expr {cons("PostEBlock")}
+    "{|" BlockStm* "|}"          -> BlockStm {cons("InnerBlock")}

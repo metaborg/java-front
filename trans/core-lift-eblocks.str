@@ -12,14 +12,18 @@ strategies
   lift-to-block-level = lift-from-blocks <+ lift-from-constructor-blocks
   
   lift-from-blocks = 
-      ?Block(<id>) 
+      ?Block(<id>)
     ; map(lift-eblocks)
-    ; !Block(<concat>)
+    ; concat
+    ; flatten-inner-block
+    ; !Block(<id>)
 
   lift-from-constructor-blocks = 
       ?ConstrBody(x, <id>)
     ; map(lift-eblocks)
-    ; !ConstrBody(x, <concat>)
+    ; concat
+    ; flatten-inner-block
+    ; !ConstrBody(x, <id>)
   
   /**
    * @todo  Nested EBlocks?
@@ -43,3 +47,10 @@ strategies
 
   collect-split-om-post-eblock =
     !(<alltd(?PostEBlock(<id>, _))>, <collect-om(?PostEBlock(_, <id>), conc); concat>)
+
+  flatten-inner-block = 
+    ?[ InnerBlock(ys) | xs ];<conc>(<flatten-inner-block>ys, <flatten-inner-block>xs)
+      <+
+    ?[ x | xs ];![ x | <flatten-inner-block>xs ]
+      <+
+    ?[ x | [] ];![ x ]
