@@ -2,34 +2,27 @@ module Java-Statements
 imports Java-Expressions Java-Types
 
 exports
-  sorts BlockStm
+  sorts BlockStm Block Stm
 
   context-free syntax
-    "{" BlockStm* "}" -> Block {cons("Block")}
-
-    Block       -> Stm
-
-    LocalVarDec -> BlockStm
     Stm         -> BlockStm
+    LocalVarDec -> BlockStm
     ClassDec    -> BlockStm
 
     "final" Type {VarDec ","}+ ";" -> LocalVarDec {cons("FinalLocalVarDec")}
-    Type {VarDec ","}+ ";"         -> LocalVarDec {cons("LocalVarDec")}
-    Type {VarDec ","}+             -> LVarDec {cons("LVarDec")}
+            Type {VarDec ","}+ ";" -> LocalVarDec {cons("LocalVarDec")}
 
-    %% TODO: not all expressions are allowed as statements. 
-    %% I do not want to inject certain specific expressions in a statement,
-    %% but reject the illegal ones.
+    Block -> Stm
+    "{" BlockStm* "}" -> Block {cons("Block")}
 
-    Expr ";" -> Stm {cons("Expr")}
-
-    ";" -> Stm {cons("Empty")}
+    Expr ";"   -> Stm {cons("Expr")}
+    ";"        -> Stm {cons("Empty")}
     Id ":" Stm -> Stm {cons("Labeled")}
 
-    "if" "(" Expr ")" Stm -> Stm {prefer, cons("If")}
+    "if" "(" Expr ")" Stm             -> Stm {prefer, cons("If")}
     "if" "(" Expr ")" Stm  "else" Stm -> Stm {cons("If")}
 
-    "while" "(" Expr ")" Stm -> Stm {cons("While")}
+             "while" "(" Expr ")" Stm -> Stm {cons("While")}
     "do" Stm "while" "(" Expr ")" ";" -> Stm {cons("DoWhile")}
 
     "for" "(" ForInit? ";" Expr? ";" ForUpdate? ")" Stm -> Stm {cons("For")}
@@ -37,6 +30,7 @@ exports
     LVarDec -> ForInit {cons("VarDec")}      %% TODO: fix for sdf2rtg
     {Expr ","}+ -> ForInit   {cons("Exprs")} %% TODO: fix for sdf2rtg
     {Expr ","}+ -> ForUpdate {cons("Exprs")} %% TODO: fix for sdf2rtg
+    Type {VarDec ","}+  -> LVarDec {cons("LVarDec")}
 
     "break"    Id? ";"   -> Stm {cons("Break")}
     "continue" Id? ";"   -> Stm {cons("Continue")}

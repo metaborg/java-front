@@ -9,6 +9,7 @@ USE_STRATEGO_REGULAR
 
 AC_PROG_CC
 AC_PROG_INSTALL
+AC_PROG_LN_S
 
 DETECT_SVN_REVISION
 AC_SUBST(SVN_REVISION)
@@ -22,9 +23,6 @@ AC_CONFIG_FILES([
   syn/generic/Makefile
 
   sig/Makefile
-  sig/basic/Makefile
-  sig/generic/Makefile
-
   pp/Makefile
   xtc/Makefile
   

@@ -7,15 +7,15 @@ strategies
   java-to-box: Null()        -> box |[ KW["null"]    ]|
   java-to-box: Class(Void()) -> box |[ H hs=0 [KW["void"] "." KW["class"]] ]|
 
-  java-to-box: Bool(b)   -> b
-  java-to-box: Class(c)  -> c
-  java-to-box: Char(c)   -> S(c)
-  java-to-box: String(s) -> S(s)
-    where <is-double-quote> s
+  java-to-box: Bool(b)  -> b
+  java-to-box: Class(c) -> c
 
-  java-to-box: String(s) -> S(<double-quote> s)
-    where <not(is-double-quote)> s
-  //TODO: double-quote is bugfix voor Stratego concrete syntax problems.
+  // TODO: escapes
+  java-to-box: Char(Single(c))  -> S(s)
+    where <implode-string> [c] => s
+
+  // TODO: escapes
+  java-to-box: String([Chars(s)]) -> S(s)
 
   java-to-box: Float(f)  -> box |[ NUM[ ~S(f) ] ]|
   java-to-box: Deci(d)   -> box |[ NUM[ ~S(d) ] ]|

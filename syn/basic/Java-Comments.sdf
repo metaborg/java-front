@@ -1,31 +1,40 @@
 module Java-Comments
-imports Java-Literals
+imports Java-Literals Java-WhiteSpace
 
 exports
+  sorts Comment EOLCommentChar CommentPart UnicodeEscape
   lexical syntax
     Comment -> LAYOUT
 
-    "//" InputChar* LineTerminator -> Comment
+    "//" EOLCommentChars LineTerminator -> Comment
+    ~[\n\13]* -> EOLCommentChars
 
-    "/*"  CommentChar* "*/" -> Comment
-    "/**" CommentChar* "*/" -> Comment
+    "/*"  CommentPart* "*/" -> Comment
+    "/**" CommentPart* "*/" -> Comment
     "/**/"                  -> Comment %% Strange javadoc comment
 
-    ~[\*\\]       -> CommentChar
-    EscChar       -> CommentChar
-    EscEscChar    -> CommentChar
-    Asterisk      -> CommentChar
-    UnicodeEscape -> CommentChar
+    BlockCommentChars -> CommentPart
+    EscChar           -> CommentPart
+    EscEscChar        -> CommentPart
+    Asterisk          -> CommentPart
+    UnicodeEscape     -> CommentPart
+
+    ~[\*\\]+ -> BlockCommentChars
 
     "*"    -> Asterisk
     "\\\\" -> EscEscChar
     "\\"   -> EscChar
+
+    "\\" [u]+ [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] -> UnicodeEscape
 
   lexical restrictions
 
     "/*"     -/- [\*]
     Asterisk -/- [\/]
     EscChar  -/- [\\u]
+
+    BlockCommentChars -/- ~[\*\\]
+    EOLCommentChars   -/- ~[\n\13]
 
   context-free restrictions
     LAYOUT?  -/- [\/].[\*]

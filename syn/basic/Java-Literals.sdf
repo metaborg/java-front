@@ -8,8 +8,8 @@ exports
       IntLiteral -> Literal
     FloatLiteral -> Literal {cons("Float")}
      BoolLiteral -> Literal {cons("Bool")}
-     CharLiteral -> Literal {cons("Char")}
-   StringLiteral -> Literal {cons("String")}
+     CharLiteral -> Literal
+   StringLiteral -> Literal
      NullLiteral -> Literal
     ClassLiteral -> Literal {cons("Class")}
 
@@ -21,69 +21,65 @@ exports
     "false" -> BoolLiteral {cons("False") }
     "null"  -> NullLiteral {cons("Null")}
 
-%% module Java-ClassLiterals
-
   context-free syntax
 
     Type "." "class"   -> ClassLiteral {cons("Class")}
     "void" "." "class" -> ClassLiteral {cons("VoidClass")}
 
-%% module Java-IntegerLiterals
-
   lexical syntax
-    [0-7]       -> OctaDigit
-    [0-9]       -> DeciDigit
-    [0-9a-fA-F] -> HexaDigit
-
     DeciNumeral [lL]? -> DeciLiteral
     HexaNumeral [lL]? -> HexaLiteral
     OctaNumeral [lL]? -> OctaLiteral
 
-        DeciDigit+  -> DeciNumeral
-    [0] DeciDigit+  -> DeciNumeral {reject}
+        [0-9]+  -> DeciNumeral
+    [0] [0-9]+  -> DeciNumeral {reject}
 
-    [0][xX] HexaDigit+ -> HexaNumeral
-    [0]     OctaDigit+ -> OctaNumeral
+    [0][xX] [0-9a-fA-F]+ -> HexaNumeral
+    [0]     [0-9a-fA-F]+ -> OctaNumeral
 
-
-%% module Java-FloatingPointLiterals
-
+  lexical syntax
     [fFdD] -> FloatTypeSuffix
 
     FloatDigits ExponentPart?  FloatTypeSuffix? -> FloatLiteral
-    DeciDigit+ -> FloatLiteral {reject}
+    [0-9]+ -> FloatLiteral {reject}
 
-    DeciDigit* "." DeciDigit* -> FloatDigits
-    "."        -> FloatDigits {reject}
-    DeciDigit+ -> FloatDigits
+    [0-9]* "." [0-9]* -> FloatDigits
+    "."    -> FloatDigits {reject}
+    [0-9]+ -> FloatDigits
 
     [eE] SignedInt -> ExponentPart
 
-    Sign? DeciDigit+ -> SignedInt
+    Sign? [0-9]+ -> SignedInt
     [\-\+] -> Sign
 
-%% module Java-CharacterLiterals
+  %% char and string literals
+  syntax
+    StringLiteral -> <StringLiteral-CF>
+    CharLiteral   -> <CharLiteral-CF>
 
-    "\\" [u]+ HexaDigit HexaDigit HexaDigit HexaDigit -> UnicodeEscape
-   
-    UnicodeEscape -> InputChar
-    ~[\n\13]      -> InputChar
+    "\"" StringPart* "\"" -> StringLiteral {cons("String")}
+    <StringChars-LEX> -> StringPart {cons("Chars")}
+    UnicodeEscape     -> StringPart
+    EscapeSeq         -> StringPart
 
-    "'" UnicodeEscape "'" -> CharLiteral
-    "'" ~[\12\13\'\\] "'" -> CharLiteral
-    "'" EscapeSeq "'"     -> CharLiteral
+    "'" CharContent "'" -> CharLiteral {cons("Char")}
+    ~[\12\13\'\\] -> CharContent {cons("Single")}
+    UnicodeEscape -> CharContent
+    EscapeSeq     -> CharContent
 
-    "\\" [btnfr\"\'\\] -> EscapeSeq
-    OctaEscape         -> EscapeSeq
+    OctaEscape  -> EscapeSeq
+    NamedEscape -> EscapeSeq
 
-    "\\" OctaDigit                 -> OctaEscape
-    "\\" OctaDigit OctaDigit       -> OctaEscape
-    "\\" [0-3]     OctaDigit OctaDigit -> OctaEscape
+    "\\" [u]+ [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] -> UnicodeEscape {cons("UnicodeEscape")}
+    "\\" [btnfr\"\'\\]        -> NamedEscape {cons("NamedEscape")}
+    "\\" <LastOcta-LEX>       -> OctaEscape  {cons("OctaEscape")}
+    "\\" [0-7] <LastOcta-LEX> -> OctaEscape  {cons("OctaEscape")}
+    "\\" [0-3] [0-7] [0-7]    -> OctaEscape  {cons("OctaEscape")}
 
-%% module Java-StringLiterals
+  lexical syntax
+    [0-7]          -> LastOcta
+    ~[\"\\\n\13]+  -> StringChars
 
-    "\"" StringChar* "\"" -> StringLiteral
-
-    InputChar -> StringChar
-    [\"\\]    -> StringChar {reject}
-    EscapeSeq -> StringChar
+  lexical restrictions
+    StringChars -/- ~[\"\\\n\13]
+    LastOcta    -/- [0-7]

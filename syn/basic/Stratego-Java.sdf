@@ -34,6 +34,16 @@ exports
     "java"                 "|[" ClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
                            "|[" ClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
 
+    "java:bstm" "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+         "bstm" "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"      "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+                "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:bstm*" "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+         "bstm*" "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"       "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+                 "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+
     "java:block-stm" "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
          "block-stm" "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
     "java"           "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
@@ -103,3 +113,7 @@ exports
     "~string:" StrategoTerm -> StringLiteral {cons("FromTerm")}
     "~char:"   StrategoTerm -> CharLiteral   {cons("FromTerm")}
 
+  variables
+    "bstm" [0-9]* "*" -> BlockStm*
+    [ij]   [0-9]*     -> DeciLiteral
+    [xyz]  [0-9]*     -> ID

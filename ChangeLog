@@ -1,5 +1,52 @@
 2004-02-05  Martin Bravenboer <martin@cs.uu.nl>
 
+	* syn/basic/Java-Literals.sdf: character and string literals are
+	no longer lexical syntax.
+
+	Lexical syntax is imploded to Strings in an abstract syntax tree
+	and that is not very useful because the rather complex structure
+	is completely lost then. When using a separate lexical analysis
+	like in conventional parsing techniques this cannot really be
+	prevented because the parser just operates on tokens.
+
+	I think we should forget about tokens at all: lexical syntax as it
+	used right now in SDF is just syntax without layout and you don't
+	want to implode this to a String in all cases. I hope the new
+	approach to defining layout for context-free syntax sections in
+	SDF3 will solve these problems in a more clean way.
+
+	Currently, by defining literals in syntax sections constructors
+	can be attached to them and layout is not inserted by the SDF
+	normalizer in pgen. This is technique is also applied in the XML
+	syntax definition.
+
+	Why is this useful?
+	- AST is now much easier to 'desugar'
+	
+	- clearer and more correct pretty printing
+	
+	- improved handling of 'lexical syntax' in the AST: no need to
+	escape stuff or add double quotes or whatever.
+
+	- better support for concrete object syntax where meta variables
+	are in 'lexical syntax'.
+
+	The change to syntax sections revead an ambigiuity bug in octal
+	escapes, which wasn't reported before because of the 'handy'
+	filters in SGLR. parse-unit should invoke sglr with all filters
+	disabled.
+
+	* pp/pp-Java-Literals.str: added the simple cases for the new
+	literal constructs. Still need to implement all constructs.
+
+	* sig/Makefile.am: Stratego signatures for Java and Generic-Java
+	are now generated from RHG using stratego-regular tools. sdf2rhg
+	can handle the more complex SDF constructs because it operates on
+	partially normalized SDF modules. sig2rhg just generates one big
+	module, so there are no separate modules anymore.
+
+2004-02-05  Martin Bravenboer <martin@cs.uu.nl>
+
 	* syn/basic/Java-Prefixed.sdf: renamings for some (not all yet)
 	Java sorts by prefixing them with Java. This module should be used
 	for embedding concrete object syntax in Java.
