@@ -41,6 +41,7 @@ AC_CONFIG_FILES([
   test/basic/expressions/Makefile
   test/generic/Makefile
   test/generic/compilation-units/Makefile
+  test/v1.5/Makefile
   test/gnu-classpath/Makefile
   test/j2sdk/Makefile
   test/fc/Makefile
