@@ -87,6 +87,8 @@ exports
     "~id:"  StrategoTerm     -> JavaId   {cons("FromTerm")}
     "~idd:" StrategoTerm ":" -> JavaId   {cons("FromTerm")}
 
+    "~x:" StrategoTerm -> JavaID {cons("FromTerm")}
+
     "~"  StrategoTerm  ->  JavaFormalParam       {cons("FromTerm")}
     "~*" StrategoTerm  -> {JavaFormalParam ","}* {cons("FromTerm")}
 
