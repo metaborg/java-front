@@ -1,0 +1,33 @@
+module core-lift-eblocks
+imports options Java-EBlock
+
+strategies
+  
+  io-core-lift-eblocks =
+    io-wrap(core-lift-eblocks)
+
+
+  core-lift-eblocks =
+    topdown(try(lift-to-block-level))
+
+  lift-to-block-level =
+    ?Block(<id>)
+    ; map(lift-eblocks)
+    ; !Block(<concat>)
+
+  /**
+   * @todo  Nested EBlocks?
+   * @todo  Nested Blocks?
+   * @todo  Is Block the only block level element?
+   * @todo  Anonymous inner classes?
+   * @todo  Is flatten-list required?
+   */
+  lift-eblocks =
+      collect-split(?PreEBlock(_, <id>), ?PreEBlock(<id>, _))
+    ; ?(<id>, pre-stms)
+    ; collect-split(?PostEBlock(<id>, _), ?PostEBlock(_, <id>))
+    ; ?(t, post-stms)
+    ; ( !post-stms => []; !pre-stms => []
+      < ![t]
+      + <concat> [<map(lift-eblocks); concat> pre-stms, <lift-eblocks> t, <map(lift-eblocks); concat> post-stms]
+      )

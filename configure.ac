@@ -21,9 +21,11 @@ AC_CONFIG_FILES([
   syn/Makefile
   syn/basic/Makefile
   syn/generic/Makefile
+  syn/eblock/Makefile
 
   sig/Makefile
   pp/Makefile
+  trans/Makefile
   xtc/Makefile
   
   test/Makefile

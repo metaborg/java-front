@@ -1,10 +1,20 @@
 include $(top_srcdir)/Makefile.xt
 include $(top_srcdir)/Makefile.regular
 
-pkgdata_DATA = Java.rtree Generic-Java.rtree
+SIGS = \
+  Java.str \
+  Generic-Java.str \
+  Java-EBlock.str
 
-EXTRA_DIST = Java.rtree Java.str Generic-Java.rtree Generic-Java.str
-BOOTCLEANFILES = $(pkgdata_DATA) Java.rhg-nf Generic-Java.rhg-nf 
+PSIGS =  \
+  Java.rtree \
+  Generic-Java.rtree \
+  Java-EBlock.rtree
+
+pkgdata_DATA = $(SIGS) $(PSIGS)
+EXTRA_DIST   = $(SIGS) $(PSIGS)
+
+BOOTCLEANFILES = $(pkgdata_DATA) $(SIGS) $(PSIGS) Java.rtg-nf Generic-Java.rtg-nf Java-EBlock.rtg-nf
 
 Java.rtg-nf :
 	$(LN_S) $(top_srcdir)/syn/basic/Java.rtg-nf $@
@@ -12,3 +22,5 @@ Java.rtg-nf :
 Generic-Java.rtg-nf :
 	$(LN_S) $(top_srcdir)/syn/generic/Generic-Java.rtg-nf $@
 
+Java-EBlock.rtg-nf :
+	$(LN_S) $(top_srcdir)/syn/eblock/Java-EBlock.rtg-nf $@

@@ -1,0 +1,2 @@
+module Stratego-Java-EBlock
+imports Stratego-Generic-Java Java-EBlock-Prefixed

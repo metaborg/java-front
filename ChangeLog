@@ -1,3 +1,18 @@
+2004-03-16  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/eblock/*: implemented an extension of Generic-Java with
+	expression blocks. An Expression block a list of block-level
+	statements, followed or preceeded by an expression. This
+	expression is the value of the expression block. The block-level
+	statements are to be lifted to statements before (PreEBlock) or
+	after (PostEBlock) the context expression.
+
+	This feature is extremely useful in code generators.
+
+	* trans/core-lift-eblocks.str: first implementation of EBlock
+	lifting. It more or less works, but probably not for nested
+	blocks, and anonymous inner classes.
+
 2004-02-24  Martin Bravenboer <martin@cs.uu.nl>
 
 	* pp/*: implemented NamedEscapes in the pretty printer.
