@@ -1,0 +1,95 @@
+module Java-Literals
+
+exports
+  sorts BooleanLiteral NullLiteral IntegerLiteral FloatingPointLiteral Literal
+
+  context-free syntax
+
+      IntLiteral -> Literal
+    FloatLiteral -> Literal {cons("Float")}
+     BoolLiteral -> Literal {cons("Bool")}
+     CharLiteral -> Literal {cons("Char")}
+   StringLiteral -> Literal {cons("String")}
+     NullLiteral -> Literal
+    ClassLiteral -> Literal {cons("Class")}
+
+    DeciLiteral -> IntLiteral {cons("Deci")}
+    HexaLiteral -> IntLiteral {cons("Hexa")}
+    OctaLiteral -> IntLiteral {cons("Octa")}
+
+    "true"  -> BoolLiteral {cons("True")  }
+    "false" -> BoolLiteral {cons("False") }
+    "null"  -> NullLiteral {cons("Null")}
+
+%% module Java-ClassLiterals
+
+  context-free syntax
+
+    Type "." "class"   -> ClassLiteral
+    "void" "." "class" -> ClassLiteral {cons("Void")}
+
+%% module Java-IntegerLiterals
+
+  lexical syntax
+    [0-7]       -> OctaDigit
+    [0-9]       -> DeciDigit
+    [0-9a-fA-F] -> HexaDigit
+
+    DeciNumeral [lL]? -> DeciLiteral
+    HexaNumeral [lL]? -> HexaLiteral
+    OctaNumeral [lL]? -> OctaLiteral
+
+        DeciDigit+  -> DeciNumeral
+    [0] DeciDigit+  -> DeciNumeral {reject}
+
+    [0][xX] HexaDigit+ -> HexaNumeral
+    [0]     OctaDigit+ -> OctaNumeral
+
+
+%% module Java-FloatingPointLiterals
+
+    [fFdD] -> FloatTypeSuffix
+
+    FloatDigits ExponentPart?  FloatTypeSuffix? -> FloatLiteral
+    DeciDigit+ -> FloatLiteral {reject}
+
+    DeciDigit* "." DeciDigit* -> FloatDigits
+    "."        -> FloatDigits {reject}
+    DeciDigit+ -> FloatDigits
+
+    [eE] SignedInt -> ExponentPart
+
+    Sign? DeciDigit+ -> SignedInt
+    [\-\+] -> Sign
+
+%% module Java-CharacterLiterals
+
+    "\\" UnicodeMarker HexaDigit HexaDigit HexaDigit HexaDigit -> UnicodeEscape
+    [u]+ -> UnicodeMarker
+    
+    UnicodeEscape -> UnicodeInputChar
+    ~[]           -> UnicodeInputChar
+    
+    UnicodeInputChar -> InputChar
+    [\12\13]         -> InputChar {reject}
+
+    "'" InputChar "'" -> CharLiteral
+    "'" [\'\\]    "'" -> CharLiteral {reject}
+    "'" EscapeSeq "'" -> CharLiteral
+
+    "\\" [btnfr\"\'\\] -> EscapeSeq
+    OctaEscape         -> EscapeSeq
+
+    "\\" OctaDigit                     -> OctaEscape
+    "\\" OctaDigit OctaDigit           -> OctaEscape
+    "\\" OctaDigit OctaDigit OctaDigit -> OctaEscape
+    "\\" [4-7]     OctaDigit OctaDigit -> OctaEscape {reject}
+
+%% module Java-StringLiterals
+
+    "\"" StringChar* "\"" -> StringLiteral
+
+    InputChar -> StringChar
+    [\"\\]    -> StringChar {reject}
+    EscapeSeq -> StringChar
+

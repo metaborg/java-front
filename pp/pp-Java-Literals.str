@@ -1,0 +1,30 @@
+module pp-Java-Literals
+
+strategies
+
+  java-to-box: True()        -> box |[ KW["true"]    ]|
+  java-to-box: False()       -> box |[ KW["false"]   ]|
+  java-to-box: Null()        -> box |[ KW["null"]    ]|
+  java-to-box: Class(Void()) -> box |[ H hs=0 [KW["void"] "." KW["class"]] ]|
+
+  java-to-box: Bool(b)   -> b
+  java-to-box: Class(c)  -> c
+  java-to-box: Char(c)   -> S(c)
+  java-to-box: String(s) -> S(s)
+    where <is-double-quote> s
+
+  java-to-box: String(s) -> S(<double-quote> s)
+    where <not(is-double-quote)> s
+  //TODO: double-quote is bugfix voor Stratego concrete syntax problems.
+
+  java-to-box: Float(f)  -> box |[ NUM[ ~S(f) ] ]|
+  java-to-box: Deci(d)   -> box |[ NUM[ ~S(d) ] ]|
+  java-to-box: Hexa(h)   -> box |[ NUM[ ~S(h) ] ]|
+  java-to-box: Octa(o)   -> box |[ NUM[ ~S(o) ] ]|
+
+  is-double-quote = 
+    is-quote(?34)
+
+  is-quote(c) =
+    where( explode-string; ?[<c> | <last; c>] )
+

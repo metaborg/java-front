@@ -1,0 +1,56 @@
+module Java-Modifiers
+
+exports
+  context-free syntax
+
+    AccessMod      -> ClassMod
+    Static         -> ClassMod
+    Abstract       -> ClassMod
+    Final          -> ClassMod
+    StrictFP       -> ClassMod
+
+    AccessMod      -> InterfaceMod
+    Static         -> InterfaceMod
+    Abstract       -> InterfaceMod
+    StrictFP       -> InterfaceMod
+
+    AccessMod      -> FieldMod
+    Static         -> FieldMod
+    Transient      -> FieldMod
+    Volatile       -> FieldMod
+    Final          -> FieldMod
+
+    AccessMod      -> ConstructorMod
+
+    Public         -> ConstantMod
+    Static         -> ConstantMod
+    Final          -> ConstantMod
+
+    Public         -> AccessMod
+    Protected      -> AccessMod
+    Private        -> AccessMod
+
+    Abstract       -> AMethodMod
+    Public         -> AMethodMod
+
+    AccessMod      -> MethodMod
+    Static         -> MethodMod
+    Abstract       -> MethodMod
+    Final          -> MethodMod
+    Synchronized   -> MethodMod
+    Native         -> MethodMod
+    StrictFP       -> MethodMod
+
+    "public"       -> Public       {cons("Public")}
+    "private"      -> Private      {cons("Private")}
+    "protected"    -> Protected    {cons("Protected")}
+
+    "abstract"     -> Abstract     {cons("Abstract")}
+    "final"        -> Final        {cons("Final")}
+    "static"       -> Static       {cons("Static")}
+    "native"       -> Native       {cons("Native")}
+    "transient"    -> Transient    {cons("Transient")}
+    "volatile"     -> Volatile     {cons("Volatile")}
+    "synchronized" -> Synchronized {cons("Synchronized")}
+    "strictfp"     -> StrictFP     {cons("StrictFP")}
+

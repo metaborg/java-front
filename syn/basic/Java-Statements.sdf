@@ -1,0 +1,61 @@
+module Java-Statements
+imports Java-Expressions Java-Types
+
+exports
+  sorts BlockStm
+
+  context-free syntax
+    "{" BlockStm* "}" -> Block {cons("Block")}
+
+    Block       -> Stm
+
+    LocalVarDec -> BlockStm
+    Stm         -> BlockStm
+    ClassDec    -> BlockStm
+
+    Type {VarDec ","}+ ";" -> LocalVarDec {cons("LocalVarDec")}
+    Type {VarDec ","}+     -> LVarDec {cons("LVarDec")}
+
+    %% TODO: not all expressions are allowed as statements. 
+    %% I do not want to inject certain specific expressions in a statement,
+    %% but reject the illegal ones.
+
+    Expr ";" -> Stm {cons("Expr")}
+
+    ";" -> Stm {cons("Empty")}
+    Id ":" Stm -> Stm {cons("Labeled")}
+
+    "if" "(" Expr ")" Stm -> Stm {prefer, cons("If")}
+    "if" "(" Expr ")" Stm "else" Stm -> Stm {cons("If")}
+
+    "while" "(" Expr ")" Stm -> Stm {cons("While")}
+    "do" Stm "while" "(" Expr ")" ";" -> Stm {cons("DoWhile")}
+
+    "for" "(" ForInit? ";" Expr? ";" ForUpdate? ")" Stm -> Stm {cons("For")}
+
+    LVarDec -> ForInit
+    {Expr ","}+ -> ForInit   
+    {Expr ","}+ -> ForUpdate
+
+    "break"    Id? ";"   -> Stm {cons("Break")}
+    "continue" Id? ";"   -> Stm {cons("Continue")}
+    "return"   Expr? ";" -> Stm {cons("Return")}
+
+    "throw"    Expr  ";" -> Stm {cons("Throw")}
+    "try" Block CatchClause+ -> Stm {cons("Try")}
+    "try" Block CatchClause* "finally" Block -> Stm {cons("Try")}
+    "catch" "(" FormalParam ")" Block -> CatchClause {cons("Catch")}
+
+    "synchronized" "(" Expr ")" Block -> Stm {cons("Synchronized")}
+
+    "switch" "(" Expr ")" SwitchBlock -> Statement {cons("Switch")}
+    "{" SwitchGroup* SwitchLabel* "}" -> SwitchBlock {cons("SwitchBlock")}
+    SwitchLabel+ BlockStm+ -> SwitchGroup  {cons("SwitchGroup")}
+
+    "case" Expr ":" -> SwitchLabel {cons("Case")}
+    "default"   ":" -> SwitchLabel {cons("Default")}
+
+    "assert" Expr          ";" -> Stm  {cons("Assert")}
+    "assert" Expr ":" Expr ";" -> Stm  {cons("Assert")}
+
+

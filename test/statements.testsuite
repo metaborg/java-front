@@ -1,0 +1,36 @@
+TestSuite(
+  Name("Statements")
+, Sort("BlockStm")
+, ParseTable(File("../grammar/basic/Java.tbl"))
+, Tests(
+  [ Test(Descr("simple assignment")
+    , String("x = 1;"), Expr(Assign(ExprName("x"), Lit(Deci("1"))))
+    )
+  , Test(Descr("dangling else and while"), File("Statements/dangling-else-while.java")
+    , If(Name(ExprName("a")),
+        While(Name(ExprName("b")),
+          If(Name(ExprName("c")),
+            Expr(Assign(ExprName("c"),Lit(Deci("1"))))
+          , Expr(Assign(ExprName("d"),Lit(Deci("2")))))))
+    )
+  , Test(Descr("dangling else and for"), File("Statements/dangling-else-for.java")
+    , If(Name(ExprName("a")),
+        For(None(), None(),  None(), 
+          If(Name(ExprName("c")),
+            Expr(Assign(ExprName("c"),Lit(Deci("1"))))
+          , Expr(Assign(ExprName("d"),Lit(Deci("2")))))))
+    )
+  , Test(Descr("dangling else and label"), File("Statements/dangling-else-labeled.java")
+    , If(Name(ExprName("a")),
+        Labeled("label", 
+          If(Name(ExprName("c")),
+            Expr(Assign(ExprName("c"),Lit(Deci("1"))))
+          , Expr(Assign(ExprName("d"),Lit(Deci("2")))))))
+    )
+  , Test(Descr("while in then branch of if"), File("Statements/if-while-else.java")
+    , If(Name(ExprName("a")),
+        While(Name(ExprName("b")), Expr(Assign(ExprName("c"),Lit(Deci("2")))))
+      , Expr(Assign(ExprName("d"),Lit(Deci("2"))))))
+  ])
+)
+

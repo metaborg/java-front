@@ -1,0 +1,11 @@
+module Java-TypeDecs
+imports Java-Interfaces
+        Java-Classes
+
+exports
+  sorts TypeDec
+
+  context-free syntax
+    ClassDec      -> TypeDec
+    InterfaceDec  -> TypeDec
+

@@ -1,0 +1,105 @@
+module Stratego-Java
+imports Java StrategoRenamed
+
+exports
+  context-free syntax
+
+    "java:expr" "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
+         "expr" "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
+    "java"      "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
+                "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
+
+    "java:type" "|[" Type "]|"   -> StrategoTerm {cons("ToTerm")}
+         "type" "|[" Type "]|"   -> StrategoTerm {cons("ToTerm")}
+    "java"      "|[" Type "]|"   -> StrategoTerm {cons("ToTerm")}
+                "|[" Type "]|"   -> StrategoTerm {cons("ToTerm")}
+
+    "java:compilation-unit" "|[" CompilationUnit "]|"  -> StrategoTerm {cons("ToTerm")}
+         "compilation-unit" "|[" CompilationUnit "]|"  -> StrategoTerm {cons("ToTerm")}
+    "java"                  "|[" CompilationUnit "]|"  -> StrategoTerm {cons("ToTerm")}
+                            "|[" CompilationUnit "]|"  -> StrategoTerm {cons("ToTerm")}
+
+    "java:type-dec" "|[" TypeDec "]|" -> StrategoTerm {cons("ToTerm")}
+         "type-dec" "|[" TypeDec "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"          "|[" TypeDec "]|" -> StrategoTerm {cons("ToTerm")}
+                    "|[" TypeDec "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:class-body-dec" "|["  ClassBodyDec  "]|" -> StrategoTerm {cons("ToTerm")}
+         "class-body-dec" "|["  ClassBodyDec  "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"                "|["  ClassBodyDec  "]|" -> StrategoTerm {cons("ToTerm")}
+                          "|["  ClassBodyDec  "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:class-body-dec*" "|[" ClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
+         "class-body-dec*" "|[" ClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"                 "|[" ClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
+                           "|[" ClassBodyDec* "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:block-stm" "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+         "block-stm" "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"           "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+                     "|["  BlockStm "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:block-stm*" "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+         "block-stm*" "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"            "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+                      "|[" BlockStm* "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:formal-param" "|[" FormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+         "formal-param" "|[" FormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"              "|[" FormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+                        "|[" FormalParam "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:formal-param*" "|[" {FormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+         "formal-param*" "|[" {FormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"               "|[" {FormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+                         "|[" {FormalParam ","}* "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:imember-dec" "|["  AMethodDec  "]|" -> StrategoTerm {cons("ToTerm")}
+         "imember-dec" "|["  AMethodDec  "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"             "|["  AMethodDec  "]|" -> StrategoTerm {cons("ToTerm")}
+                       "|["  AMethodDec  "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "java:imember-dec*" "|["  AMethodDec*  "]|" -> StrategoTerm {cons("ToTerm")}
+         "imember-dec*" "|["  AMethodDec*  "]|" -> StrategoTerm {cons("ToTerm")}
+    "java"              "|["  AMethodDec*  "]|" -> StrategoTerm {cons("ToTerm")}
+                        "|["  AMethodDec*  "]|" -> StrategoTerm {cons("ToTerm")}
+
+    "~"      StrategoTerm -> Name {cons("FromTerm")}
+    "~name:" StrategoTerm -> Name {cons("FromTerm")}
+    "~*:"    StrategoTerm -> Name {cons("FromTerm")}
+
+    "~"  StrategoTerm  -> Type {cons("FromTerm")}
+
+    "~"     StrategoTerm     -> Id   {cons("FromTerm")}
+    "~id:"  StrategoTerm     -> Id   {cons("FromTerm")}
+    "~idd:" StrategoTerm ":" -> Id   {cons("FromTerm")}
+
+    "~"  StrategoTerm  ->  FormalParam       {cons("FromTerm")}
+    "~*" StrategoTerm  -> {FormalParam ","}* {cons("FromTerm")}
+
+    "~"  StrategoTerm  -> BlockStm  {cons("FromTerm")}
+    "~*" StrategoTerm  -> BlockStm* {cons("FromTerm")}
+
+    "~"  StrategoTerm  -> Stm  {cons("FromTerm")}
+
+    "~"      StrategoTerm  ->  Expr          {cons("FromTerm")}
+    "~expr:" StrategoTerm  ->  Expr          {prefer, cons("FromTerm")}
+    "~*" StrategoTerm      -> {Expr ","}*    {cons("FromTerm")}
+    "~*" StrategoTerm      -> {VarInit ","}* {cons("FromTerm")}
+
+    "~"  StrategoTerm  -> TypeDec  {cons("FromTerm")}
+    "~*" StrategoTerm  -> TypeDec* {cons("FromTerm")}
+
+    "~"  StrategoTerm  -> ClassBodyDec  {cons("FromTerm")}
+    "~*" StrategoTerm  -> ClassBodyDec* {cons("FromTerm")}
+
+    "~"  StrategoTerm  -> InterfaceMemberDec  {cons("FromTerm")}
+    "~*" StrategoTerm  -> InterfaceMemberDec* {cons("FromTerm")}
+
+    "~deci:"   StrategoTerm -> DeciLiteral   {cons("FromTerm")}
+    "~hexa:"   StrategoTerm -> HexaLiteral   {cons("FromTerm")}
+    "~octa:"   StrategoTerm -> OctaLiteral   {cons("FromTerm")}
+    "~float:"  StrategoTerm -> FloatLiteral  {cons("FromTerm")}
+    "~string:" StrategoTerm -> StringLiteral {cons("FromTerm")}
+    "~char:"   StrategoTerm -> CharLiteral   {cons("FromTerm")}
+

@@ -1,0 +1,23 @@
+module Java-VarDecs
+imports Java-Expressions
+        Java-Types
+
+exports
+
+  context-free syntax
+
+    VarDecId             -> VarDec {cons("VarDec")}
+    VarDecId "=" VarInit -> VarDec {cons("VarDec")}
+
+    Id      -> VarDecId {cons("VarId")}
+    Id Dim+ -> VarDecId {cons("VarId")}
+
+    "[" "]" -> Dim {cons("Dim")}
+
+    Expr      -> VarInit
+    ArrayInit -> VarInit
+
+    "{" {VarInit ","}* Comma? "}" -> ArrayInit {cons("ArrayInit")}
+
+    "," -> Comma {cons("Comma")}
+

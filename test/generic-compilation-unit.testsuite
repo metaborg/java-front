@@ -1,0 +1,26 @@
+TestSuite(
+  Name("Generic CompilationUnits")
+, Sort("CompilationUnit")
+, ParseTable(File("../grammar/generic/Generic-Java.tbl"))
+, Tests(
+  [ Test(Descr("simple interface"), File("generic/CompilationUnits/Cancelable1.java"), Success())
+  , Test(Descr("simple interface"), File("generic/CompilationUnits/Cancelable2.java"), Success())
+  , Test(Descr("simple class with imports"), File("generic/CompilationUnits/Test1.java"), Success())
+  , Test(Descr("simple public class"), File("generic/CompilationUnits/Test2.java"), Success())
+  , Test(Descr("simple class"), File("generic/CompilationUnits/Test3.java"),
+          CompilationUnit(None(), [], [ClassDec([], "Test3", None, None, None, ClassBody([]))]))
+  , Test(Descr("simple class with superclass"), File("generic/CompilationUnits/Test4.java"), Success())
+  , Test(Descr("simple class with qualified superclass"), File("generic/CompilationUnits/Test5.java"), Success())
+  , Test(Descr("static initializer"), File("generic/CompilationUnits/Test6.java"), Success())
+  , Test(Descr("static intializer"), File("generic/CompilationUnits/Test7.java"), Success())
+  , Test(Descr("simple method"), File("generic/CompilationUnits/Test8.java"), Success())
+  , Test(Descr("abstract method"), File("generic/CompilationUnits/Test9.java"), Success())
+  , Test(Descr("instance initializer"), File("generic/CompilationUnits/Test10.java"), Success())
+  , Test(Descr("silly semicolon"), File("generic/CompilationUnits/Test11.java"), Success())
+  , Test(Descr("field declaration"), File("generic/CompilationUnits/Test12.java"), Success())
+  , Test(Descr("field declaration with initial value"), File("generic/CompilationUnits/Test13.java"), Success())
+  , Test(Descr("private field declaration"), File("generic/CompilationUnits/Test14.java"), Success())
+  , Test(Descr("private, static, final field declaration"), File("generic/CompilationUnits/Test15.java"), Success())
+  ])
+)
+

@@ -1,0 +1,25 @@
+module Java-MethodDecs
+imports Java-Lexical
+        Java-Modifiers 
+        Java-Types
+        Java-Names
+        Java-VarDecs
+exports
+
+  context-free syntax
+
+    MethodHead Block -> MethodDec {cons("MethodDec")}
+    MethodHead ";"   -> MethodDec {cons("MethodDec")}
+
+    %% TODO: that array MethodDeclarator is really extremely ugly... include it and how?
+
+    MethodMod* ResultType Id "(" {FormalParam ","}* ")" Throws?      -> MethodHead {cons("Head")}
+    MethodMod* ResultType Id "(" {FormalParam ","}* ")" Dim+ Throws? -> MethodHead {cons("DeprHead")}
+
+    Type   -> ResultType
+    "void" -> ResultType {cons("Void")}
+
+    Final? Type VarDecId -> FormalParam {cons("Param")}
+    "throws" {ClassType ","}+ -> Throws {cons("Throws")}
+
+

@@ -1,0 +1,128 @@
+2002-11-23  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Small changes to configure.in to profit from new
+    autotools.
+
+2002-11-20  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Ad-hoc solution for parentheses around expressions
+    in for-loop. A more powerfull solution for
+    priorities must fix this later.
+
+2002-11-20  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added the last missing pretty printing constructs.
+    Thanks to Stefan Reich for mentioning this problem.
+
+2002-11-18  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added priority for array access. I have to figure
+    out if this according to the JLS.
+
+2002-09-20  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Removed the priorities of yesterday. Eelco Visser
+    pointed out that because of the interpretation of
+    priorities a while in the then branch of an if-else
+    is no longer allowed. A prefer on the if-then solves
+    everything.
+     
+2002-09-19  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added context-free priorities for while, for,
+    and the labeled statement. if-then-else > if-then
+    doesn't solve all dangling else problems. Now
+    it should work (unit-tests available in de statement
+    test-suite).
+
+2002-09-14  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added a production for generic methods 
+   in interfaces. I forgot this one.
+
+2002-08-29  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Implemented pretty-printing of while.
+
+  * Implemented pretty-printing of (Q)NewInstance
+    with class-bodies for Generic Java and classic Java
+
+2002-08-27  Martin Bravenboer <martin@mbravenboer.org>
+
+  * configure.in improved after some tips of Merijn
+    de Jonge.
+
+  * Added package definition (created by Merijn de Jonge)
+    for the Online Package Base. java front and the
+    various required tools can now be
+    downloaded as a bundle from the Online Package Base.
+
+2002-08-26  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added a script "parse-java" to parse Java or 
+    Generic Java code.
+
+  * Moved all scripts to "scripts"
+
+2002-08-25  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Fixed huge priority bug with method invocation and
+    field access: Expr "." Id must have highest priority
+
+2002-08-24  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added anti quotation for literals to Stratego-Java.sdf
+
+2002-08-22  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Modified pp-Java-Literals to workaround concrete
+    syntax bug in Stratego.
+
+  * Implemented pretty-printing for the if construct
+    and throw in pp-Java-Statement.
+
+2002-08-21  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Implemented pretty-printing in pp-Generic-Java.
+
+  * Created Generic-Java.sdf, a testsuite and Stratego
+    signature generation for Generic-Java.
+
+  * Restructured method invocation
+
+  * Removed distinction TopLevel/Member/Local TypeDecs
+
+2002-08-20  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added LocalClassDec -> BlockStm
+
+2002-08-19  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Implemented pretty-printer
+
+2002-08-05  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Implemented parse-unit and started a decent testsuite
+
+2002-08-04  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Solved the array creation <-> array access ambiguity
+    with a reject.
+
+2002-07-30  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Added priorities for binary expressions.
+
+2002-07-29  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Initial version of Java-Expressions module.
+
+2002-07-28  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Work on JLS 2.0: inner classes and primaries.
+
+2002-07-27  Martin Bravenboer <martin@mbravenboer.org>
+
+  * Initial version of the GNU build system powered
+    version of Java Front for XT.
+

@@ -1,0 +1,25 @@
+AC_INIT(java-front, 0.3.0, martin@mbravenboer.org)
+AM_INIT_AUTOMAKE([dist-bzip2])
+
+USE_XT_PACKAGES
+
+AC_PROG_CC
+AC_PROG_INSTALL
+
+AC_CONFIG_FILES([
+  NEWS
+  README
+	Makefile
+
+	syn/Makefile
+	syn/basic/Makefile
+	syn/generic/Makefile
+
+	sig/Makefile
+	sig/basic/Makefile
+	sig/generic/Makefile
+
+	pp/Makefile
+])
+AC_OUTPUT
+

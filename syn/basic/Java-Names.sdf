@@ -1,0 +1,29 @@
+module Java-Names
+imports Java-Identifiers
+
+exports
+
+  context-free syntax
+
+  %% TODO: is layout allowed between parts of names?
+  %% javac accepts layout
+
+    {Id "."}+  -> Name
+
+    Name -> PackageName {cons("PackageName")}
+    Name -> ClassName   {cons("ClassName")}
+
+    Name -> AmbName {cons("AmbName")}
+
+    AmbName "." Id -> MethodName  {cons("MethodName")}
+                Id -> MethodName  {cons("MethodName")}
+
+    AmbName "." Id -> ExprName {cons("ExprName")}
+                Id -> ExprName {cons("ExprName")}
+
+    Name "." Id -> QTypeName      {cons("QTypeName")}
+             Id -> SimpleTypeName {cons("TypeName")}
+
+    SimpleTypeName -> TypeName
+    QTypeName      -> TypeName
+

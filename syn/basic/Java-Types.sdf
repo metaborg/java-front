@@ -1,0 +1,33 @@
+module Java-Types
+imports Java-Names
+
+exports
+
+  context-free syntax
+    PrimType -> Type
+    RefType  -> Type
+
+    NumType   -> PrimType
+    "boolean" -> PrimType {cons("Boolean")}
+
+    IntType   -> NumType
+    FloatType -> NumType
+
+    "byte"   -> IntType   {cons("Byte")}
+    "short"  -> IntType   {cons("Short")}
+    "int"    -> IntType   {cons("Int")}
+    "long"   -> IntType   {cons("Long")}
+    "char"   -> IntType   {cons("Char")}
+    "float"  -> FloatType {cons("Float")}
+    "double" -> FloatType {cons("Double")}
+
+    ClassOrInterfaceType -> RefType
+    ArrayType            -> RefType
+
+    ClassType -> ClassOrInterfaceType
+
+    TypeName -> ClassType {cons("ClassType")}
+    TypeName -> InterfaceType {cons("InterfaceType")}
+
+    Type "[" "]" -> ArrayType  {cons("ArrayType")}
+

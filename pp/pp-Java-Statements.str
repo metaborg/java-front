@@ -1,0 +1,102 @@
+module pp-Java-Statements
+
+strategies
+
+  stm-box:
+    x -> box |[ H hs=0 [~x ";"] ]|
+
+  java-to-box:
+    Block(stms) -> <block-structure> (0, stms)
+
+  java-to-box: Return(None())  -> <stm-box> box |[  KW["return"] ]|
+  java-to-box: Return(Some(e)) -> <stm-box> box |[ H hs=1 [KW["return"] ~e] ]|
+
+  //TODO: remove call to expr-to-box when the pretty-printing of expressions handles priorities
+  java-to-box: Expr(e)  -> <try(expr-to-box); stm-box> e
+  java-to-box: Empty()  -> box |[ ";" ]|
+
+  java-to-box:
+    LocalVarDec(type, decs) -> <stm-box> box |[ H hs=1 [~type ~*vardecs] ]|
+      where <separate-by(comma)> decs; ?vardecs
+
+  java-to-box:
+    LVarDec(type, decs) -> box |[ H hs=1 [~type ~*vardecs] ]|
+      where <separate-by(comma)> decs; ?vardecs
+
+  java-to-box:
+    Try(block, catches) -> box |[ V vs=0 [KW["try"] ~block ~*catches] ]|
+
+  java-to-box:
+    Try(block, catches, finally)
+      ->
+    box |[ V vs=0 [KW["try"] ~block ~*catches KW["finally"] ~finally] ]|
+
+  java-to-box:
+    Catch(param, block) -> box |[ V vs=0 [H hs=0 [KW["catch"] "(" ~param ")"] ~block] ]|
+
+  java-to-box:
+    Throw(e) -> box |[ H hs=1 [KW["throw"] H hs=0[~e ";" ]] ]|
+
+  java-to-box:
+    If(cond, then) -> box |[ V vs=0 [H hs=0 [KW["if"] "(" ~cond ")"] ~b] ]|
+      where <ensure-block> then => b
+
+  // TODO: make "else if" more pretty
+  java-to-box:
+    If(cond, then, else) -> box |[ V vs=0 [H hs=0 [KW["if"] "(" ~cond ")"] ~b1 KW["else"] ~b2] ]|
+      where <ensure-block> then => b1
+          ; <ensure-block> else => b2
+
+  ensure-block =
+    ?Block(_) < id + !Block([<id>])
+
+  java-to-box:
+    While(cond, body) -> box |[ V vs=0 [H hs=0 [KW["while"] "(" ~cond ")"] ~b] ]|
+      where <ensure-block> body => b
+
+  java-to-box:
+    DoWhile(body, cond) -> box |[ V vs=0 [KW["do"] ~b H hs=0 [KW["while"] "(" ~cond ")" ";"]] ]|
+      where <ensure-block> body => b
+
+  // TODO: for with None() init, cond1 and step1
+  java-to-box:
+    For( Some(init1), Some(cond1), Some(step1), body1) -> box |[ V vs=0[H hs=0 [KW["for"] "(" ~init ";" ~cond ";" ~*step ")"] ~body] ]|
+      where <map(expr-to-box); separate-by(comma)> step1 => step
+          ; <is-list < (map(expr-to-box); separate-by(comma)) + id> init1 => init
+          ; <ensure-block>       body1 => body
+          ; <expr-to-box>        cond1 => cond
+
+  java-to-box:
+    Synchronized(e, b) -> box |[ V vs=0 [H hs=0 [KW["synchronized"] "(" ~e ")"] ~b] ]|
+
+  java-to-box: Break(Some(s)) -> box |[ H hs=0 [H hs=1 [KW["break"] ~lit:s] ";"] ]| 
+  java-to-box: Break(None())  -> box |[ H hs=0 [KW["break"] ";"] ]| 
+
+  java-to-box: Continue(Some(s)) -> box |[ H hs=0 [H hs=1 [KW["continue"] ~lit:s] ";"] ]| 
+  java-to-box: Continue(None())  -> box |[ H hs=0 [KW["continue"] ";"] ]| 
+
+  java-to-box:
+    Labeled(s, stm) -> box |[ H hs=1 [~lit:s ":" ~stm] ]| 
+
+  java-to-box:
+    Assert(e) -> box |[ H hs=0 [H hs=1 [KW["assert"] ~e] ";"] ]| 
+
+  java-to-box:
+    Assert(e1, e2) -> box |[ H hs=0 [H hs=1 [KW["assert"] ~e1 ":" ~e2] ";"] ]| 
+
+  java-to-box:
+    Switch(e, b) -> box |[ V vs=0 [H hs=0 [KW["switch"] "(" ~e ")"] ~b] ]|
+
+  java-to-box:
+    SwitchBlock(groups, labels) -> <conc; block-structure> (groups, labels)
+
+  java-to-box:
+    SwitchGroup(labels, stms) -> box |[ V vs=0 [ ~*lines ] ]|
+      where <conc> (labels, stms) => lines
+
+  java-to-box:
+    Case(e) -> box |[ H hs=0 [H hs=1 [KW["case"] ~e] ":"] ]| 
+
+  java-to-box:
+    Default() -> box |[ H hs=0 [KW["default"] ":"] ]|
+

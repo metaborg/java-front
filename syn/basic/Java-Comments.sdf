@@ -1,0 +1,19 @@
+module Java-Comments
+imports Java-Literals
+
+exports
+  lexical syntax
+    Comment -> LAYOUT
+
+    "//" InputChar* LineTerminator  -> Comment
+    "/*" (~[\*] | Asterisk)* "*/"  -> Comment
+
+    "/**/"                         -> Comment %% Strange javadoc comment
+    "/**" (~[\*] | Asterisk)* "*/" -> Comment
+
+    "*" -> Asterisk
+
+  lexical restrictions
+    "/*" -/- [\*]
+    Asterisk -/- [\/]
+

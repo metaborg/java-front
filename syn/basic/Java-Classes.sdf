@@ -1,0 +1,45 @@
+module Java-Classes
+imports Java-Names
+        Java-Modifiers
+        Java-MethodDecs
+        Java-Statements
+        Java-Types
+
+exports
+  sorts ClassDec
+
+  context-free syntax
+
+    ClassMod* "class" Id  Super? Interfaces? ClassBody -> ClassDec {cons("ClassDec")}
+    
+    "extends" ClassType                 -> Super      {cons("Extends")}
+    "implements" {InterfaceType ","}+   -> Interfaces {cons("Implements")}
+
+    "{" ClassBodyDec* "}" -> ClassBody {cons("ClassBody")}
+
+    StaticInit     -> ClassBodyDec
+    InstanceInit   -> ClassBodyDec
+    ClassMemberDec -> ClassBodyDec
+    ConstructorDec -> ClassBodyDec
+
+    FieldDec     -> ClassMemberDec
+    MethodDec    -> ClassMemberDec
+    ClassDec     -> ClassMemberDec
+    InterfaceDec -> ClassMemberDec
+    ";"          -> ClassMemberDec {cons("Semicolon")}
+
+    FieldMod* Type { VarDec ","}+ ";" -> FieldDec {cons("FieldDec")}
+
+    "static" Block -> StaticInit   {cons("StaticInit")}
+             Block -> InstanceInit {cons("InstanceInit")}
+
+    ConstructorMod* SimpleTypeName "(" {FormalParam ","}* ")" Throws? ConstructorBody
+          ->  ConstructorDec {cons("ConstructorDec")}
+
+    "{" CInvoke? BlockStm* "}" -> ConstructorBody {cons("ConstructorBody")}
+
+              "this" "(" {Expr ","}* ")" ";" -> CInvoke {cons("CInvoke")}
+             "super" "(" {Expr ","}* ")" ";" -> CInvoke {cons("SuperCInvoke")}
+    Expr "." "super" "(" {Expr ","}* ")" ";" -> CInvoke {cons("QSuperCInvoke")}
+
+

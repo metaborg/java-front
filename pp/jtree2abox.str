@@ -1,0 +1,8 @@
+module jtree2abox
+imports pp-Java
+
+strategies
+
+  io-jtree2abox = 
+    iowrap(java-pretty-print)
+

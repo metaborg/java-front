@@ -1,0 +1,24 @@
+module Java-Identifiers
+imports Java-Keywords
+
+exports
+  sorts Id
+
+  lexical syntax
+    [A-Za-z\_\$]    -> JavaLetter
+    [A-Za-z0-9\_\$] -> JavaLetterOrDigit
+
+    [0-9]       -> Digit
+    [1-9]       -> NonZeroDigit
+    [0-9a-fA-F] -> HexDigit
+    [0-7]       -> OctalDigit
+
+    JavaLetter JavaLetterOrDigit* -> Id
+
+    Keyword         -> Id {reject}
+    BooleanLiteral  -> Id {reject}
+    NullLiteral     -> Id {reject}
+
+  lexical restrictions
+    Id -/- [a-zA-Z0-9\_\$]
+

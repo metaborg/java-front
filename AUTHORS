@@ -1,0 +1,22 @@
+Java Front for XT has been written by
+
+	* Martin Bravenboer <martin@mbravenboer.org>
+
+All tests that start with a T followed by an integer
+identifier are taken from the Jacks project, which
+offers a huge test-suite for Java compilers.
+
+Jacks includes a collection of Java compiler tests
+contributed by people on the net. Jacks is free software
+licensed under the terms of the GPL.
+A test case must be licensed under the terms
+of the GPL to be suitable for inclusion into Jacks,
+but authors retain the original copyright.
+
+Java Front for XT is distributed with a grammar for the 
+BOX language. This grammar has been written by:
+
+   * Eelco Visser, Mark van den Brand, and Merijn de Jonge
+
+See lib/box/README for more information.
+

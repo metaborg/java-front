@@ -1,0 +1,32 @@
+module Java-Interfaces
+imports Java-Names
+        Java-Modifiers
+        Java-MethodDecs
+        Java-Types
+        Java-VarDecs
+
+exports
+  sorts InterfaceDec
+
+  context-free syntax
+
+    InterfaceMod* "interface" Id ExtendsInterfaces? InterfaceBody -> InterfaceDec {cons("InterfaceDec")}
+    
+    "extends" {InterfaceType ","}+   -> ExtendsInterfaces {cons("ExtendsInterfaces")}
+
+    "{" InterfaceMemberDec* "}" -> InterfaceBody {cons("InterfaceBody")}
+
+    ConstantDec  -> InterfaceMemberDec
+    AMethodDec   -> InterfaceMemberDec
+    ClassDec     -> InterfaceMemberDec
+    InterfaceDec -> InterfaceMemberDec
+    ";"          -> InterfaceMemberDec {cons("Semicolon")}
+
+    ConstantMod* Type { VarDec ","}+ ";" -> ConstantDec {cons("ConstantDec")}
+
+    AMethodHead ";" -> AMethodDec {cons("MethodDec")}
+
+    AMethodMod* ResultType Id "(" {FormalParam ","}* ")" Throws?      -> AMethodHead {cons("Head")}
+    AMethodMod* ResultType Id "(" {FormalParam ","}* ")" Dim+ Throws? -> AMethodHead {cons("DeprHead")}
+
+
