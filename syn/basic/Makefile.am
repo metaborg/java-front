@@ -4,6 +4,7 @@ include $(wildcard *.dep)
 TBLS_DEFS = \
   Basic-Java.def \
   Basic-Java.tbl \
+  Stratego-Basic-Java.def \
   Stratego-Basic-Java.tbl
 
 sdfdata_DATA   = $(TBLS_DEFS) Basic-Java-Prefixed.sdf

@@ -58,6 +58,6 @@ ppcheck : j2sdk.list
 	$(PARSEJAVA) -1.5 -i $< -o $@
 
 clean-local:
-	find . -name "*.jtree" | xargs rm
-	find . -name "*.ppjtree" | xargs rm
-	find . -name "*.ppdiff" | xargs rm
+	find . -name "*.jtree" | xargs -r rm
+	find . -name "*.ppjtree" | xargs -r rm
+	find . -name "*.ppdiff" | xargs -r rm

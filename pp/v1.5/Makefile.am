@@ -21,7 +21,7 @@ PP_MODULES = \
 
 libexec_PROGRAMS = jtree15-to-abox jtree15-parenthesize
 EXTRA_DIST     = $(PP_MODULES) $(wildcard *.meta)
-CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) jtree-parenthesize.str
+CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) jtree15-parenthesize.str
 
 SCFLAGS        = --main io-$* 
 STRINCLUDES    = -I $(top_builddir)/sig \

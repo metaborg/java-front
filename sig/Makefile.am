@@ -13,7 +13,12 @@ PSIGS =  \
   Java-EBlock.rtree
 
 pkgdata_DATA = $(SIGS) $(PSIGS)
-CLEANFILES   = $(SIGS) $(PSIGS) Basic-Java.rtg Generic-Java.rtg Java-EBlock.rtg
+CLEANFILES   = \
+  $(SIGS) $(PSIGS) \
+  Java-15.rtg \
+  Basic-Java.rtg \
+  Generic-Java.rtg \
+  Java-EBlock.rtg
 
 Java-15.rtg :
 	$(LN_S) $(top_builddir)/syn/v1.5/Java-15.rtg $@

@@ -14,7 +14,7 @@ MODULES = \
 
 libexec_PROGRAMS = jtree-generic2abox jtree-generic-parenthesize
 EXTRA_DIST     = $(MODULES) $(wildcard *.meta)
-CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) jtree-basic-parenthesize.str
+CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) jtree-generic-parenthesize.str
 
 SCFLAGS        = --main io-$* 
 STRINCLUDES    = -I $(top_srcdir)/lib \

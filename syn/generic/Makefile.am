@@ -4,13 +4,14 @@ include $(wildcard *.dep)
 TBLS_DEFS = \
   Generic-Java.def \
   Generic-Java.tbl \
+  Stratego-Generic-Java.def \
   Stratego-Generic-Java.tbl
 
 sdfdata_DATA   = $(TBLS_DEFS) Generic-Java-Prefixed.sdf
 pkgdata_DATA   = Generic-Java.rtg
 
 EXTRA_DIST     = $(sdfdata_DATA)
-CLEANFILES = $(TBLS_DEFS) Generic-Java-Prefixed.sdf Generic-Java.rtg
+CLEANFILES     = $(TBLS_DEFS) Generic-Java-Prefixed.sdf Generic-Java.rtg
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
                  -I ${top_srcdir}/syn/basic
