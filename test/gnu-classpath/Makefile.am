@@ -1,5 +1,5 @@
 include $(top_srcdir)/Makefile.xt
-include $(top_srcdir)/test/Makefile.parse-unit
+# include $(top_srcdir)/test/Makefile.parse-unit
 
 GNUCP_VERSION=0.09
 
@@ -14,23 +14,20 @@ classpath-$(GNUCP_VERSION) : classpath-$(GNUCP_VERSION).tar.gz
 gnu-classpath.list : classpath-$(GNUCP_VERSION)
 	find classpath-$(GNUCP_VERSION) -name '*.java' | sort > $@
 
-gnu-classpath.atestsuite : gnu-classpath.list
-	 $(top_builddir)/xtc/files2parse-unit-testsuite -i $< -o $@
-
-parsecheck : $(GNU_TESTSUITES:.testsuite=.runtestsuite)
-
-clean-local :
-	rm -rf classpath-$(GNUCP_VERSION) classpath-$(GNUCP_VERSION).tar.gz
+# gnu-classpath.atestsuite : gnu-classpath.list
+# 	 $(top_builddir)/xtc/files2parse-unit-testsuite -i $< -o $@
+# 
+# parsecheck : $(GNU_TESTSUITES:.testsuite=.runtestsuite)
 
 # targets
-GNU_TESTSUITES = \
-  gnu-classpath.testsuite
+# GNU_TESTSUITES = \
+#   gnu-classpath.testsuite
 
 PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java.tbl`"
 PARSEJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call parse-java
 PPJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call pp-java
 
-check : parsecheck ppcheck
+check : ppcheck
 
 # pretty-print tests
 ppcheck : gnu-classpath.list
@@ -49,3 +46,10 @@ ppcheck : gnu-classpath.list
 
 %.jtree : %.java
 	$(PARSEJAVA) -i $< -o $@
+
+clean-local :
+	rm -rf classpath-$(GNUCP_VERSION) classpath-$(GNUCP_VERSION).tar.gz
+
+CLEANFILES = \
+  gnu-classpath.list
+
