@@ -13,7 +13,7 @@ strategies
       release-option + symbol-option
     , parse-java-usage
     , parse-java-about
-    , !["sglr", "implode-asfix", "Generic-Java.tbl", "Java.tbl"]
+    , !["sglr", "implode-asfix", "Java-15.tbl", "Java.tbl"]
     , parse-java
     )
 
@@ -50,7 +50,7 @@ strategies
     ; <set-config> ("parsetable", <id>)
 
   get-parse-table =
-    <get-config> "parsetable" <+ !"Generic-Java.tbl"
+    <get-config> "parsetable" <+ !"Java-15.tbl"
 
   symbol-option =
     ArgOption("-s" + "--start-symbol"

@@ -2,7 +2,6 @@ module pp-Java
 imports
   liblib
   Box
-  Java
   Java-15
   concrete-syntax
   pp-Java-Statements
@@ -10,7 +9,6 @@ imports
   pp-Java-Literals 
   pp-Java-Names
   pp-Java-Modifiers
-  pp-Generic-Java
 
 strategies
 
@@ -20,8 +18,21 @@ strategies
 
 strategies
 
-  java-to-box: ClassType(t)     -> t
-  java-to-box: InterfaceType(t) -> t
+  java-to-box:
+    ClassType(b1, type-args) -> H hs=0 [ b1 b2*]
+    where
+      <type-args-to-boxes> type-args => b2*
+
+  java-to-box:
+    InterfaceType(b1, type-args) -> box |[ H hs=0 [ b1 b2*] ]|
+    where
+      <type-args-to-boxes> type-args => b2*
+
+  java-to-box:
+    ClassOrInterfaceType(b1, type-args) -> H hs=0 [ b1 b2*]
+    where
+      <type-args-to-boxes> type-args => b2*
+
   java-to-box: ArrayType(t)    -> box |[ H hs=0 [~t "[" "]"] ]|
 
   java-to-box: Void()    -> box |[ KW["void"] ]|
@@ -42,23 +53,21 @@ strategies
     CompilationUnit(None(), imports, types) -> box |[ V vs=1 [V vs=0 [~*imports] V vs=1 [~*types]] ]|
 
   java-to-box:
-    PackageDec(name) -> box |[ H [KW["package"] H hs=0 [~name ";"]] ]|
+    PackageDec(annos, name) -> V hs=0 [~*annos H [KW["package"] H hs=0 [~name ";"]]]
 
 rules
 
   java-to-box:
-    ImportDec(r) ->  r
+    TypeImportDec(tname) -> H [KW["import"] H hs=0 [~tname ";"]]
 
   java-to-box:
-    TypeRef(tname) -> box |[ H [KW["import"] H hs=0 [~tname ";"]] ]|
+    TypeImportOnDemandDec(pname) -> H hs=1 [KW["import"] H hs=0 [~pname ".*;"]]
 
   java-to-box:
-    PackageRef(pname) -> box |[ H hs=1 [KW["import"] H hs=0 [~pname ".*;"]] ]|
+    StaticImportDec(tname, Id(s)) -> H hs=1 [KW["import"] KW["static"] H hs=0 [~tname "." s ";"]] 
 
   java-to-box:
-    TypeMemberRef(tname, Id(s)) -> box |[ H hs=1 [KW["import"] KW["static"] H hs=0 [~tname "." s ";"]] ]|
-  java-to-box:
-    TypeMembersRef(tname)  -> box |[ H hs=1 [KW["import"] KW["static"] H hs=0 [~tname "." "*" ";"]] ]|
+    StaticImportOnDemandDec(tname)  -> H hs=1 [KW["import"] KW["static"] H hs=0 [~tname "." "*" ";"]] 
 
 rules
 
@@ -66,42 +75,37 @@ rules
     Semicolon() -> box |[ ";" ]|
 
   java-to-box:
-    InterfaceDec(mods, Id(name), implements, body)
+    InterfaceDec(InterfaceDecHead(mods, Id(name), type-args, implements), body)
       ->
-    box |[ V vs=0 [H hs=1 [ ~*mods KW["interface"] ~lit:name ~implements] ~body] ]|
+    V vs=0 [H hs=1 [ ~*mods KW["interface"] b* ~lit:name ~implements] b2]
+    where
+      <type-args-to-boxes> type-args => b*
+    ; <block-structure> (1, body) => b2
 
-  /**
-   * Java basic 1.4
-   */
-  java-to-box:
-    ClassDec(mods, Id(name), extends, implements, body)
-      ->
-    ClassDec(ClassDecHead(mods, Id(name), None(), extends, implements), body)
-
-  /**
-   * Java 1.5
-   */
   java-to-box:
     ClassDec(ClassDecHead(mods, Id(name), None(), extends, implements), body)
       ->
-    box |[ V vs=0 [H hs=1 [~*mods KW["class"] ~lit:name ~extends ~implements] ~body] ]|
+    V vs=0 [H hs=1 [~*mods KW["class"] ~lit:name ~extends ~implements] ~body]
 
-  java-to-box: InterfaceBody(decs) -> <block-structure> (1, decs)
-  java-to-box: ClassBody(decs)     -> <block-structure> (1, decs)
+  java-to-box:
+    ClassBody(decs) -> <block-structure> (1, decs)
 
   // TODO: use the integer in the vs.
   block-structure:
     (1, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=1 [~*elems]]] "}"] ]|
-      where <not-empty> elems
+    where
+      <not-empty> elems
 
   block-structure:
     (0, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=0 [~*elems]]] "}"] ]|
-      where <not-empty> elems
+      where
+        <not-empty> elems
 
   block-structure:
     (_, []) -> box |[ H hs=1 ["{" "}"] ]|
 
-  not-empty = not(?[])
+  not-empty =
+    not(?[])
 
   java-to-box:
     None() -> box |[ H hs=0 [""] ]|
@@ -109,34 +113,18 @@ rules
   java-to-box:
     Some(c) -> c
 
-  /**
-   * Java basic
-   */
-  java-to-box:
-    Extends(c) -> SuperDec(c)
-  
-  /**
-   * Java 1.5
-   */
   java-to-box:
     SuperDec(c) -> box |[ H hs=1 [KW["extends"] ~c] ]|
 
-  /**
-   * Java basic 1.4
-   */
   java-to-box:
-    Implements(is) -> ImplementsDec(is)
-
-  /**
-   * Java 1.5
-   */
-  java-to-box:
-    Implements(is) -> box |[ H hs=1 [KW["implements"] ~interfaces] ]|
+    ImplementsDec(is) -> box |[ H hs=1 [KW["implements"] ~interfaces] ]|
       where <separate-by-comma> is; ?interfaces
 
   java-to-box:
     ExtendsInterfaces(is) -> box |[ H hs=1 [KW["extends"] ~interfaces] ]|
       where <separate-by-comma> is; ?interfaces
+
+rules
 
   hbox = 
       ( is-list < id + ![<id>])
@@ -149,9 +137,12 @@ rules
     !box |[ "." ]|
 
   list-to-args:
-    exprs -> box |[ H hs=0 ["(" ~args ")"] ]|
-      where <not-empty> exprs
-          ; <separate-by-comma> exprs => args
+    [] -> box |[ H hs=0 ["(" ")"] ]|
+
+  list-to-args:
+    exprs@[_ | _ ] -> box |[ H hs=0 ["(" ~args ")"] ]|
+    where
+      <separate-by-comma> exprs => args
 
   separate-by-comma =
     rec x(
@@ -164,59 +155,82 @@ rules
        }
     )
 
-  list-to-args:
-    [] -> box |[ H hs=1 ["(" ")"] ]|
+rules
 
   java-to-box:
     StaticInit(b)   -> box |[ V vs=0 [KW["static"] ~b] ]|
+
   java-to-box:
     InstanceInit(b) -> b
 
+rules
 
   java-to-box:
-    MethodDec(dec, body) -> box |[ V vs=0 [~dec ~body] ]|
-  java-to-box:
-    MethodDec(dec)       -> box |[ H hs=0 [~dec ";"] ]|
+    MethodDec(dec, b@Block(_)) -> V vs=0 [~dec b]
 
   java-to-box:
-    Head(mods, type, Id(n), params, throws)
+    MethodDec(dec, NoMethodBody()) -> H hs=0 [~dec ";"]
+
+  java-to-box:
+    AbstractMethodDec(mods, type-params, type, Id(n), params, throws)
       ->
-    box |[ H hs=1 [~*mods ~type ~lit:n ~args ~throws] ]|
-      where <list-to-args> params => args
+    box |[ H hs=0 [ ~MethodDecHead(mods, type-params, type, Id(n), params, throws) ";" ] ]|
 
   java-to-box:
-    DeprHead(mods, type, Id(n), params, dims, throws)
+    MethodDecHead(mods, type-params, type, Id(n), params, None())
       ->
-    box |[ H hs=1 [~*mods ~type ~lit:n ~args H hs=0 [~*dims] ~throws] ]|
-      where <list-to-args> params => args
+    box |[ H hs=1 [~*foo ~type H hs=0 [~lit:n ~args]] ]|
+    where
+      <list-to-args> params => args
+    ; <type-args-to-boxes> type-params => targboxes
+    ; !Conc(mods, targboxes) => foo
 
   java-to-box:
-    ConstructorDec(mods, class, params, throws, body)
+    MethodDecHead(mods, type-params, type, Id(n), params, Some(throws))
       ->
-    box |[ V vs=0 [H hs=1 [~*mods ~class ~args ~throws] ~body] ]|
-      where <list-to-args> params => args
+    box |[ H hs=1 [~*foo ~type H hs=0 [~lit:n ~args] ~throws] ]|
+    where
+      <list-to-args> params => args
+    ; <type-args-to-boxes> type-params => targboxes
+    ; !Conc(mods, targboxes) => foo
 
   java-to-box:
-    ConstructorBody(None(), stms) -> <block-structure> (0, stms)
+    DeprMethodDecHead(mods, type-params, type, Id(n), params, dims, throws)
+      ->
+    H hs=1 [~*mods ~type b* H hs=0 [~lit:n ~args] H hs=0 [~*dims] ~throws]
+    where
+      <list-to-args> params => args
+    ; <type-args-to-boxes> type-params => b*
 
   java-to-box:
-    ConstructorBody(Some(cinvoke), stms) -> <block-structure> (0, [cinvoke | stms])
+    ConstrDec(ConstrDecHead(mods, type-params, class, params, throws), body)
+      ->
+    V vs=0 [H hs=1 [~*foo ~class ~args ~throws] ~body]
+    where
+      <list-to-args> params => args
+    ; <type-args-to-boxes> type-params => targboxes
+    ; !Conc(mods, targboxes) => foo
 
   java-to-box:
-    Param(None(), type, vardecid) -> box |[ H hs=1 [~type ~vardecid] ]|
+    ConstrBody(None(), stms) -> <block-structure> (0, stms)
 
   java-to-box:
-    Param(Some(Final()), type, vardecid) -> box |[ H hs=1 [KW["final"] ~type ~vardecid] ]|
+    ConstrBody(Some(cinvoke), stms) -> <block-structure> (0, [cinvoke | stms])
 
   java-to-box:
-    Throws(exceptions) -> box |[ H hs=1 [KW["throws"] ~excs] ]|
-      where <separate-by-comma> exceptions => excs
+    Param(mods, type, vardecid) -> H hs=1 [~*mods ~type ~vardecid]
+
+  java-to-box:
+    ThrowsDec(exceptions) -> H hs=1 [KW["throws"] ~excs]
+    where
+      <separate-by-comma> exceptions => excs
 
   java-to-box:
     FieldDec(mods, type, ds)
       ->
-    box |[ H hs=1 [~*mods ~type H hs=0 [~decs ";"]] ]|
-      where <separate-by-comma> ds => decs
+    H hs=1 [~*mods ~type H hs=0 [~decs ";"]]
+    where
+      <separate-by-comma> ds => decs
 
   java-to-box:
     ConstantDec(mods, type, ds) -> FieldDec(mods, type, ds)
@@ -225,26 +239,11 @@ rules
     VarDec(i) -> i
 
   java-to-box:
-    VarDec(i, init) -> box |[ H hs=1 [~i "=" ~init] ]|
-
-  /**
-   * Java basic 1.4
-   */
-  java-to-box:
-    VarId(Id(s)) -> Id(s)
+    VarDec(i, init) -> H hs=1 [~i "=" ~init]
 
   java-to-box:
     Id(s) -> box |[ s ]|
 
-  /**
-   * Java basic 1.4
-   */
-  java-to-box:
-    VarId(Id(s), b*) -> ArrayVarDecId(Id(s), b*)
-
-  /**
-   * Java 1.5
-   */
   java-to-box:
     ArrayVarDecId(Id(s), b*) -> H hs=0 [s b*]
 
@@ -255,21 +254,32 @@ rules
     Dim(e) -> H hs=0 ["[" ~e "]"]
 
   java-to-box:
-    ArrayInit(exprs, None()) -> H hs=0 ["{" ~vals "}"]
-      where <separate-by-comma> exprs => vals
+    ArrayInit(exprs) -> H hs=0 ["{" ~vals "}"]
+    where
+      <separate-by-comma> exprs => vals
 
   java-to-box:
-    ArrayInit(exprs, Some(Comma())) -> H hs=0 ["{" ~vals "," "}"]
-      where <separate-by-comma> exprs => vals
+    AltConstrInv(type-args, exprs) -> H hs=0 [~*b1* KW["this"] ~args ";"]
+    where
+      <list-to-args> exprs => args
+    ; <type-args-to-boxes> type-args => b1*
 
   java-to-box:
-    CInvoke(exprs) -> H hs=0 [KW["this"] ~args ";"]
-      where <list-to-args> exprs => args
+    SuperConstrInv(type-args, exprs) -> box |[ H hs=0 [~*b1* KW["super"] b2 ";"] ]|
+    where
+      <list-to-args> exprs => b2
+    ; <type-args-to-boxes> type-args => b1*
 
   java-to-box:
-    SuperCInvoke(exprs) -> H hs=0 [KW["super"] ~args ";"]
-      where <list-to-args> exprs => args
+    QSuperConstrInv(b0, type-args, exprs) -> box |[ H hs=0 [b0 "." b1* KW["super"] b2 ";"] ]|
+    where
+      <list-to-args> exprs => b2
+    ; <type-args-to-boxes> type-args => b1*
 
-  java-to-box:
-    QSuperCInvoke(q, exprs) -> H hs=0 [~q "." KW["super"] ~args ";"]
-      where <list-to-args> exprs => args
+  type-args-to-boxes :
+    None -> []
+
+  type-args-to-boxes :
+    Some(TypeArgs(types)) -> [ H hs=0 ["<" b* ">"] ]
+    where
+      <separate-by-comma> types => b*

@@ -10,45 +10,24 @@ rules
   java-to-box: Return(None())  -> <stm-box> box |[  KW["return"] ]|
   java-to-box: Return(Some(e)) -> <stm-box> box |[ H hs=1 [KW["return"] ~e] ]|
 
-  //TODO: remove call to expr-to-box when the pretty-printing of expressions handles priorities
-  java-to-box: Expr(e)  -> <try(expr-to-box); stm-box> e
-  java-to-box: Empty()  -> box |[ ";" ]|
+  /**
+   * @todo Remove call to expr-to-box when the pretty-printing of expressions handles priorities
+   */
+  java-to-box:
+    ExprStm(e)  -> <try(expr-to-box); stm-box> e
+
+  java-to-box:
+    Empty()  -> box |[ ";" ]|
 
 rules
 
-  /**
-   * Java basic 1.4
-   */
-  java-to-box=
-    (?LocalVarDec(_, _) + ?FinalLocalVarDec(_, _))
-    ; !LocalVarDecStm(<id>)
-
-
-  /**
-   * Java 1.5
-   */
   java-to-box :
     LocalVarDecStm(lvardec) -> H hs=0 [b ";"]
       where <LocalVarDec-to-box> lvardec => b
 
-  /**
-   * Java 1.5
-   */
   LocalVarDec-to-box :
     LocalVarDec(mods, type, ds) -> H hs=1 [~*mods ~type ~decs]
       where <separate-by-comma> ds => decs
-
-  /**
-   * Java basic 1.4
-   */
-  LocalVarDec-to-box :
-    LocalVarDec(type, decs) -> <LocalVarDec-to-box> LocalVarDec([], type, decs)
-
-  /**
-   * Java basic 1.4
-   */
-  LocalVarDec-to-box :
-    FinalLocalVarDec(type, decs) -> <LocalVarDec-to-box> LocalVarDec([Final()], type, decs)
 
 rules
 

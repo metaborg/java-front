@@ -24,7 +24,7 @@ gnu-classpath.list : classpath-$(GNUCP_VERSION)
 PARSEJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call parse-java
 PPJAVA=XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc call pp-java
 
-check : parsecheck
+check : ppcheck
 
 parsecheck : gnu-classpath.list
 	FILES="`cat gnu-classpath.list`" && \
@@ -38,7 +38,9 @@ parsecheck : gnu-classpath.list
 ppcheck : gnu-classpath.list
 	FILES="`cat gnu-classpath.list`" && \
 	for file in $$FILES; do \
-		$(MAKE) "$${file%.java}.ppdiff" || exit 1; \
+	    grep ' enum =' "$$file" \
+            || $(MAKE) "$${file%.java}.ppdiff" \
+            || exit 1; \
 	done
 
 %.ppdiff : %.jtree %.ppjtree

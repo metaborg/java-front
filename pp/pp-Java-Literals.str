@@ -25,15 +25,15 @@ rules
       where <implode-string> ['\' | <conc> (us, [c1, c2, c3, c4])] => s
 
   java-to-box:
-    OctaEscape(c1) -> box |[ s ]|
+    OctaEscape1(c1) -> box |[ s ]|
       where <implode-string> ['\', c1] => s
 
   java-to-box:
-    OctaEscape(c1, c2) -> box |[ s ]|
+    OctaEscape2(c1, c2) -> box |[ s ]|
       where <implode-string> ['\', c1, c2] => s
 
   java-to-box:
-    OctaEscape(c1, c2, c3) -> box |[ s ]|
+    OctaEscape3(c1, c2, c3) -> box |[ s ]|
       where <implode-string> ['\', c1, c2, c3] => s
 
 rules

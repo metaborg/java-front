@@ -20,7 +20,7 @@ exports
 
   context-free syntax
     ConstrHead ConstrBody ->  ConstrDec {cons("ConstrDec")}
-    ConstrMod* TypeParams? Id "(" {FormalParam ","}* ")" Throws? -> ConstrHead {cons("ConstrHead")}
+    ConstrMod* TypeParams? Id "(" {FormalParam ","}* ")" Throws? -> ConstrHead {cons("ConstrDecHead")}
 
 
     "{" ConstrInv? BlockStm* "}" -> ConstrBody {cons("ConstrBody")}

@@ -26,5 +26,5 @@ LDADD += $(SSL_LIBS)
 
 nodist_jtree2abox_SOURCES = jtree2abox.c
 
-jtree-parenthesize.str : $(top_builddir)/syn/generic/Generic-Java.def
-	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ -m Generic-Java --omod jtree-parenthesize --lang Java
+jtree-parenthesize.str : $(top_builddir)/syn/v1.5/Java-15.def
+	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ -m Java-15 --omod jtree-parenthesize --lang Java-15

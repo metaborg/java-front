@@ -68,35 +68,35 @@ strategies
     Method(n) -> n
 
   java-to-box: 
-    Method(e, Id(s)) -> box |[ H hs=0 [~e "." s] ]|
+    Method(e, None(), Id(s)) -> box |[ H hs=0 [~e "." s] ]|
 
   java-to-box: 
-    SuperMethod(Id(s)) -> box |[ H hs=0 [KW["super"] "." s] ]|
+    SuperMethod(None(), Id(s)) -> box |[ H hs=0 [KW["super"] "." s] ]|
 
   java-to-box: 
-    QSuperMethod(q, Id(s)) -> box |[ H hs=0 [~q "." KW["super"] "." s] ]|
+    QSuperMethod(q, None(), Id(s)) -> box |[ H hs=0 [~q "." KW["super"] "." s] ]|
 
   java-to-box: 
-    NewInstance(type, exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~args] ]|
+    NewInstance(None(), type, None(), exprs, None()) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~args] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 
-    QNewInstance(e, Id(s), exprs, None()) -> box |[ H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ]|
+    QNewInstance(e, None(), Id(s), None(), exprs, None()) -> box |[ H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 
-    NewInstance(type, exprs, Some(body)) -> box |[ V vs=0[H hs=0 [H hs=1 [KW["new"] ~type] ~args] ~body] ]|
+    NewInstance(None(), type, None(), exprs, Some(body)) -> box |[ V vs=0[H hs=0 [H hs=1 [KW["new"] ~type] ~args] ~body] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 
-    QNewInstance(e, s, exprs, Some(body)) -> box |[ V vs=0 [H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ~body] ]|
+    QNewInstance(e, None(), s, None(), exprs, Some(body)) -> box |[ V vs=0 [H hs=0 [~e "." H hs=1 [KW["new"] s] ~args] ~body] ]|
       where <list-to-args> exprs => args
 
   java-to-box: 
     NewArray(type, dimexprs, dims) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dimexprs ~*dims] ]|
 
   java-to-box: 
-    NewArray(type, dims, init@ArrayInit(_, _)) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dims ~init] ]|
+    NewArray(type, dims, init@ArrayInit(_)) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dims ~init] ]|
 
   java-to-box: 
     ArrayAccess(b1, b2) -> H hs=0 [ b1 "[" b2 "]"]

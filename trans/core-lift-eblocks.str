@@ -1,11 +1,10 @@
 module core-lift-eblocks
-imports options Java-EBlock
+imports liblib Java-EBlock
 
 strategies
   
   io-core-lift-eblocks =
     io-wrap(core-lift-eblocks)
-
 
   core-lift-eblocks =
     topdown(try(lift-to-block-level))
