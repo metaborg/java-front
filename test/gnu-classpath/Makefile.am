@@ -1,4 +1,5 @@
 include $(top_srcdir)/Makefile.xt
+include $(top_srcdir)/test/Makefile.parse-unit
 
 # create GNU classpath testsuites
 classpath-0.07.tar.gz :
@@ -15,13 +16,6 @@ gnu-classpath.%.testsuite : gnu-classpath.%.list $(prefix)/bin/files2parse-unit-
 	$(prefix)/bin/files2parse-unit-testsuite -i $< -o $@
 
 gnucheck : $(GNU_TESTSUITES:.testsuite=.runtestsuite)
-
-# generic rules
-%.runtestsuite : %.testsuite
-	$(SDF_TOOLS)/bin/parse-unit -i $< -p $(PARSE_UNIT_PTABLE) --verbose 1 -o /dev/null
-
-%.jasfix : %.java $(prefix)/share/sdf/java-front/Java.tbl
-	sglr -2lv -p $(prefix)/share/sdf/java-front/Java.tbl -i $< -o $@
 
 # targets
 GNU_TESTSUITES = \

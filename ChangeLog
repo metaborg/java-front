@@ -1,4 +1,31 @@
-2004-02-31  Martin Bravenboer <martin@cs.uu.nl>
+2004-02-04  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/basic/Java-Comments.sdf: added follow restriction on
+	optional layout: LAYOUT?  -/- [\/].[\/]. This restriciton is
+	related to the one for /* and solves this problem:
+	
+	+ * {// aa
+	}
+	  <ClassBody-CF>
+	    {
+	    <LAYOUT?-CF>
+	    <ClassBodyDec*-CF>
+	    <LAYOUT?-CF>
+	      <LAYOUT-CF>
+	        // aa
+	
+	    }
+	  <ClassBody-CF>
+	    {
+	    <LAYOUT?-CF>
+	      <LAYOUT-CF>
+	        // aa
+	
+	    <ClassBodyDec*-CF>
+	    <LAYOUT?-CF>
+	    }
+	
+2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
 
 	* test/j2sdk: separate directory for j2sdk testsuites.
 

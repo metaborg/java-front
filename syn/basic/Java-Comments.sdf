@@ -29,3 +29,4 @@ exports
 
   context-free restrictions
     LAYOUT?  -/- [\/].[\*]
+    LAYOUT?  -/- [\/].[\/]
