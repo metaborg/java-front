@@ -7,33 +7,34 @@ module languages/java-15/names/Main
 imports
   languages/java-15/lexical/Identifiers
 exports
-  sorts
-    PackageName
-    TypeName
-    ExprName
-    MethodName
-
+  sorts PackageName
   context-free syntax
     {Id "."}+ -> PackageName {cons("PackageName")}
 
-                          Id -> TypeName {cons("TypeName")}
+  sorts
+    TypeName
+    ExprName
+    MethodName
+    PackageOrTypeName
+    AmbName
+
+  context-free syntax
+    Id             -> AmbName {cons("AmbName")}
+    AmbName "." Id -> AmbName {cons("AmbName")}
+
+    Id                       -> TypeName {cons("TypeName")}
     PackageOrTypeName "." Id -> TypeName {cons("TypeName")}
 
-                Id -> ExprName {cons("ExprName")}
+    Id             -> ExprName {cons("ExprName")}
     AmbName "." Id -> ExprName {cons("ExprName")}
 
-                Id -> MethodName  {cons("MethodName")}
+    Id             -> MethodName  {cons("MethodName")}
     AmbName "." Id -> MethodName  {cons("MethodName")}
+
+    Id                       -> PackageOrTypeName {cons("PackageOrTypeName")}
+    PackageOrTypeName "." Id -> PackageOrTypeName {cons("PackageOrTypeName")}
 
   %% todo: workaround for missing definition in JLS.    
   sorts ClassName
   context-free syntax
     {Id "."}+ -> ClassName {cons("ClassName")}
-
-  sorts PackageOrTypeName
-  context-free syntax
-    {Id "."}+ -> PackageOrTypeName {cons("PackageOrTypeName")}
-
-  sorts AmbName
-  context-free syntax
-    {Id "."}+ -> AmbName {cons("AmbName")}

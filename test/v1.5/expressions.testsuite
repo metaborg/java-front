@@ -161,13 +161,13 @@ test Simple method invocation
   "method()" -> Invoke(Method(MethodName(Id("method"))), [])
 
 test Simple method invocation on var
-  "var.method()" -> Invoke(Method(MethodName(AmbName([Id("var")]), Id("method"))), [])
+  "var.method()" -> Invoke(Method(MethodName(AmbName(Id("var")), Id("method"))), [])
 
 test Simple method invocation on var of class Foo
-  "Foo.var.method()" -> Invoke(Method(MethodName(AmbName([Id("Foo"), Id("var")]), Id("method"))), [])
+  "Foo.var.method()" -> Invoke(Method(MethodName(AmbName(AmbName(Id("Foo")), Id("var")), Id("method"))), [])
 
 test Method invocation has higher priority than assignment
-  "x = var.method()" -> Assign(ExprName(Id("x")), Invoke(Method(MethodName(AmbName([Id("var")]), Id("method"))), []))
+  "x = var.method()" -> Assign(ExprName(Id("x")), Invoke(Method(MethodName(AmbName(Id("var")), Id("method"))), []))
 
 test Simple literal
   [ "Literal" ] -> Lit(String([Chars("Literal")]))
@@ -181,7 +181,7 @@ test Method invocation has higher priority than addition
       Plus(Lit(_), Invoke(Method(Lit(_), None(), Id("trim")), []))
 
 test Prefer a methodname over an expression
-  "blaat.trim()" -> Invoke(Method(MethodName(AmbName([Id("blaat")]), Id("trim"))), [])
+  "blaat.trim()" -> Invoke(Method(MethodName(AmbName(Id("blaat")), Id("trim"))), [])
 
 test field access has higher priority than addition
   [ "Literal" + " Literal ".notreallyafield ] ->
@@ -197,7 +197,7 @@ test method invocations
         Invoke(
           Method(
             Invoke(
-              Method(MethodName(AmbName([Id("x")]), Id("blaat1"))), []
+              Method(MethodName(AmbName(Id("x")), Id("blaat1"))), []
             )
           , None()
           , Id("blaat2")
