@@ -60,11 +60,11 @@ strategies
 
   // TODO: for with None() init, cond1 and step1
   java-to-box:
-    For( Some(init1), Some(cond1), Some(step1), body1) -> box |[ V vs=0[H hs=0 [KW["for"] "(" ~init ";" ~cond ";" ~*step ")"] ~body] ]|
-      where <map(expr-to-box); separate-by(comma)> step1 => step
-          ; <is-list < (map(expr-to-box); separate-by(comma)) + id> init1 => init
-          ; <ensure-block>       body1 => body
-          ; <expr-to-box>        cond1 => cond
+    For(Some(init1), Some(cond1), Some(Exprs(step1)), body1) -> box |[ V vs=0[H hs=0 [KW["for"] "(" ~init ";" ~cond ";" ~*step ")"] ~body] ]|
+      where <map(java-to-box); separate-by(comma)> step1 => step
+          ; <?Exprs(<id>) < (map(java-to-box); separate-by(comma)) + id> init1 => init
+          ; <ensure-block> body1 => body
+          ; <java-to-box>  cond1 => cond
 
   java-to-box:
     Synchronized(e, b) -> box |[ V vs=0 [H hs=0 [KW["synchronized"] "(" ~e ")"] ~b] ]|
