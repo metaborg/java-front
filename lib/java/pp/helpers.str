@@ -4,33 +4,40 @@ strategies
   concat-content = 
     bottomup( try( \ Conc(l1, l2) -> <conc> (l1, l2) \ ))
 
+/**
+ * Creates a block structure for a list of boxes.
+ *
+ * @type (Int, List(Box)) -> Box
+ * @todo Use the integer of the lhs as the value of vs
+ */
 rules
 
-  // TODO: use the integer in the vs.
-  block-structure:
+  block-structure :
     (1, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=1 [~*elems]]] "}"] ]|
     where
-      <not-empty> elems
+      not(!elems => [])
 
-  block-structure:
+  block-structure :
     (0, elems) -> box |[ V vs=0 [H hs=1 ["{" V vs=0 ["" V vs=0 [~*elems]]] "}"] ]|
-      where
-        <not-empty> elems
+    where
+      not(!elems => [])
 
-  block-structure:
+  block-structure :
     (_, []) -> box |[ H hs=1 ["{" "}"] ]|
 
-  not-empty =
-    not(?[])
+/**
+ * @todo What is this doing here???
+ */
+rules
 
-  java-to-box:
+  java-to-box :
     SuperDec(c) -> box |[ H hs=1 [KW["extends"] ~c] ]|
 
-  java-to-box:
+  java-to-box :
     ImplementsDec(is) -> box |[ H hs=1 [KW["implements"] ~interfaces] ]|
       where <separate-by-comma> is; ?interfaces
 
-  java-to-box:
+  java-to-box :
     ExtendsInterfaces(is) -> box |[ H hs=1 [KW["extends"] ~interfaces] ]|
       where <separate-by-comma> is; ?interfaces
 
@@ -46,14 +53,31 @@ rules
   point = 
     !box |[ "." ]|
 
-  list-to-args:
+
+/**
+ * Rewrites a list of boxes to a single box, where the elements are
+ * separated by commas and between parenthesis.
+ *
+ * @type List(Box) -> Box
+ */
+rules
+
+  list-to-args :
     [] -> box |[ H hs=0 ["(" ")"] ]|
 
-  list-to-args:
+  list-to-args :
     exprs@[_ | _ ] -> box |[ H hs=0 ["(" ~args ")"] ]|
     where
       <separate-by-comma> exprs => args
 
+rules
+
+  /**
+   * Rewrites a list of boxes to a single box, where the elements are
+   * separated by commas.
+   *
+   * @type List(Box) -> Box
+   */
   separate-by-comma =
     rec x(
       ?[<id>]
