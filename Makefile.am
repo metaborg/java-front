@@ -5,13 +5,10 @@ pkgdata_DATA = java-front.m4
 
 BOOTCLEAN_SUBDIRS = $(SUBDIRS)
 DIST_SUBDIRS      = $(SUBDIRS)
-EXTRA_DIST        = $(pkgdata_DATA) Makefile.xt java-front.spec java-front.spec.in
+EXTRA_DIST        = $(pkgdata_DATA) Makefile.xt java-front.spec java-front.spec.in bootstrap
 CLEANFILES        = XTC
 
 XTC_IMPORT = $(STRATEGOXT)/share/strategoxt/XTC
-
-fixeddist : dist
-	mv $(PACKAGE)-$(VERSION).tar.gz $(PACKAGE).tar.gz
 
 DISTCHECK_CONFIGURE_FLAGS = \
   --with-strategoxt=$(STRATEGOXT) \
