@@ -30,7 +30,7 @@ strategies
 
   java-pretty-print = 
       topdown(try(very-special-conflict))
-    ; topdown(try(repeat(java-to-box)))
+    ; topdown(try(pp-comments); try(repeat(java-to-box)))
     ; concat-content
 
 rules
@@ -41,6 +41,27 @@ rules
   very-special-conflict:
     Plus(Plus(e)) -> Plus(Parenthetical(Plus(e)))
 
+rules
+
+  pp-comments =
+    ?t{a*}
+
+    ; where(
+        <fetch(?(Comment(), s))> a*
+      ; <java-to-box> t => b
+      )
+
+    ; if !b => V(_, _) then
+        !|[ V vs=0 [s b] ]|
+      else
+        if <explode-string> s => cs@['/', '/' | _] then
+          <trim(?'\n' + ?'\r' + ?' ' + ?'\t'); implode-string> cs => s1
+          ; !|[ V vs=0 [s1 b] ]|
+        else
+          !|[ H hs=1 [s b] ]|
+        end
+      end
+ 
 rules
 
   java-to-box:
@@ -186,3 +207,7 @@ rules
     where
       <list-to-args> exprs => b2
     ; <type-args-to-boxes> type-args => b1*
+
+signature
+  constructors
+    Comment : AnnoKey
