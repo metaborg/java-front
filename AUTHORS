@@ -3,7 +3,6 @@ Author:
 
 Bug Reports:
   * Jurgen Vinju
-    - Suggested a nicer method for structured literals.
     - Reported hedged expression problem in conditional expression
 
   * Mikal Ziane
