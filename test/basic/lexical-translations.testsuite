@@ -1,7 +1,6 @@
 TestSuite(
   Name("Lexical translations")
 , Sort("BlockStm")
-, ParseTable(File("../grammar/basic/Java.tbl"))
 , Tests(
   [ Test(Descr("Comments, as tokens, separate other tokens")
     , String("int i = 1/**/0;"), Failure()
@@ -30,4 +29,3 @@ TestSuite(
     )
   ])
 )
-

@@ -1,7 +1,6 @@
 TestSuite(
   Name("Expressions")
 , Sort("Expr")
-, ParseTable(File("../grammar/basic/Java.tbl"))
 , Tests(
   [ Test(Descr("null literal")
     , String("null"), Lit(Null())
@@ -96,4 +95,3 @@ TestSuite(
     )
   ])
 )
-

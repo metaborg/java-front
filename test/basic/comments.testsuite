@@ -1,7 +1,6 @@
 TestSuite(
   Name("Comments")
 , Sort("ClassDec")
-, ParseTable(File("../grammar/basic/Java.tbl"))
 , Tests(
   [ Test(Descr("basic end of line comment (1)")
     , File("comments/simple-1.java")
@@ -117,4 +116,3 @@ TestSuite(
     )
   ])
 )
-

@@ -1,7 +1,6 @@
 TestSuite(
   Name("floating-point literals")
 , Sort("FloatLiteral")
-, ParseTable(File("../grammar/basic/Java.tbl"))
 , Tests(
   [ Test(Descr("3.10.2-i1: Whole or fractional part must have a digit"), String(".e2"), Failure())
   , Test(Descr("3.10.2-i2: Whole or fractional part must have a digit"), String(".F"), Failure())
@@ -267,5 +266,4 @@ tcltest::test 3.10.2-double-16 { valid double overrides invalid octal } {
 tcltest::test 3.10.2-double-17 { check for 0 followed by letter } {
     constant_expression T3102d17 {0e+0d == 0e-0d} {0E1 == 0} {0d == 0D}
 } PASS
-
 
