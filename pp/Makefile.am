@@ -16,7 +16,7 @@ libexec_PROGRAMS = jtree2abox jtree-parenthesize
 EXTRA_DIST     = $(MODULES) $(wildcard *.meta)
 CLEANFILES     = $(wildcard *.dep) $(wildcard *.c) java-parenthesize.str
 
-SCFLAGS        = --main io-$*
+SCFLAGS        = --main io-$* 
 STRINCLUDES    = -I $(top_srcdir)/lib \
                  -I $(top_builddir)/sig \
                  -I $(top_srcdir)/pp \

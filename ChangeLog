@@ -1,3 +1,12 @@
+2004-07-25  Martin Bravenboer <martin@cs.uu.nl>
+	
+	* pp/jtree-parenthesize.str: parenthesize requires latest
+	StrategoXT sources (2004-07-25) to handle all priority problems in
+	pretty-printing.
+
+	* pp/pp-Java-Statements.str: fixed pretty-printing of final local
+	variable declarations.
+	
 2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
 
 	* pp/Makefile.am: jtree-parenthesize is now a separate tool.

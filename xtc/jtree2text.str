@@ -5,7 +5,7 @@ strategies
 
   main-jtree2text =
     xtc-io-wrap(
-      xtc-transform(!"jtree2abox", pass-verbose)
-    ; xtc-transform(!"jtree-parenthesize", pass-verbose)
+      xtc-transform(!"jtree-parenthesize", pass-verbose)
+    ; xtc-transform(!"jtree2abox", pass-verbose)
     ; xtc-abox2text
     )

@@ -20,8 +20,7 @@ rules
    * LocalVarDecStm
    */
   java-to-box=
-    ?LocalVarDec(type, ds)
-    ; LocalVarDec-to-box
+    LocalVarDec-to-box
     ; stm-box
 
   LocalVarDec-to-box :
