@@ -9,11 +9,18 @@ strategies
   core-lift-eblocks =
     bottomup(try(lift-to-block-level))
 
-  lift-to-block-level =
-    ?Block(<id>)
+  lift-to-block-level = lift-from-blocks <+ lift-from-constructor-blocks
+  
+  lift-from-blocks = 
+      ?Block(<id>) 
     ; map(lift-eblocks)
     ; !Block(<concat>)
 
+  lift-from-constructor-blocks = 
+      ?ConstrBody(x, <id>)
+    ; map(lift-eblocks)
+    ; !ConstrBody(x, <concat>)
+  
   /**
    * @todo  Nested EBlocks?
    * @todo  Nested Blocks?
