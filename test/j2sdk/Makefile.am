@@ -32,6 +32,7 @@ ppcheck : j2sdk.list
 	for file in $$FILES; do \
 	  if   test "$${file}" = "j2sdk-src/com/sun/org/apache/xalan/internal/xsltc/compiler/FunctionCall.java" \
             || test "$${file}" = "j2sdk-src/com/sun/org/apache/xml/internal/utils/StringComparable.java" \
+            || test "$${file}" = "j2sdk-src/java/util/jar/Attributes.java" \
           ; then \
             $(MAKE) "$${file%.java}.jtree" "$${file%.java}.ppjtree" || exit 1; \
           else \
