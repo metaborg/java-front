@@ -1,3 +1,7 @@
+2004-02-24  Martin Bravenboer <martin@cs.uu.nl>
+
+	* pp/*: implemented NamedEscapes in the pretty printer.
+
 2004-02-16  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/basic/Makefile.am

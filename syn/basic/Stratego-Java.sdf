@@ -4,6 +4,7 @@ imports Java StrategoRenamed
 exports
   context-free syntax
 
+            "e" "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
     "java:expr" "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
          "expr" "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
     "java"      "|[" Expr "]|"   -> StrategoTerm {cons("ToTerm")}
@@ -114,10 +115,15 @@ exports
     "~char:"   StrategoTerm -> CharLiteral   {cons("FromTerm")}
 
   syntax
-    "~"  <StrategoTerm-CF>  -> StringChars {cons("FromTerm"), prefer}
+    "~" <StrategoTerm-CF> -> StringChars {cons("FromTerm"), prefer}
+    "~" <StrategoTerm-CF> <LAYOUT?-CF> -> SingleChar  {cons("FromTerm"), prefer}
 
   variables
     "bstm" [0-9]* "*" -> BlockStm*
     [ij]   [0-9]*     -> DeciLiteral
     [xyz]  [0-9]*     -> ID
+    "e"    [0-9]* "*" -> {VarInit ","}*
+
+
+
 

@@ -63,9 +63,11 @@ exports
     EscapeSeq      -> StringPart
 
     "'" CharContent "'" -> CharLiteral {cons("Char")}
-    ~[\12\13\'\\] -> CharContent {cons("Single")}
+    SingleChar    -> CharContent {cons("Single")}
     UnicodeEscape -> CharContent
     EscapeSeq     -> CharContent
+
+    ~[\12\13\'\\] -> SingleChar
 
     OctaEscape  -> EscapeSeq
     NamedEscape -> EscapeSeq

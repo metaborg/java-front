@@ -15,6 +15,9 @@ strategies
   java-to-box: Single(c) -> S(s)
     where <implode-string> [c] => s
 
+  java-to-box: NamedEscape(c) -> S(s)
+    where <implode-string> ['\', c] => s
+
   // TODO: escapes
   java-to-box: String(parts) -> box |[ H hs=0 ["\"" ~*parts "\""] ]|
   java-to-box: Chars(s) -> S(s)
