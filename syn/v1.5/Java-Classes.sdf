@@ -27,12 +27,11 @@ exports
 
   context-free syntax
 
-    ClassMod* "class" Id  Super? Interfaces? ClassBody -> ClassDec {cons("ClassDec")}
-    
-    "extends" ClassType                 -> Super      {cons("Extends")}
-    "implements" {InterfaceType ","}+   -> Interfaces {cons("Implements")}
+    ClassDecHead "{" ClassBodyDec* "}" -> ClassDec {cons("ClassDec")}
 
-    "{" ClassBodyDec* "}" -> ClassBody {cons("ClassBody")}
+    ClassMod* "class" Id  Super? Interfaces? -> ClassDecHead {cons("ClassDecHead")}
+    "extends" ClassType                      -> Super        {cons("Extends")}
+    "implements" {InterfaceType ","}+        -> Interfaces   {cons("Implements")}
 
     StaticInit     -> ClassBodyDec
     InstanceInit   -> ClassBodyDec

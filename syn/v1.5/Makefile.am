@@ -16,26 +16,26 @@ SDF2RTG_FLAGS  = --main Java-15
 
 Java-15.def : $(JAVA15_MODS)
 
-JAVA14_MODS = \
-  ${top_srcdir}/syn/v1.4/Java.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Classes.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Comments.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Expressions.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Identifiers.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Interfaces.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Keywords.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Lexical.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Literals.sdf \
-  ${top_srcdir}/syn/v1.4/Java-MethodDecs.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Modifiers.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Names.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Statements.sdf \
-  ${top_srcdir}/syn/v1.4/Java-TypeDecs.sdf \
-  ${top_srcdir}/syn/v1.4/Java-Types.sdf \
-  ${top_srcdir}/syn/v1.4/Java-VarDecs.sdf \
-  ${top_srcdir}/syn/v1.4/Java-WhiteSpace.sdf 
-
 JAVA15_MODS = \
-  $(JAVA14_MODS) \
+  Java-15.sdf \
+  Java-Classes.sdf \
+  Java-Comments.sdf \
+  Java-Expressions.sdf \
+  Java-Identifiers.sdf \
+  Java-Interfaces.sdf \
+  Java-Keywords.sdf \
+  Java-Lexical.sdf \
+  Java-Literals.sdf \
+  Java-MethodDecs.sdf \
+  Java-Modifiers.sdf \
+  Java-Names.sdf \
+  Java-Statements.sdf \
+  Java-TypeDecs.sdf \
+  Java-Types.sdf \
+  Java-VarDecs.sdf \
+  Java-WhiteSpace.sdf \
+  Java-Annotations.sdf \
+  Java-AnnotationTypes.sdf \
   Java-Enums.sdf \
   Java-StaticImport.sdf
+

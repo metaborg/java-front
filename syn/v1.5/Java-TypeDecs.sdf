@@ -9,4 +9,5 @@ exports
   context-free syntax
     ClassDec      -> TypeDec
     InterfaceDec  -> TypeDec
-
+    EnumDec       -> TypeDec
+    AnnoDec       -> TypeDec
