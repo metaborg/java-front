@@ -2,7 +2,7 @@ module pp-Java-Names
 
 strategies
 
-  java-to-box: PackageName(Id(name)) -> <name-to-box> name
+  java-to-box: PackageName(name) -> <name-to-box> name
   java-to-box: ClassName(Id(name))   -> <name-to-box> name
   java-to-box: AmbName(Id(name))     -> <name-to-box> name
 

@@ -105,4 +105,4 @@ strategies
       where <separate-by(! box |[ "&" ]|)> types => interfaces
 
   java-to-box:
-    TypeVar(s) ->  box |[ ~lit:s ]|
+    TypeVar(Id(s)) ->  box |[ ~lit:s ]|
