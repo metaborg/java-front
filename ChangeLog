@@ -1,5 +1,39 @@
 2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
 
+	* syn/v1.5/languages/java-15/expressions/UnaryOperators.sdf: the
+	priority of a primitive cast "(int) e", is different from the cast
+	to a reference type "(Foo) e". In the 'basic' SDF syntax
+	definition there was just one production rule for casts and the
+	priority of all casts was equal, which is not correct.
+
+	In the 1.5 syntax definition, this has been resolved by
+	introducing two different productions (CastPrim and CastRef) and a
+	more complex definition of priorities.
+
+	* tests/v1.5/expression.testsuite: many parse-unit tests for
+	priorities of unary operators, in particular cast expressions.
+
+	* syn/basic/Java-Expressions.sdf: restored the priority of the
+	cast to the unary operator level. This is incorrect, but I think I
+	should leave this legacy syntax definition untouched. That is, it
+	is obsolete.
+
+	If there is a need for a separate 1.4 syntax definition, then this
+	should be a developed by removing the 1.5 constructs from the
+	syntax definition. The 'basic' syntax definition is too poor.
+
+	So, don't use Java and Generic-Java. Use Java-15.
+
+	* test/Makefile.parse-unit: invoke parse-unit with the new
+	"--no-heuristic-filters" flag. Should be removed if java-front is
+	going to be released before StrategoXT 0.12.
+
+	* xtc/parse-java.str: sglr is now invoked with the -fi and -fe
+	flags to disable the heuristic filters of SGLR (injection count
+	and eagerness).
+	
+2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+
 	* syn/v1.5/languages/java-15/expressions/Priorities.sdf: parsing
 	the jdk1.5.0 beta sources revealed an error in the priority of
 	cast expressions. The cast expression should not be in the same

@@ -48,6 +48,60 @@ test addition is left associative
 test multiplication has higher priority than addition
   "1 + 2 * 3" -> Plus(_, Mul(_, _))
 
+test unary operators 1
+  "!++x" -> Not(PreIncr(_))
+
+test unary operators 2
+  "!+x" -> Not(Plus(_))
+
+test unary operators 3
+  "-!x" -> Minus(Not(_))
+
+test unary operators 4
+  "!-x" -> Not(Minus(_))
+
+test unary operators 5
+  "!x++" -> Not(PostIncr(_))
+
+test Cast operators 1
+  "(int) -1" -> CastPrim(_, Minus(_))
+
+test Cast operators 2
+  " (int) ++1 " -> CastPrim(_, PreIncr(_))
+
+test Cast operators 3
+  " (byte)~mask " -> CastPrim(_, Complement(_))
+
+test Cast operators 4
+  " ~(byte)mask " -> Complement(CastPrim(_, _))
+
+test Cast operators 5
+  " ~(byte)~mask " -> Complement(CastPrim(_, Complement(_)))
+
+test Cast operators 6
+  " (Foo) + 2" -> Plus(ExprName(Id("Foo")), Lit(Deci("2")))
+
+test Cast operators 7
+  " (int) + 2" -> CastPrim(_, Plus(Lit(Deci("2"))))
+
+test Cast operators 8
+  "(String) -1 " -> Minus(ExprName(Id("String")),Lit(Deci("1")))
+
+test Cast operators 9
+  "(String) ++1" fails
+
+test Cast operators 10
+  "(String) 1++" -> CastRef(_, PostIncr(_))
+
+test Cast operators 11
+  " (int)1 + 2" -> Plus(CastPrim(_, _), Lit(Deci("2")))
+
+test Cast operators 12
+  " (int)1 * 2" -> Mul(CastPrim(_, _), Lit(Deci("2")))
+
+test Cast operators 13
+  " (int)1 == 2" -> Eq(CastPrim(_, _), Lit(Deci("2")))
+
 test simple array creation expression
   "new int[3]" -> NewArray(Int,[Dim(Lit(Deci("3")))],[])
 

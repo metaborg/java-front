@@ -17,4 +17,5 @@ exports
     "~" Expr -> Expr {cons("Complement")}
     "!" Expr -> Expr {cons("Not")}
 
-    "(" Type ")" Expr -> Expr {cons("Cast")}
+    "(" PrimType ")" Expr -> Expr {cons("CastPrim")}
+    "(" RefType  ")" Expr -> Expr {cons("CastRef")}

@@ -62,7 +62,7 @@ exports
   context-free syntax
     "throws" {ExceptionType ","}+ -> Throws {cons("ThrowsDec")}
     ClassType -> ExceptionType
-    TypeVar   -> ExceptionType
+    %% TypeVar -> ExceptionType
 
   %%%
    %% Section 8.4.7: Method Body

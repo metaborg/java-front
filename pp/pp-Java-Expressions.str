@@ -102,7 +102,10 @@ strategies
     ArrayAccess(b1, b2) -> H hs=0 [ b1 "[" b2 "]"]
 
   java-to-box: 
-    Cast(b1, b2) -> H hs=0 ["(" b1 ")" b2]
+    CastPrim(b1, b2) -> H hs=0 ["(" b1 ")" b2]
+
+  java-to-box: 
+    CastRef(b1, b2) -> H hs=0 ["(" b1 ")" b2]
 
   java-to-box: 
     Field(b, Id(s)) -> H hs=0 [b "." s]

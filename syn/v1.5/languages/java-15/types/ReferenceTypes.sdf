@@ -22,7 +22,7 @@ exports
   context-free syntax
     ClassOrInterfaceType -> RefType
     ArrayType            -> RefType
-    TypeVar              -> RefType
+    %% TypeVar           -> RefType
 
     TypeName TypeArgs? -> ClassOrInterfaceType {cons("ClassOrInterfaceType")}
     TypeName TypeArgs? -> ClassType {cons("ClassType")}

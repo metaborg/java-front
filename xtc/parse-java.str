@@ -18,8 +18,11 @@ strategies
     )
 
   parse-java =
-      xtc-sglr(get-parse-table, get-start-symbol)
+    xtc-sglr-no-heuristics(get-parse-table, get-start-symbol)
     ; xtc-implode-asfix
+
+  xtc-sglr-no-heuristics(tbl, sort) =
+    xtc-transform(!"sglr", !["-fi", "-fe", "-2A", "-p", <tbl; xtc-find> (), "-s", <sort> () | <pass-v-verbose> ()])
 
 /**
  * Release option
