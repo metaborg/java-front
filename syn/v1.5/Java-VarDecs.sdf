@@ -3,8 +3,7 @@ imports
   Java-Expressions
 
 exports
-  sorts ArrayInit Comma
+  sorts ArrayInit
   context-free syntax
-    "{" {VarInit ","}* Comma? "}" -> ArrayInit {cons("ArrayInit")}
-
-    "," -> Comma {cons("Comma")}
+    "{" {VarInit ","}*     "}" -> ArrayInit {cons("ArrayInit")}
+    "{" {VarInit ","}* "," "}" -> ArrayInit {cons("ArrayInit")}

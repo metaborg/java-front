@@ -4,6 +4,8 @@
  %% @author Martin Bravenboer <martin@cs.uu.nl>
  %%%
 module languages/java-15/lexical/Comments
+imports
+  languages/java-15/lexical/LineTerminators
 exports
   sorts
     Comment

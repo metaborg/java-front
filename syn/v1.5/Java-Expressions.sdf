@@ -1,7 +1,4 @@
 module Java-Expressions
-imports
-  Java-Classes
-
 exports
   context-free start-symbols
     Expr

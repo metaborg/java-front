@@ -6,7 +6,9 @@
 module languages/java-15/interfaces/AnnotationTypes
 imports
   languages/java-15/lexical/Identifiers
+  languages/java-15/classes/ClassDeclarations
   languages/java-15/classes/EnumDeclarations
+  languages/java-15/interfaces/InterfaceDeclarations
   languages/java-15/interfaces/AbstractMethodDeclarations
   languages/java-15/interfaces/ConstantDeclarations
   languages/java-15/interfaces/Annotations
@@ -18,14 +20,17 @@ exports
   sorts
     AnnoDec
     AnnoDecHead
-    AnnoElemDec
 
   context-free syntax
     AnnoDecHead "{" AnnoElemDec* "}" -> AnnoDec {cons("AnnoDec")}
     InterfaceMod* "@" "interface" Id -> AnnoDecHead {cons("AnnoDecHead")}
 
+  sorts
+    AnnoElemDec
+    DefaultVal
+
   context-free syntax
-    AbstractMethodMod* Type Identifier "(" ")" DefaultVal? ";" -> AnnoElemDec {cons("AnnoMethodDec")}
+    AbstractMethodMod* Type Id "(" ")" DefaultVal? ";" -> AnnoElemDec {cons("AnnoMethodDec")}
 
     ConstantDec  -> AnnoElemDec
     ClassDec     -> AnnoElemDec

@@ -4,6 +4,8 @@
  %% @author Martin Bravenboer <martin@cs.uu.nl>
  %%%
 module languages/java-15/lexical/Identifiers
+imports
+  languages/java-15/lexical/Keywords
 exports
   context-free start-symbols
     Id

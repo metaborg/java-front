@@ -4,13 +4,14 @@
  %% @author Martin Bravenboer <martin@cs.uu.nl>
  %%%
 module languages/java-15/names/Main
+imports
+  languages/java-15/lexical/Identifiers
 exports
   sorts
     PackageName
     TypeName
     ExprName
     MethodName
-    AmbName
 
   context-free syntax
     {Id "."}+ -> PackageName {cons("PackageName")}
@@ -24,8 +25,10 @@ exports
                 Id -> MethodName  {cons("MethodName")}
     AmbName "." Id -> MethodName  {cons("MethodName")}
 
+  sorts PackageOrTypeName
   context-free syntax
     {Id "."}+ -> PackageOrTypeName {cons("PackageOrTypeName")}
 
+  sorts AmbName
   context-free syntax
     {Id "."}+ -> AmbName {cons("AmbName")}

@@ -1,6 +1,5 @@
 module Java-15
 imports
-  Java-Classes
   Java-Expressions
   Java-Statements
   Java-VarDecs

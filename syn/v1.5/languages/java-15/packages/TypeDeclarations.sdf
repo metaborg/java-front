@@ -5,11 +5,8 @@
  %%%
 module languages/java-15/packages/TypeDeclarations
 imports
-  %% languages/java-15/classes/ClassDeclarations
+  languages/java-15/classes/ClassDeclarations
   languages/java-15/interfaces/InterfaceDeclarations
-
-imports
-  Java-Classes
 
 exports
   context-free start-symbols

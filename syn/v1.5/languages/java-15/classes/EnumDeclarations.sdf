@@ -4,6 +4,10 @@
  %% @author  Martin Bravenboer <martin@cs.uu.nl>
  %%%
 module languages/java-15/classes/EnumDeclarations
+imports
+  languages/java-15/lexical/Identifiers
+  languages/java-15/classes/ClassDeclarations
+
 exports
   sorts
     EnumDec

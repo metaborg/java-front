@@ -40,26 +40,36 @@ exports
     Anno  -> VarMod
     Final -> VarMod
 
-  sorts Throws 
-  context-free syntax
-    "throws" {ClassType ","}+ -> Throws {cons("Throws")}
-
-  sorts MethodBody
-  context-free syntax
-    Block -> MethodBody
-    ";"   -> MethodBody
-
-
-
   sorts MethodMod
   context-free syntax
+    Anno           -> MethodMod
+
     Public         -> MethodMod
     Protected      -> MethodMod
     Private        -> MethodMod
-    AccessMod      -> MethodMod
-    Static         -> MethodMod
+
     Abstract       -> MethodMod
+    Static         -> MethodMod
     Final          -> MethodMod
     Synchronized   -> MethodMod
     Native         -> MethodMod
     StrictFP       -> MethodMod
+
+  %%%
+   %% Section 8.4.6: Method Throws
+   %%%
+  sorts
+    Throws
+    ExceptionType
+
+  context-free syntax
+    "throws" {ExceptionType ","}+ -> Throws {cons("ThrowsDec")}
+    ClassType -> ExceptionType
+    TypeVar   -> ExceptionType
+
+  %%%
+   %% Section 8  sorts MethodBody
+  context-free syntax
+    Block -> MethodBody
+    ";"   -> MethodBody
+
