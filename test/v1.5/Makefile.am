@@ -4,6 +4,7 @@ include $(top_srcdir)/test/Makefile.parse-unit
 EXTRA_DIST = $(wildcard *.testsuite) $(wildcard *.atestsuite)
 
 TESTSUITES = \
+  comments.testsuite \
   enum-decs.testsuite \
   identifiers.testsuite \
   compilation-unit.testsuite \

@@ -4,12 +4,12 @@ topsort TypeDec
 test basic end of line comment (1)
   "class Simple { // aa
    }
-  " -> ClassDec(_, ClassBody([]))
+  " -> ClassDec([],_,None,None,ClassBody([]))
 
 test basic end of line comment (2)
   "class Simple {// aa
    }
-  " -> ClassDec(_, ClassBody([]))
+  " -> ClassDec([],_,None,None,ClassBody([]))
 
 test basic long comment (1)
   "class Test { /* */ }" succeeds
@@ -24,7 +24,7 @@ test Silly (2)
   "class Test { /* \u */}" fails
 
 test /* anything */ is a comment (1)
-  "class T371 { /* / * // * / exit */ }" -> ClassDec(_, ClassBody([]))
+  "class T371 { /* / * // * / exit */ }" -> ClassDec([],_,None,None,ClassBody([]))
 
 test /* anything */ is a comment (2)
   "class T371 { /* / * // * / exit */}" succeeds
@@ -33,34 +33,34 @@ test /* */ comment can span multiple lines
   "class T372 { /* hello
      bye
     */}
-  " -> ClassDec(_, ClassBody([]))
+  " -> ClassDec([],_,None,None,ClassBody([]))
 
 test // comment inside /* */ comment is ignored
   "class T373 { /* hello
    // */}"
-   -> ClassDec(_, ClassBody([]))
+   -> ClassDec([],_,None,None,ClassBody([]))
 
 test // comment inside // comment is ignored
   "class T374 { // //
   }"
-  -> ClassDec(_, ClassBody([]))
+  -> ClassDec([],_,None,None,ClassBody([]))
 
 test /* */ comment inside // comment is ignored
   "class T375 { // /*
    //*/
-   }" -> ClassDec(_, ClassBody([]))
+   }" -> ClassDec([],_,None,None,ClassBody([]))
 
 test /* or // inside /* */ comment is ignored
   "class T376 { /* comment /* // /* */}"
-   -> ClassDec(_, ClassBody([]))
+   -> ClassDec([],_,None,None,ClassBody([]))
 
 test /* or // inside /** */ comment is ignored
   "class T377 { /** comment /* // /* */}"
-   -> ClassDec(_, ClassBody([]))
+   -> ClassDec([],_,None,None,ClassBody([]))
 
 test /**/ is a documentation comment
   "class T378 { /**/}"
-   -> ClassDec(_, ClassBody([]))
+   -> ClassDec([],_,None,None,ClassBody([]))
 
 test // comment separates tokens
   "class T379 {int//
