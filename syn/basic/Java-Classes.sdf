@@ -6,7 +6,7 @@ imports Java-Names
         Java-Types
 
 exports
-  sorts ClassDec
+  sorts ClassDec ClassBodyDec
 
   context-free syntax
 
@@ -41,5 +41,4 @@ exports
               "this" "(" {Expr ","}* ")" ";" -> CInvoke {cons("CInvoke")}
              "super" "(" {Expr ","}* ")" ";" -> CInvoke {cons("SuperCInvoke")}
     Expr "." "super" "(" {Expr ","}* ")" ";" -> CInvoke {cons("QSuperCInvoke")}
-
 
