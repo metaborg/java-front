@@ -30,5 +30,9 @@ TestSuite(
     , If(Name(ExprName(Id("a"))),
         While(Name(ExprName(Id("b"))), Expr(Assign(ExprName(Id("c")),Lit(Deci("2")))))
       , Expr(Assign(ExprName(Id("d")),Lit(Deci("2"))))))
+  , Test(Descr("Assignment amb 1"), String("x = 5;"), Success())
+  , Test(Descr("Assignment amb 2"), String("x = y.z;"), Success())
+  , Test(Descr("Array subscript assignment amb 1"), String("buf[x] = digits[y];"), Success())
+  , Test(Descr("Array subscript assigmnemt amb 2"), String("buf[charPos--] = digits[-(i % radix)];"), Success())
   ])
 )

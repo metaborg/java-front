@@ -5,9 +5,6 @@ exports
   sorts Expr
 
   context-free syntax
-
-    %% .class expressions are ClassLiterals
-
     "(" Expr ")"          -> Expr {bracket}
     Literal               -> Expr {cons("Lit")}
     "this"                -> Expr {cons("This")}
@@ -15,23 +12,31 @@ exports
     "(" Type ")" Expr     -> Expr {cons("Cast")}
     ExprName              -> Expr {cons("Name")}
 
+    FieldAccess           -> Expr
+    ArrayAccess           -> Expr
+    ArrayCreationExpr     -> Expr
+
+  context-free syntax
+
              "new" ClassOrInterfaceType "(" {Expr ","}* ")" ClassBody? -> Expr {cons("NewInstance")}
     Expr "." "new" Id                   "(" {Expr ","}* ")" ClassBody? -> Expr {cons("QNewInstance")}
+
+  context-free syntax
 
                      Expr "." Id -> FieldAccess {cons("Field")}
                  ExprName "." Id -> FieldAccess {reject}
                   "super" "." Id -> FieldAccess {cons("SuperField")}
     ClassName "." "super" "." Id -> FieldAccess {cons("QSuperField")}
 
-    Expr "[" Expr "]" -> ArrayAccess {cons("ArrayAccess")}
-    ArrayCreationExpr "[" Expr "]" -> ArrayAccess {reject}
+  context-free syntax
+
+    Expr ArraySubscript -> ArrayAccess {cons("ArrayAccess")}
+    "[" Expr "]" -> ArraySubscript {bracket}
+
+    ArrayCreationExpr ArraySubscript -> ArrayAccess {reject}
 
     "new" ArrayBaseType DimExpr+ Dim*  -> ArrayCreationExpr {cons("NewArray")}
     "new" ArrayBaseType Dim+ ArrayInit -> ArrayCreationExpr {cons("NewArray")}
-
-    FieldAccess       -> Expr
-    ArrayAccess       -> Expr
-    ArrayCreationExpr -> Expr
 
     ClassOrInterfaceType -> ArrayBaseType
     PrimType             -> ArrayBaseType
@@ -39,6 +44,7 @@ exports
     "[" Expr "]" -> DimExpr {cons("Dim")}
     "[" "]"      -> Dim     {cons("Dim")}
 
+  context-free syntax
 
     MethodId "(" {Expr ","}* ")" -> Expr {cons("Invoke")}
 
@@ -110,15 +116,13 @@ exports
     "-" -/- [\-]
     "/" -/- [\/]
 
-  %% TODO: priorities of array subscript
   context-free priorities
     {
-      Expr "[" Expr "]" -> ArrayAccess
+      Expr ArraySubscript -> ArrayAccess
       Expr "." Id -> FieldAccess
       Expr "." Id -> MethodId
     }
-  >
-    {right:
+  > {right:
       Expr "++" -> Expr
       Expr "--" -> Expr
     }
@@ -176,4 +180,3 @@ exports
       LHS "^="   Expr -> Expr
       LHS "|="   Expr -> Expr
     }
-
