@@ -1,9 +1,9 @@
 module Stratego-Generic-Java
-imports Generic-Java Stratego-Java
+imports Generic-Java-Prefixed Stratego-Java
 
 exports
   context-free syntax
 
-    "~"  StrategoTerm -> TypeParam        {cons("FromTerm")}
-    "~*" StrategoTerm -> {TypeParam ","}+ {cons("FromTerm")}
+    "~"  StrategoTerm -> JavaTypeParam        {cons("FromTerm")}
+    "~*" StrategoTerm -> {JavaTypeParam ","}+ {cons("FromTerm")}
 

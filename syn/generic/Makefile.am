@@ -38,6 +38,7 @@ Generic-Java.def : \
 
 Stratego-Generic-Java.def : \
   Generic-Java.def \
+  Generic-Java-Prefixed.sdf \
   Stratego-Generic-Java.sdf \
   ${top_srcdir}/syn/basic/Stratego-Java.sdf
 
