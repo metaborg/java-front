@@ -10,21 +10,36 @@ strategies
 
   main-parse-java =
     xtc-io-wrap(
-      release-option(|"parse source") + symbol-option
+      parse-java-options
     , parse-java-usage
     , parse-java-about
     , !["sglr", "implode-asfix", "Java-15.tbl"]
     , parse-java
     )
 
+  parse-java-options =
+    release-option(|"Parse source")
+    + symbol-option
+    + preserve-comments-option
+    + preserve-positions-option
+
 strategies
 
   parse-java =
-    if get-release => "1.5" then
-      xtc-sglr-no-heuristics(get-parse-table, get-start-symbol)
-    else 
-      xtc-sglr(get-parse-table, get-start-symbol)
-    end
+      if get-release => "1.5" then
+        xtc-sglr-no-heuristics(get-parse-table, get-start-symbol)
+      else 
+        xtc-sglr(get-parse-table, get-start-symbol)
+      end
+
+    ; if must-preserve-comments then
+        xtc-transform(!"asfix-anno-comments")
+      else id end
+
+    ; if must-preserve-positions then
+        xtc-transform(!"addPosInfo", !["-p", "Foo.java"])
+      else id end
+
     ; xtc-implode-asfix
 
   xtc-sglr-no-heuristics(tbl, sort) =
@@ -35,7 +50,7 @@ strategies
   symbol-option =
     ArgOption("-s" + "--start-symbol"
     , set-start-symbol
-    , !HelpString("-s|--start-symbol s", "start parsing with symbol s [CompilationUnit]")
+    , !HelpString("-s|--start-symbol s", "Start parsing with symbol s [CompilationUnit]")
     )
 
   set-start-symbol =
@@ -43,6 +58,36 @@ strategies
 
   get-start-symbol = 
     <get-config> "start-symbol" <+ !"CompilationUnit"
+
+strategies
+
+  preserve-comments-option =
+    Option("--preserve-comments"
+    , <set-preserve-comments> "yes"
+    , !HelpString("--preserve-comments", "Preserve source code
+            comments as annotations of the abstract syntax tree. [off]")
+    )
+
+  set-preserve-comments =
+    <set-config> ("preserve-comments", <id>)
+
+  must-preserve-comments =
+    <get-config> "preserve-comments" => "yes"
+
+strategies
+
+  preserve-positions-option =
+    Option("--preserve-positions"
+    , <set-preserve-positions> "yes"
+    , !HelpString("--preserve-positions", "Preserve source code positions in the
+                   input file as annotations of the abstract syntax tree. [off]")
+    )
+
+  set-preserve-positions =
+    <set-config> ("preserve-positions", <id>)
+
+  must-preserve-positions =
+    <get-config> "preserve-positions" => "yes"
 
 /**
  * Documentation

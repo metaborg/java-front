@@ -1,3 +1,12 @@
+2004-09-08  Martin Bravenboer <martin@cs.uu.nl>
+
+	* xtc/parse-java.str: now supports the --preserve-comments and
+	--preserve-positions options. These options can be used to
+	annotate the resulting abstract syntax tree with information on
+	the comments and positions in the source file. pp-java supports
+	the comment annotations and will include them in the resulting
+	Java source file.
+
 2004-08-09  Martin Bravenboer <martin@cs.uu.nl>
 
 	* xtc/jtree2text.str: gone.
