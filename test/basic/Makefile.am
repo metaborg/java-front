@@ -14,6 +14,6 @@ TESTSUITES = \
   lexical-translations.testsuite \
   statements.testsuite
 
-PARSE_UNIT_PTABLE = $(sdfdatadir)/Java.tbl
+PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java.tbl`"
 
-installcheck-local: $(TESTSUITES:.testsuite=.runtestsuite)
+check : $(TESTSUITES:.testsuite=.runtestsuite)

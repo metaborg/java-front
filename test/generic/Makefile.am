@@ -1,17 +1,13 @@
 include $(top_srcdir)/Makefile.xt
+include $(top_srcdir)/test/Makefile.parse-unit
 
 SUBDIRS           = compilation-units
 BOOTCLEAN_SUBDIRS = $(SUBDIRS)
 EXTRA_DIST        = $(wildcard *.testsuite) $(wildcard *.atestsuite)
 
-PARSE_UNIT_TESTSUITES = \
+TESTSUITES = \
   generic-compilation-unit.testsuite
- 
-PARSE_UNIT_PTABLE = $(sdfdatadir)/Generic-Java.tbl
-  
-installcheck-local:
-	for file in fordummy $(PARSE_UNIT_TESTSUITES) ; do \
-	 	 	 	  if [ "$$file" = "fordummy" ]; then continue; fi; \
-	  $(SDF_TOOLS)/bin/parse-unit -i $$file -p $(PARSE_UNIT_PTABLE) --verbose 1 -o /dev/null ; \
-        done ; \
-	echo "Testsuites done"
+
+PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Generic-Java.tbl`"
+
+check: $(TESTSUITES:.testsuite=.runtestsuite)

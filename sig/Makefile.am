@@ -11,15 +11,13 @@ PSIGS =  \
   Java-EBlock.rtree
 
 pkgdata_DATA = $(SIGS) $(PSIGS)
-EXTRA_DIST   = $(SIGS) $(PSIGS)
-
-BOOTCLEANFILES = $(pkgdata_DATA) $(SIGS) $(PSIGS) Java.rtg Generic-Java.rtg Java-EBlock.rtg
+CLEANFILES   = $(SIGS) $(PSIGS) Java.rtg Generic-Java.rtg Java-EBlock.rtg
 
 Java.rtg :
-	$(LN_S) $(top_srcdir)/syn/basic/Java.rtg $@
+	$(LN_S) $(top_builddir)/syn/basic/Java.rtg $@
 
 Generic-Java.rtg :
-	$(LN_S) $(top_srcdir)/syn/generic/Generic-Java.rtg $@
+	$(LN_S) $(top_builddir)/syn/generic/Generic-Java.rtg $@
 
 Java-EBlock.rtg :
-	$(LN_S) $(top_srcdir)/syn/eblock/Java-EBlock.rtg $@
+	$(LN_S) $(top_builddir)/syn/eblock/Java-EBlock.rtg $@

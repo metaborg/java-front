@@ -11,3 +11,5 @@ STRINCLUDES    = -I $(top_srcdir)/lib \
                  -I $(top_srcdir)/sig \
                  -I $(GPP)/share/sdf/gpp \
                  -I $(GPP)/share/gpp
+
+noinst_jtree2abox_SOURCES = jtree2abox.c

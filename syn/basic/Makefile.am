@@ -7,7 +7,7 @@ sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Java-Prefixed.sdf
 pkgdata_DATA   = Java.rtg
 
 EXTRA_DIST     = $(sdfdata_DATA)
-BOOTCLEANFILES = $(TBLS_DEFS) Java-Prefixed.sdf
+CLEANFILES     = $(TBLS_DEFS) Java-Prefixed.sdf Java.rtg
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front
 PGEN_FLAGS     = -m $*

@@ -14,10 +14,13 @@ classpath-$(GNUCP_VERSION) : classpath-$(GNUCP_VERSION).tar.gz
 gnu-classpath.%.list : classpath-$(GNUCP_VERSION)
 	find classpath-$(GNUCP_VERSION)/$* -name '*.java' | sort > $@
 
-gnu-classpath.%.atestsuite : gnu-classpath.%.list $(prefix)/bin/files2parse-unit-testsuite
-	$(prefix)/bin/files2parse-unit-testsuite -i $< -o $@
+gnu-classpath.%.atestsuite : gnu-classpath.%.list
+	 $(top_builddir)/xtc/files2parse-unit-testsuite -i $< -o $@
 
 gnucheck : $(GNU_TESTSUITES:.testsuite=.runtestsuite)
+
+clean-local :
+	rm -rf classpath-$(GNUCP_VERSION) classpath-$(GNUCP_VERSION).tar.gz
 
 # targets
 GNU_TESTSUITES = \
@@ -26,6 +29,6 @@ GNU_TESTSUITES = \
   gnu-classpath.external.testsuite \
   gnu-classpath.gnu.testsuite
 
-PARSE_UNIT_PTABLE = $(sdfdatadir)/Java.tbl
+PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java.tbl`"
 
-installcheck : gnucheck
+check : gnucheck

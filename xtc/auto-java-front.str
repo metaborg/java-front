@@ -1,5 +1,5 @@
 module auto-java-front
-imports xtc-lib
+imports liblib
 
 strategies
 

@@ -8,7 +8,7 @@ sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf) Generic-Java-Prefixed.sdf
 pkgdata_DATA   = Generic-Java.rtg
 
 EXTRA_DIST     = $(sdfdata_DATA)
-BOOTCLEANFILES = $(TBLS_DEFS) Generic-Java-Prefixed.sdf
+CLEANFILES = $(TBLS_DEFS) Generic-Java-Prefixed.sdf Generic-Java.rtg
 
 SDFINCLUDES    = -I $(STRATEGO_FRONT)/share/sdf/stratego-front \
                  -I ${top_srcdir}/syn/basic

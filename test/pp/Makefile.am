@@ -7,7 +7,9 @@ CLEANFILES = $(JAVA_FILES:.java=.pp) $(JAVA_FILES:.java=.jtree)
 check : $(JAVA_FILES:.java=.pp)
 
 %.pp : %.jtree
-	@$(prefix)/bin/pp-java -i $< -o $@
+	XTC_REPOSITORY="$(BUILD_REPOSITORY)" \
+	  $(XTC)/bin/xtc call pp-java -i $< -o $@
 
 %.jtree : %.java
-	@$(prefix)/bin/parse-java -i $< -o $@ 
+	XTC_REPOSITORY="$(BUILD_REPOSITORY)" \
+	  $(XTC)/bin/xtc call parse-java -i $< -o $@ 
