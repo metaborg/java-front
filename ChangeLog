@@ -1,3 +1,9 @@
+2004-02-16  Martin Bravenboer <martin@cs.uu.nl>
+
+	* syn/basic/Makefile.am
+	* syn/generic/Makefile.am
+	* sig/Makefile.am: produce rtg-nf, not rhg-nf.
+
 2004-02-05  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/basic/Java-Literals.sdf: character and string literals are

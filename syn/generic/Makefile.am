@@ -6,7 +6,7 @@ TBLS_DEFS      = Generic-Java.tbl Stratego-Generic-Java.tbl \
                  Generic-Java.def Stratego-Generic-Java.def
 
 sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
-pkgdata_DATA   = Generic-Java.rhg-nf
+pkgdata_DATA   = Generic-Java.rtg-nf
 
 EXTRA_DIST     = $(sdfdata_DATA)
 BOOTCLEANFILES = $(TBLS_DEFS)
@@ -35,7 +35,7 @@ Generic-Java.def : \
   ${top_srcdir}/syn/basic/Java-VarDecs.sdf \
   ${top_srcdir}/syn/basic/Java-WhiteSpace.sdf \
   Generic-Java.sdf
-  
+
 Stratego-Generic-Java.def : \
   Generic-Java.def \
   Stratego-Generic-Java.sdf \
