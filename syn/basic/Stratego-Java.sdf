@@ -95,8 +95,10 @@ exports
 
     "~"  StrategoTerm  -> JavaStm  {cons("FromTerm")}
 
-    "~"      StrategoTerm  ->  JavaExpr          {cons("FromTerm")}
-    "~expr:" StrategoTerm  ->  JavaExpr          {prefer, cons("FromTerm")}
+    "~"      StrategoTerm  ->  JavaExpr {cons("FromTerm")}
+    "~e:"    StrategoTerm  ->  JavaExpr {prefer, cons("FromTerm")}
+    "~expr:" StrategoTerm  ->  JavaExpr {prefer, cons("FromTerm")}
+
     "~*" StrategoTerm      -> {JavaExpr ","}*    {cons("FromTerm")}
     "~*" StrategoTerm      -> {JavaVarInit ","}* {cons("FromTerm")}
 
