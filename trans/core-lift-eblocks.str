@@ -23,11 +23,17 @@ strategies
    * @todo  Is flatten-list required?
    */
   lift-eblocks =
-      collect-split(?PreEBlock(_, <id>), ?PreEBlock(<id>, _))
+      collect-split-om-pre-eblock
     ; ?(<id>, pre-stms)
-    ; collect-split(?PostEBlock(<id>, _), ?PostEBlock(_, <id>))
+    ; collect-split-om-post-eblock
     ; ?(t, post-stms)
     ; ( !post-stms => []; !pre-stms => []
       < ![t]
       + <concat> [<map(lift-eblocks); concat> pre-stms, <lift-eblocks> t, <map(lift-eblocks); concat> post-stms]
       )
+
+  collect-split-om-pre-eblock =
+    !(<alltd(?PreEBlock(_, <id>))>,<collect-om(?PreEBlock(<id>, _), conc); concat>)
+
+  collect-split-om-post-eblock =
+    !(<alltd(?PostEBlock(<id>, _))>, <collect-om(?PostEBlock(_, <id>), conc); concat>)
