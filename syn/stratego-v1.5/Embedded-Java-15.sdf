@@ -88,6 +88,7 @@ exports
     "lvdec_" [a-zA-Z0-9]*     -> JavaLocalVarDec    {prefer}
      "vdec" [0-9]*            -> JavaVarDec         {prefer}
      "vdec_" [a-zA-Z0-9]*     -> JavaVarDec         {prefer}
+     "vdec"  [0-9]* "*"       -> {JavaVarDec ","}+  {prefer}
      "vdec_" [a-zA-Z0-9]* "*" -> {JavaVarDec ","}+  {prefer}
 
   lexical syntax
