@@ -33,9 +33,9 @@ exports
 
     "for" "(" ForInit? ";" Expr? ";" ForUpdate? ")" Stm -> Stm {cons("For")}
 
-    LVarDec -> ForInit
-    {Expr ","}+ -> ForInit   
-    {Expr ","}+ -> ForUpdate
+    LVarDec -> ForInit {cons("VarDec")}      %% TODO: fix for sdf2rtg
+    {Expr ","}+ -> ForInit   {cons("Exprs")} %% TODO: fix for sdf2rtg
+    {Expr ","}+ -> ForUpdate {cons("Exprs")} %% TODO: fix for sdf2rtg
 
     "break"    Id? ";"   -> Stm {cons("Break")}
     "continue" Id? ";"   -> Stm {cons("Continue")}
@@ -57,5 +57,4 @@ exports
 
     "assert" Expr          ";" -> Stm  {cons("Assert")}
     "assert" Expr ":" Expr ";" -> Stm  {cons("Assert")}
-
 

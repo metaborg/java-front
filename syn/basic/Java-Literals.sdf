@@ -25,8 +25,8 @@ exports
 
   context-free syntax
 
-    Type "." "class"   -> ClassLiteral
-    "void" "." "class" -> ClassLiteral {cons("Void")}
+    Type "." "class"   -> ClassLiteral {cons("Class")}
+    "void" "." "class" -> ClassLiteral {cons("VoidClass")}
 
 %% module Java-IntegerLiterals
 
@@ -92,4 +92,3 @@ exports
     InputChar -> StringChar
     [\"\\]    -> StringChar {reject}
     EscapeSeq -> StringChar
-
