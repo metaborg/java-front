@@ -1,0 +1,7 @@
+module pp-java
+imports jtree2text
+
+strategies
+
+  main-pp-java =
+    main-jtree2text
