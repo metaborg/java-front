@@ -280,8 +280,8 @@ exports
   variables
      "param" [0-9]*            -> JavaFormalParam  {prefer}
      "param_" [a-zA-Z0-9]*     -> JavaFormalParam  {prefer}
-     "param" [0-9]* "*"        -> JavaFormalParam* {prefer}
-     "param_" [a-zA-Z0-9]* "*" -> JavaFormalParam* {prefer}
+     "param" [0-9]* "*"        -> {JavaFormalParam* ","}*  {prefer}
+     "param_" [a-zA-Z0-9]* "*" -> {JavaFormalParam* ","}* {prefer}
 
   %%%
    %% Quotations for Formal Parameters
