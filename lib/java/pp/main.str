@@ -205,7 +205,13 @@ rules
     ; <type-args-to-boxes> type-args => b1*
 
   java-to-box :
-    amb(alts) -> V vs=0[V vs=0 is=2 [ "<ambiguous>" ~*alts ] "</ambiguous>"]
+    amb(alts) -> V vs=0[V vs=0 is=2 [ "amb>" ~*alts' ] "<amb"]
+    where
+      <map-with-index({s: \
+         (i, b) -> H hs=1 [ H hs=0 [s ">"] b]
+         where
+           <int-to-string> i => s
+       \})> alts => alts'
 
   java-to-box :
     PreEBlock(stms, e) -> V vs=0 [ V is=2 ["{|" ~*stms] H hs=1 ["|" ~e "|}"]]
