@@ -204,6 +204,14 @@ rules
       <list-to-args> exprs => b2
     ; <type-args-to-boxes> type-args => b1*
 
+  java-to-box :
+    amb(alts) -> V vs=0[V vs=0 is=2 [ "<ambiguous>" ~*alts ] "</ambiguous>"]
+
+  java-to-box :
+    PreEBlock(stms, e) -> V vs=0 [ V is=2 ["{|" ~*stms] H hs=1 ["|" ~e "|}"]]
+
 signature
   constructors
     Comment : String -> AnnoKey
+    amb     : List(A) -> A
+    PreEBlock : List(BlockStm) * Expr -> BlockStm
