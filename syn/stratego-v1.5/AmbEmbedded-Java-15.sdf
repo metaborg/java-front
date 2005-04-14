@@ -2,102 +2,34 @@ module AmbEmbedded-Java-15[E]
 imports
   Java-15-Prefixed
 
-exports 
 
-  context-free syntax
-    "|[" JavaBlockStm  "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaBlockStm* "]|" -> E {cons("ToMetaStmListExpr")}
+imports 
+  AmbEmbedded-Java-15-quotations[E JavaCompilationUnit]
+  AmbEmbedded-Java-15-quotations[E JavaTypeDec]
+  AmbEmbedded-Java-15-quotations[E JavaClassBodyDec]
 
-    "|[" JavaLocalVarDec "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaVarDec      "]|" -> E {cons("ToMetaExpr")}
+  AmbEmbedded-Java-15-quotations[E JavaAbstractMethodDec]
 
-    "|[" JavaType "]|" -> E {cons("ToMetaExpr")}
+  AmbEmbedded-Java-15-quotations[E JavaFormalParam]
+  AmbEmbedded-Java-15-quotations[E JavaModifier]
 
-    "|[" JavaAmbName    "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaExprName   "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaMethodName "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaTypeName   "]|" -> E {cons("ToMetaExpr")}
-%%%    "|[" JavaClassName  "]|" -> E {cons("ToMetaExpr")}
-    "|[" JavaPackageOrTypeName "]|" -> E {cons("ToMetaExpr")}
+  AmbEmbedded-Java-15-quotations[E JavaAmbName]
+  AmbEmbedded-Java-15-quotations[E JavaExprName]
+  AmbEmbedded-Java-15-quotations[E JavaMethodName]
+  AmbEmbedded-Java-15-quotations[E JavaTypeName]
+  AmbEmbedded-Java-15-quotations[E JavaPackageOrTypeName]
 
-    "|[" JavaModifier   "]|" -> E {cons("ToMetaExpr")}
+  AmbEmbedded-Java-15-quotations[E JavaExpr]
+  AmbEmbedded-Java-15-quotations[E JavaBlockStm]
+  AmbEmbedded-Java-15-quotations[E JavaStm]
 
-    "|[" JavaFormalParam        "]|" -> E {cons("ToMetaExpr")}
-    "|[" {JavaFormalParam ","}* "]|" -> E {cons("ToMetaExprListExpr")}
+  AmbEmbedded-Java-15-quotations[E JavaType]
 
-    "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+  AmbEmbedded-Java-15-quotations[E JavaVarDec]
+  AmbEmbedded-Java-15-quotations[E JavaLocalVarDec]
 
-    "|[" JavaCompilationUnit "]|"  -> E {cons("ToMetaExpr")}
-
-    "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
-
-    "|["  JavaClassBodyDec  "]|" -> E {cons("ToMetaExpr")}
-
-%%%    "|[" JavaClassBodyDec* "]|" -> E {cons("ToMetaListExpr")}
-
-    "|["  JavaStm "]|" -> E {cons("ToMetaExpr")}
-
-    "|["  JavaAbstractMethodDec  "]|" -> E {cons("ToMetaExpr")}
-
-%%%    "|["  JavaAbstractMethodDec*  "]|" -> E {cons("ToMetaListExpr ")}
-
-exports
-
-  lexical syntax 
-    [A-Za-z\_\$][A-Za-z0-9\_\$]* -> MetaVarID
-    JavaKeyword -> MetaVarID {reject}
-
-  lexical restrictions
-    MetaVarID -/- [A-Za-z0-9\_\$]
-
-  variables
-%%%    MetaVarID -> JavaDeciLiteral
-
-       MetaVarID -> JavaID 
-
-    MetaVarID -> JavaExpr
-
-%%%    MetaVarID -> {JavaVarInit ","}*
-
-%%%    MetaVarID -> JavaStm
-
-       MetaVarID -> JavaBlockStm 
-%%%    MetaVarID -> JavaBlockStm*
-
-    MetaVarID -> JavaLocalVarDec
-    MetaVarID -> JavaVarDec
-%%%    MetaVarID -> {JavaVarDec ","}+
-
-%%%    MetaVarID -> JavaLHS
-
-    MetaVarID -> JavaType
-    MetaVarID -> JavaPrimType
-    MetaVarID -> JavaRefType
-
-%%%    MetaVarID -> JavaAmbName
-%%%    MetaVarID -> JavaExprName 
-%%%    MetaVarID -> JavaMethodName
-%%%    MetaVarID -> JavaTypeName
-%%%    MetaVarID -> JavaClassName
-%%%    MetaVarID -> JavaPackageOrTypeName
-
-    MetaVarID -> JavaMethodMod
-%%%    MetaVarID -> JavaMethodMod*
-
-    MetaVarID -> JavaClassMod
-%%%    MetaVarID -> JavaClassMod*
-
-    MetaVarID -> JavaConstrMod
-%%%    MetaVarID -> JavaConstrMod*
-
-    MetaVarID -> JavaVarMod
-%%%    MetaVarID -> JavaVarMod*
-
-    MetaVarID -> JavaFormalParam
-%%%    MetaVarID -> JavaFormalParam*
-
-
-
+  AmbEmbedded-Java-15-quotations[E JavaID]
+  AmbEmbedded-Java-15-quotations[E JavaId]
 
 
 
