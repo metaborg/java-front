@@ -24,6 +24,7 @@ AC_PROG_LIBTOOL
 
 AC_CONFIG_FILES([
   java-front.spec
+  java-front.pc
   Makefile
   news-archive/Makefile
     

@@ -5,7 +5,7 @@ pkgdata_DATA = java-front.m4
 
 BOOTCLEAN_SUBDIRS = $(SUBDIRS)
 DIST_SUBDIRS      = $(SUBDIRS)
-EXTRA_DIST        = $(pkgdata_DATA) Makefile.xt java-front.spec java-front.spec.in bootstrap autoxt.m4
+EXTRA_DIST        = $(pkgdata_DATA) Makefile.xt java-front.spec java-front.spec.in java-front.pc bootstrap autoxt.m4
 CLEANFILES        = XTC
 
 XTC_IMPORT = $(STRATEGOXT)/share/strategoxt/XTC
@@ -19,3 +19,6 @@ DISTCHECK_CONFIGURE_FLAGS = \
   --with-aterm=$(ATERM)
 
 ACLOCAL_AMFLAGS = -I .
+
+pkgconfigdir=$(libdir)/pkgconfig
+pkgconfig_DATA = java-front.pc

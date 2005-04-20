@@ -1,0 +1,8 @@
+prefix=@prefix@
+pkgdatadir=@datadir@/@PACKAGE@
+sdfdatadir=@datadir@/sdf/@PACKAGE@
+strcflags=-I ${sdfdatadir} -I ${pkgdatadir}
+
+Name: Java-front
+Description: Syntax Definition, parser and pretty-printer for Java.
+Version: @PACKAGE_VERSION@
