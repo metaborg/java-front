@@ -1,12 +1,15 @@
 module java/pp/name
-
-strategies
+rules
 
   java-to-box:
     PackageName(name) -> <name-to-box> name
 
+rules
+
   java-to-box:
     ClassName(name) -> <name-to-box> name
+
+rules
 
   java-to-box:
     AmbName(Id(s)) ->  box |[ s ]|
@@ -14,17 +17,37 @@ strategies
   java-to-box:
     AmbName(q, Id(s)) -> box |[ H hs=0 [~q "." s] ]|
 
+rules
+
   java-to-box:
     TypeName(Id(s)) -> box |[ s ]|
 
   java-to-box:
     TypeName(name, Id(s)) -> box |[ H hs=0 [~name "." s] ]|
+    where
+      <not(qualifier-empty)> name
+
+  java-to-box:
+    TypeName(name, Id(s)) -> box |[ s ]|
+    where
+      <qualifier-empty> name
+
+rules
 
   java-to-box:
     PackageOrTypeName(Id(s)) -> box |[ s ]|
 
   java-to-box:
     PackageOrTypeName(name, Id(s)) -> box |[ H hs=0 [~name "." s ] ]|
+    where
+      <not(qualifier-empty)> name
+
+  java-to-box:
+    PackageOrTypeName(name, Id(s)) -> box |[ s ]|
+    where
+      <qualifier-empty> name
+
+rules
 
   java-to-box:
     MethodName(Id(s)) -> box |[ s ]|
@@ -37,6 +60,15 @@ strategies
 
   java-to-box:
     ExprName(q, Id(s)) -> box |[ H hs=0 [~q "." s ] ]|
+
+
+  qualifier-empty =
+    ?PackageName([])
+
+  qualifier-empty =
+    ?ClassName([])
+  
+
 
 /*
   qid-to-box:
