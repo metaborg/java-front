@@ -31,4 +31,5 @@ Java-15.rtg :
 	$(LN_S) $(top_builddir)/syn/v1.5/Java-15.rtg $@
 
 java/typematch/common.str : Java-15.rtg
+	mkdir -p java/typematch
 	$(STRATEGO_REGULAR)/bin/rtg2typematch --module "java/typematch/common" -i Java-15.rtg -o java/typematch/common.str 

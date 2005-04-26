@@ -14,6 +14,7 @@ CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf $(wildcard *.dep)
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Java-15
+SDFINCLUDES    = -I $(srcdir)
 
 Java-15.def : $(JAVA15_MODS)
 
