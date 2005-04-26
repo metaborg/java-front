@@ -26,11 +26,7 @@ strategies
 strategies
 
   parse-java =
-      if get-release => "1.5" then
-        xtc-sglr-no-heuristics(get-parse-table, get-start-symbol)
-      else 
-        xtc-sglr(get-parse-table, get-start-symbol)
-      end
+    xtc-sglr-no-heuristics(get-parse-table, get-start-symbol)
 
     ; if must-preserve-comments then
         xtc-transform(!"asfix-anno-comments")

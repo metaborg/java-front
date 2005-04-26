@@ -1,7 +1,0 @@
-module Java-Lexical
-imports Java-WhiteSpace
-        Java-Comments
-        Java-Identifiers
-        Java-Keywords
-        Java-Literals 
-

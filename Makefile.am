@@ -20,5 +20,4 @@ DISTCHECK_CONFIGURE_FLAGS = \
 
 ACLOCAL_AMFLAGS = -I .
 
-pkgconfigdir=$(libdir)/pkgconfig
 pkgconfig_DATA = java-front.pc
