@@ -12,7 +12,7 @@ m4_pattern_forbid([^PKG_CHECK_MODULES$])
 test "x$prefix" = xNONE && prefix=$ac_default_prefix
 
 XT_SETUP
-XT_USE_XT_PACKAGES2
+XT_USE_XT_PACKAGES
 
 XT_PKG_ATERM
 XT_PKG_SDF
