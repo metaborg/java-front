@@ -33,7 +33,7 @@ strategies
     <tool-doc>
       [ AutoProgram()
       , Author(Person("Martin Bravenboer", "martin@cs.uu.nl"))
-      , GNU_LGPL("2002-2004", "Martin Bravenboer <martin@cs.uu.nl>")
+      , GNU_LGPL("2002-2005", "Martin Bravenboer <martin@cs.uu.nl>")
       , Config([
           DefaultXTCRepository()
         , CurrentXTCRepository()

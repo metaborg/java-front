@@ -10,14 +10,6 @@ CLEANFILES        = XTC
 
 XTC_IMPORT = $(STRATEGOXT)/share/strategoxt/XTC
 
-DISTCHECK_CONFIGURE_FLAGS = \
-  --with-strategoxt=$(STRATEGOXT) \
-  --with-sglr=$(SGLR) \
-  --with-pgen=$(PGEN) \
-  --with-pt-support=$(PT_SUPPORT) \
-  --with-asf-library=$(ASF_LIBRARY) \
-  --with-aterm=$(ATERM)
-
 ACLOCAL_AMFLAGS = -I .
 
 pkgconfig_DATA = java-front.pc
