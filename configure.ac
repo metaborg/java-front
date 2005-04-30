@@ -48,7 +48,6 @@ AC_CONFIG_FILES([
   test/gnu-classpath/Makefile
   test/gnu-classpath/v1.5/Makefile
   test/j2sdk/Makefile
-  test/fc/Makefile
   test/pp/Makefile
 ])
 AC_OUTPUT
