@@ -1,26 +1,24 @@
 include $(top_srcdir)/Makefile.xt
 
 javafrontlib = \
-  $(wildcard java/*.str) \
-  $(wildcard java/pp/*.str) \
-  $(wildcard java/pp/class/*.str) \
-  $(wildcard java/pp/interface/*.str) \
-  $(wildcard java/pp/type/*.str) \
-  $(wildcard java/typematch/*.str)
+  $(wildcard $(srcdir)/java/*.str) \
+  $(wildcard $(srcdir)/java/pp/*.str) \
+  $(wildcard $(srcdir)/java/pp/class/*.str) \
+  $(wildcard $(srcdir)/java/pp/interface/*.str) \
+  $(wildcard $(srcdir)/java/pp/type/*.str) \
+  $(wildcard $(srcdir)/java/typematch/*.str)
 
 javafrontlibextra = \
-  $(wildcard java/*.meta) \
-  $(wildcard java/pp/*.meta) \
-  $(wildcard java/pp/class/*.meta) \
-  $(wildcard java/pp/interface/*.meta) \
-  $(wildcard java/pp/type/*.meta) \
-  $(wildcard java/typematch/*.meta)
- 
+  $(wildcard $(srcdir)/java/*.meta) \
+  $(wildcard $(srcdir)/java/pp/*.meta) \
+  $(wildcard $(srcdir)/java/pp/class/*.meta) \
+  $(wildcard $(srcdir)/java/pp/interface/*.meta) \
+  $(wildcard $(srcdir)/java/pp/type/*.meta) \
+  $(wildcard $(srcdir)/java/typematch/*.meta)
 
 BUILT_SOURCES = \
 	java/typematch/common.str
-	
-	
+
 STRINCLUDES = -I $(GPP)/share/sdf/gpp
 
 nobase_pkgdata_DATA = $(javafrontlib:.str=.rtree)
