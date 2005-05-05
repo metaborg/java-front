@@ -33,5 +33,6 @@ exports
     Expr "^" Expr -> Expr {left, cons("ExcOr")}
     Expr "|" Expr -> Expr {left, cons("Or")}
 
+    %% todo JFR-30
     Expr CondMid Expr -> Expr {right, cons("Cond")}
     "?" Expr ":" -> CondMid {bracket}

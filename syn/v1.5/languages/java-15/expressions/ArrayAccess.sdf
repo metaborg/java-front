@@ -9,6 +9,7 @@ exports
   context-free syntax
     ArrayAccess -> Expr
 
+    %% todo: JFR-29
     Expr ArraySubscript -> ArrayAccess {cons("ArrayAccess")}
     "[" Expr "]" -> ArraySubscript {bracket}
 
