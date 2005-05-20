@@ -175,10 +175,10 @@ rules
     Labeled(Id(s), stm) -> box |[ H hs=1 [s ":" ~stm] ]| 
 
   java-to-box:
-    Assert(e) -> box |[ H hs=0 [H hs=1 [KW["assert"] ~e] ";"] ]| 
+    AssertStm(e) -> box |[ H hs=0 [H hs=1 [KW["assert"] ~e] ";"] ]| 
 
   java-to-box:
-    Assert(e1, e2) -> H hs=0 [H hs=1 [KW["assert"] ~e1 ":" ~e2] ";"]
+    AssertStm(e1, e2) -> H hs=0 [H hs=1 [KW["assert"] ~e1 ":" ~e2] ";"]
 
   java-to-box:
     Switch(b1, b2) -> V vs=0 [H hs=0 [KW["switch"] "(" b1 ")"] b2]

@@ -1,3 +1,9 @@
+2005-05-20  Martin Bravenboer <martin@cs.uu.nl>
+
+  * syn/v1.5/languages/java-15/statemens/Statements.sdf: 
+  replaced the Assert constructor of Java assert statement
+  with AssertStm. Reported by Valentin David.
+
 2005-03-05  Martin Bravenboer <martin@cs.uu.nl>
 
 	* syn/v1.5/languages/java-15/Main.sdf: new main module that

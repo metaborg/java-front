@@ -45,8 +45,8 @@ exports
    %% Section 14.10: The Assert Statement
    %%%
   context-free syntax
-    "assert" Expr          ";" -> Stm  {cons("Assert")}
-    "assert" Expr ":" Expr ";" -> Stm  {cons("Assert")}
+    "assert" Expr          ";" -> Stm  {cons("AssertStm")}
+    "assert" Expr ":" Expr ";" -> Stm  {cons("AssertStm")}
 
 
   %%%
