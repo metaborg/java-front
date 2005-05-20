@@ -1,7 +1,0 @@
-module Stratego-Generic-Java
-imports Generic-Java-Prefixed Stratego-Basic-Java
-exports
-  context-free syntax
-
-    "~"  StrategoTerm -> JavaTypeParam        {cons("FromTerm")}
-    "~*" StrategoTerm -> {JavaTypeParam ","}+ {cons("FromTerm")}
