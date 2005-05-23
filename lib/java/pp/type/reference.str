@@ -18,4 +18,8 @@ strategies
 
   java-to-box:
     ArrayType(t) -> box |[ H hs=0 [~t "[" "]"] ]|
+    
+  java-to-box:
+    TypeVar(x) -> x
+
 
