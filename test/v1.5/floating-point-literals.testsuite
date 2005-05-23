@@ -1,5 +1,5 @@
 testsuite Floating-point literals
-topsort FloatLiteral
+topsort Literal
 
 test 3.10.2-i1: Whole or fractional part must have a digit
   ".e2" fails
@@ -195,4 +195,51 @@ test 3.10.2-double-17: check for 0 followed by letter
   
 test 3.10.2-double-17: check for 0 followed by letter  
   "0e-0d" -> Float(_)
+  
+test Example hexadecimal float literal
+  "0xaP0" -> Float(_)
+  
+test Example hexadecimal float literal
+  "0xaP0f"  -> Float(_)
+
+test Example hexadecimal float literal
+  "0xaP0F"  -> Float(_)
+  
+test Example hexadecimal float literal
+  "0XaP0" -> Float(_)
+  
+test Example hexadecimal float literal
+  "0XaP0f"  -> Float(_)
+
+test Example hexadecimal float literal
+  "0XaP0F"  -> Float(_)
  
+test Hexadecimal floating point literals must start with 0x or 0X
+  "aP0" fails
+
+test Example hexadecimal double literal
+  "0XfP2D" -> Float(_)
+  
+test Example hexadecimal float literal  
+  "0Xf.aP1F" -> Float(_)
+  
+test Example hexadecimal float literal
+  "0x1.fffffeP+127f" -> Float(_)
+
+test Hexadecimal floating point literal: firt part can be empty
+  "0x.aP1" -> Float(_)
+  
+test Hexadecimal floating point literal: second part can be empty
+  "0xa.P1" -> Float(_)
+  
+test Hexadecimal floating point literal: But not both
+  "0x.P1" fails
+
+test Hexadecimal floating point literal: binary exponent is required
+  "0xa.a" fails
+  
+test Hexadecimal floating point literal: binary exponent is required
+  "0xa.af" fails
+
+test Hexadecimal floating point literal: binary exponent is required
+  "0xa.aF" fails

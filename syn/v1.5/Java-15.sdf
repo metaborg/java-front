@@ -10,9 +10,10 @@ exports
     BlockStm
     CompilationUnit
     Expr
+    Literal
     Id
     InterfaceDec
     Stm
     Type
     TypeDec
-    FloatLiteral
+
