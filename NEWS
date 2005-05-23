@@ -67,6 +67,19 @@ Java-front for Stratego/XT
   include a custom name (instead of just allowing a number). Example:
   =bstm_foo= (added by Rene de Groot).
 
+  *Deployment*
+
+  Java-front now uses (and requires) pkg-config. This means that
+  explicit configuration with the location of aterm, sdf, and
+  strategoxt is no longer required. A plain =./configure= should do
+  the job. However, you might need to set your =PKG_CONFIG_PATH= if
+  you did not install the dependencies in a standard location.
+
+  =pkg-config= can also be used to compile your Stratego program in a
+  more concise way. Java-front declares a pkg-config variable
+  =strcflags=, which contains the required include flags. For an
+  example, see: http://www.stratego-language.org/Stratego/PkgConfig.
+
   *Contributors*
 
   - Martin Bravenboer
