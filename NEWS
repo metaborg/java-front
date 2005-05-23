@@ -67,6 +67,16 @@ Java-front for Stratego/XT
   include a custom name (instead of just allowing a number). Example:
   =bstm_foo= (added by Rene de Groot).
 
+  *Contributors*
+
+  - Martin Bravenboer
+  - Rene de Groot
+  - Rob Vermaas
+  - Valentin David
+  - Pankaj Risbood
+
+  Thanks!
+
 2005-01-14 - Java-front 0.6
 
   This a minor update of Java-front. In this release, the embedding of
