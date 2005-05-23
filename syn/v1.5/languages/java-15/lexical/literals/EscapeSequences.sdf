@@ -3,13 +3,12 @@
  %%
  %% @author Martin Bravenboer <martin@cs.uu.nl>
  %%%
-module languages/java-15/lexical/EscapeSequences
+module languages/java-15/lexical/literals/EscapeSequences
 imports
 
 exports
   sorts
     EscapeSeq
-    UnicodeEscape
     NamedEscape
     OctaEscape
     LastOcta

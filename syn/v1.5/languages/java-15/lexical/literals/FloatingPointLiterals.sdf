@@ -3,7 +3,7 @@
  %%
  %% @author Martin Bravenboer <martin@cs.uu.nl>
  %%%
-module languages/java-15/lexical/FloatingPointLiterals
+module languages/java-15/lexical/literals/FloatingPointLiterals
 exports
   sorts
     FloatLiteral

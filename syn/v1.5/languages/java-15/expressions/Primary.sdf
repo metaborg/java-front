@@ -5,7 +5,7 @@
  %%%
 module languages/java-15/expressions/Primary
 imports
-  languages/java-15/lexical/Literals
+  languages/java-15/lexical/literals/Main
   languages/java-15/names/Main
   languages/java-15/expressions/Main
 

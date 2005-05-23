@@ -3,9 +3,9 @@
  %%
  %% @author Martin Bravenboer <martin@cs.uu.nl>
  %%%
-module languages/java-15/lexical/CharacterLiterals
+module languages/java-15/lexical/literals/CharacterLiterals
 imports
-  languages/java-15/lexical/EscapeSequences
+  languages/java-15/lexical/literals/EscapeSequences
   languages/java-15/lexical/UnicodeEscapes
 
 exports
