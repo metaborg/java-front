@@ -1,3 +1,16 @@
+2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
+
+  * test/v1.5/floating-point-literals.testsuite: rewritten testsuite
+  to concrete-syntax and added many tests for floating point literals.
+  Fortunately, no bugs showed up.
+  
+  * syn/v1.5/languages/java-15/lexical/literals/*: modularized definition
+  of the syntax of literals.
+  
+  * syn/v1.5/languages/java-15/lexical/literals/FloatingPointLiterals.sdf: 
+  added support for hexadecimal floating-point literals, which is a new
+  feature of Java 1.5.
+  
 2005-05-20  Martin Bravenboer <martin@cs.uu.nl>
 
   * syn/v1.5/languages/java-15/statemens/Statements.sdf: 

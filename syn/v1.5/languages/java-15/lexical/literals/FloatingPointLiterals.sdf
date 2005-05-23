@@ -42,7 +42,9 @@ exports
            "."        -> DeciFloatDigits {reject}
     [0-9]+            -> DeciFloatDigits
 
-    [eE] [\-\+]? [0-9]+ -> DeciFloatExponentPart
+    [eE] SignedInteger -> DeciFloatExponentPart
+    
+    [\+\-]? [0-9]+ -> SignedInteger    
 
   lexical restrictions
     DeciFloatDigits  -/- [0-9]
@@ -65,8 +67,6 @@ exports
     [0][xX]              "."              -> HexaSignificand {reject}
 
     [pP] SignedInteger -> BinaryExponent
-    [\+\-]? [0-9]+ -> SignedInteger
-
   lexical restrictions
     HexaSignificand -/- [0-9a-fA-F]
     SignedInteger   -/- [0-9]

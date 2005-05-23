@@ -1,7 +1,7 @@
 include $(top_srcdir)/Makefile.xt
 include $(top_srcdir)/test/Makefile.parse-unit
 
-EXTRA_DIST = $(wildcard *.testsuite) $(wildcard *.atestsuite)
+EXTRA_DIST = $(wildcard *.testsuite)
 
 TESTSUITES = \
   comments.testsuite \
