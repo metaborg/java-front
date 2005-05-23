@@ -1,8 +1,12 @@
-Author:
-  Martin Bravenboer <martin@cs.uu.nl>
+Main author:
+  * Martin Bravenboer <martin@cs.uu.nl>
+
+Contributors:
+  * Rob Vermaas
+  * Rene de Groot
 
 Bug Reports:
   * Jurgen Vinju
-    - Reported hedged expression problem in conditional expression
-
   * Mikal Ziane
+  * Pankaj Risbood
+  * Valentin David

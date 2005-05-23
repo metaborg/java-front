@@ -4,7 +4,68 @@ Java-front for Stratego/XT
 
 2005-04-29 - Java-front 0.7
 
-  ...
+  This is a major update of Java-front, a package that provides the
+  syntax related supported for implementing Java transformation
+  systems.
+
+  *Syntax Definition*
+
+  Types that refer to member types of a parameterized (e.g. the type
+  =M<O>.N=) class are now supported. This issue was reported by
+  Valentin David. Thanks!
+
+  The constructor of the assert statement is now =AssertStm= (was
+  =Assert=). This was requested by Valentin David to avoid name
+  clashes.
+
+  This release adds support for hexadecimal floating point literals,
+  which is a feature that was added to JLS3 without much
+  fanfare. Hexadecimal floating point literals have been added to Java
+  to allow "precise and predictable specification of particular
+  floating-point values".
+  
+  The parse table =Java-15.tbl= now contains only a single start symbol,
+  =CompilationUnit=. This results in better error reporting, for
+  obscure reasons. The tool parse-java now uses a different parse
+  table with more start-symbols if a different (i.e. not
+  =CompilationUnit=) start symbol is specified.
+
+  I've dropped the old 'basic' and 'generic' variants of the Java
+  syntax definition. It has been deprecated for some time and doesn't
+  seem to be in use anymore.
+
+  *Pretty Printer*
+
+  The Java-front syntax and pretty-printer is now tested with the most
+  recent version of GNU Classpath: 0.15. This release contains much
+  more Java code, which makes the testing even more thorough.
+
+  A minor bug in the pretty-printing of qualified types has been
+  fixed. This issue only showed up after transforming some Java code
+  into an AST that would never be produced by the parser: an empty
+  qualifier. The pretty-printer now supports these empty qualifiers.
+
+  Internally, the pretty-printer has been restructured to be more
+  modular. The module structure is similar to the syntax
+  definition. The pretty-printer is now available as a Stratego
+  library as well (=java/pp/-=).
+
+  *Stratego Library*
+
+  This release of Java-front generates a module of typematching
+  strategies (e.g =is-Expr=) and installs it for use in your Stratego
+  programs: =java/typematch/common=.
+
+  *Embedding of Java in Stratego*
+
+  A bug in the meta variable for lists of formal parameters has been
+  fixed (reported by Pankaj Risbood, fixed by Rob Vermaas). Also,
+  several ambiguity problems have been fixed, some related to
+  undesired splitting of identifiers (fixed by Rene de Groot).
+
+  The embedding now supports more verbose meta variables, which
+  include a custom name (instead of just allowing a number). Example:
+  =bstm_foo= (added by Rene de Groot).
 
 2005-01-14 - Java-front 0.6
 
