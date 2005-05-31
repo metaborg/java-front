@@ -15,7 +15,7 @@ imports
 
   AmbEmbedded-Java-15-quotations[E JavaAmbName]
   AmbEmbedded-Java-15-quotations[E JavaExprName]
-  AmbEmbedded-Java-15-quotations[E JavaMethodName]
+%%%  AmbEmbedded-Java-15-quotations[E JavaMethodName]
   AmbEmbedded-Java-15-quotations[E JavaTypeName]
   AmbEmbedded-Java-15-quotations[E JavaPackageOrTypeName]
 

@@ -5,7 +5,9 @@ exports
   context-free syntax
     "|[" O "]|" -> M {cons("ToMetaExpr")}
     "#[" M "]"  -> O {cons("FromMetaExpr")}
-  
+
+    "#[" BlockStm* "|" M "]" -> O {cons("ToPreEBlock")}
+
   variables
     MetaVarID -> O
 
