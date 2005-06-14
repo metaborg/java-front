@@ -7,9 +7,15 @@ strategies
     io-wrap(core-lift-eblocks)
 
   core-lift-eblocks =
-    bottomup(try(lift-to-block-level))
+    bottomup(try( desugar-prepostblock <+ lift-to-block-level ))
 
-  lift-to-block-level = lift-from-blocks <+ lift-from-constructor-blocks
+  desugar-prepostblock :
+    PrePostEBlock(pre, expr, post) -> PreEBlock(pre, PostEBlock(expr, post) )
+    
+
+  lift-to-block-level = 
+        lift-from-blocks 
+    <+  lift-from-constructor-blocks
   
   lift-from-blocks = 
       ?Block(<id>)
