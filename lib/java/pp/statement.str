@@ -7,6 +7,9 @@ rules
   java-to-box:
     Block(stms) -> <block-structure> (0, stms)
 
+  java-to-box:
+    ClassDecStm(classdec) -> <java-to-box>classdec
+
   java-to-box: Return(None())  -> <stm-box> box |[  KW["return"] ]|
   java-to-box: Return(Some(e)) -> <stm-box> box |[ H hs=1 [KW["return"] ~e] ]|
 
