@@ -31,7 +31,7 @@ exports
     %% phase has to find out if a ClassOrInterfaceType is in fact
     %% a TypeVar.
     
-    TypeVar -> RefType {avoid}
+    %% TypeVar -> RefType {avoid}
 
   context-free syntax
   

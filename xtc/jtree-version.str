@@ -42,7 +42,12 @@ strategies
     <get-config> "--release" <+ !"1.5"
 
   get-parse-table =
-    <get-config> "parsetable" <+ !"Java-15.tbl"
+    <get-config> "parsetable"; not(?"Java-15.tbl")
+    <+ if get-start-symbol => "CompilationUnit" then
+         !"JavaCompilationUnit-15.tbl"
+       else
+         !"Java-15.tbl"
+       end
 
   get-parenthesize =
     <get-config> "parenthesize" <+ !"jtree15-parenthesize"

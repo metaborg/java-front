@@ -1,5 +1,18 @@
 2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
 
+	* syn/v1.5/JavaCompilationUnit-15.sdf: new parse table that only
+	has CompilationUnit as a start symbol. I was very surprised that I
+	still hadn't done this for Java-front, since it is a major
+	improvement of performance and error reporting :o  (JFR-32).
+
+	* xtc/jtree-version.str: use JavaCompilationUnit-15 if possible
+	(i.e. if the start symbol is CompilationUnit) (JFR-32).
+	
+	* syn/v1.5/languages/java-15/types/ReferenceTypes.sdf: do not
+	allow TypeVars as reference types.
+	
+2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
+
 	* syn/v1.5/languages/java-15/types/TypeVariables.sdf: minor change
 	in the definition of type parameters to make the structure of
 	formal type parameters more close to the structure of ordinary
