@@ -1,34 +1,45 @@
 2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
 
-  * syn/v1.5/languages/java-15/types/ReferenceTypes.sdf: added
-  the non-terminal TypeDecSpec, which can be a TypeName or
-  a specification of a member type. The qualifier of the member 
-  type can be parameterized, which doesn't fit in the syntax of
-  TypeNames. This fixes JFR-19, which was reported by 
-  Valentin David.
-  
-  * syn/v1.5/languages/java-15/types/TypeVariables.sdf: TypeVar
-  is no longer an alias of Id. It is now a real non-terminal with
-  a production Id -> TypeVar and a constructor TypeVar.
+	* syn/v1.5/languages/java-15/types/TypeVariables.sdf: minor change
+	in the definition of type parameters to make the structure of
+	formal type parameters more close to the structure of ordinary
+	type parameters. Example: the new representation is
+	TypeParam(Id("T"), None). Was: TypeParam(TypeVar(Id("T")), None).
+
+	* syn/v1.5/languages/java-15/types/ReferenceTypes.sdf: allow, but
+	avoid type variables as reference types.
 
 2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
 
-  * test/v1.5/floating-point-literals.testsuite: rewritten testsuite
-  to concrete-syntax and added many tests for floating point literals.
-  Fortunately, no bugs showed up.
+	* syn/v1.5/languages/java-15/types/ReferenceTypes.sdf: added the
+	non-terminal TypeDecSpec, which can be a TypeName or a
+	specification of a member type. The qualifier of the member type
+	can be parameterized, which doesn't fit in the syntax of
+	TypeNames. This fixes JFR-19, which was reported by Valentin
+	David.
   
-  * syn/v1.5/languages/java-15/lexical/literals/*: modularized definition
-  of the syntax of literals.
-  
-  * syn/v1.5/languages/java-15/lexical/literals/FloatingPointLiterals.sdf: 
-  added support for hexadecimal floating-point literals, which is a new
-  feature of Java 1.5.
+	* syn/v1.5/languages/java-15/types/TypeVariables.sdf: TypeVar is
+	no longer an alias of Id. It is now a real non-terminal with a
+	production Id -> TypeVar and a constructor TypeVar.
+
+2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
+
+	* test/v1.5/floating-point-literals.testsuite: rewritten testsuite
+	to concrete-syntax and added many tests for floating point
+	literals.  Fortunately, no bugs showed up.
+
+	* syn/v1.5/languages/java-15/lexical/literals/*: modularized
+	definition of the syntax of literals.
+
+	* syn/v1.5/languages/java-15/lexical/literals/FloatingPointLiterals.sdf:
+	added support for hexadecimal floating-point literals, which is a
+	new feature of Java 1.5.
   
 2005-05-20  Martin Bravenboer <martin@cs.uu.nl>
 
-  * syn/v1.5/languages/java-15/statemens/Statements.sdf: 
-  replaced the Assert constructor of Java assert statement
-  with AssertStm. Reported by Valentin David.
+	* syn/v1.5/languages/java-15/statemens/Statements.sdf: replaced
+	the Assert constructor of Java assert statement with
+	AssertStm. Reported by Valentin David.
 
 2005-03-05  Martin Bravenboer <martin@cs.uu.nl>
 

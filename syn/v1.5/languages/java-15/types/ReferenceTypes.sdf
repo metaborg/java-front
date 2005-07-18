@@ -7,8 +7,10 @@ module languages/java-15/types/ReferenceTypes
 imports
   languages/java-15/lexical/Identifiers
   languages/java-15/names/Main
+  languages/java-15/types/Main  
   languages/java-15/types/ParameterizedTypes
-  languages/java-15/types/Main
+  languages/java-15/types/TypeVariables
+
 
 exports
   sorts
@@ -29,7 +31,7 @@ exports
     %% phase has to find out if a ClassOrInterfaceType is in fact
     %% a TypeVar.
     
-    %% TypeVar -> RefType
+    TypeVar -> RefType {avoid}
 
   context-free syntax
   
@@ -50,7 +52,7 @@ exports
     ClassOrInterfaceType "." Id -> TypeDecSpec {cons("Member")}
     
   context-free syntax    
-    Id -> TypeVar {cons("TypeVar")}
+    TypeVarId -> TypeVar {cons("TypeVar")}
 
   context-free syntax
     Type "[" "]" -> ArrayType  {cons("ArrayType")}

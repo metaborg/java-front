@@ -13,9 +13,13 @@ exports
     TypeParams
     TypeParam
     TypeBound
+    TypeVarId
   
   context-free syntax
-    TypeVar TypeBound? -> TypeParam {cons("TypeParam")}
+    TypeVarId TypeBound? -> TypeParam {cons("TypeParam")}
     
     "extends" {ClassOrInterfaceType "&"}+ -> TypeBound {cons("TypeBound")}
     "<" {TypeParam ","}+ ">" -> TypeParams {cons("TypeParams")}
+
+    Id -> TypeVarId
+    
