@@ -327,6 +327,12 @@ exports
     "java"                  "|[" JavaCompilationUnit "]|"  -> E {cons("ToMetaExpr")}
                             "|[" JavaCompilationUnit "]|"  -> E {cons("ToMetaExpr")}
 
+    "java:importdecl" "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
+         "importdecl" "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
+    "java"            "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
+                      "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
+
+
     "java:type-dec" "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
          "type-dec" "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
     "java"          "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
