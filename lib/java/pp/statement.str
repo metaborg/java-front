@@ -13,11 +13,8 @@ rules
   java-to-box: Return(None())  -> <stm-box> box |[  KW["return"] ]|
   java-to-box: Return(Some(e)) -> <stm-box> box |[ H hs=1 [KW["return"] ~e] ]|
 
-  /**
-   * @todo Remove call to expr-to-box when the pretty-printing of expressions handles priorities
-   */
   java-to-box:
-    ExprStm(e)  -> <try(expr-to-box); stm-box> e
+    ExprStm(e) -> <stm-box> e
 
   java-to-box:
     Empty()  -> box |[ ";" ]|
