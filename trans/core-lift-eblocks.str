@@ -11,11 +11,11 @@ strategies
 
   desugar-prepostblock :
     PrePostEBlock(pre, expr, post) -> PreEBlock(pre, PostEBlock(expr, post) )
-    
 
   lift-to-block-level = 
         lift-from-blocks 
     <+  lift-from-constructor-blocks
+    <+  lift-from-switchgroup-blocks
   
   lift-from-blocks = 
       ?Block(<id>)
@@ -30,7 +30,14 @@ strategies
     ; concat
     ; flatten-inner-block
     ; !ConstrBody(x, <id>)
-  
+
+  lift-from-switchgroup-blocks =
+      ?SwitchGroup(x, <id>)
+    ; map(lift-eblocks)
+    ; concat
+    ; flatten-inner-block
+    ; !SwitchGroup(x, <id>)
+      
   /**
    * @todo  Nested EBlocks?
    * @todo  Nested Blocks?
