@@ -17,3 +17,4 @@ exports
     Type
     TypeDec
     TypeVar
+    FormalParam
