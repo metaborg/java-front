@@ -1,7 +1,9 @@
 prefix=@prefix@
 pkgdatadir=@datadir@/@PACKAGE@
 sdfdatadir=@datadir@/sdf/@PACKAGE@
+xtc_repo=@REPOSITORY@
 strcflags=-I ${sdfdatadir} -I ${pkgdatadir}
+strcxtcflags=--xtc-repo ${xtc_repo}
 
 Name: Java-front
 Description: Syntax Definition, parser and pretty-printer for Java.
