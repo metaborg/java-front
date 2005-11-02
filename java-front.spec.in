@@ -7,9 +7,9 @@ Group: Development/Languages/Stratego
 URL: http://www.stratego-language.org/Stratego/JavaFront
 Source: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 BuildRoot: %{_tmppath}/%{name}-@PACKAGE_VERSION@-buildroot
-Requires: aterm >= 2.2
-Requires: sdf2-bundle >= 2.3
-Requires: strategoxt >= 0.14
+Requires: aterm >= 2.4
+Requires: sdf2-bundle >= 2.3.2
+Requires: strategoxt >= 0.16
 Provides: %{name} = %{version}
 
 %description
