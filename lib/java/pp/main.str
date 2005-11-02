@@ -142,10 +142,10 @@ rules
     ConstrDec(ConstrDecHead(mods, type-params, class, params, throws), body)
       ->
     V vs=0 [H hs=1 [~*foo ~class ~args ~throws] ~body]
-    where
-      <list-to-args> params => args
-    ; <type-args-to-boxes> type-params => targboxes
-    ; !Conc(mods, targboxes) => foo
+    where 
+      <list-to-args> params => args 
+    ; <type-params-to-boxes> type-params => targboxes 
+    ; !Conc(mods, targboxes) => foo 
 
   java-to-box:
     ConstrBody(None(), stms) -> <block-structure> (0, stms)
