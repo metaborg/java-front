@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 
 # comment to make this a stable release
-XT_PRE_RELEASE
+# XT_PRE_RELEASE
 
 m4_pattern_forbid([^(AB|XT)_])
 m4_pattern_forbid([^PKG_CHECK_MODULES$])
