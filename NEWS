@@ -2,7 +2,63 @@
 Java-front for Stratego/XT 
 --------------------------------------------------------------------------
 
-2005-04-29 - Java-front 0.7
+2005-11-04 - Java-front 0.8
+
+  This is another major update of Java-front, a package that provides
+  the syntax-related support for implementing Java transformation
+  systems.
+
+  * Syntax Definition
+
+  By default, parse-java now uses a syntax definition that has only a
+  single start symbol (CompilationUnit). This is a major improvement
+  of the performance and error reporting of the SGLR used in
+  parse-java. If you specify a custom start symbol, then a syntax
+  definition with more start symbols will be used.
+
+  Minor change in the definition of type parameters to make the
+  structure of formal type parameters more close to the structure of
+  ordinary type parameters. Example: the new representation is
+  TypeParam(Id("T"), None). Was: TypeParam(TypeVar(Id("T")), None).
+
+  Added ClassDecStm constructor for type declarations at statement
+  level.
+
+  * Pretty Printer
+
+  Generic constructors couldn't be pretty-printed in the previous
+  release of Java-front. This has now been fixed.
+
+  * Compilation
+
+  Java-front now declares an xtc_repos variable. In Java-front
+  dependent packages you can simply refer to JAVA_FRONT_XTC instead of
+  hard-coding the path to the XTC repository.
+
+  Java-front now declares the strcflags and strcxtcflags variable. At
+  the command-line you can now compile a java-front program with:
+
+  $ strc -i foo.str $(strcflags java-front) 
+
+  and optionally: $(strcxtcflags java-front) if you want to use the
+  XTC repository of Java-front. These strcflags commands will
+  automatically add the appropriate include and XTC repository
+  arguments, so that you don't have to remember all these details.
+
+  You need the following bash shell aliases for this:
+
+  alias strcflags="pkg-config --variable=strcflags "
+  alias strcxtcflags="pkg-config --variable=strcxtcflags "
+
+  * Contributors
+
+  - Martin Bravenboer
+  - Rene de Groot
+  - Rob Vermaas
+
+  Thanks!
+
+2005-05-24 - Java-front 0.7
 
   This is a major update of Java-front, a package that provides the
   syntax-related support for implementing Java transformation
