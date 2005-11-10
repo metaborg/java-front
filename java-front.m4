@@ -4,7 +4,7 @@
 # Author: Martin Bravenboer <martin@cs.uu.nl>
 #
 
-# USE_JAVA_FRONT
+# XT_USE_JAVA_FRONT
 # --------------
 AC_DEFUN([XT_USE_JAVA_FRONT], [
   XT_CHECK_PACKAGE([JAVA_FRONT],[java-front])
@@ -20,7 +20,7 @@ AC_DEFUN([XT_USE_JAVA_FRONT], [
 ])
 
 
-# USE_J2SDK
+# XT_USE_J2SDK
 # --------------
 AC_DEFUN([XT_USE_J2SDK], [
   AC_REQUIRE([AC_PROG_CC])
