@@ -17,7 +17,7 @@ CLEANFILES = \
   $(wildcard *.c) \
   jtree15-parenthesize.str
 
-SCFLAGS  = --main io-$* --fusion
+SCFLAGS  = --main io-$*
 STRINCLUDES = \
   -I $(top_builddir)/sig \
   -I $(top_srcdir)/lib \
