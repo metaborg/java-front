@@ -41,7 +41,7 @@ AC_CONFIG_FILES([
   pp/Makefile
   pp/v1.5/Makefile
   trans/Makefile
-  xtc/Makefile
+  tools/Makefile
   
   test/Makefile
   test/v1.5/Makefile
