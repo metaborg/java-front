@@ -61,6 +61,8 @@ rules
   java-to-box:
     ExprName(q, Id(s)) -> box |[ H hs=0 [~q "." s ] ]|
 
+  java-to-box:
+    Field(Id(s)) -> box |[ s ]|
 
   qualifier-empty =
     ?PackageName([])

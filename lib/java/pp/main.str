@@ -218,6 +218,7 @@ rules
 
 signature
   constructors
-    Comment : String -> AnnoKey
-    amb     : List(A) -> A
+    Comment   : String -> AnnoKey
+    amb       : List(A) -> A
     PreEBlock : List(BlockStm) * Expr -> BlockStm
+    Field     : Id -> Expr
