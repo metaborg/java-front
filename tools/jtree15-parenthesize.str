@@ -1,6 +1,6 @@
 module jtree15-parenthesize
 imports
-  libjavafront
+  libjava-front
 
 strategies
 
