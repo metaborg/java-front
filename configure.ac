@@ -38,8 +38,6 @@ AC_CONFIG_FILES([
 
   sig/Makefile
   lib/Makefile
-  pp/Makefile
-  pp/v1.5/Makefile
   trans/Makefile
   tools/Makefile
   

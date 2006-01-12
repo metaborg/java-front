@@ -1,0 +1,8 @@
+module jtree15-parenthesize
+imports
+  libjavafront
+
+strategies
+
+  main-jtree15-parenthesize =
+    io-java5-parenthesize

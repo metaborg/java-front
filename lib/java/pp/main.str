@@ -2,7 +2,7 @@ module java/pp/main
 imports
   liblib
   Box
-  Java-15
+  java/signature/v5
   
   java/pp/helpers
   java/pp/statement
@@ -21,11 +21,26 @@ imports
 
   java/pp/interface/annotation
   java/pp/interface/annotation-type
+  
+  java/pp/parenthesize
 
 strategies
 
-  java-pretty-print = 
-      topdown(try(very-special-conflict))
+  /**
+   * @todo Use libgpp
+   */
+  pp-java5-to-string =
+    pp-java5-to-abox
+    ; write-to
+    ; xtc-transform(!"abox2text", pass-verbose)
+    ; ?FILE(<read-text-file>)
+    
+  /**
+   * @type Java -> Box
+   */
+  pp-java5-to-abox =
+    parenthesize-Java5
+    ; topdown(try(very-special-conflict))
     ; topdown(try(pp-comments); try(repeat(java-to-box)))
     ; concat-content
 

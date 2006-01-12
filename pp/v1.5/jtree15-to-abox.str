@@ -1,8 +1,0 @@
-module jtree15-to-abox
-imports java/pp/main
-
-strategies
-
-  io-jtree15-to-abox = 
-    io-wrap(java-pretty-print)
-

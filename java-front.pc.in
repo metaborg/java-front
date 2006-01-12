@@ -8,3 +8,4 @@ strcxtcflags=--xtc-repo ${xtc_repo}
 Name: Java-front
 Description: Syntax Definition, parser and pretty-printer for Java.
 Version: @PACKAGE_VERSION@
+Libs: ${prefix}/lib/libjava-front.la

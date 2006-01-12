@@ -12,8 +12,7 @@ strategies
     )
 
   pp-java =
-    xtc-transform(get-parenthesize, pass-verbose)
-  ; xtc-transform(get-2abox, pass-verbose)
+    xtc-transform(get-2abox, pass-verbose)
   ; xtc-abox2text
 
 /**

@@ -27,12 +27,6 @@ strategies
     )
   ; where(
       switch id 
-        case "1.5"     : !"jtree15-parenthesize"
-      end
-      ; <set-config> ("parenthesize", <id>)
-    )
-  ; where(
-      switch id 
         case "1.5"     : !"jtree15-to-abox"
       end
       ; <set-config> ("2abox", <id>)
@@ -48,9 +42,6 @@ strategies
        else
          !"Java-15.tbl"
        end
-
-  get-parenthesize =
-    <get-config> "parenthesize" <+ !"jtree15-parenthesize"
 
   get-2abox =
     <get-config> "2abox" <+ !"jtree15-to-abox"
