@@ -308,8 +308,34 @@ exports
    %% Anti Quotations for Formal Parameters
    %%%
   context-free syntax
+
     "~"  E  ->  JavaFormalParam       {cons("FromMetaExpr")}
     "~*" E  -> {JavaFormalParam ","}* {cons("FromMetaExpr")}
+
+%%%
+ %% Import Declarations
+ %%%
+exports
+
+  %%%
+   %% Quotations for Import Declarations
+   %%%
+  context-free syntax
+
+    "java:import-dec"  "|[" JavaImportDec  "]|" -> E {cons("ToMetaExpr")}
+         "import-dec"  "|[" JavaImportDec  "]|" -> E {cons("ToMetaExpr")}
+                       "|[" JavaImportDec  "]|" -> E {cons("ToMetaExpr")}
+
+    "java:import-dec*" "|[" JavaImportDec* "]|" -> E {cons("ToMetaListExpr")}
+         "import-dec*" "|[" JavaImportDec* "]|" -> E {cons("ToMetaListExpr")}
+
+  %%%
+   %% Anti Quotations for Import Declarations
+   %%%
+  context-free syntax
+
+    "~import-dec:"  E  -> JavaImportDec  {cons("FromMetaExpr")}
+    "~import-dec*:" E  -> JavaImportDec* {cons("FromMetaExpr")}
 
 %%%
  %% Must be cleaned up
@@ -330,8 +356,6 @@ exports
     "java:importdecl" "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
          "importdecl" "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
     "java"            "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
-                      "|[" JavaImportDec "]|"  -> E {cons("ToMetaExpr")}
-
 
     "java:type-dec" "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
          "type-dec" "|[" JavaTypeDec "]|" -> E {cons("ToMetaExpr")}
