@@ -9,8 +9,9 @@ classpath-$(GNUCP_VERSION) : $(top_builddir)/test/gnu-classpath/classpath-$(GNUC
 	cp $< classpath-$(GNUCP_VERSION).tar.gz
 	tar zxvf classpath-$(GNUCP_VERSION).tar.gz
 
+# @todo BasicLookAndFeel causes a SEGV on OS X
 gnu-classpath.list : classpath-$(GNUCP_VERSION)
-	find classpath-$(GNUCP_VERSION) -name '*.java' | sort > $@
+	find classpath-$(GNUCP_VERSION) -name '*.java' | grep -v BasicLookAndFeel | sort > $@
 
 # gnu-classpath.atestsuite : gnu-classpath.list
 # 	 $(top_builddir)/xtc/files2parse-unit-testsuite -i $< -o $@
