@@ -8,13 +8,16 @@ exports
     AnnoDec
     Block
     BlockStm
+    ClassBodyDec
+    ClassMemberDec
     CompilationUnit
     Expr
-    Literal
+    FormalParam
     Id
     InterfaceDec
+    InterfaceMemberDec
+    Literal
     Stm
     Type
     TypeDec
     TypeVar
-    FormalParam
