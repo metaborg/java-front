@@ -210,8 +210,6 @@ exports
     "fname_" [a-zA-Z0-9]*    -> JavaMethodName {prefer}
     "tname"    [0-9]*        -> JavaTypeName   {prefer}
     "tname_" [a-zA-Z0-9]*    -> JavaTypeName   {prefer}
-    "cname"    [0-9]*        -> JavaClassName  {prefer}
-    "cname_" [a-zA-Z0-9]*    -> JavaClassName  {prefer}
     "pkgtname" [0-9]*        -> JavaPackageOrTypeName  {prefer}
     "pkgtname_" [a-zA-Z0-9]* -> JavaPackageOrTypeName  {prefer}
 
@@ -223,7 +221,6 @@ exports
     "ename"    "|[" JavaExprName   "]|" -> E {cons("ToMetaExpr")}
     "fname"    "|[" JavaMethodName "]|" -> E {cons("ToMetaExpr")}
     "tname"    "|[" JavaTypeName   "]|" -> E {cons("ToMetaExpr")}
-    "cname"    "|[" JavaClassName  "]|" -> E {cons("ToMetaExpr")}
     "pkgtname" "|[" JavaPackageOrTypeName "]|" -> E {cons("ToMetaExpr")}
 
 %%%

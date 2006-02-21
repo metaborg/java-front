@@ -33,8 +33,3 @@ exports
 
     Id                       -> PackageOrTypeName {cons("PackageOrTypeName")}
     PackageOrTypeName "." Id -> PackageOrTypeName {cons("PackageOrTypeName")}
-
-  %% todo: workaround for missing definition in JLS.    
-  sorts ClassName
-  context-free syntax
-    {Id "."}+ -> ClassName {cons("ClassName")}

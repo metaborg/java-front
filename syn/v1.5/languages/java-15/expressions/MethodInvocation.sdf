@@ -12,8 +12,8 @@ exports
   context-free syntax
     MethodId "(" {Expr ","}* ")" -> Expr {cons("Invoke")}
 
-                                MethodName -> MethodId {cons("Method"), prefer}
-                     Expr "." TypeArgs? Id -> MethodId {cons("Method")}
-                  "super" "." TypeArgs? Id -> MethodId {cons("SuperMethod")}
-    ClassName "." "super" "." TypeArgs? Id -> MethodId {cons("QSuperMethod")}
-                 TypeName "." TypeArgs  Id -> MethodId {cons("GenericStaticMethod"), prefer}
+                               MethodName -> MethodId {cons("Method"), prefer}
+                    Expr "." TypeArgs? Id -> MethodId {cons("Method")}
+                 "super" "." TypeArgs? Id -> MethodId {cons("SuperMethod")}
+    TypeName "." "super" "." TypeArgs? Id -> MethodId {cons("QSuperMethod")}
+                TypeName "." TypeArgs  Id -> MethodId {cons("GenericStaticMethod"), prefer}

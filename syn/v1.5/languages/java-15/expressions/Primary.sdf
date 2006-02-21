@@ -30,15 +30,15 @@ exports
   sorts ClassLiteral
   context-free syntax
     ClassLiteral -> Literal
-    Type   "." "class"   -> ClassLiteral {cons("Class")}
+    Type   "." "class" -> ClassLiteral {cons("Class")}
     "void" "." "class" -> ClassLiteral {cons("VoidClass")}
 
   %%%
    %% Section 15.8.3/4: (Qualified this)
    %%%
   context-free syntax
-                  "this"  -> Expr {cons("This")}
-    ClassName "." "this"  -> Expr {cons("QThis")}
+                 "this" -> Expr {cons("This")}
+    TypeName "." "this" -> Expr {cons("QThis")}
 
   %%%
    %% Section 15.8.5: Parenthesized Expression

@@ -7,11 +7,6 @@ rules
 rules
 
   java-to-box:
-    ClassName(name) -> <name-to-box> name
-
-rules
-
-  java-to-box:
     AmbName(Id(s)) ->  box |[ s ]|
 
   java-to-box:
@@ -66,11 +61,6 @@ rules
 
   qualifier-empty =
     ?PackageName([])
-
-  qualifier-empty =
-    ?ClassName([])
-  
-
 
 /*
   qid-to-box:
