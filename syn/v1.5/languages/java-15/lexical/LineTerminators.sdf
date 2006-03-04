@@ -9,5 +9,6 @@ exports
     LineTerminator
 
   lexical syntax
-    [\r]          -> LineTerminator
-    [\n][\r]?     -> LineTerminator
+    [\n]      -> LineTerminator
+    [\r][\n]? -> LineTerminator
+

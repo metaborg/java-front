@@ -21,7 +21,7 @@ exports
     Comment -> LAYOUT
 
     "//" EOLCommentChars LineTerminator -> Comment
-    ~[\n\13]* -> EOLCommentChars
+    ~[\n\r]* -> EOLCommentChars
 
     "/*"  CommentPart* "*/" -> Comment
     "/**" CommentPart* "*/" -> Comment
