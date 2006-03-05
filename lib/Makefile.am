@@ -1,6 +1,6 @@
 include $(top_srcdir)/Makefile.xt
 
-nobase_pkgdata_DATA = libjava-front.rtree
+nobase_pkgdata_DATA = libjava-front.rtree $(javafrontlib:.str=.rtree)
 lib_LTLIBRARIES     = libjava-front.la
 EXTRA_DIST          = $(javafrontlibsrc) $(javafrontlibsrcextra)
 CLEANFILES          = $(nobase_pkgdata_DATA) libjava-front.c $(javafrontlibgen)
