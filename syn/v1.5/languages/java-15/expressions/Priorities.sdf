@@ -12,8 +12,8 @@ exports
     Expr "." "new" TypeArgs? Id TypeArgs? "(" {Expr ","}* ")" ClassBody? -> Expr
   > {
       Expr ArraySubscript -> ArrayAccess
-      Expr "." Id -> FieldAccess
-      Expr "." TypeArgs? Id -> MethodId
+      Expr "." MethodSpec -> FieldAccess
+      Expr "." TypeArgs? Id -> MethodSpec
     }
   > {right:
       Expr "++" -> Expr
@@ -51,7 +51,7 @@ exports
   > {
       Expr ArraySubscript -> ArrayAccess
       Expr "." Id -> FieldAccess
-      Expr "." TypeArgs? Id -> MethodId
+      Expr "." TypeArgs? Id -> MethodSpec
     }
   > {right:
       Expr "++" -> Expr

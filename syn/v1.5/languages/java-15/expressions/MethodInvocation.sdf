@@ -8,12 +8,12 @@ imports
   languages/java-15/expressions/Main
 
 exports
-  sorts MethodId
+  sorts MethodSpec
   context-free syntax
-    MethodId "(" {Expr ","}* ")" -> Expr {cons("Invoke")}
+    MethodSpec "(" {Expr ","}* ")" -> Expr {cons("Invoke")}
 
-                               MethodName -> MethodId {cons("Method"), prefer}
-                    Expr "." TypeArgs? Id -> MethodId {cons("Method")}
-                 "super" "." TypeArgs? Id -> MethodId {cons("SuperMethod")}
-    TypeName "." "super" "." TypeArgs? Id -> MethodId {cons("QSuperMethod")}
-                TypeName "." TypeArgs  Id -> MethodId {cons("GenericStaticMethod"), prefer}
+                               MethodName -> MethodSpec {cons("Method"), prefer}
+                    Expr "." TypeArgs? Id -> MethodSpec {cons("Method")}
+                 "super" "." TypeArgs? Id -> MethodSpec {cons("SuperMethod")}
+    TypeName "." "super" "." TypeArgs? Id -> MethodSpec {cons("QSuperMethod")}
+                TypeName "." TypeArgs  Id -> MethodSpec {cons("GenericStaticMethod"), prefer}
