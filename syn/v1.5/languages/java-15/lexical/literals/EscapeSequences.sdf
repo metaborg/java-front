@@ -19,7 +19,8 @@ exports
 
     "\\" [btnfr\"\'\\]     -> NamedEscape {cons("NamedEscape")}
     "\\" LastOcta          -> OctaEscape  {cons("OctaEscape1")}
-    "\\" [0-7] LastOcta    -> OctaEscape  {cons("OctaEscape2")}
+    "\\" [0-3] LastOcta    -> OctaEscape  {cons("OctaEscape2")}
+    "\\" [4-7] [0-7]       -> OctaEscape  {cons("OctaEscape2")}
     "\\" [0-3] [0-7] [0-7] -> OctaEscape  {cons("OctaEscape3")}
 
     [0-7] -> LastOcta

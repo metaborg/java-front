@@ -24,6 +24,33 @@ test string literal with lots of unicode escapes
   [ "\ufe8f\u0344\uff85\uff65\ufdb5\ufda1\033\u02c4\034G\ufea8" ]
   succeeds
 
+test string literal with octal escapes
+  [ "\0" ] -> Lit(String([OctaEscape1(48)]))
+
+test string literal with octal escapes
+  [ "\1" ] -> Lit(String([OctaEscape1(49)]))
+
+test string literal with octal escapes
+  [ "\2" ] -> Lit(String([OctaEscape1(50)]))
+
+test string literal with octal escapes
+  [ "\3" ] -> Lit(String([OctaEscape1(51)]))
+
+test string literal with octal escapes
+  [ "\01" ] -> Lit(String([OctaEscape2(48, 49)]))
+
+test string literal with octal escapes
+  [ "\02" ] -> Lit(String([OctaEscape2(48, 50)]))
+
+test string literal with octal escapes
+  [ "\42" ] ->  Lit(String([OctaEscape2(52, 50)]))
+
+test string literal with octal escapes
+  [ "\427" ] -> Lit(String([OctaEscape2(52, 50), Chars("7")]))
+
+test string literal with octal escapes
+  [ "\327" ] -> Lit(String([OctaEscape3(51,50,55)]))
+
 test 0F
   "0F" -> Lit(Float("0F"))
 
