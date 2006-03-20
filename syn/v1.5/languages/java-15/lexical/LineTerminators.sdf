@@ -6,10 +6,14 @@
 module languages/java-15/lexical/LineTerminators
 exports
   sorts
-    LineTerminator
+    LineTerminator CarriageReturn
 
   lexical syntax
-    [\n]      -> LineTerminator
-    [\r][\n]  -> LineTerminator
-    [\r]~[\n] -> LineTerminator
+    [\n]           -> LineTerminator
+    [\r][\n]       -> LineTerminator
+    CarriageReturn -> LineTerminator
 
+    [\r]           -> CarriageReturn
+
+  lexical restrictions
+    CarriageReturn -/- [\n]
