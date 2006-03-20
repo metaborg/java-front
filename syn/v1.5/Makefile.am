@@ -8,8 +8,8 @@ TBLS_DEFS = \
   JavaCompilationUnit-15.tbl \
   Java-15-Prefixed.def
 
-sdfdata_DATA   = $(TBLS_DEFS) Java-15-Prefixed.sdf
-pkgdata_DATA   = Java-15.rtg
+nobase_sdfdata_DATA = $(TBLS_DEFS) Java-15-Prefixed.sdf $(JAVA15_MODS)
+pkgdata_DATA = Java-15.rtg
 
 EXTRA_DIST = $(JAVA15_MODS)
 CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf $(wildcard *.dep)
