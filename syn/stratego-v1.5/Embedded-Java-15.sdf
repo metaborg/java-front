@@ -83,9 +83,6 @@ exports
     "~stm:"   E  -> JavaStm {cons("FromMetaExpr"), prefer}
     "~"       E  -> JavaStm {cons("FromMetaExpr")}
 
-    "#bstm|[" E "]|" -> JavaBlockStm {cons("FromMetaExpr"), prefer}
-    "#stm|[" E "]|" -> JavaStm {cons("FromMetaExpr"), prefer}
-
 %%%
  %% Variable Declarations
  %%%
