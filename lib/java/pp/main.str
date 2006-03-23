@@ -39,10 +39,14 @@ strategies
    * @type Java -> Box
    */
   pp-java5-to-abox =
+    pp-java5-to-abox(java-to-box)
+    
+  pp-java5-to-abox(pprules) =    
     parenthesize-Java5
     ; topdown(try(very-special-conflict))
-    ; topdown(try(pp-comments); try(repeat(java-to-box)))
+    ; topdown(try(pp-comments(pprules)); try(repeat(pprules)))
     ; concat-content
+  
 
 rules
 
@@ -54,12 +58,12 @@ rules
 
 rules
 
-  pp-comments =
+  pp-comments(pprules) =
     ?t{a*}
 
     ; where(
         <fetch(?(Comment(_), s))> a*
-      ; <java-to-box> t => b
+      ; <pprules> t => b
       )
 
     ; if !b => V(_, _) then

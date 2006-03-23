@@ -8,7 +8,7 @@ rules
     Block(stms) -> <block-structure> (0, stms)
 
   java-to-box:
-    ClassDecStm(classdec) -> <java-to-box>classdec
+    ClassDecStm(classdec) -> classdec
 
   java-to-box: Return(None())  -> <stm-box> box |[  KW["return"] ]|
   java-to-box: Return(Some(e)) -> <stm-box> box |[ H hs=1 [KW["return"] ~e] ]|
@@ -58,24 +58,29 @@ rules
 
   java-to-box:
     If(b1, b2, b3) -> V vs=0 [b4 b5]
-      where <if-then-to-box> If(b1, b2) => b4
-          ; <if-else-to-box> If(b1, b2, b3) => b5
+    where
+        <if-then-to-box> If(b1, b2) => b4
+      ; <if-else-to-box> If(b1, b2, b3) => b5
 
   if-then-to-box :
     If(b1, b2) -> V is=2 vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
-      where not(!b2 => Block(_))
+    where
+      not(!b2 => Block(_))
 
   if-then-to-box :
     If(b1, b2) -> V vs=0 [H hs=0 [KW["if"] "(" b1 ")"] b2]
-      where !b2 => Block(_)
+    where
+      !b2 => Block(_)
 
   if-else-to-box :
     If(b1, b2, b3) -> V is=2 vs=0 [KW["else"] b3]
-      where not(!b3 => Block(_))
+    where
+      not(!b3 => Block(_))
 
   if-else-to-box :
     If(b1, b2, b3) -> V vs=0 [KW["else"] b3]
-      where !b3 => Block(_)
+    where
+      !b3 => Block(_)
 
 /**
  * While Statements
@@ -120,12 +125,11 @@ rules
       <separate-by-comma> update => bupdate
 
       ; < LocalVarDec-to-box; ![<id>]
-          <+ map(java-to-box)
-             ; separate-by-comma
+          <+ is-list; separate-by-comma
         > init => binit
 
-      ; < ?Some(<id>); java-to-box; ![<id>]
-           <+ ?None(); ![]
+      ; < ?Some(<id>); ![<id>]
+          <+ ?None(); ![]
         > cond => bcond
 
 /**
