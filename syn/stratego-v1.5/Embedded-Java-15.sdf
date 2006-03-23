@@ -67,6 +67,10 @@ exports
     "java:block-stm*" "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
          "block-stm*" "|[" JavaBlockStm* "]|" -> E {cons("ToMetaListExpr")}
 
+
+    "java:stm"  "|[" JavaStm "]|" -> E {cons("ToMetaExpr")}
+         "stm"  "|[" JavaStm "]|" -> E {cons("ToMetaExpr")}
+
   %%%
    %% Anti Quotations for Statements
    %%%
@@ -78,6 +82,9 @@ exports
 
     "~stm:"   E  -> JavaStm {cons("FromMetaExpr"), prefer}
     "~"       E  -> JavaStm {cons("FromMetaExpr")}
+
+    "#bstm|[" E "]|" -> JavaBlockStm {cons("FromMetaExpr"), prefer}
+    "#stm|[" E "]|" -> JavaStm {cons("FromMetaExpr"), prefer}
 
 %%%
  %% Variable Declarations

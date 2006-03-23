@@ -1,7 +1,14 @@
 module Java-15-in-Java-15
 imports
-  Java-15
-  Embedded-Java-15 [StrategoTerm]
+  Java-15 Java-15-Prefixed
 
 exports
-  context-free start-symbols StrategoModule
+  context-free start-symbols CompilationUnit
+
+  context-free syntax
+    "bstm"             "|[" JavaBlockStm        "]|" -> Expr {cons("ToMetaExpr")}
+    "stm"              "|[" JavaStm             "]|" -> Expr {cons("ToMetaExpr")}
+    "compilation-unit" "|[" JavaCompilationUnit "]|" -> Expr {cons("ToMetaExpr")}
+    "class-body-dec"   "|[" JavaClassBodyDec    "]|" -> Expr {cons("ToMetaExpr")}
+
+    "#stm"  "|[" Stm "]|" -> JavaStm      {cons("FromMetaExpr"), prefer}
