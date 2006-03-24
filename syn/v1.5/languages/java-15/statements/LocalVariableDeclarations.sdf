@@ -15,4 +15,4 @@ exports
 
   context-free syntax
     LocalVarDec ";" -> LocalVarDecStm {prefer, cons("LocalVarDecStm")}
-    VarMod* Type {VarDec ","}+ -> LocalVarDec {prefer, cons("LocalVarDec")}
+    (Anno | VarMod)* Type {VarDec ","}+ -> LocalVarDec {prefer, cons("LocalVarDec")}

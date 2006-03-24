@@ -20,7 +20,7 @@ exports
   context-free syntax
     EnumDecHead EnumBody -> EnumDec {cons("EnumDec")}
 
-    ClassMod* "enum" Id Interfaces? -> EnumDecHead {cons("EnumDecHead")}
+    (Anno | ClassMod)* "enum" Id Interfaces? -> EnumDecHead {cons("EnumDecHead")}
 
     "{" {EnumConst ","}*     EnumBodyDecs? "}" -> EnumBody {cons("EnumBody")}
     "{" {EnumConst ","}* "," EnumBodyDecs? "}" -> EnumBody {cons("EnumBody")}
