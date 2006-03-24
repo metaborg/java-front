@@ -8,7 +8,7 @@ rules
     SingleElemAnno(name, val) -> box |[ H hs=0 ["@" ~name "(" ~val ")"] ]|
 
   java-to-box:
-    Anno(name, pairs) -> box |[ H hs=0 ["@" ~name "(" ~*pairs' ")"] ]|
+    Anno(name, pairs) -> box |[ H hs=0 ["@" ~name "(" ~pairs' ")"] ]|
     where
       <separate-by-comma> pairs => pairs'
 
