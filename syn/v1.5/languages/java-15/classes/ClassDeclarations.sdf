@@ -29,12 +29,11 @@ exports
     ClassDecHead ClassBody -> ClassDec {cons("ClassDec")}
     "{" ClassBodyDec* "}" -> ClassBody {cons("ClassBody")}
 
-    ClassMod* "class" Id  TypeParams? Super? Interfaces? -> ClassDecHead {cons("ClassDecHead")}
+    (Anno | ClassMod)* "class" Id  TypeParams? Super? Interfaces? -> ClassDecHead {cons("ClassDecHead")}
 
   %% 8.1.1: Class Modifiers
   sorts ClassMod
   context-free syntax
-    Anno      -> ClassMod
     Abstract  -> ClassMod
     Public    -> ClassMod
     Protected -> ClassMod

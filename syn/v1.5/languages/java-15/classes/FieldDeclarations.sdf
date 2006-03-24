@@ -21,7 +21,7 @@ exports
     VarInit
 
   context-free syntax
-    FieldMod* Type { VarDec ","}+ ";" -> FieldDec {cons("FieldDec")}
+    (Anno | FieldMod)* Type { VarDec ","}+ ";" -> FieldDec {cons("FieldDec")}
 
     VarDecId             -> VarDec {cons("VarDec")}
     VarDecId "=" VarInit -> VarDec {cons("VarDec")}
@@ -36,7 +36,6 @@ exports
 
   sorts FieldMod
   context-free syntax
-    Anno      -> FieldMod
     Public    -> FieldMod
     Protected -> FieldMod
     Private   -> FieldMod

@@ -29,7 +29,7 @@ exports
 
     InterfaceDecHead "{" InterfaceMemberDec* "}" -> InterfaceDec {cons("InterfaceDec")}
 
-    InterfaceMod* "interface" Id TypeParams? ExtendsInterfaces? -> InterfaceDecHead {cons("InterfaceDecHead")}
+    (Anno | InterfaceMod)* "interface" Id TypeParams? ExtendsInterfaces? -> InterfaceDecHead {cons("InterfaceDecHead")}
     "extends" {InterfaceType ","}+ -> ExtendsInterfaces {cons("ExtendsInterfaces")}
 
   context-free syntax
@@ -40,7 +40,6 @@ exports
     ";"               -> InterfaceMemberDec {cons("Semicolon")}
 
   context-free syntax
-    Anno           -> InterfaceMod
     Public         -> InterfaceMod
     Protected      -> InterfaceMod
     Private        -> InterfaceMod

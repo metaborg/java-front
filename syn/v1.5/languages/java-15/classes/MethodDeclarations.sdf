@@ -21,26 +21,23 @@ exports
   context-free syntax
     MethodDecHead MethodBody -> MethodDec {cons("MethodDec")}
 
-    MethodMod* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Throws?      -> MethodDecHead {cons("MethodDecHead")}
-    MethodMod* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Dim+ Throws? -> MethodDecHead {cons("DeprMethodDecHead")}
+    (Anno | MethodMod)* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Throws?      -> MethodDecHead {cons("MethodDecHead")}
+    (Anno | MethodMod)* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Dim+ Throws? -> MethodDecHead {cons("DeprMethodDecHead")}
 
     Type   -> ResultType
     "void" -> ResultType {cons("Void")}
 
   sorts FormalParam
   context-free syntax
-    VarMod* Type       VarDecId -> FormalParam {cons("Param")}
-    VarMod* Type "..." VarDecId -> FormalParam {cons("VarArityParam")}
+    (Anno | VarMod)* Type       VarDecId -> FormalParam {cons("Param")}
+    (Anno | VarMod)* Type "..." VarDecId -> FormalParam {cons("VarArityParam")}
 
   sorts VarMod
   context-free syntax
-    Anno  -> VarMod
     Final -> VarMod
 
   sorts MethodMod
   context-free syntax
-    Anno           -> MethodMod
-
     Public         -> MethodMod
     Protected      -> MethodMod
     Private        -> MethodMod

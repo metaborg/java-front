@@ -20,7 +20,7 @@ exports
 
   context-free syntax
     ConstrHead ConstrBody ->  ConstrDec {cons("ConstrDec")}
-    ConstrMod* TypeParams? Id "(" {FormalParam ","}* ")" Throws? -> ConstrHead {cons("ConstrDecHead")}
+    (Anno | ConstrMod)* TypeParams? Id "(" {FormalParam ","}* ")" Throws? -> ConstrHead {cons("ConstrDecHead")}
 
 
     "{" ConstrInv? BlockStm* "}" -> ConstrBody {cons("ConstrBody")}
@@ -31,7 +31,6 @@ exports
 
   sorts ConstrMod
   context-free syntax  
-    Anno      -> ConstrMod
     Public    -> ConstrMod
     Protected -> ConstrMod
     Private   -> ConstrMod
