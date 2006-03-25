@@ -123,7 +123,7 @@ rules
       ; <type-args-to-boxes> type-args => type-args'
 
   java-to-box: 
-    QNewInstance(e, type-args1, s, type-args2, exprs, Some(body))
+    QNewInstance(e, type-args1, Id(s), type-args2, exprs, Some(body))
       ->
     box |[ V vs=0 [H hs=0 [~e "."  H hs=1 [KW["new"] H hs=0 [~*type-args1' s ~*type-args2']] ~args] ~body] ]|
     where
