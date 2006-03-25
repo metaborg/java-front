@@ -10,6 +10,9 @@ test basic end of line comment (2)
   "class Simple {// aa
    }
   " -> ClassDec(_, ClassBody([]))
+  
+test basic end of line comment at end of file.
+  "class Simple {} // aa" -> ClassDec(_, ClassBody([]))
 
 test basic long comment (1)
   "class Test { /* */ }" succeeds
@@ -90,8 +93,8 @@ test /**/ comment cannot appear in literal
 test /* must have matching */
   "class T3715 {} /*" fails
 
-test // may not end at EOF, only LineTerminator
-  "class T3716 {} //" fails
+test // may not end at EOF, only LineTerminator (incompatible with JLS, allowed anyway: breaks some tests ... )
+  "class T3716 {} //" succeeds
 
 test */ is not a comment, but an opening for /* */
   "class T3726 { /*/}" fails

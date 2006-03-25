@@ -12,8 +12,16 @@ exports
     [\n]           -> LineTerminator
     [\r][\n]       -> LineTerminator
     CarriageReturn -> LineTerminator
+    EndOfFile      -> LineTerminator
 
-    [\r]           -> CarriageReturn
+    [\r] -> CarriageReturn
 
   lexical restrictions
     CarriageReturn -/- [\n]
+
+  %% End of file is empty.
+  lexical syntax    
+    -> EndOfFile
+
+  lexical restrictions
+    EndOfFile -/- ~[]
