@@ -33,3 +33,9 @@ test Method with annotations
 
 test Field with annotations
   "class Test { @Foo int x; }" -> ClassDec(_, ClassBody([FieldDec([MarkerAnno(_)], _, _)]))
+
+test Class with annotation taking an argument 1
+  "@SimpleAnnotation(1) class Test {}" -> ClassDec(ClassDecHead([SingleElemAnno(_, Lit(_))], _, _, _, _), _)
+
+test Class with annotation taking an argument 2
+  "@SimpleAnnotation(id=1) class Test {}" -> ClassDec(ClassDecHead([Anno(_, [_])], _, _, _, _), _)
