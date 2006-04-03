@@ -216,6 +216,8 @@ exports
     "tname_" [a-zA-Z0-9]*    -> JavaTypeName   {prefer}
     "pkgtname" [0-9]*        -> JavaPackageOrTypeName  {prefer}
     "pkgtname_" [a-zA-Z0-9]* -> JavaPackageOrTypeName  {prefer}
+    "pkgname" [0-9]*         -> JavaPackageName  {prefer}
+    "pkgname_" [a-zA-Z0-9]*  -> JavaPackageName  {prefer}
 
   %%%
    %% Quotations for Names
@@ -309,9 +311,31 @@ exports
    %% Anti Quotations for Formal Parameters
    %%%
   context-free syntax
-
     "~"  E  ->  JavaFormalParam       {cons("FromMetaExpr")}
     "~*" E  -> {JavaFormalParam ","}* {cons("FromMetaExpr")}
+
+%%%
+ %% Package Declarations
+ %%%
+exports
+
+  %%%
+   %% Quotations
+   %%%
+  context-free syntax
+    "java:package-dec" "|[" JavaPackageDec  "]|" -> E {cons("ToMetaExpr")}
+         "package-dec" "|[" JavaPackageDec  "]|" -> E {cons("ToMetaExpr")}
+                       "|[" JavaPackageDec  "]|" -> E {cons("ToMetaExpr")}
+
+    "java:package-dec?" "|[" JavaPackageDec? "]|" -> E {cons("ToMetaExpr")}
+         "package-dec?" "|[" JavaPackageDec? "]|" -> E {cons("ToMetaExpr")}
+
+  %%%
+   %% Anti Quotations
+   %%%
+  context-free syntax
+    "~package-dec:"  E -> JavaPackageDec {cons("FromMetaExpr")}
+    "~package-dec?:" E -> JavaPackageDec? {cons("FromMetaExpr")}
 
 %%%
  %% Import Declarations
