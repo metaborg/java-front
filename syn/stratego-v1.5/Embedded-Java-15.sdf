@@ -47,6 +47,7 @@ exports
     "bstm_" [a-zA-Z0-9]*      -> JavaBlockStm    {prefer}
     "bstm" [0-9]* "*"         -> JavaBlockStm*   {prefer}    
     "bstm_" [a-zA-Z0-9]* "*"  -> JavaBlockStm*   {prefer}
+
   %%%
    %% Quotations for Statements
    %%%
@@ -70,7 +71,10 @@ exports
 
     "java:stm"  "|[" JavaStm "]|" -> E {cons("ToMetaExpr")}
          "stm"  "|[" JavaStm "]|" -> E {cons("ToMetaExpr")}
-
+         
+         "switch-group" "|[" JavaSwitchGroup "]|" -> E {cons("ToMetaListExpr")}         
+    "java:switch-group" "|[" JavaSwitchGroup "]|" -> E {cons("ToMetaListExpr")}
+    
   %%%
    %% Anti Quotations for Statements
    %%%
@@ -82,6 +86,12 @@ exports
 
     "~stm:"   E  -> JavaStm {cons("FromMetaExpr"), prefer}
     "~"       E  -> JavaStm {cons("FromMetaExpr")}
+
+    "~*"              E -> JavaSwitchGroup* {cons("FromMetaExpr")}    
+    "~switch-group*:" E -> JavaSwitchGroup* {cons("FromMetaExpr")}    
+
+    "~"               E -> JavaSwitchGroup {cons("FromMetaExpr")}
+    "~switch-group:"  E -> JavaSwitchGroup {cons("FromMetaExpr")}
 
 %%%
  %% Variable Declarations
