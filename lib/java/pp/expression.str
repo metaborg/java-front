@@ -87,7 +87,7 @@ rules
       <type-args-to-boxes> type-args => type-args'
 
   java-to-box: 
-    GenericStaticMethod(type-name, type-args, Id(s)) -> box |[ H hs=0 [~type-name "." ~*type-args' s] ]|
+    GenericMethod(type-name, type-args, Id(s)) -> box |[ H hs=0 [~type-name "." ~*type-args' s] ]|
     where
       <type-args-to-boxes> Some(type-args) => type-args'
 

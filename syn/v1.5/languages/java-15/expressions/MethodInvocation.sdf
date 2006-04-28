@@ -12,8 +12,12 @@ exports
   context-free syntax
     MethodSpec "(" {Expr ","}* ")" -> Expr {cons("Invoke")}
 
-                               MethodName -> MethodSpec {cons("Method"), prefer}
+                               MethodName -> MethodSpec {cons("Method")}
                     Expr "." TypeArgs? Id -> MethodSpec {cons("Method")}
                  "super" "." TypeArgs? Id -> MethodSpec {cons("SuperMethod")}
     TypeName "." "super" "." TypeArgs? Id -> MethodSpec {cons("QSuperMethod")}
-                TypeName "." TypeArgs  Id -> MethodSpec {cons("GenericStaticMethod"), prefer}
+                 AmbName "." TypeArgs  Id -> MethodSpec {cons("GenericMethod")}
+
+  context-free priorities
+      Expr "." TypeArgs? Id -> MethodSpec
+    > ExprName  -> Expr
