@@ -42,14 +42,8 @@ exports
     TypeDecSpec TypeArgs? -> ClassType {cons("ClassType")}
     TypeDecSpec TypeArgs? -> InterfaceType {cons("InterfaceType")}
 
-    %% The two production rules for TypeDecSpec are ambiguous,
-    %% since any TypeDecSpec can be represented by the second
-    %% production rule. To workaround this, we prefer the simple
-    %% TypeName. A later disambiguation phase has to find out if 
-    %% this TypeName is in fact a Member.
-    
-    TypeName                    -> TypeDecSpec {prefer}
-    ClassOrInterfaceType "." Id -> TypeDecSpec {cons("Member")}
+    TypeName -> TypeDecSpec
+    TypeDecSpec TypeArgs "." Id -> TypeDecSpec {cons("Member")}
     
   context-free syntax    
     TypeVarId -> TypeVar {cons("TypeVar")}
