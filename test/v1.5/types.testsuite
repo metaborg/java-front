@@ -20,17 +20,13 @@ test Member type of parameterized class
   "M<O>.N" ->
     ClassOrInterfaceType(
       Member(
-        ClassOrInterfaceType(
-          TypeName(Id("M"))
-        , Some(
-            TypeArgs([
-              ClassOrInterfaceType(
-                TypeName(Id("O"))
-              , None()
-              )
-            ])
+        TypeName(Id("M"))
+      , TypeArgs([
+          ClassOrInterfaceType(
+            TypeName(Id("O"))
+          , None()
           )
-        )
+        ])
       , Id("N")
       )
     , None()
