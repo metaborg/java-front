@@ -18,6 +18,11 @@ exports
     TypeName "." "super" "." TypeArgs? Id -> MethodSpec {cons("QSuperMethod")}
                  AmbName "." TypeArgs  Id -> MethodSpec {cons("GenericMethod")}
 
+  %% This priority forbids a Expr "." MethodSpec if the expression is a plain ExprName.
+  %% This solves an ambiguity with the MethodName and AmbName . TypeArgs MethodSpecs.
+  %% foo.bar.fred() results in a MethodName MethodSpec.
+  %% (foo.bar).fred() results in the Expr. MethodSpec
+  %% foo.bar.<T>fred() results in a GenericMethod
   context-free priorities
       Expr "." TypeArgs? Id -> MethodSpec
     > ExprName  -> Expr
