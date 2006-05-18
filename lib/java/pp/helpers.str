@@ -1,9 +1,6 @@
 module java/pp/helpers
 strategies
 
-  concat-content = 
-    bottomup( try( \ Conc(l1, l2) -> <conc> (l1, l2) \ ))
-
 /**
  * Creates a block structure for a list of boxes.
  *

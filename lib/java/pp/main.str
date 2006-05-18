@@ -45,8 +45,6 @@ strategies
     parenthesize-Java5
     ; topdown(try(very-special-conflict))
     ; topdown(try(pp-comments(pprules)); try(repeat(pprules)))
-    ; concat-content
-  
 
 rules
 
