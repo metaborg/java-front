@@ -8,12 +8,14 @@ TBLS_DEFS = \
   JavaCompilationUnit-15.tbl \
   Java-15-Prefixed.def
 
+MIX = languages/java-15/JavaMix.sdf
+
 sdfdata_DATA = $(TBLS_DEFS)
-nobase_sdfdata_DATA = Java-15-Prefixed.sdf $(JAVA15_MODS)
+nobase_sdfdata_DATA = $(JAVA15_MODS) Java-15-Prefixed.sdf $(MIX)
 pkgdata_DATA = Java-15.rtg
 
 EXTRA_DIST = $(JAVA15_MODS)
-CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf $(wildcard *.dep)
+CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf $(MIX) $(wildcard *.dep)
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main Java-15
@@ -23,6 +25,7 @@ JavaCompilationUnit-15.def : $(JAVA15_MODS)
 Java-15.def : $(JAVA15_MODS)
 
 JAVA15_MODS = \
+  JavaMix.sdf \
   Java-15.sdf \
   JavaCompilationUnit-15.sdf \
   $(wildcard languages/java-15/*.sdf) \
@@ -39,3 +42,6 @@ JAVA15_MODS = \
 
 Java-15-Prefixed.sdf: Java-15.def
 	$(SDF_TOOLS)/bin/gen-renamed-sdf-module -i $< -o $@ --main Java-15 --name Java-15-Prefixed --prefix Java
+
+$(MIX): Java-15.def
+	$(SDF_TOOLS)/bin/gen-sdf-mix -i $< --main languages/java-15/Main --name languages/java-15/JavaMix -o $@
