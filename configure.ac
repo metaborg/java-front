@@ -13,6 +13,8 @@ test "x$prefix" = xNONE && prefix=$ac_default_prefix
 
 XT_SETUP
 XT_USE_XT_PACKAGES
+XT_CHECK_PACKAGE([STRATEGO_SGLR],[stratego-sglr])
+XT_CHECK_PACKAGE([STRATEGO_GPP],[stratego-gpp])
 
 XT_PKG_ATERM
 XT_PKG_SDF

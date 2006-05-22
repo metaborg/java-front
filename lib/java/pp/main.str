@@ -43,8 +43,11 @@ strategies
     
   pp-java5-to-abox(pprules) =    
     parenthesize-Java5
-    ; topdown(try(very-special-conflict))
-    ; topdown(try(pp-comments(pprules)); try(repeat(pprules)))
+    ; topdown(
+        try(very-special-conflict)
+        ; try(pp-comments(pprules))
+        ; repeat(pprules)
+      )
 
 rules
 

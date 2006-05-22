@@ -1,19 +1,19 @@
 module pp-java
-imports liblib strategoxt-xtc-tools jtree-version tool-doc
+imports
+  libstrategolib
+  libjava-front
+  libstratego-gpp
+  tool-doc
 
 strategies
 
   main-pp-java =
-    xtc-io-wrap(release-option(|"pretty-print")
-    , pp-java-usage
-    , pp-java-about
-    , ![]
-    , pp-java
-    )
+    io-stream-wrap(fail, pp-java-usage, pp-java-about, pp-java)
 
   pp-java =
-    xtc-transform(get-2abox, pass-verbose)
-  ; xtc-abox2text
+    ?(<read-from-stream>, fout)
+    ; pp-java5-to-abox
+    ; box2text-stream(|80, fout)
 
 /**
  * Documentation
@@ -38,4 +38,3 @@ strategies
         , CurrentXTCRepository()
         ])
       ]
-  
