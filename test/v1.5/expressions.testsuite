@@ -135,6 +135,12 @@ test Cast operators 12
 test Cast operators 13
   " (int)1 == 2" -> Eq(CastPrim(_, _), Lit(Deci("2")))
 
+test Cast operators 14
+  "(int) e.x++" -> CastPrim(Int(), PostIncr(ExprName(AmbName(Id("e")), Id("x"))))
+
+test Cast operators 15
+  "(int) e.new Foo()" -> CastPrim(Int(), QNewInstance(_, _, _, _, _, _))
+
 test simple array creation expression
   "new int[3]" -> NewArray(Int,[Dim(Lit(Deci("3")))],[])
 
@@ -236,6 +242,18 @@ test method invocations
       )
     , []
     )
+    
+test Simple new instance creation
+  "new Foo()" -> NewInstance(None(), _, [], None())
+
+test Qualified new instance creation
+  "e.new Foo()" -> QNewInstance(ExprName(Id("e")),None,Id("Foo"),None,[],None)
+
+test Qualified new instance creation
+  "e + e.new Foo()" -> Plus(_, _)
+
+test Qualified new instance creation
+  "++e.new Foo()" -> PreIncr(_)
 
 test Mod
   "i % radix" succeeds
