@@ -32,6 +32,18 @@ exports
     "e" [0-9]*               -> JavaID {reject}
     "e_" [a-zA-Z0-9]*        -> JavaID {reject}
 
+  %%%
+   %% Quotations for Expressions
+   %%%
+  context-free syntax
+            "e" "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+    "java:expr" "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+         "expr" "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+    "java"      "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+                "|[" JavaExpr "]|"   -> E {cons("ToMetaExpr")}
+
+    "var-init" "|[" JavaVarInit "]|" -> E {cons("ToMetaExpr")}
+
 %%%
  %% Statements
  %%%

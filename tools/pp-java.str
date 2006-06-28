@@ -14,6 +14,7 @@ strategies
     ?(<read-from-stream>, fout)
     ; pp-java5-to-abox
     ; box2text-stream(|80, fout)
+    ; <fputs> ("\n", fout)
 
 /**
  * Documentation
