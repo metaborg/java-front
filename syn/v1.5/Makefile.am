@@ -29,6 +29,7 @@ JAVA15_MODS = \
   JavaMix.sdf \
   Java-15.sdf \
   JavaCompilationUnit-15.sdf \
+  $(wildcard languages/java/*.sdf) \
   $(wildcard languages/java-15/*.sdf) \
   $(wildcard languages/java-15/lexical/*.sdf) \
   $(wildcard languages/java-15/lexical/literals/*.sdf) \
