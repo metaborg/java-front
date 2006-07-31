@@ -1,4 +1,5 @@
 prefix=@prefix@
+datarootdir=@datarootdir@
 pkgdatadir=@datadir@/@PACKAGE@
 sdfdatadir=@datadir@/sdf/@PACKAGE@
 xtc_repo=@REPOSITORY@
