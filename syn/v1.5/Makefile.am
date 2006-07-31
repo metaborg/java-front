@@ -26,7 +26,6 @@ JavaCompilationUnit-15.def : $(JAVA15_MODS)
 Java-15.def : $(JAVA15_MODS)
 
 JAVA15_MODS = \
-  JavaMix.sdf \
   Java-15.sdf \
   JavaCompilationUnit-15.sdf \
   $(wildcard languages/java/*.sdf) \
@@ -47,3 +46,8 @@ Java-15-Prefixed.sdf: Java-15.def
 
 $(MIX): Java-15.def
 	$(SDF_TOOLS)/bin/gen-sdf-mix -i $< --main languages/java-15/Main --name languages/java-15/JavaMix -o $@
+
+JavaMix.def : $(MIX)
+	$(SDF_FRONT)/bin/pack-sdf -i languages/java/JavaMix.sdf -o $@ $(SDFINCLUDES)
+
+
