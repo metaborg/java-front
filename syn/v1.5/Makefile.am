@@ -6,9 +6,10 @@ TBLS_DEFS = \
   Java-15.tbl \
   JavaCompilationUnit-15.def \
   JavaCompilationUnit-15.tbl \
-  Java-15-Prefixed.def
+  Java-15-Prefixed.def \
+  JavaMix.def
 
-MIX = languages/java-15/JavaMix.sdf
+MIX = languages/java/JavaMix.sdf
 
 sdfdata_DATA = $(TBLS_DEFS)
 nobase_sdfdata_DATA = $(JAVA15_MODS) Java-15-Prefixed.sdf $(MIX)
