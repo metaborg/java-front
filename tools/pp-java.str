@@ -1,8 +1,9 @@
 module pp-java
 imports
-  libstrategolib
+  libstratego-lib
   libjava-front
   libstratego-gpp
+  libstratego-xtc
   tool-doc
 
 strategies

@@ -1,6 +1,8 @@
 module jtree15-to-abox
 imports
+  libstratego-lib
   libjava-front
+
 
 strategies
 

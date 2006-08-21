@@ -1,5 +1,7 @@
 module auto-java-front
-imports libxtclib
+imports
+  libstratego-lib
+  libstratego-xtc
 
 strategies
 
