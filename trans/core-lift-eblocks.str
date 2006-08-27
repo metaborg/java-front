@@ -1,5 +1,5 @@
 module core-lift-eblocks
-imports liblib Java-EBlock
+imports libstratego-lib Java-EBlock
 
 strategies
   
