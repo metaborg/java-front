@@ -7,7 +7,7 @@ module parse-java
 imports
   libstratego-lib
   libjava-front
-  libstratego-xtc
+  // libstratego-xtc
   libstratego-sglr
   // tool-doc
 
@@ -34,9 +34,11 @@ strategies
         asfix-anno-comments(|["Comment"])
       end
     ; if must-preserve-positions then
-        write-to
-        ; xtc-transform(!"addPosInfo", !["-p", "Foo.java"])
-        ; read-from
+        log(|Error(), "Oops, position preservation has been disabled for a second")
+        ; <exit> 1
+        // write-to
+        // ; xtc-transform(!"addPosInfo", !["-p", "Foo.java"])
+        // ; read-from
       end
     ; implode-asfix
     ; if <get-config> "-b" then
