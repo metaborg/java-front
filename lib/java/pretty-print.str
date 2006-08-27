@@ -1,0 +1,20 @@
+module java/pretty-print
+imports
+  java/pp/main
+
+/**
+ * Main 
+ */
+strategies
+
+  /**
+   * @type Java -> String
+   */
+  pp-java-string =
+    pp-java5-to-string
+
+  /**
+   * @type Java -> Box
+   */
+  pp-java-box =
+    pp-java5-to-abox

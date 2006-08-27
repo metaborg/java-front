@@ -5,7 +5,7 @@ lib_LTLIBRARIES     = libjava-front.la
 EXTRA_DIST          = $(javafrontlibsrc) $(javafrontlibsrcextra)
 CLEANFILES          = $(nobase_pkgdata_DATA) libjava-front.c $(javafrontlibgen)
 
-nodist_libjava_front_la_SOURCES  = libjava-front.c tbl1-aterm.c tbl2-aterm.c
+libjava_front_la_SOURCES  = libjava-front.c tbl1-aterm.c tbl2-aterm.c
 libjava_front_la_CPPFLAGS = $(STRATEGO_LIB_CFLAGS) $(STRATEGO_RUNTIME_CFLAGS) $(ATERM_CFLAGS)
 libjava_front_la_LDFLAGS  = -avoid-version -no-undefined
 libjava_front_la_LIBADD   = $(STRATEGO_GPP_LIBS) $(STRATEGO_LIB_LIBS) $(STRATEGO_RUNTIME_LIBS) $(ATERM_LIBS)
