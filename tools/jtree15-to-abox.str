@@ -3,7 +3,6 @@ imports
   libstratego-lib
   libjava-front
 
-
 strategies
 
   main-jtree15-to-abox = 

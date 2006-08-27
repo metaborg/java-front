@@ -91,6 +91,8 @@ strategies
 strategies
 
   parse-java-usage =
+    system-usage
+/*
     <tool-doc>
       [ Usage("parse-java [OPTIONS]")
       , Summary(
@@ -99,8 +101,12 @@ strategies
       , OptionUsage()
       , AutoReportBugs()
       ]
+*/
 
   parse-java-about =
+    system-about
+
+/*
     <tool-doc>
       [ AutoProgram()
       , Author(Person("Martin Bravenboer", "martin@cs.uu.nl"))
@@ -110,3 +116,4 @@ strategies
         , CurrentXTCRepository()
         ])
       ]
+*/

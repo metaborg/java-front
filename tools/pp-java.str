@@ -3,8 +3,6 @@ imports
   libstratego-lib
   libjava-front
   libstratego-gpp
-  libstratego-xtc
-  tool-doc
 
 strategies
 
@@ -13,8 +11,7 @@ strategies
 
   pp-java =
     ?(<read-from-stream>, fout)
-    ; pp-java5-to-abox
-    ; box2text-stream(|80, fout)
+    ; pp-java-stream(|fout)
     ; <fputs> ("\n", fout)
 
 /**
@@ -23,14 +20,21 @@ strategies
 strategies
 
   pp-java-usage =
+    system-usage
+
+/*
     <tool-doc>
       [ Usage("pp-java [OPTIONS]")
       , Summary("Pretty-prints a Java abstract syntax tree in ATerm format to a Java source file.")
       , OptionUsage()
       , AutoReportBugs()
       ]
+*/
 
   pp-java-about =
+    system-about
+
+/*
     <tool-doc>
       [ AutoProgram()
       , Author(Person("Martin Bravenboer", "martin@cs.uu.nl"))
@@ -40,3 +44,4 @@ strategies
         , CurrentXTCRepository()
         ])
       ]
+*/
