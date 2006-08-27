@@ -5,7 +5,7 @@ imports
 
 strategies
   
-  io-core-lift-eblocks =
+  main-core-lift-eblocks =
     io-wrap(core-lift-eblocks)
 
   core-lift-eblocks =
