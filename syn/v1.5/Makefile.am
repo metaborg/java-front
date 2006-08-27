@@ -15,7 +15,7 @@ sdfdata_DATA = $(TBLS_DEFS)
 nobase_sdfdata_DATA = $(JAVA15_MODS) Java-15-Prefixed.sdf $(MIX)
 pkgdata_DATA = Java-15.rtg
 
-EXTRA_DIST = $(JAVA15_MODS)
+EXTRA_DIST = $(JAVA15_MODS) $(TBLS_DEFS) $(nobase_sdfdata_DATA) $(pkgdata_DATA)
 CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf $(MIX) $(wildcard *.dep)
 
 PGEN_FLAGS     = -m $*

@@ -14,7 +14,7 @@ TBLS_DEFS = \
 sdfdata_DATA = $(TBLS_DEFS) Java-EBlock-Prefixed.sdf
 pkgdata_DATA = Java-EBlock.rtg
 
-EXTRA_DIST = $(MODULES)
+EXTRA_DIST = $(MODULES) $(sdfdata_DATA) $(pkgdata_DATA)
 CLEANFILES = $(TBLS_DEFS) Java-EBlock.rtg Java-EBlock-Prefixed.sdf $(wildcard *.dep)
 
 SDFINCLUDES = \
