@@ -11,4 +11,4 @@ TESTS = $(check_PROGRAMS)
 check_PROGRAMS = libjava-front-tests
 STRCFLAGS = --main main-$*
 STRINCLUDES = -I $(top_builddir)/lib
-LDADD = $(top_builddir)/lib/libjava-front.la $(SSL_LIBS)
+LDADD += $(top_builddir)/lib/libjava-front.la $(SSL_LIBS)

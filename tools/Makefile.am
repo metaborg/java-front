@@ -10,4 +10,4 @@ CLEANFILES     = $(wildcard *.dep) $(wildcard *.c)
 STRCFLAGS    = --main main-$* 
 STRINCLUDES  = -I $(srcdir) -I $(XTC)/share/xtc -I $(top_builddir)/lib $(STRATEGO_GPP_STRCFLAGS)
 
-LDADD = $(top_builddir)/lib/libjava-front.la $(SSL_LIBS)
+LDADD += $(top_builddir)/lib/libjava-front.la $(SSL_LIBS)
