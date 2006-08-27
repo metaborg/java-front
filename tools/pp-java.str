@@ -2,7 +2,6 @@ module pp-java
 imports
   libstratego-lib
   libjava-front
-  libstratego-gpp
 
 strategies
 
