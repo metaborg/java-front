@@ -11,4 +11,4 @@ STRINCLUDES  = -I $(srcdir) \
                -I $(XTC)/share/xtc \
                -I $(top_builddir)/sig 
 
-# nodist_core_lift_eblocks_SOURCES = core-lift-eblocks.c
+nodist_core_lift_eblocks_SOURCES = core-lift-eblocks.c
