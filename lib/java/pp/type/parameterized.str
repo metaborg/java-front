@@ -2,7 +2,7 @@ module java/pp/type/parameterized
 rules
 
   type-args-to-boxes :
-    None -> []
+    None() -> []
 
   type-args-to-boxes :
     Some(TypeArgs(types)) -> [ box |[ H hs=0 ["<" b ">"] ]| ]

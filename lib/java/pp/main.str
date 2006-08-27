@@ -1,7 +1,7 @@
 module java/pp/main
 imports
-  liblib
-  Box
+  libstratego-lib
+  libstratego-gpp
   java/signature/v5
   
   java/pp/helpers
@@ -27,14 +27,12 @@ imports
 strategies
 
   /**
-   * @todo Use libgpp
+   * @type Java -> String
    */
   pp-java5-to-string =
     pp-java5-to-abox
-    ; write-to
-    ; xtc-transform(!"abox2text", pass-verbose)
-    ; ?FILE(<read-text-file>)
-    
+    ; box2text-string(|80)
+
   /**
    * @type Java -> Box
    */

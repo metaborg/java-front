@@ -1,0 +1,25 @@
+module libjava-front-tests
+imports 
+  libstratego-lib
+  libjava-front
+
+strategies
+
+  main-libjava-front-tests =
+    test-suite(!"libjava-front tests",
+      parse-string-tests
+    )
+
+strategies
+
+  parse-string-tests = id
+    ; parse-string-test(|"0", "Expr", Lit(Deci("0")))
+    ; parse-string-test(|"1+2", "Expr", Plus(Lit(Deci("1")), Lit(Deci("2"))))
+
+/**
+ * Testing utils
+ */
+strategies
+
+  parse-string-test(|input, sort, result) =
+    apply-test(!input, parse-java-string(|sort), !input, !result)

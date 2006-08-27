@@ -5,10 +5,10 @@ lib_LTLIBRARIES     = libjava-front.la
 EXTRA_DIST          = $(javafrontlibsrc) $(javafrontlibsrcextra)
 CLEANFILES          = $(nobase_pkgdata_DATA) libjava-front.c $(javafrontlibgen)
 
-nodist_libjava_front_la_SOURCES  = libjava-front.c
+nodist_libjava_front_la_SOURCES  = libjava-front.c tbl1-aterm.c tbl2-aterm.c
 libjava_front_la_CPPFLAGS = $(STRATEGO_LIB_CFLAGS) $(STRATEGO_RUNTIME_CFLAGS) $(ATERM_CFLAGS)
 libjava_front_la_LDFLAGS  = -avoid-version -no-undefined
-libjava_front_la_LIBADD   = $(XTC)/lib/libstratego-xtc.la $(STRATEGO_LIB_LIBS) $(STRATEGO_RUNTIME_LIBS) $(ATERM_LIBS)
+libjava_front_la_LIBADD   = $(STRATEGO_GPP_LIBS) $(STRATEGO_LIB_LIBS) $(STRATEGO_RUNTIME_LIBS) $(ATERM_LIBS)
 
 javafrontlib = $(javafrontlibsrc) $(javafrontlibgen)
 
@@ -36,7 +36,8 @@ javafrontlibgen = \
 BUILT_SOURCES = \
   java/typematch/common.str
 
-STRINCLUDES = -I $(GPP)/share/sdf/gpp -I $(GPP)/share/gpp -I $(top_builddir)/lib -I $(top_srcdir)/lib
+STRINCLUDES = \
+  $(STRATEGO_GPP_STRCFLAGS) -I $(GPP)/share/sdf/gpp -I $(top_builddir)/lib -I $(top_srcdir)/lib
 
 libjava-front.rtree libjava-front.c : $(javafrontlib:.str=.rtree)
 	@$(STRC)/bin/strc -c --library -i $< -o libjava-front.rtree $(STRINCLUDES)
@@ -58,3 +59,9 @@ java/pp/parenthesize.str : $(top_builddir)/syn/v1.5/Java-15.def
 	  --sig-module java/signature/v5 \
 	  --main-strategy io-java5-parenthesize \
 	  --lang Java5
+
+tbl1-aterm.c :
+	$(STRATEGOXT)/libexec/cgen-aterm --name JFR_Java_15_tbl -i $(top_builddir)/syn/v1.5/Java-15.tbl > $@
+
+tbl2-aterm.c :
+	$(STRATEGOXT)/libexec/cgen-aterm --name JFR_JavaCompilationUnit_15_tbl -i $(top_builddir)/syn/v1.5/JavaCompilationUnit-15.tbl > $@
