@@ -36,7 +36,6 @@ AC_CONFIG_FILES([
   syn/eblock/Makefile
 
   lib/Makefile
-  trans/Makefile
   tools/Makefile
   
   test/Makefile

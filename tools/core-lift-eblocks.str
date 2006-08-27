@@ -1,5 +1,7 @@
 module core-lift-eblocks
-imports libstratego-lib Java-EBlock
+imports
+  libstratego-lib 
+  libjava-front
 
 strategies
   
