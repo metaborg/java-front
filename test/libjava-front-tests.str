@@ -1,3 +1,8 @@
+/**
+ * Testsuite for libjava-front.
+ *
+ * @author Martin Bravenboer.
+ */
 module libjava-front-tests
 imports 
   libstratego-lib
@@ -8,13 +13,29 @@ strategies
   main-libjava-front-tests =
     test-suite(!"libjava-front tests",
       parse-string-tests
+      ; pp-string-tests
     )
 
+/**
+ * Parsing
+ */
 strategies
 
   parse-string-tests = id
     ; parse-string-test(|"0", "Expr", Lit(Deci("0")))
     ; parse-string-test(|"1+2", "Expr", Plus(Lit(Deci("1")), Lit(Deci("2"))))
+    ; parse-string-test(|"1*2", "Expr", Mul(Lit(Deci("1")), Lit(Deci("2"))))
+
+/**
+ * Pretty-printing
+ */
+strategies
+
+  pp-string-tests = id
+    ; pp-string-test(|"0", "Expr")
+    ; pp-string-test(|"1 * 2", "Expr")
+    ; pp-string-test(|"1 + 2", "Expr")
+    ; pp-string-test(|"f()", "Expr")
 
 /**
  * Testing utils
@@ -22,4 +43,29 @@ strategies
 strategies
 
   parse-string-test(|input, sort, result) =
-    apply-test(!input, parse-java-string(|sort), !input, !result)
+    apply-test(
+      <conc-strings> ("parse ", input)
+    , parse-java-string(|sort)
+    , !input
+    , !result
+    )
+
+  pp-string-test(|input, sort) =
+    apply-test(
+      <conc-strings> ("pretty-print ", input)
+    , parse-java-string(|sort)
+      ; pp-java-string
+    , !input
+    , !input
+    )
+
+  roundtrip-test(|input, sort) =
+    apply-test(
+      <conc-strings> ("roundtrip ", input)
+    , parse-java-string(|sort)
+      ; ?first
+      ; pp-java-string
+      ; parse-java-string(|sort)
+    , !input
+    , !first
+    )
