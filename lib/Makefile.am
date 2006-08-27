@@ -30,6 +30,7 @@ javafrontlibsrcextra = \
 
 javafrontlibgen = \
   java/signature/v5.str \
+  java/signature/eblock.str \
   java/typematch/common.str \
   java/pp/parenthesize.str
 
@@ -51,6 +52,11 @@ java/signature/v5.rtg :
 	mkdir -p java/signature
 	rm -f $@
 	$(LN_S) @abs_top_builddir@/syn/v1.5/Java-15.rtg $@
+
+java/signature/eblock.rtg :
+	mkdir -p java/signature
+	rm -f $@
+	$(LN_S) @abs_top_builddir@/syn/eblock/Java-EBlock.rtg $@
 
 java/pp/parenthesize.str : $(top_builddir)/syn/v1.5/Java-15.def
 	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ \

@@ -3,6 +3,7 @@ imports
   libstratego-lib
   libstratego-gpp
   java/signature/v5
+  java/signature/eblock
   
   java/pp/helpers
   java/pp/statement
@@ -238,5 +239,8 @@ signature
   constructors
     Comment   : String -> AnnoKey
     amb       : List(A) -> A
-    PreEBlock : List(BlockStm) * Expr -> BlockStm
+
+    /**
+     * Construct from Dryad. Dirty, but useful to have here.
+     */
     Field     : Id -> Expr

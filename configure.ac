@@ -35,7 +35,6 @@ AC_CONFIG_FILES([
   syn/stratego-v1.5/Makefile
   syn/eblock/Makefile
 
-  sig/Makefile
   lib/Makefile
   trans/Makefile
   tools/Makefile
