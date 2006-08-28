@@ -1,0 +1,62 @@
+/**
+ * @author Martin Bravenboer
+ */
+module java/parse
+imports
+  libstratego-lib
+  libstratego-sglr
+
+/**
+ * Main parsing strategies.
+ */
+strategies
+
+  /**
+   * @param Start sort (String)
+   * @type String -> ParseTree(sort)
+   */
+  parse-java-string-pt(|sort) =
+    where(tbl := <get-java-parse-table> sort)
+    ; parse-string-pt(strsglr-report-parse-error | tbl, sort, "string")
+
+  parse-java-string(|sort) =
+    parse-java-string-pt(|sort)
+    ; implode-asfix
+
+  /**
+   * @param Start sort (String)
+   * @type Stream -> ParseTree(sort)
+   */
+  parse-java-stream-pt(|sort, path) =
+    where(tbl := <get-java-parse-table> sort)
+    ; parse-stream-pt(strsglr-report-parse-error | tbl, sort, path)
+
+/**
+ * Access to Java parse tables.
+ */
+strategies
+
+  /**
+   * Returns an open parse table for the given sort.
+   *
+   * @type Sort -> OpenParseTable
+   */
+  get-java-parse-table =
+    if ?"CompilationUnit" then
+      <memo-open-parse-table(JFR-JavaCompilationUnit-15-tbl)> "JavaCompilationUnit-15.tbl"
+    else
+      <memo-open-parse-table(JFR-Java-15-tbl)> "Java-15.tbl"
+    end
+
+  external JFR-JavaCompilationUnit-15-tbl(|)
+  external JFR-Java-15-tbl(|)
+
+  /**
+   * @todo Maybe this should be in libstratego-sglr
+   */
+  memo-open-parse-table(gettbl) =
+    MemoParseTable
+    <+ ?key
+       ; gettbl
+       ; tbl := <open-parse-table>
+       ; rules(MemoParseTable : key -> tbl)
