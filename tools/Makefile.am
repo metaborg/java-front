@@ -8,6 +8,10 @@ EXTRA_DIST     = $(wildcard *.str) $(wildcard *.meta)
 CLEANFILES     = $(wildcard *.dep) $(wildcard *.c)
 
 STRCFLAGS    = --main main-$* 
-STRINCLUDES  = -I $(srcdir) -I $(XTC)/share/xtc -I $(top_builddir)/lib $(STRATEGO_GPP_STRCFLAGS)
+STRINCLUDES  = \
+  -I $(srcdir) \
+  -I $(XTC)/share/xtc \
+  -I $(top_builddir)/lib \
+  $(STRATEGO_TOOL_DOC_STRCFLAGS)
 
-LDADD += $(top_builddir)/lib/libjava-front.la $(SSL_LIBS)
+LDADD += $(STRATEGO_TOOL_DOC_LIBS) $(top_builddir)/lib/libjava-front.la $(SSL_LIBS)

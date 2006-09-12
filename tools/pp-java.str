@@ -2,6 +2,7 @@ module pp-java
 imports
   libstratego-lib
   libjava-front
+  libstratego-tool-doc
 
 strategies
 
@@ -19,21 +20,13 @@ strategies
 strategies
 
   pp-java-usage =
-    system-usage
-
-/*
     <tool-doc>
       [ Usage("pp-java [OPTIONS]")
       , Summary("Pretty-prints a Java abstract syntax tree in ATerm format to a Java source file.")
       , OptionUsage()
       , AutoReportBugs()
       ]
-*/
-
   pp-java-about =
-    system-about
-
-/*
     <tool-doc>
       [ AutoProgram()
       , Author(Person("Martin Bravenboer", "martin@cs.uu.nl"))
@@ -43,4 +36,3 @@ strategies
         , CurrentXTCRepository()
         ])
       ]
-*/

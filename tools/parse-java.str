@@ -7,13 +7,8 @@ module parse-java
 imports
   libstratego-lib
   libjava-front
-  // libstratego-xtc
   libstratego-sglr
-  // tool-doc
-
-signature
-  constructors
-    HelpString : String * String -> HelpString // work-around for missing tool-doc import.
+  libstratego-tool-doc
 
 strategies
 
@@ -34,11 +29,7 @@ strategies
         asfix-anno-comments(|["Comment"])
       end
     ; if must-preserve-positions then
-        log(|Error(), "Oops, position preservation has been disabled for a second")
-        ; <exit> 1
-        // write-to
-        // ; xtc-transform(!"addPosInfo", !["-p", "Foo.java"])
-        // ; read-from
+        asfix-anno-position-info(|"")
       end
     ; implode-asfix
     ; if <get-config> "-b" then
@@ -145,8 +136,6 @@ strategies
 strategies
 
   parse-java-usage =
-    system-usage
-/*
     <tool-doc>
       [ Usage("parse-java [OPTIONS]")
       , Summary(
@@ -155,12 +144,8 @@ strategies
       , OptionUsage()
       , AutoReportBugs()
       ]
-*/
 
   parse-java-about =
-    system-about
-
-/*
     <tool-doc>
       [ AutoProgram()
       , Author(Person("Martin Bravenboer", "martin@cs.uu.nl"))
@@ -170,4 +155,4 @@ strategies
         , CurrentXTCRepository()
         ])
       ]
-*/
+
