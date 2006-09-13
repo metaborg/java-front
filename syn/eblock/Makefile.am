@@ -12,7 +12,7 @@ TBLS_DEFS = \
   Stratego-Java-EBlock.tbl 
 
 sdfdata_DATA = $(TBLS_DEFS) Java-EBlock-Prefixed.sdf
-pkgdata_DATA = Java-EBlock.rtg
+pkgdata_DATA = Java-EBlock.rtg Java-EBlock.str Java-EBlock.rtree
 
 EXTRA_DIST = $(MODULES) $(sdfdata_DATA) $(pkgdata_DATA)
 CLEANFILES = $(TBLS_DEFS) Java-EBlock.rtg Java-EBlock-Prefixed.sdf $(wildcard *.dep)
