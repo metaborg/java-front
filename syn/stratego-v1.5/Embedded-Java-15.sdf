@@ -262,29 +262,28 @@ exports
   variables
      "mod" [0-9]*            -> JavaMethodMod  {prefer}
      "mod_" [a-zA-Z0-9]*     -> JavaMethodMod  {prefer}
-     "mod" [0-9]* "*"        -> JavaMethodMod* {prefer}
-     "mod_" [a-zA-Z0-9]* "*" -> JavaMethodMod* {prefer}
+     "mod" [0-9]* "*"        -> (JavaAnno | JavaMethodMod)* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> (JavaAnno | JavaMethodMod)* {prefer}
      
      "mod" [0-9]*            -> JavaClassMod  {prefer}
      "mod_" [a-zA-Z0-9]*     -> JavaClassMod  {prefer}
-     "mod" [0-9]* "*"        -> JavaClassMod* {prefer}
-     "mod_" [a-zA-Z0-9]* "*" -> JavaClassMod* {prefer}
+     "mod" [0-9]* "*"        -> (JavaAnno | JavaClassMod)* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> (JavaAnno | JavaClassMod)* {prefer}
      
      "mod" [0-9]*            -> JavaConstrMod  {prefer}
      "mod_" [a-zA-Z0-9]*     -> JavaConstrMod  {prefer}
-     "mod" [0-9]* "*"        -> JavaConstrMod* {prefer}
-     "mod_" [a-zA-Z0-9]* "*" -> JavaConstrMod* {prefer}
+     "mod" [0-9]* "*"        -> (JavaAnno | JavaConstrMod)* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> (JavaAnno | JavaConstrMod)* {prefer}
      
      "mod" [0-9]*            -> JavaVarMod  {prefer}
      "mod_" [a-zA-Z0-9]*     -> JavaVarMod  {prefer}
-     "mod" [0-9]* "*"        -> JavaVarMod* {prefer}
-     "mod_" [a-zA-Z0-9]* "*" -> JavaVarMod* {prefer}
+     "mod" [0-9]* "*"        -> (JavaAnno | JavaVarMod)* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> (JavaAnno | JavaVarMod)* {prefer}
 
      "mod" [0-9]*            -> JavaFieldMod  {prefer}
      "mod_" [a-zA-Z0-9]*     -> JavaFieldMod  {prefer}
-     "mod" [0-9]* "*"        -> JavaFieldMod* {prefer}
-     "mod_" [a-zA-Z0-9]* "*" -> JavaFieldMod* {prefer}
-
+     "mod" [0-9]* "*"        -> (JavaAnno | JavaFieldMod)* {prefer}
+     "mod_" [a-zA-Z0-9]* "*" -> (JavaAnno | JavaFieldMod)* {prefer}
 
   %%%
    %% Quotations for Modifiers
