@@ -15,6 +15,6 @@ TESTSUITES = \
   statements.testsuite \
   types.testsuite
 
-PARSE_UNIT_PTABLE="`XTC_REPOSITORY="$(BUILD_REPOSITORY)" $(XTC)/bin/xtc get Java-15.tbl`"
+PARSE_UNIT_PTABLE=$(top_builddir)/syn/v1.5/Java-15.tbl
 
 check : $(TESTSUITES:.testsuite=.runtestsuite)
