@@ -25,7 +25,7 @@ SDFINCLUDES = \
   -Idef $(top_builddir)/syn/stratego-v1.5/Stratego-Java-15.def
 
 PGEN_FLAGS     = -m $*
-SDF2RTG_FLAGS  = --main Java-EBlock
+SDF2RTG_FLAGS  = --main Java-EBlock --ignore-missing-cons
 
 Stratego-Java-EBlock.def : Java-EBlock-Prefixed.sdf 
 

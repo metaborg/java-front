@@ -19,7 +19,7 @@ EXTRA_DIST = $(JAVA15_MODS) $(TBLS_DEFS) $(nobase_sdfdata_DATA) $(pkgdata_DATA)
 CLEANFILES = $(TBLS_DEFS) Java-15.rtg Java-15-Prefixed.sdf $(MIX) $(wildcard *.dep)
 
 PGEN_FLAGS     = -m $*
-SDF2RTG_FLAGS  = --main Java-15
+SDF2RTG_FLAGS  = --main Java-15 --ignore-missing-cons
 SDFINCLUDES    = -I $(srcdir)
 
 JavaCompilationUnit-15.def : $(JAVA15_MODS)
