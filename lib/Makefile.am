@@ -58,9 +58,8 @@ java/signature/eblock.rtg :
 	rm -f $@
 	$(LN_S) @abs_top_builddir@/syn/eblock/Java-EBlock.rtg $@
 
-java/pp/parenthesize.str : $(top_builddir)/syn/v1.5/Java-15.def
+java/pp/parenthesize.str : $(top_builddir)/syn/v1.5/Java-15.tbl
 	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ \
-	  -m Java-15 \
 	  --omod java/pp/parenthesize \
 	  --sig-module java/signature/v5 \
 	  --main-strategy io-java5-parenthesize \
