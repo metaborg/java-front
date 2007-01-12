@@ -7,7 +7,7 @@ SDFINCLUDES = -I .  -Idef $(top_builddir)/syn/v1.5/Java-15.def -Idef $(top_build
 PGEN_FLAGS  = -m $*
 
 sdfdata_DATA = $(TBLS_DEFS) 
-EXTRA_DIST   = $(sdfdata_DATA) $(MODS) $(MIX)
+EXTRA_DIST   = $(sdfdata_DATA) $(MODS) $(MIX) EmbeddedJava.def
 CLEANFILES   = $(TBLS_DEFS) $(MIX) EmbeddedJava.def $(wildcard *.dep)
 
 MODS = Stratego-Java-15.sdf Embedded-Java-15.sdf languages/java/EmbeddedJava.sdf
