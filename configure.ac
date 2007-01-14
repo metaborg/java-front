@@ -30,7 +30,8 @@ AC_CONFIG_FILES([
   tools/Makefile
   
   test/Makefile
-  test/v1.5/Makefile
+  test/syn/Java/Makefile
+  test/syn/StrategoJava/Makefile
   test/gnu-classpath/Makefile
   test/gnu-classpath/v1.5/Makefile
   test/j2sdk/Makefile

@@ -1,5 +1,5 @@
 include $(top_srcdir)/Makefile.xt
-include $(top_srcdir)/test/Makefile.parse-unit
+include $(top_srcdir)/test/syn/Makefile.parse-unit
 
 EXTRA_DIST = $(wildcard *.testsuite)
 

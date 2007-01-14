@@ -1,0 +1,8 @@
+testsuite Patterns of Java Concrete Object Syntax
+options
+  topsort PreTerm
+  ambiguity succeeds
+
+test Simple expression
+  "|[ e1 + e2 ]|" -> ToTerm(Plus(meta-var("e1"), meta-var("e2")))
+
