@@ -4,5 +4,10 @@ options
   ambiguity succeeds
 
 test Simple expression
-  "|[ e1 + e2 ]|" -> ToTerm(Plus(meta-var("e1"), meta-var("e2")))
+  "|[ e1 + e2 ]|" -> ToMetaExpr(Plus(meta-var("e1"), meta-var("e2")))
 
+test Simple identifier
+  "expr |[ x ]|" -> ToMetaExpr(ExprName(Id(meta-var("x"))))
+
+test Simple integer literal
+  "expr |[ i ]|" -> ToMetaExpr(Lit(Deci(meta-var("i"))))

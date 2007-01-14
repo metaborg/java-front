@@ -10,3 +10,5 @@ CLEANFILES = Main.def Main.tbl
 EXTRA_DIST = Main.sdf $(wildcard *.testsuite)
 
 SDFINCLUDES = -Idef $(top_srcdir)/syn/Stratego-Java-15.def
+
+check : $(TESTSUITES:.testsuite=.runtestsuite)
