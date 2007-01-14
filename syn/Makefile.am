@@ -86,7 +86,7 @@ EmbeddedJava.def : languages/java/EmbeddedJava.sdf Java-15.def
 	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef Java-15.def
 
 JavaMix.def : $(MIX) Java-15.def
-	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef Java-15.def
+	$(SDF_FRONT)/bin/pack-sdf -i languages/java/JavaMix.sdf -o $@ -Idef Java-15.def -I .
 
 EmbeddedJavaMix.def : $(EMBMIX) EmbeddedJava.def
 	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef EmbeddedJava.def
