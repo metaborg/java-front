@@ -1,5 +1,6 @@
-module Java-EBlock
-imports Java-15
+module languages/java/eblock/Main
+imports
+  languages/java-15/Main
    
 exports
   context-free syntax

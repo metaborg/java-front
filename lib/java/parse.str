@@ -43,20 +43,17 @@ strategies
    */
   get-java-parse-table =
     if ?"CompilationUnit" then
-      <memo-open-parse-table(JFR-JavaCompilationUnit-15-tbl)> "JavaCompilationUnit-15.tbl"
+      <jfr-memo-open-parse-table(import-term(JavaCompilationUnit-15.tbl))> "JavaCompilationUnit-15.tbl"
     else
-      <memo-open-parse-table(JFR-Java-15-tbl)> "Java-15.tbl"
+      <jfr-memo-open-parse-table(import-term(Java-15.tbl))> "Java-15.tbl"
     end
-
-  external JFR-JavaCompilationUnit-15-tbl(|)
-  external JFR-Java-15-tbl(|)
 
   /**
    * @todo Maybe this should be in libstratego-sglr
    */
-  memo-open-parse-table(gettbl) =
-    MemoParseTable
+  jfr-memo-open-parse-table(gettbl) =
+    jfr-MemoParseTable
     <+ ?key
        ; gettbl
        ; tbl := <open-parse-table>
-       ; rules(MemoParseTable : key -> tbl)
+       ; rules(jfr-MemoParseTable : key -> tbl)

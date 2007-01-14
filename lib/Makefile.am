@@ -5,7 +5,7 @@ lib_LTLIBRARIES     = libjava-front.la
 EXTRA_DIST          = $(javafrontlib) $(nobase_pkgdata_DATA)
 CLEANFILES          = $(nobase_pkgdata_DATA) libjava-front.c $(javafrontlibgen)
 
-libjava_front_la_SOURCES  = libjava-front.c tbl1-aterm.c tbl2-aterm.c
+libjava_front_la_SOURCES  = libjava-front.c
 libjava_front_la_CPPFLAGS = $(STRATEGO_LIB_CFLAGS) $(STRATEGO_RUNTIME_CFLAGS) $(ATERM_CFLAGS)
 libjava_front_la_LDFLAGS  = -avoid-version -no-undefined
 libjava_front_la_LIBADD   = $(STRATEGO_GPP_LIBS) $(STRATEGO_LIB_LIBS) $(STRATEGO_RUNTIME_LIBS) $(ATERM_LIBS)
@@ -38,7 +38,7 @@ BUILT_SOURCES = \
   java/typematch/common.str
 
 STRINCLUDES = \
-  $(STRATEGO_GPP_STRCFLAGS) -I $(GPP)/share/sdf/gpp -I $(top_builddir)/lib -I $(top_srcdir)/lib
+  $(STRATEGO_GPP_STRCFLAGS) -I $(GPP)/share/sdf/gpp -I $(top_builddir)/lib -I $(top_srcdir)/lib -I $(top_srcdir)/syn
 
 libjava-front.rtree libjava-front.c : $(javafrontlib:.str=.rtree)
 	@$(STRC)/bin/strc -c --library -i $< -o libjava-front.rtree $(STRINCLUDES)
@@ -46,27 +46,21 @@ libjava-front.rtree libjava-front.c : $(javafrontlib:.str=.rtree)
 
 java/typematch/common.str :
 	mkdir -p java/typematch
-	$(STRATEGO_REGULAR)/bin/rtg2typematch --module "java/typematch/common" -i $(top_builddir)/syn/v1.5/Java-15.rtg -o $@
+	$(STRATEGO_REGULAR)/bin/rtg2typematch --module "java/typematch/common" -i $(top_builddir)/syn/Java-15.rtg -o $@
 
 java/signature/v5.rtg :
 	mkdir -p java/signature
 	rm -f $@
-	$(LN_S) @abs_top_builddir@/syn/v1.5/Java-15.rtg $@
+	$(LN_S) @abs_top_builddir@/syn/Java-15.rtg $@
 
 java/signature/eblock.rtg :
 	mkdir -p java/signature
 	rm -f $@
-	$(LN_S) @abs_top_builddir@/syn/eblock/Java-EBlock.rtg $@
+	$(LN_S) @abs_top_builddir@/syn/Java-EBlock.rtg $@
 
-java/pp/parenthesize.str : $(top_builddir)/syn/v1.5/Java-15.tbl
+java/pp/parenthesize.str : $(top_builddir)/syn/Java-15.tbl
 	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ \
 	  --omod java/pp/parenthesize \
 	  --sig-module java/signature/v5 \
 	  --main-strategy io-java5-parenthesize \
 	  --lang Java5
-
-tbl1-aterm.c :
-	$(STRATEGOXT)/libexec/cgen-aterm --name JFR_Java_15_tbl -i $(top_builddir)/syn/v1.5/Java-15.tbl > $@
-
-tbl2-aterm.c :
-	$(STRATEGOXT)/libexec/cgen-aterm --name JFR_JavaCompilationUnit_15_tbl -i $(top_builddir)/syn/v1.5/JavaCompilationUnit-15.tbl > $@

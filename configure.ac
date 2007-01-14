@@ -26,10 +26,6 @@ AC_CONFIG_FILES([
   news-archive/Makefile
     
   syn/Makefile
-  syn/v1.5/Makefile
-  syn/stratego-v1.5/Makefile
-  syn/eblock/Makefile
-
   lib/Makefile
   tools/Makefile
   
