@@ -11,3 +11,7 @@ test Simple identifier
 
 test Simple integer literal
   "expr |[ i ]|" -> ToMetaExpr(Lit(Deci(meta-var("i"))))
+
+test Simple classdec
+  "type-dec |[ mod* class Foo {} ]|" ->
+    ToMetaExpr(ClassDec(ClassDecHead(meta-listvar("mod*"), _, _, _, _), _))
