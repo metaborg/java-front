@@ -1,6 +1,6 @@
 testsuite Patterns of Java Concrete Object Syntax
 options
-  topsort PreTerm
+  topsort Term
   ambiguity succeeds
 
 test Simple expression

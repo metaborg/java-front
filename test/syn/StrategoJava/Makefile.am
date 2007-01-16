@@ -2,7 +2,7 @@ include $(top_srcdir)/Makefile.xt
 include $(top_srcdir)/test/syn/Makefile.parse-unit
 include $(wildcard *.dep)
 
-TESTSUITES = preterm.testsuite
+TESTSUITES = term.testsuite
 PARSE_UNIT_PTABLE = Main.tbl
 
 check_DATA = Main.tbl
