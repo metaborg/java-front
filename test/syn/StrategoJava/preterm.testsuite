@@ -12,6 +12,9 @@ test Simple identifier
 test Simple integer literal
   "expr |[ i ]|" -> ToMetaExpr(Lit(Deci(meta-var("i"))))
 
-test Simple classdec
+test Simple classdec (JFR-55)
   "type-dec |[ mod* class Foo {} ]|" ->
     ToMetaExpr(ClassDec(ClassDecHead(meta-listvar("mod*"), _, _, _, _), _))
+
+test Annotation quotation
+  "anno |[ @Foo ]|" -> ToMetaExpr(MarkerAnno(TypeName(Id("Foo"))))

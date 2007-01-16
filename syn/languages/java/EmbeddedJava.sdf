@@ -292,6 +292,8 @@ exports
            "|[" Modifier "]|" -> E {cons("ToMetaExpr")}
     "mod"  "|[" Modifier "]|" -> E {cons("ToMetaExpr")}
 
+    "anno" "|[" Anno "]|" -> E {cons("ToMetaExpr")}
+
 
 %%%
  %% Formal Parameters
