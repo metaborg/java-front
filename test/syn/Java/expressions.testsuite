@@ -1,5 +1,7 @@
 testsuite Java Expressions
-topsort Expr
+options
+  topsort Expr
+  post-parse-priority-filter off
 
 test null literal
   "null" -> Lit(Null())
@@ -275,6 +277,9 @@ test Array creation 1
 
 test Array creation 2
   "new Class<Foo>[5]" fails
+
+test Plus is left assoc.
+  "1 + 2 + 3" -> Plus(Plus(_, _), _)
 
 test Expression hedged in conditional 1
   "x ? y && z : a || b" -> Cond(_, LazyAnd(_, _), LazyOr(_, _))
