@@ -6,7 +6,7 @@
 module languages/java-15/lexical/LineTerminators
 exports
   sorts
-    LineTerminator CarriageReturn
+    LineTerminator CarriageReturn EndOfFile
 
   lexical syntax
     [\n]           -> LineTerminator
