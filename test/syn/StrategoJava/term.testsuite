@@ -18,3 +18,6 @@ test Simple classdec (JFR-55)
 
 test Annotation quotation
   "anno |[ @Foo ]|" -> ToMetaExpr(MarkerAnno(TypeName(Id("Foo"))))
+
+test Anti-quotation in string
+  ""expr |[ "~s" ]|"" -> ToMetaExpr(Lit(String([Chars(FromMetaExpr(Var("s")))])))
