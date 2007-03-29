@@ -38,7 +38,7 @@ BUILT_SOURCES = \
   java/typematch/common.str
 
 STRINCLUDES = \
-  $(STRATEGO_GPP_STRCFLAGS) -I $(GPP)/share/sdf/gpp -I $(top_builddir)/lib -I $(top_srcdir)/lib -I $(top_srcdir)/syn
+  $(STRATEGO_GPP_STRCFLAGS) -I $(GPP)/share/sdf/gpp -I $(top_builddir)/lib -I $(top_srcdir)/lib -I $(top_srcdir)/syntax/src
 
 libjava-front.rtree libjava-front.c : $(javafrontlib:.str=.rtree)
 	@$(STRC)/bin/strc -c --library -i $< -o libjava-front.rtree $(STRINCLUDES)
@@ -46,19 +46,19 @@ libjava-front.rtree libjava-front.c : $(javafrontlib:.str=.rtree)
 
 java/typematch/common.str :
 	mkdir -p java/typematch
-	$(STRATEGO_REGULAR)/bin/rtg2typematch --module "java/typematch/common" -i $(top_builddir)/syn/Java-15.rtg -o $@
+	$(STRATEGO_REGULAR)/bin/rtg2typematch --module "java/typematch/common" -i $(top_builddir)/syntax-embedding/Java-15.rtg -o $@
 
 java/signature/v5.rtg :
 	mkdir -p java/signature
 	rm -f $@
-	$(LN_S) @abs_top_builddir@/syn/Java-15.rtg $@
+	$(LN_S) @abs_top_builddir@/syntax-embedding/Java-15.rtg $@
 
 java/signature/eblock.rtg :
 	mkdir -p java/signature
 	rm -f $@
-	$(LN_S) @abs_top_builddir@/syn/Java-EBlock.rtg $@
+	$(LN_S) @abs_top_builddir@/syntax-embedding/Java-EBlock.rtg $@
 
-java/pp/parenthesize.str : $(top_builddir)/syn/Java-15.tbl
+java/pp/parenthesize.str : $(top_builddir)/syntax/src/Java-15.tbl
 	$(SDF_TOOLS)/bin/sdf2parenthesize -i $< -o $@ \
 	  --omod java/pp/parenthesize \
 	  --sig-module java/signature/v5 \

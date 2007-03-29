@@ -26,7 +26,7 @@ AC_CONFIG_FILES([
   Makefile
   news-archive/Makefile
     
-  syn/Makefile
+  syntax-embedding/Makefile
   lib/Makefile
   tools/Makefile
   

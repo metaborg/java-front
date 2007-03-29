@@ -10,7 +10,7 @@ CLEANFILES =         $(GENMODS) $(TBLS_DEFS) $(RTGS) $(SIGS) $(wildcard *.dep)
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main $* --ignore-missing-cons
-SDFINCLUDES    = -I $(srcdir) -Idef $(top_srcdir)/syntax/src/JavaMix.def
+SDFINCLUDES    = -I $(srcdir) -Idef $(MIX)
 
 TBLS_DEFS = \
   EmbeddedJava.def \
@@ -25,6 +25,7 @@ TBLS_DEFS = \
 
 RTGS = Java-15.rtg Java-EBlock.rtg
 SIGS = Java-15.str Java-15.rtree Java-EBlock.str Java-EBlock.rtree
+MIX = $(top_srcdir)/syntax/src/JavaMix.def
 EMBMIX  = languages/java/EmbeddedJavaMix.sdf
 EBLOCKMIX = languages/java/eblock/JavaEBlockMix.sdf
 
@@ -53,16 +54,19 @@ $(EBLOCKMIX) : Java-EBlock.def
 # Definitions
 
 Stratego-Java-15.def : Stratego-Java-15.sdf
-	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef $(STRATEGO_FRONT)/share/sdf/stratego-front/StrategoMix.def
+	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef $(STRATEGO_FRONT)/share/sdf/stratego-front/StrategoMix.def -Idef $(MIX)
 
 Stratego-Java-EBlock.def : Stratego-Java-EBlock.sdf
-	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef $(STRATEGO_FRONT)/share/sdf/stratego-front/StrategoMix.def
+	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef $(STRATEGO_FRONT)/share/sdf/stratego-front/StrategoMix.def -Idef $(MIX)
 
-EmbeddedJava.def : languages/java/EmbeddedJava.sdf Java-15.def
-	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef Java-15.def
+EmbeddedJava.def : languages/java/EmbeddedJava.sdf $(MIX)
+	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef $(MIX)
 
 EmbeddedJavaMix.def : $(EMBMIX) EmbeddedJava.def
 	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef EmbeddedJava.def
 
 JavaEBlockMix.def : $(EBLOCKMIX) Java-EBlock.def
 	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef Java-EBlock.def
+
+Java-15.def :
+	$(LN_S) $(top_srcdir)/syntax/src/Java-15.def

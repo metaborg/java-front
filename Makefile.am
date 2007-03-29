@@ -1,6 +1,6 @@
 include $(top_srcdir)/Makefile.xt
 
-SUBDIRS = news-archive syntax syn lib tools test
+SUBDIRS = news-archive syntax syntax-embedding lib tools test
 pkgdata_DATA = java-front.m4
 
 BOOTCLEAN_SUBDIRS = $(SUBDIRS)
