@@ -37,20 +37,16 @@ MODS = \
   $(wildcard languages/java/eblock/*.sdf) \
   $(wildcard languages/java/*.sdf)
 
-# Dependencies
+if XT_BOOTSTRAP
 
 Stratego-Java-15.def : $(EMBMIX) $(MIX)
 Strateg-Java-EBlock.def : $(EMBMIX) $(MIX) $(EBLOCKMIX)
-
-# Mix modules
 
 $(EMBMIX) : EmbeddedJava.def
 	$(SDF_TOOLS)/bin/gen-sdf-mix -i $< --main languages/java/EmbeddedJava --name languages/java/EmbeddedJavaMix -o $@
 
 $(EBLOCKMIX) : Java-EBlock.def
 	$(SDF_TOOLS)/bin/gen-sdf-mix -i $< --main languages/java/eblock/Main --name languages/java/eblock/JavaEBlockMix -o $@
-
-# Definitions
 
 Stratego-Java-15.def : Stratego-Java-15.sdf
 	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef $(STRATEGO_FRONT)/share/sdf/stratego-front/StrategoMix.def -Idef $(MIX)
@@ -68,4 +64,5 @@ JavaEBlockMix.def : $(EBLOCKMIX) Java-EBlock.def
 	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef Java-EBlock.def
 
 Java-15.def : $(top_srcdir)/syntax/src/Java-15.def
-	cp $< .
+	cp -p $< $@
+endif
