@@ -1,9 +1,8 @@
 prefix=@prefix@
 datarootdir=@datarootdir@
 pkgdatadir=@datadir@/@PACKAGE@
-sdfdatadir=@datadir@/sdf/@PACKAGE@
 xtc_repo=@REPOSITORY@
-strcflags=-I ${sdfdatadir} -I ${pkgdatadir}
+strcflags=-I @datadir@/java-front-syntax -I ${pkgdatadir}
 strcxtcflags=--xtc-repo ${xtc_repo}
 
 Name: Java-front

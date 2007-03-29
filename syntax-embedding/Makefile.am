@@ -1,9 +1,8 @@
 include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
-sdfdata_DATA        = $(TBLS_DEFS)
-nobase_sdfdata_DATA = $(MODS) $(GENMODS)
-pkgdata_DATA        = $(RTGS) $(SIGS)
+nobase_pkgdata_DATA = $(MODS) $(GENMODS)
+pkgdata_DATA        = $(RTGS) $(SIGS) $(TBLS_DEFS)
 
 EXTRA_DIST = $(MODS) $(GENMODS) $(TBLS_DEFS) $(RTGS) $(SIGS) 
 CLEANFILES =         $(GENMODS) $(TBLS_DEFS) $(RTGS) $(SIGS) $(wildcard *.dep)
@@ -68,5 +67,5 @@ EmbeddedJavaMix.def : $(EMBMIX) EmbeddedJava.def
 JavaEBlockMix.def : $(EBLOCKMIX) Java-EBlock.def
 	$(SDF_FRONT)/bin/pack-sdf -i $< -o $@ -Idef Java-EBlock.def
 
-Java-15.def :
-	$(LN_S) $(top_srcdir)/syntax/src/Java-15.def
+Java-15.def : $(top_srcdir)/syntax/src/Java-15.def
+	cp $< .
