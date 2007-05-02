@@ -1,7 +1,7 @@
 /**
  * Parses a Java source file to an abstract syntax tree.
  *
- * @author  Martin Bravenboer <martin@cs.uu.nl>
+ * @author Martin Bravenboer
  */
 module parse-java
 imports
@@ -148,8 +148,8 @@ strategies
   parse-java-about =
     <tool-doc>
       [ AutoProgram()
-      , Author(Person("Martin Bravenboer", "martin@cs.uu.nl"))
-      , GNU_LGPL("2002-2006", "Martin Bravenboer <martin@cs.uu.nl>")
+      , Author(Person("Martin Bravenboer", "martin.bravenboer@gmail.com"))
+      , GNU_LGPL("2002-2007", "Martin Bravenboer <martin.bravenboer@gmail.com>")
       , Config([
           DefaultXTCRepository()
         , CurrentXTCRepository()
