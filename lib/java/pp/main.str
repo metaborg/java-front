@@ -38,14 +38,18 @@ strategies
    * @type Java -> Box
    */
   pp-java5-to-abox =
-    pp-java5-to-abox(java-to-box)
+    pp-java5-to-abox(fail)
     
-  pp-java5-to-abox(pprules) =    
+  /**
+   *  @param extension  Strategy that converts an aterm to an abox,
+   *                    overriding the default pretty printing rules.
+   */
+  pp-java5-to-abox(extension) =    
     parenthesize-Java5
     ; topdown(
         try(very-special-conflict)
-        ; try(pp-comments(pprules))
-        ; repeat(pprules)
+        ; try(pp-comments(extension <+ java-to-box))
+        ; repeat(extension <+ java-to-box)
       )
 
 rules

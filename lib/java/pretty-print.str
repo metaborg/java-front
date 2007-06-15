@@ -33,4 +33,8 @@ strategies
    * @type Java -> Box
    */
   pp-java-box =
-    pp-java5-to-abox
+    pp-java-box(fail)
+
+  pp-java-box(extension) =
+  	pp-java5-to-abox(extension)
+
