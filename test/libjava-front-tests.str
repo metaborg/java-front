@@ -36,6 +36,12 @@ strategies
     ; pp-string-test(|"1 * 2", "Expr")
     ; pp-string-test(|"1 + 2", "Expr")
     ; pp-string-test(|"f()", "Expr")
+    ; pp-string-test(|"new int[]{}", "Expr")
+    ; pp-string-test(|"new int[]{1, 2, 3}", "Expr")
+    ; pp-string-test(|"new int[3]", "Expr")
+    ; pp-string-test(|"new int[3][]", "Expr")
+    ; pp-string-test(|"new int[3][4][]", "Expr")
+    ; pp-string-test(|"new int[3][][]", "Expr")
 
 /**
  * Testing utils

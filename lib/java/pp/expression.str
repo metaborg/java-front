@@ -135,6 +135,9 @@ rules
 
   java-to-box: 
     NewArray(type, dimexprs, dims) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dimexprs ~*dims] ]|
+    where
+        <is-list> dimexprs
+      ; <is-list> dims
 
   java-to-box: 
     NewArray(type, dims, init@ArrayInit(_)) -> box |[ H hs=0 [H hs=1 [KW["new"] ~type] ~*dims ~init] ]|
