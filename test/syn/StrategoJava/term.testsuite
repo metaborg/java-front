@@ -21,3 +21,9 @@ test Annotation quotation
 
 test Anti-quotation in string
   ""expr |[ "~s" ]|"" -> ToMetaExpr(Lit(String([Chars(FromMetaExpr(Var("s")))])))
+
+test Quotation of constant declaration
+  "interface-member-dec |[ static final int FOO = 5; ]|" -> ToMetaExpr(ConstantDec(_, _, _))
+
+test Quotation of constant declaration
+  "constant-dec |[ static final int FOO = 5; ]|" -> ToMetaExpr(ConstantDec(_, _, _))
