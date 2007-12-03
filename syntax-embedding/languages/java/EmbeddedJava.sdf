@@ -437,7 +437,7 @@ exports
     "java:imember-dec*" "|["  AbstractMethodDec*  "]|" -> E {cons("ToMetaExpr")}
          "imember-dec*" "|["  AbstractMethodDec*  "]|" -> E {cons("ToMetaExpr")}
     "java"              "|["  AbstractMethodDec*  "]|" -> E {cons("ToMetaExpr")}
-                        "|["  AbstractMethodDec*  "]|" -> E {cons("ToMetaExpr ")}
+                        "|["  AbstractMethodDec*  "]|" -> E {cons("ToMetaExpr")}
 
   %% Anti-quotation
   context-free syntax
