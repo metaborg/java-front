@@ -15,6 +15,10 @@ test simple char literal
 test char literal with escape lf
   " '\n' " -> Lit(Char(NamedEscape(110)))
 
+test char literal with newline
+  " '
+' " fails
+
 test char literal with unicode escape
   " '\u0061' " -> Lit(Char(UnicodeEscape([117],48,48,54,49)))
 

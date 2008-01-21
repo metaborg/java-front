@@ -22,4 +22,4 @@ exports
     UnicodeEscape -> CharContent
     EscapeSeq     -> CharContent
 
-    ~[\12\13\'\\] -> SingleChar
+    ~[\r\n\'\\] -> SingleChar
