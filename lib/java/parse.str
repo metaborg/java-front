@@ -7,7 +7,7 @@ imports
   libstratego-sglr
 
 /**
- * Main parsing strategies.
+ * Parsing from a string to a parse tree
  */
 strategies
 
@@ -19,9 +19,21 @@ strategies
     where(tbl := <get-java-parse-table> sort)
     ; parse-string-pt(strsglr-report-parse-error | tbl, sort, "string")
 
+  /**
+   * @param Start sort (String)
+   * @type String -> sort
+   */
   parse-java-string(|sort) =
     parse-java-string-pt(|sort)
     ; implode-asfix
+
+/**
+ * Parsing from a stream to a parse tree
+ */ 
+strategies
+
+  parse-java-stream-pt(|path) =
+    parse-java-stream-pt(|"CompilationUnit", path)
 
   /**
    * @param Start sort (String)
@@ -30,6 +42,63 @@ strategies
   parse-java-stream-pt(|sort, path) =
     where(tbl := <get-java-parse-table> sort)
     ; parse-stream-pt(strsglr-report-parse-error | tbl, sort, path)
+
+/**
+ * Parsing from a stream to an AST
+ */
+strategies
+
+  /**
+   * @type Stream -> CompilationUnit
+   */
+  parse-java-stream(|path) =
+    parse-java-stream(|"CompilationUnit", path)
+
+  /**
+   * @param Start sort (String)
+   * @type Stream -> sort
+   */
+  parse-java-stream(|sort, path) =
+    parse-java-stream-pt(|sort, path)
+    ; implode-asfix
+
+/**
+ * Strategies for making Java to Java source transformation tools.
+ *
+ * @todo Make Java specific option descriptions (not ATerm to ATerm)
+ */
+strategies
+
+  io-java2java-wrap(s) =
+    io-stream-wrap(io-java2java(s))
+
+  io-java2java-wrap(extra-opts, s) =
+    io-stream-wrap(extra-opts, io-java2java(s))
+
+  io-java2java-wrap(extra-opts, usage, about, s) =
+    io-stream-wrap(extra-opts, usage, about, io-java2java(s))
+
+strategies
+
+  /**
+   * Strategy for use in io-stream-wrap.
+   *
+   * @type (Stream, Stream) -> Stream
+   */
+  io-java2java(s) =
+    io-java2java(s | "CompilationUnit")
+
+  /**
+   * Strategy for use in io-stream-wrap.
+   *
+   * @type (Stream, Stream) -> Stream
+   */
+  io-java2java(s | sort) =
+    ?(<id>, fout)
+    ; parse-java-stream(|sort, <get-config <+ !stdin()> "-i")
+    ; s
+    ; pp-java-stream(|fout)
+    ; <fputs> ("\n", fout)
 
 /**
  * Access to Java parse tables.
