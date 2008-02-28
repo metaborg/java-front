@@ -1,7 +1,7 @@
 %%%
  %% Section 8.4: Method Declarations
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/classes/MethodDeclarations
 imports

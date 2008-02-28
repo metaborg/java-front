@@ -1,7 +1,7 @@
 %%%
  %% Chapter 3: Lexical Structure
  %%
- %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/lexical/Main
 imports

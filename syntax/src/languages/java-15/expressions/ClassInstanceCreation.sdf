@@ -1,7 +1,7 @@
 %%%
  %% Section 15.9: Class Instance Creation Expressions
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/expressions/ClassInstanceCreation
 imports

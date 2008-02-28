@@ -1,7 +1,7 @@
 %%%
  %% Section 15.11: Field Access Expressions
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/expressions/FieldAccess
 imports

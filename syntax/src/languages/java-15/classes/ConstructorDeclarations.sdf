@@ -1,7 +1,7 @@
 %%%
  %% Section 8.8: Constructor Declarations
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/classes/ConstructorDeclarations
 imports

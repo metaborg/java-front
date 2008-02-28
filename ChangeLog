@@ -1,4 +1,4 @@
-2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
+2005-05-23  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/JavaCompilationUnit-15.sdf: new parse table that only
 	has CompilationUnit as a start symbol. I was very surprised that I
@@ -11,7 +11,7 @@
 	* syn/v1.5/languages/java-15/types/ReferenceTypes.sdf: do not
 	allow TypeVars as reference types.
 	
-2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
+2005-05-23  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/types/TypeVariables.sdf: minor change
 	in the definition of type parameters to make the structure of
@@ -22,7 +22,7 @@
 	* syn/v1.5/languages/java-15/types/ReferenceTypes.sdf: allow, but
 	avoid type variables as reference types.
 
-2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
+2005-05-23  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/types/ReferenceTypes.sdf: added the
 	non-terminal TypeDecSpec, which can be a TypeName or a
@@ -35,7 +35,7 @@
 	no longer an alias of Id. It is now a real non-terminal with a
 	production Id -> TypeVar and a constructor TypeVar.
 
-2005-05-23  Martin Bravenboer <martin@cs.uu.nl>
+2005-05-23  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* test/v1.5/floating-point-literals.testsuite: rewritten testsuite
 	to concrete-syntax and added many tests for floating point
@@ -48,13 +48,13 @@
 	added support for hexadecimal floating-point literals, which is a
 	new feature of Java 1.5.
   
-2005-05-20  Martin Bravenboer <martin@cs.uu.nl>
+2005-05-20  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/statemens/Statements.sdf: replaced
 	the Assert constructor of Java assert statement with
 	AssertStm. Reported by Valentin David.
 
-2005-03-05  Martin Bravenboer <martin@cs.uu.nl>
+2005-03-05  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/Main.sdf: new main module that
 	imports all Java modules and does not declare context-free
@@ -68,25 +68,25 @@
 	* syn/v1.5/languages/java-15/*/*.sdf: removed all context-free
 	start-symbols from the specific SDF modules.
 
-2005-01-05  Martin Bravenboer <martin@cs.uu.nl>
+2005-01-05  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/stratego-v1.5/Embedded-Java-15.sdf: 'lhs' is rather confusing
 	for the left-hand side. Added 'e' as a meta-variable for the
 	left-hand side. This is not ambiguous.
 
-2005-01-04  Martin Bravenboer <martin@cs.uu.nl>
+2005-01-04  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/stratego-v1.5/Embedded-Java-15.sdf: added a variable for the
 	LeftHandSide of an assignment.
 	
-2004-11-01  Martin Bravenboer <martin@cs.uu.nl>
+2004-11-01  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/types/ParameterizedTypes.sdf: allow
 	any type as actual type argument. I hate semantic limitations that
 	are enforced by the syntax. The make the syntax definition unclear
 	and make meta-programming more difficult.
 	
-2004-10-17  Martin Bravenboer <martin@cs.uu.nl>
+2004-10-17  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/stratego-v1.5/Stratego-Java-15.sdf: another interesting
 	problem related to heuristic filters and ambiguities. We are all
@@ -107,14 +107,14 @@
 	of the host language. Maybe we could generate this stuff by
 	analyzing the follow restrictions of the object language.
 
-2004-10-16  Martin Bravenboer <martin@cs.uu.nl>
+2004-10-16  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/stratego-v1.5/Stratego-Java-15.sdf: removed the quotation
 	with explicit disambiguation for a list of block statement. This
 	is always ambiguous with a single block statement, which only
 	shows up if you disable the heuristic filters of sglr.
 	
-2004-10-15  Martin Bravenboer <martin@cs.uu.nl>
+2004-10-15  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/lexical/Modifiers.sdf: added a
 	general sort Modifier.
@@ -127,7 +127,7 @@
 
 	* java-front.m4: use AS_HELP_STRING instead of AC_HELP_STRING.
 
-2004-09-08  Martin Bravenboer <martin@cs.uu.nl>
+2004-09-08  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* xtc/parse-java.str: now supports the --preserve-comments and
 	--preserve-positions options. These options can be used to
@@ -136,7 +136,7 @@
 	the comment annotations and will include them in the resulting
 	Java source file.
 
-2004-08-09  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-09  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* xtc/jtree2text.str: gone.
 
@@ -149,7 +149,7 @@
 	suggests that this is the primary syntax definition, which is not
 	the case.
 	
-2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-08  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* Unattractive fix to an ambiguity: the declaration "Foo<Bar>
 	fred;" can be parsed as an expression of < and >, or a variable
@@ -171,7 +171,7 @@
 	production. This solves the ambiguity, but I would prefer a
 	solution without prefer/avoid. Suggestions are welcome ...
 	
-2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-08  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/expressions/ArrayCreationExpressions.sdf:
 	added support for the unbounded wildcard array base type, which is
@@ -184,14 +184,14 @@
 	* pp/pp-Java.str: fixed pretty-printing of parameterized classes
 	and interfaces.
 	
-2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-08  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* pp/pp-Java.str: ad-hoc fix for an interesting problem:
 	Minus(Minus(e)) was pretty-printed as --e and therefore parsed as
 	PreDecr afterwards. This cannot be derived from the priorities,
 	but maybe the lexical restrictions could be used ... scary!
 	
-2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-08  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/expressions/UnaryOperators.sdf: the
 	priority of a primitive cast "(int) e", is different from the cast
@@ -225,7 +225,7 @@
 	flags to disable the heuristic filters of SGLR (injection count
 	and eagerness).
 	
-2004-08-08  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-08  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/languages/java-15/expressions/Priorities.sdf: parsing
 	the jdk1.5.0 beta sources revealed an error in the priority of
@@ -235,7 +235,7 @@
 	* syn/basic/Java-Expressions.sdf: same fix in the legacy Java
 	syntax definition.
 	
-2004-08-05  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-05  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/*: Java 1.5 syntax definition is more or less
 	finished. Currently performing tests on the GNU classpath and
@@ -248,7 +248,7 @@
 	* test/gnu-classpath/v1.4,v1.5: test both Java versions (currently
 	parsing only: I still need to update the pretty-printer for 1.5).
 	
-2004-08-03  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-03  Martin Bravenboer <martin.bravenboer@gmail.com>
 	
 	* syn/v1.5/*: JavaFront will use hierarchical SDF module names for
 	the new syntax definition of Java 1.5 (Java 2 version 5.0). These
@@ -265,7 +265,7 @@
 	consistent version scheme invented by Sun (1-2-3, that makes
 	sense!).
 	
-2004-08-02  Martin Bravenboer <martin@cs.uu.nl>
+2004-08-02  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/v1.5/*: working on full support for Java 1.5. This
 	will not be an extension of the syntax definition Java 1.4, since
@@ -275,14 +275,14 @@
 	* syn/generic/*: the current definition of Generic Java in SDF is
 	still available but will not be extended to cover 1.5.
 	
-2004-07-26  Martin Bravenboer <martin@cs.uu.nl>
+2004-07-26  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* test/gnu-classpath/Makefile.am: check diff of `parse | pp |
 	parse' and `parse' abstract syntax tree. This diff should be a
 	very good test of the pretty-printer. The check succeeds, so the
 	pretty-printer is safe to use on large codebases.
 
-2004-07-25  Martin Bravenboer <martin@cs.uu.nl>
+2004-07-25  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* test/gnu-classpath/Makefile.am: Pretty-print and parse all Java
 	source files in GN Classpath. All files can now be pretty-printed
@@ -306,7 +306,7 @@
 	* pp/pp-Java-Statements.str: fixed pretty-printing of final local
 	variable declarations.
 	
-2004-07-24  Martin Bravenboer <martin@cs.uu.nl>
+2004-07-24  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* pp/Makefile.am: jtree-parenthesize is now a separate tool.
 
@@ -359,18 +359,18 @@
 	* pp/pp-Java-Statements.str: finally fixed several known problems
 	in the pretty-printing of for statements.
 	
-2004-07-21  Martin Bravenboer <martin@cs.uu.nl>
+2004-07-21  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/basic/Stratego-Java.sdf: added the stm meta variable, stm |[
 	... ]| quotation and ~stm: anti-quotation, and ~bstm:
 	anti-quotation. Reported by Raihan.
 	
-2004-07-10  Martin Bravenboer <martin@cs.uu.nl>
+2004-07-10  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* xtc/parse-java.str: added an -s|--start-symbol option to parse
 	different start symbols then a full CompilationUnit.
 	
-2004-07-07  Martin Bravenboer <martin@cs.uu.nl>
+2004-07-07  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* xtc/parse-java.str: added a --release flag to the parse-java
 	util. Use parse-java --release 1.4 to parse classic Java. Default
@@ -379,7 +379,7 @@
 	* xtc/parse-java.str: added some documentation in the form of
 	tool-doc.
 	
-2004-06-30  Martin Bravenboer <martin@cs.uu.nl>
+2004-06-30  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* pp/pp-Java.str: now uses a generated java-parenthesize
 	module. This module places parenthesis only where really
@@ -388,7 +388,7 @@
 	* pp/pp-Java-Statements.str: improved pretty-printing of
 	if-statements.
 	
-2004-04-20  Martin Bravenboer <martin@cs.uu.nl>
+2004-04-20  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/basic/Java-Identifiers.sdf: context-free to lexical rejects
 	are not allowed (BoolLiteral). Replaced by the token true, false
@@ -397,14 +397,14 @@
 	* test/basic/identifiers.testsuite: parse-unit testsuite for
         Java identifiers.	
 	
-2004-04-07  Martin Bravenboer <martin@cs.uu.nl>
+2004-04-07  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/generic/Java-StaticImport.sdf: added production rules for
 	the static import facility of 1.5.
 
 	* pp/pp-Java.str: added pretty-print rules for static import.
 	
-2004-03-16  Martin Bravenboer <martin@cs.uu.nl>
+2004-03-16  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/eblock/*: implemented an extension of Generic-Java with
 	expression blocks. An Expression block a list of block-level
@@ -419,17 +419,17 @@
 	lifting. It more or less works, but probably not for nested
 	blocks, and anonymous inner classes.
 
-2004-02-24  Martin Bravenboer <martin@cs.uu.nl>
+2004-02-24  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* pp/*: implemented NamedEscapes in the pretty printer.
 
-2004-02-16  Martin Bravenboer <martin@cs.uu.nl>
+2004-02-16  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/basic/Makefile.am
 	* syn/generic/Makefile.am
 	* sig/Makefile.am: produce rtg-nf, not rhg-nf.
 
-2004-02-05  Martin Bravenboer <martin@cs.uu.nl>
+2004-02-05  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/basic/Java-Literals.sdf: character and string literals are
 	no longer lexical syntax.
@@ -476,13 +476,13 @@
 	partially normalized SDF modules. sig2rhg just generates one big
 	module, so there are no separate modules anymore.
 
-2004-02-05  Martin Bravenboer <martin@cs.uu.nl>
+2004-02-05  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/basic/Java-Prefixed.sdf: renamings for some (not all yet)
 	Java sorts by prefixing them with Java. This module should be used
 	for embedding concrete object syntax in Java.
 
-2004-02-04  Martin Bravenboer <martin@cs.uu.nl>
+2004-02-04  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* syn/basic/Java-Comments.sdf: added follow restriction on
 	optional layout: LAYOUT?  -/- [\/].[\/]. This restriciton is
@@ -509,7 +509,7 @@
 	    <LAYOUT?-CF>
 	    }
 	
-2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
+2004-01-31  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* test/j2sdk: separate directory for j2sdk testsuites.
 
@@ -517,14 +517,14 @@
 
 	* Bugs to stratego-bugs@cs.uu.nl
 
-2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
+2004-01-31  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* Follow restriction for /* */ and LAYOUT?. All of GNU Classpath
 	java.* is now accepted by the Java grammar of java-front :) .
 
 	* Version to 0.4.
 
-2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
+2004-01-31  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* Fixed typo causing unicode escape to be rejected.
 
@@ -532,7 +532,7 @@
 
 	* Still 3 of 1035 GNU Classpath java.* don't parse.
 	
-2004-01-31  Martin Bravenboer <martin@cs.uu.nl>
+2004-01-31  Martin Bravenboer <martin.bravenboer@gmail.com>
 
 	* Major performance improvements by removing a horrible reject
 	construct on 'InputChar'. This appeared to have an amazing bad

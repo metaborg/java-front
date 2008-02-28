@@ -1,7 +1,7 @@
 %%%
  %% Chapter 7: Packages
  %%
- %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/packages/Main
 imports

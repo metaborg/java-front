@@ -1,7 +1,7 @@
 %%%
  %% Section 9.1: Interface Declarations
  %%
- %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/interfaces/InterfaceDeclarations
 imports

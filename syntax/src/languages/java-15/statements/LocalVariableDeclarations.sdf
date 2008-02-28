@@ -1,7 +1,7 @@
 %%%
  %% Section 14.4: Local Variable Declaration Statements
  %%
- %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/statements/LocalVariableDeclarations
 imports

@@ -1,7 +1,7 @@
 %%%
  %% Section 8.9: Enums
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/classes/EnumDeclarations
 imports

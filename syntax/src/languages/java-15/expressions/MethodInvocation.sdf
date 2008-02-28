@@ -1,7 +1,7 @@
 %%%
  %% Section 15.12: Method Invocation Expressions
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/expressions/MethodInvocation
 imports

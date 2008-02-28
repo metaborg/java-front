@@ -1,7 +1,7 @@
 %%%
  %% Section 3.10.6: Escape Sequences for Character and String Literals
  %%
- %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/lexical/literals/EscapeSequences
 imports

@@ -1,7 +1,7 @@
 %%%
  %% Section 8.1: Class Declarations
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/classes/ClassDeclarations
 imports

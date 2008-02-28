@@ -1,7 +1,7 @@
 %%%
  %% Section 8.6: Instance Initializers
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/classes/InstanceInitializers
 imports

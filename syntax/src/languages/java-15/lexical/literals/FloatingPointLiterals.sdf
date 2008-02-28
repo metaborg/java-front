@@ -1,7 +1,7 @@
 %%%
  %% Section 3.10.2: Floating Point Literals
  %%
- %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/lexical/literals/FloatingPointLiterals
 exports

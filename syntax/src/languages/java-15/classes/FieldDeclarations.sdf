@@ -1,7 +1,7 @@
 %%%
  %% Section 8.3: Field Declarations
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/classes/FieldDeclarations
 imports

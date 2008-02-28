@@ -1,7 +1,7 @@
 %%%
  %% Section 15.15: Unary Operators
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/expressions/UnaryOperators
 imports 

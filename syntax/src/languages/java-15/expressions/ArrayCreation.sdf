@@ -1,7 +1,7 @@
 %%%
  %% Section 15.10: Array Creation Expressions
  %%
- %% @author  Martin Bravenboer <martin@cs.uu.nl>
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/expressions/ArrayCreation
 imports

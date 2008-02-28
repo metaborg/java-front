@@ -1,7 +1,7 @@
 #     							-*- Autoconf -*-
 # serial 2
 #
-# Author: Martin Bravenboer <martin@cs.uu.nl>
+# Author: Martin Bravenboer <martin.bravenboer@gmail.com>
 #
 
 # XT_USE_JAVA_FRONT

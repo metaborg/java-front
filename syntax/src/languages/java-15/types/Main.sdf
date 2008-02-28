@@ -1,7 +1,7 @@
 %%%
  %% Chapter 4: Types, Values, and Variables
  %%
- %% @author Martin Bravenboer <martin@cs.uu.nl>
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
 module languages/java-15/types/Main
 imports
