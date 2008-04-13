@@ -40,7 +40,7 @@ MODS = \
 if XT_BOOTSTRAP
 
 Stratego-Java-15.def : $(EMBMIX) $(MIX)
-Strateg-Java-EBlock.def : $(EMBMIX) $(MIX) $(EBLOCKMIX)
+Stratego-Java-EBlock.def : $(EMBMIX) $(MIX) $(EBLOCKMIX)
 
 $(EMBMIX) : EmbeddedJava.def
 	$(SDF_TOOLS)/bin/gen-sdf-mix -i $< --main languages/java/EmbeddedJava --name languages/java/EmbeddedJavaMix -o $@
