@@ -32,7 +32,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_bindir}
 %{_libdir}
-%{_libexecdir}
+%{_prefix}/libexec
+# %{_libexecdir}
 %{_datadir}
 %doc
 
