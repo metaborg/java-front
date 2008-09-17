@@ -1,9 +1,9 @@
 include $(top_srcdir)/Makefile.xt
 
-nobase_pkgdata_DATA = libjava-front.rtree $(javafrontlib:.str=.rtree)
+nobase_pkgdata_DATA = libjava-front.rtree java-front.ctree $(javafrontlib:.str=.rtree)
 lib_LTLIBRARIES     = libjava-front.la
 EXTRA_DIST          = $(javafrontlib) $(nobase_pkgdata_DATA) $(javafrontlibsrcextra)
-CLEANFILES          = $(nobase_pkgdata_DATA) libjava-front.c $(javafrontlibgen)
+CLEANFILES          = $(nobase_pkgdata_DATA) libjava-front.c $(javafrontlibgen) java-front.ctree
 
 libjava_front_la_SOURCES  = libjava-front.c
 libjava_front_la_CPPFLAGS = $(STRATEGO_LIB_CFLAGS) $(STRATEGO_RUNTIME_CFLAGS) $(ATERM_CFLAGS)
@@ -43,6 +43,9 @@ STRINCLUDES = \
 libjava-front.rtree libjava-front.c : $(javafrontlib:.str=.rtree)
 	@$(STRC)/bin/strc -c --library -i $< -o libjava-front.rtree $(STRINCLUDES)
 	rm libjava-front.str
+
+java-front.ctree : libjava-front.rtree
+	@$(STRC)/bin/strc -c -F --library -i $< -o java-front.ctree $(STRINCLUDES)
 
 java/typematch/common.str :
 	mkdir -p java/typematch
