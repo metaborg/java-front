@@ -17,7 +17,7 @@ strategies
       parse-java-options
     , parse-java-usage
     , parse-java-about
-    , parse-java
+    , parse-java <+ report-failure-no-trace
     )
 
 strategies

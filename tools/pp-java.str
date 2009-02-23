@@ -7,7 +7,12 @@ imports
 strategies
 
   main-pp-java =
-    io-stream-wrap(fail, pp-java-usage, pp-java-about, pp-java)
+    io-stream-wrap(
+      fail
+    , pp-java-usage
+    , pp-java-about
+    , pp-java <+ report-failure-no-trace
+    )
 
   pp-java =
     ?(<read-from-stream>, fout)
