@@ -176,7 +176,7 @@ rules
     Continue(None())      -> H hs=0 [KW["continue"] ";"]
 
   java-to-box:
-    Labeled(Id(s), stm) -> box |[ H hs=1 [s ":" ~stm] ]| 
+    Labeled(Id(s), stm) -> box |[ V [ H hs=0 [ s ":" ] ~stm] ]| 
 
   java-to-box:
     AssertStm(e) -> box |[ H hs=0 [H hs=1 [KW["assert"] ~e] ";"] ]| 
