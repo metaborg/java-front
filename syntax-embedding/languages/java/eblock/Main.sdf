@@ -1,6 +1,7 @@
 module languages/java/eblock/Main
 imports
   languages/java-15/Main
+  languages/java/eblock/ConcatIds
    
 exports
   context-free syntax

@@ -2,11 +2,12 @@ module core-lift-eblocks
 imports
   libstratego-lib 
   libjava-front
+  java-concat-ids
 
 strategies
   
   main-core-lift-eblocks =
-    io-wrap(core-lift-eblocks)
+    io-wrap(core-lift-eblocks; java-concat-ids)
 
   core-lift-eblocks =
     bottomup(try( desugar-prepostblock <+ lift-to-block-level ))
