@@ -1,0 +1,69 @@
+module java/postprocess/java-lift-eblocks
+imports
+  libstratego-lib 
+
+strategies
+
+  java-lift-eblocks =
+    bottomup(try( java-desugar-prepostblock <+ java-lift-to-block-level ))
+
+  java-desugar-prepostblock :
+    PrePostEBlock(pre, expr, post) -> PreEBlock(pre, PostEBlock(expr, post) )
+
+  java-lift-to-block-level = 
+        java-lift-from-blocks 
+    <+  java-lift-from-constructor-blocks
+    <+  java-lift-from-switchgroup-blocks
+  
+  java-lift-from-blocks = 
+      ?Block(<id>)
+    ; map(java-local-lift-eblocks)
+    ; concat
+    ; java-flatten-inner-block
+    ; !Block(<id>)
+
+  java-lift-from-constructor-blocks = 
+      ?ConstrBody(x, <id>)
+    ; map(java-local-lift-eblocks)
+    ; concat
+    ; java-flatten-inner-block
+    ; !ConstrBody(x, <id>)
+
+  java-lift-from-switchgroup-blocks =
+      ?SwitchGroup(x, <id>)
+    ; map(java-local-lift-eblocks)
+    ; concat
+    ; java-flatten-inner-block
+    ; !SwitchGroup(x, <id>)
+      
+  /**
+   * @todo  Nested EBlocks?
+   * @todo  Nested Blocks?
+   * @todo  Is Block the only block level element?
+   * @todo  Anonymous inner classes?
+   * @todo  Is flatten-list required?
+   */
+  java-local-lift-eblocks =
+      java-collect-split-om-pre-eblock
+    ; ?(<id>, pre-stms)
+    ; java-collect-split-om-post-eblock
+    ; ?(t, post-stms)
+    ; ( !post-stms => []; !pre-stms => []
+      < ![t]
+      + <concat> [<map(java-local-lift-eblocks); concat> pre-stms, <java-local-lift-eblocks> t, <map(java-local-lift-eblocks); concat> post-stms]
+      )
+
+  java-collect-split-om-pre-eblock =
+    !(<alltd(?PreEBlock(_, <id>))>,<collect-om(?PreEBlock(<id>, _), conc); concat>)
+
+  java-collect-split-om-post-eblock =
+    !(<alltd(?PostEBlock(<id>, _))>, <collect-om(?PostEBlock(_, <id>), conc); concat>)
+
+  java-flatten-inner-block = 
+    ?[ InnerBlock(ys) | xs ];<conc>(<java-flatten-inner-block>ys, <java-flatten-inner-block>xs)
+      <+
+    ?[ x | xs ];![ x | <java-flatten-inner-block>xs ]
+      <+
+    ?[ InnerBlock(ys) | [] ] ; <java-flatten-inner-block> ys
+      <+
+    ?[ x | [] ];![ x ]
