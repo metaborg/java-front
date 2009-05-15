@@ -9,7 +9,7 @@ signature constructors
 strategies
 
   java-concat-ids =
-    topdown(try(
+    bottomup(try(
        concat-id-java-pascal-case
     <+ concat-id-underscore-camel-case
     <+ concat-id-camel-case
