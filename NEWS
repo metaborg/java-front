@@ -2,6 +2,125 @@
 Java-front for Stratego/XT 
 --------------------------------------------------------------------------
 
+2009-07-09 - Java-front 0.9
+
+  This is a minor update of Java-front, a package that provides
+  the syntax-related support for implementing Java transformation
+  systems. 
+
+  * Wrapper strategies for Java to Java transformation tools
+
+  Added the long requested wrapper strategies for creating Java to Java
+  transformation tools.
+
+    io-java2java-wrap(s) =
+    io-java2java-wrap(extra-opts, s) =
+    io-java2java-wrap(extra-opts, usage, about, s) =
+
+  Creating a source to source tool is now as easy as:
+
+  ------------------------------
+    module foo
+    imports libstratego-lib libjava-front
+    strategies
+
+    main =
+      io-java2java-wrap(foo)
+ 
+    foo =
+    // some AST transformation
+  ------------------------------
+
+  $ strc -i foo.str $(strcflags stratego-lib java-front)
+  $ ./foo -i Foo.java -o Bar.java
+ 
+
+  * Pretty printer available as library
+  
+  The java-front pretty-printer can now be used as a
+  separately compiled library.
+
+  * Java embedding
+
+  Renovation of the Java embedding definitions. The preferred embedding is now
+  no longer using a prefixed version of Java, but a mix version of Java.
+
+  The preferred definition for embedding Java is now
+  EmbeddedJavaMix.def. This module is parameterized with two symbols:
+
+    1) The context of Java.
+    2) The expression non-terminal of the host language.
+
+  If you use StrategoRenamed, then the import can be something like
+  this:
+
+  languages/java/EmbeddedJavaMix[Java StrategoTerm]
+
+  The advantage of having EmbeddedJavaMix is that you can easily embed
+  multiple languages, even if more than one of these languages involve
+  Java. Suppose that you have a language Foo that extends Java:
+
+  -------------------------------------
+  module Foo
+  imports
+  languages/java/JavaMix[Foo] 
+  
+  exports
+  ...
+  -------------------------------------
+ 
+  and Foo is embedded in Stratego:
+
+  -------------------------------------
+  module StrategoFoo
+  imports
+  languages/stratego/StrategoMix[Stratego]
+  Foo
+
+  exports
+  ...
+  -------------------------------------
+
+  In this situation the composer of the embeddings can decide if he (she
+  is unlikely) wants to support the variables and anti-quotations in Foo
+  quotations and if Foo constructs should be supported in Java
+  quotations.
+  
+  If this should be allowed, then EmbeddedJavaMix can be imported with
+  the parameters [Foo Term[[Stratego]]]. If this should not be allowed,
+  then a different first parameter can be chosen.
+
+
+  * AST changes
+  
+  There have been some minor changes is the syntax definition that change
+  the Java AST to previous versions, and therefore might break existing 
+  code. 
+  
+  ** Replaced ClassName with TypeName. This changes the representation of:
+     - Qualified super field access
+     - Qualified super method invocation
+     - Qualified this.
+     All these constructs are now qualified by a TypeName instead of a
+     ClassName.
+  ** Change in modifiers: Anno is no longer a Mod
+  ** GenericStaticMethod has been renamed to GenericMethod and the prefix
+     of the GenericMethod is now an AmbName, not a TypeName. This
+     represents the syntactical ambiguity better.
+
+
+  * Contributors
+
+    - Martin Bravenboer
+    - Eelco Dolstra
+    - Eelco Visser
+    - Lennart Kats
+    - Danny Groenwegen
+    - Rob Vermaas
+
+  Thanks!
+
+
 2005-11-04 - Java-front 0.8
 
   This is another major update of Java-front, a package that provides
