@@ -6,9 +6,9 @@ EXTRA_DIST          = $(javafrontlib) $(nobase_pkgdata_DATA) $(javafrontlibsrcex
 CLEANFILES          = $(nobase_pkgdata_DATA) libjava-front.c $(javafrontlibgen) libjava-front.ctree
 
 libjava_front_la_SOURCES  = libjava-front.c
-libjava_front_la_CPPFLAGS = $(STRATEGO_LIB_CFLAGS) $(STRATEGO_RUNTIME_CFLAGS) $(ATERM_CFLAGS)
+libjava_front_la_CPPFLAGS = $(STRATEGO_LIB_CFLAGS) $(STRATEGO_RUNTIME_CFLAGS) $(ATERM_CFLAGS) $(STRATEGO_SGLR_CFLAGS)
 libjava_front_la_LDFLAGS  = -avoid-version -no-undefined
-libjava_front_la_LIBADD   = $(STRATEGO_GPP_LIBS) $(STRATEGO_LIB_LIBS) $(STRATEGO_RUNTIME_LIBS) $(ATERM_LIBS)
+libjava_front_la_LIBADD   = $(STRATEGO_GPP_LIBS) $(STRATEGO_LIB_LIBS) $(STRATEGO_RUNTIME_LIBS) $(ATERM_LIBS) $(STRATEGO_SGLR_LIBS)
 
 javafrontlib = $(javafrontlibsrc) $(javafrontlibgen)
 
