@@ -1,7 +1,7 @@
 module java/postprocess/java-concat-ids
 
 imports 
-  libstrategolib  
+  libstratego-lib  
 
 signature constructors
   ConcatIds : ID -> ID
