@@ -1,5 +1,5 @@
 AC_PREREQ([2.58])
-AC_INIT([java-front],[0.9.1],[stratego@cs.uu.nl])
+AC_INIT([java-front],[0.9.1],[users@strategoxt.org])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE([1.7.2 -Wall -Wno-portability])
 
