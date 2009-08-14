@@ -4,4 +4,4 @@ imports
    
 exports
   context-free syntax
-  	{ ID[[Java]] "#" }+ -> ID[[Java]] {cons("ConcatIds")}
+  	{ ID "#" }+ -> ID {cons("ConcatIds")}
