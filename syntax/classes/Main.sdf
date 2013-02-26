@@ -1,0 +1,9 @@
+%%%
+ %% Section 8: Classes
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module classes/Main
+imports
+  classes/ClassDeclarations
+  classes/EnumDeclarations

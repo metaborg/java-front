@@ -1,0 +1,19 @@
+%%%
+ %% Section 7.5: Import Declarations
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module packages/ImportDeclarations
+imports
+  lexical/Identifiers
+  names/Main
+
+exports
+  sorts
+    ImportDec
+
+  context-free syntax
+    "import" TypeName                  ";"  -> ImportDec {cons("TypeImportDec")}
+    "import" PackageName       "." "*" ";"  -> ImportDec {cons("TypeImportOnDemandDec")}
+    "import" "static" TypeName "." Id  ";"  -> ImportDec {cons("StaticImportDec")}
+    "import" "static" TypeName "." "*" ";"  -> ImportDec {cons("StaticImportOnDemandDec")}

@@ -1,0 +1,22 @@
+module interfaces/AbstractMethodDeclarations
+imports
+  lexical/Modifiers
+  names/Main
+  types/Main
+  classes/MethodDeclarations
+
+exports
+  sorts
+    AbstractMethodDec
+    AbstractMethodMod
+
+  context-free syntax
+    (Anno | AbstractMethodMod)* TypeParams? ResultType
+      Id "(" {FormalParam ","}* ")" Throws? ";" -> AbstractMethodDec {cons("AbstractMethodDec")}
+
+    (Anno | AbstractMethodMod)* TypeParams? ResultType
+      Id "(" {FormalParam ","}* ")" Dim+ Throws? ";" -> AbstractMethodDec {cons("DeprAbstractMethodDec")}
+
+    Public   -> AbstractMethodMod
+    Abstract -> AbstractMethodMod
+

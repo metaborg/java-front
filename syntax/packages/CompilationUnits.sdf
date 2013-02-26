@@ -1,0 +1,17 @@
+%%%
+ %% Section 7.3: CompilationUnits
+ %%
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module packages/CompilationUnits
+imports
+  packages/PackageDeclarations
+  packages/ImportDeclarations
+  packages/TypeDeclarations
+
+exports
+  sorts
+    CompilationUnit
+
+  context-free syntax
+    PackageDec? ImportDec* TypeDec+ -> CompilationUnit   {cons("CompilationUnit")}

@@ -1,0 +1,15 @@
+%%%
+ %% Section 8.7: Static Initializers
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module classes/StaticInitializers
+imports
+  statements/Blocks
+
+exports
+  sorts
+    StaticInit
+
+  context-free syntax
+    "static" Block -> StaticInit   {cons("StaticInit")}

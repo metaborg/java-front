@@ -1,0 +1,23 @@
+%%%
+ %% Chapter 15: Expressions
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module expressions/Main
+imports
+  expressions/Primary
+  expressions/ClassInstanceCreation
+  expressions/ArrayCreation
+  expressions/FieldAccess
+  expressions/ArrayAccess
+  expressions/MethodInvocation
+  expressions/Postfix
+  expressions/UnaryOperators
+  expressions/BinaryOperators
+  expressions/AssignmentOperators
+  expressions/Restrictions
+  expressions/Priorities
+
+exports
+  sorts
+    Expr

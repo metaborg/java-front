@@ -1,0 +1,19 @@
+%%%
+ %% Chapter 4: Types, Values, and Variables
+ %%
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module types/Main
+imports
+  types/PrimitiveTypes
+  types/ReferenceTypes
+  types/TypeVariables
+  types/ParameterizedTypes
+
+exports
+  sorts
+    Type
+
+  context-free syntax
+    PrimType -> Type
+    RefType  -> Type

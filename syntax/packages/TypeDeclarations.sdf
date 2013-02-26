@@ -1,0 +1,18 @@
+%%%
+ %% Section 7.6: Top Level Type Declarations
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module packages/TypeDeclarations
+imports
+  classes/ClassDeclarations
+  interfaces/InterfaceDeclarations
+
+exports
+  sorts
+    TypeDec
+
+  context-free syntax
+    ClassDec      -> TypeDec
+    InterfaceDec  -> TypeDec
+    ";"           -> TypeDec {cons("Semicolon")}

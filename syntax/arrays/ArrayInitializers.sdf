@@ -1,0 +1,14 @@
+%%%
+ %% Section 10.6: Array Initializers
+ %%
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module arrays/ArrayInitializers
+imports
+  classes/FieldDeclarations
+
+exports
+  sorts ArrayInit
+  context-free syntax
+    "{" {VarInit ","}*     "}" -> ArrayInit {cons("ArrayInit")}
+    "{" {VarInit ","}* "," "}" -> ArrayInit {cons("ArrayInit")}

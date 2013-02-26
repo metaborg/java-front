@@ -1,0 +1,15 @@
+%%%
+ %% Section 8.6: Instance Initializers
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module classes/InstanceInitializers
+imports
+  statements/Blocks
+
+exports
+  sorts
+    InstanceInit
+
+  context-free syntax
+    Block -> InstanceInit {cons("InstanceInit")}

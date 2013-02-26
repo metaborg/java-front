@@ -1,0 +1,10 @@
+%%%
+ %% Chapter 7: Packages
+ %%
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module packages/Main
+imports
+  packages/CompilationUnits
+  packages/ImportDeclarations
+  packages/PackageDeclarations

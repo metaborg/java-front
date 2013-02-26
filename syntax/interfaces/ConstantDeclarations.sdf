@@ -1,0 +1,23 @@
+%%%
+ %% Section 9.3: Field (Constant) Declarations
+ %%
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module interfaces/ConstantDeclarations
+imports
+  lexical/Modifiers
+  types/Main
+  classes/MethodDeclarations
+  interfaces/Annotations
+
+exports
+  sorts
+    ConstantDec
+    ConstantMod
+
+  context-free syntax
+    (Anno | ConstantMod)* Type {VarDec ","}+ ";" -> ConstantDec {cons("ConstantDec")}
+
+    Public -> ConstantMod
+    Static -> ConstantMod
+    Final  -> ConstantMod
