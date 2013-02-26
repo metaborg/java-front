@@ -17,6 +17,7 @@ include/java-java.jar
 editor/java/trans
 editor/Java-*.generated.esv
 syntax/Java*.generated.esv
+syntax/Java.generated.pp
 .settings/org.eclipse.jdt.core.prefs
 utils
 lib/*.generated.str
