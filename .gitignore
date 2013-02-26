@@ -13,6 +13,7 @@ include/java.rtree
 include/java.ctree
 include/java.ctree.dep
 include/java.jar
+include/java-java.jar
 editor/java/trans
 editor/Java-*.generated.esv
 syntax/Java*.generated.esv
