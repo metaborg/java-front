@@ -1,0 +1,12 @@
+module lexical/names
+
+imports
+
+  include/Java
+
+namespaces
+
+
+
+binding rules
+

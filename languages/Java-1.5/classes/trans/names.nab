@@ -1,0 +1,31 @@
+module langauges/Java-1.5/classes/names
+
+imports
+
+  include/Java
+
+namespaces
+
+  Class Interface Field Method
+
+binding rules
+
+  ClassDec(ClassDecHead(_, Id(c)), _, _, _):
+    defines Class c 
+      of type Type(c)
+    scopes Field, Method
+    
+  SuperDec(ClassType(TypeName(Id(c)), _)):
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Class c
+
+  ImplementsDec(... InterfaceType(TypeName(Id(i), None()) ...):
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Interface i
+      
+  InterfaceType(TypeName(Id(i), None()):
+    refers to Interface i

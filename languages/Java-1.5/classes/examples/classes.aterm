@@ -1,0 +1,35 @@
+CompilationUnit(
+  None()
+, []
+, [ ClassDec(
+      ClassDecHead([], Id("A"), None(), None(), None())
+    , ClassBody([])
+    )
+  , ClassDec(
+      ClassDecHead(
+        []
+      , Id("B")
+      , None()
+      , Some(SuperDec(ClassType(TypeName(Id("A")), None())))
+      , None()
+      )
+    , ClassBody([])
+    )
+  , ClassDec(
+      ClassDecHead(
+        []
+      , Id("C")
+      , None()
+      , None()
+      , Some(
+          ImplementsDec(
+            [ InterfaceType(TypeName(Id("A")), None())
+            , InterfaceType(TypeName(Id("B")), None())
+            ]
+          )
+        )
+      )
+    , ClassBody([])
+    )
+  ]
+)

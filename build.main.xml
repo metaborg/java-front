@@ -1,45 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <project name="Java" default="all">
-        
-        <!-- Key input modules -->
-        <property name="sdfmodule" value="Java"/>
-        <property name="metasdfmodule" value="Stratego-Java"/>
-        <property name="esvmodule" value="Java"/>
-        <property name="strmodule" value="java"/>
-    
-        <!-- Project directories -->
-        <property name="trans" location="trans"/>
-        <property name="src-gen" location="editor/java"/>
-        <property name="syntax" location="syntax"/>
-        <property name="include" location="include"/>
-        <property name="lib" location="lib"/>
-        <property name="build" location="bin"/>
-        <property name="dist" location="bin/dist"/>
-        
-        <!-- Imports -->
-        <property name="build.sdf.imports" value=""/>
-        <property name="build.stratego.args" value="
-                        --library
-                        -I &quot;${trans}&quot;
-                        -I &quot;${basedir}&quot;
-                        -la stratego-lib -la stratego-sglr -la stratego-gpp -la stratego-xtc -la stratego-aterm -la stratego-parallel"/>
-        
-        <!-- Optional: external .def and .jar locations
-        <property name="externaldef" location="syntax/${sdfmodule}.def"/>
-        <property name="externaljar" value="../lib.jar"/>
-        <property name="externaljarflags" value="-la org.lib"/>
-        -->
-    
-        <!-- Environment configuration for command-line builds -->
-        <condition property="build.strategoxt.sdf" value="${eclipse.spoofaximp.nativeprefix}" else="">
-            <isset property="eclipse.spoofaximp.nativeprefix"/>
-        </condition>
-        <property name="build.strategoxt.stratego" location="${user.home}/.nix-profile/bin"/>
-    		
-    		<!-- used for building inside of Eclipse -->
-        <import file="build.generated.xml"/>   
-    
-        <!-- Main target -->
-        <target name="all" depends="spoofaximp.default.ctree"/>
-    </project>
+  <!-- Key input modules -->
+  <property name="sdfmodule" value="Java"/>
+  <property name="metasdfmodule" value="Stratego-Java"/>
+  <property name="esvmodule" value="Java"/>
+  <property name="strmodule" value="java"/>
+  
+  <!-- Project directories -->
+  <property name="trans" location="trans"/>
+  <property name="src-gen" location="editor/java"/>
+  <property name="syntax" location="syntax"/>
+  <property name="include" location="include"/>
+  <property name="lib" location="lib"/>
+  <property name="build" location="bin"/>
+  <property name="dist" location="bin/dist"/>
+  
+  <!-- Sublanguage directories -->
+  <property name="array.dir" location="array"/>
+  <property name="classes.dir" location="classes"/>
+  <property name="expressions.dir" location="expressions"/>
+  <property name="interfaces.dir" location="interfaces"/>
+  <property name="lexical.dir" location="lexical"/>
+  <property name="names.dir" location="names"/>
+  <property name="packages.dir" location="packages"/>
+  <property name="statements.dir" location="statements"/>
+  <property name="types.dir" location="types"/>
+  
+  <!-- Imports -->
+  <property name="build.sdf.imports" value="
+    -I &quot;languages/Java-1.5/${array.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${classes.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${expressions.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${interfaces.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${lexical.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${names.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${packages.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${statements.dir}&quot;/syntax
+    -I &quot;languages/Java-1.5/${types.dir}&quot;/syntax
+  "/>
+  <property name="build.stratego.args" value="
+    --library
+    -I &quot;${trans}&quot;
+    -I &quot;${basedir}&quot;
+    -la stratego-lib -la stratego-sglr -la stratego-gpp -la stratego-xtc -la stratego-aterm -la stratego-parallel"
+  />
+  
+  <!-- Environment configuration for command-line builds -->
+  <condition property="build.strategoxt.sdf" value="${eclipse.spoofaximp.nativeprefix}" else="">
+    <isset property="eclipse.spoofaximp.nativeprefix"/>
+  </condition>
+  <property name="build.strategoxt.stratego" location="${user.home}/.nix-profile/bin"/>
+  
+  <!-- used for building inside of Eclipse -->
+  <import file="build.generated.xml"/>   
+  
+  <!-- Main target -->
+  <target name="all" depends="spoofaximp.default.ctree"/>
+</project>

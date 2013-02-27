@@ -1,0 +1,12 @@
+module packages/names
+
+imports
+
+  include/Java
+
+namespaces
+
+
+
+binding rules
+
