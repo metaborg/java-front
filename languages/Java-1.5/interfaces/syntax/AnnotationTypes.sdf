@@ -3,15 +3,15 @@
  %%  
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com
  %%%
-module interfaces/AnnotationTypes
+module AnnotationTypes
 imports
-  lexical/Identifiers
-  classes/ClassDeclarations
-  classes/EnumDeclarations
-  interfaces/InterfaceDeclarations
-  interfaces/AbstractMethodDeclarations
-  interfaces/ConstantDeclarations
-  interfaces/Annotations
+  Identifiers
+  ClassDeclarations
+  EnumDeclarations
+  InterfaceDeclarations
+  AbstractMethodDeclarations
+  ConstantDeclarations
+  Annotations
 
 exports
   sorts

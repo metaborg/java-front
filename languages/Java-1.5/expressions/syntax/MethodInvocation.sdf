@@ -3,9 +3,9 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module expressions/MethodInvocation
+module MethodInvocation
 imports
-  expressions/Main
+  Expressions
 
 exports
   sorts MethodSpec

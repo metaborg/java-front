@@ -3,9 +3,9 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module types/ParameterizedTypes
+module ParameterizedTypes
 imports
-  types/ReferenceTypes
+  ReferenceTypes
 
 exports
   sorts

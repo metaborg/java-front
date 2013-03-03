@@ -3,9 +3,9 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module expressions/UnaryOperators
+module UnaryOperators
 imports 
-  expressions/Main
+  Expressions
 exports
   context-free syntax
     "+" Expr -> Expr {cons("Plus")}

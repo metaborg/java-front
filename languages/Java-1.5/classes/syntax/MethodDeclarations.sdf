@@ -3,14 +3,14 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module classes/MethodDeclarations
+module MethodDeclarations
 imports
-  lexical/Identifiers
-  lexical/Modifiers
-  types/Main
-  classes/FieldDeclarations
-  interfaces/Annotations
-  statements/Blocks
+  Identifiers
+  Modifiers
+  Expressions
+  FieldDeclarations
+  Annotations
+  Blocks
 
 exports
   sorts

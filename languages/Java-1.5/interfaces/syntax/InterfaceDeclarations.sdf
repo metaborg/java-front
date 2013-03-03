@@ -3,18 +3,18 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module interfaces/InterfaceDeclarations
+module InterfaceDeclarations
 imports
-  lexical/Identifiers
-  lexical/Modifiers
-  names/Main
-  types/Main
-  classes/ClassDeclarations
-  classes/MethodDeclarations
-  interfaces/ConstantDeclarations
-  interfaces/AbstractMethodDeclarations
-  interfaces/AnnotationTypes
-  interfaces/Annotations
+  Identifiers
+  Modifiers
+  Expressions
+  Expressions
+  ClassDeclarations
+  MethodDeclarations
+  ConstantDeclarations
+  AbstractMethodDeclarations
+  AnnotationTypes
+  Annotations
 
 exports
   sorts

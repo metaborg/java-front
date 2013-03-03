@@ -1,4 +1,4 @@
-module expressions/Restrictions
+module Restrictions
 exports
   lexical restrictions
     "+" -/- [\+]

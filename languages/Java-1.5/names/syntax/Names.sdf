@@ -3,9 +3,9 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module names/Main
+module Names
 imports
-  lexical/Identifiers
+  Identifiers
 exports
   sorts PackageName
   context-free syntax

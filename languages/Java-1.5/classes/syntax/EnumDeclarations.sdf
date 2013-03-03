@@ -3,10 +3,10 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module classes/EnumDeclarations
+module EnumDeclarations
 imports
-  lexical/Identifiers
-  classes/ClassDeclarations
+  Identifiers
+  ClassDeclarations
 
 exports
   sorts

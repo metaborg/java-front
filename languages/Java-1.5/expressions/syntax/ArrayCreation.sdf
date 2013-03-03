@@ -3,9 +3,9 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module expressions/ArrayCreation
+module ArrayCreation
 imports
-  expressions/Main
+  Expressions
 
 exports
   sorts

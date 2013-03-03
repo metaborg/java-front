@@ -3,12 +3,12 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module types/Main
+module Types
 imports
-  types/PrimitiveTypes
-  types/ReferenceTypes
-  types/TypeVariables
-  types/ParameterizedTypes
+  PrimitiveTypes
+  ReferenceTypes
+  TypeVariables
+  ParameterizedTypes
 
 exports
   sorts

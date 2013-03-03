@@ -3,10 +3,10 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module expressions/ClassInstanceCreation
+module ClassInstanceCreation
 imports
-  expressions/Main
-  classes/ClassDeclarations
+  Expressions
+  ClassDeclarations
 
 exports
   context-free syntax

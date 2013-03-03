@@ -3,7 +3,7 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module lexical/WhiteSpace
+module WhiteSpace
 exports
   lexical syntax
     [\ \t\12\r\n] -> LAYOUT

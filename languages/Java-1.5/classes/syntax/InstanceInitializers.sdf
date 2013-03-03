@@ -3,9 +3,9 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module classes/InstanceInitializers
+module InstanceInitializers
 imports
-  statements/Blocks
+  Blocks
 
 exports
   sorts

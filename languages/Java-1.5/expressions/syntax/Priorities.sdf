@@ -1,7 +1,7 @@
-module expressions/Priorities
+module Priorities
 imports
-  lexical/Identifiers
-  expressions/Main
+  Identifiers
+  Expressions
 
 exports
   context-free priorities

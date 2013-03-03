@@ -3,13 +3,13 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module classes/ConstructorDeclarations
+module ConstructorDeclarations
 imports
-  lexical/Identifiers
-  lexical/Modifiers
-  interfaces/Annotations
-  statements/Main
-  expressions/Main
+  Identifiers
+  Modifiers
+  Annotations
+  Expressions
+  Expressions
 
 exports
   sorts

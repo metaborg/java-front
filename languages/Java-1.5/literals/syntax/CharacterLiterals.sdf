@@ -3,10 +3,10 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module lexical/literals/CharacterLiterals
+module CharacterLiterals
 imports
-  lexical/literals/EscapeSequences
-  lexical/UnicodeEscapes
+  EscapeSequences
+  UnicodeEscapes
 
 exports
   sorts

@@ -3,7 +3,7 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module classes/Main
+module Classes
 imports
-  classes/ClassDeclarations
-  classes/EnumDeclarations
+  ClassDeclarations
+  EnumDeclarations

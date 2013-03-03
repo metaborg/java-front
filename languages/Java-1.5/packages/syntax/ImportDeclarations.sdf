@@ -3,10 +3,10 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module packages/ImportDeclarations
+module ImportDeclarations
 imports
-  lexical/Identifiers
-  names/Main
+  Identifiers
+  Expressions
 
 exports
   sorts

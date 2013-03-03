@@ -16,28 +16,31 @@
   <property name="dist" location="bin/dist"/>
   
   <!-- Sublanguage directories -->
-  <property name="array.dir" location="array"/>
-  <property name="classes.dir" location="classes"/>
-  <property name="expressions.dir" location="expressions"/>
-  <property name="interfaces.dir" location="interfaces"/>
-  <property name="lexical.dir" location="lexical"/>
-  <property name="names.dir" location="names"/>
-  <property name="packages.dir" location="packages"/>
-  <property name="statements.dir" location="statements"/>
-  <property name="types.dir" location="types"/>
+  <property name="arrays.dir" location="languages/Java-1.5/arrays"/>
+  <property name="classes.dir" location="languages/Java-1.5/classes"/>
+  <property name="expressions.dir" location="languages/Java-1.5/expressions"/>
+  <property name="interfaces.dir" location="languages/Java-1.5/interfaces"/>
+  <property name="lexical.dir" location="languages/Java-1.5/lexical"/>
+	<property name="literals.dir" location="languages/Java-1.5/literals"/>
+  <property name="names.dir" location="languages/Java-1.5/names"/>
+  <property name="packages.dir" location="languages/Java-1.5/packages"/>
+  <property name="statements.dir" location="languages/Java-1.5/statements"/>
+  <property name="types.dir" location="languages/Java-1.5/types"/>
   
   <!-- Imports -->
   <property name="build.sdf.imports" value="
-    -I &quot;languages/Java-1.5/${array.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${classes.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${expressions.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${interfaces.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${lexical.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${names.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${packages.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${statements.dir}&quot;/syntax
-    -I &quot;languages/Java-1.5/${types.dir}&quot;/syntax
+    -I &quot;${arrays.dir}/syntax&quot;
+    -I &quot;${classes.dir}/syntax&quot;
+    -I &quot;${expressions.dir}/syntax&quot;
+    -I &quot;${interfaces.dir}/syntax&quot;
+    -I &quot;${lexical.dir}/syntax&quot;
+  	-I &quot;${literals.dir}/syntax&quot;
+    -I &quot;${names.dir}/syntax&quot;
+    -I &quot;${packages.dir}/syntax&quot;
+    -I &quot;${statements.dir}/syntax&quot;
+    -I &quot;${types.dir}/syntax&quot;
   "/>
+	
   <property name="build.stratego.args" value="
     --library
     -I &quot;${trans}&quot;

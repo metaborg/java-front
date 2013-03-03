@@ -1,4 +1,4 @@
-module lexical/Modifiers
+module Modifiers
 exports
   sorts
     Public

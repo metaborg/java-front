@@ -3,9 +3,9 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module lexical/Comments
+module Comments
 imports
-  lexical/LineTerminators
+  LineTerminators
 exports
   sorts
     Comment

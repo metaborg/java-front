@@ -2,15 +2,15 @@ module Java
 
 imports
   
-  lexical/Main
-  types/Main
-  names/Main
-  packages/Main
-  classes/Main
-  interfaces/Main
-  arrays/Main
-  statements/Main
-  expressions/Main
+  Lexical
+  Types
+  Names
+  Packages
+  Classes
+  Interfaces
+  Arrays
+  Statements
+  Expressions
 
 exports
   

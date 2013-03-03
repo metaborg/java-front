@@ -3,11 +3,11 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module interfaces/Annotations
+module Annotations
 imports
-  lexical/Identifiers
-  names/Main
-  expressions/Main
+  Identifiers
+  Expressions
+  Expressions
 
 exports
   sorts

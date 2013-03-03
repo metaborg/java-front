@@ -1,7 +1,7 @@
-module expressions/BinaryOperators
+module BinaryOperators
 imports
-  expressions/Main
-  types/Main
+  Expressions
+  Types
 
 exports
   sorts CondMid
@@ -10,7 +10,7 @@ exports
 
     Expr "*"   Expr -> Expr  {left, cons("Mul")}
     Expr "/"   Expr -> Expr  {left, cons("Div")}
-    Expr "%"   Expr -> Expr  {left, cons("Remain")}
+    Expr "%"   Expr -> Expr  {left, cons("ReExpressions")}
 
     Expr "+"   Expr -> Expr  {left, cons("Plus")}
     Expr "-"   Expr -> Expr  {left, cons("Minus")}

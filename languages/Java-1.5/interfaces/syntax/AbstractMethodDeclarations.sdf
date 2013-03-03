@@ -1,9 +1,9 @@
-module interfaces/AbstractMethodDeclarations
+module AbstractMethodDeclarations
 imports
-  lexical/Modifiers
-  names/Main
-  types/Main
-  classes/MethodDeclarations
+  Modifiers
+  Expressions
+  Expressions
+  MethodDeclarations
 
 exports
   sorts

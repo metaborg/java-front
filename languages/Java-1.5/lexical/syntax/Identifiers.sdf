@@ -3,9 +3,9 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module lexical/Identifiers
+module Identifiers
 imports
-  lexical/Keywords
+  Keywords
 exports
   sorts
     Id

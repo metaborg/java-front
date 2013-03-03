@@ -3,7 +3,7 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module lexical/literals/BooleanLiterals
+module BooleanLiterals
 exports
   sorts
     Bool

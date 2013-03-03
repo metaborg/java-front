@@ -3,13 +3,13 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module types/ReferenceTypes
+module ReferenceTypes
 imports
-  lexical/Identifiers
-  names/Main
-  types/Main  
-  types/ParameterizedTypes
-  types/TypeVariables
+  Identifiers
+  Expressions
+  Expressions  
+  ParameterizedTypes
+  TypeVariables
 
 
 exports

@@ -3,14 +3,14 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module classes/FieldDeclarations
+module FieldDeclarations
 imports
-  lexical/Identifiers
-  lexical/Modifiers
-  types/Main
-  interfaces/Annotations
-  arrays/ArrayInitializers
-  expressions/Main
+  Identifiers
+  Modifiers
+  Expressions
+  Annotations
+  ArrayInitializers
+  Expressions
 
 exports
   sorts

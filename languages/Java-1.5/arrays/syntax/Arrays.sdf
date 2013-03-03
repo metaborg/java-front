@@ -3,6 +3,6 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module arrays/Main
+module Arrays
 imports
-  arrays/ArrayInitializers
+  ArrayInitializers

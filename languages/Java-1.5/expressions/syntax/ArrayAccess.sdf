@@ -1,6 +1,6 @@
-module expressions/ArrayAccess
+module ArrayAccess
 imports
-  expressions/Main
+  Expressions
 exports
   sorts
     ArrayAccess

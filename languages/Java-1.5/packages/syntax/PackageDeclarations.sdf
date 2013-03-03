@@ -3,10 +3,10 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module packages/PackageDeclarations
+module PackageDeclarations
 imports
-  names/Main
-  interfaces/Annotations
+  Expressions
+  Annotations
 
 exports
   sorts

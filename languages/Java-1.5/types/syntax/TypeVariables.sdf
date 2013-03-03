@@ -3,10 +3,10 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module types/TypeVariables
+module TypeVariables
 imports
-  lexical/Identifiers
-  types/ReferenceTypes
+  Identifiers
+  ReferenceTypes
 
 exports
   sorts

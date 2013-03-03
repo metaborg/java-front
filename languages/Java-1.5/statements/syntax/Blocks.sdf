@@ -3,11 +3,11 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module statements/Blocks
+module Blocks
 imports
-  classes/ClassDeclarations
-  statements/LocalVariableDeclarations
-  statements/Statements
+  ClassDeclarations
+  LocalVariableDeclarations
+  AllStatements
 
 exports
   sorts

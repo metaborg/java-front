@@ -3,12 +3,12 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module interfaces/ConstantDeclarations
+module ConstantDeclarations
 imports
-  lexical/Modifiers
-  types/Main
-  classes/MethodDeclarations
-  interfaces/Annotations
+  Modifiers
+  Expressions
+  MethodDeclarations
+  Annotations
 
 exports
   sorts

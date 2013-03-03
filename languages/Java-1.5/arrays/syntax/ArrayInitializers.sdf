@@ -3,9 +3,9 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module arrays/ArrayInitializers
+module ArrayInitializers
 imports
-  classes/FieldDeclarations
+  FieldDeclarations
 
 exports
   sorts ArrayInit

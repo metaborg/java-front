@@ -3,19 +3,19 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module classes/ClassDeclarations
+module ClassDeclarations
 imports
-  lexical/Identifiers
-  lexical/Modifiers
-  types/ReferenceTypes
-  types/TypeVariables
-  classes/FieldDeclarations
-  classes/MethodDeclarations
-  classes/InstanceInitializers
-  classes/StaticInitializers
-  classes/ConstructorDeclarations
-  classes/EnumDeclarations
-  interfaces/InterfaceDeclarations
+  Identifiers
+  Modifiers
+  ReferenceTypes
+  TypeVariables
+  FieldDeclarations
+  MethodDeclarations
+  InstanceInitializers
+  StaticInitializers
+  ConstructorDeclarations
+  EnumDeclarations
+  InterfaceDeclarations
 
 exports
   sorts

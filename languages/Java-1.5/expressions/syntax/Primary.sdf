@@ -3,11 +3,11 @@
  %%
  %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module expressions/Primary
+module Primary
 imports
-  lexical/literals/Main
-  names/Main
-  expressions/Main
+  Literals
+  Names
+  Expressions
 
 exports
   %%%

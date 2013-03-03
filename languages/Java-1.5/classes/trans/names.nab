@@ -28,4 +28,4 @@ binding rules
       from Interface i
       
   InterfaceType(TypeName(Id(i), None()):
-    refers to Interface i
+    refers to Interface i 

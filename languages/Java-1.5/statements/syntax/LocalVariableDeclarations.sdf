@@ -3,10 +3,10 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module statements/LocalVariableDeclarations
+module LocalVariableDeclarations
 imports
-  classes/MethodDeclarations
-  classes/FieldDeclarations
+  MethodDeclarations
+  FieldDeclarations
 
 exports
   sorts

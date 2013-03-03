@@ -3,11 +3,11 @@
  %%
  %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
  %%%
-module packages/CompilationUnits
+module CompilationUnits
 imports
-  packages/PackageDeclarations
-  packages/ImportDeclarations
-  packages/TypeDeclarations
+  PackageDeclarations
+  ImportDeclarations
+  TypeDeclarations
 
 exports
   sorts
