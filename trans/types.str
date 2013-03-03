@@ -1,0 +1,12 @@
+module types
+
+signature
+
+  constructors
+    
+    Type : String -> Type
+
+strategies
+  
+  type-of = id
+  print-type = id

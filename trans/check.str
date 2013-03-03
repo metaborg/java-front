@@ -1,14 +1,12 @@
 module check
 
 imports
+	
   libstratego-lib
   include/Java
-  lib/editor-common.generated
-  lib/index-library.generated
-  lib/analysis-library.generated
-  lib/analysis-library-internal.generated
-  lib/nbl-library.generated
-
+  lib/nbl/-
+  names
+  
 rules // Extensions for error/warning/note reporting
   
   constraint-error:
@@ -20,3 +18,31 @@ rules // Extensions for error/warning/note reporting
   constraint-note:
   	_ -> <fail>
 
+rules // Name binding
+
+  /*
+  constraint-error:
+    node -> (node, $[Ambiguous, could be from [<map(nabl-print-uri); separate-by(|", "); concat-strings> ambiguity'*]])
+    where
+      ambiguity*  := <nabl-get-ambiguities> node;
+      ambiguity'* := <filter(where(nabl-uri-namespace; ?Namespace()))> ambiguity*;
+      <gt> (<length> ambiguity'*, 1)
+  */
+      
+  constraint-error:
+    node{anno*} -> (node, "Duplicate definition.")
+    where
+      duplicate*    := <nabl-get-duplicate-definitions> node;
+      if Method() := <Hd; nabl-uri; nabl-uri-namespace> duplicate* then
+        // For methods, only cause a duplicate definition error if there are multiple functions with the same parameter types.
+        definition  := <collect-one(?Def(_))> anno*;
+        paramTypes  := <nabl-get-property(|ParameterTypes()); nabl-resolve> definition;
+        paramTypes* := <map(nabl-get-property(|ParameterTypes())); nabl-resolve; collect-all(?paramTypes, conc)> duplicate*;
+        <gt> (<length> paramTypes*, 1)
+      end
+
+  constraint-error:
+    node -> (node, "Unresolved reference.")
+    where
+      nabl-is-unresolved
+ 

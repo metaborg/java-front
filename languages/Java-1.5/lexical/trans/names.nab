@@ -1,8 +1,10 @@
-module lexical/names
+module languages/Java-1.5/lexical/trans/names
 
 imports
 
   include/Java
+  lib/nbl/-
+  types
 
 namespaces
 

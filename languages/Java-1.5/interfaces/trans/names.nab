@@ -1,8 +1,10 @@
-module interfaces/names
+module languages/Java-1.5/interfaces/trans/names
 
 imports
 
   include/Java
+  lib/nbl/-
+  types
 
 namespaces
 

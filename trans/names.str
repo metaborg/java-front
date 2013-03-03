@@ -1,0 +1,14 @@
+module names
+
+imports
+  
+  languages/Java-1.5/arrays/trans/names
+  languages/Java-1.5/classes/trans/names
+  languages/Java-1.5/expressions/trans/names
+  languages/Java-1.5/interfaces/trans/names
+  languages/Java-1.5/lexical/trans/names
+  languages/Java-1.5/literals/trans/names
+  languages/Java-1.5/names/trans/names
+  languages/Java-1.5/packages/trans/names
+  languages/Java-1.5/statements/trans/names
+  languages/Java-1.5/types/trans/names

@@ -1,8 +1,10 @@
-module statements/names
+module languages/Java-1.5/statements/trans/names
 
 imports
 
   include/Java
+  lib/nbl/-
+  types
 
 namespaces
 
