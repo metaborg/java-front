@@ -1,46 +1,42 @@
-class A {
-  class I {
+public class A {
+  private class I {
     
   }
   
-  int a, s;
-  int b = 1;
-  int[] array;
+  public transient int a, s;
+  private final D b = 1;
+  protected static volatile int[] array;
   
-  A() {
+  public A() {
   	
   }
 
-  A(int a) {
+  protected A(int a, final A b) throws C {
     
   }
   
-  void m() {
+  public static void m() [] {
     int a;
   }
   
-  int s(int l) {
+  int s(F l, final int s) throws A {
     
-  }
+  } 
 }
 
-class B extends A {
+private class B extends A {
   
 }
 
-interface C {
-  int a;
+public interface C {}
+
+public interface D {}
+
+protected class E implements C, D {
+  private static int a;
 }
 
-interface D {
-  
-}
-
-class E implements C, D {
-  int a;
-}
-
-enum F {
+public enum F {
   E1 = 1
 , E2
 }

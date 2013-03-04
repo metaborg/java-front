@@ -5,10 +5,75 @@ imports
   include/Java
   lib/nbl/-
   types
+  names
 
 namespaces
 
+  
 
+properties
 
-binding rules
+  Modifiers of Type   : List(InterfaceMod)
+  Modifiers of Field  : List(ConstantMod)
+  Modifiers of Method : List(AbstractMethodMod)
 
+binding rules // Annotations
+  
+  AnnoDec(AnnoDecHead(m, Id(a)), _):
+    defines Type a
+      of type Type(a)
+      of Modifiers m
+    scopes Type, Field, Method
+  
+  AnnoMethodDec(mod, ClassOrInterfaceType(TypeName(Id(t)), _), Id(m), _):
+    defines Method m
+      of type t
+      of Modifiers mod
+  
+  Anno(TypeName(Id(a)), ... ElemValPair(Id(f), _) ...):
+  	refers to Field f in Type a
+  
+binding rules // Interfaces
+
+  InterfaceDec(InterfaceDecHead(m, Id(i), _, _), _):
+    defines Type i
+      of type Type(i)
+      of Modifiers m
+    scopes Type, Field, Method
+    
+  ExtendsInterfaces(... InterfaceType(TypeName(Id(i)), _) ...):
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Type i
+      // TODO: Import types?  
+
+binding rules // Constants
+
+  ConstantDec(m, t, ... VarDec(Id(c)) ...):
+    defines Field c
+      of type t
+      of Modifiers m
+
+  ConstantDec(m, t, ... VarDec(Id(c), _) ...):
+  	defines Field c
+  	  of type t
+  	  of Modifiers m
+
+binding rules // Asbtract methods
+
+  AbstractMethodDec(mod, _, t, Id(m), p*, th):
+  	defines Method m
+      of type t
+      of ParameterTypes pt*
+      of Throws th
+      of Modifiers mod
+      where p* has type pt*
+
+  DeprAbstractMethodDec(mod, _, t, Id(m), p*, _, th):
+    defines Method m
+      of type t
+      of ParameterTypes pt*
+      of Throws th
+      of Modifiers mod
+      where p* has type pt*

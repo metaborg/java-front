@@ -6,7 +6,7 @@
 module Annotations
 imports
   Identifiers
-  Expressions
+  Names
   Expressions
 
 exports
@@ -16,9 +16,9 @@ exports
     ElemValPair
 
   context-free syntax
-    "@" TypeName "(" {ElemValPair ","}* ")" -> Anno {cons("Anno")}
-    "@" TypeName "(" ElemVal ")"            -> Anno {cons("SingleElemAnno")}
-    "@" TypeName                            -> Anno {cons("MarkerAnno")}
+    "@" InterfaceType "(" {ElemValPair ","}* ")" -> Anno {cons("Anno")}
+    "@" InterfaceType "(" ElemVal ")"            -> Anno {cons("SingleElemAnno")}
+    "@" InterfaceType                            -> Anno {cons("MarkerAnno")}
 
   context-free syntax  
     Id "=" ElemVal -> ElemValPair {cons("ElemValPair")}

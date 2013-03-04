@@ -8,91 +8,101 @@ imports
 
 namespaces
 
-  Enum EnumConst Type Constructor Field Method Variable
+  Type Constructor Field Method Variable
   
 properties
 
-  Throws of Method: Throws
-  ParameterTypes of Method: List(Type)
+  ParameterTypes of Method      : List(Type)
+  Throws         of Method      : Throws
+  Modifiers      of Type        : List(ClassMod)
+  Modifiers      of Enum        : List(ClassMod)
+  Modifiers      of Constructor : List(ConstrMod)
+  Modifiers      of Method      : List(MethodMod)
+  Modifiers      of Field       : List(FieldMod)
+  Modifiers      of Variable    : List(VarMod)
 
 binding rules // Enums
 
-  EnumDec(EnumDecHead(_, Id(e), _), _):
-    defines Enum e        // TODO: Should this be in the Type namespace?
-    scopes EnumConst
+  EnumDec(EnumDecHead(m, Id(e), _), _):
+    defines Type e    // TODO: Should this be in a separate namespace?
+      of Modifiers m
+    scopes Field
   
   EnumConst(Id(e), _, _):
-    defines EnumConst e   // TODO: Should this be in the Field namespace?
+    defines Field e   // TODO: Should this be in a separate namespace?
 
 binding rules // Types
 
-  ClassDec(ClassDecHead(_, Id(c), _, _, _), _):
+  ClassDec(ClassDecHead(m, Id(c), _, _, _), _):
     defines Type c 
       of type Type(c)
-    scopes Type, Field, Method
-    
-  InterfaceDec(InterfaceDecHead(_, Id(c), _, _), _):
-    defines Type c 
-      of type Type(c)
-    scopes Type, Field, Method
+      of Modifiers m
+    // TODO: implicitly define: this, super.
+    scopes Type, Constructor, Field, Method
     
   SuperDec(ClassType(TypeName(Id(c)), _)):
     imports
       Field, imported Field, 
       Method, imported Method
       from Type c
+      // TODO: Import types?
 
-  ImplementsDec(... InterfaceType(TypeName(Id(i)), None()) ...):
+  ImplementsDec(... InterfaceType(TypeName(Id(i)), _) ...):
     imports
       Field, imported Field, 
       Method, imported Method
       from Type i
-      
-  InterfaceType(TypeName(Id(i)), None()):
-    refers to Type i
+      // TODO: Import types?
 
 binding rules // Constructors
 
-  ConstrDec(ConstrDecHead(_, _, Id(c), p*, th), _):
+  ConstrDec(ConstrDecHead(m, _, Id(c), p*, th), _):
     defines Constructor c
       of ParameterTypes pt*
       of Throws th
+      of Modifiers m
       where p* has type pt*
+    // TODO: implicitly define: this, super. These have a different meaning than the class ones.
     scopes Variable
-    // TODO: implicitly define this, super
 
 binding rules // Fields
 
-  FieldDec(_, t, ... VarDec(Id(f)) ...):
+  FieldDec(m, t, ... VarDec(Id(f)) ...):
     defines Field f 
       of type t
+      of Modifiers m
     
-  FieldDec(_, t, ... VarDec(Id(f), _) ...):
+  FieldDec(m, t, ... VarDec(Id(f), _) ...):
     defines Field f 
       of type t
+      of Modifiers m
     
 binding rules // Methods
 
-  MethodDec(MethodDecHead(_, _, t, Id(m), p*, th), _):
+  MethodDec(MethodDecHead(mod, _, t, Id(m), p*, th), _):
     defines Method m
       of type t
       of ParameterTypes pt*
       of Throws th
+      of Modifiers mod
       where p* has type pt*
     scopes Variable
     
-  MethodDec(DeprMethodDecHead(_, _, t, Id(m), p*, _, th), _):
+  MethodDec(DeprMethodDecHead(mod, _, t, Id(m), p*, _, th), _):
     defines Method m
       of type t
       of ParameterTypes pt*
       of Throws th
+      of Modifiers mod
       where p* has type pt*
     scopes Variable
     
-  Param(_, t, Id(p)):
+  Param(m, t, Id(p)):
     defines Variable p
       of type t
+      of Modifiers m
 
-  VarArityParam(_, t, Id(p)):
+  VarArityParam(m, t, Id(p)):
     defines Variable p
       of type t
+      of Modifiers m

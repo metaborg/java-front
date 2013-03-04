@@ -5,6 +5,7 @@ imports
   include/Java
   lib/nbl/-
   types
+  names
 
 namespaces
 
@@ -12,3 +13,11 @@ namespaces
 
 binding rules
 
+  InterfaceType(TypeName(Id(i)), _):
+    refers to Type i
+
+  ClassType(TypeName(Id(c)), _):
+    refers to Type c
+    
+  ClassOrInterfaceType(TypeName(Id(t)), _):
+    refers to Type t
