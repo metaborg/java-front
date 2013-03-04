@@ -5,10 +5,32 @@ imports
   include/Java
   lib/nbl/-
   types
+  names
 
 namespaces
 
+  CompilationUnit Package
 
+binding rules // Package
 
-binding rules
+  CompilationUnit(Some(PackageDec(_, p)), _, _):
+    defines non-unique Package p
+    scopes Type
 
+binding rules // Imports
+
+  //TODO: TypeImportDec(i):
+  //  imports Type i
+    
+  TypeImportOnDemandDec(i):
+    imports Type from Package i
+    //TODO: otherwise imports Type from Type i
+    
+  StaticImportDec(t):
+    imports Method, Field from Type t
+    // TODO: Only import static methods and fields.
+    
+  //TODO: StaticImportDec(t, s):
+  //   imports Method s from Type t
+  //   otherwise imports Filed Field s from Type t
+  //   TODO: Only import static methods and fields.
