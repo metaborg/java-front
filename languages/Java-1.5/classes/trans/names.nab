@@ -5,10 +5,11 @@ imports
   include/Java
   lib/nbl/-
   types
+  names
 
 namespaces
 
-  Type Constructor Field Method Variable
+  Constructor Field Method Variable
   
 properties
 
@@ -38,7 +39,7 @@ binding rules // Types
       of type Type(c)
       of Modifiers m
     // TODO: implicitly define: this, super.
-    scopes Type, Constructor, Field, Method
+    scopes Type, TypeParam, Constructor, Field, Method
     
   SuperDec(ClassType(TypeName(Id(c)), _)):
     imports

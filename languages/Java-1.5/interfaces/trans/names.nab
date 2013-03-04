@@ -29,6 +29,7 @@ binding rules // Annotations
     defines Method m
       of type t
       of Modifiers mod
+    scopes Variable
   
   Anno(TypeName(Id(a)), ... ElemValPair(Id(f), _) ...):
   	refers to Field f in Type a
@@ -39,7 +40,7 @@ binding rules // Interfaces
     defines Type i
       of type Type(i)
       of Modifiers m
-    scopes Type, Field, Method
+    scopes Type, TypeParam, Field, Method
     
   ExtendsInterfaces(... InterfaceType(TypeName(Id(i)), _) ...):
     imports

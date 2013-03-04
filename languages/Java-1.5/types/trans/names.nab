@@ -9,9 +9,9 @@ imports
 
 namespaces
 
+  Type TypeParam
 
-
-binding rules
+binding rules // Type references
 
   InterfaceType(TypeName(Id(i)), _):
     refers to Type i
@@ -21,3 +21,13 @@ binding rules
     
   ClassOrInterfaceType(TypeName(Id(t)), _):
     refers to Type t
+
+binding rules // Type parameters
+
+  TypeParam(tp, _):
+    defines TypeParam tp
+    
+binding rules // Type arguments
+
+  TypeArgs(... ClassOrInterfaceType(TypeName(Id(tp)), _) ...):
+  	refers to TypeParam tp
