@@ -9,7 +9,7 @@ imports
 
 namespaces
 
-  Constructor Field Method Variable
+  Constructor Field Method Variable Label
   
 properties
 
@@ -87,7 +87,7 @@ binding rules // Methods
       of Throws th
       of Modifiers mod
       where p* has type pt*
-    scopes Variable
+    scopes Variable, Label
     
   MethodDec(DeprMethodDecHead(mod, _, t, Id(m), p*, _, th), _):
     defines Method m
@@ -96,7 +96,7 @@ binding rules // Methods
       of Throws th
       of Modifiers mod
       where p* has type pt*
-    scopes Variable
+    scopes Variable, Label
     
   Param(m, t, Id(p)):
     defines Variable p

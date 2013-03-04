@@ -70,6 +70,7 @@ binding rules // Asbtract methods
       of Throws th
       of Modifiers mod
       where p* has type pt*
+    scopes Variable
 
   DeprAbstractMethodDec(mod, _, t, Id(m), p*, _, th):
     defines Method m
@@ -78,3 +79,4 @@ binding rules // Asbtract methods
       of Throws th
       of Modifiers mod
       where p* has type pt*
+    scopes Variable

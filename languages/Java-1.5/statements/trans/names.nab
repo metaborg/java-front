@@ -8,7 +8,67 @@ imports
 
 namespaces
 
+  
 
+binding rules // Local variables
 
-binding rules
+  LocalVarDec(m, t, ... VarDec(Id(v)) ...):
+    defines Variable v
+      of type t
+      of Modifiers m
+      in subsequent scope
+      
+  LocalVarDec(m, t, ... VarDec(Id(v), _) ...):
+    defines Variable v 
+      of type t
+      of Modifiers m
+      in subsequent scope
 
+binding rules // Labels
+
+  Labeled(Id(l), _):
+  	defines Label l
+  	
+  Continue(Some(Id(l))):
+  	refers to Label l
+
+  Break(Some(Id(l))):
+    refers to Label l
+    
+binding rules // Control flow
+
+  If(_, _):
+    scopes Variable
+
+  If(_, _, _):
+  	scopes Variable
+  	// TODO: Separately scope variables from the if part and the else part.
+  	
+  While(_, _):
+  	scopes Variable
+  	// TODO: Check visibility in spec.
+  	
+  DoWhile(_, _):
+  	scopes Variable
+  	// TODO: Check visibility in spec.
+  	
+  For(init, cond, inc, stm):
+  	scopes Variable
+  	// TODO: Variables from init should only be scoped in cond, inc, stm.
+  	
+  ForEach(Param(_, t, v), list, stm):
+  	defines Variable v
+  	  of type t
+  	  in stm
+  
+  Catch(Param(_, t, v), stm):
+  	defines Variable v
+  	  of type t
+  	  in stm
+
+  SwitchGroup(_, _):
+    scopes Variable
+    
+      
+  Block(_):
+    scopes Variable
