@@ -1,5 +1,5 @@
 public class A {
-  private class I {
+  public class I {
     
   }
   

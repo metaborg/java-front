@@ -10,44 +10,71 @@ namespaces
 
 
 
-binding rules
+binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
 
-/*
   AmbName(Id(n)):
-    has name n
-    
+              refers to Variable n
+    otherwise refers to Field n
+    otherwise refers to Type n
+    otherwise refers to Package n
+  
+  /*
   AmbName(q, Id(n)):
               has name n qualified by Package q
     otherwise has name n qualified by Type q
     ???
-    
+  */
+  
+binding rules // 6.5.3 Meaning of Package Names
+
+  PackageName([n|n*]):
+  	refers to Package n
+  	// TODO: do something with the list of package names.
+
+binding rules // 6.5.4 Meaning of PackageOrTypeNames
+
+  PackageOrTypeName(Id(n)):
+              refers to Package n
+    otherwise refers to Type n
+  
+  /*  
+  PackageOrTypeName(q, Id(n)):
+              has name n qualified by Package q
+    otherwise has name n qualified by Type q
+  */
+  
+binding rules // 6.5.5 Meaning of Type Names
+
   TypeName(Id(n)):
-    has name n
-    
+    refers to Type n
+  
+  /*  
   TypeName(q, Id(n)):
               has name n qualified by Package q
     otherwise has name n qualified by Type q
-    
+  */
+   
+binding rules // 6.5.6 Meaning of Expression Names
+ 
   ExprName(Id(n)):
-    has name n
+              refers to Variable n
+    otherwise refers to Field n
     
+  /*  
   ExprName(q, Id(n)):
               has name n qualified by Package q
     otherwise has name n qualified by Type q
     ???
-    
+  */  
+  
+binding rules // 6.5.7 Meaning of Method Name
+ 
   MethodName(Id(n)):
-    has name n
-    
+    refers to Method n
+  
+  /*  
   MethodName(q, Id(n)):
               has name n qualified by Package q
     otherwise has name n qualified by Type q
     ???
-    
-  PackageOrTypeName(Id(n)):
-    has name n
-    
-  PackageOrTypeName(q, Id(n)):
-              has name n qualified by Package q
-    otherwise has name n qualified by Type q
-*/
+  */

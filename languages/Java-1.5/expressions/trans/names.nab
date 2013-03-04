@@ -5,10 +5,44 @@ imports
   include/Java
   lib/nbl/-
   types
+  names
 
 namespaces
 
 
 
-binding rules
+binding rules // Method call
 
+  Method(m, a*):
+  	refers to Method m 
+      of ParameterTypes pt*
+  	  where a* has type pt*
+
+  Method(e, _, Id(m), a*):
+    refers to Method m
+      of ParameterTypes pt*
+      in Type t
+      where a* has type pt*
+      where e has type t
+  
+binding rules // Field access
+
+  Field(e, Id(f)):
+  	refers to Field f
+  	  in Type t
+  	  where e has type t
+  	  
+binding rules // Class instantiation
+
+  NewInstance(_, c, a*, _):
+    refers to Constructor c 
+      of ParameterTypes pt* 
+      in Type c
+      where a* has type pt*
+
+  QNewInstance(e, _, c, _, a*, _):
+  	refers to Constructor c
+  	  of ParameterTypes pt* 
+  	  in Type c
+  	  // TODO: in Type e
+  	  where a* has type pt*
