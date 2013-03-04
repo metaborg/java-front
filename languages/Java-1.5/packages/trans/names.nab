@@ -26,11 +26,11 @@ binding rules // Imports
     imports Type from Package i
     //TODO: otherwise imports Type from Type i
     
-  StaticImportDec(t):
-    imports Method, Field from Type t
-    // TODO: Only import static methods and fields.
-    
   //TODO: StaticImportDec(t, s):
   //   imports Method s from Type t
   //   otherwise imports Filed Field s from Type t
   //   TODO: Only import static methods and fields.
+
+  StaticImportOnDemandDec(t):
+    imports Method, Field from Type t
+    // TODO: Only import static methods and fields.
