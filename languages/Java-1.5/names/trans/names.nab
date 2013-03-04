@@ -12,3 +12,42 @@ namespaces
 
 binding rules
 
+/*
+  AmbName(Id(n)):
+    has name n
+    
+  AmbName(q, Id(n)):
+              has name n qualified by Package q
+    otherwise has name n qualified by Type q
+    ???
+    
+  TypeName(Id(n)):
+    has name n
+    
+  TypeName(q, Id(n)):
+              has name n qualified by Package q
+    otherwise has name n qualified by Type q
+    
+  ExprName(Id(n)):
+    has name n
+    
+  ExprName(q, Id(n)):
+              has name n qualified by Package q
+    otherwise has name n qualified by Type q
+    ???
+    
+  MethodName(Id(n)):
+    has name n
+    
+  MethodName(q, Id(n)):
+              has name n qualified by Package q
+    otherwise has name n qualified by Type q
+    ???
+    
+  PackageOrTypeName(Id(n)):
+    has name n
+    
+  PackageOrTypeName(q, Id(n)):
+              has name n qualified by Package q
+    otherwise has name n qualified by Type q
+*/
