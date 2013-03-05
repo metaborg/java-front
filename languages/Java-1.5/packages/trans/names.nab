@@ -20,17 +20,17 @@ binding rules // Package
 binding rules // Imports
 
   //TODO: TypeImportDec(i):
-  //  imports Type i
+  //  imports Type i into subsequent scope
     
   TypeImportOnDemandDec(i):
-    imports Type from Package i
-    //TODO: otherwise imports Type from Type i
+    imports Type from Package i into subsequent scope
+    //TODO: otherwise imports Type from Type i into subsequent scope
     
   //TODO: StaticImportDec(t, s):
-  //   imports Method s from Type t
-  //   otherwise imports Filed Field s from Type t
+  //   imports Method s from Type t into subsequent scope
+  //   otherwise imports Field s from Type t into subsequent scope
   //   TODO: Only import static methods and fields.
 
   StaticImportOnDemandDec(t):
-    imports Method, Field from Type t
+    imports Method, Field from Type t into subsequent scope
     // TODO: Only import static methods and fields.

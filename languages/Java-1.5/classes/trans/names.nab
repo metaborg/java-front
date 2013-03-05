@@ -41,14 +41,14 @@ binding rules // Types
     // TODO: implicitly define: this, super.
     scopes Type, TypeParam, Constructor, Field, Method
     
-  SuperDec(ClassType(TypeName(Id(c)), _)):
+  SuperDec(ClassType(c, _)):
     imports
       Field, imported Field, 
       Method, imported Method
       from Type c
       // TODO: Import types?
 
-  ImplementsDec(... InterfaceType(TypeName(Id(i)), _) ...):
+  ImplementsDec(... InterfaceType(i, _) ...):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -72,11 +72,13 @@ binding rules // Fields
     defines Field f 
       of type t
       of Modifiers m
+      in subsequent scope // TODO: Only in subsequent scope for other fields, not methods.
     
   FieldDec(m, t, ... VarDec(Id(f), _) ...):
     defines Field f 
       of type t
       of Modifiers m
+      in subsequent scope // TODO: Only in subsequent scope for other fields, not methods.
     
 binding rules // Methods
 

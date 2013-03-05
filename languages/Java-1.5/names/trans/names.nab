@@ -20,9 +20,10 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   
   /*
   AmbName(q, Id(n)):
-              has name n qualified by Package q
-    otherwise has name n qualified by Type q
-    ???
+              refers to Variable n qualified by q
+    otherwise refers to Field n    qualified by q
+    otherwise refers to Type n     qualified by q
+    otherwise refers to Package n  qualified by q
   */
   
 binding rules // 6.5.3 Meaning of Package Names
@@ -39,8 +40,8 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   
   /*  
   PackageOrTypeName(q, Id(n)):
-              has name n qualified by Package q
-    otherwise has name n qualified by Type q
+              refers to Package n qualified by q
+    otherwise refers to Type n    qualified by q
   */
   
 binding rules // 6.5.5 Meaning of Type Names
@@ -50,8 +51,7 @@ binding rules // 6.5.5 Meaning of Type Names
   
   /*  
   TypeName(q, Id(n)):
-              has name n qualified by Package q
-    otherwise has name n qualified by Type q
+    refers to Type n qualified by q
   */
    
 binding rules // 6.5.6 Meaning of Expression Names
@@ -62,9 +62,8 @@ binding rules // 6.5.6 Meaning of Expression Names
     
   /*  
   ExprName(q, Id(n)):
-              has name n qualified by Package q
-    otherwise has name n qualified by Type q
-    ???
+              refers to Variable n qualified by q
+    otherwise refers to Field n    qualified by q
   */  
   
 binding rules // 6.5.7 Meaning of Method Name
@@ -74,7 +73,5 @@ binding rules // 6.5.7 Meaning of Method Name
   
   /*  
   MethodName(q, Id(n)):
-              has name n qualified by Package q
-    otherwise has name n qualified by Type q
-    ???
+    refers to Method n qualified by q
   */

@@ -13,14 +13,17 @@ namespaces
 
 binding rules // Type references
 
-  InterfaceType(TypeName(Id(i)), _):
+  InterfaceType(i, _):
     refers to Type i
+    // TODO: Type parameters?
 
-  ClassType(TypeName(Id(c)), _):
+  ClassType(c, _):
     refers to Type c
+    // TODO: Type parameters?
     
-  ClassOrInterfaceType(TypeName(Id(t)), _):
+  ClassOrInterfaceType(t, _):
     refers to Type t
+    // TODO: Type parameters?
 
 binding rules // Type parameters
 
@@ -29,5 +32,6 @@ binding rules // Type parameters
     
 binding rules // Type arguments
 
-  TypeArgs(... ClassOrInterfaceType(TypeName(Id(tp)), _) ...):
-  	refers to TypeParam tp
+  TypeArgs(... t ...):
+  	          refers to Type t
+  	otherwise refers to TypeParam t

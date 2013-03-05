@@ -25,7 +25,7 @@ binding rules // Annotations
       of Modifiers m
     scopes Type, Field, Method
   
-  AnnoMethodDec(mod, ClassOrInterfaceType(TypeName(Id(t)), _), Id(m), _):
+  AnnoMethodDec(mod, t, Id(m), _):
     defines Method m
       of type t
       of Modifiers mod
@@ -42,7 +42,7 @@ binding rules // Interfaces
       of Modifiers m
     scopes Type, TypeParam, Field, Method
     
-  ExtendsInterfaces(... InterfaceType(TypeName(Id(i)), _) ...):
+  ExtendsInterfaces(... i ...):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -55,12 +55,14 @@ binding rules // Constants
     defines Field c
       of type t
       of Modifiers m
+      in subsequent scope
 
   ConstantDec(m, t, ... VarDec(Id(c), _) ...):
   	defines Field c
   	  of type t
   	  of Modifiers m
-
+      in subsequent scope
+      
 binding rules // Asbtract methods
 
   AbstractMethodDec(mod, _, t, Id(m), p*, th):

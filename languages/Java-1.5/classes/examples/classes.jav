@@ -7,8 +7,11 @@ public class A {
   private final D b = 1;
   protected static volatile int[] array;
   
+  
+  public int i = 1, b = i;
+  
   public A() {
-  	
+    
   }
 
   protected A(int a, final A b) throws C {

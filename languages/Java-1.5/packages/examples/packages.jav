@@ -8,6 +8,14 @@ import Wildcard.Nested.*;
 import static Class.Member;
 import static Class.*;
 
-class InPackage {
+class InPackage extends Package.Foo.Bar {
+  
+}
+
+class Test extends A {
+  
+}
+
+class Test2 implements I1, I2 {
   
 }
