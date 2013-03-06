@@ -10,12 +10,13 @@ public class Expressions {
     state = i + j + k;
     
     return new A().a;
-    return l.a + l.s;
+    return l.a.c;
     return this.state;
     return Expressions.this.state;
     
     return new A.I(1);
-    return A.new I(1);
+    A a = new A();
+    return a.new <T>I(1);
   }
   
   public int a() {

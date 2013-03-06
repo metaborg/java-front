@@ -12,9 +12,10 @@ imports
   lib/nbl/-
   lib/index/-
   
-  names
-  check
   types
+  names
+  desugar
+  check
 
 rules // Analysis
   
@@ -23,7 +24,7 @@ rules // Analysis
     (ast, path, project-path) -> (ast', errors, warnings, notes)
     with
       editor-init;
-      (ast', entries, tasks, dependent) := <id; nabl-analyze(|<language>, path, project-path)> ast;
+      (ast', entries, tasks, dependent) := <desugar-all; nabl-analyze(|<language>, path, project-path)> ast;
       (errors, warnings, notes)         := <analyze-markers> ast';
       <map(vdebug(!"Entry: "))> entries;
       <map(vdebug(!"Tasks: "))> tasks;
@@ -98,7 +99,7 @@ rules // Editor services
       definition := <nabl-resolve-collect-one> node
 
   editor-hover:
-    (target, position, ast, path, project-path) -> <fail> //$[Type: [<print-type> type]]
+    (target, position, ast, path, project-path) -> $[Type: [<print-type> type]]
     where
       type := <type-of; print-type> target
 
@@ -114,8 +115,7 @@ rules // Debugging
     (selected, position, ast, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"aterm")> path;
-      result   := <id> selected;
-      <queue-analysis> $[[project-path]/[path]]
+      result   := <desugar-all> selected
       
   // Prints the analyzed annotated abstract syntax ATerm of a selection.
   debug-generate-analyzed:

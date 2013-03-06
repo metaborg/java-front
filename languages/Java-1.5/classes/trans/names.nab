@@ -6,6 +6,7 @@ imports
   lib/nbl/-
   types
   names
+  desugar
 
 namespaces
 
@@ -48,7 +49,7 @@ binding rules // Types
       from Type c
       // TODO: Import types?
 
-  ImplementsDec(... InterfaceType(i, _) ...):
+  ImplementsDec(InterfaceType(i, _)):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -68,13 +69,7 @@ binding rules // Constructors
 
 binding rules // Fields
 
-  FieldDec(m, t, ... VarDec(Id(f)) ...):
-    defines Field f 
-      of type t
-      of Modifiers m
-      in subsequent scope // TODO: Only in subsequent scope for other fields, not methods.
-    
-  FieldDec(m, t, ... VarDec(Id(f), _) ...):
+  FieldDec(m, t, Id(f), _):
     defines Field f 
       of type t
       of Modifiers m

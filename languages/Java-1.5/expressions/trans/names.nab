@@ -35,14 +35,15 @@ binding rules // Field access
 binding rules // Class instantiation
 
   NewInstance(_, c, a*, _):
-    refers to Constructor c 
+    refers to Constructor t 
       of ParameterTypes pt* 
-      in Type c
+      in Type t
+      where c has type t
       where a* has type pt*
 
   QNewInstance(e, _, c, _, a*, _):
   	refers to Constructor c
   	  of ParameterTypes pt* 
-  	  in Type c
-  	  // TODO: in Type e
+  	  in Type c //in Type t
   	  where a* has type pt*
+  	  where e has type t

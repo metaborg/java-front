@@ -1,0 +1,31 @@
+module languages/Java-1.5/classes/trans/desugar
+
+imports
+	
+  include/Java
+  lib/nbl/-
+  types
+  names
+
+signature
+
+  constructors
+    
+    FieldDec: List(VarMod) * Type * ID * Exp -> FieldDec
+
+rules
+  
+  desugar: 
+    ImplementsDec(interface*) -> <map(desugar-implementsdec)> interface*
+    
+  desugar-implementsdec:
+    interface -> ImplementsDec(interface)
+    
+  desugar:
+    FieldDec(m*, t, vardec*) -> <map(desugar-fielddec(|m*, t))> vardec*
+    
+  desugar-fielddec(|m*, t):
+    VarDec(n) -> FieldDec(m*, t, n, None())
+    
+  desugar-fielddec(|m*, t):
+    VarDec(n, e) -> FieldDec(m*, t, n, Some(e))  

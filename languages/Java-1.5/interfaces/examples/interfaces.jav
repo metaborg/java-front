@@ -5,7 +5,7 @@ public interface IA {
 }
 
 @Anno
-public interface IB extends IA {
+public interface IB extends IA, IA {
   public abstract void method(int a);
   void deprecated(int s, int h) [] throws IB;
 }

@@ -1,0 +1,10 @@
+module desugar
+
+imports
+  
+  languages/Java-1.5/classes/trans/desugar
+  languages/Java-1.5/interfaces/trans/desugar
+  
+strategies
+  
+  desugar-all = topdown(try(desugar))

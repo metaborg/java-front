@@ -8,5 +8,6 @@ signature
 
 strategies
   
-  type-of = id
-  print-type = id
+  type-of = fail
+
+  print-type = fail

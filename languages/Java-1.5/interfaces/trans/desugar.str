@@ -1,0 +1,39 @@
+module languages/Java-1.5/interfaces/trans/desugar
+
+imports
+	
+  include/Java
+  lib/nbl/-
+  types
+  names
+
+signature
+
+  constructors
+    
+    Anno: Type * ID * Exp -> Anno
+    ExtendsDec: InterfaceType -> ExtendsDec
+    ConstantDec: List(ConstantMod) * Type * ID * Exp -> ConstantDec
+
+rules
+  
+  desugar:
+    Anno(t, pair*) -> <map(desugar-anno(|t))> pair*
+  
+  desugar-anno(|t):
+    Anno(n, e) -> Anno(t, n, e)
+  
+  desugar: 
+    ExtendsInterfaces(interface*) -> <map(desugar-extendsdec)> interface*
+    
+  desugar-extendsdec:
+    interface -> ExtendsDec(interface)
+    
+  desugar:
+    ConstantDec(m*, t, vardec*) -> <map(desugar-constantdec(|m*, t))> vardec*
+    
+  desugar-constantdec(|m*, t):
+    VarDec(n) -> ConstantDec(m*, t, n, None())
+    
+  desugar-constantdec(|m*, t):
+    VarDec(n, e) -> ConstantDec(m*, t, n, Some(e))  

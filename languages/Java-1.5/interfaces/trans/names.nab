@@ -6,6 +6,7 @@ imports
   lib/nbl/-
   types
   names
+  desugar
 
 namespaces
 
@@ -31,8 +32,8 @@ binding rules // Annotations
       of Modifiers mod
     scopes Variable
   
-  Anno(TypeName(Id(a)), ... ElemValPair(Id(f), _) ...):
-  	refers to Field f in Type a
+  Anno(t, f, _):
+  	refers to Field f in Type t
   
 binding rules // Interfaces
 
@@ -42,7 +43,7 @@ binding rules // Interfaces
       of Modifiers m
     scopes Type, TypeParam, Field, Method
     
-  ExtendsInterfaces(... i ...):
+  ExtendsDec(i, _):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -51,16 +52,10 @@ binding rules // Interfaces
 
 binding rules // Constants
 
-  ConstantDec(m, t, ... VarDec(Id(c)) ...):
+  ConstantDec(m, t, Id(c), _):
     defines Field c
       of type t
       of Modifiers m
-      in subsequent scope
-
-  ConstantDec(m, t, ... VarDec(Id(c), _) ...):
-  	defines Field c
-  	  of type t
-  	  of Modifiers m
       in subsequent scope
       
 binding rules // Asbtract methods

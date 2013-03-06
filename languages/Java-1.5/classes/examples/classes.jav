@@ -8,7 +8,7 @@ public class A {
   protected static volatile int[] array;
   
   
-  public int i = 1, b = i;
+  public int i = 1, b = i;  
   
   public A() {
     
@@ -20,6 +20,8 @@ public class A {
   
   public static void m() [] {
     int a;
+    
+    return a;
   }
   
   int s(F l, final int s) throws A {
@@ -42,4 +44,4 @@ protected class E implements C, D {
 public enum F {
   E1 = 1
 , E2
-}
+} 
