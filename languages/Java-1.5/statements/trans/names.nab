@@ -12,13 +12,13 @@ namespaces
 
 binding rules // Local variables
 
-  LocalVarDec(m, t, ... VarDec(Id(v)) ...):
+  LocalVarDec(m, t, [..., VarDec(Id(v)), ...]):
     defines Variable v
       of type t
       of Modifiers m
       in subsequent scope
       
-  LocalVarDec(m, t, ... VarDec(Id(v), _) ...):
+  LocalVarDec(m, t, [..., VarDec(Id(v), _), ...]):
     defines Variable v 
       of type t
       of Modifiers m
@@ -40,21 +40,21 @@ binding rules // Control flow
   If(_, _):
     scopes Variable
 
+  todo -- Separately scope variables from the if part and the else part. --
   If(_, _, _):
   	scopes Variable
-  	// TODO: Separately scope variables from the if part and the else part.
   	
+  todo -- Check visibility in spec --
   While(_, _):
   	scopes Variable
-  	// TODO: Check visibility in spec.
   	
+  todo -- Check visibility in spec --
   DoWhile(_, _):
   	scopes Variable
-  	// TODO: Check visibility in spec.
   	
+  todo -- Variables from init should only be scoped in cond, inc, stm. --
   For(init, cond, inc, stm):
   	scopes Variable
-  	// TODO: Variables from init should only be scoped in cond, inc, stm.
   	
   ForEach(Param(_, t, v), list, stm):
   	defines Variable v

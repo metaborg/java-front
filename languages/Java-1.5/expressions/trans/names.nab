@@ -14,13 +14,13 @@ namespaces
 binding rules // Method call
 
   Method(m, a*):
-  	refers to Method m 
-      of ParameterTypes pt*
+  	refers to best Method m 
+      of conformant ParameterTypes pt*
   	  where a* has type pt*
 
   Method(e, _, Id(m), a*):
-    refers to Method m
-      of ParameterTypes pt*
+    refers to best Method m
+      of conformant ParameterTypes pt*
       in Type t
       where a* has type pt*
       where e has type t
@@ -35,15 +35,15 @@ binding rules // Field access
 binding rules // Class instantiation
 
   NewInstance(_, c, a*, _):
-    refers to Constructor t 
-      of ParameterTypes pt* 
-      in Type t
-      where c has type t
+    refers to best Constructor c 
+      of conformant ParameterTypes pt* 
+      in Type c
       where a* has type pt*
 
+  todo -- in Type e --
   QNewInstance(e, _, c, _, a*, _):
-  	refers to Constructor c
-  	  of ParameterTypes pt* 
-  	  in Type c //in Type t
+  	refers to best Constructor c
+  	  of conformant ParameterTypes pt* 
+  	  in Type c
   	  where a* has type pt*
   	  where e has type t

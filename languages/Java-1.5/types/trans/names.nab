@@ -13,18 +13,18 @@ namespaces
 
 binding rules // Type references
 
+  todo -- support type parameters --
   InterfaceType(i, _):
     refers to Type i
-    // TODO: Type parameters?
-
+    
+  todo -- support type parameters --
   ClassType(c, _):
     refers to Type c
-    // TODO: Type parameters?
     
+  todo -- support type parameters --
   ClassOrInterfaceType(t, _):
     refers to Type t
-    // TODO: Type parameters?
-
+  
 binding rules // Type parameters
 
   TypeParam(tp, _):
@@ -32,8 +32,6 @@ binding rules // Type parameters
     
 binding rules // Type arguments
 
-/*
-  TypeArgs(... t ...):
+  TypeArgs([..., t, ...]):
   	          refers to Type t
   	otherwise refers to TypeParam t
-*/
