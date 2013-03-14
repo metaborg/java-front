@@ -55,12 +55,12 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   --
   
   AmbName(Id(n)):
-              identifies Variable n in current scope
-    otherwise identifies Field n in current scope
-    otherwise identifies imported Field n
-    otherwise identifies Type n in current scope
-    otherwise identifies imported Type n
-    otherwise identifies Package n
+              refers to Variable n in current scope
+    otherwise refers to Field n in current scope
+    otherwise refers to imported Field n
+    otherwise refers to Type n in current scope
+    otherwise refers to imported Type n
+    otherwise refers to Package n
 
   description --
 	  If the AmbiguousName is a qualified name, consisting of a name, a ".", and an Identifier, 
@@ -99,14 +99,14 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   --
   
   AmbName(q, Id(n)):
-              qualifies Type n     in Package q
-    otherwise qualifies Package n  in Package q
-    otherwise qualifies Method n   in Type q
-    otherwise qualifies Field n    in Type q
-    otherwise qualifies Type n     in Type q
-    otherwise qualifies Method n   in Type t where q has type t
-    otherwise qualifies Field n    in Type t where q has type t
-    otherwise qualifies Type n     in Type t where q has type t
+              refers to Type n     in Package q
+    otherwise refers to Package n  in Package q
+    otherwise refers to Method n   in Type q
+    otherwise refers to Field n    in Type q
+    otherwise refers to Type n     in Type q
+    otherwise refers to Method n   in Type t where q has type t
+    otherwise refers to Field n    in Type t where q has type t
+    otherwise refers to Type n     in Type t where q has type t
     
 binding rules // 6.5.3 Meaning of Package Names
 
@@ -117,7 +117,8 @@ binding rules // 6.5.3 Meaning of Package Names
     If no top level package of that name is in scope (¤7.4.4), then a compile-time error occurs.
   -- 
   
-  PackageName(Id(p)): identifies Package p
+  PackageName(Id(p)): 
+  	refers to Package p
   
   description --
     If a package name is of the form Q.Id, 
@@ -130,7 +131,8 @@ binding rules // 6.5.3 Meaning of Package Names
     then a compile-time error occurs.
   --
   
-  PackageName(q, p) : qualifies Package p in Package q
+  PackageName(q, p) : 
+  	refers to Package p in Package q
 
 binding rules // 6.5.4 Meaning of PackageOrTypeNames
 
@@ -143,8 +145,8 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   --
   
   PackageOrTypeName(Id(n)):
-              identifies Type n
-    otherwise identifies Package n
+              refers to Type n
+    otherwise refers to Package n
   
   description --
     Given a qualified PackageOrTypeName of the form Q.Id,
@@ -160,9 +162,9 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   -- 
   
   PackageOrTypeName(q, Id(n)):
-              qualifies Type n    in Type q
-    otherwise qualifies Type n    in Package q
-    otherwise qualifies Package n in Package q
+              refers to Type n    in Type q
+    otherwise refers to Type n    in Package q
+    otherwise refers to Package n in Package q
   
 binding rules // 6.5.5 Meaning of Type Names
 
@@ -173,7 +175,7 @@ binding rules // 6.5.5 Meaning of Type Names
     The meaning of the type name is that type.
   --
   TypeName(Id(n)):
-    identifies Type n
+    refers to Type n
   
   description --
     If a type name is of the form Q.Id, then Q must be either a type name or a package name.
@@ -187,8 +189,8 @@ binding rules // 6.5.5 Meaning of Type Names
     then a compile-time error occurs.
   --  
   TypeName(q, Id(n)):
-              qualifies Type n in Type q
-    otherwise qualifies Type n in Package q
+              refers to Type n in Type q
+    otherwise refers to Type n in Package q
    
 binding rules // 6.5.6 Meaning of Expression Names
  
@@ -220,8 +222,8 @@ binding rules // 6.5.6 Meaning of Expression Names
   --
   
   ExprName(Id(n)):
-              identifies Variable n
-    otherwise identifies Field n
+              refers to Variable n
+    otherwise refers to Field n
   
   description --
     If an expression name is of the form Q.Id, 
@@ -272,8 +274,8 @@ binding rules // 6.5.6 Meaning of Expression Names
 			    or an instance variable. 
   --  
   ExprName(q, Id(n)):
-              qualifies Field n in Type q
-    otherwise qualifies Field n in Type t where q has type t
+              refers to Field n in Type q
+    otherwise refers to Field n in Type t where q has type t
   
 binding rules // 6.5.7 Meaning of Method Name
  
@@ -300,8 +302,8 @@ binding rules // 6.5.7 Meaning of Method Name
         within the compilation unit within which the Identifier appears.
   --
   MethodName(Id(n)):
-              identifies Method n in current scope
-    otherwise identifies imported Method n
+              refers to Method n in current scope
+    otherwise refers to imported Method n
   
   description --
     A qualified method name can only appear in the context of a method invocation expression. 
@@ -323,5 +325,5 @@ binding rules // 6.5.7 Meaning of Method Name
       Id must name at least one method of the type T. 
   --
   MethodName(q, Id(n)):
-    qualifies Method n in Type q
-    otherwise qualifies Method n in Type t where q has type t
+              refers to Method n in Type q
+    otherwise refers to Method n in Type t where q has type t

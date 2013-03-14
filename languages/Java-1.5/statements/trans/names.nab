@@ -40,30 +40,80 @@ binding rules // Control flow
   If(_, _):
     scopes Variable
 
-  todo -- Separately scope variables from the if part and the else part. --
-  If(_, _, _):
+  todo -- The AST does not contain an IfPart and ElsePart yet --
+  IfPart(_, _):
   	scopes Variable
   	
-  todo -- Check visibility in spec --
+  ElsePart(_):
+  	scopes Variable
+  	
   While(_, _):
   	scopes Variable
   	
-  todo -- Check visibility in spec --
   DoWhile(_, _):
   	scopes Variable
-  	
-  todo -- Variables from init should only be scoped in cond, inc, stm. --
-  For(init, cond, inc, stm):
+  
+  todo -- Refactor (syntax) so that this does not require 4 different binding rules? --
+  todo -- The nested VarDecs already define variables.. --
+  For(LocalVarDec(m, t, [..., VarDec(Id(v)), ...]), cond, inc, stm):
+    defines Variable v 
+      of type t
+      of Modifiers m
+      in cond, inc, stm
+  	scopes Variable
+  
+  todo -- The nested VarDecs already define variables.. --	
+  For(LocalVarDec(m, t, [..., VarDec(Id(v, _)), ...]), cond, inc, stm):
+    defines Variable v 
+      of type t
+      of Modifiers m
+      in cond, inc, stm
+  	scopes Variable
+  
+  todo -- The nested Param already defines a variable.. --	
+  For(Param(m, t, v), cond, inc, stm):
+    defines Variable v 
+      of type t
+      of Modifiers m
+      in cond, inc, stm
+  	scopes Variable
+  
+  todo -- The nested VarArityParam already defines a variable.. --	
+  For(VarArityParam(m, t, v), cond, inc, stm):
+    defines Variable v 
+      of type t
+      of Modifiers m
+      in cond, inc, stm
   	scopes Variable
   	
-  ForEach(Param(_, t, v), list, stm):
+	todo -- Refactor (syntax) so that this does not require 2 different binding rules? --
+	todo -- The nested Param already defines a variable.. --
+  ForEach(Param(m, t, v), list, stm):
   	defines Variable v
   	  of type t
+  	  of Modifiers m
+  	  in stm
+  	  
+  todo -- The nested VarArityParam already defines a variable.. --
+  ForEach(VarArityParam(m, t, v), list, stm):
+  	defines Variable v
+  	  of type t
+  	  of Modifiers m
   	  in stm
   
-  Catch(Param(_, t, v), stm):
+  todo -- Refactor (syntax) so that this does not require 2 different binding rules? --
+  todo -- The nested Param already defines a variable.. --
+  Catch(Param(m, t, v), stm):
   	defines Variable v
   	  of type t
+  	  of Modifiers m
+  	  in stm
+  
+  todo -- The nested VarArityParam already defines a variable.. --	  
+  Catch(VarArityParam(m, t, v), stm):
+  	defines Variable v
+  	  of type t
+  	  of Modifiers m
   	  in stm
 
   SwitchGroup(_, _):

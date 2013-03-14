@@ -13,17 +13,47 @@ namespaces
 
 binding rules // Method call
 
-  Method(m, a*):
+	todo -- add ALL the invokes --
+	
+  Invoke(Method(m), a*):
   	refers to best Method m 
       of conformant ParameterTypes pt*
   	  where a* has type pt*
 
-  Method(e, _, Id(m), a*):
+	todo -- ta* is a Some/None --
+  Invoke(Method(e, ta*, Id(m)), a*):
     refers to best Method m
       of conformant ParameterTypes pt*
+      of conformant TypeParameters ta*
       in Type t
       where a* has type pt*
       where e has type t
+  
+  todo -- ta* is a Some/None --    
+  Invoke(SuperMethod(ta*, Id(m)), a*):
+    refers to best Method m
+      of conformant ParameterTypes pt*
+      of conformant TypeParameters ta*
+      in Type t
+      where a* has type pt*
+      where super refers to Field "super"
+      where super has type t
+      
+  todo -- ta* is a Some/None --    
+  Invoke(QSuperMethod(t, ta*, Id(m)), a*):
+    refers to best Method m
+      of conformant ParameterTypes pt*
+      of conformant TypeParameters ta*
+      in Type t
+      where a* has type pt*
+  
+  todo -- WTF does this do? --     
+  Invoke(GenericMethod(amb, ta*, Id(m)), a*):
+    refers to best Method m
+      of conformant ParameterTypes pt*
+      of conformant TypeParameters ta*
+      in Type ??
+      where a* has type pt*
   
 binding rules // Field access
 
@@ -34,16 +64,23 @@ binding rules // Field access
   	  
 binding rules // Class instantiation
 
-  NewInstance(_, c, a*, _):
+	todo -- ta* is a Some/None --
+	todo -- does ta* refer to type arguments for the constructor or the type? --
+  NewInstance(ta*, c, a*, _):
     refers to best Constructor c 
-      of conformant ParameterTypes pt* 
+      of conformant ParameterTypes pt*
+      of conformant TypeParameters ta*
       in Type c
       where a* has type pt*
 
-  todo -- in Type e --
-  QNewInstance(e, _, c, _, a*, _):
+	todo -- ta1* and ta2* are a Some/None --
+	todo -- does ta1* refer to type arguments for the constructor or the type? --
+	todo -- does ta2* refer to type arguments for the constructor or the type? --
+  QNewInstance(e, ta1*, Id(c), ta2*, a*, _):
   	refers to best Constructor c
-  	  of conformant ParameterTypes pt* 
+  	  of conformant ParameterTypes pt*
+  	  of conformant TypeParameters ta1* 
   	  in Type c
+  	  in Type t
   	  where a* has type pt*
   	  where e has type t

@@ -13,17 +13,17 @@ namespaces
 
 binding rules // Type references
 
-  todo -- support type parameters --
-  InterfaceType(i, _):
+  InterfaceType(i, tp*):
     refers to Type i
+    	of conformant TypeParameters tp*
     
-  todo -- support type parameters --
-  ClassType(c, _):
+  ClassType(c, tp*):
     refers to Type c
+    	of conformant TypeParameters tp*
     
-  todo -- support type parameters --
-  ClassOrInterfaceType(t, _):
+  ClassOrInterfaceType(t, tp*):
     refers to Type t
+    	of conformant TypeParameters tp*
   
 binding rules // Type parameters
 

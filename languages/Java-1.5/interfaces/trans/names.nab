@@ -8,10 +8,6 @@ imports
   names
   desugar
 
-namespaces
-
-  
-
 properties
 
   Modifiers of Type   : List(InterfaceMod)
@@ -37,13 +33,13 @@ binding rules // Annotations
   
 binding rules // Interfaces
 
-  InterfaceDec(InterfaceDecHead(m, Id(i), _, _), _):
+  InterfaceDec(InterfaceDecHead(m, Id(i), tp*, _), _):
     defines Type i
       of type Type(i)
       of Modifiers m
+      of TypeParameters tp*
     scopes Type, TypeParam, Field, Method
   
-  todo --import types? --
   ExtendsInterfaces([..., i, ...]):
     imports
       Field, imported Field, 

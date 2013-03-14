@@ -21,36 +21,44 @@ properties
   Modifiers      of Method      : List(MethodMod)
   Modifiers      of Field       : List(FieldMod)
   Modifiers      of Variable    : List(VarMod)
+  TypeParameters of Type        : TypeParams
+  TypeParameters of Method      : TypeParams
 
 binding rules // Enums
 
-  todo -- Should this be in a separate namespace? --
   EnumDec(EnumDecHead(m, Id(e), _), _):
     defines Type e 
       of Modifiers m
     scopes Field
   
-  todo -- Should this be in a separate namespace? --
   EnumConst(Id(e), _, _):
     defines Field e   
 
 binding rules // Types
 
   todo -- implicitly define: this, super. --
-  ClassDec(ClassDecHead(m, Id(c), _, _, _), _):
+  ClassDec(ClassDecHead(m, Id(c), tp*, None(), _), _):
     defines Type c 
       of type Type(c)
       of Modifiers m
+      of TypeParameters tp*
+    implicitly defines Field "this" of type Type(c)
     scopes Type, TypeParam, Constructor, Field, Method
     
-  todo -- import types? --
-  SuperDec(ClassType(c, _)):
+  ClassDec(ClassDecHead(m, Id(c), tp*, SuperDec(ClassType(p, tpr*)), _), _):
+    defines Type c 
+      of type Type(c)
+      of Modifiers m
+      of TypeParameters tp*
     imports
       Field, imported Field, 
       Method, imported Method
-      from Type c
-  
-  todo -- import types? --    
+      from Type p
+    	of conformant TypeParameters tpr*
+    implicitly defines Field "this" of type Type(c)
+    implicitly defines Field "super" of type Type(p)
+    scopes Type, TypeParam, Constructor, Field, Method
+    
   ImplementsDec([..., InterfaceType(i, _), ...]):
     imports
       Field, imported Field, 
@@ -84,22 +92,24 @@ binding rules // Fields
       
 binding rules // Methods
 
-  MethodDec(MethodDecHead(mod, _, t, Id(m), p*, th), body):
+  MethodDec(MethodDecHead(mod, tp*, t, Id(m), p*, th), body):
     defines Method m
       of type t
       of ParameterTypes pt*
       of Throws th
       of Modifiers mod
+      of TypeParameters tp*
       where p* has type pt*
     imports Field into body
     scopes Variable, Label
     
-  MethodDec(DeprMethodDecHead(mod, _, t, Id(m), p*, _, th), body):
+  MethodDec(DeprMethodDecHead(mod, tp*, t, Id(m), p*, _, th), body):
     defines Method m
       of type t
       of ParameterTypes pt*
       of Throws th
       of Modifiers mod
+      of TypeParameters tp*
       where p* has type pt*
     imports Field into body
     scopes Variable, Label
