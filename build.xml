@@ -102,15 +102,13 @@
 			</sdf-deps>
 		</pack-sdf>
 
-		<!-- TODO: form here the output of sdf2generated. && clean the current git repo -->
+		<!-- TODO: from here the output of sdf2generated. && clean the current git repo -->
 		
 		<sdf2generated base="${syn.javaemb}/Stratego-Java-15" main="Stratego-Java-15" output="${bin}">
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
 					<arg value="${stratego-front}/syn/StrategoMix.def" />
-					<arg value="-Idef" />
-					<arg value="${bin}/languages/java-15/JavaMix.def" />
 					<arg value="-Idef" />
 					<arg value="${bin}/syntax/src/EmbeddedJavaMix.def" />
 				</args>
@@ -122,8 +120,6 @@
 				<args>
 					<arg value="-Idef" />
 					<arg value="${stratego-front}/syn/StrategoMix.def" />
-					<!-- <arg value="-Idef" />
-					<arg value="${bin}/languages/java-15/JavaMix.def" /> -->
 					<arg value="-Idef" />
 					<arg value="${bin}/syntax/src/EmbeddedJavaMix.def" />
 					<arg value="-Idef" />
@@ -131,9 +127,6 @@
 				</args>
 			</includeargs>
 		</sdf2generated>
-
-		<!-- <rtg2sig input="${bin}/syntax/src/Java-15.rtg" output="${bin}/lib/java/signature/v5.str" main="Java-15" />
-		<rtg2sig input="${syn.javaemb}/Java-EBlock.rtg" output="${java-front}/lib/java/signature/eblock.str" main="Java-EBlock" /> -->
 
 		<mkdir dir="${bin}/lib/java/pp" />
 		<sdf2parenthesize input="${bin}/syntax/src/Java-15.tbl" output="${bin}/lib/java/pp/parenthesize.str" main="Java" language="Java5" outputmodule="java/pp/parenthesize">
