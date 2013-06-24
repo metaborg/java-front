@@ -16,6 +16,8 @@
 	<property name="nativepath" value="${sdf2bundle}/bin/" />
 	<property name="install-prefix" location="dist" />
 	<property name="install-location" location="${install-prefix}/share/strategoxt/aterm-front" />
+	<property name="stratego-front" location="../strategoxt/strategoxt/syntax/stratego-front/dist/share/strategoxt/stratego-front" />
+
 
 	<property name="syn.java" value="syntax/src" />
 	<property name="syn.javaemb" value="syntax-embedding" />
@@ -41,10 +43,8 @@
 				<arg value="${bin}/syntax/src/Java-15.def" />
 			</args>
 			<sdf-deps>
-				<srcfiles dir="${bin}" includes="**/*.sdf">
-					<exclude name="**/*Renamed.sdf" />
-					<exclude name="**/*Mix.sdf" />
-				</srcfiles>
+				<srcfiles dir="${bin}/syntax/src" includes="Java-15.def" />
+				<srcfiles dir="${bin}/languages/java-15" includes="**/*.sdf" />
 			</sdf-deps>
 		</pack-sdf>
 
@@ -58,7 +58,7 @@
 			</includeargs>
 			<deps>
 				<srcfiles dir="${syn.javaemb}" includes="**/*.sdf" />
-				<srcfiles dir="${bin}" includes="**/*.sdf" />
+				<srcfiles dir="${bin}/syntax/src" includes="Java-15.def" />
 			</deps>
 		</sdf2generated>
 
@@ -74,6 +74,17 @@
 
 		<mkdir dir="${bin}/languages/java/eblock" />
 		<gen-sdf-mix input="${bin}/syntax-embedding/Java-EBlock.def" output="${bin}/languages/java/eblock/JavaEBlockMix.sdf" main="languages/java/eblock/Main" name="languages/java/eblock/JavaEBlockMix" />
+
+		<pack-sdf input="${bin}/languages/java/eblock/JavaEBlockMix.sdf" output="${bin}/languages/java/eblock/JavaEBlockMix.def">
+			<args>
+				<arg value="-Idef" />
+				<arg value="${bin}/syntax-embedding/Java-EBlock.def" />
+			</args>
+			<sdf-deps>
+				<srcfiles dir="${bin}/syntax-embedding" includes="Java-EBlock.def">
+				</srcfiles>
+			</sdf-deps>
+		</pack-sdf>
 
 		<pack-sdf input="${bin}/syntax-embedding/languages/java/EmbeddedJavaMix.sdf" output="${bin}/syntax/src/EmbeddedJavaMix.def">
 			<args>
@@ -91,39 +102,41 @@
 			</sdf-deps>
 		</pack-sdf>
 
-		<sdf2generated base="${syn.javaemb}/Stratego-Java-15" main="Stratego-Java-15">
+		<!-- TODO: form here the output of sdf2generated. && clean the current git repo -->
+		
+		<sdf2generated base="${syn.javaemb}/Stratego-Java-15" main="Stratego-Java-15" output="${bin}">
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${install-prefix}/share/strategoxt/stratego-front/syn/StrategoMix.def" />
-					<!--<arg value="${basedir}/${syn.str}/StrategoMix.def" />-->
+					<arg value="${stratego-front}/syn/StrategoMix.def" />
 					<arg value="-Idef" />
-					<arg value="${basedir}/${syn.java}/JavaMix.def" />
-					<arg value="-I" />
-					<arg value="${basedir}/${syn.java}" />
+					<arg value="${bin}/languages/java-15/JavaMix.def" />
+					<arg value="-Idef" />
+					<arg value="${bin}/syntax/src/EmbeddedJavaMix.def" />
 				</args>
 			</includeargs>
 		</sdf2generated>
 
-		<sdf2generated base="${syn.javaemb}/Stratego-Java-EBlock" main="Stratego-Java-EBlock">
+		<sdf2generated base="${syn.javaemb}/Stratego-Java-EBlock" main="Stratego-Java-EBlock" output="${bin}">
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${install-prefix}/share/strategoxt/stratego-front/syn/StrategoMix.def" />
-					<!--<arg value="${basedir}/${syn.str}/StrategoMix.def" />-->
+					<arg value="${stratego-front}/syn/StrategoMix.def" />
+					<!-- <arg value="-Idef" />
+					<arg value="${bin}/languages/java-15/JavaMix.def" /> -->
 					<arg value="-Idef" />
-					<arg value="${basedir}/${syn.java}/JavaMix.def" />
-					<arg value="-I" />
-					<arg value="${basedir}/${syn.java}" />
+					<arg value="${bin}/syntax/src/EmbeddedJavaMix.def" />
+					<arg value="-Idef" />
+					<arg value="${bin}/languages/java/eblock/JavaEBlockMix.def" />
 				</args>
 			</includeargs>
 		</sdf2generated>
 
-		<mkdir dir="${java-front}/lib/java/signature" />
-		<rtg2sig input="${syn.java}/Java-15.rtg" output="${java-front}/lib/java/signature/v5.str" main="Java-15" />
-		<rtg2sig input="${syn.javaemb}/Java-EBlock.rtg" output="${java-front}/lib/java/signature/eblock.str" main="Java-EBlock" />
+		<!-- <rtg2sig input="${bin}/syntax/src/Java-15.rtg" output="${bin}/lib/java/signature/v5.str" main="Java-15" />
+		<rtg2sig input="${syn.javaemb}/Java-EBlock.rtg" output="${java-front}/lib/java/signature/eblock.str" main="Java-EBlock" /> -->
 
-		<sdf2parenthesize input="${syn.java}/Java-15.tbl" output="${java-front}/lib/java/pp/parenthesize.str" main="Java" language="Java5" outputmodule="java/pp/parenthesize">
+		<mkdir dir="${bin}/lib/java/pp" />
+		<sdf2parenthesize input="${bin}/syntax/src/Java-15.tbl" output="${bin}/lib/java/pp/parenthesize.str" main="Java" language="Java5" outputmodule="java/pp/parenthesize">
 			<args>
 				<arg value="--sig-module" />
 				<arg value="java/signature/v5" />
