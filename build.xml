@@ -167,6 +167,8 @@
 				<arg value="${bin.java-15}" />
 				<arg value="-I" />
 				<arg value="${gpp}/syn/box" />
+				<arg value="--cache-dir" />
+				<arg value=".cache" />
 			</strjlibargs>
 			<str-deps>
 				<srcfiles dir="${str.lib}" includes="**/*.str" />
@@ -189,5 +191,6 @@
 	<target name="clean">
 		<delete dir="${bin}" />
 		<delete dir="${install-location}" />
+		<delete dir="${str.lib}" includes="libjavafront.ctree, libjavafront.ctree.dep, libjavafront.rtree" />
 	</target>
 </project>
