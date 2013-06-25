@@ -17,119 +17,129 @@
 	<property name="install-prefix" location="dist" />
 	<property name="install-location" location="${install-prefix}/share/strategoxt/aterm-front" />
 	<property name="stratego-front" location="../strategoxt/strategoxt/syntax/stratego-front/dist/share/strategoxt/stratego-front" />
-
+	<property name="gpp" location="../strategoxt/strategoxt/syntax/gpp/dist/share/strategoxt/gpp" />
 
 	<property name="syn.java" value="syntax/src" />
 	<property name="syn.javaemb" value="syntax-embedding" />
+	<property name="str.lib" value="lib" />
 
 	<property name="bin" value="bin" />
+	<property name="bin.java-15" value="${bin}/languages/java-15" />
+	<property name="bin.java.embed" value="${bin}/languages/java" />
+	<property name="bin.java.eblock" value="${bin.java.embed}/eblock" />
+	<property name="bin.java.str" value="${bin}/languages/stratego-java" />
+	<property name="bin.str.lib" value="${bin}/lib" />
+	<property name="bin.java.lib" value="${bin}/java/org/strategoxt/java_front" />
 
 	<target name="all" depends="build, install" />
+	<target name="build" depends="syntax, stratego" />
+	<target name="syntax" depends="syntax-java-15, syntax-java-embed, syntax-java-stratego" />
 
-	<target name="build" depends="build-syntax, build-stratego" />
+	<target name="syntax-java-15">
+		<mkdir dir="${bin.java-15}" />
 
-	<target name="build-syntax">
-		<mkdir dir="${bin}/syntax/src" />
-		<sdf2generated base="${syn.java}/Java-15" main="Java-15" output="${bin}" />
-		<sdf2generated base="${syn.java}/JavaCompilationUnit-15" main="JavaCompilationUnit-15" output="${bin}" />
+		<sdf2generated base="${syn.java}/Java-15" main="Java-15" output="${bin.java-15}" />
+		<sdf2generated base="${syn.java}/JavaCompilationUnit-15" main="JavaCompilationUnit-15" output="${bin.java-15}" />
 
-		<mkdir dir="${bin}/languages/java-15" />
 
-		<gen-sdf-mix input="${bin}/syntax/src/Java-15.def" output="${bin}/languages/java-15/JavaMix.sdf" main="languages/java-15/Main" name="languages/java-15/JavaMix" />
+		<gen-sdf-mix input="${bin.java-15}/Java-15.def" output="${bin.java-15}/JavaMix.sdf" main="languages/java-15/Main" name="languages/java-15/JavaMix" />
 
-		<pack-sdf input="${bin}/languages/java-15/JavaMix.sdf" output="${bin}/languages/java-15/JavaMix.def">
+		<pack-sdf input="${bin.java-15}/JavaMix.sdf" output="${bin.java-15}/JavaMix.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin}/syntax/src/Java-15.def" />
+				<arg value="${bin.java-15}/Java-15.def" />
 			</args>
 			<sdf-deps>
-				<srcfiles dir="${bin}/syntax/src" includes="Java-15.def" />
-				<srcfiles dir="${bin}/languages/java-15" includes="**/*.sdf" />
+				<srcfiles dir="${bin.java-15}" includes="**/*.sdf, **/*.def" />
 			</sdf-deps>
 		</pack-sdf>
+	</target>
 
-		<mkdir dir="${bin}/syntax-embedding" />
-		<sdf2generated base="${syn.javaemb}/Java-EBlock" main="Java-EBlock" output="${bin}">
+	<target name="syntax-java-embed" depends="syntax-java-15">
+		<mkdir dir="${bin.java.embed}" />
+		<mkdir dir="${bin.java.eblock}" />
+
+		<sdf2generated base="${syn.javaemb}/Java-EBlock" main="Java-EBlock" output="${bin.java.embed}">
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${bin}/syntax/src/Java-15.def" />
+					<arg value="${bin.java-15}/Java-15.def" />
 				</args>
 			</includeargs>
 			<deps>
 				<srcfiles dir="${syn.javaemb}" includes="**/*.sdf" />
-				<srcfiles dir="${bin}/syntax/src" includes="Java-15.def" />
+				<srcfiles dir="${bin.java-15}" includes="Java-15.def" />
 			</deps>
 		</sdf2generated>
 
-		<mkdir dir="${bin}/syntax-embedding/languages/java" />
-		<pack-sdf input="${syn.javaemb}/languages/java/EmbeddedJava.sdf" output="${bin}/syntax-embedding/languages/java/EmbeddedJava.def">
+		<pack-sdf input="${syn.javaemb}/languages/java/EmbeddedJava.sdf" output="${bin.java.embed}/EmbeddedJava.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin}/syntax/src/Java-15.def" />
+				<arg value="${bin.java-15}/Java-15.def" />
 			</args>
 		</pack-sdf>
 
-		<gen-sdf-mix input="${bin}/syntax-embedding/languages/java/EmbeddedJava.def" output="${bin}/syntax-embedding/languages/java/EmbeddedJavaMix.sdf" main="languages/java/EmbeddedJava" name="languages/java/EmbeddedJavaMix" />
+		<gen-sdf-mix input="${bin.java.embed}/EmbeddedJava.def" output="${bin.java.embed}/EmbeddedJavaMix.sdf" main="languages/java/EmbeddedJava" name="languages/java/EmbeddedJavaMix" />
+		<gen-sdf-mix input="${bin.java.embed}/Java-EBlock.def" output="${bin.java.eblock}/JavaEBlockMix.sdf" main="languages/java/eblock/Main" name="languages/java/eblock/JavaEBlockMix" />
 
-		<mkdir dir="${bin}/languages/java/eblock" />
-		<gen-sdf-mix input="${bin}/syntax-embedding/Java-EBlock.def" output="${bin}/languages/java/eblock/JavaEBlockMix.sdf" main="languages/java/eblock/Main" name="languages/java/eblock/JavaEBlockMix" />
-
-		<pack-sdf input="${bin}/languages/java/eblock/JavaEBlockMix.sdf" output="${bin}/languages/java/eblock/JavaEBlockMix.def">
+		<pack-sdf input="${bin.java.eblock}/JavaEBlockMix.sdf" output="${bin.java.eblock}/JavaEBlockMix.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin}/syntax-embedding/Java-EBlock.def" />
+				<arg value="${bin.java.embed}/Java-EBlock.def" />
 			</args>
 			<sdf-deps>
-				<srcfiles dir="${bin}/syntax-embedding" includes="Java-EBlock.def">
+				<srcfiles dir="${bin.java.embed}" includes="Java-EBlock.def">
 				</srcfiles>
 			</sdf-deps>
 		</pack-sdf>
 
-		<pack-sdf input="${bin}/syntax-embedding/languages/java/EmbeddedJavaMix.sdf" output="${bin}/syntax/src/EmbeddedJavaMix.def">
+		<pack-sdf input="${bin.java.embed}/EmbeddedJavaMix.sdf" output="${bin.java.embed}/EmbeddedJavaMix.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin}/syntax/src/Java-15.def" />
+				<arg value="${bin.java-15}/Java-15.def" />
 				<arg value="-I" />
 				<arg value="${syn.javaemb}" />
 			</args>
 			<sdf-deps>
-				<srcfiles dir="${syn.java}" includes="**/*.sdf">
-					<exclude name="**/*Renamed.sdf" />
-					<exclude name="**/*Mix.sdf" />
-				</srcfiles>
-				<srcfiles dir="${bin}/syntax/src" includes="Java-15.def" />
+				<srcfiles dir="${syn.javaemb}" includes="**/*.sdf" />
+				<srcfiles dir="${bin.java-15}" includes="Java-15.def" />
 			</sdf-deps>
 		</pack-sdf>
+	</target>
 
-		<!-- TODO: from here the output of sdf2generated. && clean the current git repo -->
-		
-		<sdf2generated base="${syn.javaemb}/Stratego-Java-15" main="Stratego-Java-15" output="${bin}">
+	<target name="syntax-java-stratego" depends="syntax-java-embed">
+		<mkdir dir="${bin.java.str}" />
+		<sdf2generated base="${syn.javaemb}/Stratego-Java-15" main="Stratego-Java-15" output="${bin.java.str}">
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
 					<arg value="${stratego-front}/syn/StrategoMix.def" />
 					<arg value="-Idef" />
-					<arg value="${bin}/syntax/src/EmbeddedJavaMix.def" />
+					<arg value="${bin.java.embed}/EmbeddedJavaMix.def" />
 				</args>
 			</includeargs>
 		</sdf2generated>
 
-		<sdf2generated base="${syn.javaemb}/Stratego-Java-EBlock" main="Stratego-Java-EBlock" output="${bin}">
+		<sdf2generated base="${syn.javaemb}/Stratego-Java-EBlock" main="Stratego-Java-EBlock" output="${bin.java.str}">
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
 					<arg value="${stratego-front}/syn/StrategoMix.def" />
 					<arg value="-Idef" />
-					<arg value="${bin}/syntax/src/EmbeddedJavaMix.def" />
+					<arg value="${bin.java.embed}/EmbeddedJavaMix.def" />
 					<arg value="-Idef" />
-					<arg value="${bin}/languages/java/eblock/JavaEBlockMix.def" />
+					<arg value="${bin.java.eblock}/JavaEBlockMix.def" />
 				</args>
 			</includeargs>
 		</sdf2generated>
+	</target>
 
-		<mkdir dir="${bin}/lib/java/pp" />
-		<sdf2parenthesize input="${bin}/syntax/src/Java-15.tbl" output="${bin}/lib/java/pp/parenthesize.str" main="Java" language="Java5" outputmodule="java/pp/parenthesize">
+	<target name="stratego" depends="syntax-java-15">
+		<mkdir dir="${bin.str.lib}/java/pp" />
+		<mkdir dir="${bin.str.lib}/java/signature" />
+		<mkdir dir="${bin.java.lib}" />
+
+		<sdf2parenthesize input="${bin.java-15}/Java-15.tbl" output="${bin.str.lib}/java/pp/parenthesize.str" main="Java" language="Java5" outputmodule="java/pp/parenthesize">
 			<args>
 				<arg value="--sig-module" />
 				<arg value="java/signature/v5" />
@@ -137,10 +147,11 @@
 				<arg value="io-java5-parenthesize" />
 			</args>
 		</sdf2parenthesize>
-	</target>
 
-	<target name="build-stratego">
-		<strj-lib input="${java-front}/lib/javafront.str" output="${lib}/org/strategoxt/java_front/Main.java" package="org.strategoxt.java_front">
+		<rtg2sig input="${bin.java-15}/Java-15.rtg" output="${bin.str.lib}/java/signature/v5.str" main="Java-15" />
+		<rtg2sig input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.str.lib}/java/signature/eblock.str" main="Java-EBlock" />
+
+		<strj-lib input="${str.lib}/javafront.str" output="${bin.java.lib}/Main.java" package="org.strategoxt.java_front">
 			<strjlibargs>
 				<arg value="-la" />
 				<arg value="stratego-lib" />
@@ -149,16 +160,23 @@
 				<arg value="-la" />
 				<arg value="stratego-gpp" />
 				<arg value="-I" />
-				<arg value="${basedir}/${syn.java}" />
+				<arg value="${syn.java}" />
 				<arg value="-I" />
-				<arg value="${basedir}/${syn.box}" />
+				<arg value="${bin.str.lib}" />
+				<arg value="-I" />
+				<arg value="${bin.java-15}" />
+				<arg value="-I" />
+				<arg value="${gpp}/syn/box" />
 			</strjlibargs>
 			<str-deps>
-				<srcfiles dir="${java-front}/lib" includes="**/*.str" />
+				<srcfiles dir="${str.lib}" includes="**/*.str" />
+				<srcfiles dir="${bin.str.lib}" includes="**/*.str" />
+				<srcfiles dir="${bin.java-15}" includes="**/*.*" />
+				<srcfiles dir="${gpp}/syn/box" includes="**/*.*" />
 			</str-deps>
 		</strj-lib>
-		<copy file="${java-front}/lib/libjavafront.ctree" tofile="${java-front}/lib/libjava-front.ctree" />
-		<copy file="${java-front}/lib/libjavafront.rtree" tofile="${java-front}/lib/libjava-front.rtree" />
+		<copy file="${str.lib}/libjavafront.ctree" tofile="${bin.str.lib}/libjava-front.ctree" />
+		<copy file="${str.lib}/libjavafront.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
 	</target>
 
 	<target name="install">
