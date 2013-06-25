@@ -113,7 +113,7 @@
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${stratego-front}/syn/StrategoMix.def" />
+					<arg value="${stratego-front}/StrategoMix.def" />
 					<arg value="-Idef" />
 					<arg value="${bin.java.embed}/EmbeddedJavaMix.def" />
 				</args>
@@ -124,7 +124,7 @@
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${stratego-front}/syn/StrategoMix.def" />
+					<arg value="${stratego-front}/StrategoMix.def" />
 					<arg value="-Idef" />
 					<arg value="${bin.java.embed}/EmbeddedJavaMix.def" />
 					<arg value="-Idef" />
