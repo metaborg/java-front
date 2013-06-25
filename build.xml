@@ -191,6 +191,7 @@
 	<target name="clean">
 		<delete dir="${bin}" />
 		<delete dir="${install-location}" />
+		<delete dir=".cache" />
 		<delete dir="${str.lib}" includes="libjavafront.ctree, libjavafront.ctree.dep, libjavafront.rtree" />
 	</target>
 </project>
