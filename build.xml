@@ -3,7 +3,7 @@
 	<!-- Import Stratego/XT Ant contributions -->
 
 	<!-- use this is for a build with a strategoxt.jar that does not include the Ant contributions -->
-	<import file="../strategoxt/strategoxt/ant-contrib/strategoxt-antlib.xml" />
+	<import file="../../ant-contrib/strategoxt-antlib.xml" />
 
 	<!-- use this for a build with recent strategoxt.jar that has the Ant contributions inside -->
 	<!-- <typedef resource="strategoxt-antlib.xml" /> -->
@@ -16,19 +16,29 @@
 	<property name="nativepath" value="${sdf2bundle}/bin/" />
 	<property name="install-prefix" location="dist" />
 	<property name="install-location" location="${install-prefix}/share/strategoxt/java_front" />
-	<property name="stratego-front" location="../strategoxt/strategoxt/syntax/stratego-front/dist/share/strategoxt/stratego-front" />
-	<property name="gpp" location="../strategoxt/strategoxt/syntax/gpp/dist/share/strategoxt/gpp" />
+	<property name="dep.stratego-front" location="../strategoxt/strategoxt/syntax/stratego-front/dist/share/strategoxt/stratego-front" />
+	<property name="dep.box" location="../strategoxt/strategoxt/syntax/gpp/dist/share/strategoxt/gpp" />
 
 	<property name="syn.java" value="syntax/src" />
+	<property name="syn.java.abs" location="${syn.java}" />
 	<property name="syn.javaemb" value="syntax-embedding" />
+	<property name="syn.javaemb.abs" location="${syn.javaemb}" />
 	<property name="str.lib" value="lib" />
 
 	<property name="bin" value="bin" />
 	<property name="bin.java-15" value="${bin}/languages/java-15" />
+	<property name="bin.java-15.abs" location="${bin.java-15}" />
+	
 	<property name="bin.java.embed" value="${bin}/languages/java" />
+	<property name="bin.java.embed.abs" location="${bin.java.embed}" />
+	
 	<property name="bin.java.eblock" value="${bin.java.embed}/eblock" />
+	<property name="bin.java.eblock.abs" location="${bin.java.eblock}" />
+	
 	<property name="bin.java.str" value="${bin}/languages/stratego-java" />
 	<property name="bin.str.lib" value="${bin}/lib" />
+	<property name="bin.str.lib.abs" location="${bin.str.lib}" />
+	
 	<property name="bin.java.lib" value="${bin}/java/org/strategoxt/java_front" />
 
 	<target name="all" depends="build, install" />
@@ -47,7 +57,7 @@
 		<pack-sdf input="${bin.java-15}/JavaMix.sdf" output="${bin.java-15}/JavaMix.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin.java-15}/Java-15.def" />
+				<arg value="${bin.java-15.abs}/Java-15.def" />
 			</args>
 			<sdf-deps>
 				<srcfiles dir="${bin.java-15}" includes="**/*.sdf, **/*.def" />
@@ -63,7 +73,7 @@
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${bin.java-15}/Java-15.def" />
+					<arg value="${bin.java-15.abs}/Java-15.def" />
 				</args>
 			</includeargs>
 			<deps>
@@ -75,7 +85,7 @@
 		<pack-sdf input="${syn.javaemb}/languages/java/EmbeddedJava.sdf" output="${bin.java.embed}/EmbeddedJava.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin.java-15}/Java-15.def" />
+				<arg value="${bin.java-15.abs}/Java-15.def" />
 			</args>
 		</pack-sdf>
 
@@ -85,7 +95,7 @@
 		<pack-sdf input="${bin.java.eblock}/JavaEBlockMix.sdf" output="${bin.java.eblock}/JavaEBlockMix.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin.java.embed}/Java-EBlock.def" />
+				<arg value="${bin.java.embed.abs}/Java-EBlock.def" />
 			</args>
 			<sdf-deps>
 				<srcfiles dir="${bin.java.embed}" includes="Java-EBlock.def">
@@ -96,9 +106,9 @@
 		<pack-sdf input="${bin.java.embed}/EmbeddedJavaMix.sdf" output="${bin.java.embed}/EmbeddedJavaMix.def">
 			<args>
 				<arg value="-Idef" />
-				<arg value="${bin.java-15}/Java-15.def" />
+				<arg value="${bin.java-15.abs}/Java-15.def" />
 				<arg value="-I" />
-				<arg value="${syn.javaemb}" />
+				<arg value="${syn.javaemb.abs}" />
 			</args>
 			<sdf-deps>
 				<srcfiles dir="${syn.javaemb}" includes="**/*.sdf" />
@@ -113,9 +123,9 @@
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${stratego-front}/StrategoMix.def" />
+					<arg value="${dep.stratego-front}/StrategoMix.def" />
 					<arg value="-Idef" />
-					<arg value="${bin.java.embed}/EmbeddedJavaMix.def" />
+					<arg value="${bin.java.embed.abs}/EmbeddedJavaMix.def" />
 				</args>
 			</includeargs>
 		</sdf2generated>
@@ -124,11 +134,11 @@
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${stratego-front}/StrategoMix.def" />
+					<arg value="${dep.stratego-front}/StrategoMix.def" />
 					<arg value="-Idef" />
-					<arg value="${bin.java.embed}/EmbeddedJavaMix.def" />
+					<arg value="${bin.java.embed.abs}/EmbeddedJavaMix.def" />
 					<arg value="-Idef" />
-					<arg value="${bin.java.eblock}/JavaEBlockMix.def" />
+					<arg value="${bin.java.eblock.abs}/JavaEBlockMix.def" />
 				</args>
 			</includeargs>
 		</sdf2generated>
@@ -160,13 +170,13 @@
 				<arg value="-la" />
 				<arg value="stratego-gpp" />
 				<arg value="-I" />
-				<arg value="${syn.java}" />
+				<arg value="${syn.java.abs}" />
 				<arg value="-I" />
-				<arg value="${bin.str.lib}" />
+				<arg value="${bin.str.lib.abs}" />
 				<arg value="-I" />
-				<arg value="${bin.java-15}" />
+				<arg value="${bin.java-15.abs}" />
 				<arg value="-I" />
-				<arg value="${gpp}/syn/box" />
+				<arg value="${dep.box}/syn/box" />
 				<arg value="--cache-dir" />
 				<arg value=".cache" />
 			</strjlibargs>
@@ -174,7 +184,7 @@
 				<srcfiles dir="${str.lib}" includes="**/*.str" />
 				<srcfiles dir="${bin.str.lib}" includes="**/*.str" />
 				<srcfiles dir="${bin.java-15}" includes="**/*.*" />
-				<srcfiles dir="${gpp}/syn/box" includes="**/*.*" />
+				<srcfiles dir="${dep.box}/syn/box" includes="**/*.*" />
 			</str-deps>
 		</strj-lib>
 		<copy file="${str.lib}/libjavafront.ctree" tofile="${bin.str.lib}/libjava-front.ctree" />
