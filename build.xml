@@ -15,7 +15,7 @@
 	<property name="sdf2bundle" value="${user.home}/.nix-profile" />
 	<property name="nativepath" value="${sdf2bundle}/bin/" />
 	<property name="install-prefix" location="dist" />
-	<property name="install-location" location="${install-prefix}/share/strategoxt/aterm-front" />
+	<property name="install-location" location="${install-prefix}/share/strategoxt/java_front" />
 	<property name="stratego-front" location="../strategoxt/strategoxt/syntax/stratego-front/dist/share/strategoxt/stratego-front" />
 	<property name="gpp" location="../strategoxt/strategoxt/syntax/gpp/dist/share/strategoxt/gpp" />
 
@@ -181,12 +181,20 @@
 		<copy file="${str.lib}/libjavafront.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
 	</target>
 
-	<target name="install">
+	<target name="install" depends="syntax, stratego">
 		<mkdir dir="${install-location}" />
-		<copy todir="${install-location}/syn">
-			<fileset dir="${bin}/syn" />
+		<copy todir="${install-location}">
+			<fileset dir="${bin.str.lib}" includes="libjava-front.ctree, libjava-front.rtree" />			
 		</copy>
+		<copy todir="${install-location}/languages/">
+			<fileset dir="${bin}/languages/" includes="**/*.pp, **/*.pp.af, **/*.str, **/*.tbl" />
+		</copy>
+		<copy todir="${install-location}/syntax">
+			<fileset dir="${bin}/languages/" includes="**/*.def" />
+		</copy>
+		
 	</target>
+
 
 	<target name="clean">
 		<delete dir="${bin}" />
