@@ -28,17 +28,17 @@
 	<property name="bin" value="bin" />
 	<property name="bin.java-15" value="${bin}/languages/java-15" />
 	<property name="bin.java-15.abs" location="${bin.java-15}" />
-	
+
 	<property name="bin.java.embed" value="${bin}/languages/java" />
 	<property name="bin.java.embed.abs" location="${bin.java.embed}" />
-	
+
 	<property name="bin.java.eblock" value="${bin.java.embed}/eblock" />
 	<property name="bin.java.eblock.abs" location="${bin.java.eblock}" />
-	
+
 	<property name="bin.java.str" value="${bin}/languages/stratego-java" />
 	<property name="bin.str.lib" value="${bin}/lib" />
 	<property name="bin.str.lib.abs" location="${bin.str.lib}" />
-	
+
 	<property name="bin.java.lib" value="${bin}/java/org/strategoxt/java_front" />
 
 	<target name="all" depends="build, install" />
@@ -187,6 +187,11 @@
 				<srcfiles dir="${dep.box}/syn/box" includes="**/*.*" />
 			</str-deps>
 		</strj-lib>
+		<mkdir dir="${bin}/classes" />
+		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" source="1.5" target="1.5" nowarn="off" debug="true" debuglevel="source" />
+		<jar destfile="${bin}/java_front.jar" update="false">
+			<fileset dir="${bin}/classes" includes="**/*.class" />
+		</jar>
 		<copy file="${str.lib}/libjavafront.ctree" tofile="${bin.str.lib}/libjava-front.ctree" />
 		<copy file="${str.lib}/libjavafront.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
 	</target>
@@ -194,7 +199,8 @@
 	<target name="install" depends="syntax, stratego">
 		<mkdir dir="${install-location}" />
 		<copy todir="${install-location}">
-			<fileset dir="${bin.str.lib}" includes="libjava-front.ctree, libjava-front.rtree" />			
+			<fileset dir="${bin.str.lib}" includes="libjava-front.ctree, libjava-front.rtree" />
+			<fileset dir="${bin}" includes="*.jar" />
 		</copy>
 		<copy todir="${install-location}/languages/">
 			<fileset dir="${bin}/languages/" includes="**/*.pp, **/*.pp.af, **/*.str, **/*.tbl" />
@@ -202,7 +208,7 @@
 		<copy todir="${install-location}/syntax">
 			<fileset dir="${bin}/languages/" includes="**/*.def" />
 		</copy>
-		
+
 	</target>
 
 
