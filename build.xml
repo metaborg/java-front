@@ -191,6 +191,10 @@
 		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" source="1.5" target="1.5" nowarn="off" debug="true" debuglevel="source" />
 		<jar destfile="${bin}/java_front.jar" update="false">
 			<fileset dir="${bin}/classes" includes="**/*.class" />
+			<fileset dir="${bin}/languages/java" includes="*.tbl, *.pp.af" />
+			<fileset dir="${bin}/languages/java/eblock" includes="*.tbl, *.pp.af" />
+			<fileset dir="${bin}/languages/java-15" includes="*.tbl, *.pp.af" />
+			<fileset dir="${bin}/languages/stratego-java" includes="*.tbl, *.pp.af" />
 		</jar>
 		<copy file="${str.lib}/libjavafront.ctree" tofile="${bin.str.lib}/libjava-front.ctree" />
 		<copy file="${str.lib}/libjavafront.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
