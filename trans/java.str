@@ -9,133 +9,73 @@ imports
   include/Java
   
   lib/editor-common.generated
+  lib/analysis/-
   lib/nbl/-
+  lib/task/-
   lib/index/-
-  
-  types
   names
-  desugar
   check
+  desugar
+  types
 
 rules // Analysis
+ 
+  editor-analyze = analysis-default-editor
   
-  // Main entry point for analyzes, called when a single file is opened in the editor.
-  editor-analyze:
-    (ast, path, project-path) -> (ast', errors, warnings, notes)
-    with
-      editor-init;
-      (ast', entries, tasks, dependent) := <desugar-all; nabl-analyze(|<language>, path, project-path)> ast;
-      (errors, warnings, notes)         := <analyze-markers> ast';
-      <map(vdebug(!"Entry: "))> entries;
-      <map(vdebug(!"Tasks: "))> tasks;
-      <map(vdebug(!"Dependent: "))> dependent;
-      <queue-analyze-multiple> <map(index-partition-file)> dependent
+  analysis-single-default-interface = 
+  	analysis-single-default(desugar-all, id, id|<language>)
+  analysis-multiple-default-interface = 
+  	analysis-multiple-default(parse-file <+ !(), desugar-all, id, id|<language>, <project-path>)
+  
+  editor-save = analysis-save-default(|<language>)
 
-  editor-analyze:
-    path* -> None()
-    where
-      not(is-tuple)
-    with
-      map(\p -> $[[<project-path>]/[p]]\);
-      queue-analyze-multiple
-      
-  editor-save:
-    (_, _, _, path, project-path) -> None()
-    with
-      index-setup(|<language>, [project-path], $[[project-path]/[path]]);
-      index-commit
+	analysis-default-debug-interface(msg) = debug(msg)
+	analysis-default-debug-interface = debug      
 
-  analyze-markers:
-    ast -> (errors, warnings, notes)
-    with
-      index-transaction(
-        errors   := <collect-all(constraint-error, conc)> ast;
-        warnings := <collect-all(constraint-warning, conc)> ast;
-        notes    := <collect-all(constraint-note, conc)> ast
-      )
-
-  update-markers:
-    Result(_, ast, ast', _, _, _, _) -> <id>
-    where
-      not(() := ast)
-    with
-      (errors, warnings, notes) := <analyze-markers> ast';
-      <set-markers(|ast)> (ast', errors, warnings, notes)
-
-  queue-analyze-multiple:
-    path* -> None()
-    with
-      if not([] := path*) then
-        queue-strategy(|"analyze-multiple", "Analyzing files")
-      end
-
-  analyze-multiple:
-    path* -> result*
-    with
-      nabl-analyze-multiple-work-units; set-total-work-units;
-      measure-time(
-        result* := <nabl-analyze-multiple(parse-file; id, try, complete-work-unit|<language>, <project-path>); 
-          filter(update-markers)> path*
-      , vdebug(!"Analysis seconds: ")
-      );
-      where(index-commit);
-      mapconcat(nabl-result-dependent);
-      map(index-partition-file);
-      make-set;
-      queue-analyze-multiple
-      
-  measure-time(s, log) =
-    where(before := <times>);
-    s;
-    where(after := <times>; !(after, before); diff-times; times-to-seconds; Fst; log)
-      
 rules // Editor services
 
   editor-resolve:
     (node, position, ast, path, project-path) -> definition
     where
-      index-setup(|<language>, [project-path], $[[project-path]/[path]]);
-      <nabl-has-reference> node;
-      definition := <nabl-resolve-collect-one> node
+    	task-setup(|project-path);
+    	index-setup(|<language>, [project-path], $[[project-path]/[path]]);
+    	<nabl-has-reference> node;
+    	definition := <nabl-collect-one-resolved-def; index-get-all; Hd> node
 
   editor-hover:
-    (target, position, ast, path, project-path) -> $[Type: [<print-type> type]]
-    where
-      type := <type-of; print-type> target
+    (target, position, ast, path, project-path) -> $[Type: [<type-of; print-type> target]]
 
   editor-complete:
-    (node, position, ast, path, project-path) -> proposals
-    where
-     proposals := <nabl-propose-completions> ast
+    (node, position, ast, path, project-path) -> <nabl-propose-completions> ast
 
 rules // Debugging
   
-  // Prints the abstract syntax ATerm of a selection.
   debug-generate-aterm:
     (selected, position, ast, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"aterm")> path;
-      result   := <desugar-all> selected
+      result   := <desugar-all> selected;
+      <queue-analysis> $[[project-path]/[path]]
       
-  // Prints the analyzed annotated abstract syntax ATerm of a selection.
   debug-generate-analyzed:
     (selected, position, ast, path, project-path) -> (filename, selected)
     with
       filename := <guarantee-extension(|"analyzed.aterm")> path
-   
-rules // NBL debugging
+
+  debug-show-current-partition =
+    analysis-debug-show-current-partition(|<language>)
      
-  debug-show-current-partition = 
-    nabl-debug-show-current-partition(|<language>)
-    
   debug-show-all-partitions =
-    nabl-debug-show-all-partitions(|<language>)
+    analysis-debug-show-all-partitions(|<language>)
 
-  debug-clear-current =
-    nabl-debug-clear-current(|<language>)
+  debug-show-tasks =
+  	analysis-debug-show-tasks(|<language>)
+
+  debug-reset-index =
+    analysis-debug-reset-index(|<language>)
     
-  debug-clear-all =
-    nabl-debug-clear-all(|<language>)  
-
-  debug-reload = 
-    nabl-debug-reload(|<language>)
+  debug-reset-task =
+  	analysis-debug-reset-task(|<language>)
+  	
+  debug-reanalyze = 
+  	analysis-debug-reanalyze(|<language>)
