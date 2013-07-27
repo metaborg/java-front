@@ -125,8 +125,9 @@ binding rules // 6.5.3 Meaning of Package Names
     then a compile-time error occurs.
   */
   
-  PackageName(q, p) : 
-  	refers to Package p in Package q
+  // TODO: does not exist??
+  // PackageName(q, p) : 
+  // 	refers to Package p in Package q
 
 binding rules // 6.5.4 Meaning of PackageOrTypeNames
 

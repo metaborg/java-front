@@ -12,13 +12,17 @@ namespaces
 
 binding rules // Local variables
 
-  LocalVarDec(m, t, [..., VarDec(Id(v)), ...]):
+	// TODO: desugar?
+  // LocalVarDec(m, t, [..., VarDec(Id(v)), ...]):
+  LocalVarDec(m, t, [VarDec(Id(v))]):
     defines Variable v
       of type t
       of Modifiers m
       in subsequent scope
-      
-  LocalVarDec(m, t, [..., VarDec(Id(v), _), ...]):
+  
+  // TODO: desugar?    
+  // LocalVarDec(m, t, [..., VarDec(Id(v), _), ...]):
+  LocalVarDec(m, t, [VarDec(Id(v), _)]):
     defines Variable v 
       of type t
       of Modifiers m
@@ -53,17 +57,21 @@ binding rules // Control flow
   DoWhile(_, _):
   	scopes Variable
   
+  // TODO: desugar?
   // TODO: Refactor (syntax) so that this does not require 4 different binding rules?
   // TODO: The nested VarDecs already define variables..
-  For(LocalVarDec(m, t, [..., VarDec(Id(v)), ...]), cond, inc, stm):
+  // For(LocalVarDec(m, t, [..., VarDec(Id(v)), ...]), cond, inc, stm):
+  For(LocalVarDec(m, t, [VarDec(Id(v))]), cond, inc, stm):
     defines Variable v 
       of type t
       of Modifiers m
       in cond, inc, stm
   	scopes Variable
   
+  // TODO: desugar?
   // TODO: The nested VarDecs already define variables..	
-  For(LocalVarDec(m, t, [..., VarDec(Id(v, _)), ...]), cond, inc, stm):
+  // For(LocalVarDec(m, t, [..., VarDec(Id(v, _)), ...]), cond, inc, stm):
+  For(LocalVarDec(m, t, [VarDec(Id(v, _))]), cond, inc, stm):
     defines Variable v 
       of type t
       of Modifiers m

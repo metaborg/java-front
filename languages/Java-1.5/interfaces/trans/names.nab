@@ -28,7 +28,9 @@ binding rules // Annotations
       of Modifiers mod
     scopes Variable
   
-  Anno(TypeName(Id(a)), [..., ElemValPair(Id(f), _), ...]):
+  // TODO: desugar?
+  // Anno(TypeName(Id(a)), [..., ElemValPair(Id(f), _), ...]):
+  Anno(TypeName(Id(a)), [ElemValPair(Id(f), _)]):
   	refers to Field f in Type a
   
 binding rules // Interfaces
@@ -40,7 +42,9 @@ binding rules // Interfaces
       of TypeParameters tp*
     scopes Type, TypeParam, Field, Method
   
-  ExtendsInterfaces([..., i, ...]):
+  // TODO: desugar?
+  // ExtendsInterfaces([..., i, ...]):
+  ExtendsInterfaces([i]):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -48,13 +52,17 @@ binding rules // Interfaces
       
 binding rules // Constants
 
-  ConstantDec(m, t, [..., VarDec(Id(c)), ...]):
+	// TODO: desugar?
+  // ConstantDec(m, t, [..., VarDec(Id(c)), ...]):
+	ConstantDec(m, t, [VarDec(Id(c))]):
     defines Field c
       of type t
       of Modifiers m
       in subsequent scope
 
-  ConstantDec(m, t,[..., VarDec(Id(c), _), ...]):
+	// TODO: desugar?
+  // ConstantDec(m, t,[..., VarDec(Id(c), _), ...]):
+  ConstantDec(m, t, [VarDec(Id(c), _)]):
   	defines Field c
   	  of type t
   	  of Modifiers m

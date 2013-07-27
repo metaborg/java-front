@@ -59,7 +59,9 @@ binding rules // Types
     implicitly defines Field "super" of type Type(p)
     scopes Type, TypeParam, Constructor, Field, Method
     
-  ImplementsDec([..., InterfaceType(i, _), ...]):
+  // TODO: desugar?
+  // ImplementsDec([..., InterfaceType(i, _), ...]):
+  ImplementsDec([InterfaceType(i, _)]):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -78,13 +80,17 @@ binding rules // Constructors
 
 binding rules // Fields
 
-  FieldDec(m, t, [..., VarDec(Id(f)), ...]):
+	// TODO: desugar?
+  //FieldDec(m, t, [..., VarDec(Id(f)), ...]):
+  FieldDec(m, t, [VarDec(Id(f))]):
     defines Field f 
       of type t
       of Modifiers m
       in subsequent scope
-    
-  FieldDec(m, t, [..., VarDec(Id(f), _), ...]):
+  
+  // TODO: desugar?  
+  //FieldDec(m, t, [..., VarDec(Id(f), _), ...]):
+  FieldDec(m, t, [VarDec(Id(f), _)]):
     defines Field f 
       of type t
       of Modifiers m

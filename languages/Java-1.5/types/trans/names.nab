@@ -32,6 +32,8 @@ binding rules // Type parameters
     
 binding rules // Type arguments
 
-  TypeArgs([..., t, ...]):
+	// TODO: desugar?
+  // TypeArgs([..., t, ...]):
+  TypeArgs([t]):
   	          refers to Type t
   	otherwise refers to TypeParam t
