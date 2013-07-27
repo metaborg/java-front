@@ -17,7 +17,7 @@ properties
 
 binding rules // Package
 
-	todo -- The AST needs to be desugared to have nested package declarations like this. -- 
+	// TODO: the AST needs to be desugared to have nested package declarations like this.
   PackageDec(a*, p, _):
     defines non-unique Package p
     	of Annotations a*
@@ -31,14 +31,29 @@ binding rules // Imports
   TypeImportOnDemandDec(i):
               imports Type from Package i into subsequent scope
     otherwise imports Type from Type i into subsequent scope
-    
+  
+  // TODO: modifiers is a list.
+  /*  
   StaticImportDec(t, s):
               imports Method s of Modifiers [..., Static(), ...] from Type t into subsequent scope
     otherwise imports Field s of Modifiers [..., Static(), ...] from Type t into subsequent scope
+  */
+  StaticImportDec(t, s):
+              imports Method s of Modifiers Static() from Type t into subsequent scope
+    otherwise imports Field s of Modifiers Static() from Type t into subsequent scope
   
+  // TODO: modifiers is a list.
+  /*
   StaticImportOnDemandDec(t):
     imports 
       Method, Field 
         of Modifiers [..., Static(), ...] 
+      from Type t 
+      into subsequent scope
+	*/
+  StaticImportOnDemandDec(t):
+    imports 
+      Method, Field 
+        of Modifiers Static()
       from Type t 
       into subsequent scope

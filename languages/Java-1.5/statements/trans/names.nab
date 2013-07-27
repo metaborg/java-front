@@ -40,7 +40,7 @@ binding rules // Control flow
   If(_, _):
     scopes Variable
 
-  todo -- The AST does not contain an IfPart and ElsePart yet --
+  // TODO: The AST does not contain an IfPart and ElsePart yet
   IfPart(_, _):
   	scopes Variable
   	
@@ -53,8 +53,8 @@ binding rules // Control flow
   DoWhile(_, _):
   	scopes Variable
   
-  todo -- Refactor (syntax) so that this does not require 4 different binding rules? --
-  todo -- The nested VarDecs already define variables.. --
+  // TODO: Refactor (syntax) so that this does not require 4 different binding rules?
+  // TODO: The nested VarDecs already define variables..
   For(LocalVarDec(m, t, [..., VarDec(Id(v)), ...]), cond, inc, stm):
     defines Variable v 
       of type t
@@ -62,7 +62,7 @@ binding rules // Control flow
       in cond, inc, stm
   	scopes Variable
   
-  todo -- The nested VarDecs already define variables.. --	
+  // TODO: The nested VarDecs already define variables..	
   For(LocalVarDec(m, t, [..., VarDec(Id(v, _)), ...]), cond, inc, stm):
     defines Variable v 
       of type t
@@ -70,7 +70,7 @@ binding rules // Control flow
       in cond, inc, stm
   	scopes Variable
   
-  todo -- The nested Param already defines a variable.. --	
+  // TODO: The nested Param already defines a variable..	
   For(Param(m, t, v), cond, inc, stm):
     defines Variable v 
       of type t
@@ -78,7 +78,7 @@ binding rules // Control flow
       in cond, inc, stm
   	scopes Variable
   
-  todo -- The nested VarArityParam already defines a variable.. --	
+  // TODO: The nested VarArityParam already defines a variable..	
   For(VarArityParam(m, t, v), cond, inc, stm):
     defines Variable v 
       of type t
@@ -86,30 +86,30 @@ binding rules // Control flow
       in cond, inc, stm
   	scopes Variable
   	
-	todo -- Refactor (syntax) so that this does not require 2 different binding rules? --
-	todo -- The nested Param already defines a variable.. --
+	// TODO: Refactor (syntax) so that this does not require 2 different binding rules?
+	// TODO: The nested Param already defines a variable..
   ForEach(Param(m, t, v), list, stm):
   	defines Variable v
   	  of type t
   	  of Modifiers m
   	  in stm
   	  
-  todo -- The nested VarArityParam already defines a variable.. --
+  // TODO: The nested VarArityParam already defines a variable..
   ForEach(VarArityParam(m, t, v), list, stm):
   	defines Variable v
   	  of type t
   	  of Modifiers m
   	  in stm
   
-  todo -- Refactor (syntax) so that this does not require 2 different binding rules? --
-  todo -- The nested Param already defines a variable.. --
+  // TODO: Refactor (syntax) so that this does not require 2 different binding rules?
+  // TODO: The nested Param already defines a variable..
   Catch(Param(m, t, v), stm):
   	defines Variable v
   	  of type t
   	  of Modifiers m
   	  in stm
   
-  todo -- The nested VarArityParam already defines a variable.. --	  
+  // TODO: The nested VarArityParam already defines a variable..	  
   Catch(VarArityParam(m, t, v), stm):
   	defines Variable v
   	  of type t

@@ -1,10 +1,4 @@
 module languages/Java-1.5/names/trans/names
-
-  version 1.5
-  status under development
-  
-  author Guido Wachsmuth, TU Delft
-  author Gabriel Konat, TU Delft
   
 imports
 
@@ -22,47 +16,47 @@ namespaces
 
 binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
 
-  description --
+  /*
     If the AmbiguousName is a simple name, consisting of a single Identifier:
     
-    If the Identifier appears within the scope (¤6.3) 
-      of a local variable declaration (¤14.4) 
-      or parameter declaration (¤8.4.1, ¤8.8.1, ¤14.20) 
-      or field declaration (¤8.3) 
+    If the Identifier appears within the scope (6.3) 
+      of a local variable declaration (14.4) 
+      or parameter declaration (8.4.1, 8.8.1, 14.20) 
+      or field declaration (8.3) 
     with that name, then the AmbiguousName is reclassified as an ExpressionName.
     
-    Otherwise, if a field of that name is declared in the compilation unit (¤7.3) 
-      containing the Identifier by a single-static-import declaration (¤7.5.3), 
-      or by a static-import-on-demand declaration (¤7.5.4) 
+    Otherwise, if a field of that name is declared in the compilation unit (7.3) 
+      containing the Identifier by a single-static-import declaration (7.5.3), 
+      or by a static-import-on-demand declaration (7.5.4) 
     then the AmbiguousName is reclassified as an ExpressionName.
     
-    Otherwise, if the Identifier appears within the scope (¤6.3) 
-      of a top level class (¤8) 
-      or interface type declaration (¤9), 
-      a local class declaration (¤14.3) 
-      or member type declaration (¤8.5, ¤9.5) 
+    Otherwise, if the Identifier appears within the scope (6.3) 
+      of a top level class (8) 
+      or interface type declaration (9), 
+      a local class declaration (14.3) 
+      or member type declaration (8.5, 9.5) 
     with that name, then the AmbiguousName is reclassified as a TypeName.
 
-    Otherwise, if a type of that name is declared in the compilation unit (¤7.3) 
-      containing the Identifier, either by a single-type-import declaration (¤7.5.1), 
-      or by a type-import-on-demand declaration (¤7.5.2), 
-      or by a single-static-import declaration (¤7.5.3), 
-      or by a static-import-on-demand declaration (¤7.5.4), 
+    Otherwise, if a type of that name is declared in the compilation unit (7.3) 
+      containing the Identifier, either by a single-type-import declaration (7.5.1), 
+      or by a type-import-on-demand declaration (7.5.2), 
+      or by a single-static-import declaration (7.5.3), 
+      or by a static-import-on-demand declaration (7.5.4), 
     then the AmbiguousName is reclassified as a TypeName.
     
     Otherwise, the AmbiguousName is reclassified as a PackageName. 
     A later step determines whether or not a package of that name actually exists.
-  --
+  */
   
   AmbName(Id(n)):
-              refers to Variable n in current scope
-    otherwise refers to Field n in current scope
-    otherwise refers to imported Field n
-    otherwise refers to Type n in current scope
-    otherwise refers to imported Type n
+              refers to Variable n //in current scope
+    otherwise refers to Field n //in current scope
+    //otherwise refers to imported Field n
+    otherwise refers to Type n //in current scope
+    //otherwise refers to imported Type n
     otherwise refers to Package n
 
-  description --
+  /*
 	  If the AmbiguousName is a qualified name, consisting of a name, a ".", and an Identifier, 
 	  then the name to the left of the "." is first reclassified, for it is itself an AmbiguousName. 
 	  There is then a choice:
@@ -92,11 +86,11 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
 		  If the Identifier is the name of a method or field of the type denoted by T, 
 		  this AmbiguousName is reclassified as an ExpressionName. 
 		  
-		  Otherwise, if the Identifier is the name of a member type (¤8.5, ¤9.5) of the type denoted by T, 
+		  Otherwise, if the Identifier is the name of a member type (8.5, 9.5) of the type denoted by T, 
 		  then this AmbiguousName is reclassified as a TypeName. 
 		  
 		  Otherwise, a compile-time error results.
-  --
+  */
   
   AmbName(q, Id(n)):
               refers to Type n     in Package q
@@ -110,45 +104,45 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
     
 binding rules // 6.5.3 Meaning of Package Names
 
-  description --
+  /*
 		If a package name consists of a single Identifier, 
 		then this identifier denotes a top level package named by that identifier. 
 	
-    If no top level package of that name is in scope (¤7.4.4), then a compile-time error occurs.
-  -- 
+    If no top level package of that name is in scope (7.4.4), then a compile-time error occurs.
+  */ 
   
   PackageName(Id(p)): 
   	refers to Package p
   
-  description --
+  /*
     If a package name is of the form Q.Id, 
     then Q must also be a package name. 
     The package name Q.Id names a package that is the member named Id within the package named by Q. 
     
     If
-      Q does not name an observable package (¤7.4.3), 
+      Q does not name an observable package (7.4.3), 
       or Id is not the simple name an observable subpackage of that package, 
     then a compile-time error occurs.
-  --
+  */
   
   PackageName(q, p) : 
   	refers to Package p in Package q
 
 binding rules // 6.5.4 Meaning of PackageOrTypeNames
 
-  description --
+  /*
     If the PackageOrTypeName, Q, occurs in the scope of a type named KQ, 
     then the PackageOrTypeName is reclassified as a TypeName.
 
     Otherwise, the PackageOrTypeName is reclassified as a PackageName. 
     The meaning of the PackageOrTypeName is the meaning of the reclassified name.
-  --
+  */
   
   PackageOrTypeName(Id(n)):
               refers to Type n
     otherwise refers to Package n
   
-  description --
+  /*
     Given a qualified PackageOrTypeName of the form Q.Id,
       if 
         the type 
@@ -159,7 +153,7 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
     Otherwise, it is reclassified as a PackageName.
      
     The meaning of the qualified PackageOrTypeName is the meaning of the reclassified name.
-  -- 
+  */ 
   
   PackageOrTypeName(q, Id(n)):
               refers to Type n    in Type q
@@ -168,33 +162,33 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   
 binding rules // 6.5.5 Meaning of Type Names
 
-  description --
+  /*
     If a type name consists of a single Identifier, then 
       the identifier must occur in the scope of exactly one visible declaration of a type with this name, 
       or a compile-time error occurs. 
     The meaning of the type name is that type.
-  --
+  */
   TypeName(Id(n)):
     refers to Type n
   
-  description --
+   /*description
     If a type name is of the form Q.Id, then Q must be either a type name or a package name.
     
     If Id names exactly one type that is a member of the type or package denoted by Q, then 
       the qualified type name denotes that type. 
       
-    If Id does not name a member type (¤8.5, ¤9.5) within Q, 
-    or the member type named Id within Q is not accessible (¤6.6), 
+    If Id does not name a member type (8.5, 9.5) within Q, 
+    or the member type named Id within Q is not accessible (6.6), 
     or Id names more than one member type within Q, 
     then a compile-time error occurs.
-  --  
+  */  
   TypeName(q, Id(n)):
               refers to Type n in Type q
     otherwise refers to Type n in Package q
    
 binding rules // 6.5.6 Meaning of Expression Names
  
-  description --
+  /*
     If an expression name consists of a single Identifier, 
     then there must be exactly one visible declaration denoting 
       either a local variable, 
@@ -207,25 +201,25 @@ binding rules // 6.5.6 Meaning of Expression Names
     
      Otherwise, the meaning of the expression name is the variable declared by the declaration.
 
-     If the field is an instance variable (¤8.3), 
+     If the field is an instance variable (8.3), 
      the expression name must appear within 
-       the declaration of an instance method (¤8.4), 
-       constructor (¤8.8), 
-       instance initializer (¤8.6), 
-       or instance variable initializer (¤8.3.2.2). 
+       the declaration of an instance method (8.4), 
+       constructor (8.8), 
+       instance initializer (8.6), 
+       or instance variable initializer (8.3.2.2). 
       
      If it appears within 
-       a static method (¤8.4.3.2), 
-       static initializer (¤8.7), 
-       or initializer for a static variable (¤8.3.2.1, ¤12.4.2), 
+       a static method (8.4.3.2), 
+       static initializer (8.7), 
+       or initializer for a static variable (8.3.2.1, 12.4.2), 
     then a compile-time error occurs.
-  --
+  */
   
   ExprName(Id(n)):
               refers to Variable n
     otherwise refers to Field n
   
-  description --
+  /*
     If an expression name is of the form Q.Id, 
     then Q has already been classified as 
       a package name, 
@@ -233,8 +227,8 @@ binding rules // 6.5.6 Meaning of Expression Names
       or an expression name:
 		If Q is a package name, then a compile-time error occurs.
 		
-		If Q is a type name that names a class type (¤8), then:
-		  If there is not exactly one accessible (¤6.6) member of the class type that is a field named Id, 
+		If Q is a type name that names a class type (8), then:
+		  If there is not exactly one accessible (6.6) member of the class type that is a field named Id, 
 		  then a compile-time error occurs.
 		
 		  Otherwise, if the single accessible member field is not a class variable 
@@ -245,10 +239,10 @@ binding rules // 6.5.6 Meaning of Expression Names
 		  If Q.Id appears in a context that requires a variable and not a value, then a compile-time error occurs.
 		  
 		  Otherwise, Q.Id denotes the class variable. 
-		  Note that this clause covers the use of enum constants (¤8.9), since these always have a corresponding final class variable.
+		  Note that this clause covers the use of enum constants (8.9), since these always have a corresponding final class variable.
 		
-		If Q is a type name that names an interface type (¤9), then:
-		  If there is not exactly one accessible (¤6.6) member of the interface type that is a field named Id, 
+		If Q is a type name that names an interface type (9), then:
+		  If there is not exactly one accessible (6.6) member of the interface type that is a field named Id, 
 		  then a compile-time error occurs.
 		
 		  Otherwise, Q.Id denotes the value of the field. 
@@ -256,7 +250,7 @@ binding rules // 6.5.6 Meaning of Expression Names
 		If Q is an expression name, let T be the type of the expression Q:
 		  If T is not a reference type, a compile-time error occurs.
 		
-		  If there is not exactly one accessible (¤6.6) member of the type T that is a field named Id, 
+		  If there is not exactly one accessible (6.6) member of the type T that is a field named Id, 
 		  then a compile-time error occurs.
 		
 		  Otherwise, if this field is any of the following:
@@ -272,14 +266,14 @@ binding rules // 6.5.6 Meaning of Expression Names
 			  the field Id of class T, 
 			    which may be either a class variable 
 			    or an instance variable. 
-  --  
+  */  
   ExprName(q, Id(n)):
               refers to Field n in Type q
     otherwise refers to Field n in Type t where q has type t
   
 binding rules // 6.5.7 Meaning of Method Name
  
-  description --
+  /*
     A simple method name may appear as the element name in an element-value pair. 
     
     The Identifier in an ElementValuePair must be 
@@ -295,17 +289,23 @@ binding rules // 6.5.7 Meaning of Method Name
       if a method name consists of a single Identifier, 
        then Identifier is the method name to be used for method invocation. 
        
-       The Identifier must name at least one visible (¤6.3.1) method 
+       The Identifier must name at least one visible (6.3.1) method 
         that is in scope at the point where the Identifier appear 
-        or a method imported by a single-static-import declaration (¤7.5.3) 
-        or static-import-on-demand declaration (¤7.5.4) 
+        or a method imported by a single-static-import declaration (7.5.3) 
+        or static-import-on-demand declaration (7.5.4) 
         within the compilation unit within which the Identifier appears.
-  --
-  MethodName(Id(n)):
+  */
+  
+  // TODO: prefer current scope of imported?
+  /*MethodName(Id(n)):
               refers to Method n in current scope
     otherwise refers to imported Method n
+  */
   
-  description --
+	MethodName(Id(m)): 
+		refers to Method m
+  
+  /*
     A qualified method name can only appear in the context of a method invocation expression. 
     If a method name is of the form Q.Id, 
     then Q has already been classified as 
@@ -323,7 +323,7 @@ binding rules // 6.5.7 Meaning of Method Name
       If Q is an expression name, 
       then let T be the type of the expression Q; 
       Id must name at least one method of the type T. 
-  --
+  */
   MethodName(q, Id(n)):
               refers to Method n in Type q
     otherwise refers to Method n in Type t where q has type t

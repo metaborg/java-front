@@ -34,9 +34,9 @@ binding rules // Enums
   EnumConst(Id(e), _, _):
     defines Field e   
 
-binding rules // Types
+binding rules // Types 
 
-  todo -- implicitly define: this, super. --
+  // TODO: implicitly define: this, super
   ClassDec(ClassDecHead(m, Id(c), tp*, None(), _), _):
     defines Type c 
       of type Type(c)
@@ -67,7 +67,7 @@ binding rules // Types
       
 binding rules // Constructors
 
-  todo -- implicitly define: this, super. These have a different meaning than the class ones. --
+  // TODO: implicitly define: this, super. These have a different meaning than the class ones.
   ConstrDec(ConstrDecHead(m, _, Id(c), p*, th), _):
     defines Constructor c
       of ParameterTypes pt*
@@ -92,6 +92,7 @@ binding rules // Fields
       
 binding rules // Methods
 
+	// TODO: imports fields into body
   MethodDec(MethodDecHead(mod, tp*, t, Id(m), p*, th), body):
     defines Method m
       of type t
@@ -100,9 +101,10 @@ binding rules // Methods
       of Modifiers mod
       of TypeParameters tp*
       where p* has type pt*
-    imports Field into body
+    //imports Field from enclosing Type into body
     scopes Variable, Label
-    
+  
+  // TODO: imports fields into body  
   MethodDec(DeprMethodDecHead(mod, tp*, t, Id(m), p*, _, th), body):
     defines Method m
       of type t
@@ -111,7 +113,7 @@ binding rules // Methods
       of Modifiers mod
       of TypeParameters tp*
       where p* has type pt*
-    imports Field into body
+    //imports Field from enclosing Type into body
     scopes Variable, Label
     
   Param(m, t, Id(p)):
