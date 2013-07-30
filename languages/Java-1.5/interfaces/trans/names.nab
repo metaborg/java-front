@@ -16,26 +16,26 @@ properties
 
 binding rules // annotations
   
-  AnnoDec(AnnoDecHead(m, Id(a)), _):
+  AnnoDec(AnnoDecHead(m, a), _):
     defines Type a
       of type Type(a)
       of modifiers m
     scopes Type, Field, Method
   
-  AnnoMethodDec(mod, t, Id(m), _):
+  AnnoMethodDec(mod, t, m, _):
     defines Method m
       of type t
       of modifiers mod
     scopes Variable
   
   // TODO: desugar?
-  // Anno(TypeName(Id(a)), [..., ElemValPair(Id(f), _), ...]):
-  Anno(TypeName(Id(a)), [ElemValPair(Id(f), _)]):
+  // Anno(TypeName(a), [..., ElemValPair(f, _), ...]):
+  Anno(TypeName(a), [ElemValPair(f, _)]):
   	refers to Field f in Type a
   
 binding rules // Interfaces
 
-  InterfaceDec(InterfaceDecHead(m, Id(i), tp*, _), _):
+  InterfaceDec(InterfaceDecHead(m, i, tp*, _), _):
     defines Type i
       of type Type(i)
       of modifiers m
@@ -53,16 +53,16 @@ binding rules // Interfaces
 binding rules // Constants
 
 	// TODO: desugar?
-  // ConstantDec(m, t, [..., VarDec(Id(c)), ...]):
-	ConstantDec(m, t, [VarDec(Id(c))]):
+  // ConstantDec(m, t, [..., VarDec(c), ...]):
+	ConstantDec(m, t, [VarDec(c)]):
     defines Field c
       of type t
       of modifiers m
       in subsequent scope
 
 	// TODO: desugar?
-  // ConstantDec(m, t,[..., VarDec(Id(c), _), ...]):
-  ConstantDec(m, t, [VarDec(Id(c), _)]):
+  // ConstantDec(m, t,[..., VarDec(c, _), ...]):
+  ConstantDec(m, t, [VarDec(c, _)]):
   	defines Field c
   	  of type t
   	  of modifiers m
@@ -70,7 +70,7 @@ binding rules // Constants
       
 binding rules // Asbtract methods
 
-  AbstractMethodDec(mod, _, t, Id(m), p*, th):
+  AbstractMethodDec(mod, _, t, m, p*, th):
   	defines Method m
       of type t
       of parameter-types pt*
@@ -79,7 +79,7 @@ binding rules // Asbtract methods
       where p* has type pt*
     scopes Variable
 
-  DeprAbstractMethodDec(mod, _, t, Id(m), p*, _, th):
+  DeprAbstractMethodDec(mod, _, t, m, p*, _, th):
     defines Method m
       of type t
       of parameter-types pt*

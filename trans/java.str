@@ -54,6 +54,11 @@ rules // Debugging
     (selected, position, ast, path, project-path) -> (filename, selected)
     with
       filename := <guarantee-extension(|"aterm")> path
+
+  debug-show-desugared:
+    (selected, position, ast, path, project-path) -> (filename, <desugar-all> selected)
+    with
+      filename := <guarantee-extension(|"aterm")> path
       
   debug-show-analyzed:
     (selected, position, ast, path, project-path) -> (filename, selected)

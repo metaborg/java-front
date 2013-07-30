@@ -20,7 +20,7 @@ binding rules // Method call
   	  where a* has type pt*
 
 	// TODO: ta* is a Some/None
-  Invoke(Method(e, ta*, Id(m)), a*):
+  Invoke(Method(e, ta*, m), a*):
     refers to best Method m
       of conformant parameter-types pt*
       of conformant type-parameters ta*
@@ -29,7 +29,7 @@ binding rules // Method call
       where e has type t
   
   // TODO: ta* is a Some/None    
-  Invoke(SuperMethod(ta*, Id(m)), a*):
+  Invoke(SuperMethod(ta*, m), a*):
     refers to best Method m
       of conformant parameter-types pt*
       of conformant type-parameters ta*
@@ -39,7 +39,7 @@ binding rules // Method call
       where super has type t
       
   // TODO: ta* is a Some/None    
-  Invoke(QSuperMethod(t, ta*, Id(m)), a*):
+  Invoke(QSuperMethod(t, ta*, m), a*):
     refers to best Method m
       of conformant parameter-types pt*
       of conformant type-parameters ta*
@@ -48,7 +48,7 @@ binding rules // Method call
   
   // TODO: WTF does this do?
   /*     
-  Invoke(GenericMethod(amb, ta*, Id(m)), a*):
+  Invoke(GenericMethod(amb, ta*, m), a*):
     refers to best Method m
       of conformant parameter-types pt*
       of conformant type-parameters ta*
@@ -58,7 +58,7 @@ binding rules // Method call
   
 binding rules // Field access
 
-  Field(e, Id(f)):
+  Field(e, f):
   	refers to Field f
   	  in Type t
   	  where e has type t
@@ -77,7 +77,7 @@ binding rules // Class instantiation
 	// TODO: ta1* and ta2* are a Some/None
 	// TODO: does ta1* refer to type arguments for the constructor or the type?
 	// TODO: does ta2* refer to type arguments for the constructor or the type?
-  QNewInstance(e, ta1*, Id(c), ta2*, a*, _):
+  QNewInstance(e, ta1*, c, ta2*, a*, _):
   	refers to best Constructor c
   	  of conformant parameter-types pt*
   	  of conformant type-parameters ta1* 

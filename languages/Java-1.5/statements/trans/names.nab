@@ -4,6 +4,7 @@ imports
 
 	languages/Java-1.5/classes/trans/names
   languages/Java-1.5/names/trans/names
+  languages/Java-1.5/statements/trans/desugar
   include/Java
 
 namespaces
@@ -12,31 +13,27 @@ namespaces
 
 binding rules // Local variables
 
-	// TODO: desugar?
-  // LocalVarDec(m, t, [..., VarDec(Id(v)), ...]):
-  LocalVarDec(m, t, [VarDec(Id(v))]):
+  LocalVarDec(m*, t, VarDec(v)):
     defines Variable v
       of type t
-      of modifiers m
+      of modifiers m*
       in subsequent scope
   
-  // TODO: desugar?    
-  // LocalVarDec(m, t, [..., VarDec(Id(v), _), ...]):
-  LocalVarDec(m, t, [VarDec(Id(v), _)]):
+  LocalVarDec(m*, t, VarDec(v, _)):
     defines Variable v 
       of type t
-      of modifiers m
+      of modifiers m*
       in subsequent scope
 
 binding rules // Labels
 
-  Labeled(Id(l), _):
+  Labeled(l, _):
   	defines Label l
   	
-  Continue(Some(Id(l))):
+  Continue(Some(l)):
   	refers to Label l
 
-  Break(Some(Id(l))):
+  Break(Some(l)):
     refers to Label l
     
 binding rules // Control flow
@@ -57,8 +54,8 @@ binding rules // Control flow
   // TODO: desugar?
   // TODO: Refactor (syntax) so that this does not require 4 different binding rules?
   // TODO: The nested VarDecs already define variables..
-  // For(LocalVarDec(m, t, [..., VarDec(Id(v)), ...]), cond, inc, stm):
-  For(LocalVarDec(m, t, [VarDec(Id(v))]), cond, inc, stm):
+  // For(LocalVarDec(m, t, [..., VarDec(v), ...]), cond, inc, stm):
+  For(LocalVarDec(m, t, [VarDec(v)]), cond, inc, stm):
     defines Variable v 
       of type t
       of modifiers m
@@ -68,7 +65,7 @@ binding rules // Control flow
   // TODO: desugar?
   // TODO: The nested VarDecs already define variables..	
   // For(LocalVarDec(m, t, [..., VarDec(Id(v, _)), ...]), cond, inc, stm):
-  For(LocalVarDec(m, t, [VarDec(Id(v), _)]), cond, inc, stm):
+  For(LocalVarDec(m, t, [VarDec(v, _)]), cond, inc, stm):
     defines Variable v 
       of type t
       of modifiers m

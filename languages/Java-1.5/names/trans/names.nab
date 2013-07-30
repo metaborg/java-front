@@ -47,7 +47,7 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
     A later step determines whether or not a package of that name actually exists.
   */
   
-  AmbName(Id(n)):
+  AmbName(n):
               refers to Variable n //in current scope
     otherwise refers to Field n //in current scope
     //otherwise refers to imported Field n
@@ -91,7 +91,7 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
 		  Otherwise, a compile-time error results.
   */
   
-  AmbName(q, Id(n)):
+  AmbName(q, n):
               refers to Type n     in Package q
     otherwise refers to Package n  in Package q
     otherwise refers to Method n   in Type q
@@ -110,7 +110,7 @@ binding rules // 6.5.3 Meaning of Package Names
     If no top level package of that name is in scope (7.4.4), then a compile-time error occurs.
   */ 
   
-  PackageName(Id(p)): 
+  PackageName(p): 
   	refers to Package p
   
   /*
@@ -138,7 +138,7 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
     The meaning of the PackageOrTypeName is the meaning of the reclassified name.
   */
   
-  PackageOrTypeName(Id(n)):
+  PackageOrTypeName(n):
               refers to Type n
     otherwise refers to Package n
   
@@ -155,7 +155,7 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
     The meaning of the qualified PackageOrTypeName is the meaning of the reclassified name.
   */ 
   
-  PackageOrTypeName(q, Id(n)):
+  PackageOrTypeName(q, n):
               refers to Type n    in Type q
     otherwise refers to Type n    in Package q
     otherwise refers to Package n in Package q
@@ -168,7 +168,7 @@ binding rules // 6.5.5 Meaning of Type Names
       or a compile-time error occurs. 
     The meaning of the type name is that type.
   */
-  TypeName(Id(n)):
+  TypeName(n):
     refers to Type n
   
    /*description
@@ -182,7 +182,7 @@ binding rules // 6.5.5 Meaning of Type Names
     or Id names more than one member type within Q, 
     then a compile-time error occurs.
   */  
-  TypeName(q, Id(n)):
+  TypeName(q, n):
               refers to Type n in Type q
     otherwise refers to Type n in Package q
    
@@ -215,7 +215,7 @@ binding rules // 6.5.6 Meaning of Expression Names
     then a compile-time error occurs.
   */
   
-  ExprName(Id(n)):
+  ExprName(n):
               refers to Variable n
     otherwise refers to Field n
   
@@ -267,7 +267,7 @@ binding rules // 6.5.6 Meaning of Expression Names
 			    which may be either a class variable 
 			    or an instance variable. 
   */  
-  ExprName(q, Id(n)):
+  ExprName(q, n):
               refers to Field n in Type q
     otherwise refers to Field n in Type t where q has type t
   
@@ -297,12 +297,12 @@ binding rules // 6.5.7 Meaning of Method Name
   */
   
   // TODO: prefer current scope of imported?
-  /*MethodName(Id(n)):
+  /*MethodName(n):
               refers to Method n in current scope
     otherwise refers to imported Method n
   */
   
-	MethodName(Id(m)): 
+	MethodName(m): 
 		refers to Method m
   
   /*
@@ -324,6 +324,6 @@ binding rules // 6.5.7 Meaning of Method Name
       then let T be the type of the expression Q; 
       Id must name at least one method of the type T. 
   */
-  MethodName(q, Id(n)):
+  MethodName(q, n):
               refers to Method n in Type q
     otherwise refers to Method n in Type t where q has type t

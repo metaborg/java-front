@@ -29,18 +29,18 @@ properties
 
 binding rules // Enums
 
-  EnumDec(EnumDecHead(m, Id(e), _), _):
+  EnumDec(EnumDecHead(m*, e, _), _):
     defines Type e 
-      of modifiers m
+      of modifiers m*
     scopes Field
   
-  EnumConst(Id(e), _, _):
+  EnumConst(e, _, _):
     defines Field e   
 
 binding rules // Types 
 
   // TODO: implicitly define: this, super
-  ClassDec(ClassDecHead(m, Id(c), tp*, None(), _), _):
+  ClassDec(ClassDecHead(m, c, tp*, None(), _), _):
     defines Type c 
       of type Type(c)
       of modifiers m
@@ -48,7 +48,7 @@ binding rules // Types
     implicitly defines Field "this" of type Type(c)
     scopes Type, TypeParam, Constructor, Field, Method
     
-  ClassDec(ClassDecHead(m, Id(c), tp*, SuperDec(ClassType(p, tpr*)), _), _):
+  ClassDec(ClassDecHead(m, c, tp*, SuperDec(ClassType(p, tpr*)), _), _):
     defines Type c 
       of type Type(c)
       of modifiers m
@@ -62,9 +62,9 @@ binding rules // Types
     implicitly defines Field "super" of type Type(p)
     scopes Type, TypeParam, Constructor, Field, Method
     
-  // TODO: desugar?
-  // ImplementsDec([..., InterfaceType(i, _), ...]):
-  ImplementsDec([InterfaceType(i, _)]):
+  // TODO: i is either a TypeName or a Member, see ReferenceTypes.sdf
+  // TODO: type aguments
+  ImplementsDec(InterfaceType(i, ta*)):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -73,7 +73,7 @@ binding rules // Types
 binding rules // Constructors
 
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
-  ConstrDec(ConstrDecHead(m, _, Id(c), p*, th), _):
+  ConstrDec(ConstrDecHead(m, _, c, p*, th), _):
     defines Constructor c
       of parameter-types pt*
       of throws th
@@ -83,26 +83,24 @@ binding rules // Constructors
 
 binding rules // Fields
 
-	// TODO: desugar?
-  //FieldDec(m, t, [..., VarDec(Id(f)), ...]):
-  FieldDec(m, t, [VarDec(Id(f))]):
+	// TODO: fields are subsequently scoped, but only inside the class.
+  FieldDec(m*, t, VarDec(f)):
     defines Field f 
       of type t
-      of modifiers m
-      in subsequent scope
+      of modifiers m*
+      // in subsequent scope
   
-  // TODO: desugar?  
-  //FieldDec(m, t, [..., VarDec(Id(f), _), ...]):
-  FieldDec(m, t, [VarDec(Id(f), _)]):
+  // TODO: fields are subsequently scoped, but only inside the class.
+  FieldDec(m*, t, VarDec(f, _)):
     defines Field f 
       of type t
-      of modifiers m
-      in subsequent scope 
+      of modifiers m*
+      // in subsequent scope 
       
 binding rules // Methods
 
 	// TODO: imports fields into body
-  MethodDec(MethodDecHead(mod, tp*, t, Id(m), p*, th), body):
+  MethodDec(MethodDecHead(mod, tp*, t, m, p*, th), body):
     defines Method m
       of type t
       of parameter-types pt*
@@ -110,11 +108,11 @@ binding rules // Methods
       of modifiers mod
       of type-parameters tp*
       where p* has type pt*
-    //imports Field from enclosing Type into body
+    // imports Field from enclosing Type into body
     scopes Variable, Label
   
   // TODO: imports fields into body  
-  MethodDec(DeprMethodDecHead(mod, tp*, t, Id(m), p*, _, th), body):
+  MethodDec(DeprMethodDecHead(mod, tp*, t, m, p*, _, th), body):
     defines Method m
       of type t
       of parameter-types pt*
@@ -122,15 +120,15 @@ binding rules // Methods
       of modifiers mod
       of type-parameters tp*
       where p* has type pt*
-    //imports Field from enclosing Type into body
+    // imports Field from enclosing Type into body
     scopes Variable, Label
     
-  Param(m, t, Id(p)):
+  Param(m*, t, p):
     defines Variable p
       of type t
-      of modifiers m
+      of modifiers m*
 
-  VarArityParam(m, t, Id(p)):
+  VarArityParam(m*, t, p):
     defines Variable p
       of type t
-      of modifiers m
+      of modifiers m*
