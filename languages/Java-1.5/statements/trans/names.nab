@@ -3,8 +3,7 @@ module languages/Java-1.5/statements/trans/names
 imports
 
   include/Java
-  lib/nbl/-
-  types
+  languages/Java-1.5/names/trans/names
 
 namespaces
 
@@ -43,13 +42,10 @@ binding rules // Control flow
 
   If(_, _):
     scopes Variable
-
-  // TODO: The AST does not contain an IfPart and ElsePart yet
-  IfPart(_, _):
-  	scopes Variable
-  	
-  ElsePart(_):
-  	scopes Variable
+    
+  // TODO: incorrect scoping, if and else parts need their own scope.
+  If(_, _, _):
+    scopes Variable
   	
   While(_, _):
   	scopes Variable
