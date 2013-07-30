@@ -7,7 +7,5 @@ signature
     Type : String -> Type
 
 strategies
-  
-  type-of = fail
 
   print-type = fail
