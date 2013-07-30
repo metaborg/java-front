@@ -50,14 +50,12 @@ rules // Editor services
 
 rules // Debugging
   
-  debug-generate-aterm:
-    (selected, position, ast, path, project-path) -> (filename, result)
+  debug-show-aterm:
+    (selected, position, ast, path, project-path) -> (filename, selected)
     with
-      filename := <guarantee-extension(|"aterm")> path;
-      result   := <desugar-all> selected;
-      <queue-analysis> $[[project-path]/[path]]
+      filename := <guarantee-extension(|"aterm")> path
       
-  debug-generate-analyzed:
+  debug-show-analyzed:
     (selected, position, ast, path, project-path) -> (filename, selected)
     with
       filename := <guarantee-extension(|"analyzed.aterm")> path
