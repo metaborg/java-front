@@ -3,19 +3,3 @@ module Java-Refactorings
 imports Java-Refactorings.generated
 
 refactorings
-
-  
-
-  // This file can be used for specification of refactorings.
-
-  //
-
-  // See the imported file for a brief introduction and examples.
-
-refactorings
-
-  
-
-  pretty-print : pp-java-string
-
-  

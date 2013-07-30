@@ -3,14 +3,14 @@ module Java.main
 imports Java-Builders Java-Refactorings Java-Colorer Java-Completions Java-Folding Java-Outliner Java-References Java-Syntax
 
 language General properties
-                  
+	                
   name          : Java
   id            : java
   extends       : Root
-                  
+	
   description   : "Spoofax/IMP-generated editor for the Java language"
   url           : http://strategoxt.org
-                  
+  	
   extensions    : jav
   table         : include/Java.tbl
   start symbols : CompilationUnit
