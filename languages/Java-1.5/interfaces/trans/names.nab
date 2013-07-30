@@ -2,30 +2,30 @@ module languages/Java-1.5/interfaces/trans/names
 
 imports
 
+	languages/Java-1.5/classes/trans/names
+	languages/Java-1.5/types/trans/names
   include/Java
-  lib/nbl/-
   types
-  names
   desugar
 
 properties
 
-  Modifiers of Type   : List(InterfaceMod)
-  Modifiers of Field  : List(ConstantMod)
-  Modifiers of Method : List(AbstractMethodMod)
+  modifiers of Type   : List(InterfaceMod)
+  modifiers of Field  : List(ConstantMod)
+  modifiers of Method : List(AbstractMethodMod)
 
-binding rules // Annotations
+binding rules // annotations
   
   AnnoDec(AnnoDecHead(m, Id(a)), _):
     defines Type a
       of type Type(a)
-      of Modifiers m
+      of modifiers m
     scopes Type, Field, Method
   
   AnnoMethodDec(mod, t, Id(m), _):
     defines Method m
       of type t
-      of Modifiers mod
+      of modifiers mod
     scopes Variable
   
   // TODO: desugar?
@@ -38,8 +38,8 @@ binding rules // Interfaces
   InterfaceDec(InterfaceDecHead(m, Id(i), tp*, _), _):
     defines Type i
       of type Type(i)
-      of Modifiers m
-      of TypeParameters tp*
+      of modifiers m
+      of type-parameters tp*
     scopes Type, TypeParam, Field, Method
   
   // TODO: desugar?
@@ -57,7 +57,7 @@ binding rules // Constants
 	ConstantDec(m, t, [VarDec(Id(c))]):
     defines Field c
       of type t
-      of Modifiers m
+      of modifiers m
       in subsequent scope
 
 	// TODO: desugar?
@@ -65,7 +65,7 @@ binding rules // Constants
   ConstantDec(m, t, [VarDec(Id(c), _)]):
   	defines Field c
   	  of type t
-  	  of Modifiers m
+  	  of modifiers m
       in subsequent scope
       
 binding rules // Asbtract methods
@@ -73,17 +73,17 @@ binding rules // Asbtract methods
   AbstractMethodDec(mod, _, t, Id(m), p*, th):
   	defines Method m
       of type t
-      of ParameterTypes pt*
-      of Throws th
-      of Modifiers mod
+      of parameter-types pt*
+      of throws th
+      of modifiers mod
       where p* has type pt*
     scopes Variable
 
   DeprAbstractMethodDec(mod, _, t, Id(m), p*, _, th):
     defines Method m
       of type t
-      of ParameterTypes pt*
-      of Throws th
-      of Modifiers mod
+      of parameter-types pt*
+      of throws th
+      of modifiers mod
       where p* has type pt*
     scopes Variable

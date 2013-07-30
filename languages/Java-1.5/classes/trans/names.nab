@@ -2,33 +2,36 @@ module languages/Java-1.5/classes/trans/names
 
 imports
 
+	languages/Java-1.5/types/trans/names
   include/Java
-  lib/nbl/-
   types
-  names
   desugar
 
 namespaces
 
-  Constructor Field Method Variable Label
+  Constructor
+  Field
+  Method 
+  Variable
+  Label
   
 properties
 
-  ParameterTypes of Method      : List(Type)
-  Throws         of Method      : Throws
-  Modifiers      of Type        : List(ClassMod)
-  Modifiers      of Constructor : List(ConstrMod)
-  Modifiers      of Method      : List(MethodMod)
-  Modifiers      of Field       : List(FieldMod)
-  Modifiers      of Variable    : List(VarMod)
-  TypeParameters of Type        : TypeParams
-  TypeParameters of Method      : TypeParams
+  parameter-types of Method      : List(Type)
+  throws          of Method      : Throws
+  modifiers       of Type        : List(ClassMod)
+  modifiers       of Constructor : List(ConstrMod)
+  modifiers       of Method      : List(MethodMod)
+  modifiers       of Field       : List(FieldMod)
+  modifiers       of Variable    : List(VarMod)
+  type-parameters of Type        : TypeParams
+  type-parameters of Method      : TypeParams
 
 binding rules // Enums
 
   EnumDec(EnumDecHead(m, Id(e), _), _):
     defines Type e 
-      of Modifiers m
+      of modifiers m
     scopes Field
   
   EnumConst(Id(e), _, _):
@@ -40,21 +43,21 @@ binding rules // Types
   ClassDec(ClassDecHead(m, Id(c), tp*, None(), _), _):
     defines Type c 
       of type Type(c)
-      of Modifiers m
-      of TypeParameters tp*
+      of modifiers m
+      of type-parameters tp*
     implicitly defines Field "this" of type Type(c)
     scopes Type, TypeParam, Constructor, Field, Method
     
   ClassDec(ClassDecHead(m, Id(c), tp*, SuperDec(ClassType(p, tpr*)), _), _):
     defines Type c 
       of type Type(c)
-      of Modifiers m
-      of TypeParameters tp*
+      of modifiers m
+      of type-parameters tp*
     imports
       Field, imported Field, 
       Method, imported Method
       from Type p
-    	of conformant TypeParameters tpr*
+    	of conformant type-parameters tpr*
     implicitly defines Field "this" of type Type(c)
     implicitly defines Field "super" of type Type(p)
     scopes Type, TypeParam, Constructor, Field, Method
@@ -72,9 +75,9 @@ binding rules // Constructors
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
   ConstrDec(ConstrDecHead(m, _, Id(c), p*, th), _):
     defines Constructor c
-      of ParameterTypes pt*
-      of Throws th
-      of Modifiers m
+      of parameter-types pt*
+      of throws th
+      of modifiers m
       where p* has type pt*
     scopes Variable
 
@@ -85,7 +88,7 @@ binding rules // Fields
   FieldDec(m, t, [VarDec(Id(f))]):
     defines Field f 
       of type t
-      of Modifiers m
+      of modifiers m
       in subsequent scope
   
   // TODO: desugar?  
@@ -93,7 +96,7 @@ binding rules // Fields
   FieldDec(m, t, [VarDec(Id(f), _)]):
     defines Field f 
       of type t
-      of Modifiers m
+      of modifiers m
       in subsequent scope 
       
 binding rules // Methods
@@ -102,10 +105,10 @@ binding rules // Methods
   MethodDec(MethodDecHead(mod, tp*, t, Id(m), p*, th), body):
     defines Method m
       of type t
-      of ParameterTypes pt*
-      of Throws th
-      of Modifiers mod
-      of TypeParameters tp*
+      of parameter-types pt*
+      of throws th
+      of modifiers mod
+      of type-parameters tp*
       where p* has type pt*
     //imports Field from enclosing Type into body
     scopes Variable, Label
@@ -114,10 +117,10 @@ binding rules // Methods
   MethodDec(DeprMethodDecHead(mod, tp*, t, Id(m), p*, _, th), body):
     defines Method m
       of type t
-      of ParameterTypes pt*
-      of Throws th
-      of Modifiers mod
-      of TypeParameters tp*
+      of parameter-types pt*
+      of throws th
+      of modifiers mod
+      of type-parameters tp*
       where p* has type pt*
     //imports Field from enclosing Type into body
     scopes Variable, Label
@@ -125,9 +128,9 @@ binding rules // Methods
   Param(m, t, Id(p)):
     defines Variable p
       of type t
-      of Modifiers m
+      of modifiers m
 
   VarArityParam(m, t, Id(p)):
     defines Variable p
       of type t
-      of Modifiers m
+      of modifiers m

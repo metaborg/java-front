@@ -2,10 +2,10 @@ module languages/Java-1.5/packages/trans/names
 
 imports
 
+	languages/Java-1.5/classes/trans/names
+	languages/Java-1.5/types/trans/names
   include/Java
-  lib/nbl/-
   types
-  names
 
 namespaces
 
@@ -13,14 +13,14 @@ namespaces
   
 properties
 
-	Annotations of Package : List(Anno)
+	annotations of Package : List(Anno)
 
 binding rules // Package
 
 	// TODO: the AST needs to be desugared to have nested package declarations like this.
   PackageDec(a*, p):
     defines non-unique Package p
-    	of Annotations a*
+    	of annotations a*
     scopes Package, Type
 
 binding rules // Imports
@@ -35,25 +35,25 @@ binding rules // Imports
   // TODO: modifiers is a list.
   /*  
   StaticImportDec(t, s):
-              imports Method s of Modifiers [..., Static(), ...] from Type t into subsequent scope
-    otherwise imports Field s of Modifiers [..., Static(), ...] from Type t into subsequent scope
+              imports Method s of modifiers [..., Static(), ...] from Type t into subsequent scope
+    otherwise imports Field s of modifiers [..., Static(), ...] from Type t into subsequent scope
   */
   StaticImportDec(t, s):
-              imports Method s of Modifiers Static() from Type t into subsequent scope
-    otherwise imports Field s of Modifiers Static() from Type t into subsequent scope
+              imports Method s of modifiers Static() from Type t into subsequent scope
+    otherwise imports Field s of modifiers Static() from Type t into subsequent scope
   
   // TODO: modifiers is a list.
   /*
   StaticImportOnDemandDec(t):
     imports 
       Method, Field 
-        of Modifiers [..., Static(), ...] 
+        of modifiers [..., Static(), ...] 
       from Type t 
       into subsequent scope
 	*/
   StaticImportOnDemandDec(t):
     imports 
       Method, Field 
-        of Modifiers Static()
+        of modifiers Static()
       from Type t 
       into subsequent scope

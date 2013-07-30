@@ -11,34 +11,3 @@ imports
   languages/Java-1.5/statements/trans/names
   languages/Java-1.5/types/trans/names
 
-strategies // Temporary nabl-name rules
-  
-  nabl-name:
-  	Id(n) -> <nabl-name> n
-  
-  nabl-name-apply(s):
-    Id(n) -> Id(<nabl-name-apply(s)> n)
-    
-  nabl-name:
-    TypeName(n) -> <nabl-name> n
-  
-  nabl-name-apply(s):
-    TypeName(n) -> TypeName(<nabl-name-apply(s)> n)
-    
-  nabl-name:
-    InterfaceType(n, tp) -> <nabl-name> n
-  
-  nabl-name-apply(s):
-    InterfaceType(n, tp) -> InterfaceType(<nabl-name-apply(s)> n, tp)
-    
-  nabl-name:
-    ClassType(n, tp) -> <nabl-name> n
-  
-  nabl-name-apply(s):
-    ClassType(n, tp) -> ClassType(<nabl-name-apply(s)> n, tp) 
-    
-  nabl-name:
-    ClassOrInterfaceType(n, tp) -> <nabl-name> n
-  
-  nabl-name-apply(s):
-    ClassOrInterfaceType(n, tp) -> ClassOrInterfaceType(<nabl-name-apply(s)> n, tp) 

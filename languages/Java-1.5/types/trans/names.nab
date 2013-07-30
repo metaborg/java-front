@@ -2,28 +2,28 @@ module languages/Java-1.5/types/trans/names
 
 imports
 
+	languages/Java-1.5/classes/trans/names
   include/Java
-  lib/nbl/-
   types
-  names
 
 namespaces
 
-  Type TypeParam
+  Type
+  TypeParam
 
 binding rules // Type references
 
   InterfaceType(i, tp*):
     refers to Type i
-    	of conformant TypeParameters tp*
+    	of conformant type-parameters tp*
     
   ClassType(c, tp*):
     refers to Type c
-    	of conformant TypeParameters tp*
+    	of conformant type-parameters tp*
     
   ClassOrInterfaceType(t, tp*):
     refers to Type t
-    	of conformant TypeParameters tp*
+    	of conformant type-parameters tp*
   
 binding rules // Type parameters
 

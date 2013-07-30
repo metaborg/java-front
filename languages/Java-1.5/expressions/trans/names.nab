@@ -2,10 +2,9 @@ module languages/Java-1.5/expressions/trans/names
 
 imports
 
+	languages/Java-1.5/classes/trans/names
+	languages/Java-1.5/types/trans/names
   include/Java
-  lib/nbl/-
-  types
-  names
 
 namespaces
 
@@ -17,14 +16,14 @@ binding rules // Method call
 	
   Invoke(Method(m), a*):
   	refers to best Method m 
-      of conformant ParameterTypes pt*
+      of conformant parameter-types pt*
   	  where a* has type pt*
 
 	// TODO: ta* is a Some/None
   Invoke(Method(e, ta*, Id(m)), a*):
     refers to best Method m
-      of conformant ParameterTypes pt*
-      of conformant TypeParameters ta*
+      of conformant parameter-types pt*
+      of conformant type-parameters ta*
       in Type t
       where a* has type pt*
       where e has type t
@@ -32,8 +31,8 @@ binding rules // Method call
   // TODO: ta* is a Some/None    
   Invoke(SuperMethod(ta*, Id(m)), a*):
     refers to best Method m
-      of conformant ParameterTypes pt*
-      of conformant TypeParameters ta*
+      of conformant parameter-types pt*
+      of conformant type-parameters ta*
       in Type t
       where a* has type pt*
       where "super" refers to Field super
@@ -42,8 +41,8 @@ binding rules // Method call
   // TODO: ta* is a Some/None    
   Invoke(QSuperMethod(t, ta*, Id(m)), a*):
     refers to best Method m
-      of conformant ParameterTypes pt*
-      of conformant TypeParameters ta*
+      of conformant parameter-types pt*
+      of conformant type-parameters ta*
       in Type t
       where a* has type pt*
   
@@ -51,8 +50,8 @@ binding rules // Method call
   /*     
   Invoke(GenericMethod(amb, ta*, Id(m)), a*):
     refers to best Method m
-      of conformant ParameterTypes pt*
-      of conformant TypeParameters ta*
+      of conformant parameter-types pt*
+      of conformant type-parameters ta*
       in Type t // TODO: What type??
       where a* has type pt*
   */
@@ -70,8 +69,8 @@ binding rules // Class instantiation
 	// TODO: does ta* refer to type arguments for the constructor or the type?
   NewInstance(ta*, c, a*, _):
     refers to best Constructor c 
-      of conformant ParameterTypes pt*
-      of conformant TypeParameters ta*
+      of conformant parameter-types pt*
+      of conformant type-parameters ta*
       in Type c
       where a* has type pt*
 
@@ -80,8 +79,8 @@ binding rules // Class instantiation
 	// TODO: does ta2* refer to type arguments for the constructor or the type?
   QNewInstance(e, ta1*, Id(c), ta2*, a*, _):
   	refers to best Constructor c
-  	  of conformant ParameterTypes pt*
-  	  of conformant TypeParameters ta1* 
+  	  of conformant parameter-types pt*
+  	  of conformant type-parameters ta1* 
   	  in Type c
   	  in Type t
   	  where a* has type pt*
