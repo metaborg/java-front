@@ -1,0 +1,38 @@
+module languages/Java-1.5/literals/types/literals
+
+imports
+	
+	include/Java
+	lib/types/-
+	types
+	
+rules
+	
+	type-of(|ctx):
+		Bool(_) -> <type-is(|ctx)> Boolean()
+		
+	type-of(|ctx):
+		_ -> <type-is(|ctx)> Char()
+		where
+			?Char(_)
+		+ ?Single(_)
+	
+	// TODO: decide if short, int or long based on size.	
+	type-of(|ctx):
+		_ -> <type-is(|ctx)> Int()
+		where
+			?Deci(_)
+		+ ?Hexa(_)
+		+ ?Octa(_)
+		
+	type-of(|ctx):
+		Float(_) -> <type-is(|ctx)> Float()
+		
+	// TODO: type of null is context dependent?
+	type-of(|ctx):
+		Null() -> <fail>
+		
+	// TODO: look up String class.
+	type-of(|ctx):
+		String(_) -> <type-is(|ctx)> Type("String")
+	

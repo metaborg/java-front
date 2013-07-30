@@ -1,0 +1,9 @@
+module languages/Java-1.5/types/types/coercion
+
+imports
+	
+	include/Java
+	
+rules
+	
+	

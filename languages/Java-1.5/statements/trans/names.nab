@@ -4,7 +4,6 @@ imports
 
 	languages/Java-1.5/classes/trans/names
   languages/Java-1.5/names/trans/names
-  languages/Java-1.5/statements/trans/desugar
   include/Java
 
 namespaces
@@ -51,21 +50,19 @@ binding rules // Control flow
   DoWhile(_, _):
   	scopes Variable
   
-  // TODO: desugar?
   // TODO: Refactor (syntax) so that this does not require 4 different binding rules?
-  // TODO: The nested VarDecs already define variables..
-  // For(LocalVarDec(m, t, [..., VarDec(v), ...]), cond, inc, stm):
-  For(LocalVarDec(m, t, [VarDec(v)]), cond, inc, stm):
+  // TODO: The nested LocalVarDecs already define variables..
+  // TODO: there can be multiple LocalVarDecs
+  For([LocalVarDec(m, t, VarDec(v))], cond, inc, stm):
     defines Variable v 
       of type t
       of modifiers m
       in cond, inc, stm
   	scopes Variable
   
-  // TODO: desugar?
-  // TODO: The nested VarDecs already define variables..	
-  // For(LocalVarDec(m, t, [..., VarDec(Id(v, _)), ...]), cond, inc, stm):
-  For(LocalVarDec(m, t, [VarDec(v, _)]), cond, inc, stm):
+  // TODO: The nested LocalVarDecs already define variables..
+  // TODO: there can be multiple LocalVarDecs	
+  For([LocalVarDec(m, t, VarDec(v, _))], cond, inc, stm):
     defines Variable v 
       of type t
       of modifiers m

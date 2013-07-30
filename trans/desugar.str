@@ -6,12 +6,9 @@ imports
   languages/Java-1.5/classes/trans/desugar
   languages/Java-1.5/interfaces/trans/desugar
   languages/Java-1.5/statements/trans/desugar
+  languages/Java-1.5/expressions/trans/desugar
+  languages/Java-1.5/lexical/trans/desugar
   
 strategies
   
   desugar-all = topdown(try(desugar)); topdown(try(flatten-list))
-
-rules
-	
-	desugar:
-		Id(s) -> s

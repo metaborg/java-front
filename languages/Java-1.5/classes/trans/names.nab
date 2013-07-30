@@ -5,7 +5,6 @@ imports
 	languages/Java-1.5/types/trans/names
   include/Java
   types
-  desugar
 
 namespaces
 
@@ -39,32 +38,30 @@ binding rules // Enums
 
 binding rules // Types 
 
-  // TODO: implicitly define: this, super
-  ClassDec(ClassDecHead(m, c, tp*, None(), _), _):
+  ClassDec(ClassDecHead(m*, c, tp*, None(), _), _):
     defines Type c 
       of type Type(c)
-      of modifiers m
+      of modifiers m*
       of type-parameters tp*
     implicitly defines Field "this" of type Type(c)
     scopes Type, TypeParam, Constructor, Field, Method
     
-  ClassDec(ClassDecHead(m, c, tp*, SuperDec(ClassType(p, tpr*)), _), _):
+	// TODO: pc already refers to a class. see types/trans/names.str  
+  ClassDec(ClassDecHead(m*, c, tp*, SuperDec(pc), _), _):
     defines Type c 
       of type Type(c)
-      of modifiers m
+      of modifiers m*
       of type-parameters tp*
     imports
       Field, imported Field, 
       Method, imported Method
-      from Type p
-    	of conformant type-parameters tpr*
+      from Type pc
     implicitly defines Field "this" of type Type(c)
-    implicitly defines Field "super" of type Type(p)
+    implicitly defines Field "super" of type Type(pc)
     scopes Type, TypeParam, Constructor, Field, Method
     
-  // TODO: i is either a TypeName or a Member, see ReferenceTypes.sdf
-  // TODO: type aguments
-  ImplementsDec(InterfaceType(i, ta*)):
+  // TODO: i already refers to an interface. see types/trans/names.str
+  ImplementsDec(i):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -73,11 +70,11 @@ binding rules // Types
 binding rules // Constructors
 
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
-  ConstrDec(ConstrDecHead(m, _, c, p*, th), _):
+  ConstrDec(ConstrDecHead(m*, _, c, p*, th), _):
     defines Constructor c
       of parameter-types pt*
       of throws th
-      of modifiers m
+      of modifiers m*
       where p* has type pt*
     scopes Variable
 
@@ -100,24 +97,24 @@ binding rules // Fields
 binding rules // Methods
 
 	// TODO: imports fields into body
-  MethodDec(MethodDecHead(mod, tp*, t, m, p*, th), body):
+  MethodDec(MethodDecHead(mod*, tp*, t, m, p*, th), body):
     defines Method m
       of type t
       of parameter-types pt*
       of throws th
-      of modifiers mod
+      of modifiers mod*
       of type-parameters tp*
       where p* has type pt*
     // imports Field from enclosing Type into body
     scopes Variable, Label
   
   // TODO: imports fields into body  
-  MethodDec(DeprMethodDecHead(mod, tp*, t, m, p*, _, th), body):
+  MethodDec(DeprMethodDecHead(mod*, tp*, t, m, p*, _, th), body):
     defines Method m
       of type t
       of parameter-types pt*
       of throws th
-      of modifiers mod
+      of modifiers mod*
       of type-parameters tp*
       where p* has type pt*
     // imports Field from enclosing Type into body

@@ -48,12 +48,15 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   */
   
   AmbName(n):
-              refers to Variable n //in current scope
-    otherwise refers to Field n //in current scope
+		refers to Variable n //in current scope
+  	otherwise 
+    	refers to Field n //in current scope
     //otherwise refers to imported Field n
-    otherwise refers to Type n //in current scope
+  	otherwise 
+  		refers to Type n //in current scope
     //otherwise refers to imported Type n
-    otherwise refers to Package n
+  	otherwise 
+  		refers to Package n
 
   /*
 	  If the AmbiguousName is a qualified name, consisting of a name, a ".", and an Identifier, 
@@ -92,14 +95,32 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   */
   
   AmbName(q, n):
-              refers to Type n     in Package q
-    otherwise refers to Package n  in Package q
-    otherwise refers to Method n   in Type q
-    otherwise refers to Field n    in Type q
-    otherwise refers to Type n     in Type q
-    otherwise refers to Method n   in Type t where q has type t
-    otherwise refers to Field n    in Type t where q has type t
-    otherwise refers to Type n     in Type t where q has type t
+    refers to Type n
+    	in Package q
+    otherwise
+    	refers to Package n
+    		in Package q
+    otherwise
+    	refers to Method n
+    		in Type q
+    otherwise
+    	refers to Field n 
+    		in Type q
+    otherwise
+    	refers to Type n 
+    		in Type q
+    otherwise
+    	refers to Method n
+    		in Type t 
+    		where q has type t
+    otherwise
+    	refers to Field n
+  			in Type t 
+    		where q has type t
+    otherwise
+    	refers to Type n 
+  			in Type t 
+  			where q has type t
     
 binding rules // 6.5.3 Meaning of Package Names
 
@@ -139,8 +160,9 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   */
   
   PackageOrTypeName(n):
-              refers to Type n
-    otherwise refers to Package n
+  	refers to Type n
+    otherwise
+    	refers to Package n
   
   /*
     Given a qualified PackageOrTypeName of the form Q.Id,
@@ -156,9 +178,14 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   */ 
   
   PackageOrTypeName(q, n):
-              refers to Type n    in Type q
-    otherwise refers to Type n    in Package q
-    otherwise refers to Package n in Package q
+    refers to Type n
+    	in Type q
+    otherwise
+    	refers to Type n
+    		in Package q
+    otherwise
+    	refers to Package n
+    		in Package q
   
 binding rules // 6.5.5 Meaning of Type Names
 
@@ -183,8 +210,11 @@ binding rules // 6.5.5 Meaning of Type Names
     then a compile-time error occurs.
   */  
   TypeName(q, n):
-              refers to Type n in Type q
-    otherwise refers to Type n in Package q
+    refers to Type n
+    	in Type q
+    otherwise
+    	refers to Type n
+    		in Package q
    
 binding rules // 6.5.6 Meaning of Expression Names
  
@@ -216,8 +246,9 @@ binding rules // 6.5.6 Meaning of Expression Names
   */
   
   ExprName(n):
-              refers to Variable n
-    otherwise refers to Field n
+    refers to Variable n
+    otherwise
+    	refers to Field n
   
   /*
     If an expression name is of the form Q.Id, 
@@ -268,8 +299,12 @@ binding rules // 6.5.6 Meaning of Expression Names
 			    or an instance variable. 
   */  
   ExprName(q, n):
-              refers to Field n in Type q
-    otherwise refers to Field n in Type t where q has type t
+    refers to Field n
+    	in Type q
+    otherwise
+    	refers to Field n 
+  			in Type t 
+  			where q has type t
   
 binding rules // 6.5.7 Meaning of Method Name
  
@@ -325,5 +360,9 @@ binding rules // 6.5.7 Meaning of Method Name
       Id must name at least one method of the type T. 
   */
   MethodName(q, n):
-              refers to Method n in Type q
-    otherwise refers to Method n in Type t where q has type t
+    refers to Method n 
+    	in Type q
+    otherwise
+    	refers to Method n
+  			in Type t 
+  			where q has type t

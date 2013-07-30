@@ -26,9 +26,8 @@ lib/nbl
 lib/task
 lib-refactoring/*.generated.str
 *.aterm
-
 languages/Java-1.5/**/trans/names.str
 lib/analysis
 lib/editor
-types
 lib/runtime
+lib/types

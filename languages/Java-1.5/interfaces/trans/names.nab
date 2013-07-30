@@ -6,7 +6,6 @@ imports
 	languages/Java-1.5/types/trans/names
   include/Java
   types
-  desugar
 
 properties
 
@@ -28,9 +27,7 @@ binding rules // annotations
       of modifiers mod
     scopes Variable
   
-  // TODO: desugar?
-  // Anno(TypeName(a), [..., ElemValPair(f, _), ...]):
-  Anno(TypeName(a), [ElemValPair(f, _)]):
+  Anno(TypeName(a), ElemValPair(f, _)):
   	refers to Field f in Type a
   
 binding rules // Interfaces
@@ -42,9 +39,8 @@ binding rules // Interfaces
       of type-parameters tp*
     scopes Type, TypeParam, Field, Method
   
-  // TODO: desugar?
-  // ExtendsInterfaces([..., i, ...]):
-  ExtendsInterfaces([i]):
+  // TODO: i already refers to an interface. see types/trans/names.str
+  ExtendsInterfaces(i):
     imports
       Field, imported Field, 
       Method, imported Method
@@ -52,17 +48,13 @@ binding rules // Interfaces
       
 binding rules // Constants
 
-	// TODO: desugar?
-  // ConstantDec(m, t, [..., VarDec(c), ...]):
-	ConstantDec(m, t, [VarDec(c)]):
+	ConstantDec(m, t, VarDec(c)):
     defines Field c
       of type t
       of modifiers m
       in subsequent scope
 
-	// TODO: desugar?
-  // ConstantDec(m, t,[..., VarDec(c, _), ...]):
-  ConstantDec(m, t, [VarDec(c, _)]):
+  ConstantDec(m, t, VarDec(c, _)):
   	defines Field c
   	  of type t
   	  of modifiers m

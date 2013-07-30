@@ -5,7 +5,6 @@ imports
 	languages/Java-1.5/classes/trans/names
 	languages/Java-1.5/types/trans/names
   include/Java
-  types
 
 namespaces
 
@@ -26,31 +25,36 @@ binding rules // Package
 binding rules // Imports
 
   TypeImportDec(i):
-    imports Type i into subsequent scope
+    imports 
+    	Type i 
+    	into subsequent scope
     
   TypeImportOnDemandDec(i):
-              imports Type from Package i into subsequent scope
-    otherwise imports Type from Type i into subsequent scope
-  
-  // TODO: modifiers is a list.
-  /*  
-  StaticImportDec(t, s):
-              imports Method s of modifiers [..., Static(), ...] from Type t into subsequent scope
-    otherwise imports Field s of modifiers [..., Static(), ...] from Type t into subsequent scope
-  */
-  StaticImportDec(t, s):
-              imports Method s of modifiers Static() from Type t into subsequent scope
-    otherwise imports Field s of modifiers Static() from Type t into subsequent scope
-  
-  // TODO: modifiers is a list.
-  /*
-  StaticImportOnDemandDec(t):
     imports 
-      Method, Field 
-        of modifiers [..., Static(), ...] 
-      from Type t 
-      into subsequent scope
-	*/
+    	Type 
+    	from Package i 
+    	into subsequent scope
+    otherwise
+    	imports 
+	    	Type 
+	    	from Type i 
+	    	into subsequent scope
+  
+  // TODO: modifiers is a list.
+  StaticImportDec(t, s):
+    imports 
+    	Method s 
+    		of modifiers Static() 
+  		from Type t 
+  		into subsequent scope
+    otherwise
+    	imports
+    		Field s 
+    			of modifiers Static() 
+  			from Type t
+  			into subsequent scope
+  
+  // TODO: modifiers is a list.
   StaticImportOnDemandDec(t):
     imports 
       Method, Field 
