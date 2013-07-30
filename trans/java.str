@@ -43,7 +43,7 @@ rules // Editor services
     	definition := <nabl-collect-one-resolved-def; index-get-all; Hd> node
 
   editor-hover:
-    (target, position, ast, path, project-path) -> $[Type: [<type-of; print-type> target]]
+    (target, position, ast, path, project-path) -> <fail>
 
   editor-complete:
     (node, position, ast, path, project-path) -> <nabl-propose-completions> ast
