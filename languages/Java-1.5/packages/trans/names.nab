@@ -18,7 +18,7 @@ properties
 binding rules // Package
 
 	// TODO: the AST needs to be desugared to have nested package declarations like this.
-  PackageDec(a*, p, _):
+  PackageDec(a*, p):
     defines non-unique Package p
     	of Annotations a*
     scopes Package, Type

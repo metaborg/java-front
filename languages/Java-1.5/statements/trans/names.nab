@@ -71,7 +71,7 @@ binding rules // Control flow
   // TODO: desugar?
   // TODO: The nested VarDecs already define variables..	
   // For(LocalVarDec(m, t, [..., VarDec(Id(v, _)), ...]), cond, inc, stm):
-  For(LocalVarDec(m, t, [VarDec(Id(v, _))]), cond, inc, stm):
+  For(LocalVarDec(m, t, [VarDec(Id(v), _)]), cond, inc, stm):
     defines Variable v 
       of type t
       of Modifiers m
