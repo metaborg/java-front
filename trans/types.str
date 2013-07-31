@@ -2,10 +2,11 @@ module types
 
 imports
 	
-	languages/Java-1.5/literals/types/literals
-	languages/Java-1.5/expressions/types/arithmetic
-	languages/Java-1.5/types/types/conversion
-	languages/Java-1.5/names/types/names
+	languages/Java-1.5/literals/types/-
+	languages/Java-1.5/expressions/types/-
+	languages/Java-1.5/types/types/-
+	languages/Java-1.5/names/types/-
+	languages/Java-1.5/expressions/types/-
 	lib/types/-
 	lib/nbl/-
 

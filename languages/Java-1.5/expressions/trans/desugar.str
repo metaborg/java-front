@@ -8,3 +8,6 @@ rules
 	
 	desugar:
 		Lit(l) -> l
+
+	desugar:
+		ExprStm(exp) -> exp

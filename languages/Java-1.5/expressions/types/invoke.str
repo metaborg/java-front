@@ -1,0 +1,16 @@
+module languages/Java-1.5/expressions/types/invoke
+
+imports
+	
+	include/Java
+	lib/task/-
+	languages/Java-1.5/expressions/trans/desugar
+	languages/Java-1.5/types/types/equality
+	types
+	
+rules
+	
+	type-of(|ctx):
+		Invoke(Method(m), arg*) -> return-ty
+		with
+			return-ty := <type-task(|ctx)> m
