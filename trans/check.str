@@ -2,18 +2,4 @@ module check
 
 imports
 	
-  libstratego-lib
-  include/Java
-  lib/nbl/-
-  names
-  
-rules // Extensions for error/warning/note reporting
-  
-  constraint-error:
-  	_ -> <fail>
- 
-  constraint-warning:
-  	_ -> <fail>
-  	
-  constraint-note:
-  	_ -> <fail>
+	languages/Java-1.5/statements/check/assignment

@@ -3,7 +3,19 @@ module languages/Java-1.5/expressions/types/arithmetic
 imports
 	
 	include/Java
+	lib/task/-
+	languages/Java-1.5/expressions/trans/desugar
+	languages/Java-1.5/types/types/conversion
+	types
 	
 rules
 	
-	
+	type-of(|ctx):
+		BOp(op, x, y) -> ty-task
+		with
+			x-ty := <type-task(|ctx)> x
+		; y-ty := <type-task(|ctx)> y
+			// Apply binary numeric promotion
+		; conv-id    := <convert-identity(|ctx)> (x-ty, y-ty)
+		; conv-wide  := <convert-widening-primitive(|ctx)> (x-ty, y-ty)
+		; ty-task    := <new-task(|ctx)> Choice([conv-id, conv-wide])

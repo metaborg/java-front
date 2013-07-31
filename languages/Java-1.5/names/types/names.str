@@ -1,0 +1,12 @@
+module languages/Java-1.5/names/types/names
+
+imports
+	
+	include/Java
+	lib/types/-
+	
+rules
+	
+	type-of(|ctx):
+		ExprName(n) -> <type-lookup(|ctx)> n
+		

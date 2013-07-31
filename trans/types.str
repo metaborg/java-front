@@ -4,7 +4,10 @@ imports
 	
 	languages/Java-1.5/literals/types/literals
 	languages/Java-1.5/expressions/types/arithmetic
-	languages/Java-1.5/types/types/coercion
+	languages/Java-1.5/types/types/conversion
+	languages/Java-1.5/names/types/names
+	lib/types/-
+	lib/nbl/-
 
 signature
 
@@ -15,3 +18,7 @@ signature
 strategies
 
   print-type = fail
+
+rules
+	
+	type-task(|ctx) = property-task(|Type(), ctx)

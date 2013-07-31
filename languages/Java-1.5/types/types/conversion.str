@@ -1,0 +1,56 @@
+module languages/Java-1.5/types/types/conversion
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	
+signature
+	
+	constructors
+		
+		IdentityConversion          : Relation
+		WideningPrimitiveConversion : Relation
+	
+rules // Identity conversion
+	
+	convert-identity(|ctx):
+		(t1, t2) -> <prop-match(|ctx, IdentityConversion())> (t1, t2)
+	
+	task-match:
+		(IdentityConversion(), (x, x)) -> x
+
+rules // Widening primitive conversions
+	
+	convert-widening-primitive(|ctx):
+		(t1, t2) -> task
+		with
+			conv1 := <prop-match(|ctx, WideningPrimitiveConversion())> (t1, t2)
+		; conv2 := <prop-match(|ctx, WideningPrimitiveConversion())> (t2, t1)
+		; task := <new-task(|ctx)> Choice([conv1, conv2])
+	
+	task-match: (WideningPrimitiveConversion(), (Byte(), t@Short() )) -> t
+	task-match: (WideningPrimitiveConversion(), (Byte(), t@Int()   )) -> t
+	task-match: (WideningPrimitiveConversion(), (Byte(), t@Long()  )) -> t
+	task-match: (WideningPrimitiveConversion(), (Byte(), t@Float() )) -> t
+	task-match: (WideningPrimitiveConversion(), (Byte(), t@Double())) -> t
+
+	task-match: (WideningPrimitiveConversion(), (Short(), t@Int()   )) -> t
+	task-match: (WideningPrimitiveConversion(), (Short(), t@Long()  )) -> t
+	task-match: (WideningPrimitiveConversion(), (Short(), t@Float() )) -> t
+	task-match: (WideningPrimitiveConversion(), (Short(), t@Double())) -> t
+	
+	task-match: (WideningPrimitiveConversion(), (Char(), t@Int()   )) -> t
+	task-match: (WideningPrimitiveConversion(), (Char(), t@Long()  )) -> t
+	task-match: (WideningPrimitiveConversion(), (Char(), t@Float() )) -> t
+	task-match: (WideningPrimitiveConversion(), (Char(), t@Double())) -> t
+	
+	task-match: (WideningPrimitiveConversion(), (Int(), t@Long()  )) -> t
+	task-match: (WideningPrimitiveConversion(), (Int(), t@Float() )) -> t
+	task-match: (WideningPrimitiveConversion(), (Int(), t@Double())) -> t
+	
+	task-match: (WideningPrimitiveConversion(), (Long(), t@Float() )) -> t
+	task-match: (WideningPrimitiveConversion(), (Long(), t@Double())) -> t
+	
+	task-match: (WideningPrimitiveConversion(), (Float(), t@Double() )) -> t
