@@ -3,20 +3,8 @@ module languages/Java-1.5/expressions/trans/desugar
 imports
 	
 	include/Java
-
-signature
-
-	constructors
-		
-		BOp : AOp * Exp * Exp -> Exp
-		Plus : AOp
 	
 rules
 	
 	desugar:
 		Lit(l) -> l
-		
-rules
-	
-	desugar:
-		Plus(x, y) -> BOp(Plus(), x, y)

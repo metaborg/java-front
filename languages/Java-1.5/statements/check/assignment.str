@@ -12,9 +12,9 @@ rules
 	message-task(|ctx):
 		a@Assign(exp1, exp2) -> <fail>
 		with
-			exp1-ty := <type-task(|ctx)> exp1
+		  exp1-ty := <type-task(|ctx)> exp1
 		;	exp2-ty := <type-task(|ctx)> exp2
-			// Apply assignment conversion
+		  // Apply assignment conversion
 		; conv-id    := <convert-identity(|ctx)> (exp1-ty, exp2-ty)
 		; conv-wide  := <convert-widening-primitive(|ctx)> (exp1-ty, exp2-ty)
 		; choice     := <new-task(|ctx)> Choice([conv-id, conv-wide]) 

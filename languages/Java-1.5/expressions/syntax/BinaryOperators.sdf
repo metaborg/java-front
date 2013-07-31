@@ -10,7 +10,7 @@ exports
 
     Expr "*"   Expr -> Expr  {left, cons("Mul")}
     Expr "/"   Expr -> Expr  {left, cons("Div")}
-    Expr "%"   Expr -> Expr  {left, cons("ReExpressions")}
+    Expr "%"   Expr -> Expr  {left, cons("Mod")}
 
     Expr "+"   Expr -> Expr  {left, cons("Plus")}
     Expr "-"   Expr -> Expr  {left, cons("Minus")}

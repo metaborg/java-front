@@ -6,16 +6,39 @@ imports
 	lib/task/-
 	languages/Java-1.5/expressions/trans/desugar
 	languages/Java-1.5/types/types/conversion
+	languages/Java-1.5/types/types/promotion
+	languages/Java-1.5/types/types/equality
 	types
 	
 rules
 	
 	type-of(|ctx):
-		BOp(op, x, y) -> ty-task
+		_ -> ty
+		where
+		  ?Plus(x, y)
+		+ ?Minus(x, y)
+		+ ?Mul(x, y)
+		+ ?Div(x, y)
+		+ ?Mod(x, y)
 		with
-			x-ty := <type-task(|ctx)> x
-		; y-ty := <type-task(|ctx)> y
-			// Apply binary numeric promotion
-		; conv-id    := <convert-identity(|ctx)> (x-ty, y-ty)
-		; conv-wide  := <convert-widening-primitive(|ctx)> (x-ty, y-ty)
-		; ty-task    := <new-task(|ctx)> Choice([conv-id, conv-wide])
+		  x-ty     := <type-task(|ctx)> x
+		; y-ty     := <type-task(|ctx)> y
+		; ty       := <promote-binary(|ctx)> (x-ty, y-ty)
+		; x-is-num := <is-numerical(|ctx)> x-ty
+		; y-is-num := <is-numerical(|ctx)> y-ty
+		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
+		; <task-create-error-on-failure(|ctx, y-is-num, "Expected numerical")> y
+		  
+	type-of(|ctx):
+		_ -> x-ty
+		where
+		  ?LeftShift(x, y)
+		+ ?RightShift(x, y)
+		+ ?URightShift(x, y)
+		with
+		  x-ty          := <type-task(|ctx)> x
+		; y-ty          := <type-task(|ctx); promote-unary(|ctx)> y
+		; x-is-num      := <is-numerical(|ctx)> x-ty
+		; y-is-integral := <is-integral(|ctx)> y-ty
+		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
+		; <task-create-error-on-failure(|ctx, y-is-integral, "Expected integral")> y

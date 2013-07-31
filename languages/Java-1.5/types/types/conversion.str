@@ -15,20 +15,22 @@ signature
 	
 rules // Identity conversion
 	
-	convert-identity(|ctx):
-		(t1, t2) -> <prop-match(|ctx, IdentityConversion())> (t1, t2)
+	convert-identity(|ctx, dep):
+		(t1, t2) -> <prop-match(|ctx, IdentityConversion(), dep)> (t1, t2)
+	convert-identity(|ctx) = convert-identity(|ctx, [])
 	
 	task-match:
 		(IdentityConversion(), (x, x)) -> x
 
 rules // Widening primitive conversions
 	
-	convert-widening-primitive(|ctx):
+	convert-widening-primitive(|ctx, dep):
 		(t1, t2) -> task
 		with
-			conv1 := <prop-match(|ctx, WideningPrimitiveConversion())> (t1, t2)
-		; conv2 := <prop-match(|ctx, WideningPrimitiveConversion())> (t2, t1)
-		; task := <new-task(|ctx)> Choice([conv1, conv2])
+		  conv1 := <prop-match(|ctx, WideningPrimitiveConversion(), dep)> (t1, t2)
+		; conv2 := <prop-match(|ctx, WideningPrimitiveConversion(), dep)> (t2, t1)
+		; task  := <new-task(|ctx)> Choice([conv1, conv2])
+	convert-widening-primitive(|ctx) = convert-widening-primitive(|ctx, [])
 	
 	task-match: (WideningPrimitiveConversion(), (Byte(), t@Short() )) -> t
 	task-match: (WideningPrimitiveConversion(), (Byte(), t@Int()   )) -> t
