@@ -31,3 +31,5 @@ lib/analysis
 lib/editor
 lib/runtime
 lib/types
+/include
+editor/Java-Outliner.generated.str

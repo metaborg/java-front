@@ -7,6 +7,7 @@ imports
   libstratego-aterm
 
   include/Java
+  editor/Java-Outliner
   
   lib/editor-common.generated
   lib/analysis/-

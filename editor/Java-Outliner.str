@@ -1,0 +1,11 @@
+module editor/Java-Outliner
+
+imports
+  include/Java
+  lib/runtime/editor/outline-library
+  lib/runtime/editor/origins
+  editor/Java-Outliner.generated
+
+rules
+  
+  outline-expand-to-level = !3
