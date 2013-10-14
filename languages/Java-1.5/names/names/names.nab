@@ -1,4 +1,4 @@
-module languages/Java-1.5/names/trans/names
+module languages/Java-1.5/names/names/names
   
 imports
 
@@ -337,8 +337,8 @@ binding rules // 6.5.7 Meaning of Method Name
     otherwise refers to imported Method n
   */
   
-	// MethodName(m): 
-	// 	refers to Method m
+	MethodName(m): 
+		refers to Method m
   
   /*
     A qualified method name can only appear in the context of a method invocation expression. 

@@ -1,0 +1,34 @@
+module languages/Java-1.5/types/names/types
+
+imports
+
+	languages/Java-1.5/classes/names/classes
+  include/Java
+  types
+
+namespaces
+
+  Type
+  TypeParam
+
+binding rules // Type references
+
+	// TODO: i is either a TypeName or a Member, see ReferenceTypes.sdf
+  InterfaceType(i, tp*):
+    refers to Type i
+    	of conformant type-parameters tp*
+  
+  // TODO: c is either a TypeName or a Member, see ReferenceTypes.sdf  
+  ClassType(c, tp*):
+    refers to Type c
+    	of conformant type-parameters tp*
+    
+  // TODO: t is either a TypeName or a Member, see ReferenceTypes.sdf
+  ClassOrInterfaceType(t, tp*):
+    refers to Type t
+    	of conformant type-parameters tp*
+  
+binding rules // Type parameters
+
+  TypeParam(tp, _):
+    defines TypeParam tp

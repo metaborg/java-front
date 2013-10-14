@@ -1,0 +1,122 @@
+module languages/Java-1.5/statements/names/statemnts
+
+imports
+
+	languages/Java-1.5/classes/names/classes
+  languages/Java-1.5/names/names/names
+  include/Java
+
+namespaces
+
+  
+
+binding rules // Local variables
+
+  LocalVarDec(m*, t, VarDec(v)):
+    defines Variable v
+      of type t
+      of modifiers m*
+      in subsequent scope
+  
+  LocalVarDec(m*, t, VarDec(v, _)):
+    defines Variable v 
+      of type t
+      of modifiers m*
+      in subsequent scope
+
+binding rules // Labels
+
+  Labeled(l, _):
+  	defines Label l
+  	
+  Continue(Some(l)):
+  	refers to Label l
+
+  Break(Some(l)):
+    refers to Label l
+    
+binding rules // Control flow
+
+  If(_, _):
+    scopes Variable
+    
+  // TODO: incorrect scoping, if and else parts need their own scope.
+  If(_, _, _):
+    scopes Variable
+  	
+  While(_, _):
+  	scopes Variable
+  	
+  DoWhile(_, _):
+  	scopes Variable
+  
+  // TODO: Refactor (syntax) so that this does not require 4 different binding rules?
+  // TODO: The nested LocalVarDecs already define variables..
+  // TODO: there can be multiple LocalVarDecs
+  For([LocalVarDec(m, t, VarDec(v))], cond, inc, stm):
+    defines Variable v 
+      of type t
+      of modifiers m
+      in cond, inc, stm
+  	scopes Variable
+  
+  // TODO: The nested LocalVarDecs already define variables..
+  // TODO: there can be multiple LocalVarDecs	
+  For([LocalVarDec(m, t, VarDec(v, _))], cond, inc, stm):
+    defines Variable v 
+      of type t
+      of modifiers m
+      in cond, inc, stm
+  	scopes Variable
+  
+  // TODO: The nested Param already defines a variable..	
+  For(Param(m, t, v), cond, inc, stm):
+    defines Variable v 
+      of type t
+      of modifiers m
+      in cond, inc, stm
+  	scopes Variable
+  
+  // TODO: The nested VarArityParam already defines a variable..	
+  For(VarArityParam(m, t, v), cond, inc, stm):
+    defines Variable v 
+      of type t
+      of modifiers m
+      in cond, inc, stm
+  	scopes Variable
+  	
+	// TODO: Refactor (syntax) so that this does not require 2 different binding rules?
+	// TODO: The nested Param already defines a variable..
+  ForEach(Param(m, t, v), list, stm):
+  	defines Variable v
+  	  of type t
+  	  of modifiers m
+  	  in stm
+  	  
+  // TODO: The nested VarArityParam already defines a variable..
+  ForEach(VarArityParam(m, t, v), list, stm):
+  	defines Variable v
+  	  of type t
+  	  of modifiers m
+  	  in stm
+  
+  // TODO: Refactor (syntax) so that this does not require 2 different binding rules?
+  // TODO: The nested Param already defines a variable..
+  Catch(Param(m, t, v), stm):
+  	defines Variable v
+  	  of type t
+  	  of modifiers m
+  	  in stm
+  
+  // TODO: The nested VarArityParam already defines a variable..	  
+  Catch(VarArityParam(m, t, v), stm):
+  	defines Variable v
+  	  of type t
+  	  of modifiers m
+  	  in stm
+
+  SwitchGroup(_, _):
+    scopes Variable
+    
+  Block(_):
+    scopes Variable

@@ -1,8 +1,8 @@
-module languages/Java-1.5/classes/trans/names
+module languages/Java-1.5/classes/names/classes
 
 imports
 
-	languages/Java-1.5/types/trans/names
+	languages/Java-1.5/types/names/types
   include/Java
   types
 

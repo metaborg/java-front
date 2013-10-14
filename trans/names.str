@@ -3,10 +3,10 @@ module names
 imports
   
   include/Java
-  languages/Java-1.5/classes/trans/names
-  languages/Java-1.5/expressions/trans/names
-  languages/Java-1.5/interfaces/trans/names
-  languages/Java-1.5/names/trans/names
-  languages/Java-1.5/packages/trans/names
-  languages/Java-1.5/statements/trans/names
-  languages/Java-1.5/types/trans/names
+  languages/Java-1.5/classes/names/-
+  languages/Java-1.5/expressions/names/-
+  languages/Java-1.5/interfaces/names/-
+  languages/Java-1.5/names/names/-
+  languages/Java-1.5/packages/names/-
+  languages/Java-1.5/statements/names/-
+  languages/Java-1.5/types/names/-
