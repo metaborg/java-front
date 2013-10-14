@@ -10,7 +10,9 @@ imports
 exports
   sorts MethodSpec
   context-free syntax
-    MethodSpec "(" {Expr ","}* ")" -> Expr {cons("Invoke")}
+  	{Expr ","}* -> MethodArgs {cons("MethodArgs")}
+  	
+    MethodSpec "(" MethodArgs ")" -> Expr {cons("Invoke")}
 
                                MethodName -> MethodSpec {cons("Method")}
                     Expr "." TypeArgs? Id -> MethodSpec {cons("Method")}

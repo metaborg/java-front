@@ -97,28 +97,26 @@ binding rules // Fields
 binding rules // Methods
 
 	// TODO: imports fields into body
-	// TODO: parameter types
   MethodDec(MethodDecHead(mod*, tp*, t, m, p*, th), body):
     defines Method m
       of type t
-      // of parameter-types pt*
+      of parameter-types pt*
       of throws th
       of modifiers mod*
       of type-parameters tp*
-      // where p* has type pt*
+      where p* has type pt*
     // imports Field from enclosing Type into body
     scopes Variable, Label
   
   // TODO: imports fields into body 
-  // TODO: parameter types 
   MethodDec(DeprMethodDecHead(mod*, tp*, t, m, p*, _, th), body):
     defines Method m
       of type t
-      // of parameter-types pt*
+      of parameter-types pt*
       of throws th
       of modifiers mod*
       of type-parameters tp*
-      // where p* has type pt*
+      where p* has type pt*
     // imports Field from enclosing Type into body
     scopes Variable, Label
     

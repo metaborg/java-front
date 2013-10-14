@@ -11,11 +11,12 @@ exports
     AbstractMethodMod
 
   context-free syntax
+  	
     (Anno | AbstractMethodMod)* TypeParams? ResultType
-      Id "(" {FormalParam ","}* ")" Throws? ";" -> AbstractMethodDec {cons("AbstractMethodDec")}
+      Id "(" MethodParams ")" Throws? ";" -> AbstractMethodDec {cons("AbstractMethodDec")}
 
     (Anno | AbstractMethodMod)* TypeParams? ResultType
-      Id "(" {FormalParam ","}* ")" Dim+ Throws? ";" -> AbstractMethodDec {cons("DeprAbstractMethodDec")}
+      Id "(" MethodParams ")" Dim+ Throws? ";" -> AbstractMethodDec {cons("DeprAbstractMethodDec")}
 
     Public   -> AbstractMethodMod
     Abstract -> AbstractMethodMod

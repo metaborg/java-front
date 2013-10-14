@@ -21,8 +21,10 @@ exports
   context-free syntax
     MethodDecHead MethodBody -> MethodDec {cons("MethodDec")}
 
-    (Anno | MethodMod)* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Throws?      -> MethodDecHead {cons("MethodDecHead")}
-    (Anno | MethodMod)* TypeParams? ResultType Id "(" {FormalParam ","}* ")" Dim+ Throws? -> MethodDecHead {cons("DeprMethodDecHead")}
+		{FormalParam ","}* -> MethodParams {cons("MethodParams")}
+
+    (Anno | MethodMod)* TypeParams? ResultType Id "(" MethodParams ")" Throws?      -> MethodDecHead {cons("MethodDecHead")}
+    (Anno | MethodMod)* TypeParams? ResultType Id "(" MethodParams ")" Dim+ Throws? -> MethodDecHead {cons("DeprMethodDecHead")}
 
     Type   -> ResultType
     "void" -> ResultType {cons("Void")}

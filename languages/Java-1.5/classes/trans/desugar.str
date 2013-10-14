@@ -5,7 +5,7 @@ imports
   include/Java
   names
 
-rules
+rules // Multiple implements declarations
   
   desugar: 
     ImplementsDec(interface*) -> <map(desugar-implementsdec)> interface*
@@ -13,6 +13,8 @@ rules
   desugar-implementsdec:
     interface -> ImplementsDec(interface)
     
+rules // Multiple field declarations
+
   desugar:
     FieldDec(m*, t, vardec*) -> <map(desugar-fielddec(|m*, t))> vardec*
     

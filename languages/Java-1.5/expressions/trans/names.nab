@@ -6,15 +6,10 @@ imports
 	languages/Java-1.5/types/trans/names
   include/Java
 
-namespaces
-
-
-
-binding rules // Method call
-
-	// TODO: add ALL the invokes
+binding rules // Method invocation
 	
-  Invoke(Method(m), a*):
+	// TODO: m is a MethodName/1 or MethodName/2 constructor
+  Invoke(Method(MethodName(m)), a*):
   	refers to best Method m 
       of conformant parameter-types pt*
   	  where a* has type pt*
@@ -47,6 +42,7 @@ binding rules // Method call
       where a* has type pt*
   
   // TODO: WTF does this do?
+  // TODO: amb is an AmbName/1 or AmbName/2 constructor
   /*     
   Invoke(GenericMethod(amb, ta*, m), a*):
     refers to best Method m
