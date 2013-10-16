@@ -4,8 +4,8 @@ imports
 	
 	include/Java
 	lib/task/-
+	lib/types/-
 	languages/Java-1.5/types/types/conversion
-	types
 	
 rules
 	

@@ -11,9 +11,11 @@ imports
   
   lib/editor-common.generated
   lib/analysis/-
-  lib/nbl/-
+  lib/nabl/-
   lib/task/-
   lib/index/-
+  lib/properties/-
+  lib/types/-
   names
   check
   desugar
@@ -36,18 +38,13 @@ rules // Analysis
 rules // Editor services
 
   editor-resolve:
-    (node, position, ast, path, project-path) -> definition
-    where
-    	task-setup(|project-path);
-    	index-setup(|<language>, [project-path], $[[project-path]/[path]]);
-    	<nabl-has-reference> node;
-    	definition := <nabl-collect-one-resolved-def; index-get-all; Hd> node
+    (node, position, ast, path, project-path) -> <analysis-resolve(|<language>, project-path)> node
 
   editor-hover:
     (target, position, ast, path, project-path) -> <fail>
 
   editor-complete:
-    (node, position, ast, path, project-path) -> <nabl-propose-completions> ast
+    (node, position, ast, path, project-path) -> <analysis-propose-completions(|<language>, project-path)> ast
 
 rules // Debugging
   

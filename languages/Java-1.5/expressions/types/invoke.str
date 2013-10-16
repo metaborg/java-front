@@ -4,18 +4,18 @@ imports
 	
 	include/Java
 	lib/task/-
+	lib/types/-
 	languages/Java-1.5/expressions/trans/desugar
 	languages/Java-1.5/types/types/equality
-	types
 	
 rules
 	
-	type-of(|ctx):
+	create-type-task(|ctx):
 		Invoke(Method(m), arg*) -> return-ty
 		with
 			return-ty := <type-task(|ctx)> m
 
-	type-of(|ctx):
+	create-type-task(|ctx):
 		MethodArgs(a*) -> [ty*]
 		with
 			ty* := <map(type-task(|ctx))> a*

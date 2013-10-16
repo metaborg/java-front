@@ -4,15 +4,15 @@ imports
 	
 	include/Java
 	lib/task/-
+	lib/types/-
 	languages/Java-1.5/expressions/trans/desugar
 	languages/Java-1.5/types/types/conversion
 	languages/Java-1.5/types/types/promotion
 	languages/Java-1.5/types/types/equality
-	types
 	
 rules
 	
-	type-of(|ctx):
+	create-type-task(|ctx):
 		_ -> ty
 		where
 		  ?Plus(x, y)
@@ -29,7 +29,7 @@ rules
 		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
 		; <task-create-error-on-failure(|ctx, y-is-num, "Expected numerical")> y
 		  
-	type-of(|ctx):
+	create-type-task(|ctx):
 		_ -> x-ty
 		where
 		  ?LeftShift(x, y)

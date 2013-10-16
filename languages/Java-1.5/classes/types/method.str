@@ -3,15 +3,15 @@ module languages/Java-1.5/classes/types/method
 imports
 	
 	include/Java
-	types
+	lib/types/-
 	
 rules
 	
-	type-of(|ctx):
+	create-type-task(|ctx):
 		MethodParams(p*) -> [ty*]
 		where
 			ty* := <map(type-task(|ctx))> p*
 			
 	// TODO: unnecessary since type is stored on name using NaBL?
-	type-of(|ctx):
+	create-type-task(|ctx):
 		Param(_, t, _) -> <type-task(|ctx)> t

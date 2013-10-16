@@ -4,24 +4,18 @@ imports
 	
 	include/Java
 	lib/task/-
+	lib/properties/-
 	lib/types/-
 
-signature
+strategies
 	
-	constructors
-		
-		TypeEquality : Relation
+	nabl-property-eq = ?(Type(), Eq(), (p1, p2)); <?p1> p2; !p1 // Match ignores annotations.
 
 rules
 	
-	task-match:
-		(TypeEquality(), (x, x)) -> x
-
-rules
-	
-	is-type-eq(|ctx, dep):
-		(t1, t2) -> <prop-match(|ctx, TypeEquality(), dep)> (t1, t2)
 	is-type-eq(|ctx) = is-type-eq(|ctx, [])
+	is-type-eq(|ctx, dep):
+		(t1, t2) -> <type-match(|ctx, dep)> (t1, t2)
 	
 	is-boolean(|ctx) = !(<id>, Boolean()); is-type-eq(|ctx)
 	is-byte(|ctx)    = !(<id>, Byte()); is-type-eq(|ctx)

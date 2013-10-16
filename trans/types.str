@@ -9,7 +9,7 @@ imports
 	languages/Java-1.5/names/types/-
 	languages/Java-1.5/expressions/types/-
 	lib/types/-
-	lib/nbl/-
+	lib/nabl/-
 	lib/task/-
 
 signature
@@ -23,9 +23,7 @@ strategies
   print-type = fail
 
 rules
-	
-	type-task(|ctx) = property-task(|Type(), ctx)
 
-  type-of(|ctx): t@Result(_) -> <type-lookup(|ctx)> t
+  create-type-task(|ctx): t@Result(_) -> <type-lookup(|ctx)> t
   
   nabl-property-eq(|kind) = strip-annos; eq

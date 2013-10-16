@@ -7,13 +7,13 @@ imports
 	
 rules
 	
-	type-of(|ctx): AmbName(n)              -> <type-lookup(|ctx)> n
-	type-of(|ctx): AmbName(_, n)           -> <type-lookup(|ctx)> n
-	type-of(|ctx): PackageOrTypeName(n)    -> <type-lookup(|ctx)> n
-	type-of(|ctx): PackageOrTypeName(_, n) -> <type-lookup(|ctx)> n
-	type-of(|ctx): TypeName(n)             -> <type-lookup(|ctx)> n
-	type-of(|ctx): TypeName(_, n)          -> <type-lookup(|ctx)> n	
-	type-of(|ctx): ExprName(n)             -> <type-lookup(|ctx)> n
-	type-of(|ctx): ExprName(_, n)          -> <type-lookup(|ctx)> n
-	type-of(|ctx): MethodName(n)           -> <type-lookup(|ctx)> n
-	type-of(|ctx): MethodName(_, n)        -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): AmbName(n)              -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): AmbName(_, n)           -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): PackageOrTypeName(n)    -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): PackageOrTypeName(_, n) -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): TypeName(n)             -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): TypeName(_, n)          -> <type-lookup(|ctx)> n	
+	create-type-task(|ctx): ExprName(n)             -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): ExprName(_, n)          -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): MethodName(n)           -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): MethodName(_, n)        -> <type-lookup(|ctx)> n

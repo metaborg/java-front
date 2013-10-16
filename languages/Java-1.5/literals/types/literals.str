@@ -8,31 +8,31 @@ imports
 	
 rules
 	
-	type-of(|ctx):
+	create-type-task(|ctx):
 		Bool(_) -> <type-is(|ctx)> Boolean()
 		
-	type-of(|ctx):
+	create-type-task(|ctx):
 		_ -> <type-is(|ctx)> Char()
 		where
 			?Char(_)
 		+ ?Single(_)
 	
 	// TODO: decide if short, int or long based on size.	
-	type-of(|ctx):
+	create-type-task(|ctx):
 		_ -> <type-is(|ctx)> Int()
 		where
 			?Deci(_)
 		+ ?Hexa(_)
 		+ ?Octa(_)
 		
-	type-of(|ctx):
+	create-type-task(|ctx):
 		Float(_) -> <type-is(|ctx)> Float()
 		
 	// TODO: type of null is context dependent?
-	type-of(|ctx):
+	create-type-task(|ctx):
 		Null() -> <fail>
 		
 	// TODO: look up String class.
-	type-of(|ctx):
+	create-type-task(|ctx):
 		String(_) -> <type-is(|ctx)> Type("String")
 	

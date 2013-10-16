@@ -7,7 +7,7 @@ imports
 	
 rules
 	
-	type-of(|ctx):
+	create-type-task(|ctx):
 		_ -> <type-is(|ctx)>
 		where
 			?Boolean()
