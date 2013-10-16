@@ -15,22 +15,20 @@ signature
 	
 rules // Identity conversion
 	
-	convert-identity(|ctx, dep):
-		(t1, t2) -> <type-match(|ctx, IdentityConversion(), dep)> (t1, t2)
-	convert-identity(|ctx) = convert-identity(|ctx, [])
+	convert-identity(|ctx):
+		(t1, t2) -> <type-match(|ctx, IdentityConversion(), t1)> t2
 	
 	nabl-property-eq:
 		(Type(), IdentityConversion(), (x, x)) -> x
 
 rules // Widening primitive conversions
 	
-	convert-widening-primitive(|ctx, dep):
+	convert-widening-primitive(|ctx):
 		(t1, t2) -> task
 		with
-		  conv1 := <type-match(|ctx, WideningPrimitiveConversion(), dep)> (t1, t2)
-		; conv2 := <type-match(|ctx, WideningPrimitiveConversion(), dep)> (t2, t1)
+		  conv1 := <type-match(|ctx, WideningPrimitiveConversion(), t1)> t2
+		; conv2 := <type-match(|ctx, WideningPrimitiveConversion(), t1)> t2
 		; task  := <new-task(|ctx)> Choice([conv1, conv2])
-	convert-widening-primitive(|ctx) = convert-widening-primitive(|ctx, [])
 	
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Short() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Int()   )) -> t

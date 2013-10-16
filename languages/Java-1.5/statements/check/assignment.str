@@ -9,8 +9,11 @@ imports
 	
 rules
 	
-	message-task(|ctx):
-		a@Assign(exp1, exp2) -> <fail>
+	nabl-constraint(|ctx):
+		_ -> <id>
+		where
+			?t@Assign(exp1, exp2)
+		+ ?t@LocalVarDec(_, exp1, VarDec(_, exp2)) // exp1 is a type, but type-task will still create a type-producing task.
 		with
 		  exp1-ty := <type-task(|ctx)> exp1
 		;	exp2-ty := <type-task(|ctx)> exp2
@@ -18,4 +21,4 @@ rules
 		; conv-id    := <convert-identity(|ctx)> (exp1-ty, exp2-ty)
 		; conv-wide  := <convert-widening-primitive(|ctx)> (exp1-ty, exp2-ty)
 		; choice     := <new-task(|ctx)> Choice([conv-id, conv-wide]) 
-		;	<task-create-error-on-failure(|ctx, choice, "Incompatible type")> a
+		;	<task-create-error-on-failure(|ctx, choice, "Incompatible type")> t

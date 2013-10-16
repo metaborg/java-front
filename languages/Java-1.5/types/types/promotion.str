@@ -21,7 +21,8 @@ rules
 	promote-unary(|ctx):
 		t -> ty-task
 		with
-		  is-num     := <new-task(|ctx)> Choice([<is-byte(|ctx)> t, <is-short(|ctx)> t, <is-char(|ctx)> t])
-		; conv-wide  := <convert-widening-primitive(|ctx, is-num)> (t, Int())
-		; ty-task    := <new-task(|ctx)> Choice([conv-wide, t])
+		  is-num        := <new-task(|ctx)> Choice([<is-byte(|ctx)> t, <is-short(|ctx)> t, <is-char(|ctx)> t])
+		; conv-wide     := <convert-widening-primitive(|ctx)> (t, Int())
+		; conv-wide-seq := <new-task(|ctx)> Sequence([is-num, conv-wide]) // Only succeeds if is-num succeeds.
+		; ty-task       := <new-task(|ctx)> Choice([conv-wide-seq, t])
 		  // TODO: apply unboxing
