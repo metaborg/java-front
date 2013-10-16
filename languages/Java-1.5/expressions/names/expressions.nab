@@ -12,7 +12,8 @@ binding rules // Method invocation
   Invoke(Method(m), a*):
   	refers to best Method m 
       of conformant parameter-types pt* // TODO: custom relation
-  	  where a* has type pt*
+  	  where
+  	  	a* has type pt*
 
 	// TODO: ta* is a Some/None
   Invoke(Method(e, ta*, m), a*):
@@ -20,8 +21,9 @@ binding rules // Method invocation
       of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type t
-      where a* has type pt*
-      where e has type t
+      where 
+      	a* has type pt* and
+      	e has type t
   
   // TODO: ta* is a Some/None    
   Invoke(SuperMethod(ta*, m), a*):
@@ -29,9 +31,10 @@ binding rules // Method invocation
       of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type t
-      where a* has type pt*
-      where "super" refers to Field super
-      where super has type t
+      where 
+      	a* has type pt* and
+      	"super" refers to Field super and
+      	super has type t
       
   // TODO: ta* is a Some/None    
   Invoke(QSuperMethod(t, ta*, m), a*):
@@ -39,7 +42,8 @@ binding rules // Method invocation
       of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type t
-      where a* has type pt*
+      where 
+      	a* has type pt*
   
   // TODO: WTF does this do?
   // TODO: amb is an AmbName/1 or AmbName/2 constructor
@@ -49,7 +53,8 @@ binding rules // Method invocation
       of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type t // TODO: What type??
-      where a* has type pt*
+      where 
+      	a* has type pt*
   */
   
 binding rules // Field access
@@ -68,7 +73,8 @@ binding rules // Class instantiation
       of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type c
-      where a* has type pt*
+      where 
+      	a* has type pt*
 
 	// TODO: ta1* and ta2* are a Some/None
 	// TODO: does ta1* refer to type arguments for the constructor or the type?
@@ -79,5 +85,6 @@ binding rules // Class instantiation
   	  of conformant type-parameters ta1* // TODO: custom relation
   	  in Type c
   	  in Type t
-  	  where a* has type pt*
-  	  where e has type t
+  	  where 
+  	  	a* has type pt* and
+  	  	e has type t
