@@ -12,14 +12,14 @@ namespaces
   
 properties
 
-	annotations of Package : List(Anno)
+	pkgannotations of Package : List(Anno)
 
 binding rules // Package
 
 	// TODO: the AST needs to be desugared to have nested package declarations like this.
   PackageDec(a*, p):
     defines non-unique Package p
-    	of annotations a*
+    	of pkgannotations a*
     scopes Package, Type
 
 binding rules // Imports
