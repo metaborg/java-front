@@ -66,7 +66,7 @@
 	</target>
 
 	<target name="copy-lib-files" if="isWin" depends="os-detection">
-		<copy todir="${basedir}/lib/nbl">
+		<copy todir="${basedir}/lib/nabl">
 			<fileset dir="${basedir}/../runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/" includes="**" />
 		</copy>
 		<copy todir="${basedir}/lib/index">
