@@ -1,5 +1,0 @@
-module Java-Refactorings
-
-imports Java-Refactorings.generated
-
-refactorings
