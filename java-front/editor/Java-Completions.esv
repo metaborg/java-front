@@ -1,0 +1,8 @@
+module Java-Completions
+
+imports Java-Completions.generated
+
+completions
+	 
+  completion proposer : editor-complete
+  

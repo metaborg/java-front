@@ -1,0 +1,5 @@
+module Java-Colorer
+
+imports Java-Colorer.generated
+
+colorer

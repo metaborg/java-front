@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?eclipse version="3.0"?>
+
+<plugin>
+       <extension point="org.eclipse.imp.runtime.languageDescription">
+          <language extensions="jav" description="Java" language="Java" derivedFrom="DynamicRoot" validator="java.JavaValidator" validatorClass="java.JavaValidator"></language>
+       </extension>
+       <extension id="java.parser" name="Java Parser" point="org.eclipse.imp.runtime.parser">
+          <parser class="java.JavaParseController" language="Java">
+          </parser>
+       </extension>    
+    </plugin>

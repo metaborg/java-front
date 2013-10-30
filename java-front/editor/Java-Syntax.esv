@@ -1,0 +1,5 @@
+module Java-Syntax
+
+imports Java-Syntax.generated
+
+language

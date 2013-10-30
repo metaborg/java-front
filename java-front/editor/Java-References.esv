@@ -1,0 +1,8 @@
+module Java-References
+
+imports Java-References.generated
+
+references
+	                
+  reference _ : editor-resolve
+  hover _     : editor-hover

@@ -1,0 +1,33 @@
+%%%
+ %% Section 9.7: Annotations
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module Annotations
+imports
+  Identifiers
+  Names
+  Expressions
+
+exports
+  sorts
+    Anno
+    ElemVal
+    ElemValPair
+
+  context-free syntax
+    "@" InterfaceType "(" {ElemValPair ","}* ")" -> Anno {cons("Anno")}
+    "@" InterfaceType "(" ElemVal ")"            -> Anno {cons("SingleElemAnno")}
+    "@" InterfaceType                            -> Anno {cons("MarkerAnno")}
+
+  context-free syntax  
+    Id "=" ElemVal -> ElemValPair {cons("ElemValPair")}
+
+    Expr -> ElemVal
+    Anno -> ElemVal
+
+    "{" {ElemVal ","}*     "}" -> ElemVal {cons("ElemValArrayInit")}
+    "{" {ElemVal ","}* "," "}" -> ElemVal {cons("ElemValArrayInit")}
+
+    %% Assignments are not allowed as element values.
+    LHS "=" Expr -> ElemVal {reject}

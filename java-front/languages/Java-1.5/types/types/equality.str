@@ -1,0 +1,36 @@
+module languages/Java-1.5/types/types/equality
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/properties/-
+	lib/types/-
+
+strategies
+	
+	nabl-property-eq = ?(Type(), Eq(), (p1, p2)); <?p1> p2; !p1 // Match ignores annotations.
+
+rules
+	
+	is-type-eq(|ctx) = is-type-eq(|ctx, [])
+	is-type-eq(|ctx, dep):
+		(t1, t2) -> <type-match(|ctx, dep)> (t1, t2)
+	
+	is-boolean(|ctx) = !(<id>, Boolean()); is-type-eq(|ctx)
+	is-byte(|ctx)    = !(<id>, Byte()); is-type-eq(|ctx)
+	is-short(|ctx)   = !(<id>, Short()); is-type-eq(|ctx)
+	is-char(|ctx)    = !(<id>, Char()); is-type-eq(|ctx)
+	is-int(|ctx)     = !(<id>, Int()); is-type-eq(|ctx)
+	is-long(|ctx)    = !(<id>, Long()); is-type-eq(|ctx)
+	is-float(|ctx)   = !(<id>, Float()); is-type-eq(|ctx)
+	is-double(|ctx)  = !(<id>, Double()); is-type-eq(|ctx)
+	
+	is-integral(|ctx):
+		t -> <new-task(|ctx)> Choice([<is-byte(|ctx)> t, <is-short(|ctx)> t, <is-int(|ctx)> t, <is-long(|ctx)> t])
+		
+	is-decimal(|ctx):
+		t -> <new-task(|ctx)> Choice([<is-float(|ctx)> t, <is-double(|ctx)> t])
+		
+	is-numerical(|ctx):
+		t -> <new-task(|ctx)> Choice([<is-integral(|ctx)> t, <is-decimal(|ctx)> t])

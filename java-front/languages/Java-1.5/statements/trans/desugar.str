@@ -1,0 +1,17 @@
+module languages/Java-1.5/statements/trans/desugar
+
+imports
+	
+  include/Java
+  names
+
+rules
+	
+  desugar:
+    LocalVarDecStm(LocalVarDec(m*, t, vardec*)) -> <map(desugar-localvardec(|m*, t))> vardec*
+    
+  desugar-localvardec(|m*, t):
+    v -> LocalVarDec(m*, t, v)
+    
+  desugar-localvardec(|m*, t):
+    v -> LocalVarDec(m*, t, v)

@@ -1,0 +1,90 @@
+module languages/Java-1.5/expressions/names/expressions
+
+imports
+
+	languages/Java-1.5/classes/names/classes
+	languages/Java-1.5/types/names/types
+  include/Java
+
+binding rules // Method invocation
+	
+	// TODO: m is a MethodName/1 or MethodName/2 constructor
+  Invoke(Method(m), a*):
+  	refers to best Method m 
+      of conformant parameter-types pt* // TODO: custom relation
+  	  where
+  	  	a* has type pt*
+
+	// TODO: ta* is a Some/None
+  Invoke(Method(e, ta*, m), a*):
+    refers to best Method m
+      of conformant parameter-types pt* // TODO: custom relation
+      of conformant type-parameters ta* // TODO: custom relation
+      in Type t
+      where 
+      	a* has type pt* and
+      	e has type t
+  
+  // TODO: ta* is a Some/None    
+  Invoke(SuperMethod(ta*, m), a*):
+    refers to best Method m
+      of conformant parameter-types pt* // TODO: custom relation
+      of conformant type-parameters ta* // TODO: custom relation
+      in Type t
+      where 
+      	a* has type pt* and
+      	"super" refers to Field super and
+      	super has type t
+      
+  // TODO: ta* is a Some/None    
+  Invoke(QSuperMethod(t, ta*, m), a*):
+    refers to best Method m
+      of conformant parameter-types pt* // TODO: custom relation
+      of conformant type-parameters ta* // TODO: custom relation
+      in Type t
+      where 
+      	a* has type pt*
+  
+  // TODO: WTF does this do?
+  // TODO: amb is an AmbName/1 or AmbName/2 constructor
+  /*     
+  Invoke(GenericMethod(amb, ta*, m), a*):
+    refers to best Method m
+      of conformant parameter-types pt* // TODO: custom relation
+      of conformant type-parameters ta* // TODO: custom relation
+      in Type t // TODO: What type??
+      where 
+      	a* has type pt*
+  */
+  
+binding rules // Field access
+
+  Field(e, f):
+  	refers to Field f
+  	  in Type t
+  	  where e has type t
+  	  
+binding rules // Class instantiation
+
+	// TODO: ta* is a Some/None
+	// TODO: does ta* refer to type arguments for the constructor or the type?
+  NewInstance(ta*, c, a*, _):
+    refers to best Constructor c 
+      of conformant parameter-types pt* // TODO: custom relation
+      of conformant type-parameters ta* // TODO: custom relation
+      in Type c
+      where 
+      	a* has type pt*
+
+	// TODO: ta1* and ta2* are a Some/None
+	// TODO: does ta1* refer to type arguments for the constructor or the type?
+	// TODO: does ta2* refer to type arguments for the constructor or the type?
+  QNewInstance(e, ta1*, c, ta2*, a*, _):
+  	refers to best Constructor c
+  	  of conformant parameter-types pt*  // TODO: custom relation
+  	  of conformant type-parameters ta1* // TODO: custom relation
+  	  in Type c
+  	  in Type t
+  	  where 
+  	  	a* has type pt* and
+  	  	e has type t

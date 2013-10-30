@@ -1,0 +1,21 @@
+module languages/Java-1.5/expressions/types/invoke
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	languages/Java-1.5/expressions/trans/desugar
+	languages/Java-1.5/types/types/equality
+	
+rules
+	
+	create-type-task(|ctx):
+		Invoke(Method(m), arg*) -> return-ty
+		with
+			return-ty := <type-task(|ctx)> m
+
+	create-type-task(|ctx):
+		MethodArgs(a*) -> <type-is(|ctx)> [ty*]
+		with
+			ty* := <map(type-task(|ctx))> a*

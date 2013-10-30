@@ -1,0 +1,28 @@
+module languages/Java-1.5/interfaces/trans/desugar
+
+imports
+	
+  include/Java
+
+rules
+  
+  desugar:
+    Anno(t, pair*) -> <map(desugar-anno(|t))> pair*
+  
+  desugar-anno(|t):
+    pair -> Anno(t, pair)
+  
+  desugar: 
+    ExtendsInterfaces(interface*) -> <map(desugar-extendsdec)> interface*
+    
+  desugar-extendsdec:
+    interface -> ExtendsInterfaces(interface)
+    
+  desugar:
+    ConstantDec(m*, t, vardec*) -> <map(desugar-constantdec(|m*, t))> vardec*
+    
+  desugar-constantdec(|m*, t):
+    v -> ConstantDec(m*, t, v)
+    
+  desugar-constantdec(|m*, t):
+    v -> ConstantDec(m*, t, v)  

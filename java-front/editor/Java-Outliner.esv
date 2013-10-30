@@ -1,0 +1,5 @@
+module Java-Outliner
+
+imports Java-Outliner.generated
+
+outliner

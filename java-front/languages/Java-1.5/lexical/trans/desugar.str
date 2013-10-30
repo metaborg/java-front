@@ -1,0 +1,10 @@
+module languages/Java-1.5/lexical/trans/desugar
+
+imports
+	
+	include/Java
+	
+rules
+	
+	desugar:
+		Id(s) -> s

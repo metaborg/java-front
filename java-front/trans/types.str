@@ -1,0 +1,29 @@
+module types
+
+imports
+	
+	languages/Java-1.5/classes/types/-
+	languages/Java-1.5/literals/types/-
+	languages/Java-1.5/expressions/types/-
+	languages/Java-1.5/types/types/-
+	languages/Java-1.5/names/types/-
+	languages/Java-1.5/expressions/types/-
+	lib/types/-
+	lib/nabl/-
+	lib/task/-
+
+signature
+
+  constructors
+    
+    Type : String -> Type
+
+strategies
+
+  print-type = fail
+
+rules
+
+  create-type-task(|ctx): t@Result(_) -> <type-lookup(|ctx)> t
+  
+  nabl-property-eq(|kind) = strip-annos; eq

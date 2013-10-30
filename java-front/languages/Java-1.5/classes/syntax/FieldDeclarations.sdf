@@ -1,0 +1,46 @@
+%%%
+ %% Section 8.3: Field Declarations
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module FieldDeclarations
+imports
+  Identifiers
+  Modifiers
+  Expressions
+  Annotations
+  ArrayInitializers
+  Expressions
+
+exports
+  sorts
+    FieldDec
+    VarDec
+    VarDecId
+    Dim
+    VarInit
+
+  context-free syntax
+    (Anno | FieldMod)* Type { VarDec ","}+ ";" -> FieldDec {cons("FieldDec")}
+
+    VarDecId             -> VarDec {cons("VarDec")}
+    VarDecId "=" VarInit -> VarDec {cons("VarDec")}
+
+    Id      -> VarDecId
+    Id Dim+ -> VarDecId {cons("ArrayVarDecId")}
+
+    "[" "]" -> Dim {cons("Dim")}
+
+    Expr      -> VarInit
+    ArrayInit -> VarInit
+
+  sorts FieldMod
+  context-free syntax
+    Public    -> FieldMod
+    Protected -> FieldMod
+    Private   -> FieldMod
+
+    Static    -> FieldMod
+    Final     -> FieldMod
+    Transient -> FieldMod
+    Volatile  -> FieldMod

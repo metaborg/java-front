@@ -1,0 +1,11 @@
+%%%
+ %% Chapter 9: Interfaces
+ %%
+ %% @author Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module Interfaces
+imports
+  InterfaceDeclarations
+  AbstractMethodDeclarations
+  AnnotationTypes
+  Annotations

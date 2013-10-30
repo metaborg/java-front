@@ -1,0 +1,19 @@
+module languages/Java-1.5/names/types/names
+
+imports
+	
+	include/Java
+	lib/types/-
+	
+rules
+	
+	create-type-task(|ctx): AmbName(n)              -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): AmbName(_, n)           -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): PackageOrTypeName(n)    -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): PackageOrTypeName(_, n) -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): TypeName(n)             -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): TypeName(_, n)          -> <type-lookup(|ctx)> n	
+	create-type-task(|ctx): ExprName(n)             -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): ExprName(_, n)          -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): MethodName(n)           -> <type-lookup(|ctx)> n
+	create-type-task(|ctx): MethodName(_, n)        -> <type-lookup(|ctx)> n

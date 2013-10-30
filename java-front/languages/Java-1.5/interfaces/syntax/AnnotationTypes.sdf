@@ -1,0 +1,39 @@
+%%%
+ %% Section 9.6: Annotation Types
+ %%  
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com
+ %%%
+module AnnotationTypes
+imports
+  Identifiers
+  ClassDeclarations
+  EnumDeclarations
+  InterfaceDeclarations
+  AbstractMethodDeclarations
+  ConstantDeclarations
+  Annotations
+
+exports
+  sorts
+    AnnoDec
+    AnnoDecHead
+
+  context-free syntax
+    AnnoDecHead "{" AnnoElemDec* "}" -> AnnoDec {cons("AnnoDec")}
+    (Anno | InterfaceMod)* "@" "interface" Id -> AnnoDecHead {cons("AnnoDecHead")}
+
+  sorts
+    AnnoElemDec
+    DefaultVal
+
+  context-free syntax
+    AbstractMethodMod* Type Id "(" ")" DefaultVal? ";" -> AnnoElemDec {cons("AnnoMethodDec")}
+
+    ConstantDec  -> AnnoElemDec
+    ClassDec     -> AnnoElemDec
+    InterfaceDec -> AnnoElemDec
+    EnumDec      -> AnnoElemDec
+    AnnoDec      -> AnnoElemDec
+    ";"          -> AnnoElemDec {cons("Semicolon")}
+
+    "default" ElemVal -> DefaultVal {cons("DefaultVal")}

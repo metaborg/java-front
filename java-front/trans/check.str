@@ -1,0 +1,5 @@
+module check
+
+imports
+	
+	languages/Java-1.5/statements/check/assignment

@@ -1,0 +1,131 @@
+module languages/Java-1.5/classes/names/classes
+
+imports
+
+	languages/Java-1.5/types/names/types
+  include/Java
+  types
+
+namespaces
+
+  Constructor
+  Field
+  Method 
+  Variable
+  Label
+  
+properties
+
+  parameter-types of Method      : List(Type)
+  throws          of Method      : Throws
+  modifiers       of Type        : List(ClassMod)
+  modifiers       of Constructor : List(ConstrMod)
+  modifiers       of Method      : List(MethodMod)
+  modifiers       of Field       : List(FieldMod)
+  modifiers       of Variable    : List(VarMod)
+  type-parameters of Type        : TypeParams
+  type-parameters of Method      : TypeParams
+
+binding rules // Enums
+
+  EnumDec(EnumDecHead(m*, e, _), _):
+    defines Type e 
+      of modifiers m*
+    scopes Field
+  
+  EnumConst(e, _, _):
+    defines Field e   
+
+binding rules // Types 
+
+  ClassDec(ClassDecHead(m*, c, tp*, None(), _), _):
+    defines Type c 
+      of type Type(c)
+      of modifiers m*
+      of type-parameters tp*
+    implicitly defines Field "this" of type Type(c)
+    scopes Type, TypeParam, Constructor, Field, Method
+    
+	// TODO: pc already refers to a class. see types/trans/names.str  
+  ClassDec(ClassDecHead(m*, c, tp*, SuperDec(pc), _), _):
+    defines Type c 
+      of type Type(c)
+      of modifiers m*
+      of type-parameters tp*
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Type pc
+    implicitly defines Field "this" of type Type(c)
+    implicitly defines Field "super" of type Type(pc)
+    scopes Type, TypeParam, Constructor, Field, Method
+    
+  // TODO: i already refers to an interface. see types/trans/names.str
+  ImplementsDec(i):
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Type i
+      
+binding rules // Constructors
+
+  // TODO: implicitly define: this, super. These have a different meaning than the class ones.
+  ConstrDec(ConstrDecHead(m*, _, c, p*, th), _):
+    defines Constructor c
+      of parameter-types pt*
+      of throws th
+      of modifiers m*
+      where p* has type pt*
+    scopes Variable
+
+binding rules // Fields
+
+	// TODO: fields are subsequently scoped, but only inside the class.
+  FieldDec(m*, t, VarDec(f)):
+    defines Field f 
+      of type t
+      of modifiers m*
+      // in subsequent scope
+  
+  // TODO: fields are subsequently scoped, but only inside the class.
+  FieldDec(m*, t, VarDec(f, _)):
+    defines Field f 
+      of type t
+      of modifiers m*
+      // in subsequent scope 
+      
+binding rules // Methods
+
+	// TODO: imports fields into body
+  MethodDec(MethodDecHead(mod*, tp*, t, m, p*, th), body):
+    defines Method m
+      of type t
+      of parameter-types pt*
+      of throws th
+      of modifiers mod*
+      of type-parameters tp*
+      where p* has type pt*
+    // imports Field from enclosing Type into body
+    scopes Variable, Label
+  
+  // TODO: imports fields into body 
+  MethodDec(DeprMethodDecHead(mod*, tp*, t, m, p*, _, th), body):
+    defines Method m
+      of type t
+      of parameter-types pt*
+      of throws th
+      of modifiers mod*
+      of type-parameters tp*
+      where p* has type pt*
+    // imports Field from enclosing Type into body
+    scopes Variable, Label
+    
+  Param(m*, t, p):
+    defines Variable p
+      of type t
+      of modifiers m*
+
+  VarArityParam(m*, t, p):
+    defines Variable p
+      of type t
+      of modifiers m*
