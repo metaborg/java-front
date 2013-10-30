@@ -8,7 +8,7 @@ imports
 rules
 	
 	create-type-task(|ctx):
-		MethodParams(p*) -> [ty*]
+		MethodParams(p*) -> <type-is(|ctx)> [ty*]
 		where
 			ty* := <map(type-task(|ctx))> p*
 			

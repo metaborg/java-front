@@ -10,3 +10,8 @@ imports
   languages/Java-1.5/packages/names/-
   languages/Java-1.5/statements/names/-
   languages/Java-1.5/types/names/-
+  
+rules
+	
+	nabl-name-apply(s):
+		MethodName(m) -> MethodName(<s> m)

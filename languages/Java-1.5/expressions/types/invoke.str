@@ -16,6 +16,6 @@ rules
 			return-ty := <type-task(|ctx)> m
 
 	create-type-task(|ctx):
-		MethodArgs(a*) -> [ty*]
+		MethodArgs(a*) -> <type-is(|ctx)> [ty*]
 		with
 			ty* := <map(type-task(|ctx))> a*
