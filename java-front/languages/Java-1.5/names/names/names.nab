@@ -96,22 +96,27 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   
   AmbName(q, n):
     refers to Type n
-    	in Package q
+    	in Package p1
+    	where q refers to Package p1
     otherwise
     	refers to Package n
-    		in Package q
+    		in Package p2
+    		where q refers to Package p2
     otherwise
     	refers to Method n
-    		in Type q
+    		in Type t1
+    		where q refers to Type t1
     otherwise
     	refers to Field n 
-    		in Type q
+    		in Type t2
+    		where q refers to Type t2
     otherwise
     	refers to Type n 
-    		in Type q
+    		in Type t3
+    		where q refers to Type t3
     otherwise
     	refers to Method n
-    		in Type t 
+    		in Type t
     		where q has type t
     otherwise
     	refers to Field n
@@ -131,6 +136,7 @@ binding rules // 6.5.3 Meaning of Package Names
     If no top level package of that name is in scope (7.4.4), then a compile-time error occurs.
   */ 
   
+  // TODO: p is a list of package names.
   PackageName(p): 
   	refers to Package p
   
@@ -179,13 +185,16 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   
   PackageOrTypeName(q, n):
     refers to Type n
-    	in Type q
+    	in Type t
+    	where q refers to Type t
     otherwise
     	refers to Type n
-    		in Package q
+    		in Package p1
+    		where q refers to Package p1
     otherwise
     	refers to Package n
-    		in Package q
+    		in Package p2
+    		where q refers to Package p2
   
 binding rules // 6.5.5 Meaning of Type Names
 
@@ -211,10 +220,12 @@ binding rules // 6.5.5 Meaning of Type Names
   */  
   TypeName(q, n):
     refers to Type n
-    	in Type q
+    	in Type t
+    	where q refers to Type t
     otherwise
     	refers to Type n
-    		in Package q
+    		in Package p
+    		where q refers to Package p
    
 binding rules // 6.5.6 Meaning of Expression Names
  
@@ -300,7 +311,8 @@ binding rules // 6.5.6 Meaning of Expression Names
   */  
   ExprName(q, n):
     refers to Field n
-    	in Type q
+    	in Type t
+    	where q refers to Type t
     otherwise
     	refers to Field n 
   			in Type t 
@@ -361,7 +373,8 @@ binding rules // 6.5.7 Meaning of Method Name
   */
   MethodName(q, n):
     refers to Method n 
-    	in Type q
+    	in Type t
+    	where q refers to Type t
     otherwise
     	refers to Method n
   			in Type t 
