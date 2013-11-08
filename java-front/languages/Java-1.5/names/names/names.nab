@@ -135,8 +135,6 @@ binding rules // 6.5.3 Meaning of Package Names
 	
     If no top level package of that name is in scope (7.4.4), then a compile-time error occurs.
   */ 
-  
-  // TODO: p is a list of package names.
   PackageName(p): 
   	refers to Package p
   
@@ -150,10 +148,10 @@ binding rules // 6.5.3 Meaning of Package Names
       or Id is not the simple name an observable subpackage of that package, 
     then a compile-time error occurs.
   */
-  
-  // TODO: does not exist??
-  // PackageName(q, p) : 
-  // 	refers to Package p in Package q
+  PackageName(q, p) : 
+  	refers to Package p
+  		in Package p1
+  		where q refers to Package p1
 
 binding rules // 6.5.4 Meaning of PackageOrTypeNames
 
@@ -206,8 +204,10 @@ binding rules // 6.5.5 Meaning of Type Names
   */
   TypeName(n):
     refers to Type n
+  	otherwise
+  		refers to Type n in CompilationUnit "current"
   
-   /*description
+   /*
     If a type name is of the form Q.Id, then Q must be either a type name or a package name.
     
     If Id names exactly one type that is a member of the type or package denoted by Q, then 

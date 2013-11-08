@@ -8,6 +8,7 @@ imports
   languages/Java-1.5/statements/trans/desugar
   languages/Java-1.5/expressions/trans/desugar
   languages/Java-1.5/lexical/trans/desugar
+  languages/Java-1.5/packages/trans/desugar
   
 strategies
   

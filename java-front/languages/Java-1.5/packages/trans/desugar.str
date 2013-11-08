@@ -1,0 +1,49 @@
+module languages/Java-1.5/packages/trans/desugar
+
+imports
+	
+	include/Java
+	lib/editor/origins
+	
+signature
+
+	constructors
+		
+		CompilationUnit : ID * List(ImportDec) * Package -> CompilationUnit
+		PackageDec      : ID * Package -> PackageDec
+		PackageDec      : List(Anno) * ID * List(TypeDec) -> PackageDec
+		PackageName     : ID -> PackageName
+		PackageName     : ID * PackageRef -> PackageName
+		Default         : Default
+	
+rules
+	
+	desugar:
+		c@CompilationUnit(package-dec, import-dec*, type-dec*) -> cu
+		with // Force origins because CompilationUnit is the root term, otherwise its origin will be lost.
+			cu := <origin-track-forced(!CompilationUnit("current", <map(try(desugar-import); topdown(try(desugar-package-ref)))> import-dec*, <desugar-package-dec(|type-dec*)> package-dec))> c
+		
+	desugar-package-dec(|type-decl*):
+		None() -> PackageDec(Default(), type-decl*)
+		
+	desugar-package-dec(|type-decl*):
+		Some(PackageDec(anno*, PackageName(name*))) -> <package-dec-nest(|type-decl*, anno*)> name*
+		
+	package-dec-nest(|type-decl*, anno*):
+		[Id(pkg), p|s] -> PackageDec(pkg, <package-dec-nest(|type-decl*, anno*)> [p|s])
+		
+	package-dec-nest(|type-decl*, anno*):
+		[Id(pkg)] -> PackageDec(anno*, pkg, type-decl*)
+		
+		
+	desugar-import:
+		TypeImportDec(TypeName(Id(name))) -> TypeImportDec(TypeName(PackageName(Default()), name))
+	
+	desugar-package-ref:
+		PackageName(name*) -> <package-ref-nest> name*
+		
+	package-ref-nest:
+		[Id(pkg), p|s] -> PackageName(pkg, <package-ref-nest> [p|s])
+		
+	package-ref-nest:
+		[Id(pkg)] -> PackageName(pkg)

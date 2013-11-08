@@ -3,6 +3,7 @@ module languages/Java-1.5/types/names/types
 imports
 
 	languages/Java-1.5/classes/names/classes
+	languages/Java-1.5/packages/names/packages
   include/Java
   types
 
@@ -14,11 +15,13 @@ namespaces
 binding rules // Type references
 
 	// TODO: i is either a TypeName or a Member, see ReferenceTypes.sdf
+	// TODO: only refer to interfaces
   InterfaceType(i, tp*):
     refers to Type i
     	of conformant type-parameters tp*
   
-  // TODO: c is either a TypeName or a Member, see ReferenceTypes.sdf  
+  // TODO: c is either a TypeName or a Member, see ReferenceTypes.sdf
+  // TODO: only refer to classes  
   ClassType(c, tp*):
     refers to Type c
     	of conformant type-parameters tp*
