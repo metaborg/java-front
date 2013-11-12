@@ -45,10 +45,10 @@ rules
 		TypeImportDec(TypeName(Id(name))) -> TypeImportDec(TypeName(PackageName(Default()), name))
 	
 	desugar-package-ref:
-		PackageName(name*) -> <package-ref-nest> name*
+		PackageName(name*) -> <reverse; package-ref-nest> name*
 		
 	package-ref-nest:
-		[Id(pkg), p|s] -> PackageName(pkg, <package-ref-nest> [p|s])
+		[Id(pkg), p|s] -> PackageName(<package-ref-nest> [p|s], pkg)
 		
 	package-ref-nest:
 		[Id(pkg)] -> PackageName(pkg)
