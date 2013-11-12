@@ -18,27 +18,28 @@ properties
 
 binding rules // Compilation unit
 
+	File(_):
+		scopes CompilationUnit
+
 	CompilationUnit(name, _, _):
 		defines CompilationUnit name
 		scopes Type, Method, Field
 
 binding rules // Package
 
-	// TODO: non-transitive scopes
 	PackageDec(p, _):
 		defines non-unique Package p
-		/*non-transitively*/ scopes Package, Type
+		non-transitively scopes Package, Type
 	
-	// TODO: non-transitive scopes
   PackageDec(a*, p, _):
     defines non-unique Package p
     	of pkgannotations a*
-    /*non-transitively*/ scopes Package, Type
+    non-transitively scopes Package, Type
 
 binding rules // Imports
 
   TypeImportDec(i):
-    imports 
+    imports
     	Type i
     
   TypeImportOnDemandDec(i):

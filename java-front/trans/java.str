@@ -20,15 +20,16 @@ imports
   check
   desugar
   types
+  languages/Java-1.5/packages/trans/desugar
 
 rules // Analysis
  
   editor-analyze = analysis-default-editor
   
   analysis-single-default-interface = 
-  	analysis-single-default(desugar-all, id, id|<language>)
+  	analysis-single-default(desugar-top, id, id|<language>)
   analysis-multiple-default-interface = 
-  	analysis-multiple-default(parse-file <+ !(), desugar-all, id, id|<language>, <project-path>)
+  	analysis-multiple-default(parse-file <+ !(), desugar-top, id, id|<language>, <project-path>)
   
   editor-save = analysis-save-default(|<language>)
 
@@ -54,7 +55,7 @@ rules // Debugging
       filename := <guarantee-extension(|"aterm")> path
 
   debug-show-desugared:
-    (selected, position, ast, path, project-path) -> (filename, <desugar-all> selected)
+    (selected, position, ast, path, project-path) -> (filename, <desugar-top> selected)
     with
       filename := <guarantee-extension(|"aterm")> path
       
