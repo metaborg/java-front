@@ -11,7 +11,9 @@ imports
 
 exports
   sorts
+  	File
     CompilationUnit
 
   context-free syntax
-    PackageDec? ImportDec* TypeDec+ -> CompilationUnit   {cons("CompilationUnit")}
+  	CompilationUnit -> File {cons("File")}
+    PackageDec? ImportDec* TypeDec+ -> CompilationUnit {cons("CompilationUnit")}

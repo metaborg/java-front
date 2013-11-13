@@ -10,7 +10,6 @@ signature
 
 	constructors
 		
-		File               : CompilationUnit -> File
 		CompilationUnit    : ID * List(ImportDec) * Package -> CompilationUnit
 		DefaultPackageDec  : ID * Package -> PackageDec
 		PackageDec         : ID * Package -> PackageDec
@@ -23,7 +22,13 @@ signature
 rules
 	
 	desugar-top:
-		c@CompilationUnit(package-dec, import-dec*, type-dec*) -> <origin-track-forced(!file); desugar-all> c
+		f@Files(file*) -> <origin-track-forced(!files)> f
+		with
+			file'* := <map(desugar-top)> file*;
+			files  := File(file'*)
+	
+	desugar-top:
+		f@File(CompilationUnit(package-dec, import-dec*, type-dec*)) -> <origin-track-forced(!file); desugar-all> f
 		with // Force origins because CompilationUnit is the root term, otherwise its origin will be lost.
 			import-dec'* := <map(try(desugar-import); topdown(try(desugar-package-ref)))> import-dec*;
 			package-dec' := <desugar-package-dec(|type-dec*)> package-dec;

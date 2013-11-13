@@ -1,0 +1,145 @@
+module packages-packages
+
+language Java
+
+start symbol Files
+
+setup [[
+	multifile
+	
+	package animals.meowable;
+
+	class Cat {
+		class Mouth {}
+	}
+]]
+
+
+
+test fully qualified class name [[	
+	=====
+
+	package barker;
+
+	class Barker {
+		animals.meowable.Cat cat;
+	}
+]] 0 errors
+
+test half qualified class name [[
+	=====
+
+	package barker;
+
+	class Barker {
+		[[meowable.Cat]] cat;
+	}
+]] 3 errors // TODO: should be 2 errors, caused by filtering?
+
+
+
+test fully qualified nested class name [[
+	=====
+
+	package barker;
+
+	class Barker {
+		animals.meowable.Cat.Mouth mouth;
+	}
+]] 0 errors
+
+test half qualified nested class name 1 [[
+	=====
+
+	package barker;
+
+	class Barker {
+		[[meowable.Cat.Mouth]] mouth;
+	}
+]] 4 errors // TODO: should be 3 errors, caused by filtering?
+
+test half qualified nested class name 2 [[
+	=====
+
+	package barker;
+	
+	import animals.meowable.Cat;
+
+	class Barker {
+		Cat.Mouth mouth;
+	}
+]] 0 errors
+
+
+
+test unqualified class name without import [[
+	=====
+
+	package barker;
+
+	class Barker {
+		[[Cat]] cat;
+	}
+]] 2 errors // TODO: should be 1 error, caused by filtering?
+
+test unqualified class name with class import [[
+	=====
+
+	package barker;
+	
+	import animals.meowable.Cat;
+
+	class Barker {
+		Cat cat;
+	}
+]] 0 errors
+
+test unqualified class name with wildcard import [[
+	=====
+
+	package barker;
+	
+	import animals.meowable.*;
+
+	class Barker {
+		Cat cat;
+	}
+]] 0 errors
+
+
+
+test unqualified nested class name with class import [[
+	=====
+
+	package barker;
+	
+	import animals.meowable.Cat.Mouth;
+
+	class Barker {
+		Mouth mouth;
+	}
+]] 0 errors
+
+test unqualified nested class name with wildcard import [[
+	=====
+
+	package barker;
+	
+	import animals.meowable.*;
+
+	class Barker {
+		Cat.Mouth mouth;
+	}
+]] 0 errors
+
+
+
+test package sharing [[
+	=====
+		
+	package animals.meowable;
+	
+	class Barker {
+		Cat cat;
+	}
+]] 0 errors

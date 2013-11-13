@@ -14,7 +14,17 @@ imports
 
 exports
   
-  context-free start-symbols
+  %% Editor
+  context-free start-symbols 
   
-    CompilationUnit
+    File
+  
     
+  %% Testing
+  context-free syntax
+  	
+  	"multifile" {File "====="}+ -> Files {cons("Files")}
+  	
+  context-free start-symbols 
+  
+  	Files
