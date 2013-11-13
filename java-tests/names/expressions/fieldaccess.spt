@@ -1,0 +1,84 @@
+module expressions-fieldaccess
+
+language Java
+
+start symbol File
+
+test class field access [[
+	class A {
+		int [[a]];
+		int m() {
+			return [[a]];
+		}
+	}
+]] resolve #2 to #1
+
+test class field access fails [[
+	class A {
+		int m() {
+			return [[a]];
+		}
+	}
+]] 1 error
+
+
+
+// test this class field access [[
+// 	class A {
+// 		int [[a]];
+// 		int m() {
+// 			return this.[[a]];
+// 		}
+// 	}
+// ]] resolve #2 to #1
+
+
+
+// test other class field access [[
+// 	class A {
+// 		B [[b]];
+// 	}
+// 	
+// 	class B {
+// 		int c;
+// 	}
+// 	
+// 	class Test {
+// 		A a;
+// 		int m() {
+// 			return a.[[b]].c;
+// 		}
+// 	}
+// ]] resolve #2 to #1
+
+test other class field access [[
+	class A {
+		B b;
+	}
+	
+	class B {
+		int c;
+	}
+	
+	class Test {
+		A a;
+		int m() {
+			return a.b.c;
+		}
+	}
+]] 0 errors
+
+test other class field access fails [[
+	class A {
+		B b;
+	}
+	
+	class B {}
+	
+	class Test {
+		A a;
+		int m() {
+			return a.b.[[c]];
+		}
+	}
+]] 1 error
