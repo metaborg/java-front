@@ -3,6 +3,8 @@ module languages/Java-1.5/names/names/names
 imports
 
   include/Java
+  languages/Java-1.5/packages/names/packages
+  languages/Java-1.5/packages/trans/desugar
   types
 
 namespaces
@@ -55,6 +57,9 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   	otherwise 
   		refers to Type n //in current scope
     //otherwise refers to imported Type n
+  	otherwise
+  		refers to Type n 
+  			in CompilationUnit "current"
   	otherwise 
   		refers to Package n
 
@@ -96,24 +101,24 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   
   AmbName(q, n):
     refers to Type n
-    	in Package p1
-    	where q refers to Package p1
+    	in Package p
+    	where q refers to Package p
     otherwise
     	refers to Package n
-    		in Package p2
-    		where q refers to Package p2
+    		in Package p
+    		where q refers to Package p
     otherwise
     	refers to Method n
-    		in Type t1
-    		where q refers to Type t1
+    		in Type t
+    		where q refers to Type t
     otherwise
     	refers to Field n 
-    		in Type t2
-    		where q refers to Type t2
+    		in Type t
+    		where q refers to Type t
     otherwise
     	refers to Type n 
-    		in Type t3
-    		where q refers to Type t3
+    		in Type t
+    		where q refers to Type t
     otherwise
     	refers to Method n
     		in Type t
@@ -129,6 +134,9 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
     
 binding rules // 6.5.3 Meaning of Package Names
 
+	DefaultPackageName(p):
+		refers to DefaultPackage p
+
   /*
 		If a package name consists of a single Identifier, 
 		then this identifier denotes a top level package named by that identifier. 
@@ -137,6 +145,7 @@ binding rules // 6.5.3 Meaning of Package Names
   */ 
   PackageName(p): 
   	refers to Package p
+  		in DefaultPackage Default()
   
   /*
     If a package name is of the form Q.Id, 
@@ -150,8 +159,8 @@ binding rules // 6.5.3 Meaning of Package Names
   */
   PackageName(q, p) : 
   	refers to Package p
-  		in Package p1
-  		where q refers to Package p1
+  		in Package qp
+  		where q refers to Package qp
 
 binding rules // 6.5.4 Meaning of PackageOrTypeNames
 
@@ -165,8 +174,12 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   
   PackageOrTypeName(n):
   	refers to Type n
+  	otherwise
+  		refers to Type n 
+  			in CompilationUnit "current"
     otherwise
     	refers to Package n
+    		in DefaultPackage Default()
   
   /*
     Given a qualified PackageOrTypeName of the form Q.Id,
@@ -187,13 +200,17 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
     	where q refers to Type t
     otherwise
     	refers to Type n
-    		in Package p1
-    		where q refers to Package p1
+    		in Package p
+    		where q refers to Package p
     otherwise
     	refers to Package n
-    		in Package p2
-    		where q refers to Package p2
-  
+    		in Package p
+    		where q refers to Package p
+      otherwise
+    	refers to Package n
+    		in DefaultPackage p
+    		where q refers to DefaultPackage p
+    		
 binding rules // 6.5.5 Meaning of Type Names
 
   /*
@@ -205,7 +222,8 @@ binding rules // 6.5.5 Meaning of Type Names
   TypeName(n):
     refers to Type n
   	otherwise
-  		refers to Type n in CompilationUnit "current"
+  		refers to Type n 
+  			in CompilationUnit "current"
   
    /*
     If a type name is of the form Q.Id, then Q must be either a type name or a package name.
@@ -226,6 +244,10 @@ binding rules // 6.5.5 Meaning of Type Names
     	refers to Type n
     		in Package p
     		where q refers to Package p
+    otherwise
+    	refers to Type n
+    		in DefaultPackage p
+    		where q refers to DefaultPackage p
    
 binding rules // 6.5.6 Meaning of Expression Names
  

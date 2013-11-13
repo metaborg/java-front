@@ -10,6 +10,7 @@ imports
 namespaces
 
   Package
+  DefaultPackage
   CompilationUnit
   
 properties
@@ -26,6 +27,10 @@ binding rules // Compilation unit
 		scopes Type, Method, Field
 
 binding rules // Package
+
+	DefaultPackageDec(p, _):
+		defines non-unique DefaultPackage p
+		non-transitively scopes Package, Type
 
 	PackageDec(p, _):
 		defines non-unique Package p

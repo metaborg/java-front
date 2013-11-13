@@ -10,13 +10,15 @@ signature
 
 	constructors
 		
-		File            : CompilationUnit -> File
-		CompilationUnit : ID * List(ImportDec) * Package -> CompilationUnit
-		PackageDec      : ID * Package -> PackageDec
-		PackageDec      : List(Anno) * ID * List(TypeDec) -> PackageDec
-		PackageName     : ID -> PackageName
-		PackageName     : ID * PackageRef -> PackageName
-		Default         : Default
+		File               : CompilationUnit -> File
+		CompilationUnit    : ID * List(ImportDec) * Package -> CompilationUnit
+		DefaultPackageDec  : ID * Package -> PackageDec
+		PackageDec         : ID * Package -> PackageDec
+		PackageDec         : List(Anno) * ID * List(TypeDec) -> PackageDec
+		DefaultPackageName : ID -> PackageName
+		PackageName        : ID -> PackageName
+		PackageName        : ID * PackageName -> PackageName
+		Default            : Default
 	
 rules
 	
@@ -29,10 +31,10 @@ rules
 			file         := File(cu)
 		
 	desugar-package-dec(|type-decl*):
-		None() -> PackageDec(Default(), type-decl*)
+		None() -> DefaultPackageDec(Default(), type-decl*)
 		
 	desugar-package-dec(|type-decl*):
-		Some(PackageDec(anno*, PackageName(name*))) -> <package-dec-nest(|type-decl*, anno*)> name*
+		Some(PackageDec(anno*, PackageName(name*))) -> DefaultPackageDec(Default(), <package-dec-nest(|type-decl*, anno*)> name*)
 		
 	package-dec-nest(|type-decl*, anno*):
 		[Id(pkg), p|s] -> PackageDec(pkg, <package-dec-nest(|type-decl*, anno*)> [p|s])
@@ -42,7 +44,7 @@ rules
 		
 		
 	desugar-import:
-		TypeImportDec(TypeName(Id(name))) -> TypeImportDec(TypeName(PackageName(Default()), name))
+		TypeImportDec(TypeName(Id(name))) -> TypeImportDec(TypeName(DefaultPackageName(Default()), name))
 	
 	desugar-package-ref:
 		PackageName(name*) -> <reverse; package-ref-nest> name*
