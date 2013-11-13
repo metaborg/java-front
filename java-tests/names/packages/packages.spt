@@ -24,7 +24,7 @@ test fully qualified class name [[
 	class Barker {
 		animals.meowable.Cat cat;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
 
 test half qualified class name [[
 	=====
@@ -46,7 +46,7 @@ test fully qualified nested class name [[
 	class Barker {
 		animals.meowable.Cat.Mouth mouth;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
 
 test half qualified nested class name 1 [[
 	=====
@@ -68,7 +68,7 @@ test half qualified nested class name 2 [[
 	class Barker {
 		Cat.Mouth mouth;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
 
 
 
@@ -92,7 +92,7 @@ test unqualified class name with class import [[
 	class Barker {
 		Cat cat;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
 
 test unqualified class name with wildcard import [[
 	=====
@@ -104,7 +104,7 @@ test unqualified class name with wildcard import [[
 	class Barker {
 		Cat cat;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
 
 
 
@@ -118,7 +118,7 @@ test unqualified nested class name with class import [[
 	class Barker {
 		Mouth mouth;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
 
 test unqualified nested class name with wildcard import [[
 	=====
@@ -130,7 +130,7 @@ test unqualified nested class name with wildcard import [[
 	class Barker {
 		Cat.Mouth mouth;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
 
 
 
@@ -142,4 +142,4 @@ test package sharing [[
 	class Barker {
 		Cat cat;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation

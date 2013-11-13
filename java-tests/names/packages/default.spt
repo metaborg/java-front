@@ -16,7 +16,7 @@ test default package sharing [[
 	class Test {
 		D d;
 	}
-]]
+]] 0 errors // TODO: resolution expectation
 
 test class in default package not visible [[
 	=====
@@ -38,4 +38,4 @@ test class import from default package [[
 	class Test {
 		D d;
 	}
-]] 0 errors
+]] 0 errors // TODO: resolution expectation
