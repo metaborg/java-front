@@ -122,15 +122,15 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
     otherwise
     	refers to Method n
     		in Type t
-    		where q has type t
+    		where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
     otherwise
     	refers to Field n
   			in Type t 
-    		where q has type t
+    		where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
     otherwise
     	refers to Type n 
   			in Type t 
-  			where q has type t
+  			where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
     
 binding rules // 6.5.3 Meaning of Package Names
 
@@ -337,9 +337,9 @@ binding rules // 6.5.6 Meaning of Expression Names
     	where q refers to Type t
     otherwise
     	refers to Field n 
-  			in Type t 
-  			where q has type t
-  
+  			in Type t
+  			where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
+  			
 binding rules // 6.5.7 Meaning of Method Name
  
   /*
@@ -400,4 +400,4 @@ binding rules // 6.5.7 Meaning of Method Name
     otherwise
     	refers to Method n
   			in Type t 
-  			where q has type t
+  			where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
