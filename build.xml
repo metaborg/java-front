@@ -123,7 +123,7 @@
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${dep.stratego-front}/StrategoMix.def" />
+					<arg value="${dep.stratego-front}/sdf/StrategoMix.def" />
 					<arg value="-Idef" />
 					<arg value="${bin.java.embed.abs}/EmbeddedJavaMix.def" />
 				</args>
@@ -134,7 +134,7 @@
 			<includeargs>
 				<args>
 					<arg value="-Idef" />
-					<arg value="${dep.stratego-front}/StrategoMix.def" />
+					<arg value="${dep.stratego-front}/sdf/StrategoMix.def" />
 					<arg value="-Idef" />
 					<arg value="${bin.java.embed.abs}/EmbeddedJavaMix.def" />
 					<arg value="-Idef" />
@@ -176,7 +176,7 @@
 				<arg value="-I" />
 				<arg value="${bin.java-15.abs}" />
 				<arg value="-I" />
-				<arg value="${dep.box}/syn/box" />
+				<arg value="${dep.box}/sdf" />
 				<arg value="--cache-dir" />
 				<arg value=".cache" />
 			</strjlibargs>
@@ -184,7 +184,7 @@
 				<srcfiles dir="${str.lib}" includes="**/*.str" />
 				<srcfiles dir="${bin.str.lib}" includes="**/*.str" />
 				<srcfiles dir="${bin.java-15}" includes="**/*.*" />
-				<srcfiles dir="${dep.box}/syn/box" includes="**/*.*" />
+				<srcfiles dir="${dep.box}/sdf" includes="**/*.*" />
 			</str-deps>
 		</strj-lib>
 		<mkdir dir="${bin}/classes" />
