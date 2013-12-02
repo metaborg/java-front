@@ -13,9 +13,8 @@ strategies
 
 rules
 	
-	is-type-eq(|ctx) = is-type-eq(|ctx, [])
-	is-type-eq(|ctx, dep):
-		(t1, t2) -> <type-match(|ctx, dep)> (t1, t2)
+	is-type-eq(|ctx):
+		(t1, t2) -> <type-match(|ctx, t1)> t2
 	
 	is-boolean(|ctx) = !(<id>, Boolean()); is-type-eq(|ctx)
 	is-byte(|ctx)    = !(<id>, Byte()); is-type-eq(|ctx)

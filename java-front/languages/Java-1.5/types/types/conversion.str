@@ -10,16 +10,12 @@ signature
 	
 	constructors
 		
-		IdentityConversion          : Relation
 		WideningPrimitiveConversion : Relation
 	
 rules // Identity conversion
 	
 	convert-identity(|ctx):
-		(t1, t2) -> <type-match(|ctx, IdentityConversion(), t1)> t2
-	
-	nabl-property-eq:
-		(Type(), IdentityConversion(), (x, x)) -> x
+		(t1, t2) -> <type-match(|ctx, t1)> t2
 
 rules // Widening primitive conversions
 	
