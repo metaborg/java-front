@@ -29,18 +29,18 @@ rules
 		; <task-create-error-on-failure(|ctx, y-is-num, "Expected numerical")> y
 		  
 	create-type-task(|ctx):
-		_ -> <type-is(|ctx, [x-is-num, y-is-integral])> y-ty
+		_ -> <type-is(|ctx, [x-is-num, y-is-int])> y-ty
 		where
 		  ?LeftShift(x, y)
 		+ ?RightShift(x, y)
 		+ ?URightShift(x, y)
 		with
-		  x-ty          := <type-task(|ctx)> x
-		; y-ty          := <type-task(|ctx); promote-unary(|ctx)> y
-		; x-is-num      := <is-numerical(|ctx)> x-ty
-		; y-is-integral := <is-integral(|ctx)> y-ty
+		  x-ty     := <type-task(|ctx)> x
+		; y-ty     := <type-task(|ctx); promote-unary(|ctx)> y
+		; x-is-num := <is-numerical(|ctx)> x-ty
+		; y-is-int := <is-integral(|ctx)> y-ty
 		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
-		; <task-create-error-on-failure(|ctx, y-is-integral, "Expected integral")> y
+		; <task-create-error-on-failure(|ctx, y-is-int, "Expected integral")> y
 
 	create-type-task(|ctx):
 		_ -> <type-is(|ctx, [is-num])> ty
