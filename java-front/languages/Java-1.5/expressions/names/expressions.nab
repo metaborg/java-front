@@ -69,7 +69,7 @@ binding rules // Class instantiation
 	// TODO: ta* is a Some/None
 	// TODO: does ta* refer to type arguments for the constructor or the type?
   NewInstance(ta*, c, a*, _):
-    refers to best Constructor c 
+    refers to best Constructor ""
       of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type c

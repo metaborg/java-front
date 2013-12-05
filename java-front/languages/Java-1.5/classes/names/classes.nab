@@ -71,11 +71,13 @@ binding rules // Constructors
 
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
   ConstrDec(ConstrDecHead(m*, _, c, p*, th), _):
-    defines Constructor c
+    defines Constructor ""
       of parameter-types pt*
       of throws th
       of modifiers m*
+      of type t
       where p* has type pt*
+      and c refers to Type t
     scopes Variable
 
 binding rules // Fields
