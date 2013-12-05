@@ -1,0 +1,26 @@
+module languages/Java-1.5/expressions/types/conditional
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	languages/Java-1.5/types/types/equality
+	languages/Java-1.5/types/types/promotion
+	
+rules
+	
+	create-type-task(|ctx):
+		Cond(x, o1, o2) -> <type-is(|ctx, [is-bool])> ty
+		with
+			x-ty     := <type-task(|ctx)> x
+		; is-bool  := <is-boolean(|ctx)> x-ty
+		; <task-create-error-on-failure(|ctx, is-bool, "Expected boolean")> x
+		; o1-ty    := <type-task(|ctx)> o1
+		; o2-ty    := <type-task(|ctx)> o2
+	  ; match    := <type-match(|ctx, o1)> o2
+	  ; are-nums := <task-create-sequence(|ctx)> [<is-numerical(|ctx)> o1-ty, <is-numerical(|ctx)> o2-ty]
+	  ; num-ty   := <promote-binary(|ctx)> (o1-ty, o2-ty) // TODO: language spec also mentions other weird promotion-like conversions.
+		  // TODO: if one operand is null and the other one a reference, the type is that reference
+		  // TODO: if both operands are different reference types, then they must be convertable 
+	  ; ty       := <task-create-choice(|ctx)> [match, <task-create-sequence(|ctx)> [are-nums, num-ty]]
