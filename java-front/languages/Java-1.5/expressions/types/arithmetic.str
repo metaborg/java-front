@@ -12,7 +12,7 @@ imports
 rules
 	
 	create-type-task(|ctx):
-		_ -> ty
+		_ -> <type-is(|ctx, [x-is-num, y-is-num])> ty
 		where
 		  ?Plus(x, y) // TODO: can also be string concatenation, needs a special case
 		+ ?Minus(x, y)
@@ -29,7 +29,7 @@ rules
 		; <task-create-error-on-failure(|ctx, y-is-num, "Expected numerical")> y
 		  
 	create-type-task(|ctx):
-		_ -> x-ty
+		_ -> <type-is(|ctx, [x-is-num, y-is-integral])> y-ty
 		where
 		  ?LeftShift(x, y)
 		+ ?RightShift(x, y)
@@ -43,18 +43,18 @@ rules
 		; <task-create-error-on-failure(|ctx, y-is-integral, "Expected integral")> y
 
 	create-type-task(|ctx):
-		_ -> x-ty
+		_ -> <type-is(|ctx, [is-num])> ty
 		where
 			?Plus(x)
 		+ ?Minus(x)
 		with
-			x-ty     := <type-task(|ctx)> x
-		; ty       := <promote-unary(|ctx)> x-ty
+			x-ty   := <type-task(|ctx)> x
+		; ty     := <promote-unary(|ctx)> x-ty
 		; is-num := <is-numerical(|ctx)> ty
 	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> x
 	    
 	create-type-task(|ctx):
-		_ -> x-ty
+		_ -> <type-is(|ctx, [is-num])> ty
 		where
 		  ?PreIncr(x)
 		+ ?PostIncr(x)

@@ -10,7 +10,7 @@ imports
 rules
 	
 	create-type-task(|ctx):
-		_ -> <type-is(|ctx)> Boolean()
+		_ -> <type-is(|ctx, [x-is-num, y-is-num])> Boolean()
 		where
 		  ?Lt(x, y)
 		+ ?Gt(x, y)
@@ -25,7 +25,7 @@ rules
 		; <task-create-error-on-failure(|ctx, y-is-num, "Expected numerical")> y
 
 	create-type-task(|ctx):
-		term@_ -> <type-is(|ctx)> Boolean()
+		term@_ -> <type-is(|ctx, [valid])> Boolean()
 		where
 		  ?Eq(x, y)
 		+ ?NotEq(x, y)
