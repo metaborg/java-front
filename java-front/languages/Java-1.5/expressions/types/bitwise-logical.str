@@ -33,5 +33,17 @@ rules
 		; ty        := <task-create-choice(|ctx)> [<task-create-sequence(|ctx)> [are-nums, num-ty], <task-create-sequence(|ctx)> [are-bools, bool-ty]]
 		; <task-create-error-on-failure(|ctx, ty, "Expected numbers or booleans")> term
 
-	// TODO: bitwise complement
-	// TODO: logical negation
+	create-type-task(|ctx):
+		term@Not(x) -> <type-is(|ctx, [is-bool])> Boolean()
+		with
+			x-ty    := <type-task(|ctx)> x
+		; is-bool := <is-boolean(|ctx)> x-ty
+		; <task-create-error-on-failure(|ctx, is-bool, "Expected boolean")> term 
+  
+  create-type-task(|ctx):
+  	term@Complement(x) -> <type-is(|ctx, [is-int])> ty
+  	with
+  		x-ty   := <type-task(|ctx)> x
+  	; is-int := <is-integral(|ctx)> x-ty
+  	; ty     := <promote-unary(|ctx)> x-ty
+	  ; <task-create-error-on-failure(|ctx, is-int, "Expected integral")> term
