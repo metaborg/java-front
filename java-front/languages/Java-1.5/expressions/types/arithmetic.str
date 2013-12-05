@@ -43,18 +43,17 @@ rules
 		; <task-create-error-on-failure(|ctx, y-is-int, "Expected integral")> y
 
 	create-type-task(|ctx):
-		_ -> <type-is(|ctx, [is-num])> ty
+		term@_ -> <type-is(|ctx, [is-num])> ty
 		where
 			?Plus(x)
 		+ ?Minus(x)
 		with
-			x-ty   := <type-task(|ctx)> x
-		; ty     := <promote-unary(|ctx)> x-ty
+			ty     := <type-task(|ctx); promote-unary(|ctx)> x
 		; is-num := <is-numerical(|ctx)> ty
-	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> x
+	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term
 	    
 	create-type-task(|ctx):
-		_ -> <type-is(|ctx, [is-num])> ty
+		term@_ -> <type-is(|ctx, [is-num])> ty
 		where
 		  ?PreIncr(x)
 		+ ?PostIncr(x)
@@ -64,5 +63,5 @@ rules
 			x-ty   := <type-task(|ctx)> x
 		; ty     := <promote-binary(|ctx)> (Int(), x-ty)
 		; is-num := <is-numerical(|ctx)> ty
-	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> x
+	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term
 		
