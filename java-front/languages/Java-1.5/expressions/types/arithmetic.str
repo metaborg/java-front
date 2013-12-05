@@ -47,10 +47,22 @@ rules
 		where
 			?Plus(x)
 		+ ?Minus(x)
-		+ ?PreIncr(x)
-		+ ?PreDecr(x)
 		with
-			x-ty     := <type-task(|ctx)> x // TODO: any conversion needed? unboxing?
-		; x-is-num := <is-numerical(|ctx)> x-ty
-	  ; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
+			x-ty     := <type-task(|ctx)> x
+		; ty       := <promote-unary(|ctx)> x-ty
+		; is-num := <is-numerical(|ctx)> ty
+	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> x
+	    
+	create-type-task(|ctx):
+		_ -> x-ty
+		where
+		  ?PreIncr(x)
+		+ ?PostIncr(x)
+		+ ?PreDecr(x)
+		+ ?PostDecr(x)
+		with
+			x-ty   := <type-task(|ctx)> x
+		; ty     := <promote-binary(|ctx)> (Int(), x-ty)
+		; is-num := <is-numerical(|ctx)> ty
+	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> x
 		
