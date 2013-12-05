@@ -13,8 +13,9 @@ rules
 	create-type-task(|ctx):
 		term@_ -> ty
 		where
-		  ?Eq(x, y)
-		+ ?NotEq(x, y)
+		  ?And(x, y)
+		+ ?ExcOr(x, y)
+		+ ?Or(x, y)
 		with
 		  x-ty      := <type-task(|ctx)> x
 		; y-ty      := <type-task(|ctx)> y
@@ -31,3 +32,6 @@ rules
 		  // Validate
 		; ty        := <task-create-choice(|ctx)> [<task-create-sequence(|ctx)> [are-nums, num-ty], <task-create-sequence(|ctx)> [are-bools, bool-ty]]
 		; <task-create-error-on-failure(|ctx, ty, "Expected numbers or booleans")> term
+
+	// TODO: bitwise complement
+	// TODO: logical negation
