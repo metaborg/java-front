@@ -45,10 +45,10 @@ rules
 	create-type-task(|ctx):
 		term@_ -> <type-is(|ctx, [is-num])> ty
 		where
-			?Plus(x)
+		  ?Plus(x)
 		+ ?Minus(x)
 		with
-			ty     := <type-task(|ctx); promote-unary(|ctx)> x
+		  ty     := <type-task(|ctx); promote-unary(|ctx)> x
 		; is-num := <is-numerical(|ctx)> ty
 	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term
 	    
@@ -60,7 +60,7 @@ rules
 		+ ?PreDecr(x)
 		+ ?PostDecr(x)
 		with
-			x-ty   := <type-task(|ctx)> x
+		  x-ty   := <type-task(|ctx)> x
 		; ty     := <promote-binary(|ctx)> (Int(), x-ty)
 		; is-num := <is-numerical(|ctx)> ty
 	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term

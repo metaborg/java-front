@@ -38,7 +38,7 @@ rules
 		; are-bools := <task-create-sequence(|ctx)> [<is-boolean(|ctx)> x-ty, <is-boolean(|ctx)> y-ty]
 		  // Check for reference types
 		; are-refs  := <task-create-sequence(|ctx)> [<is-reference(|ctx)> x-ty, <is-reference(|ctx)> y-ty]
-			// TODO: Check for null type
-			// Validate
+		  // TODO: Check for null type
+		  // Validate
 		; valid     := <task-create-choice(|ctx)> [are-nums, are-bools, are-refs]
 		; <task-create-error-on-failure(|ctx, valid, "Expected numbers, booleans or references")> term
