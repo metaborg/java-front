@@ -7,29 +7,69 @@ imports
 	lib/properties/-
 	lib/types/-
 
-strategies
+rules // Primitive types
 	
 	nabl-property-eq = ?(Type(), Eq(), (p1, p2)); <?p1> p2; !p1 // Match ignores annotations.
+	
+	is-boolean(|ctx) = type-match(|ctx, Boolean())
+	is-byte(|ctx)    = type-match(|ctx, Byte())
+	is-short(|ctx)   = type-match(|ctx, Short())
+	is-char(|ctx)    = type-match(|ctx, Char())
+	is-int(|ctx)     = type-match(|ctx, Int())
+	is-long(|ctx)    = type-match(|ctx, Long())
+	is-float(|ctx)   = type-match(|ctx, Float())
+	is-double(|ctx)  = type-match(|ctx, Double())
+	
+	is-integral(|ctx):
+		t -> <task-create-choice(|ctx)> [<is-byte(|ctx)> t, <is-short(|ctx)> t, <is-int(|ctx)> t, <is-long(|ctx)> t]
+		
+	is-decimal(|ctx):
+		t -> <task-create-choice(|ctx)> [<is-float(|ctx)> t, <is-double(|ctx)> t]
+		
+	is-numerical(|ctx):
+		t -> <task-create-choice(|ctx)> [<is-integral(|ctx)> t, <is-decimal(|ctx)> t]
+
+signature // Reference types
+
+	constructors
+		
+		IsClassType            : Relation
+		IsInterfaceType        : Relation
+		IsClassOrInterfaceType : Relation
+		IsArrayType            : Relation
+	
+rules
+	
+	task-rewrite:
+		(IsClassType(), c@ClassType(_, _)) -> c 
+	
+	task-rewrite:
+		(IsInterfaceType(), i@InterfaceType(_, _)) -> i
+		
+	task-rewrite:
+		(IsClassOrInterfaceType(), ci@ClassOrInterfaceType(_, _)) -> ci
+	task-rewrite:
+		(IsClassOrInterfaceType(), c@ClassType(_, _)) -> c
+	task-rewrite:
+		(IsClassOrInterfaceType(), i@InterfaceType(_, _)) -> i
+	
+	task-rewrite:
+		(IsArrayType(), a@ArrayType(_)) -> a
 
 rules
 	
-	is-type-eq(|ctx):
-		(t1, t2) -> <type-match(|ctx, t1)> t2
+	is-class(|ctx):
+		t -> <task-create-rewrite(|ctx, IsClassType())> t
 	
-	is-boolean(|ctx) = !(<id>, Boolean()); is-type-eq(|ctx)
-	is-byte(|ctx)    = !(<id>, Byte()); is-type-eq(|ctx)
-	is-short(|ctx)   = !(<id>, Short()); is-type-eq(|ctx)
-	is-char(|ctx)    = !(<id>, Char()); is-type-eq(|ctx)
-	is-int(|ctx)     = !(<id>, Int()); is-type-eq(|ctx)
-	is-long(|ctx)    = !(<id>, Long()); is-type-eq(|ctx)
-	is-float(|ctx)   = !(<id>, Float()); is-type-eq(|ctx)
-	is-double(|ctx)  = !(<id>, Double()); is-type-eq(|ctx)
+	is-interface(|ctx):
+		t -> <task-create-rewrite(|ctx, IsInterfaceType())> t
 	
-	is-integral(|ctx):
-		t -> <new-task(|ctx)> Choice([<is-byte(|ctx)> t, <is-short(|ctx)> t, <is-int(|ctx)> t, <is-long(|ctx)> t])
+	is-classorinterface(|ctx):
+		t -> <task-create-rewrite(|ctx, IsClassOrInterfaceType())> t
+	
+	is-array(|ctx):
+		t -> <task-create-rewrite(|ctx, IsArrayType())> t
+	
+	is-reference(|ctx):
+		t -> <task-create-choice(|ctx)> [<is-classorinterface(|ctx)> t, <is-array(|ctx)> t]
 		
-	is-decimal(|ctx):
-		t -> <new-task(|ctx)> Choice([<is-float(|ctx)> t, <is-double(|ctx)> t])
-		
-	is-numerical(|ctx):
-		t -> <new-task(|ctx)> Choice([<is-integral(|ctx)> t, <is-decimal(|ctx)> t])
