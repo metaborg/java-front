@@ -1,0 +1,17 @@
+module languages/Java-1.5/expressions/types/class
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	
+rules // Class intantation
+	
+	create-type-task(|ctx):
+		NewInstance(_, t, _, _) -> ty
+		where
+			ty := <type-task(|ctx)> t
+			
+	// TODO: qualified new
+	

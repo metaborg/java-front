@@ -14,7 +14,7 @@ rules
 	create-type-task(|ctx):
 		_ -> ty
 		where
-		  ?Plus(x, y)
+		  ?Plus(x, y) // TODO: can also be string concatenation, needs a special case
 		+ ?Minus(x, y)
 		+ ?Mul(x, y)
 		+ ?Div(x, y)
@@ -41,3 +41,16 @@ rules
 		; y-is-integral := <is-integral(|ctx)> y-ty
 		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
 		; <task-create-error-on-failure(|ctx, y-is-integral, "Expected integral")> y
+
+	create-type-task(|ctx):
+		_ -> x-ty
+		where
+			?Plus(x)
+		+ ?Minus(x)
+		+ ?PreIncr(x)
+		+ ?PreDecr(x)
+		with
+			x-ty     := <type-task(|ctx)> x // TODO: any conversion needed? unboxing?
+		; x-is-num := <is-numerical(|ctx)> x-ty
+	  ; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
+		
