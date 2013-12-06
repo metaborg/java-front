@@ -1,4 +1,4 @@
-module languages/Java-1.5/types/types/conversion
+module languages/Java-1.5/types/types/widening-primitive
 
 imports
 	
@@ -11,38 +11,42 @@ signature
 	constructors
 		
 		WideningPrimitiveConversion : Relation
-	
-rules // Identity conversion
-	
-	convert-identity(|ctx):
-		(t1, t2) -> <type-match(|ctx, t1)> t2
 
-rules // Widening primitive conversions
+rules
 	
-	convert-widening-primitive(|ctx):
-		(t1, t2) -> <type-match(|ctx, WideningPrimitiveConversion(), t1)> t2
+	convert-widening-primitive(|ctx, actual-ty):
+		expected-ty -> <type-match(|ctx, WideningPrimitiveConversion(), expected-ty)> actual-ty
 	
+	//                                                        (actual, expected)
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Byte()  )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Short() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Int()   )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Long()  )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Float() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Double())) -> t
 
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Short(), t@Short() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Short(), t@Int()   )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Short(), t@Long()  )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Short(), t@Float() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Short(), t@Double())) -> t
 	
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Char(), t@Char()  )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Char(), t@Int()   )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Char(), t@Long()  )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Char(), t@Float() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Char(), t@Double())) -> t
 	
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Int(), t@Int()   )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Int(), t@Long()  )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Int(), t@Float() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Int(), t@Double())) -> t
 	
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Long(), t@Long()  )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Long(), t@Float() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Long(), t@Double())) -> t
 	
-	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Float(), t@Double() )) -> t
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Float(), t@Float() )) -> t
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Float(), t@Double())) -> t
+	
+	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Double(), t@Double())) -> t

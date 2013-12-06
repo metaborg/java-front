@@ -5,7 +5,6 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/conversion
 	languages/Java-1.5/types/types/promotion
 	languages/Java-1.5/types/types/equality
 	
@@ -22,7 +21,7 @@ rules
 		with
 		  x-ty     := <type-task(|ctx)> x
 		; y-ty     := <type-task(|ctx)> y
-		; ty       := <promote-binary(|ctx)> (x-ty, y-ty)
+		; ty       := <promote-binary(|ctx, x-ty)> y-ty
 		; x-is-num := <is-numerical(|ctx)> x-ty
 		; y-is-num := <is-numerical(|ctx)> y-ty
 		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
@@ -61,7 +60,7 @@ rules
 		+ ?PostDecr(x)
 		with
 		  x-ty   := <type-task(|ctx)> x
-		; ty     := <promote-binary(|ctx)> (Int(), x-ty)
+		; ty     := <promote-binary(|ctx, Int())> x-ty
 		; is-num := <is-numerical(|ctx)> ty
-	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term
+		; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term
 		

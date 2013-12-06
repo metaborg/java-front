@@ -1,0 +1,21 @@
+module languages/Java-1.5/expressions/types/cast
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	languages/Java-1.5/types/types/cast
+	
+rules
+	
+	create-type-task(|ctx):
+		_ -> <type-is(|ctx, [conv])> t-ty
+		where
+		  ?term@CastPrim(t, e)
+		+ ?term@CastRef(t, e)
+		with
+		  t-ty := <type-task(|ctx)> t
+		; e-ty := <type-task(|ctx)> e
+		; conv := <cast-conversion(|ctx, e-ty)> t-ty
+		; <task-create-error-on-failure(|ctx, conv, ["Cannot cast expression of type ", e-ty, " to ", t-ty, "."])> term

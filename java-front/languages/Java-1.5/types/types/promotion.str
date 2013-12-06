@@ -5,24 +5,17 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/conversion
+	languages/Java-1.5/types/types/widening-primitive
 	languages/Java-1.5/types/types/equality
 	
 rules
 	
-	promote-binary(|ctx):
-		(t1, t2) -> ty-task
-		with
-		  conv-id    := <convert-identity(|ctx)> (t1, t2)
-		; conv-wide  := <convert-widening-primitive(|ctx)> (t1, t2)
-		; ty-task    := <new-task(|ctx)> Choice([conv-id, conv-wide])
-		  // TODO: apply unboxing
-		  
+	promote-binary(|ctx, t1):
+		t2 -> <convert-widening-primitive(|ctx, t1)> t2
+
 	promote-unary(|ctx):
-		t -> ty-task
+		t -> <task-create-choice(|ctx)> [prim-wide-seq, t]
 		with
-		  is-num        := <new-task(|ctx)> Choice([<is-byte(|ctx)> t, <is-short(|ctx)> t, <is-char(|ctx)> t])
-		; conv-wide     := <convert-widening-primitive(|ctx)> (t, Int())
-		; conv-wide-seq := <new-task(|ctx)> Sequence([is-num, conv-wide]) // Only succeeds if is-num succeeds.
-		; ty-task       := <new-task(|ctx)> Choice([conv-wide-seq, t])
-		  // TODO: apply unboxing
+		  is-num        := <task-create-choice(|ctx)> [<is-byte(|ctx)> t, <is-short(|ctx)> t, <is-char(|ctx)> t]
+		; prim-wide     := <convert-widening-primitive(|ctx, t)> Int()
+		; prim-wide-seq := <task-create-sequence(|ctx)> [is-num, prim-wide]

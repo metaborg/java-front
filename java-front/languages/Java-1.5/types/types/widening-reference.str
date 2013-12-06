@@ -1,0 +1,20 @@
+module languages/Java-1.5/types/types/widening-reference
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	
+signature
+	
+	constructors
+		
+		WideningReferenceConversion : Relation
+
+rules
+	
+	convert-widening-reference(|ctx, t1):
+		t2 -> <type-match(|ctx, WideningReferenceConversion(), t1)> t2
+
+	nabl-property-eq: (Type(), WideningReferenceConversion(), (t1, t2)) -> <?t1> t2

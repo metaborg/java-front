@@ -1,0 +1,21 @@
+module languages/Java-1.5/types/types/cast
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	languages/Java-1.5/types/types/widening-primitive
+	languages/Java-1.5/types/types/narrowing-primitive
+	languages/Java-1.5/types/types/widening-reference
+	languages/Java-1.5/types/types/narrowing-reference
+	
+rules
+	
+	cast-conversion(|ctx, e-ty):
+		t-ty -> <task-create-choice(|ctx)> [prim-wide, prim-narrow, ref-wide, ref-narrow]
+		with
+		  prim-wide   := <convert-widening-primitive(|ctx, e-ty)> t-ty
+		; prim-narrow := <convert-narrowing-primitive(|ctx, e-ty)> t-ty
+		; ref-wide    := <convert-widening-reference(|ctx, e-ty)> t-ty
+		; ref-narrow  := <convert-narrowing-reference(|ctx, e-ty)> t-ty

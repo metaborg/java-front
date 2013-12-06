@@ -5,22 +5,17 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/conversion
+	languages/Java-1.5/types/types/assignment
 	
 rules
 	
 	create-type-task(|ctx):
-		_ -> <type-is(|ctx, [choice])> exp1-ty
+		_ -> <type-is(|ctx, [conv])> v-ty
 		where
-			?t@Assign(exp1, exp2)
-		+ ?t@LocalVarDec(_, exp1, VarDec(_, exp2)) // exp1 is a type, but type-task will still create a type-producing task.
+		  ?term@Assign(v, e)
+		+ ?term@LocalVarDec(_, v, VarDec(_, e)) // exp1 is a type, but type-task will still create a type-producing task.
 		with
-		  exp1-ty   := <type-task(|ctx)> exp1
-		;	exp2-ty   := <type-task(|ctx)> exp2
-		  // Apply assignment conversion
-		; conv-id   := <convert-identity(|ctx)> (exp1-ty, exp2-ty)
-		; conv-wide := <convert-widening-primitive(|ctx)> (exp1-ty, exp2-ty)
-		  // TODO: apply widening reference conversion
-		  // TODO: apply narrowing primitive conversion to constant expression if spec allows it (pg. 66)
-		; choice    := <task-create-choice(|ctx)> [conv-id, conv-wide] 
-		;	<task-create-error-on-failure(|ctx, choice, "Incompatible type")> t
+		  v-ty := <type-task(|ctx)> v
+		; e-ty := <type-task(|ctx)> e
+		; conv := <assignment-conversion(|ctx, e-ty)> v-ty
+		; <task-create-error-on-failure(|ctx, conv, ["Cannot assign expression of type ", e-ty, " to variable of type ", v-ty, "."])> term

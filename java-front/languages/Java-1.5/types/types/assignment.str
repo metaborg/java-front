@@ -1,0 +1,18 @@
+module languages/Java-1.5/types/types/assignment
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	languages/Java-1.5/types/types/widening-primitive
+	languages/Java-1.5/types/types/widening-reference
+	
+rules
+	
+	assignment-conversion(|ctx, e-ty):
+		var-ty -> <task-create-choice(|ctx)> [prim-wide, ref-wide]
+		with
+		  prim-wide := <convert-widening-primitive(|ctx, e-ty)> var-ty
+		; ref-wide  := <convert-widening-reference(|ctx, e-ty)> var-ty
+		  // TODO: apply narrowing primitive conversion to constant expression if spec allows it (pg. 66)

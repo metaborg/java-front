@@ -1,0 +1,16 @@
+module languages/Java-1.5/types/types/references
+
+imports
+	
+	include/Java
+	lib/types/-
+	
+rules
+	
+	create-type-task(|ctx):
+		_ -> <type-is(|ctx)>
+		where
+		  ?ClassOrInterfaceType(_, _)
+		+ ?ClassType(_, _)
+		+ ?InterfaceType(_, _)
+		+ ?ArrayType(_)

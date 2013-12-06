@@ -20,7 +20,7 @@ rules
 		; o2-ty    := <type-task(|ctx)> o2
 		; match    := <type-match(|ctx, o1)> o2
 		; are-nums := <task-create-sequence(|ctx)> [<is-numerical(|ctx)> o1-ty, <is-numerical(|ctx)> o2-ty]
-		; num-ty   := <promote-binary(|ctx)> (o1-ty, o2-ty) // TODO: language spec also mentions other weird promotion-like conversions.
+		; num-ty   := <promote-binary(|ctx, o1-ty)> o2-ty // TODO: language spec also mentions other weird promotion-like conversions.
 		  // TODO: if one operand is null and the other one a reference, the type is that reference
 		  // TODO: if both operands are different reference types, then they must be convertable 
 		; ty       := <task-create-choice(|ctx)> [match, <task-create-sequence(|ctx)> [are-nums, num-ty]]

@@ -21,7 +21,7 @@ rules
 		; y-ty      := <type-task(|ctx)> y
 		  // Check for numerical types
 		; are-nums  := <task-create-sequence(|ctx)> [<is-numerical(|ctx)> x-ty, <is-numerical(|ctx)> y-ty]
-		; num-ty    := <promote-binary(|ctx)> (x-ty, y-ty)
+		; num-ty    := <promote-binary(|ctx, x-ty)> y-ty
 		  // Check for boolean types
 		; are-bools := <task-create-sequence(|ctx)> [<is-boolean(|ctx)> x-ty, <is-boolean(|ctx)> y-ty]
 		; bool-ty   := <type-is(|ctx)> Boolean()
