@@ -70,8 +70,9 @@ binding rules // Types
 binding rules // Constructors
 
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
+  // TODO: should define a constructor with the empty string as name, but this results in an incorrect .str file.
   ConstrDec(ConstrDecHead(m*, _, c, p*, th), _):
-    defines Constructor ""
+    defines Constructor c
       of parameter-types pt*
       of throws th
       of modifiers m*

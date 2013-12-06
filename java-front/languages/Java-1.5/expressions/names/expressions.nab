@@ -68,6 +68,7 @@ binding rules // Class instantiation
 
 	// TODO: ta* is a Some/None
 	// TODO: does ta* refer to type arguments for the constructor or the type?
+	// TODO: c is a TypeOrInterfaceName, cannot be used to refer to a constructor.
   NewInstance(ta*, c, a*, _):
     refers to best Constructor ""
       of conformant parameter-types pt* // TODO: custom relation
