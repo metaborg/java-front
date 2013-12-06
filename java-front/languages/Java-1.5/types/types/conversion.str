@@ -20,11 +20,7 @@ rules // Identity conversion
 rules // Widening primitive conversions
 	
 	convert-widening-primitive(|ctx):
-		(t1, t2) -> task
-		with
-		  conv1 := <type-match(|ctx, WideningPrimitiveConversion(), t1)> t2
-		; conv2 := <type-match(|ctx, WideningPrimitiveConversion(), t1)> t2
-		; task  := <new-task(|ctx)> Choice([conv1, conv2])
+		(t1, t2) -> <type-match(|ctx, WideningPrimitiveConversion(), t1)> t2
 	
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Short() )) -> t
 	nabl-property-eq: (Type(), WideningPrimitiveConversion(), (Byte(), t@Int()   )) -> t
