@@ -8,8 +8,9 @@ imports
 	languages/Java-1.5/types/types/equality
 	languages/Java-1.5/types/types/promotion
 	
-rules
+rules // Array creation
 	
+	// TODO: should be untyped if a nabl-contraint on a Dim(e) fails?
 	create-type-task(|ctx):
 		_ -> <create-array-type(|ty); type-is(|ctx)> dim*
 		where
@@ -32,3 +33,25 @@ rules
 		; prom   := <promote-unary(|ctx)> e-ty
 		; is-int := <is-int(|ctx)> prom
 		; <task-create-error-on-failure(|ctx, is-int, "Expected integer")> e
+		  
+signature
+
+	constructors
+		
+		ExtractArray : Relation
+		  
+rules // Array access
+	
+	create-type-task(|ctx):
+		ArrayAccess(e, i) -> <type-is(|ctx, [i-is-int])> inner-ty
+		with
+		  e-ty     := <type-task(|ctx)> e
+		; i-ty     := <type-task(|ctx)> i
+		; inner-ty := <task-create-rewrite(|ctx, ExtractArray())> e-ty
+		; i-prom   := <promote-unary(|ctx)> i-ty
+		; i-is-int := <is-int(|ctx)> i-prom
+		; <task-create-error-on-failure(|ctx, inner-ty, "Expected array")> e
+		; <task-create-error-on-failure(|ctx, i-is-int, "Expected integer")> i
+		  
+  task-rewrite:
+  	(ExtractArray(), ArrayType(t)) -> t 
