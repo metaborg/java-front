@@ -13,7 +13,7 @@ exports
     LHS "="    Expr -> Expr {cons("Assign")}
     LHS "*="   Expr -> Expr {cons("AssignMul")}
     LHS "/="   Expr -> Expr {cons("AssignDiv")}
-    LHS "%="   Expr -> Expr {cons("AssignReExpressions")}
+    LHS "%="   Expr -> Expr {cons("AssignMod")}
     LHS "+="   Expr -> Expr {cons("AssignPlus")}
     LHS "-="   Expr -> Expr {cons("AssignMinus")}
     LHS "<<="  Expr -> Expr {cons("AssignLeftShift")}

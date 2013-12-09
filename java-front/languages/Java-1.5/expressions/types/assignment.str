@@ -6,6 +6,7 @@ imports
 	lib/task/-
 	lib/types/-
 	languages/Java-1.5/types/types/assignment
+	languages/Java-1.5/types/types/cast
 	
 rules
 	
@@ -18,4 +19,24 @@ rules
 		  v-ty := <type-task(|ctx)> v
 		; e-ty := <type-task(|ctx)> e
 		; conv := <assignment-conversion(|ctx, e-ty)> v-ty
+		; <task-create-error-on-failure(|ctx, conv, ["Cannot assign expression of type ", e-ty, " to variable of type ", v-ty, "."])> term
+
+	create-type-task(|ctx):
+		_ -> <type-is(|ctx, [conv])> v-ty
+		where
+		  ?term@AssignMul(v, e)
+		+ ?term@AssignDiv(v, e)
+		+ ?term@AssignMod(v, e)
+		+ ?term@AssignPlus(v, e) // TODO: can also be string concatenation, needs a special case
+		+ ?term@AssignMinus(v, e)
+		+ ?term@AssignLeftShift(v, e)
+		+ ?term@AssignRightShift(v, e)
+		+ ?term@AssignURightShift(v, e)
+		+ ?term@AssignAnd(v, e)
+		+ ?term@AssignExcOr(v, e)
+		+ ?term@AssignOr(v, e)
+		with
+		  v-ty := <type-task(|ctx)> v
+		; e-ty := <type-task(|ctx)> e
+		; conv := <compound-assignment-conversion(|ctx, e-ty)> v-ty
 		; <task-create-error-on-failure(|ctx, conv, ["Cannot assign expression of type ", e-ty, " to variable of type ", v-ty, "."])> term
