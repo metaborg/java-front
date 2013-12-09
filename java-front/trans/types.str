@@ -27,5 +27,4 @@ rules
 
   create-type-task(|ctx): t@Result(_) -> <type-lookup(|ctx)> t
   
-  nabl-property-eq(|kind) = strip-annos; eq // TODO: needed?
-  nabl-property-eq = ?(Type(), Eq(), (p1, p2)); <?p1> p2; !p1 // Match ignores annotations.
+  nabl-property-eq = ?(Type(), Eq(), (t1, t2)); <?t1> t2; !t1 // Match ignores annotations.

@@ -18,7 +18,7 @@ exports
     ArrayCreationExpr     -> Expr
 
     "new" ArrayBaseType DimExpr+ Dim*  -> ArrayCreationExpr {cons("NewArray")}
-    "new" ArrayBaseType Dim+ ArrayInit -> ArrayCreationExpr {cons("NewArray")}
+    "new" ArrayBaseType Dim+ ArrayInit -> ArrayCreationExpr {cons("NewArrayInit")}
 
     PrimType -> ArrayBaseType
     TypeName -> ArrayBaseType

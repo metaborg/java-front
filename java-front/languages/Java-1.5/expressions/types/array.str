@@ -1,0 +1,34 @@
+module languages/Java-1.5/expressions/types/array
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	languages/Java-1.5/types/types/equality
+	languages/Java-1.5/types/types/promotion
+	
+rules
+	
+	create-type-task(|ctx):
+		_ -> <create-array-type(|ty); type-is(|ctx)> dim*
+		where
+		  ?NewArray(t, dim1*, dim2*)
+		+ (?NewArrayInit(t, dim1*, _); dim2* := []) 
+		with
+		  ty   := <type-task(|ctx)> t
+		; dim* := [dim1*, dim2*]
+	
+	create-array-type(|ty):
+		[_, d|s] -> ArrayType(<create-array-type(|ty)> [d|s])
+		
+	create-array-type(|ty):
+		[_] -> ArrayType(ty)
+
+	nabl-constraint(|ctx):
+		Dim(e) -> <fail>
+		with
+		  e-ty   := <type-task(|ctx)> e
+		; prom   := <promote-unary(|ctx)> e-ty
+		; is-int := <is-int(|ctx)> prom
+		; <task-create-error-on-failure(|ctx, is-int, "Expected integer")> e

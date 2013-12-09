@@ -17,4 +17,8 @@ rules
 	convert-widening-reference(|ctx, t1):
 		t2 -> <type-match(|ctx, WideningReferenceConversion(), t1)> t2
 
-	nabl-property-eq: (Type(), WideningReferenceConversion(), (t1, t2)) -> <?t1> t2
+	nabl-property-eq: (Type(), WideningReferenceConversion(), (t1, t2)) -> <?t1'> t2'
+	with
+		// Types can contain nested annotations, which need to be stripped for comparison.
+	  t1' := <strip-annos> t1
+	; t2' := <strip-annos> t2
