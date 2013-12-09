@@ -17,4 +17,4 @@ strategies
 rules
 	
 	desugar:
-		Some(t) -> t
+		Some(t) -> <desugar-all> t
