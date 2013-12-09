@@ -5,14 +5,23 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
+	languages/Java-1.5/types/types/equality
 	
 rules // Class intantation
 	
 	create-type-task(|ctx):
 		NewInstance(_, t, _, _) -> ty
-		where
+		with
 			ty := <type-task(|ctx)> t
 			
 	// TODO: qualified new
 	
-	// TODO: instanceof
+	create-type-task(|ctx):
+		InstanceOf(e, t) -> <type-is(|ctx, [e-is-refnull, t-is-ref])> Boolean()
+		with
+		  e-ty         := <type-task(|ctx)> e
+		; t-ty         := <type-task(|ctx)> t
+		; e-is-refnull := <task-create-choice(|ctx)> [<is-reference(|ctx)> e-ty, <is-null(|ctx)> e-ty]
+		; t-is-ref     := <is-reference(|ctx)> t-ty
+		; <task-create-error-on-failure(|ctx, e-is-refnull, "Expected reference type or null")> e
+	  ; <task-create-error-on-failure(|ctx, t-is-ref, "Expected reference type")> t

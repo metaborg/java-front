@@ -9,6 +9,7 @@ imports
 	languages/Java-1.5/names/types/-
 	languages/Java-1.5/expressions/types/-
 	lib/types/-
+	lib/properties/-
 	lib/nabl/-
 	lib/task/-
 
@@ -26,4 +27,5 @@ rules
 
   create-type-task(|ctx): t@Result(_) -> <type-lookup(|ctx)> t
   
-  nabl-property-eq(|kind) = strip-annos; eq
+  nabl-property-eq(|kind) = strip-annos; eq // TODO: needed?
+  nabl-property-eq = ?(Type(), Eq(), (p1, p2)); <?p1> p2; !p1 // Match ignores annotations.

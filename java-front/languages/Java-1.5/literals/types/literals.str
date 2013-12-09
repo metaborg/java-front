@@ -16,8 +16,7 @@ rules
 		where
 			?Char(_)
 		+ ?Single(_)
-	
-	// TODO: decide if short, int or long based on size.	
+		
 	create-type-task(|ctx):
 		_ -> <type-is(|ctx)> Int()
 		where
@@ -28,9 +27,8 @@ rules
 	create-type-task(|ctx):
 		Float(_) -> <type-is(|ctx)> Float()
 		
-	// TODO: type of null is context dependent?
 	create-type-task(|ctx):
-		Null() -> <fail>
+		Null() -> <type-is(|ctx)> Null()
 		
 	// TODO: look up String class.
 	create-type-task(|ctx):

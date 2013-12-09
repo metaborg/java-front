@@ -9,8 +9,6 @@ imports
 
 rules // Primitive types
 	
-	nabl-property-eq = ?(Type(), Eq(), (p1, p2)); <?p1> p2; !p1 // Match ignores annotations.
-	
 	is-boolean(|ctx) = type-match(|ctx, Boolean())
 	is-byte(|ctx)    = type-match(|ctx, Byte())
 	is-short(|ctx)   = type-match(|ctx, Short())
@@ -29,7 +27,27 @@ rules // Primitive types
 	is-numerical(|ctx):
 		t -> <task-create-choice(|ctx)> [<is-integral(|ctx)> t, <is-decimal(|ctx)> t]
 
-signature // Reference types
+rules // Reference types
+	
+	is-class(|ctx):
+		t -> <task-create-rewrite(|ctx, IsClassType())> t
+	
+	is-interface(|ctx):
+		t -> <task-create-rewrite(|ctx, IsInterfaceType())> t
+	
+	is-classorinterface(|ctx):
+		t -> <task-create-rewrite(|ctx, IsClassOrInterfaceType())> t
+	
+	is-array(|ctx):
+		t -> <task-create-rewrite(|ctx, IsArrayType())> t
+	
+	is-reference(|ctx):
+		t -> <task-create-choice(|ctx)> [<is-classorinterface(|ctx)> t, <is-array(|ctx)> t]
+		
+	is-null(|ctx):
+		t -> <type-match(|ctx, Null())> t
+		
+signature // Internals
 
 	constructors
 		
@@ -55,21 +73,3 @@ rules
 	
 	task-rewrite:
 		(IsArrayType(), a@ArrayType(_)) -> a
-
-rules
-	
-	is-class(|ctx):
-		t -> <task-create-rewrite(|ctx, IsClassType())> t
-	
-	is-interface(|ctx):
-		t -> <task-create-rewrite(|ctx, IsInterfaceType())> t
-	
-	is-classorinterface(|ctx):
-		t -> <task-create-rewrite(|ctx, IsClassOrInterfaceType())> t
-	
-	is-array(|ctx):
-		t -> <task-create-rewrite(|ctx, IsArrayType())> t
-	
-	is-reference(|ctx):
-		t -> <task-create-choice(|ctx)> [<is-classorinterface(|ctx)> t, <is-array(|ctx)> t]
-		
