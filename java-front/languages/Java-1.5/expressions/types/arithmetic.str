@@ -24,8 +24,8 @@ rules
 		; ty       := <promote-binary(|ctx, x-ty)> y-ty
 		; x-is-num := <is-numerical(|ctx)> x-ty
 		; y-is-num := <is-numerical(|ctx)> y-ty
-		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
-		; <task-create-error-on-failure(|ctx, y-is-num, "Expected numerical")> y
+		; <task-create-error-on-failure(|ctx, x-is-num, [x-ty], "Expected numerical")> x
+		; <task-create-error-on-failure(|ctx, y-is-num, [y-ty], "Expected numerical")> y
 		  
 	create-type-task(|ctx):
 		_ -> <type-is(|ctx, [x-is-num, y-is-int])> y-ty
@@ -38,29 +38,30 @@ rules
 		; y-ty     := <type-task(|ctx); promote-unary(|ctx)> y
 		; x-is-num := <is-numerical(|ctx)> x-ty
 		; y-is-int := <is-integral(|ctx)> y-ty
-		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
-		; <task-create-error-on-failure(|ctx, y-is-int, "Expected integral")> y
+		; <task-create-error-on-failure(|ctx, x-is-num, [x-ty], "Expected numerical")> x
+		; <task-create-error-on-failure(|ctx, y-is-int, [y-ty], "Expected integral")> y
 
 	create-type-task(|ctx):
 		term@_ -> <type-is(|ctx, [is-num])> ty
 		where
-		  ?Plus(x)
-		+ ?Minus(x)
+		  ?Plus(e)
+		+ ?Minus(e)
 		with
-		  ty     := <type-task(|ctx); promote-unary(|ctx)> x
+		  ty     := <type-task(|ctx)> e
+		; prom   := <promote-unary(|ctx)> ty 
 		; is-num := <is-numerical(|ctx)> ty
-	  ; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term
+	  ; <task-create-error-on-failure(|ctx, is-num, [ty], "Expected numerical")> term
 	    
 	create-type-task(|ctx):
 		term@_ -> <type-is(|ctx, [is-num])> ty
 		where
-		  ?PreIncr(x)
-		+ ?PostIncr(x)
-		+ ?PreDecr(x)
-		+ ?PostDecr(x)
+		  ?PreIncr(e)
+		+ ?PostIncr(e)
+		+ ?PreDecr(e)
+		+ ?PostDecr(e)
 		with
-		  x-ty   := <type-task(|ctx)> x
-		; ty     := <promote-binary(|ctx, Int())> x-ty
-		; is-num := <is-numerical(|ctx)> ty
-		; <task-create-error-on-failure(|ctx, is-num, "Expected numerical")> term
+		  ty     := <type-task(|ctx)> e
+		; prom   := <promote-binary(|ctx, Int())> ty
+		; is-num := <is-numerical(|ctx)> prom
+		; <task-create-error-on-failure(|ctx, is-num, [ty], "Expected numerical")> term
 		

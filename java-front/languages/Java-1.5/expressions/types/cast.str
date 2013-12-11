@@ -18,4 +18,4 @@ rules
 		  t-ty := <type-task(|ctx)> t
 		; e-ty := <type-task(|ctx)> e
 		; conv := <cast-conversion(|ctx, e-ty)> t-ty
-		; <task-create-error-on-failure(|ctx, conv, ["Cannot cast expression of type ", e-ty, " to ", t-ty, "."])> term
+		; <task-create-error-on-failure(|ctx, conv, [t-ty, e-ty], ["Cannot cast expression of type ", e-ty, " to ", t-ty, "."])> term

@@ -20,6 +20,6 @@ rules
 		+ ?DoWhile(_, e)
 		+ (?For(_, e, _, _); <not(?None())> e)
 		with
-		  e-ty  := <type-task(|ctx)> e
-		; match := <is-boolean(|ctx)> e-ty
-		; <task-create-error-on-failure(|ctx, match, "Expected boolean")> e
+		  ty    := <type-task(|ctx)> e
+		; match := <is-boolean(|ctx)> ty
+		; <task-create-error-on-failure(|ctx, match, [ty], "Expected boolean")> e

@@ -15,7 +15,7 @@ rules
 		with
 		  x-ty     := <type-task(|ctx)> x
 		; is-bool  := <is-boolean(|ctx)> x-ty
-		; <task-create-error-on-failure(|ctx, is-bool, "Expected boolean")> x
+		; <task-create-error-on-failure(|ctx, is-bool, [x-ty], "Expected boolean")> x
 		; o1-ty    := <type-task(|ctx)> o1
 		; o2-ty    := <type-task(|ctx)> o2
 		; match    := <type-match(|ctx, o1)> o2

@@ -19,7 +19,7 @@ rules
 		  v-ty := <type-task(|ctx)> v
 		; e-ty := <type-task(|ctx)> e
 		; conv := <assignment-conversion(|ctx, e-ty)> v-ty
-		; <task-create-error-on-failure(|ctx, conv, ["Cannot assign expression of type ", e-ty, " to variable of type ", v-ty, "."])> term
+		; <task-create-error-on-failure(|ctx, conv, [v-ty, e-ty], ["Cannot assign expression of type ", e-ty, " to variable of type ", v-ty, "."])> term
 
 	create-type-task(|ctx):
 		_ -> <type-is(|ctx, [conv])> v-ty
@@ -39,4 +39,4 @@ rules
 		  v-ty := <type-task(|ctx)> v
 		; e-ty := <type-task(|ctx)> e
 		; conv := <compound-assignment-conversion(|ctx, e-ty)> v-ty
-		; <task-create-error-on-failure(|ctx, conv, ["Cannot assign expression of type ", e-ty, " to variable of type ", v-ty, "."])> term
+		; <task-create-error-on-failure(|ctx, conv, [v-ty, e-ty], ["Cannot assign expression of type ", e-ty, " to variable of type ", v-ty, "."])> term

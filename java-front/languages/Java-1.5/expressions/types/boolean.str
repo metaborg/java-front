@@ -21,8 +21,8 @@ rules
 		; y-ty     := <type-task(|ctx)> y
 		; x-is-num := <is-numerical(|ctx)> x-ty
 		; y-is-num := <is-numerical(|ctx)> y-ty
-		; <task-create-error-on-failure(|ctx, x-is-num, "Expected numerical")> x
-		; <task-create-error-on-failure(|ctx, y-is-num, "Expected numerical")> y
+		; <task-create-error-on-failure(|ctx, x-is-num, [x-ty], "Expected numerical")> x
+		; <task-create-error-on-failure(|ctx, y-is-num, [y-ty], "Expected numerical")> y
 
 	create-type-task(|ctx):
 		term@_ -> <type-is(|ctx, [valid])> Boolean()
@@ -32,13 +32,9 @@ rules
 		with
 		  x-ty      := <type-task(|ctx)> x
 		; y-ty      := <type-task(|ctx)> y
-		  // Check for numerical types
 		; are-nums  := <task-create-sequence(|ctx)> [<is-numerical(|ctx)> x-ty, <is-numerical(|ctx)> y-ty]
-		  // Check for boolean types
 		; are-bools := <task-create-sequence(|ctx)> [<is-boolean(|ctx)> x-ty, <is-boolean(|ctx)> y-ty]
-		  // Check for reference types
 		; are-refs  := <task-create-sequence(|ctx)> [<is-reference(|ctx)> x-ty, <is-reference(|ctx)> y-ty]
 		  // TODO: Check for null type
-		  // Validate
 		; valid     := <task-create-choice(|ctx)> [are-nums, are-bools, are-refs]
-		; <task-create-error-on-failure(|ctx, valid, "Expected numbers, booleans or references")> term
+		; <task-create-error-on-failure(|ctx, valid, [x-ty, y-ty], "Expected numbers, booleans or references")> term

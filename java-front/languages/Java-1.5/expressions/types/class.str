@@ -23,8 +23,8 @@ rules // Class intantation
 		; t-ty         := <type-task(|ctx)> t
 		; e-is-refnull := <task-create-choice(|ctx)> [<is-reference(|ctx)> e-ty, <is-null(|ctx)> e-ty]
 		; t-is-ref     := <is-reference(|ctx)> t-ty
-		; <task-create-error-on-failure(|ctx, e-is-refnull, "Expected reference type or null")> e
-	  ; <task-create-error-on-failure(|ctx, t-is-ref, "Expected reference type")> t
+		; <task-create-error-on-failure(|ctx, e-is-refnull, [e-ty], "Expected reference type or null")> e
+	  ; <task-create-error-on-failure(|ctx, t-is-ref, [t-ty], "Expected reference type")> t
 
 	// TODO: this
 	

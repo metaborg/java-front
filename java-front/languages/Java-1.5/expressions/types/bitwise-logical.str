@@ -19,15 +19,12 @@ rules
 		with
 		  x-ty      := <type-task(|ctx)> x
 		; y-ty      := <type-task(|ctx)> y
-		  // Check for numerical types
 		; are-nums  := <task-create-sequence(|ctx)> [<is-numerical(|ctx)> x-ty, <is-numerical(|ctx)> y-ty]
 		; num-ty    := <promote-binary(|ctx, x-ty)> y-ty
-		  // Check for boolean types
 		; are-bools := <task-create-sequence(|ctx)> [<is-boolean(|ctx)> x-ty, <is-boolean(|ctx)> y-ty]
 		; bool-ty   := <type-is(|ctx)> Boolean()
-		  // Validate
 		; ty        := <task-create-choice(|ctx)> [<task-create-sequence(|ctx)> [are-nums, num-ty], <task-create-sequence(|ctx)> [are-bools, bool-ty]]
-		; <task-create-error-on-failure(|ctx, ty, "Expected numbers or booleans")> term
+		; <task-create-error-on-failure(|ctx, ty, [x-ty, y-ty], "Expected numbers or booleans")> term
 		  
 	create-type-task(|ctx):
 		term@_ -> <type-is(|ctx, [are-bools])> Boolean()
@@ -38,19 +35,19 @@ rules
 		  x-ty      := <type-task(|ctx)> x
 		; y-ty      := <type-task(|ctx)> y  
 		; are-bools := <task-create-sequence(|ctx)> [<is-boolean(|ctx)> x-ty, <is-boolean(|ctx)> y-ty]
-		; <task-create-error-on-failure(|ctx, are-bools, "Expected booleans")> term
+		; <task-create-error-on-failure(|ctx, are-bools, [x-ty, y-ty],"Expected booleans")> term
 
 	create-type-task(|ctx):
-		term@Not(x) -> <type-is(|ctx, [is-bool])> Boolean()
+		term@Not(e) -> <type-is(|ctx, [is-bool])> Boolean()
 		with
-		  x-ty    := <type-task(|ctx)> x
-		; is-bool := <is-boolean(|ctx)> x-ty
-		; <task-create-error-on-failure(|ctx, is-bool, "Expected boolean")> term 
+		  ty      := <type-task(|ctx)> e
+		; is-bool := <is-boolean(|ctx)> ty
+		; <task-create-error-on-failure(|ctx, is-bool, [ty], "Expected boolean")> term 
   
   create-type-task(|ctx):
-		term@Complement(x) -> <type-is(|ctx, [is-int])> ty
+		term@Complement(e) -> <type-is(|ctx, [is-int])> prom
 		with
-		  x-ty   := <type-task(|ctx)> x
-		; is-int := <is-integral(|ctx)> x-ty
-		; ty     := <promote-unary(|ctx)> x-ty
-		; <task-create-error-on-failure(|ctx, is-int, "Expected integral")> term
+		  ty     := <type-task(|ctx)> e
+		; prom   := <promote-unary(|ctx)> ty
+		; is-int := <is-integral(|ctx)> ty
+		; <task-create-error-on-failure(|ctx, is-int, [ty], "Expected integral")> term

@@ -29,10 +29,10 @@ rules // Array creation
 	nabl-constraint(|ctx):
 		Dim(e) -> <fail>
 		with
-		  e-ty   := <type-task(|ctx)> e
-		; prom   := <promote-unary(|ctx)> e-ty
+		  ty     := <type-task(|ctx)> e
+		; prom   := <promote-unary(|ctx)> ty
 		; is-int := <is-int(|ctx)> prom
-		; <task-create-error-on-failure(|ctx, is-int, "Expected integer")> e
+		; <task-create-error-on-failure(|ctx, is-int, [ty], "Expected integer")> e
 		  
 signature
 
@@ -50,8 +50,8 @@ rules // Array access
 		; inner-ty := <task-create-rewrite(|ctx, ExtractArray())> e-ty
 		; i-prom   := <promote-unary(|ctx)> i-ty
 		; i-is-int := <is-int(|ctx)> i-prom
-		; <task-create-error-on-failure(|ctx, inner-ty, "Expected array")> e
-		; <task-create-error-on-failure(|ctx, i-is-int, "Expected integer")> i
+		; <task-create-error-on-failure(|ctx, inner-ty, [e-ty], "Expected array")> e
+		; <task-create-error-on-failure(|ctx, i-is-int, [i-ty], "Expected integer")> i
 		  
   task-rewrite:
   	(ExtractArray(), ArrayType(t)) -> t 
