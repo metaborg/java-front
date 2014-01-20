@@ -10,7 +10,7 @@ rules
 	
   pp-message-top = origin-track-forced((id, strip-annos; pp-message))
   pp-message = not(is-list); (is-string <+ pp-result <+ pp-java-string)
-  pp-message = map(pp-message); separate-by(|" "); concat-strings
+  pp-message = map(pp-message); concat-strings
   
   pp-result:
   	result@Result(_) -> msg
