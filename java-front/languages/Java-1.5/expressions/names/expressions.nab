@@ -90,3 +90,9 @@ binding rules // Class instantiation
   	  where 
   	  	a* has type pt* and
   	  	e has type t
+
+binding rules // Qualified this
+
+	QThis(t):
+		refers to Type t
+	

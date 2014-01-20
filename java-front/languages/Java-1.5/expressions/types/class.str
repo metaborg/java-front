@@ -26,6 +26,7 @@ rules // Class intantation
 		; <task-create-error-on-failure(|ctx, e-is-refnull, [e-ty], "Expected reference type or null")> e
 	  ; <task-create-error-on-failure(|ctx, t-is-ref, [t-ty], "Expected reference type")> t
 
-	// TODO: this
+rules // Qualified this
 	
-	// TODO: qualified this
+	create-type-task(|ctx):
+		QThis(t) -> <type-task(|ctx)> t
