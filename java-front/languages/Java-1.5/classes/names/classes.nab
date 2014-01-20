@@ -40,24 +40,24 @@ binding rules // Types
 
   ClassDec(ClassDecHead(m*, c, tp*, None(), _), _):
     defines Type c 
-      of type Type(c)
+      of type ClassOrInterfaceType(TypeName(c), None())
       of modifiers m*
       of type-parameters tp*
-    implicitly defines Field "this" of type Type(c)
+    implicitly defines Field "this" of type ClassOrInterfaceType(TypeName(c), None())
     scopes Type, TypeParam, Constructor, Field, Method
     
 	// TODO: pc already refers to a class. see types/trans/names.str  
   ClassDec(ClassDecHead(m*, c, tp*, SuperDec(pc), _), _):
     defines Type c 
-      of type Type(c)
+      of type ClassOrInterfaceType(TypeName(c), None())
       of modifiers m*
       of type-parameters tp*
     imports
       Field, imported Field, 
       Method, imported Method
       from Type pc
-    implicitly defines Field "this" of type Type(c)
-    implicitly defines Field "super" of type Type(pc)
+    implicitly defines Field "this" of type ClassOrInterfaceType(TypeName(c), None())
+    implicitly defines Field "super" of type ClassOrInterfaceType(TypeName(pc), None())
     scopes Type, TypeParam, Constructor, Field, Method
     
   // TODO: i already refers to an interface. see types/trans/names.str

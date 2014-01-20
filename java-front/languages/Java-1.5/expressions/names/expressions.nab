@@ -59,10 +59,11 @@ binding rules // Method invocation
   
 binding rules // Field access
 
+	// TODO: what is the difference between Field/2 and ExprName/2?
   Field(e, f):
   	refers to Field f
   	  in Type t
-  	  where e has type t
+  	  where e has type ClassOrInterfaceType(TypeName(t), _)  // TODO: can other patterns occur?
   	  
 binding rules // Class instantiation
 

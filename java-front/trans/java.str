@@ -42,7 +42,9 @@ rules // Editor services
     (node, position, ast, path, project-path) -> <analysis-resolve(|<language>, project-path)> node
 
   editor-hover:
-    (target, position, ast, path, project-path) -> <fail>
+    (selected, position, ast, path, project-path) -> type
+    where
+      type  := $[Type: [<get-type; strip-annos; write-to-string <+ !"none"> selected]]
 
   editor-complete:
     (node, position, ast, path, project-path) -> <analysis-propose-completions(|<language>, project-path)> ast

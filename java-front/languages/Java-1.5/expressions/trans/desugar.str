@@ -11,3 +11,6 @@ rules
 
 	desugar:
 		ExprStm(exp) -> exp
+
+	desugar:
+		This() -> ExprName("this")
