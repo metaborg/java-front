@@ -22,6 +22,10 @@ rules
 		; match    := <task-create-choice(|ctx)> [is-byte, is-char, is-short, is-int]
 		; <task-create-error-on-failure(|ctx, match, [e-ty], "Expected byte, char, short, or integer")> e
 		; <alltd(case-constraint(|ctx, e-ty))> body
+		; <duplicate-values-constraint(|ctx)> body
+		; <duplicate-default-constraint(|ctx)> body
+		  
+rules // Incompatible case type
 		  
   case-constraint(|ctx, s-ty):
   	Case(e) -> <id>
@@ -29,3 +33,37 @@ rules
   	  e-ty  := <type-task(|ctx)> e
   	; match := <assignment-conversion(|ctx, s-ty)> e-ty
 		; <task-create-error-on-failure(|ctx, match, [e-ty], ["Incompatibles types; expected ", s-ty, ", got ", e-ty, "."])> e
+
+rules // Duplicate case values
+
+	duplicate-values-constraint(|ctx):
+		body -> body
+		with
+		  hash-map := <new-hashtable>
+		; <alltd(case-hashmap-add(|hash-map))> body
+		; hash-list := <hashtable-getlist> hash-map
+		; duplicates := <filter(case-hashmap-duplicate); concat> hash-list
+		; <map(case-hashmap-error(|ctx))> duplicates
+		
+	case-hashmap-add(|hash-map):
+		c@Case(val) -> c
+		with
+			<hash-multimap-put(|val, c)> hash-map
+			
+	case-hashmap-duplicate:
+		(key, value*) -> value*
+		where
+			<length; \val -> <gt> (val, 1)\> value*
+			
+	case-hashmap-error(|ctx):
+		case -> <task-create-error(|ctx, "Duplicate case values")> case
+
+rules // Duplicate default case
+	
+	duplicate-default-constraint(|ctx):
+		body -> body
+		with
+		  default* := <collect-all(?Default(), conc)> body
+		; if <gt> (<length> default*, 1) then
+		    <map(task-create-error(|ctx, "Duplicate default cases"))> default*
+			end
