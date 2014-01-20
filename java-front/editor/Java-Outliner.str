@@ -7,5 +7,3 @@ imports
   editor/Java-Outliner.generated
 
 rules
-  
-  outline-expand-to-level = !3
