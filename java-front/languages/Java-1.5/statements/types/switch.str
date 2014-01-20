@@ -1,0 +1,31 @@
+module languages/Java-1.5/statements/types/switch
+
+imports
+	
+	include/Java
+	lib/task/-
+	lib/types/-
+	lib/nabl/-
+	languages/Java-1.5/types/types/equality
+	languages/Java-1.5/types/types/assignment
+	
+rules
+	
+	nabl-constraint(|ctx):
+		Switch(e, body) -> <fail>
+		with
+		  e-ty     := <type-task(|ctx)> e
+		; is-byte  := <is-byte(|ctx)> e-ty
+		; is-char  := <is-char(|ctx)> e-ty
+		; is-short := <is-short(|ctx)> e-ty
+		; is-int   := <is-int(|ctx)> e-ty
+		; match    := <task-create-choice(|ctx)> [is-byte, is-char, is-short, is-int]
+		; <task-create-error-on-failure(|ctx, match, [e-ty], "Expected byte, char, short, or integer")> e
+		; <alltd(case-constraint(|ctx, e-ty))> body
+		  
+  case-constraint(|ctx, s-ty):
+  	Case(e) -> <id>
+  	with
+  	  e-ty  := <type-task(|ctx)> e
+  	; match := <assignment-conversion(|ctx, s-ty)> e-ty
+		; <task-create-error-on-failure(|ctx, match, [e-ty], ["Incompatibles types; expected ", s-ty, ", got ", e-ty, "."])> e
