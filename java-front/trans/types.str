@@ -13,12 +13,6 @@ imports
 	lib/nabl/-
 	lib/task/-
 
-signature
-
-  constructors
-    
-    Type : String -> Type
-
 strategies
 
   print-type = fail
