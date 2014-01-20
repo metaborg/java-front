@@ -16,20 +16,21 @@ imports
   lib/index/-
   lib/properties/-
   lib/types/-
+  pp
+  desugar
+  languages/Java-1.5/packages/trans/desugar
   names
   check
-  desugar
   types
-  languages/Java-1.5/packages/trans/desugar
 
 rules // Analysis
  
   editor-analyze = analysis-default-editor
   
   analysis-single-default-interface = 
-  	analysis-single-default(desugar-top, id, id|<language>)
+  	analysis-single-default(desugar-top, id, pp-message-top|<language>)
   analysis-multiple-default-interface = 
-  	analysis-multiple-default(parse-file <+ !(), desugar-top, id, id|<language>, <project-path>)
+  	analysis-multiple-default(parse-file <+ !(), desugar-top, id, pp-message-top|<language>, <project-path>)
   
   editor-save = analysis-save-default(|<language>)
 
@@ -44,8 +45,10 @@ rules // Editor services
   editor-hover:
     (selected, position, ast, path, project-path) -> type
     where
-      type  := $[Type: [<get-type; strip-annos; write-to-string <+ !"none"> selected]]
+      type := $[Type: [<hover-type <+ subterm-at(|0); hover-type <+ !"none"> selected]]
 
+	hover-type = get-type; strip-annos; pp-message
+	
   editor-complete:
     (node, position, ast, path, project-path) -> <analysis-propose-completions(|<language>, project-path)> ast
 
