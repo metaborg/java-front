@@ -30,3 +30,8 @@ rules // Qualified this
 	
 	create-type-task(|ctx):
 		QThis(t) -> <type-task(|ctx)> t
+
+rules // Field access
+	
+	create-type-task(|ctx):
+		Field(_, f) -> <type-lookup(|ctx)> f
