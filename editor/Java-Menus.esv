@@ -1,0 +1,9 @@
+module Java-Menus
+
+imports Java-Menus.generated
+
+menus
+  
+  menu: "Syntax"
+  
+    action: "Show abstract syntax" = debug-show-aterm (openeditor) (realtime) (meta) (source)

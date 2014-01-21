@@ -1,6 +1,6 @@
 module Java.main
 
-imports Java-Builders Java-Refactorings Java-Colorer Java-Completions Java-Folding Java-Outliner Java-References Java-Syntax
+imports Java-Menus Java-Refactorings Java-Colorer Java-Completions Java-Folding Java-Outliner Java-References Java-Syntax
 
 language General properties
                   
@@ -14,3 +14,5 @@ language General properties
   extensions    : jav
   table         : include/Java.tbl
   start symbols : CompilationUnit
+  
+  provider : include/java.ctree

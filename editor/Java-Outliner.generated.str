@@ -1,0 +1,32 @@
+module editor/Java-Outliner.generated
+
+imports
+  include/Java
+  lib/runtime/editor/outline-library
+
+rules
+
+  outline = simple-label-outline(to-outline-label)
+  
+  to-outline-label = ?Anno(<id>, _)
+  to-outline-label = ?Member(<id>, _, _)
+  to-outline-label = ?ArrayVarDecId(<id>, _)
+  to-outline-label = ?MethodDecHead(_, _, _, <id>, _, _)
+  to-outline-label = ?Param(_, _, <id>)
+  to-outline-label = ?VarArityParam(_, _, <id>)
+  to-outline-label = ?DeprMethodDecHead(_, _, _, <id>, _, _, _)
+  to-outline-label = ?EnumDecHead(_, <id>, _)
+  to-outline-label = ?ClassDecHead(_, <id>, _, _, _)
+  to-outline-label = ?For(_, <id>, _, _)
+  to-outline-label = ?Synchronized(<id>, _)
+  to-outline-label = ?AnnoDecHead(_, <id>)
+  to-outline-label = ?AnnoMethodDec(_, _, <id>, _)
+  to-outline-label = ?InterfaceDecHead(_, <id>, _, _)
+  to-outline-label = ?AbstractMethodDec(_, _, _, <id>, _, _)
+  to-outline-label = ?DeprAbstractMethodDec(_, _, _, <id>, _, _, _)
+  to-outline-label = ?ConstrDecHead(_, _, <id>, _, _)
+  to-outline-label = ?QSuperConstrInv(<id>, _, _)
+  to-outline-label = ?QNewInstance(<id>, _, _, _, _, _)
+  to-outline-label = ?NewArray(<id>, _, _)
+  to-outline-label = ?Invoke(<id>, _)
+  to-outline-label = ?GenericMethod(<id>, _, _)
