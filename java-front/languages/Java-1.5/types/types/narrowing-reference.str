@@ -15,4 +15,6 @@ signature
 rules
 	
 	convert-narrowing-reference(|ctx, t1):
-		t2 -> <type-match(|ctx, NarrowingReferenceConversion(), t1)> t2
+		t2 -> match
+		with
+		  match := <type-match(|ctx, NarrowingReferenceConversion(), t1)> t2

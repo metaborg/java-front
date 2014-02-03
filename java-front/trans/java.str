@@ -16,6 +16,7 @@ imports
   lib/index/-
   lib/properties/-
   lib/types/-
+  lib/relations/-
   pp
   desugar
   languages/Java-1.5/packages/trans/desugar

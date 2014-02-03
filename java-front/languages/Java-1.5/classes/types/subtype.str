@@ -1,0 +1,32 @@
+module languages/Java-1.5/classes/types/subtype
+
+imports
+	
+	include/Java
+	lib/relations/-
+	lib/nabl/-
+	lib/task/-
+
+signature
+
+	constructors
+		
+		InnerTypeName : Rewrite
+		
+		Implements : Relation
+	
+rules // Hooks to store implements relation
+	
+	nabl-constraint(|ctx):
+		ClassDec(ClassDecHead(m*, c, tp*, SuperDec(pc), _), _) -> <fail>
+		with
+			<new-rel-tuple(|ctx, Implements(), pc)> c
+			
+rules // Task factory to retrieve implements relation
+	
+	create-implements-task(|ctx):
+		t -> <relation-create-lookup(|ctx, Transitive(Implements()))> t
+
+	create-match-implements-task(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Transitive(Implements()), expected)> actual
+		

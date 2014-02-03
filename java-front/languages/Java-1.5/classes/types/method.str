@@ -11,7 +11,6 @@ rules
 		MethodParams(p*) -> <type-is(|ctx)> [ty*]
 		where
 			ty* := <map(type-task(|ctx))> p*
-			
-	// TODO: unnecessary since type is stored on name using NaBL?
+	
 	create-type-task(|ctx):
 		Param(_, t, _) -> <type-task(|ctx)> t

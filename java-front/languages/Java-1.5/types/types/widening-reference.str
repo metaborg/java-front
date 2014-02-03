@@ -3,8 +3,12 @@ module languages/Java-1.5/types/types/widening-reference
 imports
 	
 	include/Java
+	languages/Java-1.5/classes/types/subtype
+	lib/nabl/-
 	lib/task/-
 	lib/types/-
+	lib/properties/-
+	lib/relations/-
 	
 signature
 	
@@ -15,10 +19,15 @@ signature
 rules
 	
 	convert-widening-reference(|ctx, t1):
-		t2 -> <type-match(|ctx, WideningReferenceConversion(), t1)> t2
-
-	nabl-property-eq: (Type(), WideningReferenceConversion(), (t1, t2)) -> <?t1'> t2'
-	with
-		// Types can contain nested annotations, which need to be stripped for comparison.
-	  t1' := <strip-annos> t1
-	; t2' := <strip-annos> t2
+		t2 -> <task-create-choice(|ctx)> [match-eq, match-subtype]
+		with
+		  match-eq      := <type-match(|ctx, WideningReferenceConversion(), t1)> t2
+		; implements    := <create-implements-task(|ctx)> t1
+		; match-subtype := <create-match-implements-task(|ctx, implements)> t2
+		
+	nabl-property-eq: 
+		(Type(), WideningReferenceConversion(), (t1, t2)) -> <?t1'> t2'
+		with
+			// Types can contain nested annotations, which need to be stripped for comparison.
+		  t1' := <strip-annos> t1
+		; t2' := <strip-annos> t2
