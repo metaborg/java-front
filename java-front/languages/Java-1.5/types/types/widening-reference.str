@@ -19,11 +19,10 @@ signature
 rules
 	
 	convert-widening-reference(|ctx, t1):
-		t2 -> <task-create-choice(|ctx)> [match-eq, match-subtype]
+		t2 -> <task-create-choice(|ctx)> [match-eq, match-widening]
 		with
-		  match-eq      := <type-match(|ctx, WideningReferenceConversion(), t1)> t2
-		; implements    := <create-implements-task(|ctx)> t1
-		; match-subtype := <create-match-implements-task(|ctx, implements)> t2
+		  match-eq       := <type-match(|ctx, WideningReferenceConversion(), t1)> t2
+		; match-widening := <create-widening-match(|ctx, <create-widening-lookup(|ctx)> t1)> t2
 		
 	nabl-property-eq: 
 		(Type(), WideningReferenceConversion(), (t1, t2)) -> <?t1'> t2'

@@ -11,22 +11,54 @@ signature
 
 	constructors
 		
-		InnerTypeName : Rewrite
-		
+		Subtype    : Relation
 		Implements : Relation
-	
-rules // Hooks to store implements relation
+		Widening   : Relation
+
+rules // Hooks to store class relations
 	
 	nabl-constraint(|ctx):
-		ClassDec(ClassDecHead(m*, c, tp*, SuperDec(pc), _), _) -> <fail>
+		ClassDec(ClassDecHead(_, c, _, SuperDec(pc), _), _) -> <fail>
 		with
-			<new-rel-tuple(|ctx, Implements(), pc)> c
+		  <store-subtype-relation(|ctx, c)> pc
+		; <store-widening-relation(|ctx, c)> pc
 			
-rules // Task factory to retrieve implements relation
-	
-	create-implements-task(|ctx):
-		t -> <relation-create-lookup(|ctx, Transitive(Implements()))> t
+	nabl-constraint(|ctx):
+		ClassDec(ClassDecHead(_, c, _, _, implements*), _) -> <fail>
+		where
+			<is-list> implements*
+		with
+		  <map(\ImplementsDec(ic) -> <where(store-implements-relation(|ctx, c)); store-widening-relation(|ctx, c)> ic\)> implements*
 
-	create-match-implements-task(|ctx, expected):
-		actual -> <relation-create-match(|ctx, Transitive(Implements()), expected)> actual
+rules // Storing relation tuples
+	
+	store-subtype-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Subtype(), value)> key
+
+	store-implements-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Implements(), value)> key
+
+	store-widening-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Widening(), value)> key
+
+rules // Task factories
+	
+	create-subtype-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Transitive(Subtype()))> t
+
+	create-widening-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Transitive(Subtype()), expected)> actual
+
+
+	create-implements-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Transitive(Implements()))> t
 		
+	create-implements-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Transitive(Implements()), expected)> actual
+
+
+	create-widening-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Transitive(Widening()))> t
+		
+	create-widening-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Transitive(Widening()), expected)> actual
