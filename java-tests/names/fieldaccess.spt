@@ -1,4 +1,4 @@
-module expressions-fieldaccess
+module names-fieldaccess
 
 language Java
 

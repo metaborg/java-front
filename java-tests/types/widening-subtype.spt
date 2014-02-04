@@ -1,0 +1,55 @@
+module types-widening-subtype
+
+language Java
+
+start symbol File
+
+setup [[
+	class A {}
+	class B extends A {}
+	class C extends B {}
+	
+]]
+
+test subtyping [[
+	class Test {
+		void m() {
+			A a = new A();
+			B b = new B();
+			C c = new C();
+			
+			a = b;
+			a = c;
+		}
+	}
+]] 0 errors
+
+test subtyping fails [[
+	class Test {
+		void m() {
+			A a = new A();
+			B b = new B();
+			C c = new C();
+			
+			c = b;
+			c = a;
+			b = a;
+		}
+	}
+]] 3 errors
+
+// TODO: generate errors for cyclic subtyping
+test cyclic subtyping [[
+	class D extends E {}
+	class E extends D {}
+	
+	class Test {
+		void m() {
+			D d = new D();
+			E e = new E();
+			
+			e = d;
+			d = e;
+		}
+	}
+]] 4 errors
