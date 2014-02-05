@@ -4,6 +4,7 @@ imports
 
 	languages/Java-1.5/classes/names/classes
 	languages/Java-1.5/types/names/types
+	languages/Java-1.5/types/types/references
   include/Java
 
 binding rules // Method invocation
@@ -63,7 +64,7 @@ binding rules // Field access
   Field(e, f):
   	refers to Field f
   	  in Type t
-  	  where e has type ClassOrInterfaceType(TypeName(t), _)  // TODO: can other patterns occur?
+  	  where e has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
   	  
 binding rules // Class instantiation
 

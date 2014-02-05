@@ -14,15 +14,17 @@ binding rules // Local variables
 
   LocalVarDec(m*, t, VarDec(v)):
     defines Variable v
-      of type t
+      of type t'
       of modifiers m*
       in subsequent scope
+      where t has type t'
   
   LocalVarDec(m*, t, VarDec(v, _)):
     defines Variable v 
-      of type t
+      of type t'
       of modifiers m*
       in subsequent scope
+      where t has type t'
 
 binding rules // Labels
 

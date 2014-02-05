@@ -4,6 +4,7 @@ imports
 
 	languages/Java-1.5/classes/names/classes
 	languages/Java-1.5/types/names/types
+	languages/Java-1.5/types/types/references
   include/Java
   types
 
@@ -17,7 +18,7 @@ binding rules // annotations
   
   AnnoDec(AnnoDecHead(m, a), _):
     defines Type a
-      of type ClassOrInterfaceType(TypeName(a), None()) // TODO: should be InterfaceType?
+      of type RefType(TypeName(a), None())
       of modifiers m
     scopes Type, Field, Method
   
@@ -34,12 +35,12 @@ binding rules // Interfaces
 
   InterfaceDec(InterfaceDecHead(m, i, tp*, _), _):
     defines Type i
-      of type ClassOrInterfaceType(TypeName(i), None()) // TODO: should be InterfaceType?
+      of type RefType(TypeName(i), None())
       of modifiers m
       of type-parameters tp*
     scopes Type, TypeParam, Field, Method
   
-  // TODO: i already refers to an interface. see types/trans/names.str
+  // TODO: i may only refer to an inteface.
   ExtendsInterfaces(i):
     imports
       Field, imported Field, 
@@ -50,32 +51,36 @@ binding rules // Constants
 
 	ConstantDec(m, t, VarDec(c)):
     defines Field c
-      of type t
+      of type t'
       of modifiers m
       in subsequent scope
+      where t has type t'
 
   ConstantDec(m, t, VarDec(c, _)):
   	defines Field c
-  	  of type t
+  	  of type t'
   	  of modifiers m
       in subsequent scope
+      where t has type t'
       
 binding rules // Asbtract methods
 
   AbstractMethodDec(mod, _, t, m, p*, th):
   	defines Method m
-      of type t
+      of type t'
       of parameter-types pt*
       of throws th
       of modifiers mod
       where p* has type pt*
+      and t has type t'
     scopes Variable
 
   DeprAbstractMethodDec(mod, _, t, m, p*, _, th):
     defines Method m
-      of type t
+      of type t'
       of parameter-types pt*
       of throws th
       of modifiers mod
       where p* has type pt*
+      and t has type t'
     scopes Variable

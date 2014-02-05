@@ -5,6 +5,7 @@ imports
   include/Java
   languages/Java-1.5/packages/names/packages
   languages/Java-1.5/packages/trans/desugar
+  languages/Java-1.5/types/types/references
   types
 
 namespaces
@@ -122,15 +123,15 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
     otherwise
     	refers to Method n
     		in Type t
-    		where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
+    		where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
     otherwise
     	refers to Field n
   			in Type t 
-    		where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
+    		where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
     otherwise
     	refers to Type n 
   			in Type t 
-  			where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
+  			where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
     
 binding rules // 6.5.3 Meaning of Package Names
 
@@ -338,7 +339,7 @@ binding rules // 6.5.6 Meaning of Expression Names
     otherwise
     	refers to Field n 
   			in Type t
-  			where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
+  			where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
   			
 binding rules // 6.5.7 Meaning of Method Name
  
@@ -400,4 +401,4 @@ binding rules // 6.5.7 Meaning of Method Name
     otherwise
     	refers to Method n
   			in Type t 
-  			where q has type ClassOrInterfaceType(TypeName(t), _) // TODO: can other patterns occur?
+  			where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
