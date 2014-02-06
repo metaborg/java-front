@@ -30,6 +30,10 @@ rules // Hooks to store class relations
 		with
 		  <map(\ImplementsDec(ic) -> <where(store-implements-relation(|ctx, c)); store-widening-relation(|ctx, c)> ic\)> implements*
 
+	relation-is-transitive = ?Subtype() + ?Implements() + ?Widening()
+	
+  relation-is-reflexive  = ?Widening()
+
 rules // Storing relation tuples
 	
 	store-subtype-relation(|ctx, key):
@@ -44,21 +48,21 @@ rules // Storing relation tuples
 rules // Task factories
 	
 	create-subtype-lookup(|ctx):
-		t -> <relation-create-lookup(|ctx, Transitive(Subtype()))> t
+		t -> <relation-create-lookup(|ctx, Subtype())> t
 
 	create-widening-match(|ctx, expected):
-		actual -> <relation-create-match(|ctx, Transitive(Subtype()), expected)> actual
+		actual -> <relation-create-match(|ctx, Subtype(), expected)> actual
 
 
 	create-implements-lookup(|ctx):
-		t -> <relation-create-lookup(|ctx, Transitive(Implements()))> t
+		t -> <relation-create-lookup(|ctx, Implements())> t
 		
 	create-implements-match(|ctx, expected):
-		actual -> <relation-create-match(|ctx, Transitive(Implements()), expected)> actual
+		actual -> <relation-create-match(|ctx, Implements(), expected)> actual
 
 
 	create-widening-lookup(|ctx):
-		t -> <relation-create-lookup(|ctx, Transitive(Widening()))> t
+		t -> <relation-create-lookup(|ctx, Widening())> t
 		
 	create-widening-match(|ctx, expected):
-		actual -> <relation-create-match(|ctx, Transitive(Widening()), expected)> actual
+		actual -> <relation-create-match(|ctx, Widening(), expected)> actual
