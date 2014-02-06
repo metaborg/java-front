@@ -5,11 +5,13 @@ imports
 	include/Java
 	lib/editor-common.generated
 	lib/task/-
+	languages/Java-1.5/types/types/references
+	languages/Java-1.5/types/types/void
 	
 rules
 	
   pp-message-top = origin-track-forced((id, strip-annos; pp-message))
-  pp-message = not(is-list); (is-string <+ pp-result <+ pp-java-string)
+  pp-message = not(is-list); (is-string <+ pp-result <+ custom-pp-java-string <+ pp-java-string <+ (strip-annos; write-to-string))
   pp-message = map(pp-message); concat-strings
   
   pp-result:
@@ -18,5 +20,11 @@ rules
   		if <task-has-failed> result then
   			msg := "fail"
   		else
-  			msg := <task-get-result; map(pp-message); separate-by(|" or "); concat-strings> result
+  			msg := <task-get-results; map(pp-message); separate-by(|" or "); concat-strings> result
   		end
+
+	custom-pp-java-string:
+		RefType(c, tp*) -> <pp-java-string> ClassOrInterfaceType(c, tp*)
+		
+	custom-pp-java-string:
+		VoidType() -> <pp-java-string> Void()
