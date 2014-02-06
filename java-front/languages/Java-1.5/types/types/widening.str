@@ -1,11 +1,19 @@
-module languages/Java-1.5/types/types/widening-primitive
+module languages/Java-1.5/types/types/widening
 
 imports
 	
 	include/Java
+	languages/Java-1.5/classes/types/subtype
+	lib/nabl/-
 	lib/task/-
 	lib/types/-
+	lib/relations/-
+
+rules
 	
+	convert-widening-reference(|ctx, t1):
+		t2 -> <create-widening-match(|ctx, <create-widening-lookup(|ctx)> t1)> t2
+
 signature
 	
 	constructors

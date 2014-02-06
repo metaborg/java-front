@@ -5,7 +5,7 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/widening-primitive
+	languages/Java-1.5/types/types/widening
 	languages/Java-1.5/types/types/equality
 	
 rules

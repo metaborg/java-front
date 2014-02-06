@@ -1,10 +1,23 @@
-module languages/Java-1.5/types/types/narrowing-primitive
+module languages/Java-1.5/types/types/narrowing
 
 imports
 	
 	include/Java
 	lib/task/-
 	lib/types/-
+
+signature
+	
+	constructors
+		
+		NarrowingReferenceConversion : Relation
+
+rules
+	
+	convert-narrowing-reference(|ctx, t1):
+		t2 -> match
+		with
+		  match := <type-match(|ctx, NarrowingReferenceConversion(), t1)> t2
 	
 signature
 	
@@ -17,7 +30,6 @@ rules
 	convert-narrowing-primitive(|ctx, actual-ty):
 		expected-ty -> <type-match(|ctx, NarrowingPrimitiveConversion(), expected-ty)> actual-ty
 	
-	//                                                         (actual, expected)
 	nabl-property-eq: (Type(), NarrowingPrimitiveConversion(), (Byte(), t@Char())) -> t
 	
 	nabl-property-eq: (Type(), NarrowingPrimitiveConversion(), (Short(), t@Byte())) -> t
