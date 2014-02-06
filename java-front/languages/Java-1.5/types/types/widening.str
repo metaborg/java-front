@@ -3,11 +3,11 @@ module languages/Java-1.5/types/types/widening
 imports
 	
 	include/Java
-	languages/Java-1.5/classes/types/subtype
 	lib/nabl/-
 	lib/task/-
 	lib/types/-
 	lib/relations/-
+	languages/Java-1.5/classes/types/subtype
 
 rules
 	

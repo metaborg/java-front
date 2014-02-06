@@ -50,7 +50,7 @@ rules // Task factories
 	create-subtype-lookup(|ctx):
 		t -> <relation-create-lookup(|ctx, Subtype())> t
 
-	create-widening-match(|ctx, expected):
+	create-subtype-match(|ctx, expected):
 		actual -> <relation-create-match(|ctx, Subtype(), expected)> actual
 
 
