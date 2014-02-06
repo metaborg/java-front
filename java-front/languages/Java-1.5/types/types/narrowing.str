@@ -6,7 +6,7 @@ imports
 	lib/task/-
 	lib/types/-
 	lib/relations/-
-	languages/Java-1.5/classes/types/subtype
+	languages/Java-1.5/types/types/subtype
 
 signature
 	
@@ -17,7 +17,7 @@ signature
 rules
 	
 	convert-narrowing-reference(|ctx, t1):
-		t2 -> <create-widening-match(|ctx, <create-widening-lookup(|ctx)> t2)> t1 // Apply widening relation the other way.
+		t2 -> <create-widening-match(|ctx, <create-widening-lookup(|ctx)> t2)> t1 // Apply widening relation the inverse way.
 	
 signature
 	

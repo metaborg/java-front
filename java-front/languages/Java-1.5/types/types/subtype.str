@@ -1,0 +1,54 @@
+module languages/Java-1.5/types/types/subtype
+
+imports
+	
+	include/Java
+	lib/types/-
+	lib/relations/-
+	
+signature
+
+	constructors
+		
+		Subtype    : Relation
+		Implements : Relation
+		Widening   : Relation
+
+rules // Interface hooks
+
+	relation-is-transitive = ?Subtype() + ?Implements() + ?Widening()
+	
+  relation-is-reflexive  = ?Widening()
+
+rules // Storing relation tuples
+	
+	store-subtype-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Subtype(), value)> key
+
+	store-implements-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Implements(), value)> key
+
+	store-widening-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Widening(), value)> key
+
+rules // Task factories
+	
+	create-subtype-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Subtype())> t
+
+	create-subtype-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Subtype(), expected)> actual
+
+
+	create-implements-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Implements())> t
+		
+	create-implements-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Implements(), expected)> actual
+
+
+	create-widening-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Widening())> t
+		
+	create-widening-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Widening(), expected)> actual

@@ -7,7 +7,7 @@ imports
 	lib/task/-
 	lib/types/-
 	lib/relations/-
-	languages/Java-1.5/classes/types/subtype
+	languages/Java-1.5/types/types/subtype
 
 rules
 	
