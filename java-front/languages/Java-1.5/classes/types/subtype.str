@@ -10,7 +10,7 @@ rules
 	nabl-constraint(|ctx):
 		ClassDec(ClassDecHead(_, c, _, SuperDec(pc), _), _) -> <fail>
 		with
-		  <store-subtype-relation(|ctx, c)> pc
+		  <store-subclass-relation(|ctx, c)> pc
 		; <store-widening-relation(|ctx, c)> pc
 			
 	nabl-constraint(|ctx):

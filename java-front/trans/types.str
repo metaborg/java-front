@@ -4,6 +4,7 @@ imports
 	
 	languages/Java-1.5/classes/types/-
 	languages/Java-1.5/expressions/types/-
+	languages/Java-1.5/interfaces/types/-
 	languages/Java-1.5/literals/types/-
 	languages/Java-1.5/names/types/-
 	languages/Java-1.5/statements/types/-

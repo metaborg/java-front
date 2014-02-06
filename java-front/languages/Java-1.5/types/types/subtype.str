@@ -10,20 +10,24 @@ signature
 
 	constructors
 		
-		Subtype    : Relation
-		Implements : Relation
-		Widening   : Relation
+		Subclass     : Relation // Class extends class
+		Subinterface : Relation // Interface extends interface
+		Implements   : Relation // Class implements interface
+		Widening     : Relation // Reference type widens to reference type
 
 rules // Interface hooks
 
-	relation-is-transitive = ?Subtype() + ?Implements() + ?Widening()
+	relation-is-transitive = ?Subclass() + ?Subinterface() + ?Implements() + ?Widening()
 	
   relation-is-reflexive  = ?Widening()
 
 rules // Storing relation tuples
 	
-	store-subtype-relation(|ctx, key):
-		value -> <new-rel-tuple(|ctx, Subtype(), value)> key
+	store-subclass-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Subclass(), value)> key
+		
+	store-subinterface-relation(|ctx, key):
+		value -> <new-rel-tuple(|ctx, Subinterface(), value)> key
 
 	store-implements-relation(|ctx, key):
 		value -> <new-rel-tuple(|ctx, Implements(), value)> key
@@ -33,12 +37,19 @@ rules // Storing relation tuples
 
 rules // Task factories
 	
-	create-subtype-lookup(|ctx):
-		t -> <relation-create-lookup(|ctx, Subtype())> t
+	create-subclass-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Subclass())> t
 
-	create-subtype-match(|ctx, expected):
-		actual -> <relation-create-match(|ctx, Subtype(), expected)> actual
+	create-subclass-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Subclass(), expected)> actual
 
+
+	create-subinterface-lookup(|ctx):
+		t -> <relation-create-lookup(|ctx, Subinterface())> t
+
+	create-subinterface-match(|ctx, expected):
+		actual -> <relation-create-match(|ctx, Subinterface(), expected)> actual
+		
 
 	create-implements-lookup(|ctx):
 		t -> <relation-create-lookup(|ctx, Implements())> t
