@@ -11,8 +11,16 @@ imports
 
 rules
 	
-	convert-widening-reference(|ctx, t1):
-		t2 -> <create-widening-match(|ctx, <create-widening-lookup(|ctx)> t1)> t2
+	convert-widening(|ctx, expected-ty):
+		actual-ty -> <task-create-choice(|ctx)> [primitive, reference]
+		with
+		  primitive := <convert-widening-primitive(|ctx, expected-ty)> actual-ty
+		; reference := <convert-widening-reference(|ctx, expected-ty)> actual-ty
+
+rules
+	
+	convert-widening-reference(|ctx, expected-ty):
+		actual-ty -> <create-widening-match(|ctx, <create-widening-lookup(|ctx)> expected-ty)> actual-ty
 
 signature
 	

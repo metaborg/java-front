@@ -2,9 +2,15 @@ module languages/Java-1.5/classes/names/classes
 
 imports
 
+  lib/nabl/-
+  lib/task/-
+  lib/properties/-
+  lib/types/-
+  lib/editor/-
+  
+  include/Java
 	languages/Java-1.5/types/names/types
 	languages/Java-1.5/types/types/references
-  include/Java
   types
 
 namespaces

@@ -2,6 +2,12 @@ module languages/Java-1.5/names/names/names
   
 imports
 
+  lib/nabl/-
+  lib/task/-
+  lib/properties/-
+  lib/types/-
+  lib/editor/-
+  
   include/Java
   languages/Java-1.5/packages/names/packages
   languages/Java-1.5/packages/trans/desugar

@@ -2,9 +2,15 @@ module languages/Java-1.5/statements/names/statements
 
 imports
 
+  lib/nabl/-
+  lib/task/-
+  lib/properties/-
+  lib/types/-
+  lib/editor/-
+  
+  include/Java
 	languages/Java-1.5/classes/names/classes
   languages/Java-1.5/names/names/names
-  include/Java
 
 namespaces
 
