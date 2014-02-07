@@ -18,14 +18,14 @@ binding rules // Method invocation
 	// TODO: m is a MethodName/1 or MethodName/2 constructor
   Invoke(Method(m), a*):
   	refers to best Method m 
-      of conformant parameter-types pt* // TODO: custom relation
+      // of conformant parameter-types pt* // TODO: custom relation
   	  where
   	  	a* has type pt*
 
 	// TODO: ta* is a Some/None
   Invoke(Method(e, ta*, m), a*):
     refers to best Method m
-      of conformant parameter-types pt* // TODO: custom relation
+      // of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type t
       where 
@@ -35,7 +35,7 @@ binding rules // Method invocation
   // TODO: ta* is a Some/None    
   Invoke(SuperMethod(ta*, m), a*):
     refers to best Method m
-      of conformant parameter-types pt* // TODO: custom relation
+      // of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type t
       where 
@@ -46,7 +46,7 @@ binding rules // Method invocation
   // TODO: ta* is a Some/None    
   Invoke(QSuperMethod(t, ta*, m), a*):
     refers to best Method m
-      of conformant parameter-types pt* // TODO: custom relation
+      // of conformant parameter-types pt* // TODO: custom relation
       of conformant type-parameters ta* // TODO: custom relation
       in Type t
       where 

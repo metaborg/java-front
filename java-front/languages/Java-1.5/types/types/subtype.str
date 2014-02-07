@@ -5,6 +5,8 @@ imports
 	include/Java
 	lib/types/-
 	lib/relations/-
+	lib/task/-
+	languages/Java-1.5/classes/names/classes
 	
 signature
 

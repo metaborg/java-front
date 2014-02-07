@@ -3,17 +3,105 @@ module languages/Java-1.5/expressions/types/invoke
 imports
 	
 	include/Java
+	lib/nabl/-
 	lib/task/-
 	lib/types/-
-	
+	lib/relations/-
+	languages/Java-1.5/classes/names/classes
+	languages/Java-1.5/types/types/subtype
+
 rules
 	
 	create-type-task(|ctx):
-		Invoke(Method(m), arg*) -> return-ty
+		i@Invoke(Method(m), arg*) -> <type-is(|ctx, [sig])> return-ty
 		with
-			return-ty := <type-task(|ctx)> m
-
+		  arg-tys   := <type-task(|ctx)> arg*
+		; Use(defs) := <nabl-collect-use> m
+		; sigs := <create-disambiguate-call(|ctx, arg-tys)> defs
+		; <task-create-error-on-failure(|ctx, sigs, [arg-tys], ["Cannot invoke method ", m, " with parameter types ", arg-tys, "."])> i
+		; ambig := <task-create-error-on-multiple(|ctx, sigs, [arg-tys], ["Method invocation is ambiguous."])> i
+		; sig := <task-create-singleton(|ctx)> sigs
+		; return-ty := <create-signature-return(|ctx)> sig
+		  
 	create-type-task(|ctx):
 		MethodArgs(a*) -> <type-is(|ctx)> [ty*]
 		with
 			ty* := <map(type-task(|ctx))> a*
+
+signature
+
+	constructors
+		
+		DisambiguateCallCreation : List(Def) * List(Type) -> Instruction
+		DisambiguateCall : List(Sig) -> Instruction
+		
+		Signature : Def * List(Type) * Type * Throws -> Signature
+		GetSignatureReturn : Sig -> Instruction
+
+rules // Disambiguation
+	
+	create-disambiguate-call(|ctx, a-ty*):
+		def* -> <new-task(|ctx)> DisambiguateCallCreation(def*, a-ty*)
+	
+	
+	// Task needs to be a combinator because a list of definitions, produced by a task, need to be iterated over.
+	task-is-combinator = ?DisambiguateCallCreation(_, _)
+	task-is-higherorder = ?DisambiguateCallCreation(_, _)
+	
+	perform-task(|task-id):
+		DisambiguateCallCreation(def*, a-ty*) -> DisambiguateCall(sig-d*)
+		where
+		  debugv
+		; a-ty'* := <Hd> a-ty*
+		; map(ppdebugw)
+		; sig1* := <map(disambiguate-create-tuple)> def*
+		; map(ppdebugx)
+		; sig2* := <filter(where(disambiguate-arity(|<length> a-ty'*)))> sig1*
+		; map(ppdebugy)
+		; sig-d* := <map(disambiguate-distances(|task-id, a-ty'*))> sig2*
+		; map(ppdebugz)
+			
+	disambiguate-create-tuple:
+		d -> Signature(d, p-ty*, r-ty, throws)
+		where
+		  p-ty*  := <get-parameter-types; insert-results-or-delay> d // TODO: don't like this insert-results here..
+		; r-ty   := <get-type> d
+		; throws := <get-throws> d
+		  
+  disambiguate-arity(|arity):
+  	Signature(_, p-ty*, _, _) -> <eq> (<length> p-ty*, arity)
+  		
+	disambiguate-distances(|task-id, a-ty*):
+		s@Signature(_, p-ty*, _, _) -> (s, total-distance)
+		where
+			total-distance := <zip(disambiguate-distance(|task-id)); task-create-sum(|task-id)> (a-ty*, p-ty*)
+		  
+  disambiguate-distance(|task-id):
+  	(a-ty, p-ty) -> distance
+  	with
+  	  rel*     := <create-widening-lookup(|task-id); task-debug(|task-id, "HELLOOO ")> a-ty
+		; distance := <relation-create-distance(|task-id, Widening(), rel*)> p-ty
+
+	
+	// Task needs to be a combinator because a list of elements, produced by a task, needs to be sorted.		
+	task-is-combinator = ?DisambiguateCall(_)
+	
+	perform-task(|task-id):
+		DisambiguateCall(sig-d*) -> sig*
+		where
+		  ppdebuga
+		; sig-d-sorted* := <sort-list(LSort(disambiguate-compare-distance))> sig-d*
+		; ppdebugb
+		; sig* := <map(Fst)> sig-d-sorted*
+		; ppdebugc
+	
+	disambiguate-compare-distance:
+		((_, [d1]), (_, [d2])) -> <gt> (d1, d2)
+		// Distances are in singleton lists because they are task results, and this task is a combinator.
+
+
+	create-signature-return(|ctx):
+		sig -> <new-task(|ctx)> GetSignatureReturn(sig)
+		
+	perform-task(|task-id):
+		GetSignatureReturn(Signature(_, _, ret, _)) -> ret
