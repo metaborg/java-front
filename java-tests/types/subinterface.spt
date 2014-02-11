@@ -76,7 +76,7 @@ test subinterface casting [[
 	}
 ]] 0 errors
 
-// TOIDO: generate errors for cyclic subinterfacing
+// TODO: generate errors for cyclic subinterfacing
 // test cyclic subinterfaceing [[
 // 	interface ID extends E {}
 // 	interface E extends ID {}

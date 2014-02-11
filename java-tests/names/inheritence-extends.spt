@@ -8,19 +8,19 @@ test unqualified field inheritence [[
 	multifile
 	
 	class A {
-		int a;
+		int [[a]];
 	}
 	
 	class B extends A {
-		int b = a;
+		int b = [[a]];
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 test unqualified field inheritence from imported class [[
 	multifile
 
 	class A {
-		int a;
+		int [[a]];
 	}
 	
 	=====
@@ -30,9 +30,9 @@ test unqualified field inheritence from imported class [[
 	import A;
 	
 	class B extends A {
-		int b = a;
+		int b = [[a]];
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 test unqualified field inheritence fails 1 [[
 	multifile
@@ -66,15 +66,15 @@ test qualified field inheritence [[
 	package P;
 	
 	class A {
-		int a;
+		int [[a]];
 	}
 	
 	=====
 	
 	class B extends P.A {
-		int b = a;
+		int b = [[a]];
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 test qualified field inheritence fails 1 [[
 	multifile

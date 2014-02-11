@@ -4,7 +4,25 @@ language Java
 
 start symbol Files
 
-setup [[
+test fully qualified class name [[
+	multifile
+	
+	package animals.meowable;
+
+	class [[Cat]] {
+		class Mouth {}
+	}
+	
+	=====
+
+	package barker;
+
+	class Barker {
+		animals.meowable.[[Cat]] cat;
+	}
+]] resolve #2 to #1
+
+test half qualified class name [[
 	multifile
 	
 	package animals.meowable;
@@ -12,21 +30,7 @@ setup [[
 	class Cat {
 		class Mouth {}
 	}
-]]
-
-
-
-test fully qualified class name [[	
-	=====
-
-	package barker;
-
-	class Barker {
-		animals.meowable.Cat cat;
-	}
-]] 0 errors // TODO: resolution expectation
-
-test half qualified class name [[
+	
 	=====
 
 	package barker;
@@ -39,16 +43,32 @@ test half qualified class name [[
 
 
 test fully qualified nested class name [[
+	multifile
+	
+	package animals.meowable;
+
+	class Cat {
+		class [[Mouth]] {}
+	}
+	
 	=====
 
 	package barker;
 
 	class Barker {
-		animals.meowable.Cat.Mouth mouth;
+		animals.meowable.Cat.[[Mouth]] mouth;
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 test half qualified nested class name 1 [[
+	multifile
+	
+	package animals.meowable;
+
+	class Cat {
+		class Mouth {}
+	}
+	
 	=====
 
 	package barker;
@@ -59,6 +79,14 @@ test half qualified nested class name 1 [[
 ]] 4 errors // TODO: should be 3 errors, caused by filtering?
 
 test half qualified nested class name 2 [[
+	multifile
+	
+	package animals.meowable;
+
+	class Cat {
+		class [[Mouth]] {}
+	}
+	
 	=====
 
 	package barker;
@@ -66,13 +94,21 @@ test half qualified nested class name 2 [[
 	import animals.meowable.Cat;
 
 	class Barker {
-		Cat.Mouth mouth;
+		Cat.[[Mouth]] mouth;
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 
 
 test unqualified class name without import [[
+	multifile
+	
+	package animals.meowable;
+
+	class Cat {
+		class Mouth {}
+	}
+	
 	=====
 
 	package barker;
@@ -83,6 +119,14 @@ test unqualified class name without import [[
 ]] 2 errors // TODO: should be 1 error, caused by filtering?
 
 test unqualified class name with class import [[
+	multifile
+	
+	package animals.meowable;
+
+	class [[Cat]] {
+		class Mouth {}
+	}
+	
 	=====
 
 	package barker;
@@ -90,11 +134,19 @@ test unqualified class name with class import [[
 	import animals.meowable.Cat;
 
 	class Barker {
-		Cat cat;
+		[[Cat]] cat;
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 test unqualified class name with wildcard import [[
+	multifile
+	
+	package animals.meowable;
+
+	class [[Cat]] {
+		class Mouth {}
+	}
+	
 	=====
 
 	package barker;
@@ -102,13 +154,21 @@ test unqualified class name with wildcard import [[
 	import animals.meowable.*;
 
 	class Barker {
-		Cat cat;
+		[[Cat]] cat;
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 
 
 test unqualified nested class name with class import [[
+	multifile
+	
+	package animals.meowable;
+
+	class Cat {
+		class [[Mouth]] {}
+	}
+	
 	=====
 
 	package barker;
@@ -116,11 +176,19 @@ test unqualified nested class name with class import [[
 	import animals.meowable.Cat.Mouth;
 
 	class Barker {
-		Mouth mouth;
+		[[Mouth]] mouth;
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 test unqualified nested class name with wildcard import [[
+	multifile
+	
+	package animals.meowable;
+
+	class Cat {
+		class [[Mouth]] {}
+	}
+	
 	=====
 
 	package barker;
@@ -128,18 +196,26 @@ test unqualified nested class name with wildcard import [[
 	import animals.meowable.*;
 
 	class Barker {
-		Cat.Mouth mouth;
+		Cat.[[Mouth]] mouth;
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
 
 
 
 test package sharing [[
+	multifile
+	
+	package animals.meowable;
+
+	class [[Cat]] {
+		class Mouth {}
+	}
+	
 	=====
 		
 	package animals.meowable;
 	
 	class Barker {
-		Cat cat;
+		[[Cat]] cat;
 	}
-]] 0 errors // TODO: resolution expectation
+]] resolve #2 to #1
