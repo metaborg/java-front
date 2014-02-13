@@ -1,0 +1,22 @@
+module types-primitive
+
+language Java
+
+start symbol File
+
+test integer [[ 
+	class Test {
+		int m() {
+			return [[1]];
+		}
+	}
+]] run get-type to Int()
+
+test integer [[ 
+	class Test {
+		[[int]] m() {
+			return 1;
+		}
+	}
+]] run get-type to Int()
+
