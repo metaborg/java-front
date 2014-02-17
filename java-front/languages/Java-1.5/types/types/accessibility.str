@@ -15,13 +15,11 @@ imports
 	
 rules
 
-	is-member-accessible(|ctx, ctx-uri):
+	is-member-accessible(|ctx, mods, ctx-uri):
 		member -> <task-create-choice(|ctx)> [is-pub, prot-access, def-access, priv-access]
-		where
-		  mods := <prop-create-lookup(|ctx, Type())> member
-		  
-		  // Public members are always accessible
-		; is-pub := <task-create-fetch(|ctx, mods)> Public()
+		with
+		// Public members are always accessible
+		  is-pub := <task-create-fetch(|ctx, mods)> Public()
 		
 		// Private members are only accessible within the same type.
 	  ; is-priv            := <task-create-fetch(|ctx, mods)> Private()
@@ -44,11 +42,11 @@ rules
   	; same-dpackage          := <task-create-eq(|ctx, member-dpackage-uri)> enclosing-dpackage-uri
   	  // Default access
   	; def-access := <task-create-sequence(|ctx)> [is-def, <task-create-choice(|ctx)> [same-package, same-dpackage]]
-  	  
+  	
 		// Protected members are accessible within the same package, and any subclass.
 		; is-prot := <task-create-fetch(|ctx, mods)> Protected()
   	  // Subclass
-		; member-ty            := <type-task(|ctx)> member
+		; member-ty            := <get-type> member
 		; enclosing-ty-widened := <get-type; create-widening-lookup(|ctx)> enclosing-type-uri
 	  ; widen                := <create-widening-match(|ctx, enclosing-ty-widened)> member-ty
 	    // Protected access

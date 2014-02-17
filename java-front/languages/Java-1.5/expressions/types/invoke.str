@@ -9,15 +9,17 @@ imports
 	lib/relations/-
 	languages/Java-1.5/classes/names/classes
 	languages/Java-1.5/types/types/subtype
+	languages/Java-1.5/types/types/accessibility
 
 rules
 	
-	create-type-task(|ctx):
+	create-type-task(|ctx, uri*):
 		i@Invoke(Method(m), arg*) -> <type-is(|ctx, [sig])> return-ty
 		with
-		  arg-tys   := <type-task(|ctx)> arg*
+			ctx-uri   := <lookup-uri(|uri*)> NablNsMethod()
+		; arg-tys   := <type-task(|ctx)> arg*
 		; Use(defs) := <nabl-collect-use> m
-		; sigs := <create-disambiguate-call(|ctx, arg-tys)> defs
+		; sigs := <create-disambiguate-call(|ctx, arg-tys, ctx-uri)> defs
 		; <task-create-error-on-failure(|ctx, sigs, [arg-tys], ["Cannot invoke method ", m, " with parameter types ", arg-tys, "."])> i
 		; ambig := <task-create-error-on-multiple(|ctx, sigs, [arg-tys], ["Method invocation is ambiguous."])> i
 		; sig := <task-create-singleton(|ctx)> sigs
@@ -32,7 +34,7 @@ signature
 
 	constructors
 		
-		DisambiguateCallCreation : List(Def) * List(Type) -> Instruction
+		DisambiguateCallCreation : List(Def) * List(Type) * URI -> Instruction
 		DisambiguateCall : List(Sig) -> Instruction
 		
 		Signature : Def * List(Type) * Type * List(Modifier) * Throws -> Signature
@@ -40,21 +42,21 @@ signature
 
 rules // Disambiguation
 	
-	create-disambiguate-call(|ctx, a-ty*):
-		def* -> <new-task(|ctx)> DisambiguateCallCreation(def*, a-ty*)
+	create-disambiguate-call(|ctx, a-ty*, ctx-uri):
+		def* -> <new-task(|ctx)> DisambiguateCallCreation(def*, a-ty*, ctx-uri)
 	
 	
 	// Task needs to be a combinator because a list of definitions, produced by a task, need to be iterated over.
-	task-is-combinator = ?DisambiguateCallCreation(_, _)
-	task-is-higherorder = ?DisambiguateCallCreation(_, _)
+	task-is-combinator = ?DisambiguateCallCreation(_, _, _)
+	task-is-higherorder = ?DisambiguateCallCreation(_, _, _)
 	
 	perform-task(|task-id):
-		DisambiguateCallCreation(def*, a-ty*) -> DisambiguateCall(sig-d*)
+		DisambiguateCallCreation(def*, a-ty*, ctx-uri) -> DisambiguateCall(sig-d*)
 		where
 		  a-ty'* := <Hd> a-ty*
 		; sig1*  := <map(disambiguate-create-tuple)> def*
 		; sig2*  := <filter(where(disambiguate-arity(|<length> a-ty'*)))> sig1*
-		; sig3*  := <filter(where(disambiguate-accessible))> sig2*
+		; sig3*  := <filter(where(disambiguate-accessible(|task-id, ctx-uri)))> sig2*
 		; sig-d* := <map(disambiguate-distances(|task-id, a-ty'*))> sig3*
 			
 	disambiguate-create-tuple:
@@ -68,8 +70,8 @@ rules // Disambiguation
   disambiguate-arity(|arity):
   	Signature(_, p-ty*, _, _, _) -> <eq> (<length> p-ty*, arity)
   	
-	disambiguate-accessible:
-		Signature(_, _, _, mod*, _) -> <id> mod*
+	disambiguate-accessible(|ctx, ctx-uri):
+		Signature(d, _, _, mod*, _) -> <is-member-accessible(|ctx, mod*, ctx-uri)> d
   		
 	disambiguate-distances(|task-id, a-ty*):
 		s@Signature(_, p-ty*, _, _, _) -> (s, total-distance)
