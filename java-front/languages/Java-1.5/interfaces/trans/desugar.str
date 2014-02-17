@@ -5,6 +5,19 @@ imports
   include/Java
 
 rules
+	
+rules // Default access modifier
+	
+	desugar-add-public-modifier:
+		m* -> [Default()|m*]
+		where
+			<not(fetch(?Public()))> m*
+			
+	desugar = InterfaceDecHead(desugar-add-public-modifier, id, id, id)
+	desugar = AbstractMethodDec(desugar-add-public-modifier, id, id, id, id, id)
+	desugar = DeprAbstractMethodDec(desugar-add-public-modifier, id, id, id, id, id, id)
+
+rules
   
   desugar:
     Anno(t, pair*) -> <map(desugar-anno(|t))> pair*
@@ -19,10 +32,7 @@ rules
     interface -> ExtendsInterfaces(interface)
     
   desugar:
-    ConstantDec(m*, t, vardec*) -> <map(desugar-constantdec(|m*, t))> vardec*
+    ConstantDec(m*, t, vardec*) -> <map(desugar-constantdec(|<desugar-add-public-modifier> m*, t))> vardec*
     
   desugar-constantdec(|m*, t):
     v -> ConstantDec(m*, t, v)
-    
-  desugar-constantdec(|m*, t):
-    v -> ConstantDec(m*, t, v)  

@@ -5,6 +5,18 @@ imports
   include/Java
   names
 
+rules // Default access modifier
+	
+	desugar-add-default-modifier:
+		m* -> [Default()|m*]
+		where
+			<not(fetch(?Public() <+ ?Protected() <+ ?Private()))> m*
+			
+	desugar = ClassDecHead(desugar-add-default-modifier, id, id, id, id)
+	desugar = ConstrDecHead(desugar-add-default-modifier, id, id, id, id)
+	desugar = MethodDecHead(desugar-add-default-modifier, id, id, id, id, id)
+	desugar = DeprMethodDecHead(desugar-add-default-modifier, id, id, id, id, id, id)
+
 rules // Multiple implements declarations
   
   desugar: 
@@ -16,7 +28,7 @@ rules // Multiple implements declarations
 rules // Multiple field declarations
 
   desugar:
-    FieldDec(m*, t, vardec*) -> <map(desugar-fielddec(|m*, t))> vardec*
+    FieldDec(m*, t, vardec*) -> <map(desugar-fielddec(|<desugar-add-default-modifier> m*, t))> vardec*
     
   desugar-fielddec(|m*, t):
     v -> FieldDec(m*, t, v)

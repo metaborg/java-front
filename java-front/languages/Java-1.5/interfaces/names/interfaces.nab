@@ -39,10 +39,10 @@ binding rules // annotations
   
 binding rules // Interfaces
 
-  InterfaceDec(InterfaceDecHead(m, i, tp*, _), _):
+  InterfaceDec(InterfaceDecHead(m*, i, tp*, _), _):
     defines Type i
       of type RefType(TypeName(i), None())
-      of modifiers m
+      of modifiers m*
       of type-parameters tp*
     scopes Type, TypeParam, Field, Method
   
@@ -55,38 +55,38 @@ binding rules // Interfaces
       
 binding rules // Constants
 
-	ConstantDec(m, t, VarDec(c)):
+	ConstantDec(m*, t, VarDec(c)):
     defines Field c
       of type t'
-      of modifiers m
+      of modifiers m*
       in subsequent scope
       where t has type t'
 
-  ConstantDec(m, t, VarDec(c, _)):
+  ConstantDec(m*, t, VarDec(c, _)):
   	defines Field c
   	  of type t'
-  	  of modifiers m
+  	  of modifiers m*
       in subsequent scope
       where t has type t'
       
 binding rules // Asbtract methods
 
-  AbstractMethodDec(mod, _, t, m, p*, th):
+  AbstractMethodDec(m*, _, t, m, p*, th):
   	defines Method m
       of type t'
       of parameter-types pt*
       of throws th
-      of modifiers mod
+      of modifiers m*
       where p* has type pt*
       and t has type t'
     scopes Variable
 
-  DeprAbstractMethodDec(mod, _, t, m, p*, _, th):
+  DeprAbstractMethodDec(m*, _, t, m, p*, _, th):
     defines Method m
       of type t'
       of parameter-types pt*
       of throws th
-      of modifiers mod
+      of modifiers m*
       where p* has type pt*
       and t has type t'
     scopes Variable
