@@ -37,7 +37,7 @@ signature
 		DisambiguateCallCreation : List(Def) * List(Type) * URI -> Instruction
 		DisambiguateCall : List(Sig) -> Instruction
 		
-		Signature : Def * List(Type) * Type * List(Modifier) * Throws -> Signature
+		Signature : Def * List(Type) * Type * List(Modifier) * Throws * Result -> Signature
 		GetSignatureReturn : Sig -> Instruction
 
 rules // Disambiguation
@@ -54,27 +54,21 @@ rules // Disambiguation
 		DisambiguateCallCreation(def*, a-ty*, ctx-uri) -> DisambiguateCall(sig-d*)
 		where
 		  a-ty'* := <Hd> a-ty*
-		; sig1*  := <map(disambiguate-create-tuple)> def*
-		; sig2*  := <filter(where(disambiguate-arity(|<length> a-ty'*)))> sig1*
-		; sig3*  := <filter(where(disambiguate-accessible(|task-id, ctx-uri)))> sig2*
-		; sig-d* := <map(disambiguate-distances(|task-id, a-ty'*))> sig3*
+		; sig*   := <filter(disambiguate-create-tuple(|<length> a-ty'*, task-id, ctx-uri))> def*
+		; sig-d* := <map(disambiguate-distances(|task-id, a-ty'*))> sig*
 			
-	disambiguate-create-tuple:
-		d -> Signature(d, p-ty*, r-ty, mod*, throws)
+	disambiguate-create-tuple(|arity, ctx, ctx-uri):
+		d -> Signature(d, p-ty*, r-ty, mod*, throws, accessible)
 		where
-		  p-ty*  := <get-parameter-types; insert-results-or-delay> d // TODO: don't like this insert-results here..
-		; r-ty   := <get-type> d
-		; mod*   := <get-modifiers> d
-		; throws := <get-throws> d
-		  
-  disambiguate-arity(|arity):
-  	Signature(_, p-ty*, _, _, _) -> <eq> (<length> p-ty*, arity)
-  	
-	disambiguate-accessible(|ctx, ctx-uri):
-		Signature(d, _, _, mod*, _) -> <is-member-accessible(|ctx, mod*, ctx-uri)> d
+		  p-ty*      := <get-parameter-types; insert-results-or-delay> d // TODO: don't like this insert-results here..
+		; <eq> (<length> p-ty*, arity)
+		; r-ty       := <get-type> d
+		; mod*       := <get-modifiers> d
+		; throws     := <get-throws> d
+		; accessible := <is-member-accessible(|ctx, mod*, ctx-uri)> d
   		
 	disambiguate-distances(|task-id, a-ty*):
-		s@Signature(_, p-ty*, _, _, _) -> (s, total-distance)
+		s@Signature(_, p-ty*, _, _, _, _) -> (s, total-distance)
 		where
 			total-distance := <zip(disambiguate-distance(|task-id)); task-create-sum(|task-id)> (a-ty*, p-ty*)
 		  
@@ -91,8 +85,12 @@ rules // Disambiguation
 	perform-task(|task-id):
 		DisambiguateCall(sig-d*) -> sig*
 		where
-		  sig-d-sorted* := <sort-list(LSort(disambiguate-compare-distance))> sig-d*
-		; sig* := <take-while(?(_, x)); map(Fst)> sig-d-sorted* // Take all signatures with the same distance.
+			sig-a*        := <remove-all(disambiguate-is-not-accessible)> sig-d*
+		; sig-d-sorted* := <sort-list(LSort(disambiguate-compare-distance))> sig-a*
+		; sig*          := <take-while(?(_, x)); map(Fst)> sig-d-sorted* // Take all signatures with the same distance.
+	
+	disambiguate-is-not-accessible =
+		?(Signature(_, _, _, _, _, []), _) 
 	
 	disambiguate-compare-distance:
 		((_, [d1]), (_, [d2])) -> <gt> (d1, d2)
@@ -103,4 +101,4 @@ rules // Disambiguation
 		sig -> <new-task(|ctx)> GetSignatureReturn(sig)
 		
 	perform-task(|task-id):
-		GetSignatureReturn(Signature(_, _, ret, _, _)) -> ret
+		GetSignatureReturn(Signature(_, _, ret, _, _, _)) -> ret
