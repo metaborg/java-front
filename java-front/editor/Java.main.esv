@@ -19,3 +19,4 @@ language General properties
   // provider : include/java-java.jar                                                                                          
 	
   observer : editor-analyze (multifile)
+  on save  : editor-save
