@@ -4,7 +4,7 @@ language Java
 
 start symbol File
 
-test integer [[ 
+test integer literal [[ 
 	class Test {
 		int m() {
 			return [[1]];
@@ -12,11 +12,30 @@ test integer [[
 	}
 ]] run get-type to Int()
 
-test integer [[ 
+test integer type [[ 
 	class Test {
 		[[int]] m() {
 			return 1;
 		}
 	}
 ]] run get-type to Int()
+
+
+test float literal [[ 
+	class Test {
+		float m() {
+			return [[1.0]];
+		}
+	}
+]] run get-type to Float()
+
+test float type [[ 
+	class Test {
+		[[float]] m() {
+			return 1;
+		}
+	}
+]] run get-type to Float()
+
+
 
