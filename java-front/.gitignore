@@ -20,7 +20,7 @@ syntax/Java*.generated.esv
 syntax/Java.generated.pp
 .settings/org.eclipse.jdt.core.prefs
 utils
-lib/*.generated.str
+*.generated.str
 lib/index
 lib/nbl
 lib/task
