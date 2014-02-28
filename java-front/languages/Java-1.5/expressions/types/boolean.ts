@@ -9,24 +9,20 @@ imports
 	
 type rules
 	
-  Lt(x, y)
-+ Gt(x, y)
-+ LtEq(x, y)
-+ GtEq(x, y) : Boolean()
+  Lt(x, y) + Gt(x, y) + LtEq(x, y) + GtEq(x, y) : Boolean()
   where x : x-ty
     and y : y-ty
-    and <num: x-ty else "Expected numerical"
-    and <num: y-ty else "Expected numerical"
+    and x-ty <is: Numerical() else "Expected numerical"
+    and y-ty <is: Numerical() else "Expected numerical"
   
   // TODO: check for null type  
-  Eq(x, y)
-+ NotEq(x, y) : Boolean()
+  Eq(x, y) + NotEq(x, y) : Boolean()
   where x : x-ty
     and y : y-ty
     and (
-    	(<num: x-ty and <num: y-ty)
+    	(x-ty <is: Numerical() and y-ty <is: Numerical())
     	or
-    	(<bool: x-ty and <bool: y-ty)
+    	(x-ty == Boolean() and y-ty == Boolean())
     	or
-    	(<ref: x-ty and <ref: y-ty)
+    	(x-ty <is: Reference() and y-ty <is: Reference())
     ) else "Expected numericals, booleans or references"

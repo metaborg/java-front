@@ -13,7 +13,7 @@ type rules
 	Assign(v, e) + LocalVarDec(_, v, VarDec(_, e)): ty
 	where v : v-ty
 	  and e : e-ty
-	  and e-ty <conv: v-ty => ty
+	  and e-ty <assign-conv: v-ty => ty
 	    else $[Cannot assign expression of type [e-ty] to variable of type [v-ty]]
 	  
   AssignPlus(v, e) // TODO: can also be string concatenation, needs a special case

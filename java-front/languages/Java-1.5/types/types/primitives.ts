@@ -5,7 +5,7 @@ imports
 	include/Java
 	lib/types/-
 	
-type rules
+type rules // Primitive types
 
 	Boolean() : Boolean()
 	Byte()    : Byte()
@@ -16,35 +16,27 @@ type rules
 	Float()   : Float()
 	Double()  : Double()
 
-type rules
+type rules // Primitive type kinds
 
-  <bool:   Boolean()
-  <byte:   Byte()
-  <short:  Short()
-  <char:   Char()
-  <int:    Int()
-  <long:   Long()
-  <double: Double()
-  
-  <integral: t
-  where <byte:  t
-     or <short: t
-     or <int:   t
-     or <long:  t
+  t <is: Integral()
+  where t == Byte()
+     or t == Short()
+     or t == Int()
+     or t == Long()
      
-	<decimal: t
-	where <float:  t
-	   or <double: t
+	t <is: Decimal()
+	where t == Float()
+	   or t == Double()
 	   
-	<numerical: t
-	where <integral: t
-	   or <decimal:  t
+	t <is: Numerical()
+	where t <is: Integral()
+	   or t <is: Decimal()
 	   
-	<prim: t
-  where <bool:  t
-    or <byte:   t
-    or <short:  t
-    or <char:   t
-    or <int:    t
-    or <long:   t
-    or <double: t
+	t <is: Primitive()
+  where t == Byte()
+     or t == Short()
+     or t == Char()
+     or t == Int()
+     or t == Long()
+	   or t == Float()
+	   or t == Double()

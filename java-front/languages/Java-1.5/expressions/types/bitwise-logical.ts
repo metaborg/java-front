@@ -10,37 +10,34 @@ imports
 	
 type rules
 
-  And(x, y)
-+ ExcOr(x, y)
-+ Or(x, y) : ty
+  And(x, y) + ExcOr(x, y) + Or(x, y) : ty
   where x : x-ty
     and y : y-ty
     and (
     	(
-    	      <num: x-ty
-    	  and <num: y-ty
-    	  and x-ty <prom: y-ty => ty
+    	      x-ty <is: Numerical()
+    	  and y-ty <is: Numerical()
+    	  and x-ty <promote-bin: y-ty => ty
   	  )
       or
       (
-    	      <bool: x-ty
-    	  and <bool: y-ty
+    	      x-ty == Boolean()
+    	  and y-ty == Boolean()
     	  and Boolean() => ty
       )
     ) else "Expected numbers or booleans"
 
-  LazyAnd(x, y)
-+ LazyOr(x, y) : Boolean()
+  LazyAnd(x, y) + LazyOr(x, y) : Boolean()
   where x : x-ty
     and y : y-ty
-    and <bool: x
-    and <bool: y else "Expected booleans"
+    and x-ty == Boolean()
+    and y-ty == Boolean() else "Expected booleans"
     
   Not(e) : ty
   where e : ty
-    and <bool: ty else "Expected boolean"
+    and ty == Boolean() else "Expected boolean"
 
 	Complement(e) : prom-ty
 	where e : ty
-	  and <integral: ty else "Expected integral"
-	  and <prom: ty => prom-ty
+	  and ty <is: Integral() else "Expected integral"
+	  and ty <promote-un: ty => prom-ty

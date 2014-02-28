@@ -11,11 +11,11 @@ imports
 type rules
 
 	// TODO: apply narrowing primitive conversion to constant expression if spec allows it (pg. 66)
-	e-ty <conv: v-ty
-	where e-ty <w: v-ty
+	e-ty <assign-conv: v-ty
+	where e-ty <widens: v-ty
 	
 	// pg 397. Compount assignment E1 op= E2 is equivalent to E1 = (T)((E1) op (E2)) where T is type of E1.
 	// TODO: apply narrowing primitive conversion to constant expression if spec allows it (pg. 66)
-	e-ty <comp-conv: v-ty
-	where e-ty <wp: v-ty
-	   or e-ty <np: v-ty
+	e-ty <comp-assign-conv: v-ty
+	where e-ty <widens-prim: v-ty
+	   or e-ty <narrows-prim: v-ty

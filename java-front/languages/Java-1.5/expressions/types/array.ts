@@ -12,21 +12,21 @@ type rules // Array creation
 
   NewArray(t, dim1*, dim2*): array-ty
   where t : ty
-    and ([dim1*, dim2*], ty) : array-ty
+    and ([dim1*, dim2*], ty) <create-array-type: array-ty
 
   NewArrayInit(t, dim1*, _): array-ty
   where t : ty
-    and (dim1*, ty) : array-ty
+    and (dim1*, ty) <create-array-type: array-ty
 
-  ([Dim(_)|s], ty): ArrayType(t)
+  ([Dim(_)|s], ty) <create-array-type: ArrayType(t)
   where s : t
   
-  ([], ty): ArrayType(ty)
+  ([], ty) <create-array-type: ArrayType(ty)
   
   Dim(e) :-
   where e : ty
-    and <prom: ty => prom-ty
-    and <int: prom else "Expected integer" on e
+    and ty <promote-un: ty => prom-ty
+    and prom-ty == Integer() else "Expected integer" on e
 
 type rules // Array access
 
@@ -34,5 +34,5 @@ type rules // Array access
 	where e : e-ty
 	  and i : i-ty
 	  and e-ty : ArrayType(t) else "Expected array" on e
-	  and <prom: i-ty => prom-ty
-	  and <int: i-ty else "Expected integer" on i
+	  and i-ty <promote-un: i-ty => prom-ty
+	  and i-ty == Integer() else "Expected integer" on i

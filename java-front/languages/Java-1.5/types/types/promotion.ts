@@ -10,10 +10,10 @@ imports
 	
 type rules
 
-	t1 <prom: t2
-	where t1 <wp: t2
+	t1 <promote-bin: t2
+	where t1 <widens-prim: t2
 
-	<prom: t
-	where (<byte: t or <short: t or <char: t)
-	and t <wp: Int()
+	t <promote-un: t
+	where (t == Byte() or t == Short() or t == Char())
+	  and t <widens-prim: Int()
   

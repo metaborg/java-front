@@ -11,41 +11,41 @@ imports
 	
 type rules // Type widening relation for reference and primitive types
 
-  e <w: a
-  where e <wp: a
-     or e <wr: a
+  e <widens: a
+  where e <widens-prim: a
+     or e <widens-ref: a
 
 type rules // Widening primitive types
 
-  Byte()   <wp: Byte()
-  Byte()   <wp: Short()
-  Byte()   <wp: Int()
-  Byte()   <wp: Long()
-  Byte()   <wp: Float()
-  Byte()   <wp: Double()
+  Byte()   <widens-prim: Byte()
+  Byte()   <widens-prim: Short()
+  Byte()   <widens-prim: Int()
+  Byte()   <widens-prim: Long()
+  Byte()   <widens-prim: Float()
+  Byte()   <widens-prim: Double()
   
-  Short()  <wp: Short()
-  Short()  <wp: Int()
-  Short()  <wp: Long()
-  Short()  <wp: Float()
-  Short()  <wp: Double()
+  Short()  <widens-prim: Short()
+  Short()  <widens-prim: Int()
+  Short()  <widens-prim: Long()
+  Short()  <widens-prim: Float()
+  Short()  <widens-prim: Double()
   
-  Char()   <wp: Char()
-  Char()   <wp: Int()
-  Char()   <wp: Long()
-  Char()   <wp: Float()
-  Char()   <wp: Double()
+  Char()   <widens-prim: Char()
+  Char()   <widens-prim: Int()
+  Char()   <widens-prim: Long()
+  Char()   <widens-prim: Float()
+  Char()   <widens-prim: Double()
   
-  Int()    <wp: Int()
-  Int()    <wp: Long()
-  Int()    <wp: Float()
-  Int()    <wp: Double()
+  Int()    <widens-prim: Int()
+  Int()    <widens-prim: Long()
+  Int()    <widens-prim: Float()
+  Int()    <widens-prim: Double()
    
-  Long()   <wp: Long()
-  Long()   <wp: Float()
-  Long()   <wp: Double()
+  Long()   <widens-prim: Long()
+  Long()   <widens-prim: Float()
+  Long()   <widens-prim: Double()
   
-  Float()  <wp: Float()
-  Float()  <wp: Double()
+  Float()  <widens-prim: Float()
+  Float()  <widens-prim: Double()
   
-  Double() <wp: Double()
+  Double() <widens-prim: Double()

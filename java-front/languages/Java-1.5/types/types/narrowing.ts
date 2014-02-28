@@ -10,40 +10,40 @@ imports
 
 type rules // Type narrowing relation for reference and primitive types
 
-	e <n: a
-	where e <np: a
-		 or e <nr: a
+	e <narrows: a
+	where e <narrows-prim: a
+		 or e <narrows-ref: a
 		 
 type rules // Narrowing reference types
 
-	e <nr: a
-	where a <wr: e // Apply widening on references the other way around.
+	e <narrows-ref: a
+	where a <widens-ref: e // Apply widening on references the other way around.
 	  
 type rules // Narrowing primitive types
 
-	Double() <np: Byte()
-	Double() <np: Short()
-	Double() <np: Char()
-	Double() <np: Int()
-	Double() <np: Long()
-	Double() <np: Float()
+	Double() <narrows-prim: Byte()
+	Double() <narrows-prim: Short()
+	Double() <narrows-prim: Char()
+	Double() <narrows-prim: Int()
+	Double() <narrows-prim: Long()
+	Double() <narrows-prim: Float()
 	
-	Float()  <np: Byte()
-	Float()  <np: Short()
-	Float()  <np: Char()
-	Float()  <np: Int()
-	Float()  <np: Long()
+	Float()  <narrows-prim: Byte()
+	Float()  <narrows-prim: Short()
+	Float()  <narrows-prim: Char()
+	Float()  <narrows-prim: Int()
+	Float()  <narrows-prim: Long()
 	
-	Long()   <np: Byte()
-	Long()   <np: Short()
-	Long()   <np: Char()
-	Long()   <np: Int()
+	Long()   <narrows-prim: Byte()
+	Long()   <narrows-prim: Short()
+	Long()   <narrows-prim: Char()
+	Long()   <narrows-prim: Int()
 	
-	Int()    <np: Byte()
-	Int()    <np: Short()
-	Int()    <np: Char()
+	Int()    <narrows-prim: Byte()
+	Int()    <narrows-prim: Short()
+	Int()    <narrows-prim: Char()
 	
-	Short()  <np: Byte()
-	Short()  <np: Char()
+	Short()  <narrows-prim: Byte()
+	Short()  <narrows-prim: Char()
 	
-	Byte()   <np: Char()
+	Byte()   <narrows-prim: Char()
