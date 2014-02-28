@@ -9,8 +9,8 @@ type rules
 
 	// TODO: store relations
 	ClassDec(ClassDecHead(_, c, _, SuperDec(pc), _), _) :-
-	where store c <wr: pc
+	where store(c <wr: pc)
 	
 	// TODO: list matching
 	ClassDec(ClassDecHead(_, c, _, _, ... ImplementsDec(ic) ...), _) :-
-	where store c <wr: ic
+	where store(c <wr: ic)
