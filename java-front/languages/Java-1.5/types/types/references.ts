@@ -13,8 +13,6 @@ type rules
 	
 	ArrayType(t) : ArrayType(t)
 
-	Null() : Null()
-
 type rules
 	
 	<reft: RefType(_, _)
@@ -24,4 +22,4 @@ type rules
 	<ref: t
 	where <reft:  t
 	   or <array: t
-	   or <null:  t
+	   or <null:  t // TODO: should this allow null?
