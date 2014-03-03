@@ -14,8 +14,8 @@ type rules
 	InstanceOf(e, t): Boolean()
 	where e : e-ty
 	  and t : t-ty
-	  and <ref: e-ty else "Expected reference" on e
-	  and <ref: t-ty else "Expected reference" on t
+	  and <ref: e-ty else error "Expected reference" on e
+	  and <ref: t-ty else error "Expected reference" on t
 
 	QThis(ty) : ty
 	
