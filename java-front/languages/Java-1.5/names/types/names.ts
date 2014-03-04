@@ -9,7 +9,7 @@ type rules
 	
   AmbName(n)
 + AmbName(_, n)
-+ ackageOrTypeName(n)
++ PackageOrTypeName(n)
 + PackageOrTypeName(_, n)
 + TypeName(n)
 + TypeName(_, n)
