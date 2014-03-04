@@ -25,19 +25,19 @@ type rules
     	  and y-ty == Boolean()
     	  and Boolean() => ty
       )
-    ) else error "Expected numbers or booleans"
+    ) else "Expected numbers or booleans"
 
   LazyAnd(x, y) + LazyOr(x, y) : Boolean()
   where x : x-ty
     and y : y-ty
     and x-ty == Boolean()
-    and y-ty == Boolean() else error "Expected booleans"
+    and y-ty == Boolean() else "Expected booleans"
     
   Not(e) : ty
   where e : ty
-    and ty == Boolean() else error "Expected boolean"
+    and ty == Boolean() else "Expected boolean"
 
 	Complement(e) : prom-ty
 	where e : ty
-	  and ty <is: Integral() else error "Expected integral"
+	  and ty <is: Integral() else "Expected integral"
 	  and ty <promote-un: ty => prom-ty

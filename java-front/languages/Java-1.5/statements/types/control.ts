@@ -18,4 +18,4 @@ type rules
 + For(_, e, _, _) :-
   where e != None()
     and e : ty
-    and ty == Boolean() else error "Expected boolean" on e
+    and ty == Boolean() else "Expected boolean" on e

@@ -18,14 +18,7 @@ type rules // Narrowing reference types
 
 	e <narrows-ref: a
 	where a <widens-ref: e // Apply widening on references the other way around.
-	
-	// TODO:
-	// * From any class type C to any non-parameterized interface type K, provided that C is not final and does not implement K.
-	// * From any interface type J to any non-parameterized class type C that is not final.
-	// * From the interface types Cloneable and java.io.Serializable to any array type T[].
-	// * From any interface type J to any non-parameterized interface type K, pro- vided that J is not a subinterface of K.
-	// * From any array type SC[] to any array type TC[], provided that SC and TC are reference types and there is a narrowing conversion from SC to TC.
-	
+	  
 type rules // Narrowing primitive types
 
 	Double() <narrows-prim: Byte()
