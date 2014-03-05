@@ -10,10 +10,14 @@ imports
 	
 type rules
 
+	// TODO: check correctness
 	t1 <promote-bin: t2
 	where t1 <widens-prim: t2
 
-	t <promote-un: t
-	where (t == Byte() or t == Short() or t == Char())
-	  and t <widens-prim: Int()
-  
+type functions
+
+	// TODO: check correctness
+	promote-un :
+		t -> Int()
+		where (t == Byte() or t == Short() or t == Char())
+	    and t <widens-prim: Int()

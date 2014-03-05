@@ -10,24 +10,26 @@ imports
 	
 type rules
 
-	Assign(v, e) + LocalVarDec(_, v, VarDec(_, e)): ty
+	t@Assign(v, e) + t@LocalVarDec(_, v, VarDec(_, e)): v-ty
 	where v : v-ty
 	  and e : e-ty
-	  and e-ty <assign-conv: v-ty => ty
-	    else $[Cannot assign expression of type [e-ty] to variable of type [v-ty]]
+	  and e-ty <assign-conv: v-ty
+	    else error "Cannot assign expression of type [e-ty] to variable of type [v-ty]" on t
+	    
 	  
-  AssignPlus(v, e) // TODO: can also be string concatenation, needs a special case
-+ AssignMinus(v, e)
-+ AssignMul(v, e)
-+ AssignDiv(v, e)
-+ AssignMod(v, e)
-+ AssignLeftShift(v, e)
-+ AssignRightShift(v, e)
-+ AssignURightShift(v, e)
-+ AssignAnd(v, e)
-+ AssignExcOr(v, e)
-+ AssignOr(v, e) : v-ty
+  t@AssignPlus(v, e) // TODO: can also be string concatenation, needs a special case
++ t@AssignMinus(v, e)
++ t@AssignMul(v, e)
++ t@AssignDiv(v, e)
++ t@AssignMod(v, e)
++ t@AssignLeftShift(v, e)
++ t@AssignRightShift(v, e)
++ t@AssignURightShift(v, e)
++ t@AssignAnd(v, e)
++ t@AssignExcOr(v, e)
++ t@AssignOr(v, e) : v-ty
   where v : v-ty
     and e : e-ty
     and e-ty <conv-comp: v-ty
-      else $[Cannot assign expression of type [e-ty] to variable of type [v-ty]]
+      else error "Cannot assign expression of type [e-ty] to variable of type [v-ty]" on t
+ 

@@ -18,25 +18,22 @@ type rules // Primitive types
 
 type rules // Primitive type kinds
 
-  t <is: Integral()
-  where t == Byte()
-     or t == Short()
-     or t == Int()
-     or t == Long()
+  Byte()  <is: Integral()
+  Short() <is: Integral()
+  Int()   <is: Integral()
+  Long()  <is: Integral()
      
-	t <is: Decimal()
-	where t == Float()
-	   or t == Double()
+	Float()  <is: Decimal()
+	Double() <is: Decimal()
 	   
 	t <is: Numerical()
 	where t <is: Integral()
 	   or t <is: Decimal()
 	   
-	t <is: Primitive()
-  where t == Byte()
-     or t == Short()
-     or t == Char()
-     or t == Int()
-     or t == Long()
-	   or t == Float()
-	   or t == Double()
+	Byte()   <is: Primitive()
+	Short()  <is: Primitive()
+	Char()   <is: Primitive()
+	Int()    <is: Primitive()
+	Long()   <is: Primitive()
+	Float()  <is: Primitive()
+	Double() <is: Primitive()

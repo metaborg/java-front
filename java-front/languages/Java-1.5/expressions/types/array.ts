@@ -25,14 +25,14 @@ type rules // Array creation
   
   Dim(e) :-
   where e : ty
-    and ty <promote-un: ty => prom-ty
-    and prom-ty == Integer() else "Expected integer" on e
+    and <promote-un> ty => prom-ty
+    and prom-ty == Int() else error "Expected integer" on e
 
 type rules // Array access
 
 	ArrayAccess(e, i) : inner-ty
 	where e : e-ty
 	  and i : i-ty
-	  and e-ty : ArrayType(t) else "Expected array" on e
-	  and i-ty <promote-un: i-ty => prom-ty
-	  and i-ty == Integer() else "Expected integer" on i
+	  and e-ty : ArrayType(inner-ty) else error "Expected array" on e
+	  and <promote-un> i-ty => prom-ty
+	  and prom-ty == Int() else error "Expected integer" on i

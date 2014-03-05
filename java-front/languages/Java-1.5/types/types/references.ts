@@ -5,6 +5,12 @@ imports
 	include/Java
 	lib/types/-
 
+signatures
+
+	RefType : TypeName * TypeParams
+
+	Reference :
+	
 type rules // Reference types
 
 	ClassOrInterfaceType(c, tp*) : RefType(c, tp*)
@@ -15,11 +21,6 @@ type rules // Reference types
 
 type rules // Reference type kinds
 
-	// RefType(_, _) <is: Reference()
-	// ArrayType(_) <is: Reference()
-	// Null() <is: Reference()
-
-	t <is: Reference()
-	where t == RefType(_, _)
-	   or t == ArrayType(_)
-	   or t == Null() // TODO: should this allow null?
+	RefType(_, _) <is: Reference()
+	ArrayType(_)  <is: Reference()
+	Null()        <is: Reference()

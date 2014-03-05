@@ -10,14 +10,15 @@ imports
 	
 type rules
 
-  And(x, y) + ExcOr(x, y) + Or(x, y) : ty
+  t@And(x, y) + t@ExcOr(x, y) + t@Or(x, y) : ty
   where x : x-ty
     and y : y-ty
     and (
     	(
     	      x-ty <is: Numerical()
     	  and y-ty <is: Numerical()
-    	  and x-ty <promote-bin: y-ty => ty
+    	  and x-ty <promote-bin: y-ty
+    	  and y-ty => ty
   	  )
       or
       (
@@ -25,19 +26,19 @@ type rules
     	  and y-ty == Boolean()
     	  and Boolean() => ty
       )
-    ) else "Expected numbers or booleans"
+    ) else error "Expected numbers or booleans" on t
 
-  LazyAnd(x, y) + LazyOr(x, y) : Boolean()
+  t@LazyAnd(x, y) + t@LazyOr(x, y) : Boolean()
   where x : x-ty
     and y : y-ty
     and x-ty == Boolean()
-    and y-ty == Boolean() else "Expected booleans"
+    and y-ty == Boolean() else "Expected booleans" on t
     
   Not(e) : ty
   where e : ty
-    and ty == Boolean() else "Expected boolean"
+    and ty == Boolean() else "Expected boolean" on e
 
 	Complement(e) : prom-ty
 	where e : ty
-	  and ty <is: Integral() else "Expected integral"
-	  and ty <promote-un: ty => prom-ty
+	  and ty <is: Integral() else "Expected integral" on e
+	  and <promote-un> ty => prom-ty
