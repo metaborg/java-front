@@ -3,7 +3,17 @@ module languages/Java-1.5/types/types/primitives
 imports
 	
 	include/Java
+	lib/task/-
 	lib/types/-
+	lib/properties/-
+	lib/relations/-
+
+signatures
+
+	Integral  :
+	Decimal   :
+	Numerical :
+	Primitive :
 	
 type rules // Primitive types
 

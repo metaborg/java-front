@@ -5,8 +5,10 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
+	lib/properties/-
+	lib/relations/-
+	
 	languages/Java-1.5/types/types/widening
-	languages/Java-1.5/types/types/equality
 	
 type rules
 

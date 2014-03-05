@@ -3,8 +3,12 @@ module languages/Java-1.5/literals/types/literals
 imports
 	
 	include/Java
+	lib/task/-
 	lib/types/-
-	types
+	lib/properties/-
+	lib/relations/-
+	
+	languages/Java-1.5/types/types/references
 	
 type rules
 

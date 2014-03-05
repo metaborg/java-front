@@ -5,6 +5,9 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
+	lib/properties/-
+	lib/relations/-
+	
 	languages/Java-1.5/types/types/assignment
 	languages/Java-1.5/types/types/cast
 	
@@ -30,6 +33,6 @@ type rules
 + t@AssignOr(v, e) : v-ty
   where v : v-ty
     and e : e-ty
-    and e-ty <conv-comp: v-ty
+    and e-ty <assign-conv-comp: v-ty
       else error "Cannot assign expression of type [e-ty] to variable of type [v-ty]" on t
  

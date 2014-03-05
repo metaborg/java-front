@@ -5,14 +5,17 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/equality
+	lib/properties/-
+	lib/relations/-
+	
+	languages/Java-1.5/types/types/primitves
 	languages/Java-1.5/types/types/promotion
 	
 type rules
 	
-	Cond(x, o1, o2) : o2-ty
-	where x : x-ty
-	  and x-ty == Boolean() else error "Expected boolean" on x
+	Cond(c, o1, o2) : o2-ty
+	where c : c-ty
+	  and c-ty == Boolean() else error "Expected boolean" on c
 	  and o1 : o1-ty
 	  and o2 : o2-ty
 	  and (

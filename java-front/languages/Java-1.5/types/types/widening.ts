@@ -3,11 +3,10 @@ module languages/Java-1.5/types/types/widening
 imports
 	
 	include/Java
-	lib/nabl/-
 	lib/task/-
 	lib/types/-
+	lib/properties/-
 	lib/relations/-
-	languages/Java-1.5/types/types/subtype
 	
 type rules // Type widening relation for reference and primitive types
 

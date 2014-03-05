@@ -5,7 +5,10 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/equality
+	lib/properties/-
+	lib/relations/-
+	
+	languages/Java-1.5/types/types/primitives
 	languages/Java-1.5/types/types/promotion
 	
 type rules
@@ -32,13 +35,13 @@ type rules
   where x : x-ty
     and y : y-ty
     and x-ty == Boolean()
-    and y-ty == Boolean() else "Expected booleans" on t
+    and y-ty == Boolean() else error "Expected booleans" on t
     
   Not(e) : ty
   where e : ty
-    and ty == Boolean() else "Expected boolean" on e
+    and ty == Boolean() else  error "Expected boolean" on e
 
 	Complement(e) : prom-ty
 	where e : ty
-	  and ty <is: Integral() else "Expected integral" on e
+	  and ty <is: Integral() else  error "Expected integral" on e
 	  and <promote-un> ty => prom-ty

@@ -5,23 +5,30 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/equality
+	lib/properties/-
+	lib/relations/-
+	
+	languages/Java-1.5/types/types/primitives
 	languages/Java-1.5/types/types/promotion
+
+type functions
+
+	create-array-type :
+		([Dim(_)|ds], ty) -> ArrayType(t)
+  	where <create-array-type> (ds, ty) => t
+
+	create-array-type :  
+  	([], ty) -> ArrayType(ty)
 	
 type rules // Array creation
 
-  NewArray(t, dim1*, dim2*): array-ty
+  NewArray(t, dim1*, dim2*) : array-ty
   where t : ty
-    and ([dim1*, dim2*], ty) <create-array-type: array-ty
+    and <create-array-type> ([dim1*, dim2*], ty) => array-ty
 
-  NewArrayInit(t, dim1*, _): array-ty
+  NewArrayInit(t, dim1*, _) : array-ty
   where t : ty
-    and (dim1*, ty) <create-array-type: array-ty
-
-  ([Dim(_)|s], ty) <create-array-type: ArrayType(t)
-  where s : t
-  
-  ([], ty) <create-array-type: ArrayType(ty)
+    and <create-array-type> (dim1*, ty) => array-ty
   
   Dim(e) :-
   where e : ty

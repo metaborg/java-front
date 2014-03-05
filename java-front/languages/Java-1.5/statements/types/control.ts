@@ -5,7 +5,8 @@ imports
 	include/Java
 	lib/task/-
 	lib/types/-
-	languages/Java-1.5/types/types/equality
+	lib/properties/-
+	lib/relations/-
 	
 type rules
 
@@ -16,6 +17,6 @@ type rules
 + While(e, _)
 + DoWhile(_, e)
 + For(_, e, _, _) :-
-  where e != None()
+  where not(e == None())
     and e : ty
-    and ty == Boolean() else "Expected boolean" on e
+    and ty == Boolean() else error "Expected boolean" on e

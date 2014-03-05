@@ -3,7 +3,10 @@ module languages/Java-1.5/names/types/names
 imports
 	
 	include/Java
+	lib/task/-
 	lib/types/-
+	lib/properties/-
+	lib/relations/-
 	
 type rules
 	
