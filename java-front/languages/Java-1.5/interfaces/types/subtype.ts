@@ -15,3 +15,4 @@ type rules
 	// TODO: list matching
 	InterfaceDec(InterfaceDecHead(_, i, _, ... ExtendsInterfaces(ei) ...), _) :-
 	where store c <widens-ref: ei
+    and store c <extends: ei

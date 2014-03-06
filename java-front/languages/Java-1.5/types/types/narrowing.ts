@@ -12,14 +12,23 @@ imports
 
 type rules // Type narrowing relation for reference and primitive types
 
-	e <narrows: a
-	where e <narrows-prim: a
-		 or e <narrows-ref: a
+	a <narrows: e
+	where a <narrows-prim: e
+		 or a <narrows-ref: e
 		 
 type rules // Narrowing reference types
 
-	e <narrows-ref: a
-	where a <widens-ref: e // Apply widening on references the other way around.
+	a <narrows-ref: e
+	where e <widens-ref: a // Apply widening on references the other way around.
+		 or a <is: Object()
+		 // From any interface type I to any class type C that is not final.
+		 or(a <is: Interface() and e <is: Class() and not(e <is: Final()))
+		 // From any class type C to any interface type I, provided that C is not final and does not implement I.
+		 or(a <is: Class() and e <is: Interface() and not(a <is: Final()) and not(a <implements: e)) 
+		 // TODO WTF: from any interface type J to any inteface type K, provided that J is not a subinterface of K and there is no method name m such that J and K both contain a method named m with the same signature but different return types.
+ 
+	ArrayType(a) <narrows-array: ArrayType(e)
+	where a <narrows-ref: e
 	  
 type rules // Narrowing primitive types
 

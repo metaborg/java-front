@@ -13,6 +13,15 @@ signatures
 	RefType : TypeName * TypeParams
 
 	Reference :
+	Class :
+	Interface :
+	Array :
+		
+	Final :
+		
+	Object :
+	Cloneable :
+	Serializable :
 	
 type rules // Reference types
 
@@ -27,3 +36,20 @@ type rules // Reference type kinds
 	RefType(_, _) <is: Reference()
 	ArrayType(_)  <is: Reference()
 	Null()        <is: Reference()
+
+	RefType(c, _) <is: Class()
+	where c has kind ClassType()
+		
+	RefType(c, _) <is: Interface()
+	where c has kind InterfaceType()
+
+	ArrayType(_)  <is: Array()
+	
+	RefType(c, _) <is: Final()
+	where c has modifiers Final()
+	
+type rules // Built in type checks
+
+	RefType("Object", _)       <is: Object()
+	RefType("Cloneable", _)    <is: Cloneable()
+	RefType("Serializable", _) <is: Serializable()
