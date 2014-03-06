@@ -13,7 +13,7 @@ imports
 
 signatures
 
-	BSC : // Byte, Short or Char.
+	BSC : TypeKind // Byte, Short or Char.
 	
 type rules
 	

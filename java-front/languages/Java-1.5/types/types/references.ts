@@ -10,18 +10,18 @@ imports
 
 signatures
 
-	RefType : TypeName * TypeParams
+	RefType : TypeName * TypeParams -> Type
 
-	Reference :
-	Class :
-	Interface :
-	Array :
-		
-	Final :
-		
-	Object :
-	Cloneable :
-	Serializable :
+	Reference    : TypeKind
+	Class        : TypeKind
+	Interface    : TypeKind
+	Array        : TypeKind
+	
+	Final        : TypeKind
+	
+	Object       : TypeKind 
+	Cloneable    : TypeKind
+	Serializable : TypeKind
 	
 type rules // Reference types
 

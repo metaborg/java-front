@@ -10,10 +10,10 @@ imports
 
 signatures
 
-	Integral  :
-	Decimal   :
-	Numerical :
-	Primitive :
+	Integral  : TypeKind
+	Decimal   : TypeKind
+	Numerical : TypeKind
+	Primitive : TypeKind
 	
 type rules // Primitive types
 
