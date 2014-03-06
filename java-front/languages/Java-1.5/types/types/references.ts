@@ -22,6 +22,7 @@ signatures
 	Object       : TypeKind 
 	Cloneable    : TypeKind
 	Serializable : TypeKind
+	String       : TypeKind
 	
 type rules // Reference types
 
@@ -48,8 +49,9 @@ type rules // Reference type kinds
 	RefType(c, _) <is: Final()
 	where c has modifiers Final()
 	
-type rules // Built in type checks
+type rules // Built in type kinds
 
 	RefType("Object", _)       <is: Object()
 	RefType("Cloneable", _)    <is: Cloneable()
 	RefType("Serializable", _) <is: Serializable()
+	RefType("String", _)       <is: String()

@@ -13,16 +13,30 @@ imports
 	
 type rules
 
-	Plus(x, y)  // TODO: can also be string concatenation, needs a special case
-+ Minus(x, y)
-+ Mul(x, y)
-+ Div(x, y)
-+ Mod(x, y) : prom-ty
+	Plus(x, y) : ty
 	where x : x-ty
 	  and y : y-ty
-	  and <promote-bin> (x-ty, y-ty) => prom-ty
+	  and (
+		  (
+		  	(x-ty <is: String() or y-ty <is: String()) and RefType("String", None()) => ty
+	  	)
+		  or 
+		  (
+		        x-ty <is: Numerical() else error "Expected numerical" on x
+		    and y-ty <is: Numerical() else error "Expected numerical" on y
+		  	and <promote-bin> (x-ty, y-ty) => ty
+		  )
+	  )
+
+  Minus(x, y)
++ Mul(x, y)
++ Div(x, y)
++ Mod(x, y) : ty
+	where x : x-ty
+	  and y : y-ty
 	  and x-ty <is: Numerical() else error "Expected numerical" on x
 	  and y-ty <is: Numerical() else error "Expected numerical" on y
+	  and <promote-bin> (x-ty, y-ty) => ty
  
   LeftShift(x, y)
 + RightShift(x, y)
@@ -39,11 +53,10 @@ type rules
   where e : ty
     and <promote-un> ty => prom-ty
     and prom-ty <is: Numerical() else error "Expected numerical" on e
-    
-  // TODO: check correctness
+
   PreIncr(e)
 + PostIncr(e)
 + PreDecr(e)
 + PostDecr(e) : ty
-  where e : prom-ty
-    and <promote-bin> (ty, Int()) => prom-ty else error "Expected numerical" on e
+  where e : e-ty
+    and e-ty <is: Numerical() else error "Expected numerical" on e
