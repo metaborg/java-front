@@ -16,12 +16,29 @@ imports
 binding rules // Method invocation
 	
 	// TODO: m is a MethodName/1 or MethodName/2 constructor
+  // Invoke(Method(m), a*):
+  // 	refers to best Method m 
+  //     // of conformant parameter-types pt* // TODO: custom relation
+  // 	  where
+  // 	  	a* has type pt*
+  
   Invoke(Method(m), a*):
-  	refers to best Method m 
-      // of conformant parameter-types pt* // TODO: custom relation
-  	  where
-  	  	a* has type pt*
-
+    filters Method m
+      with
+             m has modifiers Public()
+        or  (m has modifiers Private() and m in Type t)
+        or  (m has modifiers Default() and m in Package p)
+        or ((m has modifiers Protected() and m in Package p) or (enclosing Type t' of Method m and t <: t'))
+      where
+            enclosing Type t    of current Method scope 
+        and enclosing Package p of current Method scope      
+    disambiguates Method m
+      by minimal distance at* <: pt* 
+      where
+            a* has type at*
+        and m has parameter-types pt*
+				
+				
 	// TODO: ta* is a Some/None
   Invoke(Method(e, ta*, m), a*):
     refers to best Method m
