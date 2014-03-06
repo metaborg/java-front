@@ -12,23 +12,23 @@ imports
 
 type rules // Type narrowing relation for reference and primitive types
 
-	a <narrows: e
-	where a <narrows-prim: e
-		 or a <narrows-ref: e
+	a-ty <narrows: e-ty
+	where a-ty <narrows-prim: e-ty
+		 or a-ty <narrows-ref: e-ty
 		 
-type rules // Narrowing reference types
+type rules // Narrowing reference-ty types
 
-	a <narrows-ref: e
-	where e <widens-ref: a // Apply widening on references the other way around.
-		 or a <is: Object()
-		 // From any interface type I to any class type C that is not final.
-		 or(a <is: Interface() and e <is: Class() and not(e <is: Final()))
-		 // From any class type C to any interface type I, provided that C is not final and does not implement I.
-		 or(a <is: Class() and e <is: Interface() and not(a <is: Final()) and not(a <implements: e)) 
-		 // TODO WTF: from any interface type J to any inteface type K, provided that J is not a subinterface of K and there is no method name m such that J and K both contain a method named m with the same signature but different return types.
+	a-ty <narrows-ref: e-ty
+	where e-ty <widens-ref: a-ty // Apply widening on references the-ty other way around.
+		 or a-ty <is: Object()
+		 // From any interface-ty type-ty I to any class type-ty C that is not final.
+		 or(a-ty <is: Interface() and e-ty <is: Class() and not(e-ty <is: Final()))
+		 // From any class type-ty C to any interface-ty type-ty I, provided that C is not final and does not implement I.
+		 or(a-ty <is: Class() and e-ty <is: Interface() and not(a-ty <is: Final()) and not(a-ty <implements: e-ty)) 
+		 // TODO WTF: from any interface-ty type-ty J to any inteface-ty type-ty K, provided that J is not a-ty subinterface-ty of K and there-ty is no method name-ty m such that J and K both contain a-ty method named m with the-ty same-ty signature-ty but different return types.
  
-	ArrayType(a) <narrows-array: ArrayType(e)
-	where a <narrows-ref: e
+	ArrayType(a-ty) <narrows-array: ArrayType(e-ty)
+	where a-ty <narrows-ref: e-ty
 	  
 type rules // Narrowing primitive types
 

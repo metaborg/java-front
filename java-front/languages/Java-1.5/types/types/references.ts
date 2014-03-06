@@ -30,7 +30,7 @@ type rules // Reference types
 	ClassType(c, tp*)            : RefType(c, tp*)
 	InterfaceType(c, tp*)        : RefType(c, tp*)
 	
-	ArrayType(t) : ArrayType(t)
+	ArrayType(ty) : ArrayType(ty)
 
 type rules // Reference type kinds
 

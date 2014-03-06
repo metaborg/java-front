@@ -10,20 +10,20 @@ imports
 	
 type rules
 
-  a <widens: e
-  where a <widens-prim: e
-     or a <widens-ref: e
+  a-ty <widens: e-ty
+  where a-ty <widens-prim: e-ty
+     or a-ty <widens-ref: e-ty
 
-	a <widens-ref: e
-	where a == Null()
-     or (a <is: Interface() and e <is: Object())
-     or (a <is: Array() and e <is: Object())
-     or (a <is: Array() and e <is: Cloneable())
-     or (a <is: Array() and e <is: Serializable())
-     or a <widens-array: e
+	a-ty <widens-ref: e-ty
+	where a-ty == Null()
+     or (a-ty <is: Interface() and e-ty <is: Object())
+     or (a-ty <is: Array() and e-ty <is: Object())
+     or (a-ty <is: Array() and e-ty <is: Cloneable())
+     or (a-ty <is: Array() and e-ty <is: Serializable())
+     or a-ty <widens-array: e-ty
  
-	ArrayType(a) <widens-array: ArrayType(e)
-	where a <widens-ref: e
+	ArrayType(a-ty) <widens-array: ArrayType(e-ty)
+	where a-ty <widens-ref: e-ty
 
 type rules
 

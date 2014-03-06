@@ -18,7 +18,8 @@ type rules
 	  and y : y-ty
 	  and (
 		  (
-		  	(x-ty <is: String() or y-ty <is: String()) and RefType("String", None()) => ty
+		        x-ty <is: String() and x-ty => ty
+		  	 or y-ty <is: String() and y-ty => ty
 	  	)
 		  or 
 		  (

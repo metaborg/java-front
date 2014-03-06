@@ -14,8 +14,8 @@ imports
 type functions
 
 	create-array-type :
-		([Dim(_)|ds], ty) -> ArrayType(t)
-  	where <create-array-type> (ds, ty) => t
+		([Dim(_)|ds], ty) -> ArrayType(inner-ty)
+  	where <create-array-type> (ds, ty) => inner-ty
 
 	create-array-type :  
   	([], ty) -> ArrayType(ty)
@@ -24,7 +24,7 @@ type rules // Array creation
 
   NewArray(t, dim1*, dim2*) : array-ty
   where t : ty
-    and <create-array-type> ([dim1*, dim2*], ty) => array-ty
+    and <create-array-type> ([dim1*, dim2*], ty) => array-ty // TODO: dim1* and dim2* will not be concatenated
 
   NewArrayInit(t, dim1*, _) : array-ty
   where t : ty
