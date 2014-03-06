@@ -13,29 +13,27 @@ imports
 	
 type rules
 
-	// TODO: check correctness
 	Plus(x, y)  // TODO: can also be string concatenation, needs a special case
 + Minus(x, y)
 + Mul(x, y)
 + Div(x, y)
-+ Mod(x, y) : y-ty
++ Mod(x, y) : prom-ty
 	where x : x-ty
 	  and y : y-ty
-	  and x-ty <widens-prim: y-ty
+	  and <promote-bin> (x-ty, y-ty) => prom-ty
 	  and x-ty <is: Numerical() else error "Expected numerical" on x
 	  and y-ty <is: Numerical() else error "Expected numerical" on y
-
-	// TODO: check correctness	  
+ 
   LeftShift(x, y)
 + RightShift(x, y)
-+ URightShift(x, y) : ty
++ URightShift(x, y) : x-prom-ty
   where x : x-ty
     and y : y-ty
-    and <promote-un> y-ty => ty
-    and x-ty <is: Numerical() else error "Expected numerical" on x
-    and y-ty <is: Integral() else error "Expected integral" on y
+    and <promote-un> x-ty => x-prom-ty
+    and <promote-un> y-ty => y-prom-ty
+    and x-prom-ty <is: Integral() else error "Expected numerical" on x
+    and x-prom-ty <is: Integral() else error "Expected integral" on y
 
-	// TODO: check correctness
   Plus(e)
 + Minus(e) : ty
   where e : ty
@@ -47,5 +45,5 @@ type rules
 + PostIncr(e)
 + PreDecr(e)
 + PostDecr(e) : ty
-  where e : ty
-    and Int() <promote-bin: ty  else error "Expected numerical" on e
+  where e : prom-ty
+    and <promote-bin> (ty, Int()) => prom-ty else error "Expected numerical" on e

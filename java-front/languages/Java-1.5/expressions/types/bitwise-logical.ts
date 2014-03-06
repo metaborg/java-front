@@ -18,10 +18,9 @@ type rules
     and y : y-ty
     and (
     	(
-    	      x-ty <is: Numerical()
-    	  and y-ty <is: Numerical()
-    	  and x-ty <promote-bin: y-ty
-    	  and y-ty => ty
+    	      x-ty <is: Integral()
+    	  and y-ty <is: Integral()
+    	  and <promote-bin> (x-ty, y-ty) => ty
   	  )
       or
       (
@@ -39,9 +38,9 @@ type rules
     
   Not(e) : ty
   where e : ty
-    and ty == Boolean() else  error "Expected boolean" on e
+    and ty == Boolean() else error "Expected boolean" on e
 
 	Complement(e) : prom-ty
-	where e : ty
-	  and ty <is: Integral() else  error "Expected integral" on e
+	where e : prom-ty
 	  and <promote-un> ty => prom-ty
+	  and prom-ty <is: Integral() else error "Expected integral" on e

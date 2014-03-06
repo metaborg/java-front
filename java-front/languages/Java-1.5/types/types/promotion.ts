@@ -9,17 +9,17 @@ imports
 	lib/relations/-
 	
 	languages/Java-1.5/types/types/widening
-	
-type rules
-
-	// TODO: check correctness
-	t1 <promote-bin: t2
-	where t1 <widens-prim: t2
 
 type functions
 
-	// TODO: check correctness
+	promote-bin :
+		(x-ty, y-ty) -> prom-ty
+		where ((x-ty == Double() or y-ty == Double()) and Double() => prom-ty)
+		   or ((x-ty == Float() or y-ty == Float()) and Float() => prom-ty)
+		   or ((x-ty == Long() or y-ty == Long()) and Long() => prom-ty)
+		   or Int() => prom-ty
+
 	promote-un :
-		t -> Int()
-		where (t == Byte() or t == Short() or t == Char())
-	    and t <widens-prim: Int()
+		ty -> prom-ty
+		where ((ty == Byte() or ty == Short() or ty == Char()) and Int() => prom-ty)
+		   or ty => prom-ty

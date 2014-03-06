@@ -14,7 +14,8 @@ imports
 type rules
 	
 	e-ty <cast: t-ty
-	where e-ty <widens-prim: t-ty
+	where e-ty == t-ty
+	   or e-ty <widens-prim: t-ty
 	   or e-ty <narrows-prim: t-ty
 	   or e-ty <widens-ref: t-ty
 	   or e-ty <narrows-ref: t-ty
