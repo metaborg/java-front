@@ -16,9 +16,10 @@ type rules
 	e-ty <assign-conv: v-ty
 	where e-ty == v-ty 
 	   or e-ty <widens: v-ty
-	   or (
-	   	    (e-ty == Byte() or e-ty == Short() or e-ty == Char() or e-ty == Int()) // TODO: only for constant expressions
+	   or ( // TODO: only for constant expressions, only if value of e-ty is representable in v-ty
+	   	    (e-ty == Byte() or e-ty == Short() or e-ty == Char() or e-ty == Int())
 	   	and (v-ty == Byte() or v-ty == Short() or v-ty == Char())
+	   	and e <representable: v-ty
 	   	and e-ty <narrow-prim: v-ty
    	)
 	
