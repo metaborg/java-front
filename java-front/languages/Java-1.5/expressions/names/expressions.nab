@@ -15,75 +15,44 @@ imports
 
 binding rules // Method invocation
 	
-	// TODO: m is a MethodName/1 or MethodName/2 constructor
-  // Invoke(Method(m), a*):
-  // 	refers to best Method m 
-  //     // of conformant parameter-types pt* // TODO: custom relation
-  // 	  where
-  // 	  	a* has type pt*
-  
-  Invoke(Method(m), a*):
-    filters Method m
-      with
-             m has modifiers Public()
-        or  (m has modifiers Private() and m in Type t)
-        or  (m has modifiers Default() and m in Package p)
-        or ((m has modifiers Protected() and m in Package p) or (enclosing Type t' of Method m and t <: t'))
-      where
-            enclosing Type t    of current Method scope 
-        and enclosing Package p of current Method scope      
-    disambiguates Method m
-      by minimal distance at* <: pt* 
-      where
-            a* has type at*
-        and m has parameter-types pt*
-				
-				
-	// TODO: ta* is a Some/None
-  Invoke(Method(e, ta*, m), a*):
-    refers to best Method m
-      // of conformant parameter-types pt* // TODO: custom relation
-      of conformant type-parameters ta* // TODO: custom relation
+	Invoke(Method(m), _):
+	  filters Method m
+	     with modifiers == Public()
+	       or modifiers == Private() and mt == ct
+	       or modifiers == Default() and mp == cp
+	       or modifiers == Protected() and ( mp == cp or ct <: mt )
+	    where m has modifiers mod
+	      and enclosing Type of Method m => mt
+	      and enclosing Package of Method m => mp
+	      and enclosing Type of current Method scope => ct
+	      and enclosing Package of current Method scope => cp      
+
+	Invoke(Method(m), a*):
+	  disambiguates Method m
+	    by minimal distance at* <: pt* 
+	    where a* has type at*
+	      and m has parameter-types pt*
+
+
+	// TODO: apply filtering and disambiguation from above				
+  Invoke(Method(e, _, m), _):
+    refers to Method m in Type t
+      where e has type t
+
+	// TODO: apply filtering and disambiguation from above    
+  Invoke(SuperMethod(_, m), _):
+    refers to Method m
       in Type t
-      where 
-      	a* has type pt* and
-      	e has type t
-  
-  // TODO: ta* is a Some/None    
-  Invoke(SuperMethod(ta*, m), a*):
-    refers to best Method m
-      // of conformant parameter-types pt* // TODO: custom relation
-      of conformant type-parameters ta* // TODO: custom relation
+      where "super" refers to Field super
+      	and super has type t
+
+	// TODO: apply filtering and disambiguation from above      
+  Invoke(QSuperMethod(t, _, m), _):
+    refers to Method m
       in Type t
-      where 
-      	a* has type pt* and
-      	"super" refers to Field super and
-      	super has type t
-      
-  // TODO: ta* is a Some/None    
-  Invoke(QSuperMethod(t, ta*, m), a*):
-    refers to best Method m
-      // of conformant parameter-types pt* // TODO: custom relation
-      of conformant type-parameters ta* // TODO: custom relation
-      in Type t
-      where 
-      	a* has type pt*
-  
-  // TODO: WTF does this do?
-  // TODO: amb is an AmbName/1 or AmbName/2 constructor
-  /*     
-  Invoke(GenericMethod(amb, ta*, m), a*):
-    refers to best Method m
-      of conformant parameter-types pt* // TODO: custom relation
-      of conformant type-parameters ta* // TODO: custom relation
-      in Type t // TODO: What type??
-      where 
-      	a* has type pt*
-  */
-  
+
 binding rules // Field access
 
-	// TODO: what is the difference between Field/2 and ExprName/2?
   Field(e, f):
   	refers to Field f
   	  in Type t
@@ -91,28 +60,17 @@ binding rules // Field access
   	  
 binding rules // Class instantiation
 
-	// TODO: ta* is a Some/None
-	// TODO: does ta* refer to type arguments for the constructor or the type?
-	// TODO: c is a TypeOrInterfaceName, cannot be used to refer to a constructor.
-  NewInstance(ta*, c, a*, _):
-    refers to best Constructor ""
-      of conformant parameter-types pt* // TODO: custom relation
-      of conformant type-parameters ta* // TODO: custom relation
+	// TODO: disambiguation
+  NewInstance(_, c, _, _):
+    refers to Constructor ""
       in Type c
-      where 
-      	a* has type pt*
 
-	// TODO: ta1* and ta2* are a Some/None
-	// TODO: does ta1* refer to type arguments for the constructor or the type?
-	// TODO: does ta2* refer to type arguments for the constructor or the type?
-  QNewInstance(e, ta1*, c, ta2*, a*, _):
-  	refers to best Constructor c
-  	  of conformant parameter-types pt*  // TODO: custom relation
-  	  of conformant type-parameters ta1* // TODO: custom relation
+	// TODO: disambiguation
+  QNewInstance(e, _, c, _, _, _):
+  	refers to Constructor ""
   	  in Type c
   	  in Type t
   	  where 
-  	  	a* has type pt* and
   	  	e has type t
 
 binding rules // Qualified this
