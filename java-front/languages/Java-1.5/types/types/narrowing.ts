@@ -10,13 +10,13 @@ imports
 	
 	languages/Java-1.5/types/types/widening
 
-type rules // Type narrowing relation for reference and primitive types
+relations // Type narrowing relation for reference and primitive types
 
 	a-ty <narrows: e-ty
 	where a-ty <narrows-prim: e-ty
 		 or a-ty <narrows-ref: e-ty
 		 
-type rules // Narrowing reference-ty types
+relations  // Narrowing reference-ty types
 
 	a-ty <narrows-ref: e-ty
 	where e-ty <widens-ref: a-ty // Apply widening on references the-ty other way around.
@@ -30,7 +30,7 @@ type rules // Narrowing reference-ty types
 	ArrayType(a-ty) <narrows-array: ArrayType(e-ty)
 	where a-ty <narrows-ref: e-ty
 	  
-type rules // Narrowing primitive types
+relations  // Narrowing primitive types
 
 	Double() <narrows-prim: Byte()
 	Double() <narrows-prim: Short()

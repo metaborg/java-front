@@ -31,7 +31,7 @@ type rules
 	    (
 		        v-ty <is: Primitive() else error "Expected primitive type" on v
 		    and e-ty <is: Primitive() else error "Expected primitive type" on e
-		    and e-ty <assign-conv-comp: v-ty
+		    and e-ty <comp-assign-conv: v-ty
 		      else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
 	    )
     )
@@ -50,6 +50,6 @@ type rules
     and e : e-ty
     and v-ty <is: Primitive() else error "Expected primitive type" on v
     and e-ty <is: Primitive() else error "Expected primitive type" on e
-    and e-ty <assign-conv-comp: v-ty
+    and e-ty <comp-assign-conv: v-ty
       else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
  

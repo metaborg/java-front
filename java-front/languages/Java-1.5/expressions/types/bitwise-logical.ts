@@ -41,6 +41,6 @@ type rules
     and ty == Boolean() else error "Expected boolean" on e
 
 	Complement(e) : prom-ty
-	where e : prom-ty
+	where e : ty
 	  and <promote-un> ty => prom-ty
 	  and prom-ty <is: Integral() else error "Expected integral" on e

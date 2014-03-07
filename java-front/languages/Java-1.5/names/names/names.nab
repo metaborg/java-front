@@ -11,7 +11,7 @@ imports
   include/Java
   languages/Java-1.5/packages/names/packages
   languages/Java-1.5/packages/trans/desugar
-  languages/Java-1.5/types/types/references
+  languages/Java-1.5/types/types/references.generated
   types
 
 namespaces

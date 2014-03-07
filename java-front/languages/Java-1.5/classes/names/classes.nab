@@ -10,7 +10,7 @@ imports
   
   include/Java
 	languages/Java-1.5/types/names/types
-	languages/Java-1.5/types/types/references
+	languages/Java-1.5/types/types/references.generated
   types
 
 namespaces
@@ -49,7 +49,7 @@ binding rules // Types
   ClassDec(ClassDecHead(m*, c, tp*, None(), _), _):
     defines Type c 
       of type RefType(TypeName(c), None())
-      of kind ClassType()
+      of kind Class()
       of modifiers m*
       of type-parameters tp*
     implicitly defines Field "this" of type RefType(TypeName(c), None())
@@ -59,7 +59,7 @@ binding rules // Types
   ClassDec(ClassDecHead(m*, c, tp*, SuperDec(pct@ClassType(pc, _)), _), _):
     defines Type c 
       of type RefType(TypeName(c), None())
-      of kind ClassType()
+      of kind Class()
       of modifiers m*
       of type-parameters tp*
     imports

@@ -5,8 +5,7 @@ imports
 	include/Java
 	lib/editor-common.generated
 	lib/task/-
-	languages/Java-1.5/types/types/references
-	languages/Java-1.5/types/types/void
+	languages/Java-1.5/types/types/references.generated
 	
 rules
 	
@@ -25,6 +24,3 @@ rules
 
 	custom-pp-java-string:
 		RefType(c, tp*) -> <pp-java-string> ClassOrInterfaceType(c, tp*)
-		
-	custom-pp-java-string:
-		VoidType() -> <pp-java-string> Void()

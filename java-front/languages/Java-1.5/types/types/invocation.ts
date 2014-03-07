@@ -10,7 +10,7 @@ imports
 	
 	languages/Java-1.5/types/types/widening
 	
-type rules
+relations
 
 	e-ty <invocation-conv: v-ty
 	where e-ty == v-ty 

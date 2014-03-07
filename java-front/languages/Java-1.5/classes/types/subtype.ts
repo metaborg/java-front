@@ -10,6 +10,12 @@ imports
 	
 	languages/Java-1.5/types/types/widening
 
+relations
+
+	define transitive widens-ref
+	define transitive extends
+	define transitive implements
+
 type rules
 
 	ClassDec(ClassDecHead(_, c, _, SuperDec(pc), _), _) :-

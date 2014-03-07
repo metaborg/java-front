@@ -11,7 +11,7 @@ imports
   include/Java
 	languages/Java-1.5/classes/names/classes
 	languages/Java-1.5/types/names/types
-	languages/Java-1.5/types/types/references
+	languages/Java-1.5/types/types/references.generated
   types
 
 properties
@@ -42,6 +42,7 @@ binding rules // Interfaces
   InterfaceDec(InterfaceDecHead(m*, i, tp*, _), _):
     defines Type i
       of type RefType(TypeName(i), None())
+      of kind Interface()
       of modifiers m*
       of type-parameters tp*
     scopes Type, TypeParam, Field, Method

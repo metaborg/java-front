@@ -8,7 +8,7 @@ imports
 	lib/properties/-
 	lib/relations/-
 	
-type rules
+relations
 
   a-ty <widens: e-ty
   where a-ty <widens-prim: e-ty
@@ -24,8 +24,6 @@ type rules
  
 	ArrayType(a-ty) <widens-array: ArrayType(e-ty)
 	where a-ty <widens-ref: e-ty
-
-type rules
 
   Byte()   <widens-prim: Short()
   Byte()   <widens-prim: Int()
@@ -51,3 +49,4 @@ type rules
   Long()   <widens-prim: Double()
   
   Float()  <widens-prim: Double()
+

@@ -11,7 +11,7 @@ imports
   include/Java
 	languages/Java-1.5/classes/names/classes
 	languages/Java-1.5/types/names/types
-	languages/Java-1.5/types/types/references
+	languages/Java-1.5/types/types/references.generated
 
 binding rules // Method invocation
 
@@ -20,26 +20,25 @@ binding rules // Method invocation
 	// 	and   m has type t
 	// 	and   e has type e-t
 	// 	and   t == e-t else error "type mismatch" on e
-		
-	
-	Invoke(Method(m), _):
-	  filters Method m
-	     with modifiers == Public()
-	       or modifiers == Private() and mt == ct
-	       or modifiers == Default() and mp == cp
-	       or modifiers == Protected() and ( mp == cp or ct <widens-ref: mt )
-	    where m has modifiers mod
-	      and enclosing Type of Method m => mt
-	      and enclosing Package of Method m => mp
-	      and enclosing Type of current Method scope => ct
-	      and enclosing Package of current Method scope => cp      
-
-	Invoke(Method(m), a*):
-	  disambiguates Method m
-	    by minimal distance at* <widens-ref: pt* 
-	    where a* has type at*
-	      and m has parameter-types pt*
-
+	// 		
+	// 	
+	// 	Invoke(Method(m), _):
+	// 	  filters Method m
+	// 	     with modifiers == Public()
+	// 	       or modifiers == Private() and mt == ct
+	// 	       or modifiers == Default() and mp == cp
+	// 	       or modifiers == Protected() and ( mp == cp or ct <widens-ref: mt )
+	// 	    where m has modifiers mod
+	// 	      and enclosing Type of Method m => mt
+	// 	      and enclosing Package of Method m => mp
+	// 	      and enclosing Type of current Method scope => ct
+	// 	      and enclosing Package of current Method scope => cp      
+	// 
+	// 	Invoke(Method(m), a*):
+	// 	  disambiguates Method m
+	// 	    by minimal distance at* <widens-ref: pt* 
+	// 	    where a* has type at*
+	// 	      and m has parameter-types pt*
 
 	// TODO: apply filtering and disambiguation from above				
   Invoke(Method(e, _, m), _):

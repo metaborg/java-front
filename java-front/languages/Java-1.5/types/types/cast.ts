@@ -11,7 +11,7 @@ imports
 	languages/Java-1.5/types/types/widening
 	languages/Java-1.5/types/types/narrowing
 	
-type rules
+relations
 	
 	e-ty <cast: t-ty
 	where e-ty == t-ty

@@ -58,6 +58,6 @@ type rules
   PreIncr(e)
 + PostIncr(e)
 + PreDecr(e)
-+ PostDecr(e) : ty
++ PostDecr(e) : e-ty
   where e : e-ty
     and e-ty <is: Numerical() else error "Expected numerical" on e

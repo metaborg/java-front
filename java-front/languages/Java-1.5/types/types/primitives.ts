@@ -26,7 +26,7 @@ type rules // Primitive types
 	Float()   : Float()
 	Double()  : Double()
 
-type rules // Primitive type kinds
+relations // Primitive type kinds
 
   Byte()  <is: Integral()
   Short() <is: Integral()

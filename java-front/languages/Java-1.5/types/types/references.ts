@@ -32,24 +32,24 @@ type rules // Reference types
 	
 	ArrayType(ty) : ArrayType(ty)
 
-type rules // Reference type kinds
+relations // Reference type kinds
 
 	RefType(_, _) <is: Reference()
 	ArrayType(_)  <is: Reference()
 	Null()        <is: Reference()
 
 	RefType(c, _) <is: Class()
-	where c has kind ClassType()
+	where definition of c has kind Class()
 		
 	RefType(c, _) <is: Interface()
-	where c has kind InterfaceType()
+	where definition of c has kind Interface()
 
 	ArrayType(_)  <is: Array()
 	
 	RefType(c, _) <is: Final()
 	where c has modifiers Final()
 	
-type rules // Built in type kinds
+relations // Built in type kinds
 
 	RefType("Object", _)       <is: Object()
 	RefType("Cloneable", _)    <is: Cloneable()

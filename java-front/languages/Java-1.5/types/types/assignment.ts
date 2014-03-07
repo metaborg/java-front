@@ -11,7 +11,7 @@ imports
 	languages/Java-1.5/types/types/widening
 	languages/Java-1.5/types/types/narrowing
 	
-type rules
+relations
 
 	e-ty <assign-conv: v-ty
 	where e-ty == v-ty 
@@ -19,8 +19,8 @@ type rules
 	   or ( // TODO: only for constant expressions, only if value of e-ty is representable in v-ty
 	   	    (e-ty == Byte() or e-ty == Short() or e-ty == Char() or e-ty == Int())
 	   	and (v-ty == Byte() or v-ty == Short() or v-ty == Char())
-	   	and e <representable: v-ty // TODO: need value of e-ty here
-	   	and e-ty <narrow-prim: v-ty
+	   	// and e <representable: v-ty // TODO: need value of e-ty here
+	   	and e-ty <narrows-prim: v-ty
    	)
 	
 	// pg 397. Compount assignment E1 op= E2 is equivalent to E1 = (T)((E1) op (E2)) where T is type of E1.
