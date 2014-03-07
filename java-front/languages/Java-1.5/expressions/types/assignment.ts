@@ -17,7 +17,7 @@ type rules
 	where v : v-ty
 	  and e : e-ty
 	  and e-ty <assign-conv: v-ty
-	    else error "Cannot assign expression of type [e-ty] to variable of type [v-ty]" on t // TODO: string interpolation
+	    else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
 	    
   t@AssignPlus(v, e) : ty
   where v : v-ty
@@ -32,7 +32,7 @@ type rules
 		        v-ty <is: Primitive() else error "Expected primitive type" on v
 		    and e-ty <is: Primitive() else error "Expected primitive type" on e
 		    and e-ty <assign-conv-comp: v-ty
-		      else error "Cannot assign expression of type [e-ty] to variable of type [v-ty]" on t // TODO: string interpolation
+		      else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
 	    )
     )
 
@@ -51,5 +51,5 @@ type rules
     and v-ty <is: Primitive() else error "Expected primitive type" on v
     and e-ty <is: Primitive() else error "Expected primitive type" on e
     and e-ty <assign-conv-comp: v-ty
-      else error "Cannot assign expression of type [e-ty] to variable of type [v-ty]" on t // TODO: string interpolation
+      else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
  
