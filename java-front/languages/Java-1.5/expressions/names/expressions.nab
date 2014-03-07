@@ -14,13 +14,20 @@ imports
 	languages/Java-1.5/types/types/references
 
 binding rules // Method invocation
+
+	// Return(e) :
+	// 	where enclosing Method of current Variable scope => m
+	// 	and   m has type t
+	// 	and   e has type e-t
+	// 	and   t == e-t else error "type mismatch" on e
+		
 	
 	Invoke(Method(m), _):
 	  filters Method m
 	     with modifiers == Public()
 	       or modifiers == Private() and mt == ct
 	       or modifiers == Default() and mp == cp
-	       or modifiers == Protected() and ( mp == cp or ct <: mt )
+	       or modifiers == Protected() and ( mp == cp or ct <widens-ref: mt )
 	    where m has modifiers mod
 	      and enclosing Type of Method m => mt
 	      and enclosing Package of Method m => mp
@@ -29,7 +36,7 @@ binding rules // Method invocation
 
 	Invoke(Method(m), a*):
 	  disambiguates Method m
-	    by minimal distance at* <: pt* 
+	    by minimal distance at* <widens-ref: pt* 
 	    where a* has type at*
 	      and m has parameter-types pt*
 
