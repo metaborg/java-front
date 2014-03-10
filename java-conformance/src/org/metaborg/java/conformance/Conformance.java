@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
@@ -37,27 +38,25 @@ public class Conformance {
 
 
 	public void testCompilationUnit() {
-		// Check import name resolution
 		final CompilationUnit jdtcu = (CompilationUnit) jdtast;
 		final IStrategoTerm spxcu = spxast.getSubterm(0);
 
+		// Compare import name resolution
 		final List jdtil = jdtcu.imports();
 		final IStrategoTerm spxil = spxcu.getSubterm(1);
 		for(int i = 0; i < jdtil.size(); ++i) {
 			final ImportDeclaration jdtid = (ImportDeclaration) jdtil.get(i);
 			final IStrategoTerm spxid = getTypeImport(spxil.getSubterm(i));
-
 			if(!compareNulls(jdtid, spxid))
-				compareBinding(jdtid.resolveBinding(), getTypeBindings(spxid));
+				compareTypeBinding((ITypeBinding)jdtid.resolveBinding(), getTypeBindings(spxid));
 		}
 
-		// For each type
+		// Compare types
 		final List jdttys = jdtcu.types();
 		final IStrategoTerm spxtys = getTypes(spxcu.getSubterm(2));
 		for(int i = 0; i < jdttys.size(); ++i) {
 			final TypeDeclaration jdtty = (TypeDeclaration) jdttys.get(i);
 			final IStrategoTerm spxty = spxtys.getSubterm(i);
-
 			testType(jdtty, spxty);
 		}
 	}
@@ -71,21 +70,19 @@ public class Conformance {
 	}
 
 	public void testClass(TypeDeclaration jdttype, IStrategoTerm spxtype) {
-		// Check superclass name resolution
+		// Compare superclass name resolution
 		final Name jdtsuper = jdttype.getSuperclass();
 		final IStrategoTerm spxsuper = getSupertype(spxtype);
-
 		if(!compareNulls(jdtsuper, spxsuper))
-			compareBinding(jdtsuper.resolveBinding(), getTypeBindings(spxsuper));
+			compareTypeBinding((ITypeBinding)jdtsuper.resolveBinding(), getTypeBindings(spxsuper));
 
-		// Check implemented interface name resolution
+		// Compare implemented interface name resolution
 		final List jdtsuperis = jdttype.superInterfaces();
 		final IStrategoTerm spxsuperis = getSuperinterfaces(spxtype);
-		for(int j = 0; j < jdtsuperis.size(); ++j) {
-			final Name jdtsuperi = (Name) jdtsuperis.get(j);
-			final IStrategoTerm spxsuperi = getImplementsDec(spxsuperis.getSubterm(j));
-
-			compareBinding(jdtsuperi.resolveBinding(), getTypeBindings(spxsuperi));
+		for(int i = 0; i < jdtsuperis.size(); ++i) {
+			final Name jdtsuperi = (Name) jdtsuperis.get(i);
+			final IStrategoTerm spxsuperi = getImplementsDec(spxsuperis.getSubterm(i));
+			compareTypeBinding((ITypeBinding)jdtsuperi.resolveBinding(), getTypeBindings(spxsuperi));
 		}
 
 		// TODO: Check implementation error
@@ -93,15 +90,15 @@ public class Conformance {
 		// For each body declaration
 		final List jdtbodydecs = jdttype.bodyDeclarations();
 		final IStrategoTerm spxbodydecs = getBodyDeclarations(spxtype);
-
-		// Check type of expression
-		// For each method
-		// For each statement + expression
-		// Type and name resolution check
+		for(int i = 0; i < jdtbodydecs.size(); ++i) {
+			final BodyDeclaration jdtbodydecl = (BodyDeclaration) jdtbodydecs.get(i);
+			final IStrategoTerm spxbodydecl = spxbodydecs.getSubterm(i);
+			testBodyDeclaration(jdtbodydecl, spxbodydecl);
+		}
 	}
 
 	public void testInterface(TypeDeclaration jdttype, IStrategoTerm spxtype) {
-		// Check subinterface name resolution
+		// Compare subinterface name resolution
 	}
 
 	public void testBodyDeclaration(BodyDeclaration jdtbodydecl, IStrategoTerm spxbodydecl) {
@@ -115,7 +112,10 @@ public class Conformance {
 	}
 
 	public void testField(FieldDeclaration jdtfield, IStrategoTerm spxfield) {
-
+		// Compare type
+		
+		// Check and compare the initializer expression
+		
 	}
 
 	public void testMethodOrConstructor(MethodDeclaration jdtmethod, IStrategoTerm spxmethod) {
@@ -126,11 +126,17 @@ public class Conformance {
 	}
 	
 	public void testMethod(MethodDeclaration jdtmethod, IStrategoTerm spxmethod) {
-
+		// Compare return type
+		
+		// Compare parameter types
+		
+		// Compare expressions
 	}
 
 	public void testConstructor(MethodDeclaration jdtconstructor, IStrategoTerm spxconstructor) {
-
+		// Compare parameter types
+		
+		// Compare expressions
 	}
 
 
@@ -172,7 +178,7 @@ public class Conformance {
 	}
 
 	private IStrategoTerm getBodyDeclarations(IStrategoTerm term) {
-		return term.getSubterm(0).getSubterm(0);
+		return term.getSubterm(1).getSubterm(0);
 	}
 
 
@@ -199,9 +205,9 @@ public class Conformance {
 		return false;
 	}
 
-	private boolean compareBinding(IBinding jdtb, Iterable<IStrategoTerm> spxbs) {
-		boolean jdtFail = jdtb == null;
-		boolean spxFail = spxbs == null || !spxbs.iterator().hasNext();
+	private boolean compareTypeBinding(ITypeBinding jdtbinding, Iterable<IStrategoTerm> spxbindings) {
+		boolean jdtFail = jdtbinding == null;
+		boolean spxFail = spxbindings == null || !spxbindings.iterator().hasNext();
 		if(jdtFail && spxFail)
 			return true;
 		if(jdtFail ^ spxFail) {
@@ -209,16 +215,17 @@ public class Conformance {
 			return false;
 		}
 
-		final IStrategoTerm spxb = spxbs.iterator().next().getSubterm(0);
+		final IStrategoTerm spxbinding = spxbindings.iterator().next().getSubterm(0);
 
-		System.out.println(jdtb.getKey());
-		System.out.println(spxb);
+		System.out.println(jdtbinding.getQualifiedName());
+		System.out.println(spxbinding);
 
-		if(!compareKind(jdtb.getKind(), uriNamespace(spxb))) {
-			error("Incorrect kinds: " + jdtb.getKind() + " - " + uriNamespace(spxb));
+		if(!compareKind(jdtbinding.getKind(), uriNamespace(spxbinding))) {
+			error("Incorrect kinds: " + jdtbinding.getKind() + " - " + uriNamespace(spxbinding));
 		}
-		if(!compareName(jdtb.getName(), uriName(spxb))) {
-			error("Incorrect names: " + jdtb.getName() + " - " + uriName(spxb));
+		// TODO: COMPARE FULLY QUALIFIED NAME
+		if(!compareName(jdtbinding.getQualifiedName(), spxbinding)) {
+			error("Incorrect names: " + jdtbinding.getQualifiedName() + " - " + spxbinding);
 		}
 
 		return true;
@@ -238,8 +245,22 @@ public class Conformance {
 		return false;
 	}
 
-	private boolean compareName(String jdtName, String spxName) {
-		return jdtName.equals(spxName);
+	private boolean compareName(String jdtqname, IStrategoTerm spxqname) {
+		final String[] jdtparts = jdtqname.split("\\.");
+		final IStrategoTerm spxparts = uriSegments(spxqname);
+		final int spxpartsLength = spxparts.getSubtermCount() - 1;
+		if(jdtparts.length != spxpartsLength)
+			return false;
+		
+		// Ignore default package from URI by ignoring the last element.
+		for(int i = 0; i < spxpartsLength - 1; ++i) { 
+			final String jdtname = jdtparts[jdtparts.length - 1 - i];
+			final String spxname = segmentName(spxparts.getSubterm(i));
+			if(!jdtname.equals(spxname))
+				return false;
+		}
+		
+		return true;
 	}
 
 

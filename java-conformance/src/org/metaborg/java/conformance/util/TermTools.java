@@ -12,7 +12,7 @@ public class TermTools {
 	public static boolean isList(IStrategoTerm term) {
 		return term.getTermType() == IStrategoTerm.LIST;
 	}
-	
+
 	public static boolean isAppl(IStrategoTerm term, String name) {
 		if(term.getTermType() == IStrategoTerm.APPL) {
 			final IStrategoAppl appl = (IStrategoAppl) term;
@@ -39,6 +39,14 @@ public class TermTools {
 
 	public static IStrategoTerm uriHeadSegment(IStrategoTerm uri) {
 		return uriSegments(uri).getSubterm(0);
+	}
+
+	public static IStrategoAppl segmentNamespace(IStrategoTerm segment) {
+		return (IStrategoAppl) segment.getSubterm(0);
+	}
+
+	public static String segmentName(IStrategoTerm segment) {
+		return ((IStrategoString) segment.getSubterm(1)).stringValue();
 	}
 
 	public static IStrategoAppl uriNamespace(IStrategoTerm uri) {
@@ -85,7 +93,7 @@ class CollectOneVisitor extends TermVisitor {
 				break;
 			}
 		}
-		
+
 		if(pred.apply(term)) {
 			result = term;
 		}
