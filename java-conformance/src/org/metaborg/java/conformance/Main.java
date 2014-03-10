@@ -1,0 +1,57 @@
+package org.metaborg.java.conformance;
+
+import java.io.IOException;
+
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.metaborg.java.conformance.util.Util;
+import org.metaborg.runtime.task.ITaskEngine;
+import org.metaborg.runtime.task.TaskManager;
+import org.spoofax.interpreter.library.IOAgent;
+import org.spoofax.interpreter.library.index.IIndex;
+import org.spoofax.interpreter.library.index.IndexManager;
+import org.spoofax.interpreter.terms.IStrategoTerm;
+import org.spoofax.interpreter.terms.ITermFactory;
+import org.spoofax.terms.TermFactory;
+import org.spoofax.terms.attachments.ParentTermFactory;
+import org.spoofax.terms.io.binary.TermReader;
+
+public class Main {
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		final String projectDir = "C:/Spoofax/Repositories/git/java-front/java-conformance-example/";
+
+		final String javaSourcePath = projectDir + "src/";
+		final String javaUnitName = "p/test.java";
+		final String javaFile = javaSourcePath + javaUnitName;
+
+		final String atermFile = projectDir + "test.analyzed.aterm";
+
+		try {
+			final ASTParser parser = ASTParser.newParser(AST.JLS2);
+			parser.setKind(ASTParser.K_COMPILATION_UNIT);
+			parser.setSource(Util.getBytes(javaFile));
+			parser.setEnvironment(new String[] {}, new String[] { javaSourcePath }, null, true);
+			parser.setUnitName(javaUnitName);
+			parser.setResolveBindings(true);
+			parser.setStatementsRecovery(false);
+			parser.setBindingsRecovery(false);
+			final ASTNode jdtast = parser.createAST(null);
+
+			final ITermFactory termFactory = new ParentTermFactory(new TermFactory());
+			final IOAgent agent = new IOAgent();
+			agent.setDefinitionDir(projectDir);
+			agent.setWorkingDir(projectDir);
+			final TermReader termReader = new TermReader(termFactory);
+			final IStrategoTerm spxast = termReader.parseFromFile(atermFile);
+			final IIndex index = IndexManager.getInstance().loadIndex(projectDir, "Java", termFactory, agent);
+			final ITaskEngine taskEngine = TaskManager.getInstance().loadTaskEngine(projectDir, termFactory, agent);
+
+			final Conformance conformance = new Conformance(jdtast, index, taskEngine, spxast);
+			conformance.testCompilationUnit();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

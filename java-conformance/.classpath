@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Spoofax/Eclipses/Eclipse 4.3/plugins/org.eclipse.jdt.core_3.9.2.v20140114-1555.jar" sourcepath="C:/Spoofax/Eclipses/Eclipse 4.3/plugins/org.eclipse.jdt.core.source_3.9.2.v20140114-1555.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Spoofax/Eclipses/Eclipse%204.3/plugins/org.eclipse.jdt.doc.isv_3.9.2.v20140205-0929.jar!/reference/api"/>
+		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/compiler/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/compiler/batch/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/dom/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/dom/rewrite/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/eval/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/formatter/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/jdom/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/search/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/util/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/index/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/codeassist/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/codeassist/complete/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/codeassist/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/codeassist/select/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/ast/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/batch/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/classfmt/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/codegen/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/env/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/flow/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/lookup/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/parser/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/parser/diagnose/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/problem/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/util/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/builder/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/dom/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/dom/rewrite/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/eval/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/hierarchy/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/index/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/jdom/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/search/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/search/indexing/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/search/matching/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/search/processing/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/core/util/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/eval/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/formatter/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/formatter/align/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/formatter/comment/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/formatter/old/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/apt/dispatch/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/apt/model/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/apt/util/*"/>
+			<accessrule kind="accessible" pattern="META-INF/services/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/jdt/internal/compiler/tool/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Spoofax/Eclipses/Eclipse 4.3/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar" sourcepath="C:/Spoofax/Eclipses/Eclipse 4.3/plugins/org.eclipse.equinox.common.source_3.6.200.v20130402-1505.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Spoofax/Eclipses/Eclipse%204.3/plugins/org.eclipse.platform.doc.isv_4.3.2.v20140205-0929.jar!/reference/api"/>
+		</attributes>
+		<accessrules>
+			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/boot/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/runtime/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/core/runtime/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/equinox/events/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="src" path="/org.spoofax.terms"/>
+	<classpathentry kind="src" path="/org.spoofax.interpreter.adapter.ecj"/>
+	<classpathentry kind="src" path="/org.metaborg.runtime.task"/>
+	<classpathentry kind="src" path="/org.spoofax.interpreter.library.index"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.spoofax.interpreter.library.jsglr"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.spoofax.jsglr"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.spoofax.interpreter.externaldeps"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
