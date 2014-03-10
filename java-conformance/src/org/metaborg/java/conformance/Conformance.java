@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.metaborg.runtime.task.ITaskEngine;
 import org.spoofax.interpreter.library.index.IIndex;
@@ -78,16 +79,16 @@ public class Conformance {
 
 		// Compare implemented interface name resolution
 		final List jdtsuperis = jdttype.superInterfaces();
-		final IStrategoTerm spxsuperis = getSuperinterfaces(spxtype);
+		final IStrategoTerm spxsuperis = getClassSuperinterfaces(spxtype);
 		for(int i = 0; i < jdtsuperis.size(); ++i) {
 			final Name jdtsuperi = (Name) jdtsuperis.get(i);
-			final IStrategoTerm spxsuperi = getImplementsDec(spxsuperis.getSubterm(i));
+			final IStrategoTerm spxsuperi = getImplementsInterface(spxsuperis.getSubterm(i));
 			compareTypeBinding((ITypeBinding)jdtsuperi.resolveBinding(), getTypeBindings(spxsuperi));
 		}
 
-		// TODO: Check implementation error
+		// TODO: Check interface implementation error
 
-		// For each body declaration
+		// Compare body declarations
 		final List jdtbodydecs = jdttype.bodyDeclarations();
 		final IStrategoTerm spxbodydecs = getBodyDeclarations(spxtype);
 		for(int i = 0; i < jdtbodydecs.size(); ++i) {
@@ -99,6 +100,13 @@ public class Conformance {
 
 	public void testInterface(TypeDeclaration jdttype, IStrategoTerm spxtype) {
 		// Compare subinterface name resolution
+		final List jdtsuperis = jdttype.superInterfaces();
+		final IStrategoTerm spxsuperis = getInterfaceSuperinterfaces(spxtype);
+		for(int i = 0; i < jdtsuperis.size(); ++i) {
+			final Name jdtsuperi = (Name) jdtsuperis.get(i);
+			final IStrategoTerm spxsuperi = getExtendsInterface(spxsuperis.getSubterm(i));
+			compareTypeBinding((ITypeBinding)jdtsuperi.resolveBinding(), getTypeBindings(spxsuperi));
+		}
 	}
 
 	public void testBodyDeclaration(BodyDeclaration jdtbodydecl, IStrategoTerm spxbodydecl) {
@@ -113,6 +121,9 @@ public class Conformance {
 
 	public void testField(FieldDeclaration jdtfield, IStrategoTerm spxfield) {
 		// Compare type
+		final Type jdttype = jdtfield.getType();
+		final IStrategoTerm spxtype = getFieldType(spxfield);
+		compareTypeBinding((ITypeBinding)jdttype.resolveBinding(), getTypeBindings(spxtype));
 		
 		// Check and compare the initializer expression
 		
@@ -160,20 +171,32 @@ public class Conformance {
 	private IStrategoTerm getSupertype(IStrategoTerm term) {
 		final IStrategoTerm superClass = term.getSubterm(0).getSubterm(3);
 		if(isAppl(superClass, "SuperDec"))
-			return superClass.getSubterm(0).getSubterm(0);
+			return superClass.getSubterm(0).getSubterm(0); // TODO: this only works if type is a reference type.
 		else
 			return null;
 	}
 
-	private IStrategoTerm getSuperinterfaces(IStrategoTerm term) {
+	private IStrategoTerm getClassSuperinterfaces(IStrategoTerm term) {
 		final IStrategoTerm superInterfaces = term.getSubterm(0).getSubterm(4);
 		if(isList(superInterfaces))
 			return superInterfaces;
 		else
 			return null;
 	}
-
-	private IStrategoTerm getImplementsDec(IStrategoTerm term) {
+	
+	private IStrategoTerm getImplementsInterface(IStrategoTerm term) {
+		return term.getSubterm(0).getSubterm(0);
+	}
+	
+	private IStrategoTerm getInterfaceSuperinterfaces(IStrategoTerm term) {
+		final IStrategoTerm superInterfaces = term.getSubterm(0).getSubterm(3);
+		if(isList(superInterfaces))
+			return superInterfaces;
+		else
+			return null;
+	}
+	
+	private IStrategoTerm getExtendsInterface(IStrategoTerm term) {
 		return term.getSubterm(0).getSubterm(0);
 	}
 
@@ -181,6 +204,9 @@ public class Conformance {
 		return term.getSubterm(1).getSubterm(0);
 	}
 
+	private IStrategoTerm getFieldType(IStrategoTerm term) {
+		return term.getSubterm(1).getSubterm(0); // TODO: this only works if type is a reference type.
+	}
 
 
 	private Iterable<IStrategoTerm> getTypeBindings(IStrategoTerm term) {
