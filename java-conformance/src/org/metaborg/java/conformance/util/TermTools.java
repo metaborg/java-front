@@ -31,7 +31,16 @@ public class TermTools {
 		}
 		return false;
 	}
+	
+	public static boolean isTuple(IStrategoTerm term, int arity) {
+		return term.getTermType() == IStrategoTerm.TUPLE && term.getSubtermCount() == arity;
+	}
+	
+	public static boolean isResult(IStrategoTerm term) {
+		return isAppl(term, "Result", 1);
+	}
 
+	
 
 	public static IStrategoTerm uriSegments(IStrategoTerm uri) {
 		return uri.getSubterm(1);
@@ -58,21 +67,29 @@ public class TermTools {
 	}
 
 
+	
+	public static IStrategoTerm getUse(IStrategoTerm term) {
+		for(IStrategoTerm anno : term.getAnnotations()) {
+			if(isAppl(anno, "Use", 1))
+				return anno.getSubterm(0);
+		}
+		return null;
+	}
+	
+	public static IStrategoTerm getType(IStrategoTerm term) {
+		for(IStrategoTerm anno : term.getAnnotations()) {
+			if(isTuple(anno, 2) && isAppl(anno.getSubterm(0), "Type", 0))
+				return anno.getSubterm(1);
+		}
+		return null;
+	}
+	
+	
+	
 	public static IStrategoTerm collectOne(IStrategoTerm term, Predicate<IStrategoTerm> pred) {
 		final CollectOneVisitor visitor = new CollectOneVisitor(pred);
 		visitor.visit(term);
 		return visitor.result();
-	}
-
-	public static IStrategoTerm collectUseTask(IStrategoTerm term) {
-		final CollectOneVisitor visitor = new CollectOneVisitor(new Predicate<IStrategoTerm>() {
-			@Override
-			public boolean apply(IStrategoTerm input) {
-				return isAppl(input, "Use");
-			}
-		});
-		visitor.visit(term);
-		return visitor.result().getSubterm(0).getSubterm(0);
 	}
 }
 
