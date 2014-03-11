@@ -4,22 +4,7 @@ import static org.metaborg.java.conformance.util.TermTools.*;
 
 import java.util.List;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.Block;
-import org.eclipse.jdt.core.dom.BodyDeclaration;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.IBinding;
-import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.jdt.core.dom.ImportDeclaration;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
-import org.eclipse.jdt.core.dom.Statement;
-import org.eclipse.jdt.core.dom.Type;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.*;
 import org.metaborg.runtime.task.ITaskEngine;
 import org.metaborg.runtime.task.util.SingletonIterable;
 import org.spoofax.interpreter.library.index.IIndex;
@@ -167,7 +152,7 @@ public class Conformance {
 		final List jdtParameters = jdtMethod.parameters();
 		final IStrategoTerm spxParameters = getMethodParams(spxMethod);
 		for(int i = 0; i < jdtParameters.size(); ++i) {
-			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration)jdtParameters.get(i);
+			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration) jdtParameters.get(i);
 			final IStrategoTerm spxParam = spxParameters.getSubterm(i);
 			log("Compare parameter types");
 			compareTypes(jdtParam.getType().resolveBinding(), getParamType(spxParam));
@@ -188,16 +173,26 @@ public class Conformance {
 
 	public void testConstructor(MethodDeclaration jdtConstructor, IStrategoTerm spxConstructor) {
 		// Compare parameter types
-		final List jdtParameters = jdtConstructor.parameters();
-		final IStrategoTerm spxParameters = getConstructorParams(spxConstructor);
-		for(int i = 0; i < jdtParameters.size(); ++i) {
-			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration)jdtParameters.get(i);
-			final IStrategoTerm spxParam = spxParameters.getSubterm(i);
+		final List jdtParams = jdtConstructor.parameters();
+		final IStrategoTerm spxParams = getConstructorParams(spxConstructor);
+		testParameters(jdtParams, spxParams);
+
+		// Compare statements
+		final Block jdtBlock = jdtConstructor.getBody();
+		final IStrategoTerm spxStatements = getConstructorBody(spxConstructor);
+		if(!compareNulls(jdtBlock, spxStatements)) {
+			final List jdtStatements = jdtBlock.statements();
+			testStatements(jdtStatements, spxStatements);
+		}
+	}
+
+	public void testParameters(List jdtParams, IStrategoTerm spxParams) {
+		for(int i = 0; i < jdtParams.size(); ++i) {
+			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration) jdtParams.get(i);
+			final IStrategoTerm spxParam = spxParams.getSubterm(i);
 			log("Compare parameter types");
 			compareTypes(jdtParam.getType().resolveBinding(), getParamType(spxParam));
 		}
-
-		// Compare statements
 	}
 
 	public void testExpression(Expression jdtExpression, IStrategoTerm spxExpression) {
@@ -205,11 +200,85 @@ public class Conformance {
 		log("Compare expression types");
 		compareTypes(jdtExpression.resolveTypeBinding(), resolveExpressionType(spxExpression));
 
-		// TODO: Compare (sub)expression?
+		// Expression specific checks
+		// If ArrayAccess, check array errors
+		if(jdtExpression instanceof ArrayAccess) {
+			final ArrayAccess jdtArrayAccess = (ArrayAccess) jdtExpression;
+			return;
+		}
+		// If Assignment, check assignment errors
+		if(jdtExpression instanceof Assignment) {
+			final Assignment jdtAssignment = (Assignment) jdtExpression;
+			return;
+		}
+		// If CastExpression, check cast errors
+		if(jdtExpression instanceof CastExpression) {
+			final CastExpression jdtCast = (CastExpression) jdtExpression;
+			return;
+		}
+		// If ClassInstanceCreation, check constructor name resolution
+		if(jdtExpression instanceof ClassInstanceCreation) {
+			final ClassInstanceCreation jdtConsInvoke = (ClassInstanceCreation) jdtExpression;
+			return;
+		}
+		// If FieldAccess, check field name resolution
+		if(jdtExpression instanceof FieldAccess) {
+			final FieldAccess jdtFieldAccess = (FieldAccess) jdtExpression;
+			return;
+		}
+		// If MethodInvocation, check method name resolution
+		if(jdtExpression instanceof MethodInvocation) {
+			final MethodInvocation jdtMethodInvoke = (MethodInvocation) jdtExpression;
+			return;
+		}
 	}
-	
+
+	public void testStatements(List jdtStatements, IStrategoTerm spxStatements) {
+		for(int i = 0; i < jdtStatements.size(); ++i) {
+			final Statement jdtStatement = (Statement) jdtStatements.get(i);
+			final IStrategoTerm spxStatement = spxStatements.getSubterm(i);
+			testStatement(jdtStatement, spxStatement);
+		}
+	}
+
 	public void testStatement(Statement jdtStatement, IStrategoTerm spxStatement) {
-		
+		// Statement specific checks
+		// If Block, iterate over statements
+		if(jdtStatement instanceof Block) {
+			final Block jdtBlock = (Block) jdtStatement;
+			final List jdtStatements = jdtBlock.statements();
+			final IStrategoTerm spxStatements = getBlockStatements(spxStatement);
+			testStatements(jdtStatements, spxStatements);
+			return;
+		}
+		// If ConstructorInvocation, check constructor name resolution
+		if(jdtStatement instanceof ConstructorInvocation) {
+			final ConstructorInvocation jdtConsInvoke = (ConstructorInvocation) jdtStatement;
+			return;
+		}
+		// If ExpressionStatement, check expression
+		if(jdtStatement instanceof ExpressionStatement) {
+			final ExpressionStatement jdtExprStmt = (ExpressionStatement) jdtStatement;
+			final Expression jdtExpression = jdtExprStmt.getExpression();
+			final IStrategoTerm spxExpression = spxStatement;
+			testExpression(jdtExpression, spxExpression);
+			return;
+		}
+		// If ReturnStatement, check return error
+		if(jdtStatement instanceof ReturnStatement) {
+			final ReturnStatement jdtReturnStmt = (ReturnStatement) jdtStatement;
+			return;
+		}
+		// If SuperConstructorInvocation, check constructor name resolution
+		if(jdtStatement instanceof SuperConstructorInvocation) {
+			final SuperConstructorInvocation jdtSuperConsInvoke = (SuperConstructorInvocation) jdtStatement;
+			return;
+		}
+		// If VariableDeclarationStatement, check duplicate error
+		if(jdtStatement instanceof VariableDeclarationStatement) {
+			final VariableDeclarationStatement jdtVarDeclStmt = (VariableDeclarationStatement) jdtStatement;
+			return;
+		}
 	}
 
 
@@ -284,24 +353,27 @@ public class Conformance {
 	private IStrategoTerm getMethodParams(IStrategoTerm method) {
 		return method.getSubterm(0).getSubterm(4).getSubterm(0);
 	}
-	
+
 	private IStrategoTerm getMethodBody(IStrategoTerm method) {
 		// TODO: check for abstract method.
-		return method.getSubterm(1).getSubterm(0);
+		return getBlockStatements(method.getSubterm(1));
 	}
 
 	private IStrategoTerm getConstructorParams(IStrategoTerm constructor) {
 		throw new NotImplementedException();
 	}
-	
+
 	private IStrategoTerm getConstructorBody(IStrategoTerm constructor) {
 		throw new NotImplementedException();
 	}
-	
+
+	private IStrategoTerm getBlockStatements(IStrategoTerm block) {
+		return block.getSubterm(0);
+	}
+
 	private IStrategoTerm getParamType(IStrategoTerm param) {
 		return param.getSubterm(1);
 	}
-	
 
 
 
