@@ -90,13 +90,11 @@ public class JavaTermProjections {
 
 	
 	public static IStrategoTerm getAssignLeftExpr(IStrategoTerm assign) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return assign.getSubterm(0);
 	}
 
 	public static IStrategoTerm getAssignRightExpr(IStrategoTerm assign) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return assign.getSubterm(1);
 	}
 	
 	
@@ -131,13 +129,11 @@ public class JavaTermProjections {
 	}
 	
 	
-	public static IStrategoTerm getMethodInvokeArgs(IStrategoTerm methodInvoke) {
-		// TODO: implement
-		throw new NotImplementedException();
+	public static IStrategoTerm getMethodInvokeName(IStrategoTerm methodInvoke) {
+		return methodInvoke.getSubterm(0).getSubterm(0);
 	}
 	
-	public static IStrategoTerm getMethodInvokeName(IStrategoTerm methodInvoke) {
-		// TODO: implement
-		throw new NotImplementedException();
+	public static IStrategoTerm getMethodInvokeArgs(IStrategoTerm methodInvoke) {
+		return methodInvoke.getSubterm(1).getSubterm(0);
 	}
 }
