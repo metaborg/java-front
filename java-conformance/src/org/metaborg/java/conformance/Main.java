@@ -20,13 +20,13 @@ import org.spoofax.terms.io.binary.TermReader;
 public class Main {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
-		final String projectDir = "C:/Spoofax/Repositories/git/java-front/java-conformance-example/";
+		final String projectDir = args[0];
 
-		final String javaSourcePath = projectDir + "src/";
-		final String javaUnitName = "p/test.java";
+		final String javaSourcePath = projectDir + args[1];
+		final String javaUnitName = args[2];
 		final String javaFile = javaSourcePath + javaUnitName;
 
-		final String atermFile = projectDir + "test.analyzed.aterm";
+		final String atermFile = projectDir + args[3];
 
 		try {
 			final ASTParser parser = ASTParser.newParser(AST.JLS2);
