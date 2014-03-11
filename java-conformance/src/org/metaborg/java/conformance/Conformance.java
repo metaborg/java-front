@@ -408,6 +408,23 @@ public class Conformance {
 
 
 	private Iterable<IStrategoTerm> resolveNameBindings(IStrategoTerm name) {
+		if(isAppl(name, "DefaultPackageName", 1)) {
+			return resolveResults(getUse(name.getSubterm(0)));
+		}
+		if(isAppl(name, "PackageName", 1)) {
+			return resolveResults(getUse(name.getSubterm(0)));
+		}
+		if(isAppl(name, "PackageName", 2)) {
+			return resolveResults(getUse(name.getSubterm(1)));
+		}
+		
+		if(isAppl(name, "PackageOrTypeName", 1)) {
+			return resolveResults(getUse(name.getSubterm(0)));
+		}
+		if(isAppl(name, "PackageOrTypeName", 2)) {
+			return resolveResults(getUse(name.getSubterm(1)));
+		}
+		
 		if(isAppl(name, "ExprName", 1)) {
 			return resolveResults(getUse(name.getSubterm(0)));
 		}
@@ -438,8 +455,6 @@ public class Conformance {
 
 		return null;
 	}
-
-
 
 
 

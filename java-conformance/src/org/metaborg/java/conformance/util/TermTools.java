@@ -69,6 +69,7 @@ public class TermTools {
 	}
 	
 	
+	
 	public static IStrategoTerm hd(IStrategoList list) {
 		return list.head();
 	}
@@ -76,6 +77,7 @@ public class TermTools {
 	public static IStrategoList tl(IStrategoList list) {
 		return list.tail();
 	}
+	
 	
 	
 	public static IStrategoTerm uriLanguage(IStrategoTerm uri) {
