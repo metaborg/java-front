@@ -5,6 +5,7 @@ import static org.metaborg.java.conformance.util.TermTools.*;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
@@ -14,6 +15,8 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -21,6 +24,8 @@ import org.metaborg.runtime.task.ITaskEngine;
 import org.metaborg.runtime.task.util.SingletonIterable;
 import org.spoofax.interpreter.library.index.IIndex;
 import org.spoofax.interpreter.terms.IStrategoTerm;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.google.common.base.Predicate;
 
@@ -51,6 +56,7 @@ public class Conformance {
 		for(int i = 0; i < jdtImports.size(); ++i) {
 			final ImportDeclaration jdtImport = (ImportDeclaration) jdtImports.get(i);
 			final IStrategoTerm spxImport = getTypeImport(spxImports.getSubterm(i));
+			log("Compare import types");
 			if(!compareNulls(jdtImport, spxImport))
 				compareReferenceType((ITypeBinding) jdtImport.resolveBinding(), resolveTypeNameBindings(spxImport));
 		}
@@ -77,6 +83,7 @@ public class Conformance {
 		// Compare superclass name resolution
 		final Name jdtSuperClass = jdtType.getSuperclass();
 		final IStrategoTerm spxSuperClass = getSupertype(spxType);
+		log("Compare superclass types");
 		if(!compareNulls(jdtSuperClass, spxSuperClass))
 			compareReferenceType((ITypeBinding) jdtSuperClass.resolveBinding(), resolveRefTypeBindings(spxSuperClass));
 
@@ -86,6 +93,7 @@ public class Conformance {
 		for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
 			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
 			final IStrategoTerm spxSuperInterface = getImplementsInterface(spxSuperInterfaces.getSubterm(i));
+			log("Compare superinterface types");
 			compareReferenceType((ITypeBinding) jdtSuperInterface.resolveBinding(),
 				resolveRefTypeBindings(spxSuperInterface));
 		}
@@ -109,6 +117,7 @@ public class Conformance {
 		for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
 			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
 			final IStrategoTerm spxSuperInterface = getExtendsInterface(spxSuperInterfaces.getSubterm(i));
+			log("Compare superinterface types");
 			compareReferenceType((ITypeBinding) jdtSuperInterface.resolveBinding(),
 				resolveRefTypeBindings(spxSuperInterface));
 		}
@@ -125,17 +134,19 @@ public class Conformance {
 	}
 
 	public void testField(FieldDeclaration jdtField, IStrategoTerm spxField) {
-		// Compare type
+		// Compare declared type
 		final Type jdtType = jdtField.getType();
 		final IStrategoTerm spxType = getFieldType(spxField);
+		log("Compare field types");
 		compareTypes((ITypeBinding) jdtType.resolveBinding(), spxType);
 
-		// Check and compare the initializer expression
+		// Compare expression type
+		// TODO: does not work in case of multiple assignments, since they are desugared into multiple fields.
 		final VariableDeclarationFragment jdtFieldFragment = (VariableDeclarationFragment) jdtField.fragments().get(0);
 		final Expression jdtFieldExpr = jdtFieldFragment.getInitializer();
 		final IStrategoTerm spxFieldExpr = getFieldInit(spxField);
 		if(!compareNulls(jdtFieldExpr, spxFieldExpr))
-			compareTypes(jdtFieldExpr.resolveTypeBinding(), resolveExpressionType(spxType));
+			testExpression(jdtFieldExpr, spxFieldExpr);
 	}
 
 	public void testMethodOrConstructor(MethodDeclaration jdtMethod, IStrategoTerm spxMethod) {
@@ -147,16 +158,58 @@ public class Conformance {
 
 	public void testMethod(MethodDeclaration jdtMethod, IStrategoTerm spxMethod) {
 		// Compare return type
+		final ITypeBinding jdtReturnType = jdtMethod.getReturnType().resolveBinding();
+		final IStrategoTerm spxReturnType = getMethodReturnType(spxMethod);
+		log("Compare method return types");
+		compareTypes(jdtReturnType, spxReturnType);
 
 		// Compare parameter types
+		final List jdtParameters = jdtMethod.parameters();
+		final IStrategoTerm spxParameters = getMethodParams(spxMethod);
+		for(int i = 0; i < jdtParameters.size(); ++i) {
+			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration)jdtParameters.get(i);
+			final IStrategoTerm spxParam = spxParameters.getSubterm(i);
+			log("Compare parameter types");
+			compareTypes(jdtParam.getType().resolveBinding(), getParamType(spxParam));
+		}
 
-		// Compare expressions
+		// Compare statements
+		final Block jdtBlock = jdtMethod.getBody();
+		final IStrategoTerm spxStatements = getMethodBody(spxMethod);
+		if(!compareNulls(jdtBlock, spxStatements)) {
+			final List jdtStatements = jdtBlock.statements();
+			for(int i = 0; i < jdtStatements.size(); ++i) {
+				final Statement jdtStatement = (Statement) jdtStatements.get(i);
+				final IStrategoTerm spxStatement = spxStatements.getSubterm(i);
+				testStatement(jdtStatement, spxStatement);
+			}
+		}
 	}
 
 	public void testConstructor(MethodDeclaration jdtConstructor, IStrategoTerm spxConstructor) {
 		// Compare parameter types
+		final List jdtParameters = jdtConstructor.parameters();
+		final IStrategoTerm spxParameters = getConstructorParams(spxConstructor);
+		for(int i = 0; i < jdtParameters.size(); ++i) {
+			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration)jdtParameters.get(i);
+			final IStrategoTerm spxParam = spxParameters.getSubterm(i);
+			log("Compare parameter types");
+			compareTypes(jdtParam.getType().resolveBinding(), getParamType(spxParam));
+		}
 
-		// Compare expressions
+		// Compare statements
+	}
+
+	public void testExpression(Expression jdtExpression, IStrategoTerm spxExpression) {
+		// Compare expression type
+		log("Compare expression types");
+		compareTypes(jdtExpression.resolveTypeBinding(), resolveExpressionType(spxExpression));
+
+		// TODO: Compare (sub)expression?
+	}
+	
+	public void testStatement(Statement jdtStatement, IStrategoTerm spxStatement) {
+		
 	}
 
 
@@ -213,16 +266,42 @@ public class Conformance {
 		return term.getSubterm(1).getSubterm(0);
 	}
 
-	private IStrategoTerm getFieldType(IStrategoTerm term) {
-		return term.getSubterm(1);
+	private IStrategoTerm getFieldType(IStrategoTerm field) {
+		return field.getSubterm(1);
 	}
 
-	private IStrategoTerm getFieldInit(IStrategoTerm term) {
-		final IStrategoTerm varDec = term.getSubterm(2);
+	private IStrategoTerm getFieldInit(IStrategoTerm field) {
+		final IStrategoTerm varDec = field.getSubterm(2);
 		if(varDec.getSubtermCount() == 1)
 			return null;
 		return varDec.getSubterm(1);
 	}
+
+	private IStrategoTerm getMethodReturnType(IStrategoTerm method) {
+		return method.getSubterm(0).getSubterm(2);
+	}
+
+	private IStrategoTerm getMethodParams(IStrategoTerm method) {
+		return method.getSubterm(0).getSubterm(4).getSubterm(0);
+	}
+	
+	private IStrategoTerm getMethodBody(IStrategoTerm method) {
+		// TODO: check for abstract method.
+		return method.getSubterm(1).getSubterm(0);
+	}
+
+	private IStrategoTerm getConstructorParams(IStrategoTerm constructor) {
+		throw new NotImplementedException();
+	}
+	
+	private IStrategoTerm getConstructorBody(IStrategoTerm constructor) {
+		throw new NotImplementedException();
+	}
+	
+	private IStrategoTerm getParamType(IStrategoTerm param) {
+		return param.getSubterm(1);
+	}
+	
 
 
 
@@ -284,8 +363,8 @@ public class Conformance {
 		}
 
 		if(jdtType.isPrimitive()) {
-			System.out.println(jdtType.getQualifiedName());
-			System.out.println(spxType);
+			log("  " + jdtType.getQualifiedName());
+			log("  " + spxType);
 			boolean success = comparePrimitiveTypes(jdtType, spxType);
 			if(!success) {
 				error("Incorrect primitive types: " + jdtType.getQualifiedName() + " - " + spxType);
@@ -336,8 +415,8 @@ public class Conformance {
 
 		final IStrategoTerm spxType = spxDefType.getSubterm(0);
 
-		System.out.println(jdtType.getQualifiedName());
-		System.out.println(spxType);
+		log("  " + jdtType.getQualifiedName());
+		log("  " + spxType);
 
 		if(!compareKind(jdtType.getKind(), uriNamespace(spxType))) {
 			error("Incorrect kinds: " + jdtType.getKind() + " - " + uriNamespace(spxType));
@@ -399,8 +478,17 @@ public class Conformance {
 	}
 
 
-	private void error(String message) {
-		System.err.println(message);
-		throw new RuntimeException(message);
+
+	private void log(Object message) {
+		System.err.flush();
+		System.out.flush();
+		System.out.println(message.toString());
+	}
+
+	private void error(Object message) {
+		System.out.flush();
+		System.err.flush();
+		System.err.println(message.toString());
+		// throw new RuntimeException(message.toString());
 	}
 }
