@@ -16,11 +16,13 @@
 	<property name="install-location" location="${install-prefix}/share/strategoxt/java_front" />
 	<property name="dep.stratego-front" location="../strategoxt/strategoxt/syntax/stratego-front/dist/share/strategoxt/stratego-front" />
 	<property name="dep.box" location="../strategoxt/strategoxt/syntax/gpp/dist/share/strategoxt/gpp" />
+	<property name="dep.rtg" location="../strategoxt/strategoxt/syntax/stratego-regular/dist/share/strategoxt/rtg" />
 
 	<property name="syn.java" value="syntax/src" />
 	<property name="syn.java.abs" location="${syn.java}" />
 	<property name="syn.javaemb" value="syntax-embedding" />
 	<property name="syn.javaemb.abs" location="${syn.javaemb}" />
+	<property name="syn.rtg" value="syntax/stratego-regular" />
 	<property name="str.lib" value="lib" />
 
 	<property name="bin" value="bin" />
@@ -46,9 +48,11 @@
 	<target name="syntax-java-15">
 		<mkdir dir="${bin.java-15}" />
 
-		<sdf2generated base="${syn.java}/Java-15" main="Java-15" output="${bin.java-15}" />
-		<sdf2generated base="${syn.java}/JavaCompilationUnit-15" main="JavaCompilationUnit-15" output="${bin.java-15}" />
+		<sdf2generated base="${syn.java}/Java-15" main="Java-15" output="${bin.java-15}" />		
+		<sglri input="${bin.java-15}/Java-15.rtg" output="${bin.java-15}/Java-15.rtg.af" parsetable="${dep.rtg}/sdf/rtg.tbl" />
 
+		<sdf2generated base="${syn.java}/JavaCompilationUnit-15" main="JavaCompilationUnit-15" output="${bin.java-15}" />
+		<sglri input="${bin.java-15}/JavaCompilationUnit-15.rtg" output="${bin.java-15}/JavaCompilationUnit-15.rtg.af" parsetable="${dep.rtg}/sdf/rtg.tbl" />
 
 		<gen-sdf-mix input="${bin.java-15}/Java-15.def" output="${bin.java-15}/JavaMix.sdf" main="languages/java-15/Main" name="languages/java-15/JavaMix" />
 
@@ -80,6 +84,8 @@
 			</deps>
 		</sdf2generated>
 
+		<sglri input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.java.embed}/Java-EBlock.rtg.af" parsetable="${dep.rtg}/sdf/rtg.tbl" />
+		
 		<pack-sdf input="${syn.javaemb}/languages/java/EmbeddedJava.sdf" output="${bin.java.embed}/EmbeddedJava.def">
 			<args>
 				<arg value="-Idef" />
@@ -205,7 +211,7 @@
 			<fileset dir="${bin}" includes="*.jar" />
 		</copy>
 		<copy todir="${install-location}/languages/">
-			<fileset dir="${bin}/languages/" includes="**/*.pp, **/*.pp.af, **/*.str, **/*.tbl" />
+			<fileset dir="${bin}/languages/" includes="**/*.rtg, **/*.rtg.af, **/*.pp, **/*.pp.af, **/*.str, **/*.tbl" />
 		</copy>
 		<copy todir="${install-location}/syntax">
 			<fileset dir="${bin}/languages/" includes="**/*.def" />
