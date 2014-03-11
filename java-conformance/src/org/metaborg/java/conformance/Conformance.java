@@ -220,6 +220,13 @@ public class Conformance {
 
 			return;
 		}
+		// If ArrayInitializer, compare initializer expressions
+		if(jdtExpression instanceof ArrayInitializer) {
+			final ArrayInitializer jdtArrayInit = (ArrayInitializer) jdtExpression;
+
+			// TODO: implement
+			throw new NotImplementedException();
+		}
 		// If Assignment, compare left and right expressions
 		if(jdtExpression instanceof Assignment) {
 			final Assignment jdtAssignment = (Assignment) jdtExpression;
@@ -542,6 +549,7 @@ public class Conformance {
 			}
 			return success;
 		} else {
+			// TODO: handle array types
 			return compareReferenceTypeName(jdtType, resolveRefType(spxType));
 		}
 	}
@@ -756,6 +764,6 @@ public class Conformance {
 		System.out.flush();
 		System.err.flush();
 		System.err.println(message.toString());
-		throw new RuntimeException(message.toString());
+//		throw new RuntimeException(message.toString());
 	}
 }

@@ -58,13 +58,11 @@ public class JavaTermProjections {
 
 	
 	public static IStrategoTerm getConstructorParams(IStrategoTerm constructor) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return constructor.getSubterm(0).getSubterm(3);
 	}
 
 	public static IStrategoTerm getConstructorBody(IStrategoTerm constructor) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return constructor.getSubterm(1).getSubterm(1);
 	}
 
 	
@@ -79,13 +77,11 @@ public class JavaTermProjections {
 
 	
 	public static IStrategoTerm getArrayAccessArrayExpr(IStrategoTerm arrayAccess) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return arrayAccess.getSubterm(0);
 	}
 
 	public static IStrategoTerm getArrayAccessIndexExpr(IStrategoTerm arrayAccess) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return arrayAccess.getSubterm(1);
 	}
 
 	
@@ -99,13 +95,11 @@ public class JavaTermProjections {
 	
 	
 	public static IStrategoTerm getCastType(IStrategoTerm cast) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return cast.getSubterm(0);
 	}
 	
 	public static IStrategoTerm getCastExpr(IStrategoTerm cast) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return cast.getSubterm(1);
 	}
 	
 	

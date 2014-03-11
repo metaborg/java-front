@@ -100,8 +100,8 @@ public class TermTools {
 		return ((IStrategoString) segment.getSubterm(1)).stringValue();
 	}
 
-	public static IStrategoAppl uriNamespace(IStrategoTerm uri) {
-		return (IStrategoAppl) uriHeadSegment(uri).getSubterm(0);
+	public static IStrategoTerm uriNamespace(IStrategoTerm uri) {
+		return uriHeadSegment(uri).getSubterm(0);
 	}
 
 	public static String uriName(IStrategoTerm uri) {
@@ -125,7 +125,8 @@ public class TermTools {
 	
 	public static IStrategoTerm uriParentUntilNs(IStrategoTerm uri, IStrategoTerm ns) {
 		while(uri != null) {
-			if(uriNamespace(uri).equals(ns))
+			final IStrategoTerm uriNs = uriNamespace(uri); 
+			if(uriNs != null && uriNs.equals(ns))
 				return uri;
 			uri = uriParent(uri);
 		}
