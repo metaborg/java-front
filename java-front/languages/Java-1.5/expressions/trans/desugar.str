@@ -3,6 +3,12 @@ module languages/Java-1.5/expressions/trans/desugar
 imports
 	
 	include/Java
+
+signature
+	
+	constructors
+		
+		NewArray : Type * List(Dim) -> Expr
 	
 rules
 	
@@ -14,3 +20,7 @@ rules
 
 	desugar:
 		This() -> ExprName("this")
+
+	desugar:
+		NewArray(t, dim1*, dim2*) -> NewArray(t, [dim1*, dim2*])
+		

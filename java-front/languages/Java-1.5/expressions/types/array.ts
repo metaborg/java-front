@@ -8,27 +8,29 @@ imports
 	lib/properties/-
 	lib/relations/-
 	
+	languages/Java-1.5/expressions/trans/desugar
+	
 	languages/Java-1.5/types/types/primitives
 	languages/Java-1.5/types/types/promotion
 
 type functions
 
 	create-array-type :
-		([Dim(_)|ds], ty) -> ArrayType(inner-ty)
+		([_, Dim(_)|ds], ty) -> ArrayType(inner-ty)
   	where <create-array-type> (ds, ty) => inner-ty
 
 	create-array-type :  
-  	([], ty) -> ArrayType(ty)
+  	([_], ty) -> ArrayType(ty)
 	
 type rules // Array creation
 
-  NewArray(t, dim1*, dim2*) : array-ty
+  NewArray(t, dim*) : array-ty
   where t : ty
-    and <create-array-type> ([dim1*, dim2*], ty) => array-ty // TODO: dim1* and dim2* will not be concatenated
+    and <create-array-type> (dim*, ty) => array-ty
 
-  NewArrayInit(t, dim1*, _) : array-ty
+  NewArrayInit(t, dim*, _) : array-ty
   where t : ty
-    and <create-array-type> (dim1*, ty) => array-ty
+    and <create-array-type> (dim*, ty) => array-ty
   
   Dim(e) :-
   where e : ty
@@ -38,8 +40,7 @@ type rules // Array creation
 type rules // Array access
 
 	ArrayAccess(e, i) : inner-ty
-	where e : e-ty
+	where e : ArrayType(inner-ty) else error "Expected array" on e
 	  and i : i-ty
-	  and e-ty : ArrayType(inner-ty) else error "Expected array" on e
 	  and <promote-un> i-ty => prom-ty
 	  and prom-ty == Int() else error "Expected integer" on i
