@@ -1,28 +1,32 @@
 package org.metaborg.java.conformance;
 
+import static org.metaborg.java.conformance.JavaTermProjections.*;
 import static org.metaborg.java.conformance.util.TermTools.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.*;
 import org.metaborg.runtime.task.ITaskEngine;
+import org.metaborg.runtime.task.Task;
 import org.metaborg.runtime.task.util.SingletonIterable;
+import org.spoofax.NotImplementedException;
 import org.spoofax.interpreter.library.index.IIndex;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import com.google.common.base.Predicate;
 
-@SuppressWarnings({ "rawtypes", "deprecation" })
+@SuppressWarnings({ "rawtypes", "deprecation", "restriction" })
 public class Conformance {
-	private final ASTNode jdtAST;
+	private final CompilationUnit jdtAST;
 	@SuppressWarnings("unused")
 	private final IIndex index;
 	private final ITaskEngine taskEngine;
 	private final IStrategoTerm spxAST;
 
-	public Conformance(ASTNode jdtAST, IIndex index, ITaskEngine taskEngine, IStrategoTerm spxAST) {
+	public Conformance(CompilationUnit jdtAST, IIndex index, ITaskEngine taskEngine, IStrategoTerm spxAST) {
 		this.jdtAST = jdtAST;
 		this.index = index;
 		this.taskEngine = taskEngine;
@@ -32,12 +36,13 @@ public class Conformance {
 
 
 	public void testCompilationUnit() {
-		final CompilationUnit jdtCompilationUnit = (CompilationUnit) jdtAST;
+		final CompilationUnit jdtCompilationUnit = jdtAST;
 		final IStrategoTerm spxCompilationUnit = spxAST.getSubterm(0);
 
 		// Compare import name resolution
 		final List jdtImports = jdtCompilationUnit.imports();
 		final IStrategoTerm spxImports = spxCompilationUnit.getSubterm(1);
+		compareArity(jdtImports, spxImports);
 		for(int i = 0; i < jdtImports.size(); ++i) {
 			final ImportDeclaration jdtImport = (ImportDeclaration) jdtImports.get(i);
 			final IStrategoTerm spxImport = getTypeImport(spxImports.getSubterm(i));
@@ -49,11 +54,15 @@ public class Conformance {
 		// Compare types
 		final List jdtTypes = jdtCompilationUnit.types();
 		final IStrategoTerm spxTypes = getTypes(spxCompilationUnit.getSubterm(2));
+		compareArity(jdtTypes, spxTypes);
 		for(int i = 0; i < jdtTypes.size(); ++i) {
 			final TypeDeclaration jdtType = (TypeDeclaration) jdtTypes.get(i);
 			final IStrategoTerm spxType = spxTypes.getSubterm(i);
 			testType(jdtType, spxType);
 		}
+
+		// Compare (error) messages
+		testMessages();
 	}
 
 	public void testType(TypeDeclaration jdtType, IStrategoTerm spxType) {
@@ -70,24 +79,24 @@ public class Conformance {
 		final IStrategoTerm spxSuperClass = getSupertype(spxType);
 		log("Compare superclass types");
 		if(!compareNulls(jdtSuperClass, spxSuperClass))
-			compareReferenceType((ITypeBinding) jdtSuperClass.resolveBinding(), resolveRefTypeBindings(spxSuperClass));
+			compareReferenceType((ITypeBinding) jdtSuperClass.resolveBinding(), resolveRefType(spxSuperClass));
 
 		// Compare implemented interface name resolution
 		final List jdtSuperInterfaces = jdtType.superInterfaces();
 		final IStrategoTerm spxSuperInterfaces = getClassSuperinterfaces(spxType);
+		compareArity(jdtSuperInterfaces, spxSuperInterfaces);
 		for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
 			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
 			final IStrategoTerm spxSuperInterface = getImplementsInterface(spxSuperInterfaces.getSubterm(i));
 			log("Compare superinterface types");
 			compareReferenceType((ITypeBinding) jdtSuperInterface.resolveBinding(),
-				resolveRefTypeBindings(spxSuperInterface));
+				resolveRefType(spxSuperInterface));
 		}
-
-		// TODO: Check interface implementation error
 
 		// Compare body declarations
 		final List jdtBodyDecls = jdtType.bodyDeclarations();
 		final IStrategoTerm spxBodyDecls = getBodyDeclarations(spxType);
+		compareArity(jdtBodyDecls, spxBodyDecls);
 		for(int i = 0; i < jdtBodyDecls.size(); ++i) {
 			final BodyDeclaration jdtBodyDecl = (BodyDeclaration) jdtBodyDecls.get(i);
 			final IStrategoTerm spxBodyDecl = spxBodyDecls.getSubterm(i);
@@ -99,12 +108,13 @@ public class Conformance {
 		// Compare subinterface name resolution
 		final List jdtSuperInterfaces = jdtType.superInterfaces();
 		final IStrategoTerm spxSuperInterfaces = getInterfaceSuperinterfaces(spxType);
+		compareArity(jdtSuperInterfaces, spxSuperInterfaces);
 		for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
 			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
 			final IStrategoTerm spxSuperInterface = getExtendsInterface(spxSuperInterfaces.getSubterm(i));
 			log("Compare superinterface types");
 			compareReferenceType((ITypeBinding) jdtSuperInterface.resolveBinding(),
-				resolveRefTypeBindings(spxSuperInterface));
+				resolveRefType(spxSuperInterface));
 		}
 	}
 
@@ -151,6 +161,7 @@ public class Conformance {
 		// Compare parameter types
 		final List jdtParameters = jdtMethod.parameters();
 		final IStrategoTerm spxParameters = getMethodParams(spxMethod);
+		compareArity(jdtParameters, spxParameters);
 		for(int i = 0; i < jdtParameters.size(); ++i) {
 			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration) jdtParameters.get(i);
 			final IStrategoTerm spxParam = spxParameters.getSubterm(i);
@@ -163,11 +174,7 @@ public class Conformance {
 		final IStrategoTerm spxStatements = getMethodBody(spxMethod);
 		if(!compareNulls(jdtBlock, spxStatements)) {
 			final List jdtStatements = jdtBlock.statements();
-			for(int i = 0; i < jdtStatements.size(); ++i) {
-				final Statement jdtStatement = (Statement) jdtStatements.get(i);
-				final IStrategoTerm spxStatement = spxStatements.getSubterm(i);
-				testStatement(jdtStatement, spxStatement);
-			}
+			testStatements(jdtStatements, spxStatements);
 		}
 	}
 
@@ -187,6 +194,7 @@ public class Conformance {
 	}
 
 	public void testParameters(List jdtParams, IStrategoTerm spxParams) {
+		compareArity(jdtParams, spxParams);
 		for(int i = 0; i < jdtParams.size(); ++i) {
 			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration) jdtParams.get(i);
 			final IStrategoTerm spxParam = spxParams.getSubterm(i);
@@ -200,40 +208,95 @@ public class Conformance {
 		log("Compare expression types");
 		compareTypes(jdtExpression.resolveTypeBinding(), resolveExpressionType(spxExpression));
 
-		// Expression specific checks
-		// If ArrayAccess, check array errors
+		// Check sub expressions
+		// If ArrayAccess, compare array and index expressions
 		if(jdtExpression instanceof ArrayAccess) {
 			final ArrayAccess jdtArrayAccess = (ArrayAccess) jdtExpression;
+			
+			testExpression(jdtArrayAccess.getArray(), getArrayAccessArrayExpr(spxExpression));
+			testExpression(jdtArrayAccess.getIndex(), getArrayAccessIndexExpr(spxExpression));
+			
 			return;
 		}
-		// If Assignment, check assignment errors
+		// If Assignment, compare left and right expressions
 		if(jdtExpression instanceof Assignment) {
 			final Assignment jdtAssignment = (Assignment) jdtExpression;
+			
+			testExpression(jdtAssignment.getLeftHandSide(), getAssignLeftExpr(spxExpression));
+			testExpression(jdtAssignment.getRightHandSide(), getAssignRightExpr(spxExpression));
+			
 			return;
 		}
-		// If CastExpression, check cast errors
+		// If CastExpression, compare type and expression
 		if(jdtExpression instanceof CastExpression) {
 			final CastExpression jdtCast = (CastExpression) jdtExpression;
+			
+			log("compare cast types");
+			compareTypes(jdtCast.getType().resolveBinding(), getCastType(spxExpression));
+			testExpression(jdtCast.getExpression(), getCastExpr(spxExpression));
+			
 			return;
 		}
-		// If ClassInstanceCreation, check constructor name resolution
+		// If ClassInstanceCreation, compare type and arguments
 		if(jdtExpression instanceof ClassInstanceCreation) {
 			final ClassInstanceCreation jdtConsInvoke = (ClassInstanceCreation) jdtExpression;
+			
+			log("compare constructor invocation types");
+			compareTypes(jdtConsInvoke.getName().resolveTypeBinding(), getConsInvokeType(spxExpression));
+
+			final List jdtArguments = jdtConsInvoke.arguments();
+			final IStrategoTerm spxArguments = getConsInvokeArgs(spxExpression);
+			compareArity(jdtArguments, spxArguments);
+			for(int i = 0; i < jdtArguments.size(); ++i) {
+				testExpression((Expression) jdtArguments.get(i), spxArguments.getSubterm(i));
+			}
+
+			// TODO: constructor invocation can be qualified.
+			// TODO: compare class body declaration in case of an anonymous class.
+
 			return;
 		}
-		// If FieldAccess, check field name resolution
+		// If FieldAccess, compare expression and field name resolution
 		if(jdtExpression instanceof FieldAccess) {
 			final FieldAccess jdtFieldAccess = (FieldAccess) jdtExpression;
+			
+			testExpression(jdtFieldAccess.getExpression(), getFieldAccessExpr(spxExpression));
+			
+			log("compare field access variable names");
+			compareVarName(jdtFieldAccess.resolveFieldBinding(), resolveVarNameBindings(getFieldAccessName(spxExpression)));
+			
 			return;
 		}
-		// If MethodInvocation, check method name resolution
+		// If MethodInvocation, compare arguments and method name resolution
 		if(jdtExpression instanceof MethodInvocation) {
 			final MethodInvocation jdtMethodInvoke = (MethodInvocation) jdtExpression;
+			
+			final List jdtArguments = jdtMethodInvoke.arguments();
+			final IStrategoTerm spxArguments = getMethodInvokeArgs(spxExpression);
+			compareArity(jdtArguments, spxArguments);
+			for(int i = 0; i < jdtArguments.size(); ++i) {
+				testExpression((Expression) jdtArguments.get(i), spxArguments.getSubterm(i));
+			}
+			
+			log("compare method invocation names");
+			compareMethodName(jdtMethodInvoke.resolveMethodBinding(), resolveMethodNameBindings(getMethodInvokeName(spxExpression)));
+			
+			return;
+		}
+		// If SimpleName, check name resolution
+		if(jdtExpression instanceof SimpleName) {
+			final SimpleName jdtName = (SimpleName) jdtExpression;
+			return;
+		}
+		// If QualifiedName, check name resolution
+		if(jdtExpression instanceof QualifiedName) {
+			final QualifiedName jdtName = (QualifiedName) jdtExpression;
 			return;
 		}
 	}
 
 	public void testStatements(List jdtStatements, IStrategoTerm spxStatements) {
+		compareArity(jdtStatements, spxStatements);
 		for(int i = 0; i < jdtStatements.size(); ++i) {
 			final Statement jdtStatement = (Statement) jdtStatements.get(i);
 			final IStrategoTerm spxStatement = spxStatements.getSubterm(i);
@@ -281,6 +344,24 @@ public class Conformance {
 		}
 	}
 
+	public void testMessages() {
+		final IProblem[] jdtProblems = jdtAST.getProblems();
+		final Collection<IStrategoTerm> spxMessages = new LinkedList<IStrategoTerm>();
+		for(Task task : taskEngine.getTasks()) {
+			if(task.message() != null)
+				spxMessages.add(task.message());
+		}
+
+		// TODO: check type errors
+		// TODO: assignment errors
+		// TODO: array errors
+		// TODO: cast errors
+		// TODO: class interface implementation errors
+
+		// TODO: check name errors
+		// TODO: duplicate definition errors
+	}
+
 
 
 	private IStrategoTerm getTypeImport(IStrategoTerm term) {
@@ -315,66 +396,6 @@ public class Conformance {
 			return null;
 	}
 
-	private IStrategoTerm getImplementsInterface(IStrategoTerm term) {
-		return term.getSubterm(0);
-	}
-
-	private IStrategoTerm getInterfaceSuperinterfaces(IStrategoTerm term) {
-		final IStrategoTerm superInterfaces = term.getSubterm(0).getSubterm(3);
-		if(isList(superInterfaces))
-			return superInterfaces;
-		else
-			return null;
-	}
-
-	private IStrategoTerm getExtendsInterface(IStrategoTerm term) {
-		return term.getSubterm(0);
-	}
-
-	private IStrategoTerm getBodyDeclarations(IStrategoTerm term) {
-		return term.getSubterm(1).getSubterm(0);
-	}
-
-	private IStrategoTerm getFieldType(IStrategoTerm field) {
-		return field.getSubterm(1);
-	}
-
-	private IStrategoTerm getFieldInit(IStrategoTerm field) {
-		final IStrategoTerm varDec = field.getSubterm(2);
-		if(varDec.getSubtermCount() == 1)
-			return null;
-		return varDec.getSubterm(1);
-	}
-
-	private IStrategoTerm getMethodReturnType(IStrategoTerm method) {
-		return method.getSubterm(0).getSubterm(2);
-	}
-
-	private IStrategoTerm getMethodParams(IStrategoTerm method) {
-		return method.getSubterm(0).getSubterm(4).getSubterm(0);
-	}
-
-	private IStrategoTerm getMethodBody(IStrategoTerm method) {
-		// TODO: check for abstract method.
-		return getBlockStatements(method.getSubterm(1));
-	}
-
-	private IStrategoTerm getConstructorParams(IStrategoTerm constructor) {
-		throw new NotImplementedException();
-	}
-
-	private IStrategoTerm getConstructorBody(IStrategoTerm constructor) {
-		throw new NotImplementedException();
-	}
-
-	private IStrategoTerm getBlockStatements(IStrategoTerm block) {
-		return block.getSubterm(0);
-	}
-
-	private IStrategoTerm getParamType(IStrategoTerm param) {
-		return param.getSubterm(1);
-	}
-
 
 
 	private boolean isPrimitiveType(IStrategoTerm term) {
@@ -391,11 +412,20 @@ public class Conformance {
 		// @formatter:on
 	}
 
-	private Iterable<IStrategoTerm> resolveRefTypeBindings(IStrategoTerm refType) {
+	private Iterable<IStrategoTerm> resolveRefType(IStrategoTerm refType) {
 		final IStrategoTerm typeName = refType.getSubterm(0);
 		return resolveTypeNameBindings(typeName);
 	}
+	
 
+	private Iterable<IStrategoTerm> resolveExpressionType(IStrategoTerm expr) {
+		final IStrategoTerm type = getType(expr);
+		return resolveResults(type);
+	}
+
+	
+	
+	
 	private Iterable<IStrategoTerm> resolveTypeNameBindings(IStrategoTerm typeName) {
 		if(isAppl(typeName, "TypeName", 2)) {
 			return resolveResults(getUse(typeName.getSubterm(1)));
@@ -407,9 +437,14 @@ public class Conformance {
 		return null;
 	}
 
-	private Iterable<IStrategoTerm> resolveExpressionType(IStrategoTerm expr) {
-		final IStrategoTerm type = getType(expr);
-		return resolveResults(type);
+	private Iterable<IStrategoTerm> resolveVarNameBindings(IStrategoTerm varName) {
+		// TODO: implement
+		throw new NotImplementedException();
+	}
+
+	private Iterable<IStrategoTerm> resolveMethodNameBindings(IStrategoTerm methodName) {
+		// TODO: implement
+		throw new NotImplementedException();
 	}
 
 
@@ -422,6 +457,25 @@ public class Conformance {
 			return true;
 		}
 		return false;
+	}
+
+	private boolean compareArity(List jdtList, IStrategoTerm spxTerm) {
+		boolean jdtEmpty = jdtList == null || jdtList.size() == 0;
+		boolean spxEmpty = spxTerm == null || spxTerm.getSubtermCount() == 0;
+
+		if(jdtEmpty ^ spxEmpty) {
+			error("Incorrect emptyness: " + jdtEmpty + " - " + spxEmpty);
+			return false;
+		}
+
+		if(jdtEmpty && spxEmpty)
+			return true;
+
+		if(jdtList.size() != spxTerm.getSubtermCount()) {
+			error("Incorrect arity: " + jdtList.size() + " - " + spxTerm.getSubtermCount());
+			return false;
+		}
+		return true;
 	}
 
 	private boolean compareTypes(ITypeBinding jdtType, Iterable<IStrategoTerm> spxTypes) {
@@ -443,7 +497,7 @@ public class Conformance {
 			}
 			return success;
 		} else {
-			return compareReferenceType(jdtType, resolveRefTypeBindings(spxType));
+			return compareReferenceType(jdtType, resolveRefType(spxType));
 		}
 	}
 
@@ -471,31 +525,38 @@ public class Conformance {
 		return false;
 	}
 
-	private boolean compareReferenceType(ITypeBinding jdtType, Iterable<IStrategoTerm> spxDefTypes) {
-		return compareReferenceType(jdtType, firstOrNull(spxDefTypes));
+	private boolean compareReferenceType(ITypeBinding jdtType, Iterable<IStrategoTerm> spxTypeDefs) {
+		return compareReferenceType(jdtType, firstOrNull(spxTypeDefs));
 	}
 
-	private boolean compareReferenceType(ITypeBinding jdtType, IStrategoTerm spxDefType) {
-		boolean jdtFail = jdtType == null;
-		boolean spxFail = spxDefType == null;
-		if(jdtFail && spxFail)
+	private boolean compareReferenceType(ITypeBinding jdtType, IStrategoTerm spxTypeDef) {
+		if(jdtType == null && spxTypeDef == null)
 			return true;
-		if(jdtFail ^ spxFail) {
-			error("Incorrect failure state: " + jdtFail + " - " + spxFail);
+		if(jdtType == null ^ spxTypeDef == null) {
+			error("Incorrect failure state: " + jdtType + " - " + spxTypeDef);
 			return false;
 		}
 
-		final IStrategoTerm spxType = spxDefType.getSubterm(0);
-
+		return compareReferenceTypeURI(jdtType, spxTypeDef.getSubterm(0));
+	}
+	
+	private boolean compareReferenceTypeURI(ITypeBinding jdtType, IStrategoTerm spxTypeURI) {
+		if(jdtType == null && spxTypeURI == null)
+			return true;
+		if(jdtType == null ^ spxTypeURI == null) {
+			error("Incorrect failure state: " + jdtType + " - " + spxTypeURI);
+			return false;
+		}
+		
 		log("  " + jdtType.getQualifiedName());
-		log("  " + spxType);
+		log("  " + spxTypeURI);
 
-		if(!compareKind(jdtType.getKind(), uriNamespace(spxType))) {
-			error("Incorrect kinds: " + jdtType.getKind() + " - " + uriNamespace(spxType));
+		if(!compareKind(jdtType.getKind(), uriNamespace(spxTypeURI))) {
+			error("Incorrect kinds: " + jdtType.getKind() + " - " + uriNamespace(spxTypeURI));
 		}
 
-		if(!compareName(jdtType.getQualifiedName(), spxType)) {
-			error("Incorrect names: " + jdtType.getQualifiedName() + " - " + spxType);
+		if(!compareQualifiedName(jdtType.getQualifiedName(), spxTypeURI)) {
+			error("Incorrect names: " + jdtType.getQualifiedName() + " - " + spxTypeURI);
 		}
 
 		return true;
@@ -508,16 +569,16 @@ public class Conformance {
 			case IBinding.TYPE:
 				return isAppl(namespace, "NablNsType");
 			case IBinding.VARIABLE:
-				return isAppl(namespace, "NablNsVariable") || isAppl(namespace, "NablNsField");
+				return isAppl(namespace, "NablNsVariable");
 			case IBinding.METHOD:
 				return isAppl(namespace, "NablNsMethod");
 		}
 		return false;
 	}
 
-	private boolean compareName(String jdtQName, IStrategoTerm spxQName) {
+	private boolean compareQualifiedName(String jdtQName, IStrategoTerm spxURI) {
 		final String[] jdtparts = jdtQName.split("\\.");
-		final IStrategoTerm spxparts = uriSegments(spxQName);
+		final IStrategoTerm spxparts = uriSegments(spxURI);
 		final int spxpartsLength = spxparts.getSubtermCount() - 1;
 		if(jdtparts.length != spxpartsLength)
 			return false;
@@ -531,6 +592,70 @@ public class Conformance {
 		}
 
 		return true;
+	}
+	
+	private boolean compareVarName(IVariableBinding jdtVarName, Iterable<IStrategoTerm> spxVarNameDefs) {
+		return compareVarName(jdtVarName, firstOrNull(spxVarNameDefs));
+	}
+	
+	private boolean compareVarName(IVariableBinding jdtVarName, IStrategoTerm spxVarNameDef) {
+		if(jdtVarName == null && spxVarNameDef == null)
+			return true;
+		if(jdtVarName == null ^ spxVarNameDef == null) {
+			error("Incorrect failure state: " + jdtVarName + " - " + spxVarNameDef);
+			return false;
+		}
+		
+		final IStrategoTerm spxVarNameURI = spxVarNameDef.getSubterm(0);
+		
+		log("  " + jdtVarName.getName());
+		log("  " + spxVarNameURI);
+
+		if(!compareKind(jdtVarName.getKind(), uriNamespace(spxVarNameURI))) {
+			error("Incorrect kinds: " + jdtVarName.getKind() + " - " + uriNamespace(spxVarNameURI));
+		}
+		
+		if(!jdtVarName.getName().equals(uriName(spxVarNameURI))){
+			error("Incorrect names: " + jdtVarName.getName() + " - " + uriName(spxVarNameURI));
+		}
+		
+		if(jdtVarName.isField()) {
+			final ITypeBinding jdtClass = jdtVarName.getDeclaringClass();
+			final IStrategoTerm spxClassURI = uriParentUntilNs(spxVarNameURI, appl("NablNsClass"));
+			return compareReferenceTypeURI(jdtClass, spxClassURI);
+		} else {
+			final IMethodBinding jdtMethod = jdtVarName.getDeclaringMethod();
+			final IStrategoTerm spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsMethod"));
+			return compareMethodNameURI(jdtMethod, spxMethodURI);
+		}
+	}
+	
+	private boolean compareMethodName(IMethodBinding jdtMethodName, Iterable<IStrategoTerm> spxMethodNameDefs) {
+		return compareMethodName(jdtMethodName, firstOrNull(spxMethodNameDefs));
+	}
+	
+	private boolean compareMethodName(IMethodBinding jdtMethodName, IStrategoTerm spxMethodNameDef) {
+		if(jdtMethodName == null && spxMethodNameDef == null)
+			return true;
+		if(jdtMethodName == null ^ spxMethodNameDef == null) {
+			error("Incorrect failure state: " + jdtMethodName + " - " + spxMethodNameDef);
+			return false;
+		}
+		
+		// TODO: implement
+		throw new NotImplementedException();
+	}
+	
+	private boolean compareMethodNameURI(IMethodBinding jdtMethodName, IStrategoTerm spxMethodNameURI) {
+		if(jdtMethodName == null && spxMethodNameURI == null)
+			return true;
+		if(jdtMethodName == null ^ spxMethodNameURI == null) {
+			error("Incorrect failure state: " + jdtMethodName + " - " + spxMethodNameURI);
+			return false;
+		}
+		
+		// TODO: implement
+		throw new NotImplementedException();
 	}
 
 

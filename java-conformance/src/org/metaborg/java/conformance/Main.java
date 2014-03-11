@@ -3,8 +3,9 @@ package org.metaborg.java.conformance;
 import java.io.IOException;
 
 import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.metaborg.java.conformance.util.TermTools;
 import org.metaborg.java.conformance.util.Util;
 import org.metaborg.runtime.task.ITaskEngine;
 import org.metaborg.runtime.task.TaskManager;
@@ -37,9 +38,10 @@ public class Main {
 			parser.setResolveBindings(true);
 			parser.setStatementsRecovery(false);
 			parser.setBindingsRecovery(false);
-			final ASTNode jdtast = parser.createAST(null);
+			final CompilationUnit jdtast = (CompilationUnit) parser.createAST(null);
 
 			final ITermFactory termFactory = new ParentTermFactory(new TermFactory());
+			TermTools.factory = termFactory;
 			final IOAgent agent = new IOAgent();
 			agent.setDefinitionDir(projectDir);
 			agent.setWorkingDir(projectDir);

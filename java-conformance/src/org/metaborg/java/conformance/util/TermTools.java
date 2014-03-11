@@ -2,13 +2,19 @@ package org.metaborg.java.conformance.util;
 
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoConstructor;
+import org.spoofax.interpreter.terms.IStrategoInt;
+import org.spoofax.interpreter.terms.IStrategoList;
 import org.spoofax.interpreter.terms.IStrategoString;
 import org.spoofax.interpreter.terms.IStrategoTerm;
+import org.spoofax.interpreter.terms.IStrategoTuple;
+import org.spoofax.interpreter.terms.ITermFactory;
 import org.spoofax.terms.TermVisitor;
 
 import com.google.common.base.Predicate;
 
 public class TermTools {
+	public static ITermFactory factory;
+	
 	public static boolean isList(IStrategoTerm term) {
 		return term.getTermType() == IStrategoTerm.LIST;
 	}
@@ -41,9 +47,43 @@ public class TermTools {
 	}
 
 	
+	
+	public static IStrategoString str(String str) {
+		return factory.makeString(str);
+	}
+	
+	public static IStrategoInt i(int i) {
+		return factory.makeInt(i);
+	}
 
-	public static IStrategoTerm uriSegments(IStrategoTerm uri) {
-		return uri.getSubterm(1);
+	public static IStrategoAppl appl(String constructor, IStrategoTerm... terms) {
+		return factory.makeAppl(factory.makeConstructor(constructor, terms.length), terms);
+	}
+
+	public static IStrategoList list(IStrategoTerm... terms) {
+		return factory.makeList(terms);
+	}
+
+	public static IStrategoTuple tuple(IStrategoTerm... terms) {
+		return factory.makeTuple(terms);
+	}
+	
+	
+	public static IStrategoTerm hd(IStrategoList list) {
+		return list.head();
+	}
+	
+	public static IStrategoList tl(IStrategoList list) {
+		return list.tail();
+	}
+	
+	
+	public static IStrategoTerm uriLanguage(IStrategoTerm uri) {
+		return uri.getSubterm(0);
+	}
+	
+	public static IStrategoList uriSegments(IStrategoTerm uri) {
+		return (IStrategoList)uri.getSubterm(1);
 	}
 
 	public static IStrategoTerm uriHeadSegment(IStrategoTerm uri) {
@@ -64,6 +104,30 @@ public class TermTools {
 
 	public static String uriName(IStrategoTerm uri) {
 		return ((IStrategoString) uriHeadSegment(uri).getSubterm(1)).stringValue();
+	}
+	
+	public static IStrategoTerm uri(IStrategoTerm language, IStrategoTerm segments) {
+		return appl("URI", language, segments);
+	}
+	
+	public static IStrategoTerm segmentParent(IStrategoList segments) {
+		return tl(segments);
+	}
+	
+	public static IStrategoTerm uriParent(IStrategoTerm uri) {
+		final IStrategoList segments = uriSegments(uri);
+		if(segments.size() == 0)
+			return null;
+		return uri(uriLanguage(uri), segmentParent(uriSegments(uri)));
+	}
+	
+	public static IStrategoTerm uriParentUntilNs(IStrategoTerm uri, IStrategoTerm ns) {
+		while(uri != null) {
+			if(uriNamespace(uri).equals(ns))
+				return uri;
+			uri = uriParent(uri);
+		}
+		return null;
 	}
 
 
