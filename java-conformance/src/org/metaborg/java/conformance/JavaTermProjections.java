@@ -1,6 +1,6 @@
 package org.metaborg.java.conformance;
 
-import static org.metaborg.java.conformance.util.TermTools.isList;
+import static org.metaborg.java.conformance.util.TermTools.*;
 
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
@@ -129,5 +129,23 @@ public class JavaTermProjections {
 	
 	public static IStrategoTerm getMethodInvokeArgs(IStrategoTerm methodInvoke) {
 		return methodInvoke.getSubterm(1).getSubterm(0);
+	}
+	
+	
+	public static int getArrayTypeDimension(IStrategoTerm arrayType) {
+		int dimension = 0;
+		while(arrayType != null) {
+			if(isAppl(arrayType, "ArrayType", 1)) {
+				++dimension;
+				arrayType = getArrayTypeInnerType(arrayType);
+			} else {
+				break;
+			}
+		}
+		return dimension;
+	}
+	
+	public static IStrategoTerm getArrayTypeInnerType(IStrategoTerm arrayType) {
+		return arrayType.getSubterm(0);
 	}
 }
