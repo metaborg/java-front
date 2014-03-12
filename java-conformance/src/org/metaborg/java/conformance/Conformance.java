@@ -91,8 +91,7 @@ public class Conformance {
 			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
 			final IStrategoTerm spxSuperInterface = getImplementsInterface(spxSuperInterfaces.getSubterm(i));
 			log("Compare superinterface types");
-			compareRefTypeBindings((ITypeBinding) jdtSuperInterface.resolveBinding(),
-				resolveRefType(spxSuperInterface));
+			compareRefTypeBindings((ITypeBinding) jdtSuperInterface.resolveBinding(), resolveRefType(spxSuperInterface));
 		}
 
 		// Compare body declarations
@@ -115,8 +114,7 @@ public class Conformance {
 			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
 			final IStrategoTerm spxSuperInterface = getExtendsInterface(spxSuperInterfaces.getSubterm(i));
 			log("Compare superinterface types");
-			compareRefTypeBindings((ITypeBinding) jdtSuperInterface.resolveBinding(),
-				resolveRefType(spxSuperInterface));
+			compareRefTypeBindings((ITypeBinding) jdtSuperInterface.resolveBinding(), resolveRefType(spxSuperInterface));
 		}
 	}
 
@@ -484,6 +482,19 @@ public class Conformance {
 		return true;
 	}
 
+	private boolean compareBindingFailure(ITypeBinding jdtBinding, IStrategoTerm spxBinding) {
+		if(jdtBinding == null && spxBinding == null) {
+			log("  null");
+			log("  null");
+			return true;
+		}
+		if(jdtBinding == null ^ spxBinding == null) {
+			error("Incorrect failure state: " + jdtBinding.getQualifiedName() + " - " + spxBinding);
+			return false;
+		}
+		return true;
+	}
+
 	private boolean compareBindingFailure(IBinding jdtBinding, IStrategoTerm spxBinding) {
 		if(jdtBinding == null && spxBinding == null) {
 			log("  null");
@@ -491,7 +502,7 @@ public class Conformance {
 			return true;
 		}
 		if(jdtBinding == null ^ spxBinding == null) {
-			error("Incorrect failure state: " + jdtBinding.getKey() + " - " + spxBinding);
+			error("Incorrect failure state: " + jdtBinding.getName() + " - " + spxBinding);
 			return false;
 		}
 		return true;
@@ -635,7 +646,7 @@ public class Conformance {
 
 		return true;
 	}
-	
+
 
 	private boolean compareVarName(IVariableBinding jdtVarName, Iterable<IStrategoTerm> spxVarNameDefs) {
 		return compareVarName(jdtVarName, firstOrNull(spxVarNameDefs));
@@ -680,6 +691,7 @@ public class Conformance {
 			final IStrategoTerm spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsMethod"));
 			log("compare declaring method of variable");
 			return compareMethodNameURI(jdtMethod, spxMethodURI);
+			// TODO: also check that variable declaration comes from the same block!
 		}
 	}
 
@@ -720,7 +732,7 @@ public class Conformance {
 		return compareRefTypeBindingsURI(jdtType, spxTypeURI);
 	}
 
-	
+
 	private boolean compareKind(int kind, IStrategoTerm namespace) {
 		switch(kind) {
 			case IBinding.PACKAGE:
