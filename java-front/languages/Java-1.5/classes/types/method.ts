@@ -14,4 +14,4 @@ type rules
 	MethodParams(p*) : ty*
 	where p* : ty*
 	
-	Param(_, t, _) : t
+	Param(_, t, _, _) : t

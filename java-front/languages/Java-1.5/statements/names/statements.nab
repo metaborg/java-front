@@ -18,17 +18,19 @@ namespaces
 
 binding rules // Local variables
 
-  LocalVarDec(m*, t, VarDec(v)):
+  LocalVarDec(m*, t, VarDec(v), i):
     defines Variable v
       of type t'
       of modifiers m*
+      of var-id i
       in subsequent scope
       where t has type t'
   
-  LocalVarDec(m*, t, VarDec(v, _)):
+  LocalVarDec(m*, t, VarDec(v, _), i):
     defines Variable v 
       of type t'
       of modifiers m*
+      of var-id i
       in subsequent scope
       where t has type t'
 

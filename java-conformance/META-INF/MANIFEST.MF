@@ -13,4 +13,5 @@ Require-Bundle: org.eclipse.jdt,
  org.spoofax.interpreter.library.index,
  org.metaborg.runtime.task,
  org.spoofax.interpreter.externaldeps,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ org.spoofax.jsglr

@@ -13,7 +13,7 @@ imports
 	
 type rules
 
-	t@Assign(v, e) + t@LocalVarDec(_, v, VarDec(_, e)): v-ty
+	t@Assign(v, e) + t@LocalVarDec(_, v, VarDec(_, e), _): v-ty
 	where v : v-ty
 	  and e : e-ty
 	  and e-ty <assign-conv: v-ty

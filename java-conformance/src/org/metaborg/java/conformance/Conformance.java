@@ -14,9 +14,13 @@ import org.metaborg.runtime.task.Task;
 import org.metaborg.runtime.task.util.SingletonIterable;
 import org.spoofax.NotImplementedException;
 import org.spoofax.interpreter.library.index.IIndex;
+import org.spoofax.interpreter.library.index.IndexEntry;
+import org.spoofax.interpreter.terms.IStrategoAppl;
+import org.spoofax.interpreter.terms.IStrategoInt;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 @SuppressWarnings({ "rawtypes", "deprecation", "restriction" })
 public class Conformance {
@@ -54,7 +58,7 @@ public class Conformance {
 
 		// Compare types
 		final List jdtTypes = jdtCompilationUnit.types();
-		final IStrategoTerm spxTypes = getTypes(spxCompilationUnit.getSubterm(2));
+		final IStrategoTerm spxTypes = getTypesInPackage(spxCompilationUnit.getSubterm(2));
 		compareArity(jdtTypes, spxTypes);
 		for(int i = 0; i < jdtTypes.size(); ++i) {
 			final TypeDeclaration jdtType = (TypeDeclaration) jdtTypes.get(i);
@@ -358,7 +362,7 @@ public class Conformance {
 		return null;
 	}
 
-	private IStrategoTerm getTypes(IStrategoTerm term) {
+	private IStrategoTerm getTypesInPackage(IStrategoTerm term) {
 		return collectOne(term, new Predicate<IStrategoTerm>() {
 			@Override
 			public boolean apply(IStrategoTerm input) {
@@ -566,7 +570,6 @@ public class Conformance {
 			}
 			return success;
 		} else {
-			// TODO: handle array types
 			return compareRefTypeBindings(jdtType, resolveRefType(spxType));
 		}
 	}
@@ -687,11 +690,17 @@ public class Conformance {
 			log("compare declaring type of field");
 			return compareRefTypeBindingsURI(jdtType, spxTypeURI);
 		} else {
+			final int jdtVarID = jdtVarName.getVariableId();
+			final int spxVarID = getIndexVarID(spxVarNameURI);
+			if(jdtVarID != spxVarID) {
+				error("Incorrect variable IDs: " + jdtVarID + " - " + spxVarID);
+				return false;
+			}
+			
 			final IMethodBinding jdtMethod = jdtVarName.getDeclaringMethod();
 			final IStrategoTerm spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsMethod"));
 			log("compare declaring method of variable");
 			return compareMethodNameURI(jdtMethod, spxMethodURI);
-			// TODO: also check that variable declaration comes from the same block!
 		}
 	}
 
@@ -790,7 +799,42 @@ public class Conformance {
 		}
 		return false;
 	}
+	
+	
+	
+	private Iterable<IStrategoTerm> getIndexProperties(IStrategoTerm uri, IStrategoTerm kind) {
+		final Iterable<IStrategoTerm> entries = IndexEntry.toTerms(factory, index.get(appl("Prop", uri, kind, tuple())));
+		final Collection<IStrategoTerm> values = new LinkedList<IStrategoTerm>();
+		for(IStrategoTerm entry : entries) {
+			final IStrategoTerm value = entry.getSubterm(2);
+			if(isResult(value)) {
+				Iterables.addAll(values, resolveResults(value));
+			} else {
+				values.add(value);
+			}
+		}
+		return values;
+	}
 
+	private IStrategoTerm getIndexProperty(IStrategoTerm uri, IStrategoTerm kind) {
+		Iterable<IStrategoTerm> entries = getIndexProperties(uri, kind);
+		if(!entries.iterator().hasNext())
+			return null;
+		return entries.iterator().next();
+	}
+	
+	private IStrategoTerm getIndexType(IStrategoTerm uri) {
+		return getIndexProperty(uri, appl("Type"));
+	}
+	
+	private int getIndexVarID(IStrategoTerm uri) {
+		IStrategoTerm varID = getIndexProperty(uri, appl("NablProp_var-id"));
+		if(varID == null)
+			return -1;
+		else
+			return ((IStrategoInt)varID).intValue() - 1; // Subtract one because Spoofax begins at 1, whereas JDT begins at 0.
+	}
+	
 
 
 	private void log(Object message) {

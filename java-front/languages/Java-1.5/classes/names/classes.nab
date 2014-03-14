@@ -12,6 +12,7 @@ imports
 	languages/Java-1.5/types/names/types
 	languages/Java-1.5/types/types/references.generated
   types
+  varids
 
 namespaces
 
@@ -33,6 +34,7 @@ properties
   modifiers       of Variable    : List(VarMod)
   type-parameters of Type        : TypeParams
   type-parameters of Method      : TypeParams
+  var-id          of Variable    : INT
 
 binding rules // Enums
 
@@ -137,14 +139,16 @@ binding rules // Methods
     // imports Field from enclosing Type into body
     scopes Variable, Label
     
-  Param(m*, t, p):
+  Param(m*, t, p, i):
     defines Variable p
       of type t'
       of modifiers m*
+      of var-id i
       where t has type t'
 
-  VarArityParam(m*, t, p):
+  VarArityParam(m*, t, p, i):
     defines Variable p
       of type t'
       of modifiers m*
+      of var-id i
       where t has type t'

@@ -14,8 +14,8 @@ import org.spoofax.interpreter.library.index.IIndex;
 import org.spoofax.interpreter.library.index.IndexManager;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 import org.spoofax.interpreter.terms.ITermFactory;
+import org.spoofax.jsglr.client.imploder.ImploderOriginTermFactory;
 import org.spoofax.terms.TermFactory;
-import org.spoofax.terms.attachments.ParentTermFactory;
 import org.spoofax.terms.io.binary.TermReader;
 
 public class Main {
@@ -40,7 +40,7 @@ public class Main {
 			parser.setBindingsRecovery(false);
 			final CompilationUnit jdtast = (CompilationUnit) parser.createAST(null);
 
-			final ITermFactory termFactory = new ParentTermFactory(new TermFactory());
+			final ITermFactory termFactory = new ImploderOriginTermFactory(new TermFactory());
 			TermTools.factory = termFactory;
 			final IOAgent agent = new IOAgent();
 			agent.setDefinitionDir(projectDir);
