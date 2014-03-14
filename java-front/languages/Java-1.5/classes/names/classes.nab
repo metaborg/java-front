@@ -48,17 +48,19 @@ binding rules // Enums
 
 binding rules // Types 
 
-  ClassDec(ClassDecHead(m*, c, tp*, None(), _), _):
+  ClassDec(ClassDecHead(m*, c, tp*, None(), _), body):
     defines Type c 
       of type RefType(TypeName(c), None())
       of kind Class()
       of modifiers m*
       of type-parameters tp*
-    implicitly defines Field "this" of type RefType(TypeName(c), None())
-    scopes Type, TypeParam, Constructor, Field, Method
+    implicitly defines Field "this"
+    	of type RefType(TypeName(c), None())
+    	in body
+    scopes Type, TypeParam, Field, Method, Constructor
     
 	// TODO: pc may only refer to a class type
-  ClassDec(ClassDecHead(m*, c, tp*, SuperDec(pct@ClassType(pc, _)), _), _):
+  ClassDec(ClassDecHead(m*, c, tp*, SuperDec(sc), _), body):
     defines Type c 
       of type RefType(TypeName(c), None())
       of kind Class()
@@ -67,10 +69,15 @@ binding rules // Types
     imports
       Field, imported Field, 
       Method, imported Method
-      from Type pct
-    implicitly defines Field "this" of type RefType(TypeName(c), None())
-    implicitly defines Field "super" of type RefType(pc, None())
-    scopes Type, TypeParam, Constructor, Field, Method
+      from Type sc
+    implicitly defines Field "this" 
+    	of type RefType(TypeName(c), None())
+    	in body
+    implicitly defines Field "super" 
+    	of type st
+    	in body
+    	where sc has type st
+    scopes Type, TypeParam, Field, Method, Constructor
     
   // TODO: i may only refer to an interface type
   ImplementsDec(i):
