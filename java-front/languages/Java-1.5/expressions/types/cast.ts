@@ -12,7 +12,7 @@ imports
 	
 type rules
 	
-	t@CastPrim(t, e) + t@CastRef(t, e) : t-ty
+	term@CastPrim(t, e) + term@CastRef(t, e) : t-ty
   where t : t-ty
     and e : e-ty
-    and e-ty <cast: t-ty else error $[Cannot cast expression of type [e-ty] to [t-ty]] on t
+    and e-ty <cast: t-ty else error $[Cannot cast expression of type [e-ty] to [t-ty]] on term

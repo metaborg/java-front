@@ -39,8 +39,8 @@ type rules // Array creation
 
 type rules // Array access
 
-	ArrayAccess(e, i) : inner-ty
-	where e : ArrayType(inner-ty) else error "Expected array" on e
+	ArrayAccess(e, i) : elem-ty
+	where e : ArrayType(elem-ty) else error "Expected array" on e
 	  and i : i-ty
 	  and <promote-un> i-ty => prom-ty
 	  and prom-ty == Int() else error "Expected integer" on i

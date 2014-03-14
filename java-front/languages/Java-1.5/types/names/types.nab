@@ -24,18 +24,24 @@ binding rules // Type references
 	// TODO: only refer to interfaces
   InterfaceType(i, tp*):
     refers to Type i
-    	of conformant type-parameters tp*
+    	of type-parameters tp*
+    	of kind Interface()
   
   // TODO: c is either a TypeName or a Member, see ReferenceTypes.sdf
   // TODO: only refer to classes  
   ClassType(c, tp*):
     refers to Type c
-    	of conformant type-parameters tp*
+    	of type-parameters tp*
+    	of kind Class()
     
   // TODO: t is either a TypeName or a Member, see ReferenceTypes.sdf
   ClassOrInterfaceType(t, tp*):
     refers to Type t
-    	of conformant type-parameters tp*
+    	of type-parameters tp*
+    	
+  RefType(t, tp*):
+    refers to Type t
+    	of type-parameters tp*
   
 binding rules // Type parameters
 
