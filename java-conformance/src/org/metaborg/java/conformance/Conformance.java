@@ -8,24 +8,46 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jdt.core.compiler.IProblem;
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.ArrayAccess;
+import org.eclipse.jdt.core.dom.ArrayInitializer;
+import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.CastExpression;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ExpressionStatement;
+import org.eclipse.jdt.core.dom.FieldAccess;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.ImportDeclaration;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.metaborg.runtime.task.ITaskEngine;
 import org.metaborg.runtime.task.Task;
 import org.metaborg.runtime.task.util.SingletonIterable;
 import org.spoofax.NotImplementedException;
 import org.spoofax.interpreter.library.index.IIndex;
 import org.spoofax.interpreter.library.index.IndexEntry;
-import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoInt;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
-@SuppressWarnings({ "rawtypes", "deprecation", "restriction" })
+@SuppressWarnings({ "rawtypes", "deprecation" })
 public class Conformance {
 	private final CompilationUnit jdtAST;
-	@SuppressWarnings("unused")
 	private final IIndex index;
 	private final ITaskEngine taskEngine;
 	private final IStrategoTerm spxAST;
@@ -524,7 +546,7 @@ public class Conformance {
 		if(containsNulls(jdtName, spxName))
 			return true;
 
-		switch(jdtName.getKind()) {
+		switch (jdtName.getKind()) {
 			case IBinding.PACKAGE:
 				// TODO: implement
 				throw new NotImplementedException();
@@ -575,7 +597,7 @@ public class Conformance {
 	}
 
 	private boolean comparePrimTypeBindings(ITypeBinding jdtBinding, IStrategoTerm spxPrimType) {
-		switch(jdtBinding.getName()) {
+		switch (jdtBinding.getName()) {
 			case "boolean":
 				return isAppl(spxPrimType, "Boolean", 0);
 			case "byte":
@@ -696,7 +718,7 @@ public class Conformance {
 				error("Incorrect variable IDs: " + jdtVarID + " - " + spxVarID);
 				return false;
 			}
-			
+
 			final IMethodBinding jdtMethod = jdtVarName.getDeclaringMethod();
 			final IStrategoTerm spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsMethod"));
 			log("compare declaring method of variable");
@@ -743,7 +765,7 @@ public class Conformance {
 
 
 	private boolean compareKind(int kind, IStrategoTerm namespace) {
-		switch(kind) {
+		switch (kind) {
 			case IBinding.PACKAGE:
 				return isAppl(namespace, "NablNsPackage") || isAppl(namespace, "NablNsDefaultPackage");
 			case IBinding.TYPE:
@@ -799,11 +821,12 @@ public class Conformance {
 		}
 		return false;
 	}
-	
-	
-	
+
+
+
 	private Iterable<IStrategoTerm> getIndexProperties(IStrategoTerm uri, IStrategoTerm kind) {
-		final Iterable<IStrategoTerm> entries = IndexEntry.toTerms(factory, index.get(appl("Prop", uri, kind, tuple())));
+		final Iterable<IStrategoTerm> entries =
+			IndexEntry.toTerms(factory, index.get(appl("Prop", uri, kind, tuple())));
 		final Collection<IStrategoTerm> values = new LinkedList<IStrategoTerm>();
 		for(IStrategoTerm entry : entries) {
 			final IStrategoTerm value = entry.getSubterm(2);
@@ -822,19 +845,20 @@ public class Conformance {
 			return null;
 		return entries.iterator().next();
 	}
-	
+
 	private IStrategoTerm getIndexType(IStrategoTerm uri) {
 		return getIndexProperty(uri, appl("Type"));
 	}
-	
+
 	private int getIndexVarID(IStrategoTerm uri) {
 		IStrategoTerm varID = getIndexProperty(uri, appl("NablProp_var-id"));
 		if(varID == null)
 			return -1;
 		else
-			return ((IStrategoInt)varID).intValue() - 1; // Subtract one because Spoofax begins at 1, whereas JDT begins at 0.
+			return ((IStrategoInt) varID).intValue() - 1; // Subtract one because Spoofax begins at 1, whereas JDT
+															// begins at 0.
 	}
-	
+
 
 
 	private void log(Object message) {
