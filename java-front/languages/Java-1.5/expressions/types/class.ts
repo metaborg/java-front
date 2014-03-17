@@ -12,7 +12,8 @@ imports
 	
 type rules
 
-	NewInstance(_, t, _, _) : t
+	NewInstance(_, t, _, _) : ty
+	where t : ty
 	
 	InstanceOf(e, t) : Boolean()
 	where e : e-ty
