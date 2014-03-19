@@ -36,7 +36,7 @@ type rules
     and x-ty == Boolean()
     and y-ty == Boolean() else error "Expected booleans" on t
     
-  Not(e) : ty
+  Not(e) : Boolean()
   where e : ty
     and ty == Boolean() else error "Expected boolean" on e
 
