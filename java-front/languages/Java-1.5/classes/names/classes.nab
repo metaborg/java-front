@@ -56,7 +56,7 @@ binding rules // Types
       of type-parameters tp*
     implicitly defines Field "this"
     	of type RefType(TypeName(c), None())
-    	in body
+    	// in body
     scopes Type, TypeParam, Field, Method, Constructor
     
 	// TODO: pc may only refer to a class type
@@ -72,10 +72,10 @@ binding rules // Types
       from Type sc
     implicitly defines Field "this" 
     	of type RefType(TypeName(c), None())
-    	in body
+    	// in body
     implicitly defines Field "super" 
     	of type st
-    	in body
+    	// in body
     	where sc has type st
     scopes Type, TypeParam, Field, Method, Constructor
     
