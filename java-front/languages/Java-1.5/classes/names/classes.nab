@@ -18,6 +18,7 @@ namespaces
 
   Constructor
   Field
+  ImplicitField
   Method 
   Variable
   Label
@@ -54,9 +55,9 @@ binding rules // Types
       of kind Class()
       of modifiers m*
       of type-parameters tp*
-    implicitly defines Field "this"
+    implicitly defines ImplicitField "this"
     	of type RefType(TypeName(c), None())
-    	// in body
+    	in body
     scopes Type, TypeParam, Field, Method, Constructor
     
 	// TODO: pc may only refer to a class type
@@ -70,12 +71,12 @@ binding rules // Types
       Field, imported Field, 
       Method, imported Method
       from Type sc
-    implicitly defines Field "this" 
+    implicitly defines ImplicitField "this" 
     	of type RefType(TypeName(c), None())
-    	// in body
-    implicitly defines Field "super" 
+    	in body
+    implicitly defines ImplicitField "super" 
     	of type st
-    	// in body
+    	in body
     	where sc has type st
     scopes Type, TypeParam, Field, Method, Constructor
     

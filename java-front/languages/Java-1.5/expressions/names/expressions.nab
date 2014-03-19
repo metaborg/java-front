@@ -49,7 +49,7 @@ binding rules // Method invocation
   Invoke(SuperMethod(_, m), _):
     refers to Method m
       in Type t
-      where "super" refers to Field super
+      where "super" refers to ImplicitField super
       	and super has type t
 
 	// TODO: apply filtering and disambiguation from above      

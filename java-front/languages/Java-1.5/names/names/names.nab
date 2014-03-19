@@ -59,6 +59,8 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   AmbName(n):
 		refers to Variable n //in current scope
   	otherwise 
+    	refers to ImplicitField n //in current scope
+  	otherwise 
     	refers to Field n //in current scope
     //otherwise refers to imported Field n
   	otherwise 
@@ -287,6 +289,8 @@ binding rules // 6.5.6 Meaning of Expression Names
   
   ExprName(n):
     refers to Variable n
+    otherwise
+    	refers to ImplicitField n
     otherwise
     	refers to Field n
   
