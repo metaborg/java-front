@@ -18,7 +18,7 @@ type rules
   Deci(_)   : Int()
   Hexa(_)   : Int()
   Octa(_)   : Int()
-  Float(_)  : Float()
+  Float(_)  : Double()
   Null()    : Null()
   
   // TODO: add def (or use) annotations to the name, and type annotation to the term
