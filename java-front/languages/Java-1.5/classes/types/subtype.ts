@@ -8,21 +8,21 @@ imports
 	lib/properties/-
 	lib/relations/-
 	
+	languages/Java-1.5/classes/trans/desugar
 	languages/Java-1.5/types/types/widening
 
 relations
 
-	define transitive widens-ref
-	define transitive extends
-	define transitive implements
+	define transitive <widens-ref:
+	define transitive <extends:
+	define transitive <implements:
 
 type rules
 
-	ClassDec(ClassDecHead(_, c, _, SuperDec(pc), _), _) :-
-	where store c <widens-ref: pc
-	  and store c <extends: pc
+	ClassDec(_, _, _, c, _, SuperDec(sc), _, _) :-
+	where store c <widens-ref: sc
+	  and store c <extends: sc
 	
-	// TODO: list matching
-	ClassDec(ClassDecHead(_, c, _, _, ... ImplementsDec(ic) ...), _) :-
-	where store c <widens-ref: ic
-	  and store c <implements: ic
+	ImplementsDec(c, it) :-
+	where store c <widens-ref: it
+	  and store c <implements: it

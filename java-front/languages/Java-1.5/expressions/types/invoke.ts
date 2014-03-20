@@ -12,3 +12,7 @@ type rules
 	
 	Invoke(Method(m), _) : ty
 	where definition of m : ty
+
+	// TODO: this will call type-of on the list p*, for which there is no rule. it should map over p* instead.
+	MethodArgs(a*) : ty*
+	where a* : ty*

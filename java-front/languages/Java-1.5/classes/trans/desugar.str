@@ -5,30 +5,119 @@ imports
   include/Java
   names
 
-rules // Default access modifier
+signature  // Access modifiers
+
+	constructors
+		
+		Public    : Access
+		Private   : Access
+		Protected : Access
+		Default   : Access
+
+rules
 	
-	desugar-add-default-modifier:
-		m* -> [Default()|m*]
+	desugar-pick-access-modifier:
+		m* -> a
 		where
-			<not(fetch(?Public() <+ ?Protected() <+ ?Private()))> m*
-			
-	desugar = ClassDecHead(desugar-add-default-modifier, id, id, id, id)
-	desugar = ConstrDecHead(desugar-add-default-modifier, id, id, id, id)
-	desugar = MethodDecHead(desugar-add-default-modifier, id, id, id, id, id)
-	desugar = DeprMethodDecHead(desugar-add-default-modifier, id, id, id, id, id, id)
+			a := <fetch-elem(?Public())> m* <+
+			a := <fetch-elem(?Private())> m* <+
+			a := <fetch-elem(?Protected())> m* <+
+			a := Default()
+	
+signature // Context modifier
 
-rules // Multiple implements declarations
-  
-  desugar: 
-    ImplementsDec(interface*) -> <map(desugar-implementsdec)> interface*
-    
-  desugar-implementsdec:
-    interface -> ImplementsDec(interface)
-    
-rules // Multiple field declarations
+	constructors
+		
+		Static   : Context
+		Instance : Context
+	
+rules
+	
+	desugar-pick-context-modifier:
+		m* -> c
+		where
+			c := <fetch-elem(?Static())> m* <+
+			c := Instance()
 
+signature // Class
+
+	constructors
+		
+		ClassDec : Access * Context * List(ClassMod) * Id * TypeParams * Super * Interfaces * ClassBody -> ClassDec
+		ImplementsDec : Id * InterfaceType -> ImplementsDec
+
+rules
+	
+	desguar:
+		ClassDec(ClassDecHead(modifier*, name, type-param*, super-class, implements), body) ->
+		ClassDec(access, context, modifier'*, name, type-param*, super-class', implements', body)
+		with
+		  access       := <desugar-pick-access-modifier> modifier*
+		; context      := <desugar-pick-context-modifier> modifier*
+		; modifier'*   := <remove-all(?access <+ ?context)> modifier*
+		; super-class' := <desugar-super-class> super-class
+		; implements'  := <desugar-implements(|name)> implements
+		  
+  desugar-super-class:
+  	SuperDec(super-class) -> SuperDec(super-class)
+	
+	desugar-super-class:
+  	None() -> SuperDec(ClassType(TypeName(TypeName("java"), "lang"), "Object"))
+    
+  desugar-implements(|c):
+  	ImplementsDec(interface-type*) -> <map(\it -> ImplementsDec(c, it)\)> interface-type*
+
+  desugar-implements(|c):
+  	None() -> []
+    
+signature // Field
+
+	constructors
+
+		FieldDec : Access * Context * List(FieldMod) * Type * List(VarDec) -> FieldDec
+
+rules
+	
   desugar:
-    FieldDec(m*, t, vardec*) -> <map(desugar-fielddec(|<desugar-add-default-modifier> m*, t))> vardec*
+    FieldDec(m*, t, vardec*) -> <map(desugar-fielddec(|m*, t))> vardec*
     
-  desugar-fielddec(|m*, t):
-    v -> FieldDec(m*, t, v)
+  desugar-fielddec(|modifier*, type):
+    var-dec -> FieldDec(modifier'*, type, var-dec)
+    with
+		  access       := <desugar-pick-access-modifier> modifier*
+		; context      := <desugar-pick-context-modifier> modifier*
+		; modifier'*   := <remove-all(?access <+ ?context)> modifier*
+
+signature // Method
+
+	constructors
+		
+		MethodDec : Access * Context * List(MethodMod) * TypeParams * Type * Id * MethodParams * Throws * MethodBody -> MethodDec
+	
+rules 
+	
+	desugar:
+		_ ->
+		MethodDec(access, context, modifier'*, type-param*, type, name, param*, throws, body)
+		where
+			?MethodDec(MethodDecHead(modifier*, type-param*, type, name, param*, throws), body)
+		+ ?MethodDec(DeprMethodDecHead(modifier*, type-param*, type, name, param*, _, throws), body)
+		with
+		  access       := <desugar-pick-access-modifier> modifier*
+		; context      := <desugar-pick-context-modifier> modifier*
+		; modifier'*   := <remove-all(?access <+ ?context)> modifier*
+
+signature // Constructor
+
+	constructors
+	
+		ConstrDec : Access * List(ConstrMod) * TypeParams * Id * List(FormalParam) * Throws * ConstrBody -> ConstrDec
+	
+rules
+	
+	desugar:
+		ConstrDec(ConstrDecHead(modifier*, type-param*, name, param*, throws), body) -> 
+		ConstrDec(access, modifier'*, type-param*, name, param*, throws, body)
+		with
+		  access     := <desugar-pick-access-modifier> modifier*
+		; modifier'* := <remove-all(?access)> modifier*

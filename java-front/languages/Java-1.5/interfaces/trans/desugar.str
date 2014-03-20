@@ -3,36 +3,57 @@ module languages/Java-1.5/interfaces/trans/desugar
 imports
 	
   include/Java
+	languages/Java-1.5/classes/trans/desugar
 
+signature // Interface
+
+	constructors
+		
+		InterfaceDec : Access * List(InterfaceMod) * Id * TypeParams * ExtendsInterfaces * List(InterfaceMemberDec) -> InterfaceDec
+		ExtendsInterfaces : Id * InterfaceType -> ExtendsInterfaces
+	
+rules 
+	
+	desugar:
+		InterfaceDec(InterfaceDecHead(modifier*, name, type-parameter*, extends), body) ->
+		InterfaceDec(access, modifier'*, name, type-parameter*, extends', body)
+		with
+		  access     := <desugar-pick-access-modifier> modifier*
+		; modifier'* := <remove-all(?access)> modifier*
+		; extends'   := <desugar-extends(|name)> extends
+	
+	desugar-extends(|i):
+		ExtendsInterfaces(interface-type*) -> <map(\it -> ExtendsInterfaces(i, it)\)> interface-type*
+	
+	desugar-extends(|i):
+		None() -> []
+
+signature // Fields (constants)
+
+	constructors
+		
+		ConstantDec : Type * VarDec -> ConstantDec
+		
 rules
 	
-rules // Default access modifier
+  desugar:
+    ConstantDec(_, type, vardec*) -> <map(desugar-constantdec(|type))> vardec*
+    
+  desugar-constantdec(|type):
+    var-dec -> ConstantDec(type, var-dec)
+
+rules // Methods (abstract)
 	
-	desugar-add-public-modifier:
-		m* -> [Default()|m*]
+	desguar:
+		_ -> AbstractMethodDec(modifier*, type-param*, type, name, param*, throws)
 		where
-			<not(fetch(?Public()))> m*
-			
-	desugar = InterfaceDecHead(desugar-add-public-modifier, id, id, id)
-	desugar = AbstractMethodDec(desugar-add-public-modifier, id, id, id, id, id)
-	desugar = DeprAbstractMethodDec(desugar-add-public-modifier, id, id, id, id, id, id)
-
-rules
+		  ?AbstractMethodDec(modifier*, type-param*, type, name, param*, throws)
+		+ ?DeprAbstractMethodDec(modifier*, type-param*, type, name, param*, _, throws)
+	
+rules // Annotations
   
   desugar:
     Anno(t, pair*) -> <map(desugar-anno(|t))> pair*
   
   desugar-anno(|t):
     pair -> Anno(t, pair)
-  
-  desugar: 
-    ExtendsInterfaces(interface*) -> <map(desugar-extendsdec)> interface*
-    
-  desugar-extendsdec:
-    interface -> ExtendsInterfaces(interface)
-    
-  desugar:
-    ConstantDec(m*, t, vardec*) -> <map(desugar-constantdec(|<desugar-add-public-modifier> m*, t))> vardec*
-    
-  desugar-constantdec(|m*, t):
-    v -> ConstantDec(m*, t, v)

@@ -9,6 +9,8 @@ imports
   lib/editor/-
   
   include/Java
+  languages/Java-1.5/interfaces/trans/desugar
+  languages/Java-1.5/classes/trans/desugar
 	languages/Java-1.5/classes/names/classes
 	languages/Java-1.5/types/names/types
 	languages/Java-1.5/types/types/references.generated
@@ -16,9 +18,69 @@ imports
 
 properties
 
+  access    of Type   : Access
+  context   of Type   : Context
   modifiers of Type   : List(InterfaceMod)
+  access    of Field  : Access
+  context   of Field  : Context
   modifiers of Field  : List(ConstantMod)
+  access    of Method : Access
+  context   of Method : Context
   modifiers of Method : List(AbstractMethodMod)
+  
+binding rules // Interfaces
+
+  InterfaceDec(acc, mod*, i, tp*, _, _):
+    defines Type i
+      of access acc
+      of modifiers mod*
+      of type-parameters tp*
+      of kind Interface()
+      of context Static()
+      of type RefType(TypeName(i), None())
+    scopes Type, TypeParam, Field, Method
+  
+  // TODO: i may only refer to an inteface.
+  ExtendsInterfaces(i):
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Type i
+      
+binding rules // Constants
+
+	ConstantDec(t, VarDec(c)):
+    defines Field c
+      of type t'
+      of access Public()
+      of context Static()
+      of modifiers [Final()]
+      in subsequent scope
+      where t has type t'
+
+  ConstantDec(t, VarDec(c, _)):
+  	defines Field c
+  	  of type t'
+      of access Public()
+      of context Static()
+      of modifiers [Final()]
+      in subsequent scope
+      where t has type t'
+      
+binding rules // Asbtract methods
+
+  AbstractMethodDec(mod*, tp*, t, m, p*, th):
+  	defines Method m
+      of modifiers mod*
+      of type-parameters tp*
+      of type t'
+      of parameter-types pt*
+      of throws th
+      of access Public()
+      of context Instance()
+      where p* has type pt*
+      and t has type t'
+    scopes Variable
 
 binding rules // annotations
   
@@ -36,58 +98,3 @@ binding rules // annotations
   
   Anno(TypeName(a), ElemValPair(f, _)):
   	refers to Field f in Type a
-  
-binding rules // Interfaces
-
-  InterfaceDec(InterfaceDecHead(m*, i, tp*, _), _):
-    defines Type i
-      of type RefType(TypeName(i), None())
-      of kind Interface()
-      of modifiers m*
-      of type-parameters tp*
-    scopes Type, TypeParam, Field, Method
-  
-  // TODO: i may only refer to an inteface.
-  ExtendsInterfaces(i):
-    imports
-      Field, imported Field, 
-      Method, imported Method
-      from Type i
-      
-binding rules // Constants
-
-	ConstantDec(m*, t, VarDec(c)):
-    defines Field c
-      of type t'
-      of modifiers m*
-      in subsequent scope
-      where t has type t'
-
-  ConstantDec(m*, t, VarDec(c, _)):
-  	defines Field c
-  	  of type t'
-  	  of modifiers m*
-      in subsequent scope
-      where t has type t'
-      
-binding rules // Asbtract methods
-
-  AbstractMethodDec(m*, _, t, m, p*, th):
-  	defines Method m
-      of type t'
-      of parameter-types pt*
-      of throws th
-      of modifiers m*
-      where p* has type pt*
-      and t has type t'
-    scopes Variable
-
-  DeprAbstractMethodDec(m*, _, t, m, p*, _, th):
-    defines Method m
-      of type t'
-      of parameter-types pt*
-      of throws th
-      of modifiers m*
-      where p* has type pt*
-      and t has type t'
-    scopes Variable

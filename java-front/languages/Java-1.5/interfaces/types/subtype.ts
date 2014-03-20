@@ -8,15 +8,15 @@ imports
 	lib/properties/-
 	lib/relations/-
 	
+	languages/Java-1.5/interfaces/trans/desugar
 	languages/Java-1.5/types/types/widening
 
 relations
 
-	define transitive extends
+	define transitive <extends:
 
 type rules
 	
-	// TODO: list matching
-	InterfaceDec(InterfaceDecHead(_, i, _, ... ExtendsInterfaces(ei) ...), _) :-
-	where store i <widens-ref: ei
-    and store i <extends: ei
+	ExtendsInterfaces(i, it) :-
+	where store i <widens-ref: it
+    and store i <extends: it
