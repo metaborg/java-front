@@ -12,10 +12,10 @@ signature
 	
 rules
 	
-	desugar:
+	desugar-singleton-appl:
 		Lit(l) -> l
 
-	desugar:
+	desugar-singleton-appl:
 		ExprStm(exp) -> exp
 
 	desugar:

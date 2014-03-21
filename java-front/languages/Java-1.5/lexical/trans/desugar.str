@@ -6,5 +6,5 @@ imports
 	
 rules
 	
-	desugar:
+	desugar-singleton-appl:
 		Id(s) -> s

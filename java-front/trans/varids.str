@@ -6,6 +6,8 @@ imports
 	languages/Java-1.5/classes/names/classes 
   lib/editor/-
   lib/nabl/-
+  
+  languages/Java-1.5/classes/trans/desugar
 
 signature
 	
@@ -20,10 +22,10 @@ rules
 	add-all-varids = alltd(preserve-annos(origin-track-forced(add-all-varnums)))
 	
 	add-all-varnums :
-		m@MethodDec(_, _) -> <alltd(add-varnum(|m))> m
+		m@MethodDec(_, _, _, _, _, _, _, _, _) -> <alltd(add-varnum(|m))> m
 		
 	add-all-varnums :
-		m@ConstrDec(_, _) -> <alltd(add-varnum(|m))> m
+		m@ConstrDec(_, _, _, _, _, _, _) -> <alltd(add-varnum(|m))> m
 	
 	add-varnum(|mn) :
 		Param(m*, t, n) -> Param(m*, t, n, <next-counter> mn)

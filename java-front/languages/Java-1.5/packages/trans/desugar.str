@@ -29,7 +29,7 @@ rules
 			files  := File(file'*)
 	
 	desugar-top:
-		f@File(CompilationUnit(package-dec, import-dec*, type-dec*)) -> <origin-track-forced(!file); desugar-all; add-all-varids> f
+		f@File(CompilationUnit(package-dec, import-dec*, type-dec*)) -> <origin-track-forced(!file); desugar-all-singleton-appl; desugar-all; add-all-varids> f
 		with // Force origins because CompilationUnit is the root term, otherwise its origin will be lost.
 			import-dec'* := <map(try(desugar-import); topdown(try(desugar-package-ref)))> import-dec*;
 			package-dec' := <desugar-package-dec(|type-dec*)> package-dec;

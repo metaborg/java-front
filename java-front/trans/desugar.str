@@ -12,9 +12,10 @@ imports
   
 strategies
   
-  desugar-all = topdown(try(desugar)); topdown(try(flatten-list))
+  desugar-all-singleton-appl = topdown(try(desugar-singleton-appl)); topdown(try(flatten-list))
+  desugar-all                = topdown(try(desugar)); topdown(try(flatten-list))
 
 rules
 	
-	desugar:
-		Some(t) -> <desugar-all> t
+	desugar-singleton-appl:
+		Some(t) -> t

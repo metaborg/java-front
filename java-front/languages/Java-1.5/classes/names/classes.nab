@@ -48,6 +48,19 @@ properties
   var-id          of Variable    : INT
 
 binding rules // Types 
+
+  ClassDec(acc, ctx, mod*, c, tp*, None(), _, body):
+    defines Type c
+      of access acc
+      of context ctx
+      of modifiers mod*
+      of type-parameters tp*
+      of kind Class()
+      of type RefType(TypeName(c), None())
+    implicitly defines ImplicitField "this" 
+    	of type RefType(TypeName(c), None())
+    	in body
+    scopes Type, TypeParam, Field, Method, Constructor
     
   ClassDec(acc, ctx, mod*, c, tp*, SuperDec(sc), _, body):
     defines Type c
