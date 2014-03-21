@@ -8,6 +8,8 @@ imports
 	lib/properties/-
 	lib/relations/-
 	
+	languages/Java-1.5/types/types/references
+	
 relations
 
   a-ty <widens: e-ty

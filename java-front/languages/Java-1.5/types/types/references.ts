@@ -7,6 +7,8 @@ imports
 	lib/types/-
 	lib/properties/-
 	lib/relations/-
+	
+	languages/Java-1.5/classes/names/classes
 
 signatures
 

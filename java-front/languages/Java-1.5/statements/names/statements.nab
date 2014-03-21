@@ -5,10 +5,12 @@ imports
   lib/nabl/-
   lib/task/-
   lib/properties/-
+  lib/relations/-
   lib/types/-
   lib/editor/-
   
   include/Java
+  varids
 	languages/Java-1.5/classes/names/classes
   languages/Java-1.5/names/names/names
 

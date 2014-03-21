@@ -5,6 +5,7 @@ imports
   lib/nabl/-
   lib/task/-
   lib/properties/-
+  lib/relations/-
   lib/types/-
   lib/editor/-
   

@@ -5,10 +5,12 @@ imports
   lib/nabl/-
   lib/task/-
   lib/properties/-
+  lib/relations/-
   lib/types/-
   lib/editor/-
   
   include/Java
+  languages/Java-1.5/classes/names/classes
   languages/Java-1.5/packages/names/packages
   languages/Java-1.5/packages/trans/desugar
   languages/Java-1.5/types/types/references.generated
