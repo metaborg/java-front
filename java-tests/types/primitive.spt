@@ -36,6 +36,3 @@ test float type [[
 		}
 	}
 ]] run get-type to Float()
-
-
-
