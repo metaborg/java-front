@@ -146,7 +146,7 @@ public class JavaTermProjections {
 
 	public static IStrategoTerm getConsInvokeType(IStrategoTerm consInvoke) {
 		if(isAppl(consInvoke, "QNewInstance"))
-			return consInvoke.getSubterm(3);
+			return consInvoke;
 		return consInvoke.getSubterm(2);
 	}
 

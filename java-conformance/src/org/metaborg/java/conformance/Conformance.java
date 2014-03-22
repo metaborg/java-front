@@ -293,7 +293,7 @@ public class Conformance {
 			final ClassInstanceCreation jdtConsInvoke = (ClassInstanceCreation) jdtExpression;
 
 			final ITypeBinding jdtConsTypeBinding = jdtConsInvoke.getName().resolveTypeBinding();
-			final IStrategoTerm spxConsTypeBinding = getConsInvokeType(spxExpression);
+			final Iterable<IStrategoTerm> spxConsTypeBinding = resolveExpressionType(getConsInvokeType(spxExpression));
 			final boolean consTypeResult = compareTypeBindings(jdtConsTypeBinding, spxConsTypeBinding);
 			logger.result(consTypeResult, "Constructor invocation type", jdtConsTypeBinding, spxConsTypeBinding);
 
@@ -355,7 +355,8 @@ public class Conformance {
 	}
 
 	public void testStatements(List jdtStatements, IStrategoTerm spxStatements) {
-		compareArity(jdtStatements, spxStatements);
+		if(!compareArity(jdtStatements, spxStatements))
+			return;
 		for(int i = 0; i < jdtStatements.size(); ++i) {
 			final Statement jdtStatement = (Statement) jdtStatements.get(i);
 			final IStrategoTerm spxStatement = spxStatements.getSubterm(i);
