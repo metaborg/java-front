@@ -122,7 +122,7 @@ public class Conformance {
 
 		// Compare body declarations
 		final List jdtBodyDecls = jdtType.bodyDeclarations();
-		final IStrategoTerm spxBodyDecls = getBodyDeclarations(spxType);
+		final IStrategoTerm spxBodyDecls = getClassBodyDeclarations(spxType);
 		compareArity(jdtBodyDecls, spxBodyDecls);
 		for(int i = 0; i < jdtBodyDecls.size(); ++i) {
 			final BodyDeclaration jdtBodyDecl = (BodyDeclaration) jdtBodyDecls.get(i);
@@ -373,40 +373,6 @@ public class Conformance {
 
 		// TODO: check name errors
 		// TODO: duplicate definition errors
-	}
-
-
-
-	private IStrategoTerm getTypeImport(IStrategoTerm term) {
-		if(isAppl(term, "TypeImportDec")) {
-			return term.getSubterm(0);
-		}
-		return null;
-	}
-
-	private IStrategoTerm getTypesInPackage(IStrategoTerm term) {
-		return collectOne(term, new Predicate<IStrategoTerm>() {
-			@Override
-			public boolean apply(IStrategoTerm input) {
-				return isAppl(input, "PackageDec", 3);
-			}
-		}).getSubterm(2);
-	}
-
-	private IStrategoTerm getSupertype(IStrategoTerm term) {
-		final IStrategoTerm superClass = term.getSubterm(0).getSubterm(3);
-		if(isAppl(superClass, "SuperDec"))
-			return superClass.getSubterm(0);
-		else
-			return null;
-	}
-
-	private IStrategoTerm getClassSuperinterfaces(IStrategoTerm term) {
-		final IStrategoTerm superInterfaces = term.getSubterm(0).getSubterm(4);
-		if(isList(superInterfaces))
-			return superInterfaces;
-		else
-			return null;
 	}
 
 
