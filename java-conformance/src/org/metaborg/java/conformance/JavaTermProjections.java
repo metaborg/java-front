@@ -154,13 +154,11 @@ public class JavaTermProjections {
 
 
 	public static IStrategoTerm getFieldAccessExpr(IStrategoTerm fieldAccess) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return fieldAccess.getSubterm(0);
 	}
 
 	public static IStrategoTerm getFieldAccessName(IStrategoTerm fieldAccess) {
-		// TODO: implement
-		throw new NotImplementedException();
+		return fieldAccess.getSubterm(1);
 	}
 
 

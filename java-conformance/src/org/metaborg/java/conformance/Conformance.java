@@ -561,6 +561,10 @@ public class Conformance {
 			boolean success = compareArrayTypeBindings(jdtType, spxType);
 			logger.innerResult(success, "Array type", jdtType.getQualifiedName(), spxType);
 			return success;
+		} else if(jdtType.isNullType()) {
+			boolean success = isAppl(spxType, "Null", 0);
+			logger.innerResult(success, "Array type", jdtType.getQualifiedName(), spxType);
+			return success;
 		} else {
 			return compareRefTypeBindings(jdtType, resolveRefType(spxType));
 		}

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -49,8 +50,6 @@ public class Main {
 			final String javaFileName = file.getName();
 			if(!file.isFile() || !Files.getFileExtension(javaFileName).equals("java"))
 				continue;
-
-			logger.debug("Analyzing file: " + file);
 			
 			try {
 				FileUtils.cleanDirectory(projectDir);
@@ -76,9 +75,21 @@ public class Main {
 
 	private static void conformanceCheck(String projectDir, String javaSourcePath, String javaUnitName,
 		String javaFile, String javFile, ResultLogger logger, ITermFactory termFactory) {
-		try {
+		try {			
 			final CompilationUnit jdtAST = jdtFromJavaFile(javaSourcePath, javaUnitName, javaFile);
+			for(IProblem problem : jdtAST.getProblems()) {
+				if(problem.isError() && problem.getMessage().contains("Syntax error")) {
+					logger.debug("SKIPPING: " + javaUnitName);
+					return;
+				}
+			}
+			
+			logger.debug("Analyzing: " + javaUnitName);
 			final SpoofaxResult spxResult = spoofaxFromJavaFile(termFactory, projectDir, javFile);
+			if(spxResult == null) {
+				logger.debug("SKIPPING: " + javaUnitName);
+				return;
+			}
 
 			// Do conformance check
 			final Conformance conformance =
@@ -104,14 +115,19 @@ public class Main {
 
 	private static SpoofaxResult spoofaxFromJavaFile(ITermFactory termFactory, String projectDir, String file)
 		throws IOException {
+		final IOAgent agent = new IOAgent();
+		IndexManager.getInstance().unloadIndex(projectDir, agent);
+		TaskManager.getInstance().unloadTaskEngine(projectDir, agent);
+		
 		final ServiceRegistry services = ServiceRegistry.INSTANCE();
 		final AnalysisService analyzer = services.getService(AnalysisService.class);
 		final Collection<AnalysisResult> analyzerResult =
 			analyzer.analyze(Arrays.asList(new File[] { new File(file) }));
+		if(!analyzerResult.iterator().hasNext())
+			return null;
 		final AnalysisResult result = analyzerResult.iterator().next();
 
 		final IStrategoTerm ast = result.ast();
-		final IOAgent agent = new IOAgent();
 		final IIndex index = IndexManager.getInstance().loadIndex(projectDir, "Java", termFactory, agent);
 		final ITaskEngine taskEngine = TaskManager.getInstance().loadTaskEngine(projectDir, termFactory, agent);
 		return new SpoofaxResult(ast, index, taskEngine);
