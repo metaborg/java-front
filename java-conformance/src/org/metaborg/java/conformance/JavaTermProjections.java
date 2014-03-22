@@ -17,12 +17,17 @@ public class JavaTermProjections {
 	}
 
 	public static IStrategoTerm getTypesInPackage(IStrategoTerm term) {
-		return collectOne(term, new Predicate<IStrategoTerm>() {
+		final IStrategoTerm innerPackage = collectOne(term, new Predicate<IStrategoTerm>() {
 			@Override
 			public boolean apply(IStrategoTerm input) {
 				return isAppl(input, "PackageDec", 3);
 			}
-		}).getSubterm(2);
+		});
+		
+		if(innerPackage != null)
+			return innerPackage.getSubterm(2);
+		
+		return term.getSubterm(1);
 	}
 
 

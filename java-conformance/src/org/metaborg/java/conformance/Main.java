@@ -2,9 +2,11 @@ package org.metaborg.java.conformance;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -25,29 +27,58 @@ import org.spoofax.jsglr.client.imploder.ImploderOriginTermFactory;
 import org.spoofax.terms.TermFactory;
 
 import com.beust.jcommander.JCommander;
+import com.google.common.io.Files;
 
 public class Main {
 	public static void main(String[] args) {
-		final String projectDir = args[0];
+		final String languageDirArg = args[0];
+		final String javaFilesDirArg = args[1];
+		final String projectDirArg = args[2];
 
-		final String javaSourcePath = projectDir + args[1];
-		final String javaUnitName = args[2];
-		final String javaFile = javaSourcePath + javaUnitName;
+		final File javaFilesDir = new File(javaFilesDirArg);
+		final File projectDir = new File(projectDirArg);
+		final String projectDirPath = projectDir.getAbsolutePath();
 
-		final String languageDir = args[3];
-		final String javFile = projectDir + args[4];
+		setupSunshine(languageDirArg, projectDirArg);
+		final ITermFactory termFactory = new ImploderOriginTermFactory(new TermFactory());
+		TermTools.factory = termFactory;
+		ResultLogger logger = new ResultLogger(projectDirArg, args[1] + args[2], true);
 
-		ResultLogger logger = new ResultLogger(projectDir, args[1] + args[2], true);
+		final File[] files = javaFilesDir.listFiles();
+		for(File file : files) {
+			final String javaFileName = file.getName();
+			if(!file.isFile() || !Files.getFileExtension(javaFileName).equals("java"))
+				continue;
 
+			logger.debug("Analyzing file: " + file);
+			
+			try {
+				FileUtils.cleanDirectory(projectDir);
+				
+				final File destinationJavaFile = Paths.get(projectDirPath, javaFileName).toFile();
+				Files.copy(file, destinationJavaFile);
+				final String javFileName = javaFileName.substring(0, javaFileName.length() - 1);
+				final File destinationJavFile = Paths.get(projectDirPath, javFileName).toFile();
+				Files.copy(file, destinationJavFile);
+
+				conformanceCheck(projectDirPath, projectDirPath, javaFileName, destinationJavaFile.getAbsolutePath(),
+					destinationJavFile.getAbsolutePath(), logger, termFactory);
+
+				destinationJavaFile.delete();
+				destinationJavFile.delete();
+				
+				FileUtils.cleanDirectory(projectDir);
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private static void conformanceCheck(String projectDir, String javaSourcePath, String javaUnitName,
+		String javaFile, String javFile, ResultLogger logger, ITermFactory termFactory) {
 		try {
-			// Get JDT results
 			final CompilationUnit jdtAST = jdtFromJavaFile(javaSourcePath, javaUnitName, javaFile);
-
-			// Get Spoofax Results
-			final ITermFactory termFactory = new ImploderOriginTermFactory(new TermFactory());
-			TermTools.factory = termFactory;
-
-			final SpoofaxResult spxResult = spoofaxFromJavaFile(termFactory, languageDir, projectDir, javFile);
+			final SpoofaxResult spxResult = spoofaxFromJavaFile(termFactory, projectDir, javFile);
 
 			// Do conformance check
 			final Conformance conformance =
@@ -71,9 +102,22 @@ public class Main {
 		return (CompilationUnit) parser.createAST(null);
 	}
 
-	private static SpoofaxResult spoofaxFromJavaFile(ITermFactory termFactory, String languageDir, String projectDir,
-		String file) throws IOException {
-		// Setup sunshine
+	private static SpoofaxResult spoofaxFromJavaFile(ITermFactory termFactory, String projectDir, String file)
+		throws IOException {
+		final ServiceRegistry services = ServiceRegistry.INSTANCE();
+		final AnalysisService analyzer = services.getService(AnalysisService.class);
+		final Collection<AnalysisResult> analyzerResult =
+			analyzer.analyze(Arrays.asList(new File[] { new File(file) }));
+		final AnalysisResult result = analyzerResult.iterator().next();
+
+		final IStrategoTerm ast = result.ast();
+		final IOAgent agent = new IOAgent();
+		final IIndex index = IndexManager.getInstance().loadIndex(projectDir, "Java", termFactory, agent);
+		final ITaskEngine taskEngine = TaskManager.getInstance().loadTaskEngine(projectDir, termFactory, agent);
+		return new SpoofaxResult(ast, index, taskEngine);
+	}
+
+	private static void setupSunshine(String languageDir, String projectDir) {
 		org.metaborg.sunshine.drivers.Main.jc = new JCommander();
 		String[] sunshineArgs =
 			new String[] { "--project", projectDir, "--auto-lang", languageDir, "--observer", "analysis-default-cmd",
@@ -85,20 +129,6 @@ public class Main {
 		}
 		params.validate();
 		org.metaborg.sunshine.drivers.Main.initEnvironment(params);
-
-		// Analyze file
-		final ServiceRegistry services = ServiceRegistry.INSTANCE();
-		final AnalysisService analyzer = services.getService(AnalysisService.class);
-		final Collection<AnalysisResult> analyzerResult =
-			analyzer.analyze(Arrays.asList(new File[] { new File(file) }));
-		final AnalysisResult result = analyzerResult.iterator().next();
-
-		// Return results
-		final IStrategoTerm ast = result.ast();
-		final IOAgent agent = new IOAgent();
-		final IIndex index = IndexManager.getInstance().loadIndex(projectDir, "Java", termFactory, agent);
-		final ITaskEngine taskEngine = TaskManager.getInstance().loadTaskEngine(projectDir, termFactory, agent);
-		return new SpoofaxResult(ast, index, taskEngine);
 	}
 }
 
