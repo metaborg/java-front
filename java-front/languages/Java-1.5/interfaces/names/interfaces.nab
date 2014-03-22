@@ -41,12 +41,11 @@ binding rules // Interfaces
       of type RefType(TypeName(i), None())
     scopes Type, TypeParam, Field, Method
   
-  // TODO: i may only refer to an inteface.
-  ExtendsInterfaces(i):
+  ExtendsInterfaces(_, it):
     imports
       Field, imported Field, 
       Method, imported Method
-      from Type i
+      from Type it
       
 binding rules // Constants
 

@@ -83,11 +83,11 @@ binding rules // Types
     	where sc has type st
     scopes Type, TypeParam, Field, Method, Constructor
 
-  ImplementsDec(_, i):
+  ImplementsDec(_, it):
     imports
       Field, imported Field, 
       Method, imported Method
-      from Type i
+      from Type it
   
 binding rules // Fields
 
