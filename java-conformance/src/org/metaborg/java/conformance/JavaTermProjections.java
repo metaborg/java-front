@@ -145,11 +145,15 @@ public class JavaTermProjections {
 
 
 	public static IStrategoTerm getConsInvokeType(IStrategoTerm consInvoke) {
-		return consInvoke.getSubterm(1);
+		if(isAppl(consInvoke, "QNewInstance"))
+			return consInvoke.getSubterm(3);
+		return consInvoke.getSubterm(2);
 	}
 
 	public static IStrategoTerm getConsInvokeArgs(IStrategoTerm consInvoke) {
-		return consInvoke.getSubterm(2);
+		if(isAppl(consInvoke, "QNewInstance"))
+			return consInvoke.getSubterm(5);
+		return consInvoke.getSubterm(3);
 	}
 
 
@@ -186,5 +190,9 @@ public class JavaTermProjections {
 
 	public static IStrategoTerm getArrayTypeInnerType(IStrategoTerm arrayType) {
 		return arrayType.getSubterm(0);
+	}
+	
+	public static IStrategoTerm getArrayInitializerExprs(IStrategoTerm arrayInit) {
+		return arrayInit.getSubterm(0);
 	}
 }

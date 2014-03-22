@@ -258,8 +258,14 @@ public class Conformance {
 		if(jdtExpression instanceof ArrayInitializer) {
 			final ArrayInitializer jdtArrayInit = (ArrayInitializer) jdtExpression;
 
-			// TODO: implement
-			throw new NotImplementedException();
+			final List jdtExprs = jdtArrayInit.expressions();
+			final IStrategoTerm spxExprs = getArrayInitializerExprs(spxExpression);
+			compareArity(jdtExprs, spxExprs);
+			for(int i = 0; i < jdtExprs.size(); ++i) {
+				testExpression((Expression) jdtExprs.get(i), spxExprs.getSubterm(i));
+			}
+			
+			return;
 		}
 		// If Assignment, compare left and right expressions
 		if(jdtExpression instanceof Assignment) {
@@ -620,7 +626,9 @@ public class Conformance {
 	private boolean compareRefTypeBindings(ITypeBinding jdtType, IStrategoTerm spxTypeDef) {
 		if(!compareBindingFailure(jdtType, spxTypeDef))
 			return false;
-
+		if(containsNulls(jdtType, spxTypeDef))
+			return true;
+		
 		return compareRefTypeBindingsURI(jdtType, spxTypeDef.getSubterm(0));
 	}
 

@@ -62,17 +62,17 @@ binding rules // Field access
 binding rules // Class instantiation
 
 	// TODO: disambiguation
-  NewInstance(_, c, _, _):
-    refers to Constructor ""
-      in Type c
+  NewInstance(_, c, t, _, _):
+    refers to Constructor c
+      in Type t
 
 	// TODO: disambiguation
-  QNewInstance(e, _, c, _, _, _):
-  	refers to Constructor ""
-  	  in Type c
-  	  in Type t
-  	  where 
-  	  	e has type t
+  QNewInstance(e, _, c, itn, _, _, _):
+  	refers to Type itn
+  		in Type t
+  		where e has type t
+  	refers to Constructor c
+  	  in Type itn
 
 binding rules // Qualified this
 

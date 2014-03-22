@@ -116,8 +116,8 @@ signature // Constructor
 rules
 	
 	desugar:
-		ConstrDec(ConstrDecHead(modifier*, type-param*, name, param*, throws), body) -> 
-		ConstrDec(access, modifier'*, type-param*, name, param*, throws, body)
+		ConstrDec(ConstrDecHead(modifier*, type-param*, _, param*, throws), body) -> 
+		ConstrDec(access, modifier'*, type-param*, "constructor", param*, throws, body)
 		with
 		  access     := <desugar-pick-access-modifier> modifier*
 		; modifier'* := <remove-all(?access)> modifier*

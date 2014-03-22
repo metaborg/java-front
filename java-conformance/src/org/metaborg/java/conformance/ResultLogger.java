@@ -43,16 +43,16 @@ public class ResultLogger {
 	}
 
 	public void innerSuccess(String kind, Object jdtObj, Object spxObj) {
-		String message = "I " + kind + ": " + prettify(jdtObj) + " - " + prettify(spxObj);
-		out(message);
+		// String message = "I " + kind + ": " + prettify(jdtObj) + " - " + prettify(spxObj);
+		// out(message);
 	}
 
 	public void innerFailure(String kind, Object jdtObj, Object spxObj) {
-		String message = "I " + kind + ": " + prettify(jdtObj) + " - " + prettify(spxObj);
-		err(message);
-
-		if(throwOnFailure)
-			throw new RuntimeException(message.toString());
+		// String message = "I " + kind + ": " + prettify(jdtObj) + " - " + prettify(spxObj);
+		// err(message);
+		//
+		// if(throwOnFailure)
+		// throw new RuntimeException(message.toString());
 	}
 
 

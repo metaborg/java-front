@@ -9,6 +9,9 @@ signature
 	constructors
 		
 		NewArray : Type * List(Dim) -> Expr
+		
+		NewInstance : TypeArgs * Id * ClassOrInterfaceType * List(Expr) * ClassBody -> NewInstance
+		QNewInstance : Expr * TypeArgs * Id * Id * TypeArgs * List(Expr) * ClassBody -> QNewInstance
 	
 rules
 	
@@ -24,3 +27,10 @@ rules
 	desugar:
 		NewArray(t, dim1*, dim2*) -> NewArray(t, [dim1*, dim2*])
 		
+	desugar:
+		NewInstance(type-param*,                type, expr*, body) -> 
+		NewInstance(type-param*, "constructor", type, expr*, body)
+		
+	desugar:
+		QNewInstance(expr, type-param1*,                name, type-param2*, expr*, body) -> 
+		QNewInstance(expr, type-param1*, "constructor", name, type-param2*, expr*, body)

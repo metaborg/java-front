@@ -145,9 +145,8 @@ binding rules // Methods
 binding rules // Constructors
 
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
-  // TODO: should define a constructor with the empty string as name, but this results in an incorrect .str file.
   ConstrDec(acc, mod*, tp*, c, p*, th, body):
-    defines Constructor c
+    defines non-unique Constructor c
       of access acc
       of modifiers mod*
       of type-parameters tp*
