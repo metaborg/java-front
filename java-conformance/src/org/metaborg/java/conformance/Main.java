@@ -42,7 +42,7 @@ public class Main {
 		setupSunshine(languageDirArg, projectDirArg);
 		final ITermFactory termFactory = new ImploderOriginTermFactory(new TermFactory());
 		TermTools.factory = termFactory;
-		ResultLogger logger = new ResultLogger(projectDirArg, args[1] + args[2], true);
+		ResultLogger logger = new ResultLogger(projectDirArg, args[1] + args[2], false);
 
 		final File[] files = javaFilesDir.listFiles();
 		for(File file : files) {

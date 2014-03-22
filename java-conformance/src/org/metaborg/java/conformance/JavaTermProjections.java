@@ -97,15 +97,17 @@ public class JavaTermProjections {
 
 
 	public static IStrategoTerm getConstructorParams(IStrategoTerm constructor) {
-		return constructor.getSubterm(0).getSubterm(4);
+		return constructor.getSubterm(4);
 	}
 
 	public static IStrategoTerm getConstructorBody(IStrategoTerm constructor) {
-		return constructor.getSubterm(1).getSubterm(6);
+		return constructor.getSubterm(6).getSubterm(1);
 	}
 
 
 	public static IStrategoTerm getBlockStatements(IStrategoTerm block) {
+		if(isAppl(block, "NoMethodBody", 0))
+			return null;
 		return block.getSubterm(0);
 	}
 
