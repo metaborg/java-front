@@ -37,6 +37,8 @@ public class Main {
 		final String languageDir = args[3];
 		final String javFile = projectDir + args[4];
 
+		ResultLogger logger = new ResultLogger(projectDir, args[1] + args[2], true);
+
 		try {
 			// Get JDT results
 			final CompilationUnit jdtAST = jdtFromJavaFile(javaSourcePath, javaUnitName, javaFile);
@@ -49,7 +51,7 @@ public class Main {
 
 			// Do conformance check
 			final Conformance conformance =
-				new Conformance(jdtAST, spxResult.index, spxResult.taskEngine, spxResult.ast);
+				new Conformance(jdtAST, spxResult.index, spxResult.taskEngine, spxResult.ast, logger);
 			conformance.testCompilationUnit();
 		} catch(IOException e) {
 			e.printStackTrace();

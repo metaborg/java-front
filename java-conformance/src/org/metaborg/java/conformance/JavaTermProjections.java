@@ -4,9 +4,9 @@ import static org.metaborg.java.conformance.util.TermTools.*;
 
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
-import com.google.common.base.Predicate;
-
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import com.google.common.base.Predicate;
 
 public class JavaTermProjections {
 	public static IStrategoTerm getTypeImport(IStrategoTerm term) {
@@ -24,8 +24,8 @@ public class JavaTermProjections {
 			}
 		}).getSubterm(2);
 	}
-	
-	
+
+
 	public static IStrategoTerm getSupertype(IStrategoTerm term) {
 		final IStrategoTerm superClass = term.getSubterm(5);
 		if(isAppl(superClass, "SuperDec"))
@@ -33,7 +33,7 @@ public class JavaTermProjections {
 		else
 			return null;
 	}
-	
+
 	public static IStrategoTerm getClassSuperinterfaces(IStrategoTerm term) {
 		final IStrategoTerm superInterfaces = term.getSubterm(6);
 		if(isList(superInterfaces))
@@ -41,12 +41,12 @@ public class JavaTermProjections {
 		else
 			return null;
 	}
-	
+
 	public static IStrategoTerm getImplementsInterface(IStrategoTerm term) {
 		return term.getSubterm(1);
 	}
 
-	
+
 	public static IStrategoTerm getInterfaceSuperinterfaces(IStrategoTerm term) {
 		final IStrategoTerm superInterfaces = term.getSubterm(4);
 		if(isList(superInterfaces))
