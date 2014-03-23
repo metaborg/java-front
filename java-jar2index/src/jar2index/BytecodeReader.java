@@ -28,6 +28,8 @@ public class BytecodeReader {
 	private final IIndex index;
 	private final IndexEntryFactory factory;
 
+	private String currentClassName;
+
 	public BytecodeReader(IOAgent agent, ITermFactory termFactory, String projectPath) {
 		this.agent = agent;
 		this.termFactory = termFactory;
@@ -77,22 +79,22 @@ public class BytecodeReader {
 		final ClassVisitor visitor = new ClassVisitor(Opcodes.ASM5) {
 			public void visit(int version, int access, String name, String signature, String superName,
 				String[] interfaces) {
+				currentClassName = name;
 				System.out.println(name);
 				for(IStrategoAppl entryTerm : factory.clazz(name, superName, interfaces)) {
-					System.out.println(entryTerm);
 					entries.add(entryTerm);
 				}
 			}
 
 			public MethodVisitor
 				visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-				for(IStrategoAppl entryTerm : factory.method(name, desc)) {
+				System.out.println("  " + name);
+				for(IStrategoAppl entryTerm : factory.method(name, desc, currentClassName)) {
 					entries.add(entryTerm);
+					System.out.println(entryTerm);
 				}
-
 				return null;
 			}
-
 		};
 
 		final ClassReader reader = new ClassReader(in);

@@ -70,6 +70,10 @@ public class TermConstruction {
 	public IStrategoList list(IStrategoTerm... terms) {
 		return factory.makeList(terms);
 	}
+	
+	public IStrategoList cons(IStrategoTerm head, IStrategoList tail) {
+		return factory.makeListCons(head, tail);
+	}
 
 	public IStrategoTuple tuple(IStrategoTerm... terms) {
 		return factory.makeTuple(terms);
@@ -98,6 +102,10 @@ public class TermConstruction {
 
 	public IStrategoAppl def(IStrategoTerm uri) {
 		return appl("Def", uri);
+	}
+	
+	public IStrategoAppl use(IStrategoTerm uri) {
+		return appl("Use", uri);
 	}
 	
 	public IStrategoAppl alias(IStrategoTerm alias, IStrategoTerm of) {

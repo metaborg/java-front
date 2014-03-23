@@ -16,6 +16,9 @@ public class IndexEntryFactory extends TermConstruction {
 	private static final String TYPE_NAMESPACE = "NablNsType";
 	private static final String PACKAGE_NAMESPACE = "NablNsPackage";
 	private static final String DPACKAGE_NAMESPACE = "NablNsDefaultPackage";
+	private static final String METHOD_NAMESPACE = "NablNsMethod";
+	private static final String CONS_NAMESPACE = "NablNsConstructor";
+	private static final String FIELD_NAMESPACE = "NablNsField";
 
 	private static final String SUBCLASS_REL = "<extends:";
 	private static final String IMPLEMENTS_REL = "<implements:";
@@ -39,11 +42,11 @@ public class IndexEntryFactory extends TermConstruction {
 
 	public Iterable<IStrategoAppl> clazz(String name, String superName, String[] interfaces) {
 		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
-		final IStrategoTerm uri = nameToEntries(name, entries);
-		final IStrategoTerm superURI = superName != null ? nameToURI(superName) : null;
+		final IStrategoTerm uri = classNameToEntries(name, entries);
+		final IStrategoTerm superURI = superName != null ? classNameToURI(superName) : null;
 		final IStrategoTerm[] interfaceURIs = new IStrategoTerm[interfaces.length];
 		for(int i = 0; i < interfaces.length; ++i) {
-			interfaceURIs[i] = nameToURI(interfaces[i]);
+			interfaceURIs[i] = classNameToURI(interfaces[i]);
 		}
 
 		// Store subclass (+ widening, + transitive) relation
@@ -78,12 +81,16 @@ public class IndexEntryFactory extends TermConstruction {
 	}
 
 
-	public Iterable<IStrategoAppl> method(String name, String descriptor) {
+	public Iterable<IStrategoAppl> method(String name, String descriptor, String className) {
 		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
-		final IStrategoTerm uri = nameToURI(name);
+		final IStrategoTerm classURI = classNameToURI(className);
+		final IStrategoTerm uri = methodNameToURI(name, classURI);
+		if(uri == null)
+			return entries;
 		final IStrategoTerm types = parseMethodDescriptor(descriptor);
 		final IStrategoTerm paramterTypes = types.getSubterm(0);
 		final IStrategoTerm returnType = types.getSubterm(1);
+
 
 		// Store def
 		entries.add(def(uri));
@@ -98,7 +105,7 @@ public class IndexEntryFactory extends TermConstruction {
 		entries.add(prop(uri, appl(ACCESS_PROP), appl("Public"))); // TODO: get access modifier
 		entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
 		entries.add(prop(uri, appl(MODIFIERS_PROP), list()));
-		
+
 		// Store type-parameters
 		entries.add(prop(uri, appl(TYPEPARAMS_PROP), appl("None")));
 
@@ -115,7 +122,7 @@ public class IndexEntryFactory extends TermConstruction {
 		for(int i = 0; i < str.length();) {
 			final char c = str.charAt(i);
 
-			switch(c) {
+			switch (c) {
 				case '(':
 					inArguments = true;
 					++i;
@@ -146,27 +153,27 @@ public class IndexEntryFactory extends TermConstruction {
 
 	private IStrategoTerm parseMethodDescriptorType(String str, int i) {
 		final char c = str.charAt(i);
-		switch(c) {
+		switch (c) {
 			case 'Z':
-				return tuple(i(1), appl("BoolType"));
+				return tuple(i(1), appl("Bool"));
 			case 'C':
-				return tuple(i(1), appl("CharType"));
+				return tuple(i(1), appl("Char"));
 			case 'B':
-				return tuple(i(1), appl("ByteType"));
+				return tuple(i(1), appl("Byte"));
 			case 'S':
-				return tuple(i(1), appl("ShortType"));
+				return tuple(i(1), appl("Short"));
 			case 'I':
-				return tuple(i(1), appl("IntType"));
+				return tuple(i(1), appl("Int"));
 			case 'F':
-				return tuple(i(1), appl("FloatType"));
+				return tuple(i(1), appl("Float"));
 			case 'J':
-				return tuple(i(1), appl("LongType"));
+				return tuple(i(1), appl("Long"));
 			case 'D':
-				return tuple(i(1), appl("DoubleType"));
+				return tuple(i(1), appl("Double"));
 			case 'L': {
 				final int commaIndex = str.indexOf(';', i);
 				final int skip = commaIndex - i;
-				return tuple(i(skip + 1), refType(nameToURI(str.substring(i + 1, commaIndex))));
+				return tuple(i(skip + 1), refType(classNameToURI(str.substring(i + 1, commaIndex))));
 			}
 			case '[': {
 				final IStrategoTerm innerTypeTuple = parseMethodDescriptorType(str, i + 1);
@@ -175,32 +182,31 @@ public class IndexEntryFactory extends TermConstruction {
 				return tuple(i(skip + 1), arrayType(innerType));
 			}
 			case 'V':
-				return tuple(i(1), appl("VoidType"));
+				return tuple(i(1), appl("Void"));
 		}
 		return null;
 	}
 
 
-	private IStrategoTerm nameToEntries(String name, Collection<IStrategoAppl> entries) {
+	private IStrategoTerm classNameToEntries(String name, Collection<IStrategoAppl> entries) {
 		final Collection<IStrategoAppl> segments = new LinkedList<IStrategoAppl>();
 		segments.add(segment(DPACKAGE_NAMESPACE, appl("Default")));
-		
+
 		entries.add(def(uri(LANG, segments.toArray(new IStrategoAppl[0]))));
-		
-		final String[] names = name.split("/");
+
+		final String[] names = name.replaceAll("\\$", "").split("/");
 		for(int i = 0; i < names.length; ++i) {
 			if(i == names.length - 1) {
 				final Collection<IStrategoTerm> nonUniqueSegments = new LinkedList<IStrategoTerm>(segments);
 				nonUniqueSegments.add(segment(TYPE_NAMESPACE, names[i]));
 				final IStrategoAppl nonUniqueURI = uri(LANG, nonUniqueSegments.toArray(new IStrategoAppl[0]));
-				
+
 				segments.add(segment(TYPE_NAMESPACE, names[i], "0")); // TODO: gen unique string
 				final IStrategoAppl uniqueURI = uri(LANG, segments.toArray(new IStrategoAppl[0]));
-				
+
 				entries.add(def(uniqueURI));
 				entries.add(alias(nonUniqueURI, uniqueURI));
-			}
-			else {
+			} else {
 				segments.add(segment(PACKAGE_NAMESPACE, names[i]));
 				entries.add(def(uri(LANG, segments.toArray(new IStrategoAppl[0]))));
 			}
@@ -208,9 +214,9 @@ public class IndexEntryFactory extends TermConstruction {
 
 		return uri(LANG, segments.toArray(new IStrategoAppl[0]));
 	}
-	
-	private IStrategoTerm nameToURI(String name) {
-		final String[] names = name.split("/");
+
+	private IStrategoTerm classNameToURI(String name) {
+		final String[] names = name.replaceAll("\\$", "").split("/");
 		final IStrategoTerm[] segments = new IStrategoTerm[names.length + 1];
 		segments[0] = segment(DPACKAGE_NAMESPACE, appl("Default"));
 		for(int i = 1; i < names.length + 1; ++i) {
@@ -223,6 +229,21 @@ public class IndexEntryFactory extends TermConstruction {
 		return uri(LANG, segments);
 	}
 
+	private IStrategoTerm methodNameToURI(String name, IStrategoTerm classURI) {
+		if(name.equals("<clinit>"))
+			return null;
+
+		final IStrategoList segments = (IStrategoList) classURI.getSubterm(1);
+		final IStrategoTerm methodSegment;
+		if(name.equals("<init>")) {
+			methodSegment = segment(CONS_NAMESPACE, "constructor", "0");
+		} else {
+			methodSegment = segment(METHOD_NAMESPACE, name, "0");
+		}
+
+		return appl("URI", appl("Language", str(LANG)), cons(methodSegment, segments));
+	}
+
 
 	private IStrategoTerm refType(IStrategoTerm uri) {
 		return appl("RefType", appl("TypeName", annotatedName(uri)), appl("None"));
@@ -230,7 +251,7 @@ public class IndexEntryFactory extends TermConstruction {
 
 	private IStrategoTerm annotatedName(IStrategoTerm uri) {
 		final IStrategoTerm name = cloneTerm(uri.getSubterm(1).getSubterm(0).getSubterm(1));
-		return factory.annotateTerm(name, list(def(uri)));
+		return factory.annotateTerm(name, list(use(def(uri))));
 	}
 
 	private IStrategoTerm arrayType(IStrategoTerm type) {
