@@ -42,6 +42,7 @@ import org.metaborg.runtime.task.util.SingletonIterable;
 import org.spoofax.interpreter.library.index.IIndex;
 import org.spoofax.interpreter.library.index.IndexEntry;
 import org.spoofax.interpreter.terms.IStrategoInt;
+import org.spoofax.interpreter.terms.IStrategoList;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.google.common.collect.Iterables;
@@ -71,27 +72,30 @@ public class Conformance {
 
 		// Compare import name resolution
 		final List jdtImports = jdtCompilationUnit.imports();
-		final IStrategoTerm spxImports = spxCompilationUnit.getSubterm(1);
-		compareArity(jdtImports, spxImports);
-		for(int i = 0; i < jdtImports.size(); ++i) {
-			final ImportDeclaration jdtImport = (ImportDeclaration) jdtImports.get(i);
-			final IStrategoTerm spxImport = getTypeImport(spxImports.getSubterm(i));
-			if(!containsNulls(jdtImport, spxImport)) {
-				final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtImport.resolveBinding();
-				final Iterable<IStrategoTerm> spxTypeBinding = resolveNameBindings(spxImport);
-				final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
-				logger.result(result, "Import type", jdtTypeBinding, spxTypeBinding);
+		final IStrategoList spxImportsWithJavaLang = (IStrategoList) spxCompilationUnit.getSubterm(1);
+		final IStrategoTerm spxImports = spxImportsWithJavaLang.tail(); // Remove implicit java.lang.* import.
+		if(compareArity(jdtImports, spxImports, "File imports")) {
+			for(int i = 0; i < jdtImports.size(); ++i) {
+				final ImportDeclaration jdtImport = (ImportDeclaration) jdtImports.get(i);
+				final IStrategoTerm spxImport = getTypeImport(spxImports.getSubterm(i));
+				if(!containsNulls(jdtImport, spxImport)) {
+					final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtImport.resolveBinding();
+					final Iterable<IStrategoTerm> spxTypeBinding = resolveNameBindings(spxImport);
+					final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
+					logger.result(result, "Import type", jdtTypeBinding, spxTypeBinding);
+				}
 			}
 		}
 
 		// Compare types
 		final List jdtTypes = jdtCompilationUnit.types();
 		final IStrategoTerm spxTypes = getTypesInPackage(spxCompilationUnit.getSubterm(2));
-		compareArity(jdtTypes, spxTypes);
-		for(int i = 0; i < jdtTypes.size(); ++i) {
-			final TypeDeclaration jdtType = (TypeDeclaration) jdtTypes.get(i);
-			final IStrategoTerm spxType = spxTypes.getSubterm(i);
-			testType(jdtType, spxType);
+		if(compareArity(jdtTypes, spxTypes, "File types")) {
+			for(int i = 0; i < jdtTypes.size(); ++i) {
+				final TypeDeclaration jdtType = (TypeDeclaration) jdtTypes.get(i);
+				final IStrategoTerm spxType = spxTypes.getSubterm(i);
+				testType(jdtType, spxType);
+			}
 		}
 	}
 
@@ -107,6 +111,7 @@ public class Conformance {
 		// Compare superclass name resolution
 		final Name jdtSuperClass = jdtType.getSuperclass();
 		final IStrategoTerm spxSuperClass = getSupertype(spxType);
+		compareNulls(jdtSuperClass, spxSuperClass, "Class superclass");
 		if(!containsNulls(jdtSuperClass, spxSuperClass)) {
 			final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtSuperClass.resolveBinding();
 			final Iterable<IStrategoTerm> spxTypeBinding = resolveRefType(spxSuperClass);
@@ -117,25 +122,27 @@ public class Conformance {
 		// Compare implemented interface name resolution
 		final List jdtSuperInterfaces = jdtType.superInterfaces();
 		final IStrategoTerm spxSuperInterfaces = getClassSuperinterfaces(spxType);
-		compareArity(jdtSuperInterfaces, spxSuperInterfaces);
-		for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
-			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
-			final IStrategoTerm spxSuperInterface = getImplementsInterface(spxSuperInterfaces.getSubterm(i));
+		if(compareArity(jdtSuperInterfaces, spxSuperInterfaces, "Class superinterfaces")) {
+			for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
+				final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
+				final IStrategoTerm spxSuperInterface = getImplementsInterface(spxSuperInterfaces.getSubterm(i));
 
-			final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtSuperInterface.resolveBinding();
-			final Iterable<IStrategoTerm> spxTypeBinding = resolveRefType(spxSuperInterface);
-			final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
-			logger.result(result, "Class implements type", jdtTypeBinding, spxTypeBinding);
+				final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtSuperInterface.resolveBinding();
+				final Iterable<IStrategoTerm> spxTypeBinding = resolveRefType(spxSuperInterface);
+				final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
+				logger.result(result, "Class implements type", jdtTypeBinding, spxTypeBinding);
+			}
 		}
 
 		// Compare body declarations
 		final List jdtBodyDecls = jdtType.bodyDeclarations();
 		final IStrategoTerm spxBodyDecls = getClassBodyDeclarations(spxType);
-		compareArity(jdtBodyDecls, spxBodyDecls);
-		for(int i = 0; i < jdtBodyDecls.size(); ++i) {
-			final BodyDeclaration jdtBodyDecl = (BodyDeclaration) jdtBodyDecls.get(i);
-			final IStrategoTerm spxBodyDecl = spxBodyDecls.getSubterm(i);
-			testBodyDeclaration(jdtBodyDecl, spxBodyDecl);
+		if(compareArity(jdtBodyDecls, spxBodyDecls, "Class body declarations")) {
+			for(int i = 0; i < jdtBodyDecls.size(); ++i) {
+				final BodyDeclaration jdtBodyDecl = (BodyDeclaration) jdtBodyDecls.get(i);
+				final IStrategoTerm spxBodyDecl = spxBodyDecls.getSubterm(i);
+				testBodyDeclaration(jdtBodyDecl, spxBodyDecl);
+			}
 		}
 	}
 
@@ -143,16 +150,19 @@ public class Conformance {
 		// Compare subinterface name resolution
 		final List jdtSuperInterfaces = jdtType.superInterfaces();
 		final IStrategoTerm spxSuperInterfaces = getInterfaceSuperinterfaces(spxType);
-		compareArity(jdtSuperInterfaces, spxSuperInterfaces);
-		for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
-			final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
-			final IStrategoTerm spxSuperInterface = getExtendsInterface(spxSuperInterfaces.getSubterm(i));
+		if(compareArity(jdtSuperInterfaces, spxSuperInterfaces, "Interface superinterfaces")) {
+			for(int i = 0; i < jdtSuperInterfaces.size(); ++i) {
+				final Name jdtSuperInterface = (Name) jdtSuperInterfaces.get(i);
+				final IStrategoTerm spxSuperInterface = getExtendsInterface(spxSuperInterfaces.getSubterm(i));
 
-			final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtSuperInterface.resolveBinding();
-			final Iterable<IStrategoTerm> spxTypeBinding = resolveRefType(spxSuperInterface);
-			final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
-			logger.result(result, "Interface extends type", jdtTypeBinding, spxTypeBinding);
+				final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtSuperInterface.resolveBinding();
+				final Iterable<IStrategoTerm> spxTypeBinding = resolveRefType(spxSuperInterface);
+				final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
+				logger.result(result, "Interface extends type", jdtTypeBinding, spxTypeBinding);
+			}
 		}
+
+		// TODO: interface body declarations
 	}
 
 	public void testBodyDeclaration(BodyDeclaration jdtBodyDecl, IStrategoTerm spxBodyDecl) {
@@ -177,6 +187,7 @@ public class Conformance {
 		final VariableDeclarationFragment jdtFieldFragment = (VariableDeclarationFragment) jdtField.fragments().get(0);
 		final Expression jdtFieldExpr = jdtFieldFragment.getInitializer();
 		final IStrategoTerm spxFieldExpr = getFieldInit(spxField);
+		compareNulls(jdtFieldExpr, spxFieldExpr, "Field initializer");
 		if(!containsNulls(jdtFieldExpr, spxFieldExpr))
 			testExpression(jdtFieldExpr, spxFieldExpr);
 	}
@@ -203,6 +214,7 @@ public class Conformance {
 		// Compare statements
 		final Block jdtBlock = jdtMethod.getBody();
 		final IStrategoTerm spxStatements = getMethodBody(spxMethod);
+		compareNulls(jdtBlock, spxStatements, "Method body");
 		if(!containsNulls(jdtBlock, spxStatements)) {
 			final List jdtStatements = jdtBlock.statements();
 			testStatements(jdtStatements, spxStatements);
@@ -218,6 +230,7 @@ public class Conformance {
 		// Compare statements
 		final Block jdtBlock = jdtConstructor.getBody();
 		final IStrategoTerm spxStatements = getConstructorBody(spxConstructor);
+		compareNulls(jdtBlock, spxStatements, "Constructor body");
 		if(!containsNulls(jdtBlock, spxStatements)) {
 			final List jdtStatements = jdtBlock.statements();
 			testStatements(jdtStatements, spxStatements);
@@ -225,25 +238,26 @@ public class Conformance {
 	}
 
 	public void testParameters(List jdtParams, IStrategoTerm spxParams) {
-		compareArity(jdtParams, spxParams);
-		for(int i = 0; i < jdtParams.size(); ++i) {
-			final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration) jdtParams.get(i);
-			final IStrategoTerm spxParam = spxParams.getSubterm(i);
+		if(compareArity(jdtParams, spxParams, "Parameters")) {
+			for(int i = 0; i < jdtParams.size(); ++i) {
+				final SingleVariableDeclaration jdtParam = (SingleVariableDeclaration) jdtParams.get(i);
+				final IStrategoTerm spxParam = spxParams.getSubterm(i);
 
-			final ITypeBinding jdtTypeBinding = jdtParam.getType().resolveBinding();
-			final IStrategoTerm spxTypeBinding = getParamType(spxParam);
-			final boolean result = compareTypeBindings(jdtTypeBinding, spxTypeBinding);
-			logger.result(result, "Parameter type", jdtTypeBinding, spxTypeBinding);
+				final ITypeBinding jdtTypeBinding = jdtParam.getType().resolveBinding();
+				final IStrategoTerm spxTypeBinding = getParamType(spxParam);
+				final boolean result = compareTypeBindings(jdtTypeBinding, spxTypeBinding);
+				logger.result(result, "Parameter type", jdtTypeBinding, spxTypeBinding);
+			}
 		}
 	}
 
 	public void testExpressions(List jdtExpressions, IStrategoTerm spxExpressions) {
-		if(!compareArity(jdtExpressions, spxExpressions))
-			return;
-		for(int i = 0; i < jdtExpressions.size(); ++i) {
-			final Expression jdtExpression = (Expression) jdtExpressions.get(i);
-			final IStrategoTerm spxExpression = spxExpressions.getSubterm(i);
-			testExpression(jdtExpression, spxExpression);
+		if(compareArity(jdtExpressions, spxExpressions, "Expressions")) {
+			for(int i = 0; i < jdtExpressions.size(); ++i) {
+				final Expression jdtExpression = (Expression) jdtExpressions.get(i);
+				final IStrategoTerm spxExpression = spxExpressions.getSubterm(i);
+				testExpression(jdtExpression, spxExpression);
+			}
 		}
 	}
 
@@ -300,10 +314,7 @@ public class Conformance {
 
 			final List jdtArguments = jdtConsInvoke.arguments();
 			final IStrategoTerm spxArguments = getConsInvokeArgs(spxExpression);
-			compareArity(jdtArguments, spxArguments);
-			for(int i = 0; i < jdtArguments.size(); ++i) {
-				testExpression((Expression) jdtArguments.get(i), spxArguments.getSubterm(i));
-			}
+			testExpressions(jdtArguments, spxArguments);
 
 			return;
 		}
@@ -324,10 +335,7 @@ public class Conformance {
 
 			final List jdtArguments = jdtMethodInvoke.arguments();
 			final IStrategoTerm spxArguments = getMethodInvokeArgs(spxExpression);
-			compareArity(jdtArguments, spxArguments);
-			for(int i = 0; i < jdtArguments.size(); ++i) {
-				testExpression((Expression) jdtArguments.get(i), spxArguments.getSubterm(i));
-			}
+			testExpressions(jdtArguments, spxArguments);
 
 			final IMethodBinding jdtMethodBinding = jdtMethodInvoke.resolveMethodBinding();
 			final Iterable<IStrategoTerm> spxMethodBinding = resolveNameBindings(getMethodInvokeName(spxExpression));
@@ -349,12 +357,12 @@ public class Conformance {
 	}
 
 	public void testStatements(List jdtStatements, IStrategoTerm spxStatements) {
-		if(!compareArity(jdtStatements, spxStatements))
-			return;
-		for(int i = 0; i < jdtStatements.size(); ++i) {
-			final Statement jdtStatement = (Statement) jdtStatements.get(i);
-			final IStrategoTerm spxStatement = spxStatements.getSubterm(i);
-			testStatement(jdtStatement, spxStatement);
+		if(compareArity(jdtStatements, spxStatements, "Statements")) {
+			for(int i = 0; i < jdtStatements.size(); ++i) {
+				final Statement jdtStatement = (Statement) jdtStatements.get(i);
+				final IStrategoTerm spxStatement = spxStatements.getSubterm(i);
+				testStatement(jdtStatement, spxStatement);
+			}
 		}
 	}
 
@@ -364,7 +372,7 @@ public class Conformance {
 			final List jdtStatements = jdtBlock.statements();
 			final IStrategoTerm spxStatements = getBlockStatements(spxStatement);
 			testStatements(jdtStatements, spxStatements);
-			
+
 			return;
 		}
 		if(jdtStatement instanceof ExpressionStatement) {
@@ -372,7 +380,7 @@ public class Conformance {
 			final Expression jdtExpression = jdtExprStmt.getExpression();
 			final IStrategoTerm spxExpression = spxStatement;
 			testExpression(jdtExpression, spxExpression);
-			
+
 			return;
 		}
 		if(jdtStatement instanceof IfStatement) {
@@ -388,10 +396,10 @@ public class Conformance {
 
 			final Statement jdtElseStatement = jdtIfStatement.getElseStatement();
 			final IStrategoTerm spxElseStatement = getIfElseStatement(spxStatement);
-			compareNulls(jdtElseStatement, spxElseStatement);
+			compareNulls(jdtElseStatement, spxElseStatement, "Else");
 			if(!containsNulls(jdtElseStatement, spxElseStatement))
 				testStatement(jdtThenStatement, spxThenStatement);
-			
+
 			return;
 		}
 		if(jdtStatement instanceof ForStatement) {
@@ -399,7 +407,7 @@ public class Conformance {
 
 			final Expression jdtCondition = jdtForStatement.getExpression();
 			final IStrategoTerm spxCondition = getForCondition(spxStatement);
-			compareNulls(jdtCondition, spxCondition);
+			compareNulls(jdtCondition, spxCondition, "For condition");
 			if(!containsNulls(jdtCondition, spxCondition))
 				testExpression(jdtCondition, spxCondition);
 
@@ -410,7 +418,7 @@ public class Conformance {
 			final Statement jdtBody = jdtForStatement.getBody();
 			final IStrategoTerm spxBody = getForBody(spxStatement);
 			testStatement(jdtBody, spxBody);
-			
+
 			return;
 		}
 		if(jdtStatement instanceof WhileStatement) {
@@ -423,7 +431,7 @@ public class Conformance {
 			final Statement jdtBody = jdtWhileStatement.getBody();
 			final IStrategoTerm spxBody = getWhileBody(spxStatement);
 			testStatement(jdtBody, spxBody);
-			
+
 			return;
 		}
 		if(jdtStatement instanceof DoStatement) {
@@ -436,7 +444,7 @@ public class Conformance {
 			final Expression jdtCondition = jdtDoStatement.getExpression();
 			final IStrategoTerm spxCondition = getDoCondition(spxStatement);
 			testExpression(jdtCondition, spxCondition);
-			
+
 			return;
 		}
 		if(jdtStatement instanceof TryStatement) {
@@ -448,11 +456,11 @@ public class Conformance {
 
 			final List jdtCatches = jdtTryStatement.catchClauses();
 			final IStrategoTerm spxCatches = getTryCatches(spxStatement);
-			if(compareArity(jdtCatches, spxCatches)) {
+			if(compareArity(jdtCatches, spxCatches, "Catches")) {
 				for(int i = 0; i < jdtCatches.size(); ++i) {
-					final CatchClause jdtCatch = (CatchClause)jdtCatches.get(i);
+					final CatchClause jdtCatch = (CatchClause) jdtCatches.get(i);
 					final IStrategoTerm spxCatch = spxCatches.getSubterm(i);
-					
+
 					final Statement jdtCatchBody = jdtCatch.getBody();
 					final IStrategoTerm spxCatchBody = getCatchBody(spxCatch);
 					testStatement(jdtCatchBody, spxCatchBody);
@@ -461,10 +469,10 @@ public class Conformance {
 
 			final Statement jdtFinally = jdtTryStatement.getFinally();
 			final IStrategoTerm spxFinally = getTryFinally(spxStatement);
-			compareNulls(jdtFinally, spxFinally);
+			compareNulls(jdtFinally, spxFinally, "Finally");
 			if(!containsNulls(jdtFinally, spxFinally))
 				testStatement(jdtFinally, spxFinally);
-			
+
 			return;
 		}
 	}
@@ -547,26 +555,35 @@ public class Conformance {
 
 
 
-	private boolean compareArity(List jdtList, IStrategoTerm spxTerm) {
+	private boolean compareArity(List jdtList, IStrategoTerm spxTerm, String context) {
 		boolean jdtEmpty = jdtList == null || jdtList.size() == 0;
 		boolean spxEmpty = spxTerm == null || spxTerm.getSubtermCount() == 0;
 
 		if(jdtEmpty ^ spxEmpty) {
-			logger.innerFailure("Emptyness", jdtEmpty, spxEmpty);
+			logger.failure(context + ", emptyness", jdtEmpty, spxEmpty);
 			return false;
 		}
 
 		if(jdtEmpty && spxEmpty) {
-			logger.innerSuccess("Emptyness", jdtEmpty, spxEmpty);
+			logger.success(context + ", emptyness", jdtEmpty, spxEmpty);
 			return true;
 		}
 
 		if(jdtList.size() != spxTerm.getSubtermCount()) {
-			logger.innerFailure("Arity", jdtList.size(), spxTerm.getSubtermCount());
+			logger.failure(context + ", arity", jdtList.size(), spxTerm.getSubtermCount());
 			return false;
 		}
 
-		logger.innerSuccess("Arity", jdtList.size(), spxTerm.getSubtermCount());
+		logger.success(context + ", arity", jdtList.size(), spxTerm.getSubtermCount());
+		return true;
+	}
+
+	private boolean compareNulls(Object jdtObj, Object spxObj, String context) {
+		if(jdtObj == null ^ spxObj == null) {
+			logger.failure(context + ", nullness", jdtObj, spxObj);
+			return false;
+		}
+		logger.success(context + ", nullness", jdtObj, spxObj);
 		return true;
 	}
 
@@ -870,15 +887,6 @@ public class Conformance {
 			return true;
 		}
 		return false;
-	}
-
-	private boolean compareNulls(Object jdtObj, Object spxObj) {
-		if(jdtObj == null ^ spxObj == null) {
-			logger.innerFailure("Nulls", jdtObj, spxObj);
-			return false;
-		}
-		logger.innerSuccess("Nulls", jdtObj, spxObj);
-		return true;
 	}
 
 

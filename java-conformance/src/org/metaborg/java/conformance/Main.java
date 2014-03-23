@@ -1,10 +1,13 @@
 package org.metaborg.java.conformance;
 
+import static org.metaborg.java.conformance.JavaTermProjections.getTypesInPackage;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.compiler.IProblem;
@@ -32,7 +35,7 @@ import com.google.common.io.Files;
 
 public class Main {
 	public static GlobalResultLogger globalLogger = new GlobalResultLogger();
-	
+
 	public static void main(String[] args) {
 		final String languageDirArg = args[0];
 		final String javaFilesDirArg = args[1];
@@ -47,24 +50,24 @@ public class Main {
 		setupSunshine(languageDirArg, projectDirArg);
 		final ITermFactory termFactory = new ImploderOriginTermFactory(new TermFactory());
 		TermTools.factory = termFactory;
-		
+
 
 		final File[] files = javaFilesDir.listFiles();
 		for(File file : files) {
 			final String javaFileName = file.getName();
 			if(!file.isFile() || !Files.getFileExtension(javaFileName).equals("java"))
 				continue;
-			
+
 			try {
 				FileUtils.cleanDirectory(projectDir);
-				
+
 				final File destinationJavaFile = Paths.get(projectDirPath, javaFileName).toFile();
 				Files.copy(file, destinationJavaFile);
-				
+
 				final String javFileName = javaFileName.substring(0, javaFileName.length() - 1);
 				final File destinationJavFile = Paths.get(projectDirPath, javFileName).toFile();
 				Files.copy(file, destinationJavFile);
-				
+
 				final File destinationIndexFile = Paths.get(projectDirPath, ".cache", "index.idx").toFile();
 				Files.createParentDirs(destinationIndexFile);
 				Files.copy(fixedIndexFile, destinationIndexFile);
@@ -74,7 +77,7 @@ public class Main {
 
 				destinationJavaFile.delete();
 				destinationJavFile.delete();
-				
+
 				FileUtils.cleanDirectory(projectDir);
 			} catch(IOException e) {
 				e.printStackTrace();
@@ -84,7 +87,7 @@ public class Main {
 
 	private static void conformanceCheck(String projectDir, String javaSourcePath, String javaUnitName,
 		String javaFile, String javFile, ITermFactory termFactory) {
-		try {			
+		try {
 			final CompilationUnit jdtAST = jdtFromJavaFile(javaSourcePath, javaUnitName, javaFile);
 			for(IProblem problem : jdtAST.getProblems()) {
 				if(problem.isError() && problem.getMessage().contains("Syntax error")) {
@@ -92,10 +95,19 @@ public class Main {
 					return;
 				}
 			}
-			
+
 			globalLogger.debug("Analyzing: " + javaUnitName);
 			final SpoofaxResult spxResult = spoofaxFromJavaFile(termFactory, projectDir, javFile);
 			if(spxResult == null) {
+				globalLogger.skip(projectDir, javaUnitName);
+				return;
+			}
+
+			// Also skip if JDT does not parse any types inside the compilation unit, while Spoofax does.
+			@SuppressWarnings("rawtypes")
+			final List jdtTypes = jdtAST.types();
+			final IStrategoTerm spxTypes = getTypesInPackage(spxResult.ast.getSubterm(0).getSubterm(2));
+			if(jdtTypes.size() != spxTypes.getSubtermCount()) {
 				globalLogger.skip(projectDir, javaUnitName);
 				return;
 			}
@@ -104,7 +116,7 @@ public class Main {
 			final Conformance conformance =
 				new Conformance(jdtAST, spxResult.index, spxResult.taskEngine, spxResult.ast, logger);
 			conformance.testCompilationUnit();
-			
+
 			globalLogger.result(projectDir, javaUnitName, logger.numChecks, logger.numSuccess, logger.numFailure);
 			ResultLogger.write("log.csv");
 			globalLogger.write("results.csv");
@@ -131,7 +143,7 @@ public class Main {
 		final IOAgent agent = new IOAgent();
 		IndexManager.getInstance().unloadIndex(projectDir, agent);
 		TaskManager.getInstance().unloadTaskEngine(projectDir, agent);
-		
+
 		final ServiceRegistry services = ServiceRegistry.INSTANCE();
 		final AnalysisService analyzer = services.getService(AnalysisService.class);
 		final Collection<AnalysisResult> analyzerResult =

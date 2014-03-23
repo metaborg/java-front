@@ -5,8 +5,10 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.Statement;
 
 public class ResultLogger {
 	private final String directory;
@@ -56,8 +58,7 @@ public class ResultLogger {
 	}
 
 	public void success(String kind, Object jdtObj, Object spxObj) {
-		results
-			.add(new Result(directory, file, "PASS", kind, stringify(jdtObj), stringify(spxObj)));
+		results.add(new Result(directory, file, "PASS", kind, stringify(jdtObj), stringify(spxObj)));
 		++numChecks;
 		++numSuccess;
 
@@ -65,8 +66,7 @@ public class ResultLogger {
 	}
 
 	public void failure(String kind, Object jdtObj, Object spxObj) {
-		results
-			.add(new Result(directory, file, "FAIL", kind, stringify(jdtObj), stringify(spxObj)));
+		results.add(new Result(directory, file, "FAIL", kind, stringify(jdtObj), stringify(spxObj)));
 		++numChecks;
 		++numFailure;
 
@@ -117,11 +117,15 @@ public class ResultLogger {
 			return ((ITypeBinding) obj).getQualifiedName();
 		} else if(obj instanceof IBinding) {
 			return ((IBinding) obj).getName();
+		} else if(obj instanceof Statement) {
+			return truncate(strip(((Statement) obj).toString()), 50);
+		} else if(obj instanceof Expression) {
+			return truncate(strip(((Expression) obj).toString()), 50);
 		}
 
 		return obj;
 	}
-	
+
 	private String stringify(Object obj) {
 		final Object newObj = prettify(obj);
 		if(newObj == null)
@@ -130,7 +134,18 @@ public class ResultLogger {
 			return newObj.toString();
 	}
 
-	
+	private String strip(String str) {
+		return str.replace("\n", "").replace("\r", "");
+	}
+
+	private String truncate(String str, int length) {
+		if(str.length() > length) {
+			return str.substring(0, length) + "...";
+		}
+		return str;
+	}
+
+
 	private void out(Object obj) {
 		System.err.flush();
 		System.out.flush();
