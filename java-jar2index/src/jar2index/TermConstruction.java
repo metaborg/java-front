@@ -98,6 +98,10 @@ public class TermConstruction {
 	public IStrategoAppl segment(String namespace, String name, String unique) {
 		return appl("ID", appl(namespace), str(name), appl("Unique", str(unique)));
 	}
+	
+	public IStrategoAppl segment(String namespace, String name, IStrategoString unique) {
+		return appl("ID", appl(namespace), str(name), appl("Unique", unique));
+	}
 
 
 	public IStrategoAppl def(IStrategoTerm uri) {

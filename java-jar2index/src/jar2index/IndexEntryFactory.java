@@ -81,19 +81,15 @@ public class IndexEntryFactory extends TermConstruction {
 	}
 
 
-	public Iterable<IStrategoAppl> method(String name, String descriptor, String className) {
+	public Iterable<IStrategoAppl> method(String name, String descriptor, String className, int id) {
 		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
 		final IStrategoTerm classURI = classNameToURI(className);
-		final IStrategoTerm uri = methodNameToURI(name, classURI);
+		final IStrategoTerm uri = methodNameToEntries(name, classURI, entries, id);
 		if(uri == null)
 			return entries;
 		final IStrategoTerm types = parseMethodDescriptor(descriptor);
 		final IStrategoTerm paramterTypes = types.getSubterm(0);
 		final IStrategoTerm returnType = types.getSubterm(1);
-
-
-		// Store def
-		entries.add(def(uri));
 
 		// Store type property
 		entries.add(prop(uri, appl(TYPE_PROP), returnType));
@@ -112,6 +108,23 @@ public class IndexEntryFactory extends TermConstruction {
 		return entries;
 	}
 
+	public Iterable<IStrategoAppl> field(String name, String descriptor, String className, int id) {
+		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
+		final IStrategoTerm classURI = classNameToURI(className);
+		final IStrategoTerm uri = fieldNameToEntries(name, classURI, entries, id);
+		
+		// Store type property
+		final IStrategoTerm type = parseMethodDescriptorType(descriptor, 0).getSubterm(1);
+		entries.add(prop(uri, appl(TYPE_PROP), type));
+		
+		// Store modifiers property
+		entries.add(prop(uri, appl(ACCESS_PROP), appl("Public"))); // TODO: get access modifier
+		entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
+		entries.add(prop(uri, appl(MODIFIERS_PROP), list()));
+		
+		return entries;
+	}
+	
 
 	public IStrategoTerm parseMethodDescriptor(String str) {
 		boolean inArguments = false;
@@ -229,19 +242,42 @@ public class IndexEntryFactory extends TermConstruction {
 		return uri(LANG, segments);
 	}
 
-	private IStrategoTerm methodNameToURI(String name, IStrategoTerm classURI) {
+	private IStrategoTerm methodNameToEntries(String name, IStrategoTerm classURI, Collection<IStrategoAppl> entries, int id) {
 		if(name.equals("<clinit>"))
 			return null;
 
 		final IStrategoList segments = (IStrategoList) classURI.getSubterm(1);
 		final IStrategoTerm methodSegment;
+		final IStrategoTerm methodSegmentNonUnique;
 		if(name.equals("<init>")) {
-			methodSegment = segment(CONS_NAMESPACE, "constructor", "0");
+			methodSegment = segment(CONS_NAMESPACE, "constructor", str(Integer.toString(id)));
+			methodSegmentNonUnique = segment(CONS_NAMESPACE, "constructor");
 		} else {
-			methodSegment = segment(METHOD_NAMESPACE, name, "0");
+			methodSegment = segment(METHOD_NAMESPACE, name, str(Integer.toString(id)));
+			methodSegmentNonUnique = segment(METHOD_NAMESPACE, name);
 		}
 
-		return appl("URI", appl("Language", str(LANG)), cons(methodSegment, segments));
+		final IStrategoTerm uri = appl("URI", appl("Language", str(LANG)), cons(methodSegment, segments));
+		final IStrategoTerm uriNonUnique = appl("URI", appl("Language", str(LANG)), cons(methodSegmentNonUnique, segments));
+		
+		entries.add(def(uri));
+		entries.add(alias(uriNonUnique, uri));
+		
+		return uri;
+	}
+	
+	private IStrategoTerm fieldNameToEntries(String name, IStrategoTerm classURI, Collection<IStrategoAppl> entries, int id) {
+		final IStrategoList segments = (IStrategoList) classURI.getSubterm(1);
+		final IStrategoTerm fieldSegment = segment(FIELD_NAMESPACE, name, str(Integer.toString(id)));
+		final IStrategoTerm fieldSegmentNonUnique = segment(FIELD_NAMESPACE, name);
+
+		final IStrategoTerm uri = appl("URI", appl("Language", str(LANG)), cons(fieldSegment, segments));
+		final IStrategoTerm uriNonUnique = appl("URI", appl("Language", str(LANG)), cons(fieldSegmentNonUnique, segments));
+		
+		entries.add(def(uri));
+		entries.add(alias(uriNonUnique, uri));
+		
+		return uri;
 	}
 
 

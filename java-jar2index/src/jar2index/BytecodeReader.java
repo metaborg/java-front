@@ -12,6 +12,7 @@ import java.util.zip.ZipInputStream;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.spoofax.interpreter.library.IOAgent;
@@ -29,6 +30,8 @@ public class BytecodeReader {
 	private final IndexEntryFactory factory;
 
 	private String currentClassName;
+	private int methodId = 0;
+	private int fieldId = 0;
 
 	public BytecodeReader(IOAgent agent, ITermFactory termFactory, String projectPath) {
 		this.agent = agent;
@@ -79,7 +82,14 @@ public class BytecodeReader {
 		final ClassVisitor visitor = new ClassVisitor(Opcodes.ASM5) {
 			public void visit(int version, int access, String name, String signature, String superName,
 				String[] interfaces) {
+				if(name.contains("org/omg") || name.contains("javax/") || name.contains("com/sun")
+					|| name.contains("sun/java2d") || name.contains("sun/awt")) {
+					currentClassName = null;
+					return;
+				}
 				currentClassName = name;
+				methodId = 0;
+				fieldId = 0;
 				System.out.println(name);
 				for(IStrategoAppl entryTerm : factory.clazz(name, superName, interfaces)) {
 					entries.add(entryTerm);
@@ -88,10 +98,23 @@ public class BytecodeReader {
 
 			public MethodVisitor
 				visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-				System.out.println("  " + name);
-				for(IStrategoAppl entryTerm : factory.method(name, desc, currentClassName)) {
+				if(currentClassName == null)
+					return null;
+				if((access & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE)
+					return null;
+				for(IStrategoAppl entryTerm : factory.method(name, desc, currentClassName, methodId++)) {
 					entries.add(entryTerm);
-					System.out.println(entryTerm);
+				}
+				return null;
+			}
+
+			public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+				if(currentClassName == null)
+					return null;
+				if((access & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE)
+					return null;
+				for(IStrategoAppl entryTerm : factory.field(name, desc, currentClassName, fieldId++)) {
+					entries.add(entryTerm);
 				}
 				return null;
 			}
