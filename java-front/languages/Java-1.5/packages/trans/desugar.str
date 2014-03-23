@@ -31,7 +31,7 @@ rules
 	desugar-top:
 		f@File(CompilationUnit(package-dec, import-dec*, type-dec*)) -> <origin-track-forced(!file); desugar-all-singleton-appl; desugar-all; add-all-varids> f
 		with // Force origins because CompilationUnit is the root term, otherwise its origin will be lost.
-			import-dec'* := <map(try(desugar-import); topdown(try(desugar-package-ref)))> import-dec*;
+			import-dec'* := <map(try(desugar-import); topdown(try(desugar-package-ref))); add-java-lang-import> import-dec*;
 			package-dec' := <desugar-package-dec(|type-dec*)> package-dec;
 			cu           := CompilationUnit("current", import-dec'*, package-dec');
 			file         := File(cu)
@@ -60,3 +60,17 @@ rules
 		
 	package-ref-nest:
 		[Id(pkg)] -> PackageName(pkg)
+		
+	java-lang-import = !TypeImportOnDemandDec(PackageName(PackageName("java"), "lang"))
+	
+	add-java-lang-import:
+		import* -> import'*
+		where
+		  jli := <java-lang-import>
+		; if <fetch(?jli)> import* then
+				import'* := import*
+			else
+				import'* := [jli|import*]
+			end
+
+	
