@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -37,6 +39,8 @@ public class BytecodeReader {
 		final IndexPartition partition = IndexPartition.fromTerm(agent, termFactory.makeString(file.getAbsolutePath()));
 		index.startCollection(partition);
 
+		final Set<IStrategoAppl> entries = new HashSet<IStrategoAppl>();
+
 		final ZipFile zipFile = new ZipFile(file);
 		final ZipInputStream zipIn = new ZipInputStream(new FileInputStream(file));
 
@@ -48,7 +52,7 @@ public class BytecodeReader {
 
 				final InputStream in = zipFile.getInputStream(entry);
 				try {
-					fromClass(in, partition);
+					fromClass(in, partition, entries);
 				} finally {
 					in.close();
 				}
@@ -58,28 +62,32 @@ public class BytecodeReader {
 			zipFile.close();
 		}
 
-		index.stopCollection();
+		final org.spoofax.interpreter.library.index.IndexEntryFactory indexEntryFactory = index.getFactory();
+		for(IStrategoAppl entryTerm : entries) {
+			final IndexEntry entry = indexEntryFactory.createEntry(entryTerm, partition);
+			index.add(entry);
+		}
 
+		index.stopCollection();
 		IndexManager.getInstance().storeCurrent(termFactory);
 	}
 
-	private void fromClass(InputStream in, final IndexPartition partition) throws IOException {
+	private void fromClass(InputStream in, final IndexPartition partition, final Set<IStrategoAppl> entries)
+		throws IOException {
 		final ClassVisitor visitor = new ClassVisitor(Opcodes.ASM5) {
 			public void visit(int version, int access, String name, String signature, String superName,
 				String[] interfaces) {
 				System.out.println(name);
 				for(IStrategoAppl entryTerm : factory.clazz(name, superName, interfaces)) {
-					final IndexEntry entry = index.getFactory().createEntry(entryTerm, partition);
-					System.out.println(entry);
-					index.add(entry);
+					System.out.println(entryTerm);
+					entries.add(entryTerm);
 				}
 			}
 
 			public MethodVisitor
 				visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 				for(IStrategoAppl entryTerm : factory.method(name, desc)) {
-					final IndexEntry entry = index.getFactory().createEntry(entryTerm, partition);
-					index.add(entry);
+					entries.add(entryTerm);
 				}
 
 				return null;

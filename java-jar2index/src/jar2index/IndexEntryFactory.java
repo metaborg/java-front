@@ -17,9 +17,9 @@ public class IndexEntryFactory extends TermConstruction {
 	private static final String PACKAGE_NAMESPACE = "NablNsPackage";
 	private static final String DPACKAGE_NAMESPACE = "NablNsDefaultPackage";
 
-	private static final String SUBCLASS_REL = "Subclass";
-	private static final String IMPLEMENTS_REL = "Implements";
-	private static final String WIDENING_REL = "Widening";
+	private static final String SUBCLASS_REL = "<extends:";
+	private static final String IMPLEMENTS_REL = "<implements:";
+	private static final String WIDENING_REL = "<widens-ref:";
 
 	private static final String TYPE_PROP = "Type";
 	private static final String KIND_PROP = "NablProp_kind";
