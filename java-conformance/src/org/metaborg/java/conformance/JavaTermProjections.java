@@ -109,6 +109,78 @@ public class JavaTermProjections {
 		return block.getSubterm(0);
 	}
 
+	
+	public static IStrategoTerm getIfExpression(IStrategoTerm ifStmt) {
+		return ifStmt.getSubterm(0);
+	}
+	
+	public static IStrategoTerm getIfThenStatement(IStrategoTerm ifStmt) {
+		return ifStmt.getSubterm(1);
+	}
+	
+	public static IStrategoTerm getIfElseStatement(IStrategoTerm ifStmt) {
+		if(ifStmt.getSubtermCount() == 2)
+			return null;
+		return ifStmt.getSubterm(2);
+	}
+	
+	
+	public static IStrategoTerm getForInitializers(IStrategoTerm forStmt) {
+		return forStmt.getSubterm(0);
+	}
+	
+	public static IStrategoTerm getForCondition(IStrategoTerm forStmt) {
+		if(isAppl(forStmt.getSubterm(1), "None", 0))
+			return null;
+		return forStmt.getSubterm(1);
+	}
+	
+	public static IStrategoTerm getForUpdaters(IStrategoTerm forStmt) {
+		return forStmt.getSubterm(2);
+	}
+	
+	public static IStrategoTerm getForBody(IStrategoTerm forStmt) {
+		return forStmt.getSubterm(3);
+	}
+	
+	
+	public static IStrategoTerm getWhileCondition(IStrategoTerm whileStmt) {
+		return whileStmt.getSubterm(0);
+	}
+	
+	public static IStrategoTerm getWhileBody(IStrategoTerm whileStmt) {
+		return whileStmt.getSubterm(1);
+	}
+	
+	
+	public static IStrategoTerm getDoBody(IStrategoTerm doStmt) {
+		return doStmt.getSubterm(0);
+	}
+	
+	public static IStrategoTerm getDoCondition(IStrategoTerm doStmt) {
+		return doStmt.getSubterm(1);
+	}
+	
+	
+	public static IStrategoTerm getTryBody(IStrategoTerm tryStmt) {
+		return tryStmt.getSubterm(0);
+	}
+	
+	public static IStrategoTerm getTryCatches(IStrategoTerm tryStmt) {
+		return tryStmt.getSubterm(1);
+	}	
+	
+	public static IStrategoTerm getTryFinally(IStrategoTerm tryStmt) {
+		if(!isAppl(tryStmt, "Try", 3))
+			return null;
+		return tryStmt.getSubterm(2);
+	}
+	
+	
+	public static IStrategoTerm getCatchBody(IStrategoTerm catchStmt) {
+		return catchStmt.getSubterm(1);
+	}
+	
 
 	public static IStrategoTerm getParamType(IStrategoTerm param) {
 		return param.getSubterm(1);

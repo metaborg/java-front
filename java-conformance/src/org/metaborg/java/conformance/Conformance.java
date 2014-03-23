@@ -13,24 +13,30 @@ import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CastExpression;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.WhileStatement;
 import org.metaborg.runtime.task.ITaskEngine;
 import org.metaborg.runtime.task.util.SingletonIterable;
 import org.spoofax.interpreter.library.index.IIndex;
@@ -87,9 +93,6 @@ public class Conformance {
 			final IStrategoTerm spxType = spxTypes.getSubterm(i);
 			testType(jdtType, spxType);
 		}
-
-		// Compare (error) messages
-		testMessages();
 	}
 
 	public void testType(TypeDeclaration jdtType, IStrategoTerm spxType) {
@@ -234,6 +237,16 @@ public class Conformance {
 		}
 	}
 
+	public void testExpressions(List jdtExpressions, IStrategoTerm spxExpressions) {
+		if(!compareArity(jdtExpressions, spxExpressions))
+			return;
+		for(int i = 0; i < jdtExpressions.size(); ++i) {
+			final Expression jdtExpression = (Expression) jdtExpressions.get(i);
+			final IStrategoTerm spxExpression = spxExpressions.getSubterm(i);
+			testExpression(jdtExpression, spxExpression);
+		}
+	}
+
 	public void testExpression(Expression jdtExpression, IStrategoTerm spxExpression) {
 		// Compare expression type
 		final ITypeBinding jdtTypeBinding = jdtExpression.resolveTypeBinding();
@@ -241,8 +254,6 @@ public class Conformance {
 		final boolean typeResult = compareTypeBindings(jdtTypeBinding, spxTypeBinding);
 		logger.result(typeResult, "Expression type", jdtTypeBinding, spxTypeBinding);
 
-		// Check sub expressions
-		// If ArrayAccess, compare array and index expressions
 		if(jdtExpression instanceof ArrayAccess) {
 			final ArrayAccess jdtArrayAccess = (ArrayAccess) jdtExpression;
 
@@ -251,20 +262,15 @@ public class Conformance {
 
 			return;
 		}
-		// If ArrayInitializer, compare initializer expressions
 		if(jdtExpression instanceof ArrayInitializer) {
 			final ArrayInitializer jdtArrayInit = (ArrayInitializer) jdtExpression;
 
 			final List jdtExprs = jdtArrayInit.expressions();
 			final IStrategoTerm spxExprs = getArrayInitializerExprs(spxExpression);
-			compareArity(jdtExprs, spxExprs);
-			for(int i = 0; i < jdtExprs.size(); ++i) {
-				testExpression((Expression) jdtExprs.get(i), spxExprs.getSubterm(i));
-			}
+			testExpressions(jdtExprs, spxExprs);
 
 			return;
 		}
-		// If Assignment, compare left and right expressions
 		if(jdtExpression instanceof Assignment) {
 			final Assignment jdtAssignment = (Assignment) jdtExpression;
 
@@ -273,7 +279,6 @@ public class Conformance {
 
 			return;
 		}
-		// If CastExpression, compare type and expression
 		if(jdtExpression instanceof CastExpression) {
 			final CastExpression jdtCast = (CastExpression) jdtExpression;
 
@@ -285,7 +290,6 @@ public class Conformance {
 
 			return;
 		}
-		// If ClassInstanceCreation, compare type and arguments
 		if(jdtExpression instanceof ClassInstanceCreation) {
 			final ClassInstanceCreation jdtConsInvoke = (ClassInstanceCreation) jdtExpression;
 
@@ -301,11 +305,8 @@ public class Conformance {
 				testExpression((Expression) jdtArguments.get(i), spxArguments.getSubterm(i));
 			}
 
-			// TODO: compare class body declaration in case of an anonymous class.
-
 			return;
 		}
-		// If FieldAccess, compare expression and field name resolution
 		if(jdtExpression instanceof FieldAccess) {
 			final FieldAccess jdtFieldAccess = (FieldAccess) jdtExpression;
 
@@ -318,7 +319,6 @@ public class Conformance {
 
 			return;
 		}
-		// If MethodInvocation, compare arguments and method name resolution
 		if(jdtExpression instanceof MethodInvocation) {
 			final MethodInvocation jdtMethodInvoke = (MethodInvocation) jdtExpression;
 
@@ -336,7 +336,6 @@ public class Conformance {
 
 			return;
 		}
-		// If SimpleName, check name resolution
 		if(jdtExpression instanceof Name) {
 			final Name jdtName = (Name) jdtExpression;
 
@@ -360,46 +359,115 @@ public class Conformance {
 	}
 
 	public void testStatement(Statement jdtStatement, IStrategoTerm spxStatement) {
-		// If Block, iterate over statements
 		if(jdtStatement instanceof Block) {
 			final Block jdtBlock = (Block) jdtStatement;
 			final List jdtStatements = jdtBlock.statements();
 			final IStrategoTerm spxStatements = getBlockStatements(spxStatement);
 			testStatements(jdtStatements, spxStatements);
+			
 			return;
 		}
-		// If ExpressionStatement, check expression
 		if(jdtStatement instanceof ExpressionStatement) {
 			final ExpressionStatement jdtExprStmt = (ExpressionStatement) jdtStatement;
 			final Expression jdtExpression = jdtExprStmt.getExpression();
 			final IStrategoTerm spxExpression = spxStatement;
 			testExpression(jdtExpression, spxExpression);
+			
 			return;
 		}
-		// TODO: if
-		// TODO: for
-		// TODO: while
+		if(jdtStatement instanceof IfStatement) {
+			final IfStatement jdtIfStatement = (IfStatement) jdtStatement;
+
+			final Expression jdtExpression = jdtIfStatement.getExpression();
+			final IStrategoTerm spxExpression = getIfExpression(spxStatement);
+			testExpression(jdtExpression, spxExpression);
+
+			final Statement jdtThenStatement = jdtIfStatement.getThenStatement();
+			final IStrategoTerm spxThenStatement = getIfThenStatement(spxStatement);
+			testStatement(jdtThenStatement, spxThenStatement);
+
+			final Statement jdtElseStatement = jdtIfStatement.getElseStatement();
+			final IStrategoTerm spxElseStatement = getIfElseStatement(spxStatement);
+			compareNulls(jdtElseStatement, spxElseStatement);
+			if(!containsNulls(jdtElseStatement, spxElseStatement))
+				testStatement(jdtThenStatement, spxThenStatement);
+			
+			return;
+		}
+		if(jdtStatement instanceof ForStatement) {
+			final ForStatement jdtForStatement = (ForStatement) jdtStatement;
+
+			final Expression jdtCondition = jdtForStatement.getExpression();
+			final IStrategoTerm spxCondition = getForCondition(spxStatement);
+			compareNulls(jdtCondition, spxCondition);
+			if(!containsNulls(jdtCondition, spxCondition))
+				testExpression(jdtCondition, spxCondition);
+
+			final List jdtUpdaters = jdtForStatement.updaters();
+			final IStrategoTerm spxUpdaters = getForUpdaters(spxStatement);
+			testExpressions(jdtUpdaters, spxUpdaters);
+
+			final Statement jdtBody = jdtForStatement.getBody();
+			final IStrategoTerm spxBody = getForBody(spxStatement);
+			testStatement(jdtBody, spxBody);
+			
+			return;
+		}
+		if(jdtStatement instanceof WhileStatement) {
+			final WhileStatement jdtWhileStatement = (WhileStatement) jdtStatement;
+
+			final Expression jdtCondition = jdtWhileStatement.getExpression();
+			final IStrategoTerm spxCondition = getWhileCondition(spxStatement);
+			testExpression(jdtCondition, spxCondition);
+
+			final Statement jdtBody = jdtWhileStatement.getBody();
+			final IStrategoTerm spxBody = getWhileBody(spxStatement);
+			testStatement(jdtBody, spxBody);
+			
+			return;
+		}
+		if(jdtStatement instanceof DoStatement) {
+			final DoStatement jdtDoStatement = (DoStatement) jdtStatement;
+
+			final Statement jdtBody = jdtDoStatement.getBody();
+			final IStrategoTerm spxBody = getDoBody(spxStatement);
+			testStatement(jdtBody, spxBody);
+
+			final Expression jdtCondition = jdtDoStatement.getExpression();
+			final IStrategoTerm spxCondition = getDoCondition(spxStatement);
+			testExpression(jdtCondition, spxCondition);
+			
+			return;
+		}
+		if(jdtStatement instanceof TryStatement) {
+			final TryStatement jdtTryStatement = (TryStatement) jdtStatement;
+
+			final Statement jdtBody = jdtTryStatement.getBody();
+			final IStrategoTerm spxBody = getTryBody(spxStatement);
+			testStatement(jdtBody, spxBody);
+
+			final List jdtCatches = jdtTryStatement.catchClauses();
+			final IStrategoTerm spxCatches = getTryCatches(spxStatement);
+			if(compareArity(jdtCatches, spxCatches)) {
+				for(int i = 0; i < jdtCatches.size(); ++i) {
+					final CatchClause jdtCatch = (CatchClause)jdtCatches.get(i);
+					final IStrategoTerm spxCatch = spxCatches.getSubterm(i);
+					
+					final Statement jdtCatchBody = jdtCatch.getBody();
+					final IStrategoTerm spxCatchBody = getCatchBody(spxCatch);
+					testStatement(jdtCatchBody, spxCatchBody);
+				}
+			}
+
+			final Statement jdtFinally = jdtTryStatement.getFinally();
+			final IStrategoTerm spxFinally = getTryFinally(spxStatement);
+			compareNulls(jdtFinally, spxFinally);
+			if(!containsNulls(jdtFinally, spxFinally))
+				testStatement(jdtFinally, spxFinally);
+			
+			return;
+		}
 	}
-
-	public void testMessages() {
-		// final IProblem[] jdtProblems = jdtAST.getProblems();
-		// final Collection<IStrategoTerm> spxMessages = new LinkedList<IStrategoTerm>();
-		// for(Task task : taskEngine.getTasks()) {
-		// if(task.message() != null)
-		// spxMessages.add(task.message());
-		// }
-
-		// TODO: check type errors
-		// TODO: assignment errors
-		// TODO: array errors
-		// TODO: cast errors
-		// TODO: class interface implementation errors
-
-		// TODO: check name errors
-		// TODO: duplicate definition errors
-	}
-
-
 
 	private boolean isPrimitiveType(IStrategoTerm term) {
 		// @formatter:off
@@ -804,6 +872,14 @@ public class Conformance {
 		return false;
 	}
 
+	private boolean compareNulls(Object jdtObj, Object spxObj) {
+		if(jdtObj == null ^ spxObj == null) {
+			logger.innerFailure("Nulls", jdtObj, spxObj);
+			return false;
+		}
+		logger.innerSuccess("Nulls", jdtObj, spxObj);
+		return true;
+	}
 
 
 	private Iterable<IStrategoTerm> getIndexProperties(IStrategoTerm uri, IStrategoTerm kind) {
