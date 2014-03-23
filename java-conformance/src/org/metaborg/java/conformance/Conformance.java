@@ -859,7 +859,7 @@ public class Conformance {
 			}
 		}
 
-		logger.innerSuccess("Qualified name", jdtQName, spxURI);
+		logger.success("Qualified name", jdtQName, spxURI);
 		return true;
 	}
 

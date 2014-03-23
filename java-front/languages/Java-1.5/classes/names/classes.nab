@@ -146,7 +146,7 @@ binding rules // Constructors
 
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
   ConstrDec(acc, mod*, tp*, c, p*, th, body):
-    defines non-unique Constructor c
+    defines Constructor c
       of access acc
       of modifiers mod*
       of type-parameters tp*
