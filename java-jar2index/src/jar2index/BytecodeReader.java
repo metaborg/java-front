@@ -26,10 +26,10 @@ public class BytecodeReader {
 	private final IIndex index;
 	private final IndexEntryFactory factory;
 
-	public BytecodeReader(IOAgent agent, ITermFactory termFactory) {
+	public BytecodeReader(IOAgent agent, ITermFactory termFactory, String projectPath) {
 		this.agent = agent;
 		this.termFactory = termFactory;
-		this.index = IndexManager.getInstance().loadIndex(".", "Java", termFactory, agent);
+		this.index = IndexManager.getInstance().loadIndex(projectPath, "Java", termFactory, agent);
 		this.factory = new IndexEntryFactory(termFactory);
 	}
 
@@ -58,7 +58,7 @@ public class BytecodeReader {
 			zipFile.close();
 		}
 
-//		index.stopCollection();
+		index.stopCollection();
 
 		IndexManager.getInstance().storeCurrent(termFactory);
 	}
@@ -67,10 +67,10 @@ public class BytecodeReader {
 		final ClassVisitor visitor = new ClassVisitor(Opcodes.ASM5) {
 			public void visit(int version, int access, String name, String signature, String superName,
 				String[] interfaces) {
-
+				System.out.println(name);
 				for(IStrategoAppl entryTerm : factory.clazz(name, superName, interfaces)) {
-					// System.out.println(entryTerm);
 					final IndexEntry entry = index.getFactory().createEntry(entryTerm, partition);
+					System.out.println(entry);
 					index.add(entry);
 				}
 			}

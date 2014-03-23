@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.spoofax.interpreter.library.index"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.spoofax.terms"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.spoofax.interpreter.core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.spoofax.jsglr"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

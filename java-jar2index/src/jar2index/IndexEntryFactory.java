@@ -23,6 +23,8 @@ public class IndexEntryFactory extends TermConstruction {
 
 	private static final String TYPE_PROP = "Type";
 	private static final String KIND_PROP = "NablProp_kind";
+	private static final String ACCESS_PROP = "NablProp_access";
+	private static final String CONTEXT_PROP = "NablProp_context";
 	private static final String MODIFIERS_PROP = "NablProp_modifiers";
 	private static final String TYPEPARAMS_PROP = "NablProp_type-parameters";
 	private static final String PARAMTYPES_PROP = "NablProp_parameter-types";
@@ -36,17 +38,13 @@ public class IndexEntryFactory extends TermConstruction {
 
 
 	public Iterable<IStrategoAppl> clazz(String name, String superName, String[] interfaces) {
-		final IStrategoTerm uri = nameToURI(name);
+		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
+		final IStrategoTerm uri = nameToEntries(name, entries);
 		final IStrategoTerm superURI = superName != null ? nameToURI(superName) : null;
 		final IStrategoTerm[] interfaceURIs = new IStrategoTerm[interfaces.length];
 		for(int i = 0; i < interfaces.length; ++i) {
 			interfaceURIs[i] = nameToURI(interfaces[i]);
 		}
-
-		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
-
-		// Store def
-		entries.add(def(uri));
 
 		// Store subclass (+ widening, + transitive) relation
 		if(superURI != null) {
@@ -66,14 +64,15 @@ public class IndexEntryFactory extends TermConstruction {
 		entries.add(prop(uri, appl(TYPE_PROP), refType(uri)));
 
 		// Store kind property
-		entries.add(prop(uri, appl(KIND_PROP), appl("ClassType")));
+		entries.add(prop(uri, appl(KIND_PROP), appl("Class")));
 
 		// Store modifiers property
-		entries.add(prop(uri, appl(MODIFIERS_PROP), list(appl("Public"))));
-		// TODO: get access modifier
+		entries.add(prop(uri, appl(ACCESS_PROP), appl("Public"))); // TODO: get access modifier
+		entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
+		entries.add(prop(uri, appl(MODIFIERS_PROP), list()));
 
 		// Store type-parameters
-		entries.add(prop(uri, appl(TYPEPARAMS_PROP), list()));
+		entries.add(prop(uri, appl(TYPEPARAMS_PROP), appl("None")));
 
 		return entries;
 	}
@@ -96,8 +95,12 @@ public class IndexEntryFactory extends TermConstruction {
 		entries.add(prop(uri, appl(PARAMTYPES_PROP), paramterTypes));
 
 		// Store modifiers property
-		entries.add(prop(uri, appl(MODIFIERS_PROP), list(appl("Public"))));
-		// TODO: get access modifier
+		entries.add(prop(uri, appl(ACCESS_PROP), appl("Public"))); // TODO: get access modifier
+		entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
+		entries.add(prop(uri, appl(MODIFIERS_PROP), list()));
+		
+		// Store type-parameters
+		entries.add(prop(uri, appl(TYPEPARAMS_PROP), appl("None")));
 
 		return entries;
 	}
@@ -178,19 +181,48 @@ public class IndexEntryFactory extends TermConstruction {
 	}
 
 
+	private IStrategoTerm nameToEntries(String name, Collection<IStrategoAppl> entries) {
+		final Collection<IStrategoAppl> segments = new LinkedList<IStrategoAppl>();
+		segments.add(segment(DPACKAGE_NAMESPACE, appl("Default")));
+		
+		entries.add(def(uri(LANG, segments.toArray(new IStrategoAppl[0]))));
+		
+		final String[] names = name.split("/");
+		for(int i = 0; i < names.length; ++i) {
+			if(i == names.length - 1) {
+				final Collection<IStrategoTerm> nonUniqueSegments = new LinkedList<IStrategoTerm>(segments);
+				nonUniqueSegments.add(segment(TYPE_NAMESPACE, names[i]));
+				final IStrategoAppl nonUniqueURI = uri(LANG, nonUniqueSegments.toArray(new IStrategoAppl[0]));
+				
+				segments.add(segment(TYPE_NAMESPACE, names[i], "0")); // TODO: gen unique string
+				final IStrategoAppl uniqueURI = uri(LANG, segments.toArray(new IStrategoAppl[0]));
+				
+				entries.add(def(uniqueURI));
+				entries.add(alias(nonUniqueURI, uniqueURI));
+			}
+			else {
+				segments.add(segment(PACKAGE_NAMESPACE, names[i]));
+				entries.add(def(uri(LANG, segments.toArray(new IStrategoAppl[0]))));
+			}
+		}
+
+		return uri(LANG, segments.toArray(new IStrategoAppl[0]));
+	}
+	
 	private IStrategoTerm nameToURI(String name) {
 		final String[] names = name.split("/");
-
-		final IStrategoTerm[] segments = new IStrategoTerm[names.length];
-		for(int i = 0; i < names.length; ++i) {
-			if(i == names.length - 1)
-				segments[i] = segment(TYPE_NAMESPACE, names[i], "0"); // TODO: gen unique string
+		final IStrategoTerm[] segments = new IStrategoTerm[names.length + 1];
+		segments[0] = segment(DPACKAGE_NAMESPACE, appl("Default"));
+		for(int i = 1; i < names.length + 1; ++i) {
+			if(i == names.length)
+				segments[i] = segment(TYPE_NAMESPACE, names[i - 1], "0"); // TODO: gen unique string
 			else
-				segments[i] = segment(PACKAGE_NAMESPACE, names[i]);
+				segments[i] = segment(PACKAGE_NAMESPACE, names[i - 1]);
 		}
 
 		return uri(LANG, segments);
 	}
+
 
 	private IStrategoTerm refType(IStrategoTerm uri) {
 		return appl("RefType", appl("TypeName", annotatedName(uri)), appl("None"));

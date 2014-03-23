@@ -83,6 +83,10 @@ public class TermConstruction {
 		return appl("URI", appl("Language", str(language)), list(reversed));
 	}
 
+	public IStrategoAppl segment(String namespace, IStrategoTerm name) {
+		return appl("ID", appl(namespace), name, appl("NonUnique"));
+	}
+	
 	public IStrategoAppl segment(String namespace, String name) {
 		return appl("ID", appl(namespace), str(name), appl("NonUnique"));
 	}
@@ -94,6 +98,10 @@ public class TermConstruction {
 
 	public IStrategoAppl def(IStrategoTerm uri) {
 		return appl("Def", uri);
+	}
+	
+	public IStrategoAppl alias(IStrategoTerm alias, IStrategoTerm of) {
+		return appl("Alias", alias, of);
 	}
 
 	public IStrategoAppl prop(IStrategoTerm uri, IStrategoTerm kind, IStrategoTerm value) {
