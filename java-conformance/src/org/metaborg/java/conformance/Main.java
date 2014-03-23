@@ -35,10 +35,12 @@ public class Main {
 		final String languageDirArg = args[0];
 		final String javaFilesDirArg = args[1];
 		final String projectDirArg = args[2];
+		final String fixedIndexFileArg = args[3];
 
 		final File javaFilesDir = new File(javaFilesDirArg);
 		final File projectDir = new File(projectDirArg);
 		final String projectDirPath = projectDir.getAbsolutePath();
+		final File fixedIndexFile = new File(fixedIndexFileArg);
 
 		setupSunshine(languageDirArg, projectDirArg);
 		final ITermFactory termFactory = new ImploderOriginTermFactory(new TermFactory());
@@ -56,9 +58,14 @@ public class Main {
 				
 				final File destinationJavaFile = Paths.get(projectDirPath, javaFileName).toFile();
 				Files.copy(file, destinationJavaFile);
+				
 				final String javFileName = javaFileName.substring(0, javaFileName.length() - 1);
 				final File destinationJavFile = Paths.get(projectDirPath, javFileName).toFile();
 				Files.copy(file, destinationJavFile);
+				
+				final File destinationIndexFile = Paths.get(projectDirPath, ".cache", "index.idx").toFile();
+				Files.createParentDirs(destinationIndexFile);
+				Files.copy(fixedIndexFile, destinationIndexFile);
 
 				conformanceCheck(projectDirPath, projectDirPath, javaFileName, destinationJavaFile.getAbsolutePath(),
 					destinationJavFile.getAbsolutePath(), logger, termFactory);

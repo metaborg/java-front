@@ -365,7 +365,6 @@ public class Conformance {
 	}
 
 	public void testStatement(Statement jdtStatement, IStrategoTerm spxStatement) {
-		// Statement specific checks
 		// If Block, iterate over statements
 		if(jdtStatement instanceof Block) {
 			final Block jdtBlock = (Block) jdtStatement;
@@ -382,6 +381,9 @@ public class Conformance {
 			testExpression(jdtExpression, spxExpression);
 			return;
 		}
+		// TODO: if
+		// TODO: for
+		// TODO: while
 	}
 
 	public void testMessages() {
