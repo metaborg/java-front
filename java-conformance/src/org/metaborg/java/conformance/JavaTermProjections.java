@@ -4,8 +4,6 @@ import static org.metaborg.java.conformance.util.TermTools.*;
 
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import com.google.common.base.Predicate;
 
 public class JavaTermProjections {
@@ -23,10 +21,10 @@ public class JavaTermProjections {
 				return isAppl(input, "PackageDec", 3);
 			}
 		});
-		
+
 		if(innerPackage != null)
 			return innerPackage.getSubterm(2);
-		
+
 		return term.getSubterm(1);
 	}
 
@@ -191,7 +189,7 @@ public class JavaTermProjections {
 	public static IStrategoTerm getArrayTypeInnerType(IStrategoTerm arrayType) {
 		return arrayType.getSubterm(0);
 	}
-	
+
 	public static IStrategoTerm getArrayInitializerExprs(IStrategoTerm arrayInit) {
 		return arrayInit.getSubterm(0);
 	}

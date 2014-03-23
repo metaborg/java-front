@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.ArrayAccess;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Assignment;
@@ -33,9 +32,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.metaborg.runtime.task.ITaskEngine;
-import org.metaborg.runtime.task.Task;
 import org.metaborg.runtime.task.util.SingletonIterable;
-import org.spoofax.NotImplementedException;
 import org.spoofax.interpreter.library.index.IIndex;
 import org.spoofax.interpreter.library.index.IndexEntry;
 import org.spoofax.interpreter.terms.IStrategoInt;
@@ -264,7 +261,7 @@ public class Conformance {
 			for(int i = 0; i < jdtExprs.size(); ++i) {
 				testExpression((Expression) jdtExprs.get(i), spxExprs.getSubterm(i));
 			}
-			
+
 			return;
 		}
 		// If Assignment, compare left and right expressions
@@ -304,7 +301,6 @@ public class Conformance {
 				testExpression((Expression) jdtArguments.get(i), spxArguments.getSubterm(i));
 			}
 
-			// TODO: constructor invocation can be qualified.
 			// TODO: compare class body declaration in case of an anonymous class.
 
 			return;
@@ -344,7 +340,6 @@ public class Conformance {
 		if(jdtExpression instanceof Name) {
 			final Name jdtName = (Name) jdtExpression;
 
-			logger.debug("compare names");
 			final IBinding jdtNameBinding = jdtName.resolveBinding();
 			final Iterable<IStrategoTerm> spxNameBinding = resolveNameBindings(spxExpression);
 			final boolean nameResult = compareBindings(jdtNameBinding, spxNameBinding);
@@ -387,12 +382,12 @@ public class Conformance {
 	}
 
 	public void testMessages() {
-		final IProblem[] jdtProblems = jdtAST.getProblems();
-		final Collection<IStrategoTerm> spxMessages = new LinkedList<IStrategoTerm>();
-		for(Task task : taskEngine.getTasks()) {
-			if(task.message() != null)
-				spxMessages.add(task.message());
-		}
+		// final IProblem[] jdtProblems = jdtAST.getProblems();
+		// final Collection<IStrategoTerm> spxMessages = new LinkedList<IStrategoTerm>();
+		// for(Task task : taskEngine.getTasks()) {
+		// if(task.message() != null)
+		// spxMessages.add(task.message());
+		// }
 
 		// TODO: check type errors
 		// TODO: assignment errors
@@ -532,9 +527,6 @@ public class Conformance {
 			return true;
 
 		switch (jdtName.getKind()) {
-			case IBinding.PACKAGE:
-				// TODO: implement
-				throw new NotImplementedException();
 			case IBinding.TYPE:
 				return compareTypeBindings((ITypeBinding) jdtName, spxName);
 			case IBinding.VARIABLE:
@@ -631,7 +623,7 @@ public class Conformance {
 			return false;
 		if(containsNulls(jdtType, spxTypeDef))
 			return true;
-		
+
 		return compareRefTypeBindingsURI(jdtType, spxTypeDef.getSubterm(0));
 	}
 
@@ -836,9 +828,9 @@ public class Conformance {
 		return entries.iterator().next();
 	}
 
-	private IStrategoTerm getIndexType(IStrategoTerm uri) {
-		return getIndexProperty(uri, appl("Type"));
-	}
+	// private IStrategoTerm getIndexType(IStrategoTerm uri) {
+	// return getIndexProperty(uri, appl("Type"));
+	// }
 
 	private int getIndexVarID(IStrategoTerm uri) {
 		IStrategoTerm varID = getIndexProperty(uri, appl("NablProp_var-id"));

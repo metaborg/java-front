@@ -31,6 +31,8 @@ import com.beust.jcommander.JCommander;
 import com.google.common.io.Files;
 
 public class Main {
+	public static GlobalResultLogger globalLogger = new GlobalResultLogger();
+	
 	public static void main(String[] args) {
 		final String languageDirArg = args[0];
 		final String javaFilesDirArg = args[1];
@@ -45,7 +47,7 @@ public class Main {
 		setupSunshine(languageDirArg, projectDirArg);
 		final ITermFactory termFactory = new ImploderOriginTermFactory(new TermFactory());
 		TermTools.factory = termFactory;
-		ResultLogger logger = new ResultLogger(projectDirArg, args[1] + args[2], false);
+		
 
 		final File[] files = javaFilesDir.listFiles();
 		for(File file : files) {
@@ -68,7 +70,7 @@ public class Main {
 				Files.copy(fixedIndexFile, destinationIndexFile);
 
 				conformanceCheck(projectDirPath, projectDirPath, javaFileName, destinationJavaFile.getAbsolutePath(),
-					destinationJavFile.getAbsolutePath(), logger, termFactory);
+					destinationJavFile.getAbsolutePath(), termFactory);
 
 				destinationJavaFile.delete();
 				destinationJavFile.delete();
@@ -81,27 +83,31 @@ public class Main {
 	}
 
 	private static void conformanceCheck(String projectDir, String javaSourcePath, String javaUnitName,
-		String javaFile, String javFile, ResultLogger logger, ITermFactory termFactory) {
+		String javaFile, String javFile, ITermFactory termFactory) {
 		try {			
 			final CompilationUnit jdtAST = jdtFromJavaFile(javaSourcePath, javaUnitName, javaFile);
 			for(IProblem problem : jdtAST.getProblems()) {
 				if(problem.isError() && problem.getMessage().contains("Syntax error")) {
-					logger.debug("SKIPPING: " + javaUnitName);
+					globalLogger.skip(projectDir, javaUnitName);
 					return;
 				}
 			}
 			
-			logger.debug("Analyzing: " + javaUnitName);
+			globalLogger.debug("Analyzing: " + javaUnitName);
 			final SpoofaxResult spxResult = spoofaxFromJavaFile(termFactory, projectDir, javFile);
 			if(spxResult == null) {
-				logger.debug("SKIPPING: " + javaUnitName);
+				globalLogger.skip(projectDir, javaUnitName);
 				return;
 			}
 
-			// Do conformance check
+			final ResultLogger logger = new ResultLogger(projectDir, javaUnitName, false);
 			final Conformance conformance =
 				new Conformance(jdtAST, spxResult.index, spxResult.taskEngine, spxResult.ast, logger);
 			conformance.testCompilationUnit();
+			
+			globalLogger.result(projectDir, javaUnitName, logger.numChecks, logger.numSuccess, logger.numFailure);
+			ResultLogger.write("log.csv");
+			globalLogger.write("results.csv");
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
