@@ -749,8 +749,21 @@ public class Conformance {
 			return false;
 		}
 
+		if(jdtType.isLocal()) {
+			final IMethodBinding jdtMethod = jdtType.getDeclaringMethod();
+			IStrategoTerm spxMethodURI = uriParentUntilNs(spxTypeURI, appl("NablNsMethod"));
+			if(spxMethodURI == null)
+				spxMethodURI = uriParentUntilNs(spxTypeURI, appl("NablNsConstructor"));
+			final boolean result = compareMethodNameURI(jdtMethod, spxMethodURI);
+			logger.innerResult(result, "Local type enclosing method", jdtMethod, spxMethodURI);
+			return result;
+		}
+		
 		// Cannot compare names of anonymous classes.
-		if(!jdtType.isAnonymous() && !compareQualifiedName(jdtType.getQualifiedName(), spxTypeURI)) {
+		if(jdtType.isAnonymous())
+			return true;
+		
+		if(!compareQualifiedName(jdtType.getQualifiedName(), spxTypeURI)) {
 			logger.innerFailure("Ref type name", jdtType.getQualifiedName(), spxTypeURI);
 			return false;
 		}
@@ -793,7 +806,7 @@ public class Conformance {
 			final ITypeBinding jdtType = jdtVarName.getDeclaringClass();
 			final IStrategoTerm spxTypeURI = uriParentUntilNs(spxVarNameURI, appl("NablNsType"));
 			final boolean result = compareRefTypeBindingsURI(jdtType, spxTypeURI);
-			logger.innerResult(result, "Field def type", jdtType, spxTypeURI);
+			logger.innerResult(result, "Field def enclosing type", jdtType, spxTypeURI);
 			return result;
 		} else {
 			final int jdtVarID = jdtVarName.getVariableId();
@@ -808,7 +821,7 @@ public class Conformance {
 			if(spxMethodURI == null)
 				spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsConstructor"));
 			final boolean result = compareMethodNameURI(jdtMethod, spxMethodURI);
-			logger.innerResult(result, "Var def type", jdtMethod, spxMethodURI);
+			logger.innerResult(result, "Var def enclosing method", jdtMethod, spxMethodURI);
 			return result;
 		}
 	}
@@ -853,7 +866,7 @@ public class Conformance {
 		final ITypeBinding jdtType = jdtMethodName.getDeclaringClass();
 		final IStrategoTerm spxTypeURI = uriParentUntilNs(spxMethodNameURI, appl("NablNsType"));
 		final boolean result = compareRefTypeBindingsURI(jdtType, spxTypeURI);
-		logger.innerResult(result, "Method def type", jdtType, spxTypeURI);
+		logger.innerResult(result, "Method def enclosing type", jdtType, spxTypeURI);
 		return result;
 	}
 
