@@ -26,6 +26,7 @@ public class IndexEntryFactory extends TermConstruction {
 	private static final String WIDENING_REL = "<widens-ref:";
 
 	private static final String TYPE_PROP = "Type";
+	private static final String IMPORT_PROP = "Import";
 	private static final String KIND_PROP = "NablProp_kind";
 	private static final String ACCESS_PROP = "NablProp_access";
 	private static final String CONTEXT_PROP = "NablProp_context";
@@ -63,6 +64,51 @@ public class IndexEntryFactory extends TermConstruction {
 			entries.add(rel(uri, appl(WIDENING_REL), interfaceURI));
 		}
 		// TODO: transitive
+		
+		
+		// Store imports
+		if(superURI != null) {
+			entries.add(prop(uri, appl(IMPORT_PROP, appl(FIELD_NAMESPACE)), superURI));
+			entries.add(prop(uri, appl(IMPORT_PROP, appl(METHOD_NAMESPACE)), superURI));
+			entries.add(prop(uri, appl(IMPORT_PROP, appl(TYPE_NAMESPACE)), superURI));
+		}
+		// TODO: transitive
+		
+		for(IStrategoTerm interfaceURI : interfaceURIs) {
+			entries.add(prop(uri, appl(IMPORT_PROP, appl(FIELD_NAMESPACE)), interfaceURI));
+			entries.add(prop(uri, appl(IMPORT_PROP, appl(METHOD_NAMESPACE)), interfaceURI));
+			entries.add(prop(uri, appl(IMPORT_PROP, appl(TYPE_NAMESPACE)), interfaceURI));
+			// TODO: transitive
+		}
+		
+
+		// Store type property
+		entries.add(prop(uri, appl(TYPE_PROP), refType(uri)));
+
+		// Store kind property
+		if((access & Opcodes.ACC_INTERFACE) == Opcodes.ACC_INTERFACE)
+			entries.add(prop(uri, appl(KIND_PROP), appl("Interface")));
+		else
+			entries.add(prop(uri, appl(KIND_PROP), appl("Class")));
+
+		// Store modifiers property
+		entries.add(prop(uri, appl(ACCESS_PROP), appl("Public"))); // TODO: get access modifier
+		if((access & Opcodes.ACC_INTERFACE) == Opcodes.ACC_INTERFACE)
+			entries.add(prop(uri, appl(CONTEXT_PROP), appl("Static")));
+		else
+			entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
+		entries.add(prop(uri, appl(MODIFIERS_PROP), list()));
+
+		// Store type-parameters
+		entries.add(prop(uri, appl(TYPEPARAMS_PROP), appl("None")));
+
+		return entries;
+	}
+
+
+	public Iterable<IStrategoAppl> innerClazz(String name, String inner, int access) {
+		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
+		final IStrategoTerm uri = innerClassNameToEntries(name, inner, entries);
 
 		// Store type property
 		entries.add(prop(uri, appl(TYPE_PROP), refType(uri)));
@@ -119,19 +165,19 @@ public class IndexEntryFactory extends TermConstruction {
 		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
 		final IStrategoTerm classURI = classNameToURI(className);
 		final IStrategoTerm uri = fieldNameToEntries(name, classURI, entries, id);
-		
+
 		// Store type property
 		final IStrategoTerm type = parseMethodDescriptorType(descriptor, 0).getSubterm(1);
 		entries.add(prop(uri, appl(TYPE_PROP), type));
-		
+
 		// Store modifiers property
 		entries.add(prop(uri, appl(ACCESS_PROP), appl("Public"))); // TODO: get access modifier
 		entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
 		entries.add(prop(uri, appl(MODIFIERS_PROP), list()));
-		
+
 		return entries;
 	}
-	
+
 
 	public IStrategoTerm parseMethodDescriptor(String str) {
 		boolean inArguments = false;
@@ -249,7 +295,32 @@ public class IndexEntryFactory extends TermConstruction {
 		return uri(LANG, segments);
 	}
 
-	private IStrategoTerm methodNameToEntries(String name, IStrategoTerm classURI, Collection<IStrategoAppl> entries, int id) {
+	private IStrategoTerm innerClassNameToEntries(String name, String inner, Collection<IStrategoAppl> entries) {
+		final String[] names = name.replaceAll("\\$", "").split("/");
+		final IStrategoTerm[] segments = new IStrategoTerm[names.length + 1];
+		segments[0] = segment(DPACKAGE_NAMESPACE, appl("Default"));
+		for(int i = 1; i < names.length + 1; ++i) {
+			if(i == names.length)
+				segments[i] = segment(TYPE_NAMESPACE, names[i - 1], "0"); // TODO: gen unique string
+			else
+				segments[i] = segment(PACKAGE_NAMESPACE, names[i - 1]);
+		}
+
+		final IStrategoTerm uniqueSegment = segment(TYPE_NAMESPACE, inner, "0");
+		final IStrategoTerm nonUniqueSegment = segment(TYPE_NAMESPACE, inner);
+
+		final IStrategoTerm uniqueURI = appl("URI", appl("Language", str(LANG)), cons(uniqueSegment, reverse(segments)));
+		final IStrategoTerm nonUniqueURI =
+			appl("URI", appl("Language", str(LANG)), cons(nonUniqueSegment, reverse(segments)));
+
+		entries.add(def(uniqueURI));
+		entries.add(alias(nonUniqueURI, uniqueURI));
+
+		return uniqueURI;
+	}
+
+	private IStrategoTerm methodNameToEntries(String name, IStrategoTerm classURI, Collection<IStrategoAppl> entries,
+		int id) {
 		if(name.equals("<clinit>"))
 			return null;
 
@@ -265,25 +336,28 @@ public class IndexEntryFactory extends TermConstruction {
 		}
 
 		final IStrategoTerm uri = appl("URI", appl("Language", str(LANG)), cons(methodSegment, segments));
-		final IStrategoTerm uriNonUnique = appl("URI", appl("Language", str(LANG)), cons(methodSegmentNonUnique, segments));
-		
+		final IStrategoTerm uriNonUnique =
+			appl("URI", appl("Language", str(LANG)), cons(methodSegmentNonUnique, segments));
+
 		entries.add(def(uri));
 		entries.add(alias(uriNonUnique, uri));
-		
+
 		return uri;
 	}
-	
-	private IStrategoTerm fieldNameToEntries(String name, IStrategoTerm classURI, Collection<IStrategoAppl> entries, int id) {
+
+	private IStrategoTerm fieldNameToEntries(String name, IStrategoTerm classURI, Collection<IStrategoAppl> entries,
+		int id) {
 		final IStrategoList segments = (IStrategoList) classURI.getSubterm(1);
 		final IStrategoTerm fieldSegment = segment(FIELD_NAMESPACE, name, str(Integer.toString(id)));
 		final IStrategoTerm fieldSegmentNonUnique = segment(FIELD_NAMESPACE, name);
 
 		final IStrategoTerm uri = appl("URI", appl("Language", str(LANG)), cons(fieldSegment, segments));
-		final IStrategoTerm uriNonUnique = appl("URI", appl("Language", str(LANG)), cons(fieldSegmentNonUnique, segments));
-		
+		final IStrategoTerm uriNonUnique =
+			appl("URI", appl("Language", str(LANG)), cons(fieldSegmentNonUnique, segments));
+
 		entries.add(def(uri));
 		entries.add(alias(uriNonUnique, uri));
-		
+
 		return uri;
 	}
 

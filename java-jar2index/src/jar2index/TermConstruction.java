@@ -79,6 +79,15 @@ public class TermConstruction {
 		return factory.makeTuple(terms);
 	}
 
+	public IStrategoList reverse(IStrategoTerm[] segments) {
+		IStrategoTerm[] reversed = new IStrategoTerm[segments.length];
+		for(int i = 0; i < reversed.length; ++i)
+			// Paths are reversed in Stratego for easy appending of new names.
+			reversed[i] = segments[reversed.length - i - 1];
+		
+		return list(reversed);
+	}
+	
 	public IStrategoAppl uri(String language, IStrategoTerm... segments) {
 		IStrategoTerm[] reversed = new IStrategoTerm[segments.length];
 		for(int i = 0; i < reversed.length; ++i)

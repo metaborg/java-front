@@ -77,21 +77,46 @@ public class BytecodeReader {
 		IndexManager.getInstance().storeCurrent(termFactory);
 	}
 
+	private boolean shouldVisitClass(String name) {
+		if(name.contains("org/omg"))
+			return false;
+		if(name.contains("javax/") && !name.contains("javax/swing/JComponent")
+			&& !name.contains("javax/swing/text"))
+			return false;
+		if(name.contains("com/sun"))
+			return false;
+		if(name.contains("sun/java2d"))
+			return false;
+		if(name.contains("sun/awt"))
+			return false;
+		
+		return true;
+	}
+	
 	private void fromClass(InputStream in, final IndexPartition partition, final Set<IStrategoAppl> entries)
 		throws IOException {
 		final ClassVisitor visitor = new ClassVisitor(Opcodes.ASM5) {
 			public void visit(int version, int access, String name, String signature, String superName,
 				String[] interfaces) {
-				if(name.contains("org/omg") || name.contains("javax/") || name.contains("com/sun")
-					|| name.contains("sun/java2d") || name.contains("sun/awt")) {
-					currentClassName = null;
+				currentClassName = null;
+				if(!shouldVisitClass(name))
 					return;
-				}
 				currentClassName = name;
 				methodId = 0;
 				fieldId = 0;
 				System.out.println(name);
 				for(IStrategoAppl entryTerm : factory.clazz(name, superName, interfaces, access)) {
+					entries.add(entryTerm);
+				}
+			}
+
+			public void visitInnerClass(String name, String outerName, String innerName, int access) {
+				if(outerName == null || innerName == null)
+					return;
+				if(!shouldVisitClass(outerName))
+					return;
+				
+				for(IStrategoAppl entryTerm : factory.innerClazz(outerName, innerName, access)) {
 					entries.add(entryTerm);
 				}
 			}
