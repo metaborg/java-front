@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -120,12 +121,9 @@ public class ResultLogger {
 			return ((ITypeBinding) obj).getQualifiedName();
 		} else if(obj instanceof IBinding) {
 			return ((IBinding) obj).getName();
-		} else if(obj instanceof Statement) {
-			return truncate(strip(((Statement) obj).toString()), 50);
-		} else if(obj instanceof Expression) {
-			return truncate(strip(((Expression) obj).toString()), 50);
+		} else if(obj instanceof ASTNode) {
+			return truncate(strip(((ASTNode) obj).toString()), 50);
 		}
-
 		return obj;
 	}
 

@@ -225,6 +225,18 @@ public class JavaTermProjections {
 			return consInvoke.getSubterm(5);
 		return consInvoke.getSubterm(3);
 	}
+	
+	public static IStrategoTerm getConsInvokeAnonClassDeclBodyDecls(IStrategoTerm consInvoke) {
+		final IStrategoTerm body;
+		if(isAppl(consInvoke, "QNewInstance"))
+			body = consInvoke.getSubterm(6);
+		else
+			body = consInvoke.getSubterm(4);
+		
+		if(isAppl(body, "None", 0))
+			return null;
+		return body.getSubterm(0);
+	}
 
 
 	public static IStrategoTerm getFieldAccessExpr(IStrategoTerm fieldAccess) {

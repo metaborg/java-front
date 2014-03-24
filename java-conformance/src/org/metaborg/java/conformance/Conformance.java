@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.ArrayAccess;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Assignment;
@@ -137,13 +138,7 @@ public class Conformance {
 		// Compare body declarations
 		final List jdtBodyDecls = jdtType.bodyDeclarations();
 		final IStrategoTerm spxBodyDecls = getClassBodyDeclarations(spxType);
-		if(compareArity(jdtBodyDecls, spxBodyDecls, "Class body declarations")) {
-			for(int i = 0; i < jdtBodyDecls.size(); ++i) {
-				final BodyDeclaration jdtBodyDecl = (BodyDeclaration) jdtBodyDecls.get(i);
-				final IStrategoTerm spxBodyDecl = spxBodyDecls.getSubterm(i);
-				testBodyDeclaration(jdtBodyDecl, spxBodyDecl);
-			}
-		}
+		testBodyDeclarations(jdtBodyDecls, spxBodyDecls);
 	}
 
 	public void testInterface(TypeDeclaration jdtType, IStrategoTerm spxType) {
@@ -163,6 +158,16 @@ public class Conformance {
 		}
 
 		// TODO: interface body declarations
+	}
+
+	public void testBodyDeclarations(List jdtBodyDecls, IStrategoTerm spxBodyDecls) {
+		if(compareArity(jdtBodyDecls, spxBodyDecls, "Class body declarations")) {
+			for(int i = 0; i < jdtBodyDecls.size(); ++i) {
+				final BodyDeclaration jdtBodyDecl = (BodyDeclaration) jdtBodyDecls.get(i);
+				final IStrategoTerm spxBodyDecl = spxBodyDecls.getSubterm(i);
+				testBodyDeclaration(jdtBodyDecl, spxBodyDecl);
+			}
+		}
 	}
 
 	public void testBodyDeclaration(BodyDeclaration jdtBodyDecl, IStrategoTerm spxBodyDecl) {
@@ -263,10 +268,13 @@ public class Conformance {
 
 	public void testExpression(Expression jdtExpression, IStrategoTerm spxExpression) {
 		// Compare expression type
-		final ITypeBinding jdtTypeBinding = jdtExpression.resolveTypeBinding();
-		final Iterable<IStrategoTerm> spxTypeBinding = resolveExpressionType(spxExpression);
-		final boolean typeResult = compareTypeBindings(jdtTypeBinding, spxTypeBinding);
-		logger.result(typeResult, "Expression type", jdtTypeBinding, spxTypeBinding);
+		 // Cannot compare type of anonymous class instantiations, this is done in separate check
+		if(!(jdtExpression instanceof ClassInstanceCreation)) {
+			final ITypeBinding jdtTypeBinding = jdtExpression.resolveTypeBinding();
+			final Iterable<IStrategoTerm> spxTypeBinding = resolveExpressionType(spxExpression);
+			final boolean typeResult = compareTypeBindings(jdtTypeBinding, spxTypeBinding);
+			logger.result(typeResult, "Expression type", jdtTypeBinding, spxTypeBinding);
+		}
 
 		if(jdtExpression instanceof ArrayAccess) {
 			final ArrayAccess jdtArrayAccess = (ArrayAccess) jdtExpression;
@@ -307,10 +315,24 @@ public class Conformance {
 		if(jdtExpression instanceof ClassInstanceCreation) {
 			final ClassInstanceCreation jdtConsInvoke = (ClassInstanceCreation) jdtExpression;
 
-			final ITypeBinding jdtConsTypeBinding = jdtConsInvoke.getName().resolveTypeBinding();
-			final Iterable<IStrategoTerm> spxConsTypeBinding = resolveExpressionType(getConsInvokeType(spxExpression));
-			final boolean consTypeResult = compareTypeBindings(jdtConsTypeBinding, spxConsTypeBinding);
-			logger.result(consTypeResult, "Constructor invocation type", jdtConsTypeBinding, spxConsTypeBinding);
+			final AnonymousClassDeclaration jdtAnonClassDec = jdtConsInvoke.getAnonymousClassDeclaration();
+			final IStrategoTerm spxBodyDecls = getConsInvokeAnonClassDeclBodyDecls(spxExpression);
+			compareNulls(jdtAnonClassDec, spxBodyDecls, "Anonymous class declaration");
+			if(!containsNulls(jdtAnonClassDec, spxBodyDecls)) {
+				final List jdtBodyDecls = jdtAnonClassDec.bodyDeclarations();
+				testBodyDeclarations(jdtBodyDecls, spxBodyDecls);
+			} else {
+				final ITypeBinding jdtTypeBinding = jdtExpression.resolveTypeBinding();
+				final Iterable<IStrategoTerm> spxTypeBinding = resolveExpressionType(spxExpression);
+				final boolean typeResult = compareTypeBindings(jdtTypeBinding, spxTypeBinding);
+				logger.result(typeResult, "Constructor expression type", jdtTypeBinding, spxTypeBinding);
+				
+				final ITypeBinding jdtConsTypeBinding = jdtConsInvoke.getName().resolveTypeBinding();
+				final Iterable<IStrategoTerm> spxConsTypeBinding =
+					resolveExpressionType(getConsInvokeType(spxExpression));
+				final boolean consTypeResult = compareTypeBindings(jdtConsTypeBinding, spxConsTypeBinding);
+				logger.result(consTypeResult, "Constructor invocation type", jdtConsTypeBinding, spxConsTypeBinding);
+			}
 
 			final List jdtArguments = jdtConsInvoke.arguments();
 			final IStrategoTerm spxArguments = getConsInvokeArgs(spxExpression);
@@ -809,7 +831,7 @@ public class Conformance {
 			logger.innerFailure("Method name kind", jdtMethodName.getKind(), uriNamespace(spxMethodNameURI));
 			return false;
 		}
-		
+
 		if(jdtMethodName.isConstructor()) {
 			if(!uriName(spxMethodNameURI).equals("constructor")) {
 				logger.innerFailure("Constructorness", jdtMethodName.isConstructor(),
