@@ -59,8 +59,16 @@ binding rules // Field access
 
   Field(e, f):
   	refers to Field f
-  	  in Type t
-  	  where e has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
+  	  in Type t'
+  	  where e has type RefType(t, _)
+  	    and t refers to Type t'
+  	  
+  // SuperField(f):
+  // 	refers to Field f
+  // 		in Type t
+  // 		where s refers to ImplicitField "super"
+  // 		  and s has type RefType(t, _)
+  // 		  and t refers to Type t'
   	  
 binding rules // Class instantiation
 
@@ -84,12 +92,10 @@ binding rules // Class instantiation
       from Type t
     implicitly defines ImplicitField "this" 
     	of type RefType(TypeName(c), None())
-    	in body
     implicitly defines ImplicitField "super" 
     	of type st
-    	in body
     	where t has type st
-    scopes Type, TypeParam, Field, Method, Constructor
+    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
 
 	// TODO: disambiguation
   QNewInstance(e, _, c, itn, _, _, None()):
@@ -117,12 +123,10 @@ binding rules // Class instantiation
       from Type itn
     implicitly defines ImplicitField "this" 
     	of type RefType(TypeName(c), None())
-    	in body
     implicitly defines ImplicitField "super" 
     	of type st
-    	in body
     	where itn has type st
-    scopes Type, TypeParam, Field, Method, Constructor
+    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
 
 binding rules // Qualified this
 

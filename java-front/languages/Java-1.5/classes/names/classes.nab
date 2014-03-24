@@ -59,8 +59,7 @@ binding rules // Types
       of type RefType(TypeName(c), None())
     implicitly defines ImplicitField "this" 
     	of type RefType(TypeName(c), None())
-    	in body
-    scopes Type, TypeParam, Field, Method, Constructor
+    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
     
   ClassDec(acc, ctx, mod*, c, tp*, SuperDec(sc), _, body):
     defines Type c
@@ -76,12 +75,10 @@ binding rules // Types
       from Type sc
     implicitly defines ImplicitField "this" 
     	of type RefType(TypeName(c), None())
-    	in body
     implicitly defines ImplicitField "super" 
     	of type st
-    	in body
     	where sc has type st
-    scopes Type, TypeParam, Field, Method, Constructor
+    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
 
   ImplementsDec(_, it):
     imports

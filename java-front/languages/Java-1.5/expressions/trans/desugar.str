@@ -23,6 +23,12 @@ rules
 
 	desugar:
 		This() -> ExprName("this")
+		
+	desugar:
+		SuperField(f) -> Field(ExprName("super"), f)
+		
+	desugar:
+		Invoke(SuperMethod(ta*, m), a*) -> Invoke(Method(ExprName("super"), ta*, m), a*)
 
 	desugar:
 		NewArray(t, dim1*, dim2*) -> NewArray(t, [dim1*, dim2*])
