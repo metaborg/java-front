@@ -10,6 +10,7 @@ imports
   lib/editor/-
   
   include/Java
+  languages/Java-1.5/expressions/trans/desugar
 	languages/Java-1.5/classes/names/classes
 	languages/Java-1.5/types/names/types
 	languages/Java-1.5/packages/names/packages
@@ -62,17 +63,64 @@ binding rules // Field access
 binding rules // Class instantiation
 
 	// TODO: disambiguation
-  NewInstance(_, c, t, _, _):
+  NewInstance(_, c, t, _, None()):
     refers to Constructor c
       in Type t
+      
+  // TODO: disambiguation   
+  NewInstance(_, c, t, _, ClassBody(body)):
+    defines Type c
+      of access Public()
+      of context Instance()
+      of modifiers []
+    	of type-parameters None()
+    	of kind Class()
+    	of type RefType(TypeName(c), None())
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Type t
+    implicitly defines ImplicitField "this" 
+    	of type RefType(TypeName(c), None())
+    	in body
+    implicitly defines ImplicitField "super" 
+    	of type st
+    	in body
+    	where t has type st
+    scopes Type, TypeParam, Field, Method, Constructor
 
 	// TODO: disambiguation
-  QNewInstance(e, _, c, itn, _, _, _):
+  QNewInstance(e, _, c, itn, _, _, None()):
   	refers to Type itn
   		in Type t
   		where e has type t
   	refers to Constructor c
   	  in Type itn
+
+	// TODO: disambiguation
+  QNewInstance(e, _, c, itn, _, _, ClassBody(body)):
+  	refers to Type itn
+  		in Type t
+  		where e has type t
+    defines Type c
+      of access Public()
+      of context Instance()
+      of modifiers []
+    	of type-parameters None()
+    	of kind Class()
+    	of type RefType(TypeName(c), None())
+    imports
+      Field, imported Field, 
+      Method, imported Method
+      from Type itn
+    implicitly defines ImplicitField "this" 
+    	of type RefType(TypeName(c), None())
+    	in body
+    implicitly defines ImplicitField "super" 
+    	of type st
+    	in body
+    	where itn has type st
+    scopes Type, TypeParam, Field, Method, Constructor
 
 binding rules // Qualified this
 

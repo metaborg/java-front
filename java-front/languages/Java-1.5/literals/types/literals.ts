@@ -22,5 +22,5 @@ type rules
   Null()    : Null()
   
   // TODO: add def (or use) annotations to the name, and type annotation to the term
-  String(_) : RefType(TypeName("String"), None())
-  Class(_)  : RefType(TypeName("Class"), None())
+  // String(_) : RefType(TypeName("String"), None())
+  // Class(_)  : RefType(TypeName("Class"), None())
