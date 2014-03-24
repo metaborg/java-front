@@ -141,10 +141,12 @@ public class TermTools {
 
 
 	
-	public static IStrategoTerm getUse(IStrategoTerm term) {
+	public static IStrategoTerm getUseOrDef(IStrategoTerm term) {
 		for(IStrategoTerm anno : term.getAnnotations()) {
 			if(isAppl(anno, "Use", 1))
 				return anno.getSubterm(0);
+			if(isAppl(anno, "Def", 1))
+				return anno;
 		}
 		return null;
 	}

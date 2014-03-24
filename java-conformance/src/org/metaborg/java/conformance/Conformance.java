@@ -44,6 +44,7 @@ import org.spoofax.interpreter.library.index.IIndex;
 import org.spoofax.interpreter.library.index.IndexEntry;
 import org.spoofax.interpreter.terms.IStrategoInt;
 import org.spoofax.interpreter.terms.IStrategoList;
+import org.spoofax.interpreter.terms.IStrategoString;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import com.google.common.collect.Iterables;
@@ -112,12 +113,15 @@ public class Conformance {
 		// Compare superclass name resolution
 		final Name jdtSuperClass = jdtType.getSuperclass();
 		final IStrategoTerm spxSuperClass = getSupertype(spxType);
-		compareNulls(jdtSuperClass, spxSuperClass, "Class superclass");
-		if(!containsNulls(jdtSuperClass, spxSuperClass)) {
-			final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtSuperClass.resolveBinding();
-			final Iterable<IStrategoTerm> spxTypeBinding = resolveRefType(spxSuperClass);
-			final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
-			logger.result(result, "Class extends type", jdtTypeBinding, spxTypeBinding);
+
+		if(!(jdtSuperClass == null && inheritsFromObject(spxSuperClass))) {
+			compareNulls(jdtSuperClass, spxSuperClass, "Class superclass");
+			if(!containsNulls(jdtSuperClass, spxSuperClass)) {
+				final ITypeBinding jdtTypeBinding = (ITypeBinding) jdtSuperClass.resolveBinding();
+				final Iterable<IStrategoTerm> spxTypeBinding = resolveRefType(spxSuperClass);
+				final boolean result = compareRefTypeBindings(jdtTypeBinding, spxTypeBinding);
+				logger.result(result, "Class extends type", jdtTypeBinding, spxTypeBinding);
+			}
 		}
 
 		// Compare implemented interface name resolution
@@ -528,51 +532,51 @@ public class Conformance {
 
 	private Iterable<IStrategoTerm> resolveNameBindings(IStrategoTerm name) {
 		if(isAppl(name, "DefaultPackageName", 1)) {
-			return resolveResults(getUse(name.getSubterm(0)));
+			return resolveResults(getUseOrDef(name.getSubterm(0)));
 		}
 		if(isAppl(name, "PackageName", 1)) {
-			return resolveResults(getUse(name.getSubterm(0)));
+			return resolveResults(getUseOrDef(name.getSubterm(0)));
 		}
 		if(isAppl(name, "PackageName", 2)) {
-			return resolveResults(getUse(name.getSubterm(1)));
+			return resolveResults(getUseOrDef(name.getSubterm(1)));
 		}
 
 		if(isAppl(name, "PackageOrTypeName", 1)) {
-			return resolveResults(getUse(name.getSubterm(0)));
+			return resolveResults(getUseOrDef(name.getSubterm(0)));
 		}
 		if(isAppl(name, "PackageOrTypeName", 2)) {
-			return resolveResults(getUse(name.getSubterm(1)));
+			return resolveResults(getUseOrDef(name.getSubterm(1)));
 		}
 
 		if(isAppl(name, "ExprName", 1)) {
-			return resolveResults(getUse(name.getSubterm(0)));
+			return resolveResults(getUseOrDef(name.getSubterm(0)));
 		}
 		if(isAppl(name, "ExprName", 2)) {
-			return resolveResults(getUse(name.getSubterm(1)));
+			return resolveResults(getUseOrDef(name.getSubterm(1)));
 		}
 
 		if(isAppl(name, "AmbName", 1)) {
-			return resolveResults(getUse(name.getSubterm(0)));
+			return resolveResults(getUseOrDef(name.getSubterm(0)));
 		}
 		if(isAppl(name, "AmbName", 2)) {
-			return resolveResults(getUse(name.getSubterm(1)));
+			return resolveResults(getUseOrDef(name.getSubterm(1)));
 		}
 
 		if(isAppl(name, "MethodName", 1)) {
-			return resolveResults(getUse(name.getSubterm(0)));
+			return resolveResults(getUseOrDef(name.getSubterm(0)));
 		}
 		if(isAppl(name, "MethodName", 2)) {
-			return resolveResults(getUse(name.getSubterm(1)));
+			return resolveResults(getUseOrDef(name.getSubterm(1)));
 		}
 
 		if(isAppl(name, "TypeName", 1)) {
-			return resolveResults(getUse(name.getSubterm(0)));
+			return resolveResults(getUseOrDef(name.getSubterm(0)));
 		}
 		if(isAppl(name, "TypeName", 2)) {
-			return resolveResults(getUse(name.getSubterm(1)));
+			return resolveResults(getUseOrDef(name.getSubterm(1)));
 		}
 
-		return resolveResults(getUse(name));
+		return resolveResults(getUseOrDef(name));
 	}
 
 
@@ -957,5 +961,19 @@ public class Conformance {
 		else
 			return ((IStrategoInt) varID).intValue() - 1; // Subtract one because Spoofax begins at 1, whereas JDT
 															// begins at 0.
+	}
+
+	private boolean inheritsFromObject(IStrategoTerm term) {
+		if(isAppl(term, "ClassType", 2)) {
+			final IStrategoTerm typeName = term.getSubterm(0);
+			if(isAppl(typeName, "TypeName", 1)) {
+				final IStrategoString name = (IStrategoString) typeName.getSubterm(0);
+				return name.stringValue().equals("Object");
+			} else if(isAppl(typeName, "TypeName", 2)) {
+				final IStrategoString name = (IStrategoString) typeName.getSubterm(1);
+				return name.stringValue().equals("Object");
+			}
+		}
+		return false;
 	}
 }
