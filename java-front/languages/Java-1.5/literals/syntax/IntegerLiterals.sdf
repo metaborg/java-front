@@ -15,9 +15,9 @@ exports
     OctaNumeral
 
   context-free syntax
-    DeciLiteral -> IntLiteral {cons("Deci")}
-    HexaLiteral -> IntLiteral {cons("Hexa")}
-    OctaLiteral -> IntLiteral {cons("Octa")}
+    DeciLiteral -> IntLiteral {cons("Deci"), prefer}
+    HexaLiteral -> IntLiteral {cons("Hexa"), prefer}
+    OctaLiteral -> IntLiteral {cons("Octa"), prefer}
 
   lexical syntax
     DeciNumeral [lL]? -> DeciLiteral
