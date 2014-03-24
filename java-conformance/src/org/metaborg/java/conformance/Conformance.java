@@ -268,7 +268,7 @@ public class Conformance {
 
 	public void testExpression(Expression jdtExpression, IStrategoTerm spxExpression) {
 		// Compare expression type
-		 // Cannot compare type of anonymous class instantiations, this is done in separate check
+		// Cannot compare type of anonymous class instantiations, this is done in separate check
 		if(!(jdtExpression instanceof ClassInstanceCreation)) {
 			final ITypeBinding jdtTypeBinding = jdtExpression.resolveTypeBinding();
 			final Iterable<IStrategoTerm> spxTypeBinding = resolveExpressionType(spxExpression);
@@ -326,7 +326,7 @@ public class Conformance {
 				final Iterable<IStrategoTerm> spxTypeBinding = resolveExpressionType(spxExpression);
 				final boolean typeResult = compareTypeBindings(jdtTypeBinding, spxTypeBinding);
 				logger.result(typeResult, "Constructor expression type", jdtTypeBinding, spxTypeBinding);
-				
+
 				final ITypeBinding jdtConsTypeBinding = jdtConsInvoke.getName().resolveTypeBinding();
 				final Iterable<IStrategoTerm> spxConsTypeBinding =
 					resolveExpressionType(getConsInvokeType(spxExpression));
@@ -572,7 +572,7 @@ public class Conformance {
 			return resolveResults(getUse(name.getSubterm(1)));
 		}
 
-		return null;
+		return resolveResults(getUse(name));
 	}
 
 
@@ -745,7 +745,8 @@ public class Conformance {
 			return false;
 		}
 
-		if(!compareQualifiedName(jdtType.getQualifiedName(), spxTypeURI)) {
+		// Cannot compare names of anonymous classes.
+		if(!jdtType.isAnonymous() && !compareQualifiedName(jdtType.getQualifiedName(), spxTypeURI)) {
 			logger.innerFailure("Ref type name", jdtType.getQualifiedName(), spxTypeURI);
 			return false;
 		}

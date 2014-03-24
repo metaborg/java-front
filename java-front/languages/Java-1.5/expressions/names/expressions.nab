@@ -38,15 +38,17 @@ binding rules // Method invocation
 
 	// TODO: apply filtering and disambiguation from above				
   Invoke(Method(e, _, m), _):
-    refers to Method m in Type t
-      where e has type t
+    refers to Method m in Type t'
+      where e has type RefType(t, _)
+        and t refers to Type t'
 
 	// TODO: apply filtering and disambiguation from above    
   Invoke(SuperMethod(_, m), _):
     refers to Method m
-      in Type t
+      in Type t'
       where "super" refers to ImplicitField super
-      	and super has type t
+      	and super has type RefType(t, _)
+      	and t refers to Type t'
 
 	// TODO: apply filtering and disambiguation from above      
   Invoke(QSuperMethod(t, _, m), _):

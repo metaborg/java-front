@@ -109,78 +109,78 @@ public class JavaTermProjections {
 		return block.getSubterm(0);
 	}
 
-	
+
 	public static IStrategoTerm getIfExpression(IStrategoTerm ifStmt) {
 		return ifStmt.getSubterm(0);
 	}
-	
+
 	public static IStrategoTerm getIfThenStatement(IStrategoTerm ifStmt) {
 		return ifStmt.getSubterm(1);
 	}
-	
+
 	public static IStrategoTerm getIfElseStatement(IStrategoTerm ifStmt) {
 		if(ifStmt.getSubtermCount() == 2)
 			return null;
 		return ifStmt.getSubterm(2);
 	}
-	
-	
+
+
 	public static IStrategoTerm getForInitializers(IStrategoTerm forStmt) {
 		return forStmt.getSubterm(0);
 	}
-	
+
 	public static IStrategoTerm getForCondition(IStrategoTerm forStmt) {
 		if(isAppl(forStmt.getSubterm(1), "None", 0))
 			return null;
 		return forStmt.getSubterm(1);
 	}
-	
+
 	public static IStrategoTerm getForUpdaters(IStrategoTerm forStmt) {
 		return forStmt.getSubterm(2);
 	}
-	
+
 	public static IStrategoTerm getForBody(IStrategoTerm forStmt) {
 		return forStmt.getSubterm(3);
 	}
-	
-	
+
+
 	public static IStrategoTerm getWhileCondition(IStrategoTerm whileStmt) {
 		return whileStmt.getSubterm(0);
 	}
-	
+
 	public static IStrategoTerm getWhileBody(IStrategoTerm whileStmt) {
 		return whileStmt.getSubterm(1);
 	}
-	
-	
+
+
 	public static IStrategoTerm getDoBody(IStrategoTerm doStmt) {
 		return doStmt.getSubterm(0);
 	}
-	
+
 	public static IStrategoTerm getDoCondition(IStrategoTerm doStmt) {
 		return doStmt.getSubterm(1);
 	}
-	
-	
+
+
 	public static IStrategoTerm getTryBody(IStrategoTerm tryStmt) {
 		return tryStmt.getSubterm(0);
 	}
-	
+
 	public static IStrategoTerm getTryCatches(IStrategoTerm tryStmt) {
 		return tryStmt.getSubterm(1);
-	}	
-	
+	}
+
 	public static IStrategoTerm getTryFinally(IStrategoTerm tryStmt) {
 		if(!isAppl(tryStmt, "Try", 3))
 			return null;
 		return tryStmt.getSubterm(2);
 	}
-	
-	
+
+
 	public static IStrategoTerm getCatchBody(IStrategoTerm catchStmt) {
 		return catchStmt.getSubterm(1);
 	}
-	
+
 
 	public static IStrategoTerm getParamType(IStrategoTerm param) {
 		return param.getSubterm(1);
@@ -225,14 +225,14 @@ public class JavaTermProjections {
 			return consInvoke.getSubterm(5);
 		return consInvoke.getSubterm(3);
 	}
-	
+
 	public static IStrategoTerm getConsInvokeAnonClassDeclBodyDecls(IStrategoTerm consInvoke) {
 		final IStrategoTerm body;
 		if(isAppl(consInvoke, "QNewInstance"))
 			body = consInvoke.getSubterm(6);
 		else
 			body = consInvoke.getSubterm(4);
-		
+
 		if(isAppl(body, "None", 0))
 			return null;
 		return body.getSubterm(0);
@@ -249,7 +249,16 @@ public class JavaTermProjections {
 
 
 	public static IStrategoTerm getMethodInvokeName(IStrategoTerm methodInvoke) {
-		return methodInvoke.getSubterm(0).getSubterm(0);
+		final IStrategoTerm method = methodInvoke.getSubterm(0);
+		if(isAppl(method, "Method", 1))
+			return method.getSubterm(0);
+		if(isAppl(method, "Method", 3))
+			return method.getSubterm(2);
+		if(isAppl(method, "SuperMethod", 2))
+			return method.getSubterm(1);
+		if(isAppl(method, "QSuperMethod", 3))
+			return method.getSubterm(2);
+		return null;
 	}
 
 	public static IStrategoTerm getMethodInvokeArgs(IStrategoTerm methodInvoke) {

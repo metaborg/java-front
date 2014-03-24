@@ -13,11 +13,15 @@ imports
 	
 type rules
 
-	NewInstance(_, _, t, _, _) : ty
+	NewInstance(_, _, t, _, None()) : ty
 	where t : ty
 	
-	QNewInstance(_, _, _, c, _, _, _) : ty
+	NewInstance(_, c, _, _, ClassBody(_)) : RefType(TypeName(c), None())
+	
+	QNewInstance(_, _, _, c, _, _, None()) : ty
 	where definition of c : ty
+	
+	QNewInstance(_, _, _, c, _, _, ClassBody(_)) : RefType(TypeName(c), None())
 	
 	InstanceOf(e, t) : Boolean()
 	where e : e-ty
