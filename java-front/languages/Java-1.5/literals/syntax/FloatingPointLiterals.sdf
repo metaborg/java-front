@@ -30,8 +30,8 @@ exports
     [0-9]+ -> DeciFloatLiteral {reject}
 
   lexical restrictions
-    DeciDoubleLiteral -/- [dD]
-    HexaDoubleLiteral -/- [dD]
+    DeciDoubleLiteral -/- [fFdD]
+    HexaDoubleLiteral -/- [fFdD]
 
   %%%
    %% Decimal Floating Point Numerals
