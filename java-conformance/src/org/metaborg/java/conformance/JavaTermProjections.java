@@ -99,7 +99,7 @@ public class JavaTermProjections {
 	}
 
 	public static IStrategoTerm getConstructorBody(IStrategoTerm constructor) {
-		return constructor.getSubterm(6).getSubterm(1);
+		return constructor.getSubterm(6).getSubterm(0);
 	}
 
 

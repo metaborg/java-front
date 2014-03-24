@@ -119,12 +119,25 @@ signature // Constructor
 	constructors
 	
 		ConstrDec : Access * List(ConstrMod) * TypeParams * Id * List(FormalParam) * Throws * ConstrBody -> ConstrDec
-	
+		ConstrBody : Statement -> ConstrBody
+		
 rules
 	
 	desugar:
 		ConstrDec(ConstrDecHead(modifier*, type-param*, name, param*, throws), body) -> 
-		ConstrDec(access, modifier'*, type-param*, name, param*, throws, body)
+		ConstrDec(access, modifier'*, type-param*, name, param*, throws, body')
 		with
 		  access     := <desugar-pick-access-modifier> modifier*
 		; modifier'* := <remove-all(?access)> modifier*
+		; body'      := <desugar-constructor-body> body
+		  
+  desugar-constructor-body:
+  	None() -> None()
+
+	desugar-constructor-body:
+		ConstrBody(None(), stmts) -> ConstrBody(stmts)
+		
+	desugar-constructor-body:
+		ConstrBody(inv, stmts) -> ConstrBody([inv|stmts])
+		where not(None() := inv)
+		
