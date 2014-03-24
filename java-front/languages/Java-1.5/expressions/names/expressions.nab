@@ -100,10 +100,13 @@ binding rules // Class instantiation
 	// TODO: disambiguation
   QNewInstance(e, _, c, itn, _, _, None()):
   	refers to Type itn
-  		in Type t
-  		where e has type t
-  	refers to Constructor c
-  	  in Type itn
+  		in Type t'
+  	  where e has type RefType(t, _)
+        and t refers to Type t'
+    refers to Constructor c
+  	  in Type itn in Type t'
+      where e has type RefType(t, _)
+        and t refers to Type t'
 
 	// TODO: disambiguation
   QNewInstance(e, _, c, itn, _, _, ClassBody(body)):
