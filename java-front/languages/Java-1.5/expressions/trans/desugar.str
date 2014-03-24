@@ -34,9 +34,9 @@ rules
 		NewArray(t, dim1*, dim2*) -> NewArray(t, [dim1*, dim2*])
 		
 	desugar:
-		NewInstance(type-param*,                type, expr*, body) -> 
-		NewInstance(type-param*, "constructor", type, expr*, body)
+		NewInstance(type-param*,       type, expr*, body) -> 
+		NewInstance(type-param*, type, type, expr*, body)
 		
 	desugar:
-		QNewInstance(expr, type-param1*,                name, type-param2*, expr*, body) -> 
-		QNewInstance(expr, type-param1*, "constructor", name, type-param2*, expr*, body)
+		QNewInstance(expr, type-param1*,       name, type-param2*, expr*, body) -> 
+		QNewInstance(expr, type-param1*, name, name, type-param2*, expr*, body)
