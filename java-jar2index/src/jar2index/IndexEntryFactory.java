@@ -3,6 +3,7 @@ package jar2index;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.objectweb.asm.Opcodes;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoInt;
 import org.spoofax.interpreter.terms.IStrategoList;
@@ -40,7 +41,7 @@ public class IndexEntryFactory extends TermConstruction {
 	}
 
 
-	public Iterable<IStrategoAppl> clazz(String name, String superName, String[] interfaces) {
+	public Iterable<IStrategoAppl> clazz(String name, String superName, String[] interfaces, int access) {
 		final Collection<IStrategoAppl> entries = new LinkedList<IStrategoAppl>();
 		final IStrategoTerm uri = classNameToEntries(name, entries);
 		final IStrategoTerm superURI = superName != null ? classNameToURI(superName) : null;
@@ -67,11 +68,17 @@ public class IndexEntryFactory extends TermConstruction {
 		entries.add(prop(uri, appl(TYPE_PROP), refType(uri)));
 
 		// Store kind property
-		entries.add(prop(uri, appl(KIND_PROP), appl("Class")));
+		if((access & Opcodes.ACC_INTERFACE) == Opcodes.ACC_INTERFACE)
+			entries.add(prop(uri, appl(KIND_PROP), appl("Interface")));
+		else
+			entries.add(prop(uri, appl(KIND_PROP), appl("Class")));
 
 		// Store modifiers property
 		entries.add(prop(uri, appl(ACCESS_PROP), appl("Public"))); // TODO: get access modifier
-		entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
+		if((access & Opcodes.ACC_INTERFACE) == Opcodes.ACC_INTERFACE)
+			entries.add(prop(uri, appl(CONTEXT_PROP), appl("Static")));
+		else
+			entries.add(prop(uri, appl(CONTEXT_PROP), appl("Instance"))); // TODO: get static/non-static
 		entries.add(prop(uri, appl(MODIFIERS_PROP), list()));
 
 		// Store type-parameters
@@ -168,7 +175,7 @@ public class IndexEntryFactory extends TermConstruction {
 		final char c = str.charAt(i);
 		switch (c) {
 			case 'Z':
-				return tuple(i(1), appl("Bool"));
+				return tuple(i(1), appl("Boolean"));
 			case 'C':
 				return tuple(i(1), appl("Char"));
 			case 'B':

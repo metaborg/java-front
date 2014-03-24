@@ -91,7 +91,7 @@ public class BytecodeReader {
 				methodId = 0;
 				fieldId = 0;
 				System.out.println(name);
-				for(IStrategoAppl entryTerm : factory.clazz(name, superName, interfaces)) {
+				for(IStrategoAppl entryTerm : factory.clazz(name, superName, interfaces, access)) {
 					entries.add(entryTerm);
 				}
 			}
