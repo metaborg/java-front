@@ -11,7 +11,9 @@ rules
     LocalVarDecStm(LocalVarDec(m*, t, vardec*)) -> <map(desugar-localvardec(|m*, t))> vardec*
     
   desugar-localvardec(|m*, t):
-    v -> LocalVarDec(m*, t, v)
+    v -> LocalVarDec(m*, t, <try(desugar-vardec-arrayinit(|t))> v)
     
-  desugar-localvardec(|m*, t):
-    v -> LocalVarDec(m*, t, v)
+  desugar-vardec-arrayinit(|type):
+  	VarDec(v, ArrayInit(init*)) -> VarDec(v, NewArrayInit(ty, [Dim()], ArrayInit(init*)))
+  	where
+  		ArrayType(ty) := type

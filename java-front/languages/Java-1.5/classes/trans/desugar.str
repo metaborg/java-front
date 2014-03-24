@@ -83,11 +83,17 @@ rules
     FieldDec(modifier*, type, vardec*) -> <map(desugar-fielddec(|modifier*, type))> vardec*
     
   desugar-fielddec(|modifier*, type):
-    var-dec -> FieldDec(access, context, modifier*, type, var-dec)
+    var-dec -> FieldDec(access, context, modifier*, type, var-dec')
     with
 		  access       := <desugar-pick-access-modifier> modifier*
 		; context      := <desugar-pick-context-modifier> modifier*
 		; modifier'*   := <remove-all(?access <+ ?context)> modifier*
+		; var-dec'     := <try(desugar-fielddec-arrayinit(|type))> var-dec
+		  
+  desugar-fielddec-arrayinit(|type):
+  	VarDec(v, ArrayInit(init*)) -> VarDec(v, NewArrayInit(ty, [Dim()], ArrayInit(init*)))
+  	where
+  	  ArrayType(ty) := type
 		  
 signature // Method
 
