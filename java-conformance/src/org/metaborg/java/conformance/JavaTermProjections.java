@@ -271,7 +271,7 @@ public class JavaTermProjections {
 		while(arrayType != null) {
 			if(isAppl(arrayType, "ArrayType", 1)) {
 				++dimension;
-				arrayType = getArrayTypeInnerType(arrayType);
+				arrayType = arrayType.getSubterm(0);
 			} else {
 				break;
 			}
@@ -280,7 +280,14 @@ public class JavaTermProjections {
 	}
 
 	public static IStrategoTerm getArrayTypeInnerType(IStrategoTerm arrayType) {
-		return arrayType.getSubterm(0);
+		while(arrayType != null) {
+			if(isAppl(arrayType, "ArrayType", 1)) {
+				arrayType = arrayType.getSubterm(0);
+			} else {
+				return arrayType;
+			}
+		}
+		return null;
 	}
 
 	public static IStrategoTerm getArrayInitializerExprs(IStrategoTerm arrayInit) {
