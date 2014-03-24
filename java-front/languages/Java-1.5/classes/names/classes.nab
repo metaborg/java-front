@@ -11,7 +11,8 @@ imports
   
   include/Java
   languages/Java-1.5/classes/trans/desugar
-	languages/Java-1.5/types/names/types
+  languages/Java-1.5/classes/trans/class-scope
+  languages/Java-1.5/types/names/types
 	languages/Java-1.5/types/types/references.generated
   types
   varids
@@ -59,7 +60,7 @@ binding rules // Types
       of type RefType(TypeName(c), None())
     implicitly defines ImplicitField "this" 
     	of type RefType(TypeName(c), None())
-    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
+    scopes TypeParam, Field, ImplicitField, Method, Constructor
     
   ClassDec(acc, ctx, mod*, c, tp*, SuperDec(sc), _, body):
     defines Type c
@@ -78,7 +79,7 @@ binding rules // Types
     implicitly defines ImplicitField "super" 
     	of type st
     	where sc has type st
-    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
+    scopes TypeParam, Field, ImplicitField, Method, Constructor
 
   ImplementsDec(_, it):
     imports

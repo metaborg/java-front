@@ -1,0 +1,25 @@
+module languages/Java-1.5/classes/trans/class-scope
+
+imports
+
+  lib/nabl/-
+  lib/task/-
+  lib/properties/-
+  lib/relations/-
+  lib/types/-
+  lib/editor/-
+  
+  include/Java
+  languages/Java-1.5/classes/trans/desugar
+  languages/Java-1.5/classes/names/classes
+  languages/Java-1.5/types/names/types
+  languages/Java-1.5/types/types/references.generated
+  types
+  varids
+
+rules
+  
+  nabl-new-scoping-site =
+    ?ClassDec(_, _, _, c, _, _, _ , _)
+  ; ClassDec(id, id, id, id, id, id, id, add-annotation(|FixedScope(NablNsType(), <nabl-get-name; nabl-collect-def; nabl-uri> c)))
+     
