@@ -40,20 +40,30 @@ relations // Reference type kinds
 	ArrayType(_)  <is: Reference()
 	Null()        <is: Reference()
 
-	RefType(c, _) <is: Class()
+	RefType(TypeName(c), _)   <is: Class()
+	where definition of c has kind Class()
+	RefType(TypeName(_, c), _) <is: Class()
 	where definition of c has kind Class()
 		
-	RefType(c, _) <is: Interface()
+	RefType(TypeName(c), _)   <is: Interface()
+	where definition of c has kind Interface()
+	RefType(TypeName(_, c), _) <is: Interface()
 	where definition of c has kind Interface()
 
 	ArrayType(_)  <is: Array()
 	
-	RefType(c, _) <is: Final()
+	RefType(TypeName(c), _)    <is: Final()
+	where c has modifiers Final()
+	RefType(TypeName(_, c), _) <is: Final()
 	where c has modifiers Final()
 	
 relations // Built in type kinds
 
-	RefType("Object", _)       <is: Object()
-	RefType("Cloneable", _)    <is: Cloneable()
-	RefType("Serializable", _) <is: Serializable()
-	RefType("String", _)       <is: String()
+	RefType(TypeName("Object"), _)          <is: Object()
+	RefType(TypeName(_, "Object"), _)       <is: Object()
+	RefType(TypeName("Cloneable"), _)       <is: Cloneable()
+	RefType(TypeName(_, "Cloneable"), _)    <is: Cloneable()
+	RefType(TypeName("Serializable"), _)    <is: Serializable()
+	RefType(TypeName(_, "Serializable"), _) <is: Serializable()
+	RefType(TypeName("String"), _)          <is: String()
+	RefType(TypeName(_, "String"), _)       <is: String()
