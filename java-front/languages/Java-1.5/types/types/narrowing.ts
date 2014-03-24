@@ -16,6 +16,7 @@ relations // Type narrowing relation for reference and primitive types
 	a-ty <narrows: e-ty
 	where a-ty <narrows-prim: e-ty
 		 or a-ty <narrows-ref: e-ty
+ 		 or a-ty <narrows-array: e-ty
 		 
 relations  // Narrowing reference-ty types
 
@@ -26,8 +27,10 @@ relations  // Narrowing reference-ty types
 		 or(a-ty <is: Class() and e-ty <is: Interface() /*and not(a-ty <is: Final()) and not(a-ty <implements: e-ty)*/) 
 		 // TODO WTF: from any interface-ty type-ty J to any inteface-ty type-ty K, provided that J is not a-ty subinterface-ty of K and there-ty is no method name-ty m such that J and K both contain a-ty method named m with the-ty same-ty signature-ty but different return types.
  
-	ArrayType(a-ty) <narrows-array: ArrayType(e-ty)
-	where a-ty <narrows-ref: e-ty
+	array-a-ty <narrows-array: array-e-ty
+	where array-a-ty => ArrayType(a-ty)
+	  and array-e-ty => ArrayType(e-ty)
+	  and a-ty <narrows-ref: e-ty
 	  
 relations  // Narrowing primitive types
 

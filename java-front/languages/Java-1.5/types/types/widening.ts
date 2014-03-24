@@ -15,6 +15,7 @@ relations
   a-ty <widens: e-ty
   where a-ty <widens-prim: e-ty
      or a-ty <widens-ref: e-ty
+     or a-ty <widens-array: e-ty
 
 	a-ty <widens-ref: e-ty
 	where a-ty == Null()
@@ -22,10 +23,11 @@ relations
      or (a-ty <is: Array() and e-ty <is: Object())
      or (a-ty <is: Array() and e-ty <is: Cloneable())
      or (a-ty <is: Array() and e-ty <is: Serializable())
-     or a-ty <widens-array: e-ty
  
-	ArrayType(a-ty) <widens-array: ArrayType(e-ty)
-	where a-ty <widens-ref: e-ty
+	array-a-ty <widens-array: array-e-ty
+	where array-a-ty => ArrayType(a-ty)
+	  and array-e-ty => ArrayType(e-ty)
+	  and a-ty <widens-ref: e-ty
 
   Byte()   <widens-prim: Short()
   Byte()   <widens-prim: Int()
