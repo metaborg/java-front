@@ -851,9 +851,9 @@ public class Conformance {
 		}
 
 		if(jdtMethodName.isConstructor()) {
-			if(!uriName(spxMethodNameURI).equals("constructor")) {
+			if(!uriNamespace(spxMethodNameURI).equals(appl("NablNsConstructor"))) {
 				logger.innerFailure("Constructorness", jdtMethodName.isConstructor(),
-					uriName(spxMethodNameURI).equals("constructor"));
+					uriNamespace(spxMethodNameURI).equals(appl("NablNsConstructor")));
 				return false;
 			}
 		} else {
