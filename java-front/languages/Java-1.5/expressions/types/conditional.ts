@@ -23,7 +23,7 @@ relations
 	
 type rules
 	
-	c@Cond(c, x, y) : ty
+	term@Cond(c, x, y) : ty
 	where c : c-ty
 	  and c-ty == Boolean() else error "Expected boolean" on c
 	  and x : x-ty
@@ -47,4 +47,4 @@ type rules
 		  or ((x-ty <is: Reference() and y-ty == Null()) and x-ty => ty)
 		  or ((x-ty == Null() and y-ty <is: Reference()) and y-ty => ty)
 		  or (x-ty <is: Reference() and y-ty <is: Reference() and x-ty <assign-conv: y-ty and y-ty => ty)
-	  ) else error "Type mismatch between expressions" on c
+	  ) else error "Type mismatch between expressions" on term
