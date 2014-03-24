@@ -771,13 +771,15 @@ public class Conformance {
 		} else {
 			final int jdtVarID = jdtVarName.getVariableId();
 			final int spxVarID = getIndexVarID(spxVarNameURI);
-			final boolean varIDResult = jdtVarID != spxVarID;
+			final boolean varIDResult = jdtVarID == spxVarID;
 			logger.innerResult(varIDResult, "Variable ID", jdtVarID, spxVarID);
 			if(!varIDResult)
 				return false;
 
 			final IMethodBinding jdtMethod = jdtVarName.getDeclaringMethod();
-			final IStrategoTerm spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsMethod"));
+			IStrategoTerm spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsMethod"));
+			if(spxMethodURI == null)
+				spxMethodURI = uriParentUntilNs(spxVarNameURI, appl("NablNsConstructor"));
 			final boolean result = compareMethodNameURI(jdtMethod, spxMethodURI);
 			logger.innerResult(result, "Var def type", jdtMethod, spxMethodURI);
 			return result;
@@ -807,9 +809,18 @@ public class Conformance {
 			logger.innerFailure("Method name kind", jdtMethodName.getKind(), uriNamespace(spxMethodNameURI));
 			return false;
 		}
-		if(!jdtMethodName.getName().equals(uriName(spxMethodNameURI))) {
-			logger.innerFailure("Method name", jdtMethodName.getName(), uriName(spxMethodNameURI));
-			return false;
+		
+		if(jdtMethodName.isConstructor()) {
+			if(!uriName(spxMethodNameURI).equals("constructor")) {
+				logger.innerFailure("Constructorness", jdtMethodName.isConstructor(),
+					uriName(spxMethodNameURI).equals("constructor"));
+				return false;
+			}
+		} else {
+			if(!jdtMethodName.getName().equals(uriName(spxMethodNameURI))) {
+				logger.innerFailure("Method name", jdtMethodName.getName(), uriName(spxMethodNameURI));
+				return false;
+			}
 		}
 
 		final ITypeBinding jdtType = jdtMethodName.getDeclaringClass();
@@ -833,7 +844,7 @@ public class Conformance {
 				result = isAppl(namespace, "NablNsVariable") || isAppl(namespace, "NablNsField");
 				break;
 			case IBinding.METHOD:
-				result = isAppl(namespace, "NablNsMethod");
+				result = isAppl(namespace, "NablNsMethod") || isAppl(namespace, "NablNsConstructor");
 				break;
 		}
 		logger.innerResult(result, "Kind", kind, namespace);

@@ -89,7 +89,10 @@ public class TermTools {
 	}
 
 	public static IStrategoTerm uriHeadSegment(IStrategoTerm uri) {
-		return uriSegments(uri).getSubterm(0);
+		final IStrategoList segments = uriSegments(uri);
+		if(segments.getSubtermCount() == 0)
+			return null;
+		return segments.getSubterm(0);
 	}
 
 	public static IStrategoAppl segmentNamespace(IStrategoTerm segment) {
@@ -101,7 +104,10 @@ public class TermTools {
 	}
 
 	public static IStrategoTerm uriNamespace(IStrategoTerm uri) {
-		return uriHeadSegment(uri).getSubterm(0);
+		final IStrategoTerm headSegment =uriHeadSegment(uri);
+		if(headSegment == null)
+			return null;
+		return headSegment.getSubterm(0);
 	}
 
 	public static String uriName(IStrategoTerm uri) {

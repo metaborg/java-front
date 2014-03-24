@@ -96,6 +96,9 @@ public class ResultLogger {
 
 		++numInnerChecks;
 		++numInnerFailure;
+		
+		if(throwOnFailure)
+			throw new RuntimeException();
 	}
 
 
