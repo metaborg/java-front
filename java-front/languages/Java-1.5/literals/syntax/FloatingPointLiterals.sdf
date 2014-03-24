@@ -11,12 +11,18 @@ exports
     HexaFloatLiteral      
   
   context-free syntax
-    DeciFloatLiteral -> FloatLiteral {cons("Float")}
-    HexaFloatLiteral -> FloatLiteral {cons("Float")}
+    DeciFloatLiteral  -> FloatLiteral {cons("Float")}
+    HexaFloatLiteral  -> FloatLiteral {cons("Float")}
+    DeciDoubleLiteral -> FloatLiteral {cons("Double")}
+    HexaDoubleLiteral -> FloatLiteral {cons("Double")}
 
   lexical syntax
-    DeciFloatNumeral [fFdD]? -> DeciFloatLiteral
-    HexaFloatNumeral [fFdD]? -> HexaFloatLiteral
+    
+    DeciFloatNumeral [fF]  -> DeciFloatLiteral
+    HexaFloatNumeral [fF]  -> HexaFloatLiteral
+    
+    DeciFloatNumeral [dD]? -> DeciDoubleLiteral
+    HexaFloatNumeral [dD]? -> HexaDoubleLiteral
     
     %% Reject plain integer literals as decimal float literals.
     %% A similar rejection for hexadecimal float literals is not
@@ -24,8 +30,8 @@ exports
     [0-9]+ -> DeciFloatLiteral {reject}
 
   lexical restrictions
-    DeciFloatLiteral -/- [fFdD]
-    HexaFloatLiteral -/- [fFdD]
+    DeciDoubleLiteral -/- [dD]
+    HexaDoubleLiteral -/- [dD]
 
   %%%
    %% Decimal Floating Point Numerals
