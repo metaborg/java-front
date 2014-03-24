@@ -123,7 +123,7 @@ binding rules // Methods
       where p* has type pt*
       and t has type t'
     // imports Field from enclosing Type into body
-    scopes Variable, Label
+    scopes Variable, Label, Type
     
   Param(mod*, t, p, i):
     defines Variable p
@@ -153,7 +153,7 @@ binding rules // Constructors
       of type t
       where p* has type pt*
       and c refers to Type t
-    scopes Variable
+    scopes Variable, Type
 
 
 binding rules // Enums
