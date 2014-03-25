@@ -32,6 +32,7 @@ properties
   access          of Type        : Access
   context         of Type        : Context
   modifiers       of Type        : List(ClassMod)
+  super           of Type        : ClassType
   access          of Field       : Access
   context         of Field       : Context
   modifiers       of Field       : List(FieldMod)
@@ -68,6 +69,7 @@ binding rules // Types
       of context ctx
       of modifiers mod*
       of type-parameters tp*
+      of super sc
       of kind Class()
       of type RefType(TypeName(c), None())
     imports

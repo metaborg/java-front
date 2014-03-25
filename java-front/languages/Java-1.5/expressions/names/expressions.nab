@@ -65,7 +65,9 @@ binding rules // Field access
   	    
   QSuperField(t, f):
   	refers to Field f
-  	  in Type t
+  	  in Type st
+  	  where t refers to Type t'
+  	    and t' has super st
   	  
   // SuperField(f):
   // 	refers to Field f
