@@ -33,3 +33,6 @@ type rules
 	
 	Field(_, f) : ty
 	where definition of f : ty
+	
+	QSuperField(_, f) : ty
+	where definition of f : ty

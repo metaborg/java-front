@@ -62,6 +62,10 @@ binding rules // Field access
   	  in Type t'
   	  where e has type RefType(t, _)
   	    and t refers to Type t'
+  	    
+  QSuperField(t, f):
+  	refers to Field f
+  	  in Type t
   	  
   // SuperField(f):
   // 	refers to Field f
