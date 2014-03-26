@@ -14,12 +14,14 @@ Each directory contains specifications for a section of the Java language:
 * statements - All statements
 * types - Primitive and reference types, widening and narrowing of these types, numerical promotions, and other kinds of conversions between types
 
-In each directory, there are 4 possible subdirectories:
+In each directory, there are 4 possible subdirectories which contain an aspect of the static semantics:
 
 * syntax - Syntax definitions in SDF2
 * trans - Transformation definitions in Stratego
 * names - Name binding definitions in NaBL
 * types - Type system definitions in TS
+
+The conformance test against the JDT is located at: [../../../java-conformance](../../../java-conformance).
 
 Note that the name of this directory, Java-1.5, only indicates that the syntax is of Java 5.
 Our name and type specification does __not__ support the following features from Java 5 yet:
