@@ -67,7 +67,8 @@ binding rules // Field access
   	refers to Field f
   	  in Type st
   	  where t refers to Type t'
-  	    and t' has super st
+  	    and definition of t => d
+  	    and d has super st
   	  
   // SuperField(f):
   // 	refers to Field f
