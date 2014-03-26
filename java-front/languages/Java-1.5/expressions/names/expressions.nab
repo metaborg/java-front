@@ -64,10 +64,10 @@ binding rules // Field access
   	    and t refers to Type t'
   	    
   QSuperField(t, f):
+  	refers to Type t
   	refers to Field f
   	  in Type st
-  	  where t refers to Type t'
-  	    and definition of t => d
+  	  where definition of t => d
   	    and d has super st
   	  
   // SuperField(f):
