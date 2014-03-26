@@ -32,7 +32,7 @@ properties
   access          of Type        : Access
   context         of Type        : Context
   modifiers       of Type        : List(ClassMod)
-  super           of Type        : ClassType
+  super           of Type        : Type
   access          of Field       : Access
   context         of Field       : Context
   modifiers       of Field       : List(FieldMod)
@@ -69,8 +69,8 @@ binding rules // Types
       of context ctx
       of modifiers mod*
       of type-parameters tp*
-      of super sc
       of kind Class()
+      of super st
       of type RefType(TypeName(c), None())
     imports
       Field, imported Field, 
@@ -91,29 +91,26 @@ binding rules // Types
   
 binding rules // Fields
 
-	// TODO: fields are subsequently scoped, but only inside the class.
   FieldDec(acc, ctx, mod*, t, VarDec(f)):
     defines Field f 
       of access acc
       of context ctx
       of modifiers mod*
       of type t'
+      in subsequent scope
       where t has type t'
-      // in subsequent scope
   
-  // TODO: fields are subsequently scoped, but only inside the class.
   FieldDec(acc, ctx, mod*, t, VarDec(f, _)):
     defines Field f 
       of access acc
       of context ctx
       of modifiers mod*
       of type t'
+      in subsequent scope 
       where t has type t'
-      // in subsequent scope 
       
 binding rules // Methods
 
-	// TODO: imports fields into body
   MethodDec(acc, ctx, mod*, tp*, t, m, p*, th, body):
     defines Method m
       of access acc
@@ -125,7 +122,8 @@ binding rules // Methods
       of throws th
       where p* has type pt*
       and t has type t'
-    // imports Field from enclosing Type into body
+    imports Field from Type ct into body
+    where enclosing Type of current Method scope => ct
     scopes Variable, Label, Type
     
   Param(mod*, t, p, i):
@@ -144,7 +142,6 @@ binding rules // Methods
       
 binding rules // Constructors
 
-  // TODO: implicitly define: this, super. These have a different meaning than the class ones.
   ConstrDec(acc, mod*, tp*, c, p*, th, body):
     defines Constructor c
       of access acc
@@ -156,8 +153,9 @@ binding rules // Constructors
       of type t
       where p* has type pt*
       and c refers to Type t
+    imports Field from Type ct into body
+    where enclosing Type of current Constructor scope => ct
     scopes Variable, Type
-
 
 binding rules // Enums
 

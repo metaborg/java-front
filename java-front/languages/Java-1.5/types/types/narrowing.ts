@@ -23,8 +23,8 @@ relations  // Narrowing reference-ty types
 	a-ty <narrows-ref: e-ty
 	where e-ty <widens-ref: a-ty // Apply widening on references the-ty other way around.
 		 or a-ty <is: Object()
-		 or(a-ty <is: Interface() and e-ty <is: Class() /*and not(e-ty <is: Final())*/)
-		 or(a-ty <is: Class() and e-ty <is: Interface() /*and not(a-ty <is: Final()) and not(a-ty <implements: e-ty)*/) 
+		 or(a-ty <is: Interface() and e-ty <is: Class() and not(e-ty <is: Final()))
+		 or(a-ty <is: Class() and e-ty <is: Interface() and not(a-ty <is: Final()) and not(a-ty <implements: e-ty)) 
 		 // TODO WTF: from any interface-ty type-ty J to any inteface-ty type-ty K, provided that J is not a-ty subinterface-ty of K and there-ty is no method name-ty m such that J and K both contain a-ty method named m with the-ty same-ty signature-ty but different return types.
  
 	array-a-ty <narrows-array: array-e-ty

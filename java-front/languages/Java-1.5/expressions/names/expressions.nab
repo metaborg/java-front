@@ -25,24 +25,27 @@ binding rules // Method invocation
 	     and m has parameter-types pt*
 	     and enclosing Type of Method m => mt
 	     and enclosing Package of Method m => mp
+	     and at* <widens: pt*
 	     and  
 	       ( acc == Public()
 	      or acc == Private()   and mt == ct
 	      or acc == Default()   and mp == cp
 	      or acc == Protected() and mp == cp 
 	      or acc == Protected() and ct <extends: mt )
-	    by minimal distance at* <widens: pt* 
+	      
+	    by minimal pt* <widens:
+	    	
 	    where enclosing Type of current Method scope => ct
 	      and enclosing Package of current Method scope => cp      
 	      and a* has type at*
 
-	// TODO: apply filtering and disambiguation from above				
+	// TODO: apply filtering and disambiguation from above without copying
   Invoke(Method(e, _, m), _):
     refers to Method m in Type t'
       where e has type RefType(t, _)
         and t refers to Type t'
 
-	// TODO: apply filtering and disambiguation from above    
+	// TODO: apply filtering and disambiguation from above without copying
   Invoke(SuperMethod(_, m), _):
     refers to Method m
       in Type t'
@@ -50,10 +53,14 @@ binding rules // Method invocation
       	and super has type RefType(t, _)
       	and t refers to Type t'
 
-	// TODO: apply filtering and disambiguation from above      
+	// TODO: apply filtering and disambiguation from above without copying    
   Invoke(QSuperMethod(t, _, m), _):
+  	refers to Type t
     refers to Method m
-      in Type t
+  	  in Type st'
+  	  where definition of t => d
+  	    and d has super st
+  	    and st refers to Type st'
 
 binding rules // Field access
 
@@ -66,25 +73,26 @@ binding rules // Field access
   QSuperField(t, f):
   	refers to Type t
   	refers to Field f
-  	  in Type st
+  	  in Type st'
   	  where definition of t => d
   	    and d has super st
+  	    and st refers to Type st'
   	  
-  // SuperField(f):
-  // 	refers to Field f
-  // 		in Type t
-  // 		where s refers to ImplicitField "super"
-  // 		  and s has type RefType(t, _)
-  // 		  and t refers to Type t'
+  SuperField(f):
+  	refers to Field f
+  		in Type t
+  		where "super" refers to ImplicitField s
+  		  and s has type RefType(t, _)
+  		  and t refers to Type t'
   	  
 binding rules // Class instantiation
 
-	// TODO: disambiguation
+	// TODO: apply filtering and disambiguation from above without copying
   NewInstance(_, c, t, _, None()):
     refers to Constructor c
       in Type t
       
-  // TODO: disambiguation   
+  // TODO: apply filtering and disambiguation from above without copying
   NewInstance(_, c, t, _, ClassBody(body)):
     defines Type c
       of access Public()
@@ -104,7 +112,7 @@ binding rules // Class instantiation
     	where t has type st
     scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
 
-	// TODO: disambiguation
+	// TODO: apply filtering and disambiguation from above without copying
   QNewInstance(e, _, c, itn, _, _, None()):
   	refers to Type itn
   		in Type t'
@@ -115,7 +123,7 @@ binding rules // Class instantiation
       where e has type RefType(t, _)
         and t refers to Type t'
 
-	// TODO: disambiguation
+	// TODO: apply filtering and disambiguation from above without copying
   QNewInstance(e, _, c, itn, _, _, ClassBody(body)):
   	refers to Type itn
   		in Type t

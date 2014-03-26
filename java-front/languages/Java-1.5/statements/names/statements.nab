@@ -52,7 +52,6 @@ binding rules // Control flow
   If(_, _):
     scopes Variable
     
-  // TODO: incorrect scoping, if and else parts need their own scope.
   If(_, _, _):
     scopes Variable
   	
