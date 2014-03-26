@@ -2,6 +2,14 @@
 Java-front for Stratego/XT 
 --------------------------------------------------------------------------
 
+2014-03-27 - Java-front 1.0 (beta)
+
+  Major update of Java-front:
+  
+  * Converted to a Spoofax project
+  * Declarative name binding specification in NaBL
+  * Declarative type analysis specification in TS
+
 2009-07-09 - Java-front 0.9
 
   This is a minor update of Java-front, a package that provides
