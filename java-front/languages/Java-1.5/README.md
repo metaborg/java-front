@@ -1,4 +1,5 @@
-Declarative specification of Java's static semantics in SDF, Stratego, NaBL and TS.
+Declarative specification of Java's static semantics.
+Syntax is specified in SDF, AST transformations in Stratego, name binding in NaBL, and type analysis in TS.
 
 Each directory contains specifications for a section of the Java language:
 
@@ -18,7 +19,7 @@ In each directory, there are 4 possible subdirectories:
 * syntax - Syntax definitions in SDF2
 * trans - Transformation definitions in Stratego
 * names - Name binding definitions in NaBL
-* types - Type system definitions in TS. 
+* types - Type system definitions in TS
 
 Note that the name of this directory, Java-1.5, only indicates that the syntax is of Java 5.
 Our name and type specification does __not__ support the following features from Java 5 yet:
