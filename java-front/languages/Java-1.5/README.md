@@ -21,7 +21,9 @@ In each directory, there are 4 possible subdirectories which contain an aspect o
 * names - Name binding definitions in NaBL
 * types - Type system definitions in TS
 
-The conformance test against the JDT is located at: [../../../java-conformance](../../../java-conformance).
+The conformance test against the JDT is located at: [../../../java-conformance](java-conformance).
+The JAR to index converter is located at: [../../../java-jar2index](jar2index).
+The full specification can be found in PDF format at: [https://github.com/metaborg/java-front/releases/download/java-3-spec-1.0/fullspec.pdf](fullspec.pdf).
 
 Note that the name of this directory, Java-1.5, only indicates that the syntax is of Java 5.
 Our name and type specification does __not__ support the following features from Java 5 yet:
