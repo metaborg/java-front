@@ -11,14 +11,14 @@ signature
 
 	constructors
 		
-		CompilationUnit    : ID * List(ImportDec) * Package -> CompilationUnit
-		DefaultPackageDec  : ID * Package -> PackageDec
-		PackageDec         : ID * Package -> PackageDec
+		CompilationUnit    : ID * List(ImportDec) * PackageDec -> CompilationUnit
+		DefaultPackageDec  : ID * PackageDec -> PackageDec
+		PackageDec         : ID * PackageDec -> PackageDec
 		PackageDec         : List(Anno) * ID * List(TypeDec) -> PackageDec
 		DefaultPackageName : ID -> PackageName
 		PackageName        : ID -> PackageName
 		PackageName        : ID * PackageName -> PackageName
-		Default            : Default
+		Default            : ID
 	
 rules
 	

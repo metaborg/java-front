@@ -119,7 +119,7 @@ signature // Constructor
 	constructors
 	
 		ConstrDec : Access * List(ConstrMod) * TypeParams * Id * List(FormalParam) * Throws * ConstrBody -> ConstrDec
-		ConstrBody : Statement -> ConstrBody
+		ConstrBody : List(BlockStm) -> ConstrBody
 		
 rules
 	
