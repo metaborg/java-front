@@ -193,7 +193,7 @@ signature constructors
     AssertStm               : Expr -> Stm
     If                      : Expr * Stm * Stm -> Stm
     If                      : Expr * Stm -> Stm
-    ExprStm                 : Expr -> Stm
+    // ExprStm                 : Expr -> Stm
     Labeled                 : ID * Stm -> Stm
     Empty                   : Stm
                             : Block -> Stm
@@ -411,10 +411,15 @@ signature constructors
 		PackageName        : ID -> PackageName
 		PackageName        : PackageName * ID -> PackageName
 		Default            : ID
+		
+		: PackageName -> PackageOrTypeName // Allow packages names in PackageOrTypeNames
 
 
-		// LocalVarDecStm is desugared away
+		// LocalVarDecStm constructor is desugared away
 		: LocalVarDec -> BlockStm
+		
+		// ExprStm constructor is desugared away
+		: Expr -> Stm
 
 
 		// Variable numbers, TODO: port signature back into desugaring
