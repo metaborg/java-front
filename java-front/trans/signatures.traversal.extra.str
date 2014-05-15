@@ -1,0 +1,12 @@
+module signatures.traversal.extra
+
+imports
+	
+	signatures
+	signatures.traversal
+	lib/nabl/utils
+	
+rules
+	
+	spectrav-debug(|msg) = debug(|msg)
+	

@@ -10,7 +10,7 @@ signature
 		
 		NewArray : Type * List(Dim) -> Expr
 		
-		NewInstance : TypeArgs * Id * ClassOrInterfaceType * List(Expr) * ClassBody -> NewInstance
+		NewInstance : TypeArgs * ClassOrInterfaceType * ClassOrInterfaceType * List(Expr) * ClassBody -> NewInstance
 		QNewInstance : Expr * TypeArgs * Id * Id * TypeArgs * List(Expr) * ClassBody -> QNewInstance
 	
 rules

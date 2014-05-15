@@ -35,7 +35,7 @@ signature constructors
                             : InterfaceDec -> TypeDec
                             : ClassDec -> TypeDec
     StaticImportOnDemandDec : TypeName -> ImportDec
-    StaticImportDec         : TypeName * Id -> ImportDec
+    StaticImportDec         : TypeName * ID -> ImportDec
     TypeImportOnDemandDec   : PackageName -> ImportDec
     TypeImportDec           : TypeName -> ImportDec
     // PackageDec              : List(Anno) * PackageName -> PackageDec
@@ -56,17 +56,17 @@ signature constructors
                             : IntType -> NumType
     Boolean                 : PrimType
                             : NumType -> PrimType
-    GenericMethod           : AmbName * TypeArgs * Id -> MethodSpec
-    QSuperMethod            : TypeName * OptTypeArgs0 * Id -> MethodSpec
-    SuperMethod             : OptTypeArgs0 * Id -> MethodSpec
-    Method                  : Expr * OptTypeArgs0 * Id -> MethodSpec
+    GenericMethod           : AmbName * TypeArgs * ID -> MethodSpec
+    QSuperMethod            : TypeName * OptTypeArgs0 * ID -> MethodSpec
+    SuperMethod             : OptTypeArgs0 * ID -> MethodSpec
+    Method                  : Expr * OptTypeArgs0 * ID -> MethodSpec
     Method                  : MethodName -> MethodSpec
     MethodArgs              : List(Expr) -> MethodArgs
                             : Expr -> ArraySubscript
     ArrayAccess             : Expr * ArraySubscript -> ArrayAccess
-    QSuperField             : TypeName * Id -> FieldAccess
-    SuperField              : Id -> FieldAccess
-    Field                   : Expr * Id -> FieldAccess
+    QSuperField             : TypeName * ID -> FieldAccess
+    SuperField              : ID -> FieldAccess
+    Field                   : Expr * ID -> FieldAccess
     Dim                     : Expr -> DimExpr
     UnboundWld              : TypeName -> ArrayBaseType
                             : TypeName -> ArrayBaseType
@@ -91,7 +91,7 @@ signature constructors
                             : Protected -> ClassMod
                             : Public -> ClassMod
                             : Abstract -> ClassMod
-    // ClassDecHead            : List(Anno_ClassMod0) * Id * Option(TypeParams) * Option(Super) * Option(Interfaces) -> ClassDecHead
+    // ClassDecHead            : List(Anno_ClassMod0) * ID * Option(TypeParams) * Option(Super) * Option(Interfaces) -> ClassDecHead
     ClassBody               : List(ClassBodyDec) -> ClassBody
     // ClassDec                : ClassDecHead * ClassBody -> ClassDec
                             : EnumDec -> ClassDec
@@ -107,7 +107,7 @@ signature constructors
                             : AbstractMethodDec -> InterfaceMemberDec
                             : ConstantDec -> InterfaceMemberDec
     // ExtendsInterfaces       : List(InterfaceType) -> ExtendsInterfaces
-    // InterfaceDecHead        : List(Anno_InterfaceMod0) * Id * Option(TypeParams) * Option(ExtendsInterfaces) -> InterfaceDecHead
+    // InterfaceDecHead        : List(Anno_InterfaceMod0) * ID * Option(TypeParams) * Option(ExtendsInterfaces) -> InterfaceDecHead
     // InterfaceDec            : InterfaceDecHead * List(InterfaceMemberDec) -> InterfaceDec
                             : AnnoDec -> InterfaceDec
     DefaultVal              : ElemVal -> DefaultVal
@@ -117,22 +117,22 @@ signature constructors
                             : InterfaceDec -> AnnoElemDec
                             : ClassDec -> AnnoElemDec
                             : ConstantDec -> AnnoElemDec
-    AnnoMethodDec           : List(AbstractMethodMod) * Type * Id * Option(DefaultVal) -> AnnoElemDec
-    AnnoDecHead             : List(Anno_InterfaceMod0) * Id -> AnnoDecHead
+    AnnoMethodDec           : List(AbstractMethodMod) * Type * ID * Option(DefaultVal) -> AnnoElemDec
+    AnnoDecHead             : List(Anno_InterfaceMod0) * ID -> AnnoDecHead
     AnnoDec                 : AnnoDecHead * List(AnnoElemDec) -> AnnoDec
                             : Abstract -> AbstractMethodMod
                             : Public -> AbstractMethodMod
-    DeprAbstractMethodDec   : List(Anno_AbstractMethodMod0) * Option(TypeParams) * ResultType * Id * MethodParams * List(Dim) * Option(Throws) -> AbstractMethodDec
-    AbstractMethodDec       : List(Anno_AbstractMethodMod0) * Option(TypeParams) * ResultType * Id * MethodParams * Option(Throws) -> AbstractMethodDec
+    DeprAbstractMethodDec   : List(Anno_AbstractMethodMod0) * Option(TypeParams) * ResultType * ID * MethodParams * List(Dim) * Option(Throws) -> AbstractMethodDec
+    AbstractMethodDec       : List(Anno_AbstractMethodMod0) * Option(TypeParams) * ResultType * ID * MethodParams * Option(Throws) -> AbstractMethodDec
                             : Final -> ConstantMod
                             : Static -> ConstantMod
                             : Public -> ConstantMod
     // ConstantDec             : List(Anno_ConstantMod0) * Type * List(VarDec) -> ConstantDec
     EnumBodyDecs            : List(ClassBodyDec) -> EnumBodyDecs
                             : List(Expr) -> EnumConstArgs
-    EnumConst               : Id * Option(EnumConstArgs) * Option(ClassBody) -> EnumConst
+    EnumConst               : ID * Option(EnumConstArgs) * Option(ClassBody) -> EnumConst
     EnumBody                : List(EnumConst) * Option(EnumBodyDecs) -> EnumBody
-    // EnumDecHead             : List(Anno_ClassMod0) * Id * Option(Interfaces) -> EnumDecHead
+    // EnumDecHead             : List(Anno_ClassMod0) * ID * Option(Interfaces) -> EnumDecHead
     EnumDec                 : EnumDecHead * EnumBody -> EnumDec
                             : Private -> ConstrMod
                             : Protected -> ConstrMod
@@ -141,7 +141,7 @@ signature constructors
     SuperConstrInv          : OptTypeArgs0 * List(Expr) -> ConstrInv
     AltConstrInv            : OptTypeArgs0 * List(Expr) -> ConstrInv
     // ConstrBody              : Option(ConstrInv) * List(BlockStm) -> ConstrBody
-    // ConstrDecHead           : List(Anno_ConstrMod0) * Option(TypeParams) * Id * List(FormalParam) * Option(Throws) -> ConstrHead
+    // ConstrDecHead           : List(Anno_ConstrMod0) * Option(TypeParams) * ID * List(FormalParam) * Option(Throws) -> ConstrHead
     // ConstrDec               : ConstrHead * ConstrBody -> ConstrDec
     StaticInit              : Block -> StaticInit
     InstanceInit            : Block -> InstanceInit
@@ -159,17 +159,17 @@ signature constructors
                             : Protected -> MethodMod
                             : Public -> MethodMod
                             : Final -> VarMod
-    VarArityParam           : List(Anno_VarMod0) * Type * VarDecId -> FormalParam
-    Param                   : List(Anno_VarMod0) * Type * VarDecId -> FormalParam
+    // VarArityParam           : List(Anno_VarMod0) * Type * VarDecId -> FormalParam
+    // Param                   : List(Anno_VarMod0) * Type * VarDecId -> FormalParam
     Void                    : ResultType
                             : Type -> ResultType
-    // DeprMethodDecHead       : List(Anno_MethodMod0) * Option(TypeParams) * ResultType * Id * MethodParams * List(Dim) * Option(Throws) -> MethodDecHead
-    // MethodDecHead           : List(Anno_MethodMod0) * Option(TypeParams) * ResultType * Id * MethodParams * Option(Throws) -> MethodDecHead
+    // DeprMethodDecHead       : List(Anno_MethodMod0) * Option(TypeParams) * ResultType * ID * MethodParams * List(Dim) * Option(Throws) -> MethodDecHead
+    // MethodDecHead           : List(Anno_MethodMod0) * Option(TypeParams) * ResultType * ID * MethodParams * Option(Throws) -> MethodDecHead
     MethodParams            : List(FormalParam) -> MethodParams
     // MethodDec               : MethodDecHead * MethodBody -> MethodDec
                             : Stm -> BlockStm
     ClassDecStm             : ClassDec -> BlockStm
-                            : LocalVarDecStm -> BlockStm
+                            // : LocalVarDecStm -> BlockStm
     Block                   : List(BlockStm) -> Block
     Catch                   : FormalParam * Block -> CatchClause
     Default                 : SwitchLabel
@@ -181,8 +181,8 @@ signature constructors
     Synchronized            : Expr * Block -> Stm
     Throw                   : Expr -> Stm
     Return                  : Option(Expr) -> Stm
-    Continue                : Option(Id) -> Stm
-    Break                   : Option(Id) -> Stm
+    Continue                : Option(ID) -> Stm
+    Break                   : Option(ID) -> Stm
     ForEach                 : FormalParam * Expr * Stm -> Stm
     For                     : List(Expr) * Option(Expr) * List(Expr) * Stm -> Stm
     For                     : LocalVarDec * Option(Expr) * List(Expr) * Stm -> Stm
@@ -194,11 +194,11 @@ signature constructors
     If                      : Expr * Stm * Stm -> Stm
     If                      : Expr * Stm -> Stm
     ExprStm                 : Expr -> Stm
-    Labeled                 : Id * Stm -> Stm
+    Labeled                 : ID * Stm -> Stm
     Empty                   : Stm
                             : Block -> Stm
-    LocalVarDec             : List(Anno_VarMod0) * Type * List(VarDec) -> LocalVarDec
-    LocalVarDecStm          : LocalVarDec -> LocalVarDecStm
+    // LocalVarDec             : List(Anno_VarMod0) * Type * List(VarDec) -> LocalVarDec
+    // LocalVarDecStm          : LocalVarDec -> LocalVarDecStm
                             : Volatile -> FieldMod
                             : Transient -> FieldMod
                             : Final -> FieldMod
@@ -209,8 +209,8 @@ signature constructors
                             : ArrayInit -> VarInit
                             : Expr -> VarInit
     Dim                     : Dim
-    ArrayVarDecId           : Id * List(Dim) -> VarDecId
-                            : Id -> VarDecId
+    ArrayVarDecId           : ID * List(Dim) -> VarDecId
+                            : ID -> VarDecId
     VarDec                  : VarDecId * VarInit -> VarDec
     VarDec                  : VarDecId -> VarDec
     // FieldDec                : List(Anno_FieldMod0) * Type * List(VarDec) -> FieldDec
@@ -218,19 +218,19 @@ signature constructors
     ElemValArrayInit        : List(ElemVal) -> ElemVal
                             : Anno -> ElemVal
                             : Expr -> ElemVal
-    ElemValPair             : Id * ElemVal -> ElemValPair
+    ElemValPair             : ID * ElemVal -> ElemValPair
     MarkerAnno              : InterfaceType -> Anno
     SingleElemAnno          : InterfaceType * ElemVal -> Anno
     Anno                    : InterfaceType * List(ElemValPair) -> Anno
     ArrayType               : Type -> ArrayType
-    Member                  : TypeDecSpec * TypeArgs * Id -> TypeDecSpec
+    Member                  : TypeDecSpec * TypeArgs * ID -> TypeDecSpec
                             : TypeName -> TypeDecSpec
     InterfaceType           : TypeDecSpec * OptTypeArgs0 -> InterfaceType
     ClassType               : TypeDecSpec * OptTypeArgs0 -> ClassType
     ClassOrInterfaceType    : TypeDecSpec * OptTypeArgs0 -> ClassOrInterfaceType
                             : ArrayType -> RefType
                             : ClassOrInterfaceType -> RefType
-                            : Id -> TypeVarId
+                            : ID -> TypeVarId
     TypeParams              : List(TypeParam) -> TypeParams
     TypeBound               : List(ClassOrInterfaceType) -> TypeBound
     TypeParam               : TypeVarId * Option(TypeBound) -> TypeParam
@@ -296,21 +296,21 @@ signature constructors
                             : ArrayAccess -> Expr
                             : FieldAccess -> Expr
                             : ArrayCreationExpr -> Expr
-    // QNewInstance            : Expr * OptTypeArgs0 * Id * OptTypeArgs0 * List(Expr) * Option(ClassBody) -> Expr
+    // QNewInstance            : Expr * OptTypeArgs0 * ID * OptTypeArgs0 * List(Expr) * Option(ClassBody) -> Expr
     // NewInstance             : OptTypeArgs0 * ClassOrInterfaceType * List(Expr) * Option(ClassBody) -> Expr
     QThis                   : TypeName -> Expr
     This                    : Expr
     Lit                     : Literal -> Expr
-    PackageOrTypeName       : PackageOrTypeName * Id -> PackageOrTypeName
-    PackageOrTypeName       : Id -> PackageOrTypeName
-    MethodName              : AmbName * Id -> MethodName
-    MethodName              : Id -> MethodName
-    ExprName                : AmbName * Id -> ExprName
-    ExprName                : Id -> ExprName
-    TypeName                : PackageOrTypeName * Id -> TypeName
-    TypeName                : Id -> TypeName
-    AmbName                 : AmbName * Id -> AmbName
-    AmbName                 : Id -> AmbName
+    PackageOrTypeName       : PackageOrTypeName * ID -> PackageOrTypeName
+    PackageOrTypeName       : ID -> PackageOrTypeName
+    MethodName              : AmbName * ID -> MethodName
+    MethodName              : ID -> MethodName
+    ExprName                : AmbName * ID -> ExprName
+    ExprName                : ID -> ExprName
+    TypeName                : PackageOrTypeName * ID -> TypeName
+    TypeName                : ID -> TypeName
+    AmbName                 : AmbName * ID -> AmbName
+    AmbName                 : ID -> AmbName
     // PackageName             : List(Id) -> PackageName
     Null                    : NullLiteral
                             : String -> StringChars
@@ -359,13 +359,14 @@ signature constructors
     Protected               : Protected
     Private                 : Private
     Public                  : Public
-    Id                      : ID -> Id
+    // ID                      : ID -> Id
                             : String -> ID
                             : String -> UnicodeEscape
     // UnicodeEscape           : ListPlusOfCharClass1 * Int * Int * Int * Int -> UnicodeEscape
 
 signature constructors
 
+		// Classes and interfaces
 		Public    : Access
 		Private   : Access
 		Protected : Access
@@ -374,36 +375,55 @@ signature constructors
 		Static   : Context
 		Instance : Context
 		
-		ClassDec : Access * Context * List(ClassMod) * Id * TypeParams * Super * List(ImplementsDec) * ClassBody -> ClassDec
-		ImplementsDec : Id * InterfaceType -> ImplementsDec
 		
-		FieldDec : Access * Context * List(FieldMod) * Type * List(VarDec) -> FieldDec
+		// Classes TODO: port signature back into desugaring
+		ClassDec : Access * Context * List(ClassMod) * ID * Option(TypeParams) * Super * List(ImplementsDec) * ClassBody -> ClassDec
+		ImplementsDec : ID * InterfaceType -> ImplementsDec
 		
-		MethodDec : Access * Context * List(MethodMod) * TypeParams * Type * Id * MethodParams * Throws * MethodBody -> MethodDec
+		FieldDec : Access * Context * List(FieldMod) * Type * VarDec -> FieldDec
 		
-		ConstrDec : Access * List(ConstrMod) * TypeParams * Id * List(FormalParam) * Throws * ConstrBody -> ConstrDec
+		MethodDec : Access * Context * List(MethodMod) * Option(TypeParams) * ResultType * ID * MethodParams * Option(Throws) * MethodBody -> MethodDec
+		
+		ConstrDec : Access * List(ConstrMod) * Option(TypeParams) * ID * List(FormalParam) * Option(Throws) * ConstrBody -> ConstrDec
 		ConstrBody : List(BlockStm) -> ConstrBody
 		
-		NewArray : ArrayBaseType * List(Dim) -> Expr
-		
-		NewInstance : TypeArgs * Id * ClassOrInterfaceType * List(Expr) * ClassBody -> NewInstance
-		QNewInstance : Expr * TypeArgs * Id * Id * TypeArgs * List(Expr) * ClassBody -> QNewInstance
-		
-		InterfaceDec : Access * List(InterfaceMod) * Id * TypeParams * List(ExtendsInterface) * List(InterfaceMemberDec) -> InterfaceDec
-		ExtendsInterfaces : Id * InterfaceType -> ExtendsInterface
+
+		// Interfaces TODO: port signature back into desugaring
+		InterfaceDec : Access * List(InterfaceMod) * ID * Option(TypeParams) * List(ExtendsInterface) * List(InterfaceMemberDec) -> InterfaceDec
+		ExtendsInterfaces : ID * InterfaceType -> ExtendsInterface
 		
 		ConstantDec : Type * VarDec -> ConstantDec
 		
+		
+		// Expressions, TODO: port signature back into desugaring
+		NewArray : ArrayBaseType * List(Dim) -> Expr
+		NewInstance : Option(TypeArgs) * ClassOrInterfaceType * ClassOrInterfaceType * List(Expr) * Option(ClassBody) -> Expr
+		QNewInstance : Expr * Option(TypeArgs) * ID * ID * TypeArgs * List(Expr) * Option(ClassBody) -> Expr
+		
+		
+		// Packages, TODO: port signature back into desugaring
 		CompilationUnit    : ID * List(ImportDec) * PackageDec -> CompilationUnit
 		DefaultPackageDec  : ID * PackageDec -> PackageDec
+		DefaultPackageDec  : ID * List(TypeDec) -> PackageDec
 		PackageDec         : ID * PackageDec -> PackageDec
 		PackageDec         : List(Anno) * ID * List(TypeDec) -> PackageDec
 		DefaultPackageName : ID -> PackageName
 		PackageName        : ID -> PackageName
-		PackageName        : ID * PackageName -> PackageName
+		PackageName        : PackageName * ID -> PackageName
 		Default            : ID
 
+
+		// LocalVarDecStm is desugared away
+		: LocalVarDec -> BlockStm
+
+
+		// Variable numbers, TODO: port signature back into desugaring
+		LocalVarDec    : List(Anno_VarMod0) * Type * VarDec * Int -> LocalVarDec
+		VarArityParam  : List(Anno_VarMod0) * Type * VarDecId * Int -> FormalParam
+    Param          : List(Anno_VarMod0) * Type * VarDecId * Int -> FormalParam
+    
+
 		// HACKS
-    EnumDecHead : List(Anno_ClassMod0) * Id * List(ExtendsInterface) -> EnumDecHead
-    UnicodeEscape     : String * Int * Int * Int * Int -> UnicodeEscape
+    EnumDecHead   : List(Anno_ClassMod0) * ID * List(ExtendsInterface) -> EnumDecHead
+    UnicodeEscape : String * Int * Int * Int * Int -> UnicodeEscape
     

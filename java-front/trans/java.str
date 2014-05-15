@@ -24,15 +24,22 @@ imports
   check
   types
   varids
+  signatures.traversal
+  signatures.traversal.extra
 
 rules // Analysis
  
   editor-analyze = analysis-default-editor
   
+  java-collector(sibling-uris|lang, partition, unique*, uri*): 
+  	File(_) -> <specific-collect-File-1(sibling-uris|lang, partition, unique*, uri*)> 
+  java-collector(sibling-uris|lang, partition, unique*, uri*):
+  	Files(_) -> <specific-collect-Files-1(sibling-uris|lang, partition, unique*, uri*)> 
+  
   analysis-single-default-interface = 
-  	analysis-single-default(desugar-top, id, pp-message-top|<language>)
+  	analysis-single-default(desugar-top, java-collector, id, pp-message-top|<language>)
   analysis-multiple-default-interface = 
-  	analysis-multiple-default(parse-file <+ !(), desugar-top, id, pp-message-top|<language>, <project-path>)
+  	analysis-multiple-default(parse-file <+ !(), desugar-top, java-collector, id, pp-message-top|<language>, <project-path>)
   
   editor-save = analysis-save-default(|<language>)
 
@@ -88,5 +95,5 @@ rules // Debugging
 	debug-reanalyze = 
 		analysis-debug-reanalyze(|<language>)
 
-  // analysis-default-debug-interface(msg) = debug(msg)
-  // analysis-default-debug-interface = debug
+  analysis-default-debug-interface(msg) = debug(msg)
+  analysis-default-debug-interface = debug

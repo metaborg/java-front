@@ -13,7 +13,7 @@ language General properties
   	
   extensions    : jav
   table         : include/Java.tbl
-  start symbols : CompilationUnit
+  start symbols : File, Files
   
   provider : include/java.ctree                                                                                             
   // provider : include/java-java.jar                                                                                          

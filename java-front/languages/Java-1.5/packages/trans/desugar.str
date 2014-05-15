@@ -17,16 +17,15 @@ signature
 		PackageDec         : List(Anno) * ID * List(TypeDec) -> PackageDec
 		DefaultPackageName : ID -> PackageName
 		PackageName        : ID -> PackageName
-		PackageName        : ID * PackageName -> PackageName
+		PackageName        : PackageName * ID -> PackageName
 		Default            : ID
 	
 rules
 	
 	desugar-top:
-		f@Files(file*) -> <origin-track-forced(!files)> f
+		f@Files(file*) -> <origin-track-forced(!Files(file'*))> f
 		with
-			file'* := <map(desugar-top)> file*;
-			files  := File(file'*)
+			file'* := <map(desugar-top)> file*
 	
 	desugar-top:
 		f@File(CompilationUnit(package-dec, import-dec*, type-dec*)) -> <origin-track-forced(!file); desugar-all-singleton-appl; desugar-all; add-all-varids> f
