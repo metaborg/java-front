@@ -8,5 +8,5 @@ imports
 	
 rules
 	
-	spectrav-debug(|msg) = debug(|msg)
+	spectrav-debug(|msg) = id //debug(|msg)
 	preserve-annotations-attachments(s) = s
