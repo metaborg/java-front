@@ -12,7 +12,7 @@ imports
   
 strategies
   
-  desugar-all-singleton-appl = topdown(try(desugar-singleton-appl)); topdown(try(flatten-list))
+  desugar-all-singleton-appl = innermost(desugar-singleton-appl)
   desugar-all                = topdown(try(desugar)); topdown(try(flatten-list))
 
 rules

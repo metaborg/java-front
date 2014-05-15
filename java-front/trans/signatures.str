@@ -300,7 +300,7 @@ signature constructors
     // NewInstance             : OptTypeArgs0 * ClassOrInterfaceType * List(Expr) * Option(ClassBody) -> Expr
     QThis                   : TypeName -> Expr
     This                    : Expr
-    Lit                     : Literal -> Expr
+    // Lit                     : Literal -> Expr
     PackageOrTypeName       : PackageOrTypeName * ID -> PackageOrTypeName
     PackageOrTypeName       : ID -> PackageOrTypeName
     MethodName              : AmbName * ID -> MethodName
@@ -415,11 +415,10 @@ signature constructors
 		: PackageName -> PackageOrTypeName // Allow packages names in PackageOrTypeNames
 
 
-		// LocalVarDecStm constructor is desugared away
+		// Constructors that are desugared away
 		: LocalVarDec -> BlockStm
-		
-		// ExprStm constructor is desugared away
 		: Expr -> Stm
+		: Literal -> Expr
 
 
 		// Variable numbers, TODO: port signature back into desugaring
