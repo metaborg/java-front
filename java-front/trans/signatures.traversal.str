@@ -12487,7 +12487,14 @@ rules // Constructor ClassDec-8, Sort ClassDec
   specific-siblings-ClassDec-8(|lang, partition, unique*, uri*) =
     preserve-annotations-attachments(
       spectrav-debug(|"a "); ClassDec(
-        spectrav-debug(|"b-0 "); specific-collect-Access(?sibling-uri-0*|lang, partition, unique*, uri*); spectrav-debug(|"a-0 "), spectrav-debug(|"b-1 "); specific-collect-Context(?sibling-uri-1*|lang, partition, unique*, sibling-uri-0*); spectrav-debug(|"a-1 "), spectrav-debug(|"b-2 "); specific-siblings-list-ClassMod(|lang, partition, unique*, uri*); spectrav-debug(|"a-2 "), spectrav-debug(|"b-3 "); specific-collect-ID(?sibling-uri-2*|lang, partition, unique*, sibling-uri-1*); spectrav-debug(|"a-3 "), spectrav-debug(|"b-4 "); specific-siblings-option-TypeParams(?sibling-uri-3*|lang, partition, unique*, sibling-uri-2*); spectrav-debug(|"a-4 "), spectrav-debug(|"b-5 "); specific-collect-Super(?sibling-uri-4*|lang, partition, unique*, sibling-uri-3*); spectrav-debug(|"a-5 "), spectrav-debug(|"b-6 "); specific-siblings-list-ImplementsDec(|lang, partition, unique*, uri*); spectrav-debug(|"a-6 "), spectrav-debug(|"b-7 "); specific-collect-ClassBody(?sibling-uri-5*|lang, partition, unique*, sibling-uri-4*); spectrav-debug(|"a-7 ")  
+        spectrav-debug(|"b-0 "); specific-collect-Access(?sibling-uri-0*|lang, partition, unique*, uri*); spectrav-debug(|"a-0 "), 
+        spectrav-debug(|"b-1 "); specific-collect-Context(?sibling-uri-1*|lang, partition, unique*, sibling-uri-0*); spectrav-debug(|"a-1 "), 
+        spectrav-debug(|"b-2 "); specific-siblings-list-ClassMod(|lang, partition, unique*, uri*); spectrav-debug(|"a-2 "), 
+        spectrav-debug(|"b-3 "); specific-collect-ID(?sibling-uri-2*|lang, partition, unique*, sibling-uri-1*); spectrav-debug(|"a-3 "), 
+        spectrav-debug(|"b-4 "); specific-siblings-option-TypeParams(?sibling-uri-3*|lang, partition, unique*, sibling-uri-2*); spectrav-debug(|"a-4 "), 
+        spectrav-debug(|"b-5 "); specific-collect-Super(?sibling-uri-4*|lang, partition, unique*, sibling-uri-3*); spectrav-debug(|"a-5 "), 
+        spectrav-debug(|"b-6 "); specific-siblings-list-ImplementsDec(|lang, partition, unique*, uri*); spectrav-debug(|"a-6 "), 
+        spectrav-debug(|"b-7 "); specific-collect-ClassBody(?sibling-uri-5*|lang, partition, unique*, sibling-uri-4*); spectrav-debug(|"a-7 ")  
       ); spectrav-debug(|"b ")
     )
   
