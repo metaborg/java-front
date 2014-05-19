@@ -25,7 +25,6 @@ imports
   types
   varids
   signatures.traversal
-  signatures.traversal.extra
 
 rules // Analysis
  
@@ -35,6 +34,8 @@ rules // Analysis
   	File(_) -> <specific-collect-File-1(sibling-uris|lang, partition, unique*, uri*)> 
   java-collector(sibling-uris|lang, partition, unique*, uri*):
   	Files(_) -> <specific-collect-Files-1(sibling-uris|lang, partition, unique*, uri*)> 
+  
+  // java-collector(sibling-uris|lang, partition, unique*, uri*) = nabl-collect(sibling-uris|lang, partition, unique*, uri*) 
   
   analysis-single-default-interface = 
   	analysis-single-default(desugar-top, java-collector, id, pp-message-top|<language>)
