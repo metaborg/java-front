@@ -39,6 +39,11 @@ binding rules // Package
 		defines non-unique DefaultPackage p
 		non-transitively scopes Package, Type
 
+	DefaultPackageDec(a*, p, _):
+		defines non-unique DefaultPackage p
+		  of pkgannotations a*
+		non-transitively scopes Package, Type
+
 	PackageDec(p, _):
 		defines non-unique Package p
 		non-transitively scopes Package, Type

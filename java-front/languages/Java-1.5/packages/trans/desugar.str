@@ -13,6 +13,7 @@ signature
 		
 		CompilationUnit    : ID * List(ImportDec) * PackageDec -> CompilationUnit
 		DefaultPackageDec  : ID * PackageDec -> PackageDec
+		DefaultPackageDec  : List(Anno) * ID * List(TypeDec) -> PackageDec
 		PackageDec         : ID * PackageDec -> PackageDec
 		PackageDec         : List(Anno) * ID * List(TypeDec) -> PackageDec
 		DefaultPackageName : ID -> PackageName
@@ -36,7 +37,7 @@ rules
 			file         := File(cu)
 		
 	desugar-package-dec(|type-decl*):
-		None() -> DefaultPackageDec(Default(), type-decl*)
+		None() -> DefaultPackageDec([], Default(), type-decl*)
 		
 	desugar-package-dec(|type-decl*):
 		Some(PackageDec(anno*, PackageName(name*))) -> DefaultPackageDec(Default(), <package-dec-nest(|type-decl*, anno*)> name*)

@@ -404,7 +404,7 @@ signature constructors
 		// Packages, TODO: port signature back into desugaring
 		CompilationUnit    : ID * List(ImportDec) * PackageDec -> CompilationUnit
 		DefaultPackageDec  : ID * PackageDec -> PackageDec
-		DefaultPackageDec  : ID * List(TypeDec) -> PackageDec
+		DefaultPackageDec  : List(Anno) * ID * List(TypeDec) -> PackageDec
 		PackageDec         : ID * PackageDec -> PackageDec
 		PackageDec         : List(Anno) * ID * List(TypeDec) -> PackageDec
 		DefaultPackageName : ID -> PackageName
