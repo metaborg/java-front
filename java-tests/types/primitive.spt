@@ -27,7 +27,7 @@ test float literal [[
 			return [[1.0]];
 		}
 	}
-]] run get-type to Float()
+]] run get-type to Double()
 
 test float type [[ 
 	class Test {
