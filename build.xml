@@ -192,7 +192,7 @@
 			</str-deps>
 		</strj-lib>
 		<mkdir dir="${bin}/classes" />
-		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" source="1.5" target="1.5" nowarn="off" debug="true" debuglevel="source" />
+		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" source="1.7" target="1.7" nowarn="off" debug="true" debuglevel="source" />
 		<jar destfile="${bin}/java_front.jar" update="false">
 			<fileset dir="${bin}/classes" includes="**/*.class" />
 			<fileset dir="${bin}/languages/java" includes="*.tbl, *.pp.af" />
