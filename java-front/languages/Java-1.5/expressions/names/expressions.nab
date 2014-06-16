@@ -40,15 +40,15 @@ binding rules // Method invocation
   Invoke(Method(e, _, m), _):
     refers to Method m in Type t'
       where e has type RefType(t, _)
-        and t refers to Type t'
+        and t resolves to Type t'
 
 	// TODO: apply filtering and disambiguation from above    
   Invoke(SuperMethod(_, m), _):
     refers to Method m
       in Type t'
-      where "super" refers to ImplicitField super
+      where "super" resolves to ImplicitField super
       	and super has type RefType(t, _)
-      	and t refers to Type t'
+      	and t resolves to Type t'
 
 	// TODO: apply filtering and disambiguation from above      
   Invoke(QSuperMethod(t, _, m), _):
@@ -61,7 +61,7 @@ binding rules // Field access
   	refers to Field f
   	  in Type t'
   	  where e has type RefType(t, _)
-  	    and t refers to Type t'
+  	    and t resolves to Type t'
   	    
   QSuperField(t, f):
   	refers to Type t
@@ -73,9 +73,9 @@ binding rules // Field access
   // SuperField(f):
   // 	refers to Field f
   // 		in Type t
-  // 		where s refers to ImplicitField "super"
+  // 		where s resolves to ImplicitField "super"
   // 		  and s has type RefType(t, _)
-  // 		  and t refers to Type t'
+  // 		  and t resolves to Type t'
   	  
 binding rules // Class instantiation
 
@@ -109,11 +109,11 @@ binding rules // Class instantiation
   	refers to Type itn
   		in Type t'
   	  where e has type RefType(t, _)
-        and t refers to Type t'
+        and t resolves to Type t'
     refers to Constructor c
   	  in Type itn in Type t'
       where e has type RefType(t, _)
-        and t refers to Type t'
+        and t resolves to Type t'
 
 	// TODO: disambiguation
   QNewInstance(e, _, c, itn, _, _, ClassBody(body)):

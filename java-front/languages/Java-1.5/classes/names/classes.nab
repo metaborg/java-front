@@ -155,7 +155,7 @@ binding rules // Constructors
       of parameter-types pt*
       of type t
       where p* has type pt*
-      and c refers to Type t
+      and c resolves to Type t
     scopes Variable, Type
 
 

@@ -113,23 +113,23 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   AmbName(q, n):
     refers to Type n
     	in Package p
-    	where q refers to Package p
+    	where q resolves to Package p
     otherwise
     	refers to Package n
     		in Package p
-    		where q refers to Package p
+    		where q resolves to Package p
     otherwise
     	refers to Method n
     		in Type t
-    		where q refers to Type t
+    		where q resolves to Type t
     otherwise
     	refers to Field n 
     		in Type t
-    		where q refers to Type t
+    		where q resolves to Type t
     otherwise
     	refers to Type n 
     		in Type t
-    		where q refers to Type t
+    		where q resolves to Type t
     otherwise
     	refers to Method n
     		in Type t
@@ -171,7 +171,7 @@ binding rules // 6.5.3 Meaning of Package Names
   PackageName(q, p) : 
   	refers to Package p
   		in Package qp
-  		where q refers to Package qp
+  		where q resolves to Package qp
 
 binding rules // 6.5.4 Meaning of PackageOrTypeNames
 
@@ -208,19 +208,19 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
   PackageOrTypeName(q, n):
     refers to Type n
     	in Type t
-    	where q refers to Type t
+    	where q resolves to Type t
     otherwise
     	refers to Type n
     		in Package p
-    		where q refers to Package p
+    		where q resolves to Package p
     otherwise
     	refers to Package n
     		in Package p
-    		where q refers to Package p
+    		where q resolves to Package p
       otherwise
     	refers to Package n
     		in DefaultPackage p
-    		where q refers to DefaultPackage p
+    		where q resolves to DefaultPackage p
     		
 binding rules // 6.5.5 Meaning of Type Names
 
@@ -250,15 +250,15 @@ binding rules // 6.5.5 Meaning of Type Names
   TypeName(q, n):
     refers to Type n
     	in Type t
-    	where q refers to Type t
+    	where q resolves to Type t
     otherwise
     	refers to Type n
     		in Package p
-    		where q refers to Package p
+    		where q resolves to Package p
     otherwise
     	refers to Type n
     		in DefaultPackage p
-    		where q refers to DefaultPackage p
+    		where q resolves to DefaultPackage p
    
 binding rules // 6.5.6 Meaning of Expression Names
  
@@ -347,7 +347,7 @@ binding rules // 6.5.6 Meaning of Expression Names
   ExprName(q, n):
     refers to Field n
     	in Type t
-    	where q refers to Type t
+    	where q resolves to Type t
     otherwise
     	refers to Field n 
   			in Type t
@@ -409,7 +409,7 @@ binding rules // 6.5.7 Meaning of Method Name
   MethodName(q, n):
     refers to Method n 
     	in Type t
-    	where q refers to Type t
+    	where q resolves to Type t
     otherwise
     	refers to Method n
   			in Type t 
