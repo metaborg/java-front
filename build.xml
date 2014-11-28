@@ -9,6 +9,8 @@
 	<!-- Import Ant contrib -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml" />
 
+	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+
 	<!-- Build configuration. Overwrite these from importer -->
 	<property name="sdf2bundle" value="${user.home}/.nix-profile" />
 	<property name="nativepath" value="${sdf2bundle}/bin/" />
@@ -192,7 +194,8 @@
 			</str-deps>
 		</strj-lib>
 		<mkdir dir="${bin}/classes" />
-		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" source="1.7" target="1.7" nowarn="off" debug="true" debuglevel="source" />
+
+		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" source="1.7" target="1.7" nowarn="off" debug="true" debuglevel="source" classpathref="maven.plugin.classpath"/>
 		<jar destfile="${bin}/java_front.jar" update="false">
 			<fileset dir="${bin}/classes" includes="**/*.class" />
 			<fileset dir="${bin}/languages/java" includes="*.tbl, *.pp.af" />
