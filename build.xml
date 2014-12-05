@@ -39,7 +39,7 @@
 	<property name="bin.str.lib" value="${bin}/lib" />
 	<property name="bin.str.lib.abs" location="${bin.str.lib}" />
 
-	<property name="bin.java.lib" value="${bin}/java/org/strategoxt/java_front" />
+	<property name="bin.java.lib" value="${bin}/java/org/strategoxt" />
 
 	<target name="all" depends="build, install" />
 	<target name="build" depends="syntax, stratego" />
@@ -162,10 +162,10 @@
 			</args>
 		</sdf2parenthesize>
 
-		<rtg2sig input="${bin.java-15}/Java-15.rtg" output="${bin.str.lib}/java/signature/v5.str" main="Java-15" />
-		<rtg2sig input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.str.lib}/java/signature/eblock.str" main="Java-EBlock" />
+		<rtg2sig input="${bin.java-15}/Java-15.rtg" output="${bin.str.lib}/java/signature/v5.str" main="Java-15" module="java/signature/v5"/>
+		<rtg2sig input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.str.lib}/java/signature/eblock.str" main="Java-EBlock" module="java/signature/eblock"/>
 
-		<strj-lib input="${str.lib}/javafront.str" output="${bin.java.lib}/Main.java" package="org.strategoxt.java_front">
+		<strj-lib input-path="${str.lib}" input-module="javafront.str" output="${bin.java.lib}" package="org.strategoxt">
 			<strjlibargs>
 				<arg value="-la" />
 				<arg value="stratego-lib" />
@@ -183,6 +183,7 @@
 				<arg value="${dep.box}/sdf" />
 				<arg value="--cache-dir" />
 				<arg value=".cache" />
+				
 			</strjlibargs>
 			<str-deps>
 				<srcfiles dir="${str.lib}" includes="**/*.str" />
@@ -200,8 +201,7 @@
 			<fileset dir="${bin}/languages/java-15" includes="*.tbl, *.pp.af" />
 			<fileset dir="${bin}/languages/stratego-java" includes="*.tbl, *.pp.af" />
 		</jar>
-		<copy file="${str.lib}/libjavafront.ctree" tofile="${bin.str.lib}/libjava-front.ctree" />
-		<copy file="${str.lib}/libjavafront.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
+		<copy file="${bin.java.lib}/javafront/javafront.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
 	</target>
 
 	<target name="install" depends="syntax, stratego">
@@ -225,5 +225,8 @@
 		<delete dir="${install-location}" />
 		<delete dir=".cache" />
 		<delete dir="${str.lib}" includes="libjavafront.ctree, libjavafront.ctree.dep, libjavafront.rtree" />
+		<delete>
+			<fileset dir="${str.lib}/" includes="**/*.dep"/>
+		</delete>
 	</target>
 </project>
