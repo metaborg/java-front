@@ -67,15 +67,6 @@
 	<!-- Import generated build file -->
 	<import file="build.generated.xml" />
 
-	<!-- The files for which the on-save handler is called before building. -->
-	<path id="call-onsave.files">
-		<fileset dir=".">
-			<include name="**/*.sdf3_" />
-			<include name="**/*.nab_" />
-			<include name="**/*.ts_" />
-		</fileset>
-	</path>
-
 	<!-- Targets -->
 	<target depends="spoofaximp.default.jar" name="all" />
 	<target depends="generate-sources-java" name="generate-sources" />
