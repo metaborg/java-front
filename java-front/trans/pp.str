@@ -4,7 +4,7 @@ imports
 	
 	include/Java
 	lib/editor-common.generated
-	lib/task/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
 	languages/Java-1.5/types/types/references.generated
 	
 rules

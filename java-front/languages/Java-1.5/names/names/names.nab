@@ -2,12 +2,12 @@ module languages/Java-1.5/names/names/names
   
 imports
 
-  lib/nabl/-
-  lib/task/-
-  lib/properties/-
-  lib/relations/-
-  lib/types/-
-  lib/editor/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/relations/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/editor/-
   
   include/Java
   languages/Java-1.5/classes/names/classes
@@ -112,36 +112,36 @@ binding rules // 6.5.2 Reclassification of Contextually Ambiguous Names
   
   AmbName(q, n):
     refers to Type n
-    	in Package p
-    	where q resolves to Package p
+    	in Package p1
+    	where q resolves to Package p1
     otherwise
     	refers to Package n
-    		in Package p
-    		where q resolves to Package p
+    		in Package p2
+    		where q resolves to Package p2
     otherwise
     	refers to Method n
-    		in Type t
-    		where q resolves to Type t
+    		in Type t1
+    		where q resolves to Type t1
     otherwise
     	refers to Field n 
-    		in Type t
-    		where q resolves to Type t
+    		in Type t2
+    		where q resolves to Type t2
     otherwise
     	refers to Type n 
-    		in Type t
-    		where q resolves to Type t
+    		in Type t3
+    		where q resolves to Type t3
     otherwise
     	refers to Method n
-    		in Type t
-    		where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
+    		in Type t4
+    		where q has type RefType(TypeName(t4), _) // TODO: TypeName(t) should be just t.
     otherwise
     	refers to Field n
-  			in Type t 
-    		where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
+  			in Type t5
+    		where q has type RefType(TypeName(t5), _) // TODO: TypeName(t) should be just t.
     otherwise
     	refers to Type n 
-  			in Type t 
-  			where q has type RefType(TypeName(t), _) // TODO: TypeName(t) should be just t.
+  			in Type t6
+  			where q has type RefType(TypeName(t6), _) // TODO: TypeName(t) should be just t.
     
 binding rules // 6.5.3 Meaning of Package Names
 
@@ -211,16 +211,16 @@ binding rules // 6.5.4 Meaning of PackageOrTypeNames
     	where q resolves to Type t
     otherwise
     	refers to Type n
-    		in Package p
-    		where q resolves to Package p
+    		in Package p1
+    		where q resolves to Package p1
     otherwise
     	refers to Package n
-    		in Package p
-    		where q resolves to Package p
+    		in Package p2
+    		where q resolves to Package p2
       otherwise
     	refers to Package n
-    		in DefaultPackage p
-    		where q resolves to DefaultPackage p
+    		in DefaultPackage p3
+    		where q resolves to DefaultPackage p3
     		
 binding rules // 6.5.5 Meaning of Type Names
 
@@ -253,12 +253,12 @@ binding rules // 6.5.5 Meaning of Type Names
     	where q resolves to Type t
     otherwise
     	refers to Type n
-    		in Package p
-    		where q resolves to Package p
+    		in Package p1
+    		where q resolves to Package p1
     otherwise
     	refers to Type n
-    		in DefaultPackage p
-    		where q resolves to DefaultPackage p
+    		in DefaultPackage p2
+    		where q resolves to DefaultPackage p2
    
 binding rules // 6.5.6 Meaning of Expression Names
  

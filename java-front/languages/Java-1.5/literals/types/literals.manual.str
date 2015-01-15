@@ -3,11 +3,11 @@ module languages/Java-1.5/literals/types/literals.manual
 imports
 
   include/Java
-  lib/nabl/-
-  lib/task/-
-  lib/types/-
-  lib/properties/-
-  lib/relations/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/relations/-
   languages/Java-1.5/types/types/references.generated
   
 rules

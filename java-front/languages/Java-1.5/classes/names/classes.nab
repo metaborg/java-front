@@ -2,12 +2,12 @@ module languages/Java-1.5/classes/names/classes
 
 imports
 
-  lib/nabl/-
-  lib/task/-
-  lib/properties/-
-  lib/relations/-
-  lib/types/-
-  lib/editor/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/relations/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
+  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/editor/-
   
   include/Java
   languages/Java-1.5/classes/trans/desugar
@@ -145,6 +145,7 @@ binding rules // Methods
 binding rules // Constructors
 
   // TODO: implicitly define: this, super. These have a different meaning than the class ones.
+  // TODO: x resolves to NS y is broken
   ConstrDec(acc, mod*, tp*, c, p*, th, body):
     defines Constructor c
       of access acc
@@ -153,9 +154,9 @@ binding rules // Constructors
       of throws th
       of context Instance()
       of parameter-types pt*
-      of type t
+      // of type t
       where p* has type pt*
-      and c resolves to Type t
+      // and c resolves to Type t
     scopes Variable, Type
 
 

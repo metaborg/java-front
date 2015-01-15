@@ -9,10 +9,10 @@ imports
 	languages/Java-1.5/names/types/-
 	languages/Java-1.5/statements/types/-
 	languages/Java-1.5/types/types/-
-	lib/types/-
-	lib/properties/-
-	lib/nabl/-
-	lib/task/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
 
 strategies
 

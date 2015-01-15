@@ -3,7 +3,7 @@ module languages/Java-1.5/packages/trans/desugar
 imports
 	
 	include/Java
-	lib/editor/origins
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/editor/origins
 	desugar
 	varids
 	

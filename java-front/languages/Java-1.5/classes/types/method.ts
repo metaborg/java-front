@@ -3,10 +3,10 @@ module languages/Java-1.5/classes/types/method
 imports
 
 	include/Java
-	lib/task/-
-	lib/types/-
-	lib/properties/-
-	lib/relations/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
+	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/relations/-
 	
 	varids
 	
