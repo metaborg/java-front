@@ -1,7 +1,5 @@
 module Java-References
 
-imports Java-References.generated
-
 references
 	                
   reference _ : editor-resolve
