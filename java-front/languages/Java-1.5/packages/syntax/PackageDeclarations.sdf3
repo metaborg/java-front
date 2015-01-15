@@ -1,0 +1,18 @@
+%%%
+ %% Section 7.4: Package Declarations
+ %%%
+module PackageDeclarations
+
+imports 
+
+  Expressions	
+  Annotations
+  Names
+  
+sorts
+
+  PackageDec
+
+context-free syntax
+
+  PackageDec.PackageDec = <<Anno*> package <PackageName> ;> 

@@ -1,0 +1,20 @@
+%%%
+ %% Chapter 4: Types, Values, and Variables
+ %%%
+module Types
+
+imports 
+
+  PrimitiveTypes	
+	ReferenceTypes	
+	TypeVariables	
+	ParameterizedTypes
+
+sorts
+
+  Type
+
+context-free syntax
+
+  Type = PrimType 
+  Type = RefType 

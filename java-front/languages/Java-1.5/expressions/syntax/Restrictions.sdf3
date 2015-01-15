@@ -1,0 +1,7 @@
+module Restrictions
+
+lexical restrictions
+
+  "+" -/- [\+]
+  "-" -/- [\-]
+  "/" -/- [\/]

@@ -1,0 +1,99 @@
+%%%
+ %% Section 14.5: Statements
+ %%%
+module AllStatements
+
+imports 
+
+  LocalVariableDeclarations	
+  Blocks	
+  Expressions
+  Primary // To import Expr sort
+  Identifiers
+  MethodDeclarations
+
+sorts
+
+  Stm
+
+context-free syntax
+
+  Stm = Block 
+
+context-free syntax
+
+  Stm.Empty = <;> 
+
+context-free syntax
+
+  Stm.Labeled = <<Id> : <Stm>> 
+
+context-free syntax
+
+  Stm.ExprStm = <<Expr> ;> 
+
+context-free syntax
+
+  Stm.If = <if ( <Expr> ) <Stm>> {prefer}
+  Stm.If = <if ( <Expr> ) <Stm> else <Stm>> 
+
+context-free syntax
+
+  Stm.AssertStm = <assert <Expr> ;> 
+  Stm.AssertStm = <assert <Expr> : <Expr> ;> 
+
+sorts
+
+  SwitchBlock SwitchGroup SwitchLabel
+
+context-free syntax
+
+  Stm.Switch = <switch ( <Expr> ) <SwitchBlock>> 
+  SwitchBlock.SwitchBlock = <{ <SwitchGroup*> <SwitchLabel*> }> 
+  SwitchGroup.SwitchGroup = <<SwitchLabel+> <BlockStm+>> 
+  SwitchLabel.Case = <case <Expr> :> 
+  SwitchLabel.Default = <default :> 
+
+context-free syntax
+
+  Stm.While = <while ( <Expr> ) <Stm>> 
+
+context-free syntax
+
+  Stm.DoWhile = <do <Stm> while ( <Expr> ) ;> 
+
+context-free syntax
+
+  Stm.For = <for ( <LocalVarDec> ; <Expr?> ; <{Expr ","}*> ) <Stm>> 
+  Stm.For = <for ( <{Expr ","}*> ; <Expr?> ; <{Expr ","}*> ) <Stm>> 
+  Stm.ForEach = <for ( <FormalParam> : <Expr> ) <Stm>> 
+
+context-free syntax
+
+  Stm.Break = <break <Id?> ;> 
+
+context-free syntax
+
+  Stm.Continue = <continue <Id?> ;> 
+
+context-free syntax
+
+  Stm.Return = <return <Expr?> ;> 
+
+context-free syntax
+
+  Stm.Throw = <throw <Expr> ;> 
+
+context-free syntax
+
+  Stm.Synchronized = <synchronized ( <Expr> ) <Block>> 
+
+sorts
+
+  CatchClause
+
+context-free syntax
+
+  Stm.Try = <try <Block> <CatchClause+>> 
+  Stm.Try = <try <Block> <CatchClause*> finally <Block>> 
+  CatchClause.Catch = <catch ( <FormalParam> ) <Block>> 

@@ -1,0 +1,21 @@
+%%%
+ %% Section 7.5: Import Declarations
+ %%%
+module ImportDeclarations
+
+imports 
+
+  Identifiers	
+  Expressions
+  Names
+
+sorts
+
+  ImportDec
+
+context-free syntax
+
+  ImportDec.TypeImportDec = <import <TypeName> ;> 
+  ImportDec.TypeImportOnDemandDec = <import <PackageName> . * ;> 
+  ImportDec.StaticImportDec = <import static <TypeName> . <Id> ;> 
+  ImportDec.StaticImportOnDemandDec = <import static <TypeName> . * ;> 

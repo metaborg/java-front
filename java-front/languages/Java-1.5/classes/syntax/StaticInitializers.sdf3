@@ -1,0 +1,16 @@
+%%%
+ %% Section 8.7: Static Initializers
+ %%%
+module StaticInitializers
+
+imports 
+
+  Blocks
+
+sorts
+
+  StaticInit
+
+context-free syntax
+
+  StaticInit.StaticInit = <static <Block>> 

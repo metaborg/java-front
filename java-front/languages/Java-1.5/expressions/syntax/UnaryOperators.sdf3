@@ -1,0 +1,21 @@
+%%%
+ %% Section 15.15: Unary Operators
+ %%%
+module UnaryOperators
+
+imports 
+
+  Expressions
+  PrimitiveTypes
+  ReferenceTypes
+
+context-free syntax
+
+  Expr.Plus = <+ <Expr>> 
+  Expr.Minus = <- <Expr>> 
+  Expr.PreIncr = <++ <Expr>> 
+  Expr.PreDecr = <-- <Expr>> 
+  Expr.Complement = <~ <Expr>> 
+  Expr.Not = <! <Expr>> 
+  Expr.CastPrim = <( <PrimType> ) <Expr>> 
+  Expr.CastRef = <( <RefType> ) <Expr>> 
