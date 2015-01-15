@@ -1,158 +1,83 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<project name="Java" default="all">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="all" name="Java">
 	<!-- Key input modules -->
 	<property name="sdfmodule" value="Java" />
+	<property name="ppmodule" value="${sdfmodule}-pp" />
+	<property name="sigmodule" value="${sdfmodule}-sig" />
 	<property name="metasdfmodule" value="Stratego-Java" />
 	<property name="esvmodule" value="Java" />
 	<property name="strmodule" value="spxjava" />
 
 	<!-- Project directories -->
-	<property name="trans" location="trans" />
-	<property name="src-gen" location="editor/java" />
-	<property name="syntax" location="syntax" />
-	<property name="include" location="include" />
-	<property name="lib" location="lib" />
-	<property name="build" location="bin" />
-	<property name="dist" location="bin/dist" />
+	<property location="trans" name="trans" />
+	<property location="editor/java" name="src-gen" />
+	<property location="src-gen/syntax" name="syntax" />
+	<property location="include" name="include" />
+	<property location="lib" name="lib" />
+	<property location="src-gen" name="sdf-src-gen" />
+	<property location="${sdf-src-gen}/pp" name="pp" />
+	<property location="${sdf-src-gen}/signatures" name="signatures" />
+	<property location="${include}" name="lib-gen" />
+	<property location="${syntax}" name="syntax.rel" relative="yes" />
+	<property location="${trans}" name="trans.rel" relative="yes" />
+	<property location="${include}" name="include.rel" relative="yes" />
+	<property location="${lib-gen}" name="lib-gen.rel" relative="yes" />
+	<property location="target/classes" name="build" />
+	<property location="target/classes" name="dist" />
 
 	<!-- Sublanguage directories -->
-	<property name="arrays.dir" location="languages/Java-1.5/arrays" />
-	<property name="classes.dir" location="languages/Java-1.5/classes" />
-	<property name="expressions.dir" location="languages/Java-1.5/expressions" />
-	<property name="interfaces.dir" location="languages/Java-1.5/interfaces" />
-	<property name="lexical.dir" location="languages/Java-1.5/lexical" />
-	<property name="literals.dir" location="languages/Java-1.5/literals" />
-	<property name="names.dir" location="languages/Java-1.5/names" />
-	<property name="packages.dir" location="languages/Java-1.5/packages" />
-	<property name="statements.dir" location="languages/Java-1.5/statements" />
-	<property name="types.dir" location="languages/Java-1.5/types" />
+	<property location="languages/Java-1.5/arrays" name="arrays.dir" />
+	<property location="languages/Java-1.5/classes" name="classes.dir" />
+	<property location="languages/Java-1.5/expressions" name="expressions.dir" />
+	<property location="languages/Java-1.5/interfaces" name="interfaces.dir" />
+	<property location="languages/Java-1.5/lexical" name="lexical.dir" />
+	<property location="languages/Java-1.5/literals" name="literals.dir" />
+	<property location="languages/Java-1.5/names" name="names.dir" />
+	<property location="languages/Java-1.5/packages" name="packages.dir" />
+	<property location="languages/Java-1.5/statements" name="statements.dir" />
+	<property location="languages/Java-1.5/types" name="types.dir" />
 
 	<!-- Imports -->
-	<property name="build.sdf.imports"
-	          value="
-    -I &quot;${arrays.dir}/syntax&quot;
-    -I &quot;${classes.dir}/syntax&quot;
-    -I &quot;${expressions.dir}/syntax&quot;
-    -I &quot;${interfaces.dir}/syntax&quot;
-    -I &quot;${lexical.dir}/syntax&quot;
-  	-I &quot;${literals.dir}/syntax&quot;
-    -I &quot;${names.dir}/syntax&quot;
-    -I &quot;${packages.dir}/syntax&quot;
-    -I &quot;${statements.dir}/syntax&quot;
-    -I &quot;${types.dir}/syntax&quot;
-  "
-	/>
+	<property name="build.sdf.imports" value="
+      -I &quot;${arrays.dir}/syntax&quot;
+      -I &quot;${classes.dir}/syntax&quot;
+      -I &quot;${expressions.dir}/syntax&quot;
+      -I &quot;${interfaces.dir}/syntax&quot;
+      -I &quot;${lexical.dir}/syntax&quot;
+      -I &quot;${literals.dir}/syntax&quot;
+      -I &quot;${names.dir}/syntax&quot;
+      -I &quot;${packages.dir}/syntax&quot;
+      -I &quot;${statements.dir}/syntax&quot;
+      -I &quot;${types.dir}/syntax&quot;" />
 
-	<property name="build.stratego.args"
-	          value="
-    --library
-    -I &quot;${trans}&quot;
-    -I &quot;${basedir}&quot;
-    -la stratego-lib -la stratego-sglr -la stratego-gpp -la stratego-xtc -la stratego-aterm -la stratego-parallel"
-	/>
+	<property name="build.stratego.args" value="
+      --library
+      -I &quot;${trans}&quot;
+      -I &quot;${basedir}&quot;
+	    -I &quot;${basedir}/lib/runtime-libraries/org.spoofax.meta.runtime.libraries&quot;
+      -la stratego-lib -la stratego-sglr -la stratego-gpp -la stratego-xtc -la stratego-aterm" />
 
 	<!-- Environment configuration for command-line builds -->
-	<condition property="build.strategoxt.sdf" value="${eclipse.spoofaximp.nativeprefix}" else="">
+	<property name="nativepath" value="${eclipse.spoofaximp.nativeprefix}" />
+	<condition else="" property="build.strategoxt.sdf" value="${eclipse.spoofaximp.nativeprefix}">
 		<isset property="eclipse.spoofaximp.nativeprefix" />
 	</condition>
-	<property name="build.strategoxt.stratego" location="${user.home}/.nix-profile/bin" />
+	<property location="${user.home}/.nix-profile/bin" name="build.strategoxt.stratego" />
 
-	<!-- used for building inside of Eclipse -->
+	<!-- Import generated build file -->
 	<import file="build.generated.xml" />
 
-	<!-- Main target -->
-	<target name="all" depends="link-lib-files, copy-lib-files, spoofaximp.default.jar" />
+	<!-- The files for which the on-save handler is called before building. -->
+	<path id="call-onsave.files">
+		<fileset dir=".">
+			<include name="**/*.sdf3_" />
+			<include name="**/*.nab_" />
+			<include name="**/*.ts_" />
+		</fileset>
+	</path>
 
-	<target name="os-detection">
-		<condition property="isWin">
-			<os family="windows" />
-		</condition>
-	</target>
-
-	<target name="copy-lib-files" if="isWin" depends="os-detection">
-		<copy todir="${basedir}/lib/nabl">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/index">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/index/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/task">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/task/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/properties">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/properties/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/types">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/types/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/analysis">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/analysis/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/editor">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/editor/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/tmpl">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/tmpl/"
-			         includes="**"
-			/>
-		</copy>
-		<copy todir="${basedir}/lib/relations">
-			<fileset dir="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/relations/"
-			         includes="**"
-			/>
-		</copy>
-	</target>
-
-	<target name="link-lib-files" unless="isWin" depends="os-detection">
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/"
-		         link="${basedir}/lib/nabl"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/index/"
-		         link="${basedir}/lib/index"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/task/"
-		         link="${basedir}/lib/task"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/properties/"
-		         link="${basedir}/lib/properties"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/types/"
-		         link="${basedir}/lib/types"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/analysis/"
-		         link="${basedir}/lib/analysis"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/editor/"
-		         link="${basedir}/lib/editor"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/tmpl/"
-		         link="${basedir}/lib/tmpl"
-		         overwrite="true"
-		/>
-		<symlink resource="${basedir}/../../runtime-libraries/org.spoofax.meta.runtime.libraries/relations/"
-		         link="${basedir}/lib/relations"
-		         overwrite="true"
-		/>
-	</target>
+	<!-- Targets -->
+	<target depends="spoofaximp.default.jar" name="all" />
+	<target depends="generate-sources-java" name="generate-sources" />
+	<target depends="package-java" name="package" />
 </project>

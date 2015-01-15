@@ -37,3 +37,5 @@ lib/nabl
 lib/properties
 lib/tmpl
 lib/relations
+/src-gen
+/target
