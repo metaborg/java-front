@@ -1,5 +1,5 @@
 Declarative specification of Java's static semantics.
-Syntax is specified in SDF, AST transformations in Stratego, name binding in NaBL, and type analysis in TS.
+Syntax is specified in SDF3, AST transformations in Stratego, name binding in NaBL, and type analysis in TS.
 
 
 Each directory contains specifications for a section of the Java language:
@@ -18,7 +18,7 @@ Each directory contains specifications for a section of the Java language:
 
 In each directory, there are 4 possible subdirectories which contain an aspect of the static semantics:
 
-* syntax - Syntax definitions in SDF2
+* syntax - Syntax definitions in SDF3
 * trans - Transformation definitions in Stratego
 * names - Name binding definitions in NaBL
 * types - Type system definitions in TS
