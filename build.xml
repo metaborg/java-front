@@ -186,6 +186,9 @@
 				<arg value="--cache-dir" />
 				<arg value=".cache" />
 				
+				<arg value="--strategy-forward-declaration" />
+				<arg value="--constructor-forward-declaration" /> 
+				
 			</strjlibargs>
 			<str-deps>
 				<srcfiles dir="${str.lib}" includes="**/*.str" />
