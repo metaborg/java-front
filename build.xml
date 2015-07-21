@@ -171,7 +171,7 @@
 				<rtg2sig input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.str.lib}/java/signature/eblock.str" main="Java-EBlock" module="java/signature/eblock"/>
 				<!-- Since separate compilation is supported by the compiler because the tasks above where successful, for strj the following options can be used -->
 				<property name="java-front.strategy-forward-declaration" value="--strategy-forward-declaration"/>
-				<property name="java-front.constructor-forward-declaration" value="--strategy-forward-declaration"/>
+				<property name="java-front.constructor-forward-declaration" value="--constructor-forward-declaration"/>
 				<property name="java-front.package" value="org.strategoxt"/>
 				<property name="java-front.rtree-file" value="${bin.java.lib}/javafront/javafront.rtree"/>
 				<echo>Separate Compilation supported</echo>
