@@ -41,7 +41,7 @@
 	<property name="bin.str.lib" value="${bin}/lib" />
 	<property name="bin.str.lib.abs" location="${bin.str.lib}" />
 
-	<property name="bin.java.lib" value="${bin}/java/org/strategoxt/java_front" />
+	<property name="bin.java.lib" value="${bin}/java/org/strategoxt" />
 
 	<target name="all" depends="build, install" />
 	<target name="build" depends="syntax, stratego" />
@@ -163,11 +163,34 @@
 				<arg value="io-java5-parenthesize" />
 			</args>
 		</sdf2parenthesize>
+		
+		<!-- try catch for bootstrapping with separate compilation: the module argument is required for separate compilation but not available in the first run -->
+		<trycatch reference="rtg_2_sig_try_module_param">
+			<try>
+				<rtg2sig input="${bin.java-15}/Java-15.rtg" output="${bin.str.lib}/java/signature/v5.str" main="Java-15" module="java/signature/v5"/>
+				<rtg2sig input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.str.lib}/java/signature/eblock.str" main="Java-EBlock" module="java/signature/eblock"/>
+				<!-- Since separate compilation is supported by the compiler because the tasks above where successful, for strj the following options can be used -->
+				<property name="java-front.strategy-forward-declaration" value="--strategy-forward-declaration"/>
+				<property name="java-front.constructor-forward-declaration" value="--constructor-forward-declaration"/>
+				<property name="java-front.package" value="org.strategoxt"/>
+				<property name="java-front.rtree-file" value="${bin.java.lib}/javafront/javafront.rtree"/>
+				<echo>Separate Compilation supported</echo>
+			</try>
+			<catch>
+				<rtg2sig input="${bin.java-15}/Java-15.rtg" output="${bin.str.lib}/java/signature/v5.str" main="Java-15"/>
+				<rtg2sig input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.str.lib}/java/signature/eblock.str" main="Java-EBlock"/>
+				<!-- otherwise use two harmless options -->
+				<property name="java-front.strategy-forward-declaration" value="--clean"/>
+				<property name="java-front.constructor-forward-declaration" value="--clean"/>
+				<property name="java-front.package" value="org.strategoxt.java_front"/>
+				<property name="java-front.rtree-file" value="${str.lib}/libjavafront.rtree"/>
+				<echo>Separate Compilation not supported</echo>
+			</catch>
+		</trycatch>
 
-		<rtg2sig input="${bin.java-15}/Java-15.rtg" output="${bin.str.lib}/java/signature/v5.str" main="Java-15" />
-		<rtg2sig input="${bin.java.embed}/Java-EBlock.rtg" output="${bin.str.lib}/java/signature/eblock.str" main="Java-EBlock" />
+		
 
-		<strj-lib input="${str.lib}/javafront.str" output="${bin.java.lib}/Main.java" package="org.strategoxt.java_front">
+		<strj-lib input="${str.lib}/javafront.str" output="${bin.java.lib}/Main.java" package="${java-front.package}">
 			<strjlibargs>
 				<arg value="-la" />
 				<arg value="stratego-lib" />
@@ -185,6 +208,11 @@
 				<arg value="${dep.box}/sdf" />
 				<arg value="--cache-dir" />
 				<arg value=".cache" />
+				
+				<!-- Need them because not all stratego files import all required modules, but in the main module everything is available -->
+				<arg value="${java-front.strategy-forward-declaration}" />
+				<arg value="${java-front.constructor-forward-declaration}" /> 
+				
 			</strjlibargs>
 			<str-deps>
 				<srcfiles dir="${str.lib}" includes="**/*.str" />
@@ -207,8 +235,10 @@
 			<fileset dir="${bin}/languages/java-15" includes="*.tbl, *.pp.af" />
 			<fileset dir="${bin}/languages/stratego-java" includes="*.tbl, *.pp.af" />
 		</jar>
-		<copy file="${str.lib}/libjavafront.ctree" tofile="${bin.str.lib}/libjava-front.ctree" />
-		<copy file="${str.lib}/libjavafront.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
+		<copy file="${java-front.rtree-file}" tofile="${bin.str.lib}/libjava-front.rtree" />
+		<!-- <copy file="${str.lib}/libjavafront.ctree" tofile="${bin.str.lib}/libjava-front.ctree" /> -->
+		<copy file="${bin.str.lib}/libjava-front.rtree" tofile="${bin.str.lib}/libjava-front.rtree" />
+		
 	</target>
 
 	<target name="install" depends="syntax, stratego">
@@ -232,5 +262,8 @@
 		<delete dir="${install-location}" />
 		<delete dir=".cache" />
 		<delete dir="${str.lib}" includes="libjavafront.ctree, libjavafront.ctree.dep, libjavafront.rtree" />
+		<delete>
+			<fileset dir="${str.lib}/" includes="**/*.dep"/>
+		</delete>
 	</target>
 </project>
