@@ -190,7 +190,10 @@
 
 		
 
-		<strj-lib input="${str.lib}/javafront.str" output="${bin.java.lib}/Main.java" package="${java-front.package}">
+		<strj-lib	input="${str.lib}/javafront.str"
+					output="${bin.java.lib}/Main.java"
+					package="${java-front.package}"
+					independent-java-compilation="true">
 			<strjlibargs>
 				<arg value="-la" />
 				<arg value="stratego-lib" />
