@@ -174,6 +174,7 @@
 				<property name="java-front.constructor-forward-declaration" value="--constructor-forward-declaration"/>
 				<property name="java-front.package" value="org.strategoxt"/>
 				<property name="java-front.rtree-file" value="${bin.java.lib}/javafront/javafront.rtree"/>
+				<property name="java-front.independent-java-compilation" value="--independent-java-compilation"/>
 				<echo>Separate Compilation supported</echo>
 			</try>
 			<catch>
@@ -182,6 +183,7 @@
 				<!-- otherwise use two harmless options -->
 				<property name="java-front.strategy-forward-declaration" value="--clean"/>
 				<property name="java-front.constructor-forward-declaration" value="--clean"/>
+				<property name="java-front.independent-java-compilation" value="--clean"/>
 				<property name="java-front.package" value="org.strategoxt.java_front"/>
 				<property name="java-front.rtree-file" value="${str.lib}/libjavafront.rtree"/>
 				<echo>Separate Compilation not supported</echo>
@@ -192,8 +194,7 @@
 
 		<strj-lib	input="${str.lib}/javafront.str"
 					output="${bin.java.lib}/Main.java"
-					package="${java-front.package}"
-					independent-java-compilation="true">
+					package="${java-front.package}">
 			<strjlibargs>
 				<arg value="-la" />
 				<arg value="stratego-lib" />
@@ -214,7 +215,8 @@
 				
 				<!-- Need them because not all stratego files import all required modules, but in the main module everything is available -->
 				<arg value="${java-front.strategy-forward-declaration}" />
-				<arg value="${java-front.constructor-forward-declaration}" /> 
+				<arg value="${java-front.constructor-forward-declaration}" />
+				<arg value="${java-front.independent-java-compilation}" />
 				
 			</strjlibargs>
 			<str-deps>
