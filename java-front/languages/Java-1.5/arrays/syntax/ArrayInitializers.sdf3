@@ -3,7 +3,7 @@
  %%%
 module ArrayInitializers
 
-imports 
+imports
 
   FieldDeclarations
 
@@ -13,5 +13,5 @@ sorts
 
 context-free syntax
 
-  ArrayInit.ArrayInit = <{ <{VarInit ","}*> }> 
-  ArrayInit.ArrayInit = <{ <{VarInit ","}*> , }> 
+  ArrayInit.ArrayInit = <{ <{VarInit ","}*> }>
+  ArrayInit.ArrayInit = <{ <{VarInit ","}*> , }>

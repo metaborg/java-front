@@ -3,8 +3,8 @@
  %%%
 module Packages
 
-imports 
+imports
 
-  CompilationUnits	
-  ImportDeclarations	
+  CompilationUnits
+  ImportDeclarations
   PackageDeclarations

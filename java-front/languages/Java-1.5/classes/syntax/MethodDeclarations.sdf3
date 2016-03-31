@@ -3,12 +3,12 @@
  %%%
 module MethodDeclarations
 
-imports 
+imports
 
-  Identifiers	
-  Modifiers		
-  FieldDeclarations	
-  Annotations	
+  Identifiers
+  Modifiers
+  FieldDeclarations
+  Annotations
   Blocks
   Types
   TypeVariables
@@ -20,13 +20,13 @@ sorts
 
 context-free syntax
 
-  MethodDec.MethodDec = <<MethodDecHead> <MethodBody>> 
-  MethodParams.MethodParams = <<{FormalParam ","}*>> 
-  MethodDecHead.MethodDecHead = <<AnnoOrMethodMod*> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Throws?>> 
+  MethodDec.MethodDec = <<MethodDecHead> <MethodBody>>
+  MethodParams.MethodParams = <<{FormalParam ","}*>>
+  MethodDecHead.MethodDecHead = <<AnnoOrMethodMod*> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Throws?>>
   MethodDecHead.DeprMethodDecHead = <<AnnoOrMethodMod*> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Dim+> <Throws?>>
-  AnnoOrMethodMod = Anno 
-  AnnoOrMethodMod = MethodMod  
-  ResultType = Type 
+  AnnoOrMethodMod = Anno
+  AnnoOrMethodMod = MethodMod
+  ResultType = Type
   ResultType.Void = <void>
 
 sorts
@@ -35,12 +35,12 @@ sorts
 
 context-free syntax
 
-  FormalParam.Param = <<Alt3*> <Type> <VarDecId>> 
-  Alt3 = Anno 
-  Alt3 = VarMod 
-  FormalParam.VarArityParam = <<Alt4*> <Type> ... <VarDecId>> 
-  Alt4 = Anno 
-  Alt4 = VarMod 
+  FormalParam.Param = <<Alt3*> <Type> <VarDecId>>
+  Alt3 = Anno
+  Alt3 = VarMod
+  FormalParam.VarArityParam = <<Alt4*> <Type> ... <VarDecId>>
+  Alt4 = Anno
+  Alt4 = VarMod
 
 sorts
 
@@ -48,7 +48,7 @@ sorts
 
 context-free syntax
 
-  VarMod = Final 
+  VarMod = Final
 
 sorts
 
@@ -56,15 +56,15 @@ sorts
 
 context-free syntax
 
-  MethodMod = Public 
-  MethodMod = Protected 
-  MethodMod = Private 
-  MethodMod = Abstract 
-  MethodMod = Static 
-  MethodMod = Final 
-  MethodMod = Synchronized 
-  MethodMod = Native 
-  MethodMod = StrictFP 
+  MethodMod = Public
+  MethodMod = Protected
+  MethodMod = Private
+  MethodMod = Abstract
+  MethodMod = Static
+  MethodMod = Final
+  MethodMod = Synchronized
+  MethodMod = Native
+  MethodMod = StrictFP
 
 sorts
 
@@ -72,8 +72,8 @@ sorts
 
 context-free syntax
 
-  Throws.ThrowsDec = <throws <{ExceptionType ","}+>> 
-  ExceptionType = ClassType 
+  Throws.ThrowsDec = <throws <{ExceptionType ","}+>>
+  ExceptionType = ClassType
 
 sorts
 
@@ -81,5 +81,5 @@ sorts
 
 context-free syntax
 
-  MethodBody = Block 
-  MethodBody.NoMethodBody = <;> 
+  MethodBody = Block
+  MethodBody.NoMethodBody = <;>

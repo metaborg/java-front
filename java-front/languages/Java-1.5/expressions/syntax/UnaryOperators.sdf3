@@ -3,7 +3,7 @@
  %%%
 module UnaryOperators
 
-imports 
+imports
 
   Expressions
   PrimitiveTypes
@@ -11,11 +11,11 @@ imports
 
 context-free syntax
 
-  Expr.Plus = <+ <Expr>> 
-  Expr.Minus = <- <Expr>> 
-  Expr.PreIncr = <++ <Expr>> 
-  Expr.PreDecr = <-- <Expr>> 
-  Expr.Complement = <~ <Expr>> 
-  Expr.Not = <! <Expr>> 
-  Expr.CastPrim = <( <PrimType> ) <Expr>> 
-  Expr.CastRef = <( <RefType> ) <Expr>> 
+  Expr.Plus = <+ <Expr>>
+  Expr.Minus = <- <Expr>>
+  Expr.PreIncr = <++ <Expr>>
+  Expr.PreDecr = <-- <Expr>>
+  Expr.Complement = <~ <Expr>>
+  Expr.Not = <! <Expr>>
+  Expr.CastPrim = <( <PrimType> ) <Expr>>
+  Expr.CastRef = <( <RefType> ) <Expr>>

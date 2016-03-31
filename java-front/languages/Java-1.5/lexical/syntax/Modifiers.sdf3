@@ -6,25 +6,25 @@ sorts
 
 context-free syntax
 
-  Public.Public = <public> 
-  Private.Private = <private> 
-  Protected.Protected = <protected> 
-  Abstract.Abstract = <abstract> 
-  Final.Final = <final> 
-  Static.Static = <static> 
-  Native.Native = <native> 
-  Transient.Transient = <transient> 
-  Volatile.Volatile = <volatile> 
-  Synchronized.Synchronized = <synchronized> 
-  StrictFP.StrictFP = <strictfp> 
-  Modifier = Public 
-  Modifier = Private 
-  Modifier = Protected 
-  Modifier = Abstract 
-  Modifier = Final 
-  Modifier = Static 
-  Modifier = Native 
-  Modifier = Transient 
-  Modifier = Volatile 
-  Modifier = Synchronized 
-  Modifier = StrictFP 
+  Public.Public = <public>
+  Private.Private = <private>
+  Protected.Protected = <protected>
+  Abstract.Abstract = <abstract>
+  Final.Final = <final>
+  Static.Static = <static>
+  Native.Native = <native>
+  Transient.Transient = <transient>
+  Volatile.Volatile = <volatile>
+  Synchronized.Synchronized = <synchronized>
+  StrictFP.StrictFP = <strictfp>
+  Modifier = Public
+  Modifier = Private
+  Modifier = Protected
+  Modifier = Abstract
+  Modifier = Final
+  Modifier = Static
+  Modifier = Native
+  Modifier = Transient
+  Modifier = Volatile
+  Modifier = Synchronized
+  Modifier = StrictFP

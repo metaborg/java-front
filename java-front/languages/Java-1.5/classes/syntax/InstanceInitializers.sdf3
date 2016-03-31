@@ -14,4 +14,4 @@ sorts
 
 context-free syntax
 
-  InstanceInit.InstanceInit = Block 
+  InstanceInit.InstanceInit = Block

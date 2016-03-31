@@ -3,14 +3,14 @@
  %%%
 module Annotations
 
-imports 
+imports
 
-	Identifiers	
-	Names	
-	Expressions
-	Primary // To import Expr sort
-	ReferenceTypes
-	AssignmentOperators
+  Identifiers
+  Names
+  Expressions
+  Primary // To import Expr sort
+  ReferenceTypes
+  AssignmentOperators
 
 sorts
 
@@ -18,15 +18,15 @@ sorts
 
 context-free syntax
 
-  Anno.Anno = <@ <InterfaceType> ( <{ElemValPair ","}*> )> 
-  Anno.SingleElemAnno = <@ <InterfaceType> ( <ElemVal> )> 
-  Anno.MarkerAnno = <@ <InterfaceType>> 
+  Anno.Anno = <@ <InterfaceType> ( <{ElemValPair ","}*> )>
+  Anno.SingleElemAnno = <@ <InterfaceType> ( <ElemVal> )>
+  Anno.MarkerAnno = <@ <InterfaceType>>
 
 context-free syntax
 
-  ElemValPair.ElemValPair = <<Id> = <ElemVal>> 
-  ElemVal = Expr 
-  ElemVal = Anno 
-  ElemVal.ElemValArrayInit = <{ <{ElemVal ","}*> }> 
-  ElemVal.ElemValArrayInit = <{ <{ElemVal ","}*> , }> 
+  ElemValPair.ElemValPair = <<Id> = <ElemVal>>
+  ElemVal = Expr
+  ElemVal = Anno
+  ElemVal.ElemValArrayInit = <{ <{ElemVal ","}*> }>
+  ElemVal.ElemValArrayInit = <{ <{ElemVal ","}*> , }>
   ElemVal = <<LHS> = <Expr>> {reject}

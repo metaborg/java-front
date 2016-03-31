@@ -3,13 +3,13 @@
  %%%
 module Lexical
 
-imports 
+imports
 
-  UnicodeEscapes	
-  LineTerminators	
-  WhiteSpace	
-  Comments	
-  Identifiers	
-  Keywords	
-  Modifiers	
+  UnicodeEscapes
+  LineTerminators
+  WhiteSpace
+  Comments
+  Identifiers
+  Keywords
+  Modifiers
   Expressions

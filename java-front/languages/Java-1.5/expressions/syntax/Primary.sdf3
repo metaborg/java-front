@@ -3,10 +3,10 @@
  %%%
 module Primary
 
-imports 
+imports
 
-  Literals	
-  Names	
+  Literals
+  Names
   Expressions
   Types
   IntegerLiterals
@@ -22,13 +22,13 @@ sorts
 
 context-free syntax
 
-  Expr.Lit = Literal 
-  Literal = IntLiteral 
-  Literal = FloatLiteral 
-  Literal = BoolLiteral 
-  Literal = CharLiteral 
-  Literal = StringLiteral 
-  Literal = NullLiteral 
+  Expr.Lit = Literal
+  Literal = IntLiteral
+  Literal = FloatLiteral
+  Literal = BoolLiteral
+  Literal = CharLiteral
+  Literal = StringLiteral
+  Literal = NullLiteral
 
 sorts
 
@@ -36,14 +36,14 @@ sorts
 
 context-free syntax
 
-  Literal = ClassLiteral 
-  ClassLiteral.Class = <<Type> . class> 
-  ClassLiteral.VoidClass = <void . class> 
+  Literal = ClassLiteral
+  ClassLiteral.Class = <<Type> . class>
+  ClassLiteral.VoidClass = <void . class>
 
 context-free syntax
 
-  Expr.This = <this> 
-  Expr.QThis = <<TypeName> . this> 
+  Expr.This = <this>
+  Expr.QThis = <<TypeName> . this>
 
 context-free syntax
 

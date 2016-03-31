@@ -15,13 +15,13 @@ context-free syntax
 
 lexical syntax
 
-  DeciLiteral = DeciNumeral [lL]? 
-  HexaLiteral = HexaNumeral [lL]? 
-  OctaLiteral = OctaNumeral [lL]? 
-  DeciNumeral = "0" 
-  DeciNumeral = [1-9] [0-9]* 
-  HexaNumeral = [0] [xX] [0-9a-fA-F]+ 
-  OctaNumeral = [0] [0-7]+ 
+  DeciLiteral = DeciNumeral [lL]?
+  HexaLiteral = HexaNumeral [lL]?
+  OctaLiteral = OctaNumeral [lL]?
+  DeciNumeral = "0"
+  DeciNumeral = [1-9] [0-9]*
+  HexaNumeral = [0] [xX] [0-9a-fA-F]+
+  OctaNumeral = [0] [0-7]+
 
 lexical restrictions
 

@@ -1,13 +1,13 @@
 module languages/Java-1.5/statements/types/control
 
 imports
-	
-	signatures/-
-	runtime/task/-
-	runtime/types/-
-	runtime/properties/-
-	runtime/relations/-
-	
+
+  signatures/-
+  runtime/task/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/relations/-
+
 type rules
 
   If(e, _)

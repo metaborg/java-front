@@ -3,7 +3,7 @@
  %%%
 module ParameterizedTypes
 
-imports 
+imports
 
   ReferenceTypes
   Types
@@ -14,8 +14,8 @@ sorts
 
 context-free syntax
 
-  TypeArgs.TypeArgs = <\< <{ActualTypeArg ","}+> \>> 
-  ActualTypeArg = Type 
-  ActualTypeArg.Wildcard = <? <WildcardBound?>> 
-  WildcardBound.WildcardUpperBound = <extends <RefType>> 
-  WildcardBound.WildcardLowerBound = <super <RefType>> 
+  TypeArgs.TypeArgs = <\< <{ActualTypeArg ","}+> \>>
+  ActualTypeArg = Type
+  ActualTypeArg.Wildcard = <? <WildcardBound?>>
+  WildcardBound.WildcardUpperBound = <extends <RefType>>
+  WildcardBound.WildcardLowerBound = <super <RefType>>

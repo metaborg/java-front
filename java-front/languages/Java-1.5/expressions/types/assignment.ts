@@ -1,39 +1,39 @@
 module languages/Java-1.5/expressions/types/assignment
 
 imports
-	
-	signatures/-
-	runtime/task/-
-	runtime/types/-
-	runtime/properties/-
-	runtime/relations/-
-	
-	languages/Java-1.5/types/types/assignment
-	languages/Java-1.5/types/types/cast
-	
+
+  signatures/-
+  runtime/task/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/relations/-
+
+  languages/Java-1.5/types/types/assignment
+  languages/Java-1.5/types/types/cast
+
 type rules
 
-	t@Assign(v, e) + t@LocalVarDec(_, v, VarDec(_, e), _): v-ty
-	where v : v-ty
-	  and e : e-ty
-	  and e-ty <assign-conv: v-ty
-	    else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
-	    
+  t@Assign(v, e) + t@LocalVarDec(_, v, VarDec(_, e), _): v-ty
+  where v : v-ty
+    and e : e-ty
+    and e-ty <assign-conv: v-ty
+      else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
+
   t@AssignPlus(v, e) : ty
   where v : v-ty
     and e : e-ty
-    and ( 
-	    (
-	    	    v-ty <is: String()
-	    	and v-ty => ty
-	    ) 
-	    or 
-	    (
-		        v-ty <is: Primitive() else error "Expected primitive type" on v
-		    and e-ty <is: Primitive() else error "Expected primitive type" on e
-		    and e-ty <comp-assign-conv: v-ty
-		      else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
-	    )
+    and (
+      (
+            v-ty <is: String()
+        and v-ty => ty
+      )
+      or
+      (
+            v-ty <is: Primitive() else error "Expected primitive type" on v
+        and e-ty <is: Primitive() else error "Expected primitive type" on e
+        and e-ty <comp-assign-conv: v-ty
+          else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
+      )
     )
 
   t@AssignMinus(v, e)
@@ -52,4 +52,3 @@ type rules
     and e-ty <is: Primitive() else error "Expected primitive type" on e
     and e-ty <comp-assign-conv: v-ty
       else error $[Cannot assign expression of type [e-ty] to variable of type [v-ty]] on t
- 

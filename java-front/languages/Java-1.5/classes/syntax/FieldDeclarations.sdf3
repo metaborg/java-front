@@ -4,14 +4,14 @@
 module FieldDeclarations
 
 imports
- 
-  Identifiers	
-	Modifiers
-	Types
-	Annotations	
-	ArrayInitializers	
-	Expressions
-	Primary // To import Expr sort
+
+  Identifiers
+  Modifiers
+  Types
+  Annotations
+  ArrayInitializers
+  Expressions
+  Primary // To import Expr sort
 
 sorts
 
@@ -19,16 +19,16 @@ sorts
 
 context-free syntax
 
-  FieldDec.FieldDec = <<Alt1*> <Type> <{VarDec ","}+> ;> 
-  Alt1 = Anno 
-  Alt1 = FieldMod 
-  VarDec.VarDec = VarDecId 
-  VarDec.VarDec = <<VarDecId> = <VarInit>> 
-  VarDecId = Id 
-  VarDecId.ArrayVarDecId = <<Id> <Dim+>> 
-  Dim.Dim = <[ ]> 
-  VarInit = Expr 
-  VarInit = ArrayInit 
+  FieldDec.FieldDec = <<Alt1*> <Type> <{VarDec ","}+> ;>
+  Alt1 = Anno
+  Alt1 = FieldMod
+  VarDec.VarDec = VarDecId
+  VarDec.VarDec = <<VarDecId> = <VarInit>>
+  VarDecId = Id
+  VarDecId.ArrayVarDecId = <<Id> <Dim+>>
+  Dim.Dim = <[ ]>
+  VarInit = Expr
+  VarInit = ArrayInit
 
 sorts
 
@@ -36,10 +36,10 @@ sorts
 
 context-free syntax
 
-  FieldMod = Public 
-  FieldMod = Protected 
-  FieldMod = Private 
-  FieldMod = Static 
-  FieldMod = Final 
-  FieldMod = Transient 
-  FieldMod = Volatile 
+  FieldMod = Public
+  FieldMod = Protected
+  FieldMod = Private
+  FieldMod = Static
+  FieldMod = Final
+  FieldMod = Transient
+  FieldMod = Volatile

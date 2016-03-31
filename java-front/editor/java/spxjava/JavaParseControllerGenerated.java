@@ -12,8 +12,8 @@ import org.strategoxt.imp.runtime.dynamicloading.Descriptor;
 import org.strategoxt.imp.runtime.dynamicloading.DescriptorFactory;
 import org.strategoxt.imp.runtime.dynamicloading.DynamicParseController;
 
-public class JavaParseControllerGenerated extends DynamicParseController 
-{ 
+public class JavaParseControllerGenerated extends DynamicParseController
+{
   public static final String LANGUAGE = new String("Java");
 
   private static final String TABLE = "/include/" + LANGUAGE + ".tbl";
@@ -25,7 +25,7 @@ public class JavaParseControllerGenerated extends DynamicParseController
   private static Throwable notLoadingCause;
 
   public static synchronized Descriptor getDescriptor()
-  { 
+  {
     if(notLoadingCause != null)
       throw new RuntimeException(notLoadingCause);
     if(descriptor == null)
@@ -34,24 +34,24 @@ public class JavaParseControllerGenerated extends DynamicParseController
   }
 
   protected static synchronized void setDescriptor(Descriptor descriptor)
-  { 
+  {
     JavaParseControllerGenerated.descriptor = descriptor;
   }
 
   protected static void createDescriptor()
-  { 
+  {
     try
-    { 
+    {
       InputStream descriptorStream = JavaParseControllerGenerated.class.getResourceAsStream(DESCRIPTOR);
       InputStream table = JavaParseControllerGenerated.class.getResourceAsStream(TABLE);
       boolean filesystem = false;
       if(descriptorStream == null && new File("./" + DESCRIPTOR).exists())
-      { 
+      {
         descriptorStream = new FileInputStream("./" + DESCRIPTOR);
         filesystem = true;
       }
       if(table == null && new File("./" + TABLE).exists())
-      { 
+      {
         table = new FileInputStream("./" + TABLE);
         filesystem = true;
       }
@@ -63,13 +63,13 @@ public class JavaParseControllerGenerated extends DynamicParseController
       descriptor.setAttachmentProvider(JavaParseControllerGenerated.class);
     }
     catch(BadDescriptorException exc)
-    { 
+    {
       notLoadingCause = exc;
       Environment.logException("Bad descriptor for " + LANGUAGE + " plugin", exc);
       throw new RuntimeException("Bad descriptor for " + LANGUAGE + " plugin", exc);
     }
     catch(IOException exc)
-    { 
+    {
       notLoadingCause = exc;
       Environment.logException("I/O problem loading descriptor for " + LANGUAGE + " plugin", exc);
       throw new RuntimeException("I/O problem loading descriptor for " + LANGUAGE + " plugin", exc);
@@ -77,22 +77,22 @@ public class JavaParseControllerGenerated extends DynamicParseController
   }
 
   private static String getPluginLocation()
-  { 
+  {
     return JavaParseController.class.getProtectionDomain().getCodeSource().getLocation().getFile();
   }
 
   @Override public IParseController getWrapped()
-  { 
+  {
     if(!isInitialized())
-    { 
+    {
       if(notLoadingCause != null)
         throw new RuntimeException(notLoadingCause);
       try
-      { 
+      {
         initialize(this, getDescriptor().getLanguage());
       }
       catch(BadDescriptorException exc)
-      { 
+      {
         notLoadingCause = exc;
         throw new RuntimeException(exc);
       }
@@ -101,7 +101,7 @@ public class JavaParseControllerGenerated extends DynamicParseController
   }
 
   @Override protected void setNotLoadingCause(Throwable value)
-  { 
+  {
     notLoadingCause = value;
     super.setNotLoadingCause(value);
   }

@@ -3,14 +3,14 @@
  %%%
 module ConstantDeclarations
 
-imports 
+imports
 
-	Modifiers	
-	Expressions	
-	MethodDeclarations	
-	Annotations
-	Types
-	FieldDeclarations
+  Modifiers
+  Expressions
+  MethodDeclarations
+  Annotations
+  Types
+  FieldDeclarations
 
 sorts
 
@@ -18,9 +18,9 @@ sorts
 
 context-free syntax
 
-  ConstantDec.ConstantDec = <<AnnoOrConstantMod*> <Type> <{VarDec ","}+> ;> 
-  AnnoOrConstantMod = Anno 
-  AnnoOrConstantMod = ConstantMod 
-  ConstantMod = Public 
-  ConstantMod = Static 
-  ConstantMod = Final 
+  ConstantDec.ConstantDec = <<AnnoOrConstantMod*> <Type> <{VarDec ","}+> ;>
+  AnnoOrConstantMod = Anno
+  AnnoOrConstantMod = ConstantMod
+  ConstantMod = Public
+  ConstantMod = Static
+  ConstantMod = Final

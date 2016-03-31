@@ -1,4 +1,4 @@
 package spxjava;
 
-public class JavaParseController extends JavaParseControllerGenerated 
-{ } 
+public class JavaParseController extends JavaParseControllerGenerated
+{ }

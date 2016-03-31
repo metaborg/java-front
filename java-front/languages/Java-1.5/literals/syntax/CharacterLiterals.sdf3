@@ -3,9 +3,9 @@
  %%%
 module CharacterLiterals
 
-imports 
+imports
 
-  EscapeSequences	
+  EscapeSequences
   UnicodeEscapes
 
 sorts
@@ -14,9 +14,9 @@ sorts
 
 syntax
 
-  CharLiteral-CF = CharLiteral 
-  CharLiteral.Char = "'" CharContent "'" 
-  CharContent.Single = SingleChar 
-  CharContent = UnicodeEscape 
-  CharContent = EscapeSeq 
-  SingleChar = ~[\r\n\'\\] 
+  CharLiteral-CF = CharLiteral
+  CharLiteral.Char = "'" CharContent "'"
+  CharContent.Single = SingleChar
+  CharContent = UnicodeEscape
+  CharContent = EscapeSeq
+  SingleChar = ~[\r\n\'\\]

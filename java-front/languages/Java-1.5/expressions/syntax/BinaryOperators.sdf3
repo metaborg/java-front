@@ -1,6 +1,6 @@
 module BinaryOperators
 
-imports 
+imports
 
   ReferenceTypes
 
@@ -10,7 +10,7 @@ sorts
 
 context-free syntax
 
-  Expr.InstanceOf = <<Expr> instanceof <RefType>> 
+  Expr.InstanceOf = <<Expr> instanceof <RefType>>
   Expr.Mul = <<Expr> * <Expr>> {left}
   Expr.Div = <<Expr> / <Expr>> {left}
   Expr.Mod = <<Expr> % <Expr>> {left}

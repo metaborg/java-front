@@ -8,7 +8,7 @@ imports
   runtime/relations/-
   runtime/types/-
   runtime/editor/-
-  
+
   signatures/-
   languages/Java-1.5/classes/trans/desugar
   names/languages/Java-1.5/classes/names/classes
@@ -18,8 +18,7 @@ imports
   varids
 
 rules
-  
+
   nabl-new-scoping-site =
     ?ClassDec(_, _, _, c, _, _, _ , _)
   ; ClassDec(id, id, id, id, id, id, id, add-annotation(|FixedScope(NablNsType(), <nabl-get-name; nabl-collect-def; nabl-uri> c)))
-     

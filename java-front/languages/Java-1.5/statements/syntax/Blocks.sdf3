@@ -5,8 +5,8 @@ module Blocks
 
 imports
 
-  ClassDeclarations	
-  LocalVariableDeclarations	
+  ClassDeclarations
+  LocalVariableDeclarations
   AllStatements
 
 sorts
@@ -15,7 +15,7 @@ sorts
 
 context-free syntax
 
-  Block.Block = <{ <BlockStm*> }> 
-  BlockStm = LocalVarDecStm 
-  BlockStm.ClassDecStm = ClassDec 
-  BlockStm = Stm 
+  Block.Block = <{ <BlockStm*> }>
+  BlockStm = LocalVarDecStm
+  BlockStm.ClassDecStm = ClassDec
+  BlockStm = Stm

@@ -1,13 +1,13 @@
 module spxjava
 
 imports
-  
+
   libstratego-lib
   libstratego-gpp
   libstratego-aterm
 
   signatures/-
-  
+
   editor-common.generated
   runtime/editor/-
   runtime/nabl/-
@@ -27,12 +27,12 @@ imports
   analysis
 
 rules // Editor services
-	
+
   editor-outline:
     (_, _, ast, path, project-path) -> outline
     where
       outline := <simple-label-outline(to-outline-label)> ast
-  
+
   editor-format:
     (node, _, ast, path, project-path) -> (filename, result)
     with
@@ -41,7 +41,7 @@ rules // Editor services
     ; result   := <pp-debug> node
 
 rules // Debugging
-  
+
   debug-show-aterm:
     (selected, position, ast, path, project-path) -> (filename, selected)
     with
@@ -51,6 +51,6 @@ rules // Debugging
     (selected, position, ast, path, project-path) -> (filename, <desugar-top> selected)
     with
       filename := <guarantee-extension(|"aterm")> path
-		
+
   // analysis-default-debug-interface(msg) = debug(msg)
   // analysis-default-debug-interface = debug

@@ -3,9 +3,9 @@
  %%%
 module TypeDeclarations
 
-imports 
+imports
 
-  ClassDeclarations	
+  ClassDeclarations
   InterfaceDeclarations
 
 sorts
@@ -14,6 +14,6 @@ sorts
 
 context-free syntax
 
-  TypeDec = ClassDec 
-  TypeDec = InterfaceDec 
-  TypeDec.Semicolon = <;> 
+  TypeDec = ClassDec
+  TypeDec = InterfaceDec
+  TypeDec.Semicolon = <;>

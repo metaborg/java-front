@@ -3,27 +3,27 @@
  %%%
 module AnnotationTypes
 
-imports 
-	
-	Identifiers	
-	ClassDeclarations	
-	EnumDeclarations	
-	InterfaceDeclarations	
-	AbstractMethodDeclarations	
-	ConstantDeclarations	
-	Annotations
+imports
+
+  Identifiers
+  ClassDeclarations
+  EnumDeclarations
+  InterfaceDeclarations
+  AbstractMethodDeclarations
+  ConstantDeclarations
+  Annotations
   Types
-  
+
 sorts
 
   AnnoDec AnnoDecHead
 
 context-free syntax
 
-  AnnoDec.AnnoDec = <<AnnoDecHead> { <AnnoElemDec*> }> 
-  AnnoDecHead.AnnoDecHead = <<AnnoOrInterfaceMod*> @ interface <Id>> 
-  AnnoOrInterfaceMod = Anno 
-  AnnoOrInterfaceMod = InterfaceMod 
+  AnnoDec.AnnoDec = <<AnnoDecHead> { <AnnoElemDec*> }>
+  AnnoDecHead.AnnoDecHead = <<AnnoOrInterfaceMod*> @ interface <Id>>
+  AnnoOrInterfaceMod = Anno
+  AnnoOrInterfaceMod = InterfaceMod
 
 sorts
 
@@ -31,11 +31,11 @@ sorts
 
 context-free syntax
 
-  AnnoElemDec.AnnoMethodDec = <<AbstractMethodMod*> <Type> <Id> ( ) <DefaultVal?> ;> 
-  AnnoElemDec = ConstantDec 
-  AnnoElemDec = ClassDec 
-  AnnoElemDec = InterfaceDec 
-  AnnoElemDec = EnumDec 
-  AnnoElemDec = AnnoDec 
-  AnnoElemDec.Semicolon = <;> 
-  DefaultVal.DefaultVal = <default <ElemVal>> 
+  AnnoElemDec.AnnoMethodDec = <<AbstractMethodMod*> <Type> <Id> ( ) <DefaultVal?> ;>
+  AnnoElemDec = ConstantDec
+  AnnoElemDec = ClassDec
+  AnnoElemDec = InterfaceDec
+  AnnoElemDec = EnumDec
+  AnnoElemDec = AnnoDec
+  AnnoElemDec.Semicolon = <;>
+  DefaultVal.DefaultVal = <default <ElemVal>>

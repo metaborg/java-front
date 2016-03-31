@@ -9,11 +9,11 @@ sorts
 
 lexical syntax
 
-  LineTerminator = [\n] 
-  LineTerminator = [\r] [\n] 
-  LineTerminator = CarriageReturn 
-  LineTerminator = EndOfFile 
-  CarriageReturn = [\r] 
+  LineTerminator = [\n]
+  LineTerminator = [\r] [\n]
+  LineTerminator = CarriageReturn
+  LineTerminator = EndOfFile
+  CarriageReturn = [\r]
 
 lexical restrictions
 
@@ -21,7 +21,7 @@ lexical restrictions
 
 lexical syntax
 
-  EndOfFile =  
+  EndOfFile =
 
 lexical restrictions
 

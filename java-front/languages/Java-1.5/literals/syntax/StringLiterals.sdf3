@@ -4,7 +4,7 @@
 module StringLiterals
 
 imports
-  EscapeSequences	
+  EscapeSequences
   UnicodeEscapes
 
 sorts
@@ -13,13 +13,13 @@ sorts
 
 syntax
 
-  StringLiteral-CF = StringLiteral 
-  StringLiteral.String = "\"" StringPart* "\"" 
-  StringPart.Chars = StringChars 
-  StringPart = UnicodeEscape 
-  StringPart = EscapeSeq 
-  StringChars = FooStringChars-LEX 
-  FooStringChars-LEX = ~[\"\\\n\13]+ 
+  StringLiteral-CF = StringLiteral
+  StringLiteral.String = "\"" StringPart* "\""
+  StringPart.Chars = StringChars
+  StringPart = UnicodeEscape
+  StringPart = EscapeSeq
+  StringChars = FooStringChars-LEX
+  FooStringChars-LEX = ~[\"\\\n\13]+
 
 restrictions
 

@@ -3,20 +3,20 @@
  %%%
 module ClassDeclarations
 
-imports 
+imports
 
-	Identifiers	
-	Modifiers	
-	ReferenceTypes	
-	TypeVariables	
-	FieldDeclarations	
-	MethodDeclarations	
-	InstanceInitializers	
-	StaticInitializers	
-	ConstructorDeclarations	
-	EnumDeclarations	
-	InterfaceDeclarations
-	Annotations
+  Identifiers
+  Modifiers
+  ReferenceTypes
+  TypeVariables
+  FieldDeclarations
+  MethodDeclarations
+  InstanceInitializers
+  StaticInitializers
+  ConstructorDeclarations
+  EnumDeclarations
+  InterfaceDeclarations
+  Annotations
 
 sorts
 
@@ -24,12 +24,12 @@ sorts
 
 context-free syntax
 
-  ClassDec = EnumDec 
-  ClassDec.ClassDec = <<ClassDecHead> <ClassBody>> 
-  ClassBody.ClassBody = <{ <ClassBodyDec*> }> 
-  ClassDecHead.ClassDecHead = <<AnnoOrClasMod*> class <Id> <TypeParams?> <Super?> <Interfaces?>> 
-  AnnoOrClasMod = Anno 
-  AnnoOrClasMod = ClassMod 
+  ClassDec = EnumDec
+  ClassDec.ClassDec = <<ClassDecHead> <ClassBody>>
+  ClassBody.ClassBody = <{ <ClassBodyDec*> }>
+  ClassDecHead.ClassDecHead = <<AnnoOrClasMod*> class <Id> <TypeParams?> <Super?> <Interfaces?>>
+  AnnoOrClasMod = Anno
+  AnnoOrClasMod = ClassMod
 
 sorts
 
@@ -37,13 +37,13 @@ sorts
 
 context-free syntax
 
-  ClassMod = Abstract 
-  ClassMod = Public 
-  ClassMod = Protected 
-  ClassMod = Private 
-  ClassMod = Static 
-  ClassMod = Final 
-  ClassMod = StrictFP 
+  ClassMod = Abstract
+  ClassMod = Public
+  ClassMod = Protected
+  ClassMod = Private
+  ClassMod = Static
+  ClassMod = Final
+  ClassMod = StrictFP
 
 sorts
 
@@ -51,7 +51,7 @@ sorts
 
 context-free syntax
 
-  Super.SuperDec = <extends <ClassType>> 
+  Super.SuperDec = <extends <ClassType>>
 
 sorts
 
@@ -59,7 +59,7 @@ sorts
 
 context-free syntax
 
-  Interfaces.ImplementsDec = <implements <{InterfaceType ","}+>> 
+  Interfaces.ImplementsDec = <implements <{InterfaceType ","}+>>
 
 sorts
 
@@ -67,15 +67,15 @@ sorts
 
 context-free syntax
 
-  ClassBodyDec = ClassMemberDec 
-  ClassBodyDec = InstanceInit 
-  ClassBodyDec = StaticInit 
-  ClassBodyDec = ConstrDec 
+  ClassBodyDec = ClassMemberDec
+  ClassBodyDec = InstanceInit
+  ClassBodyDec = StaticInit
+  ClassBodyDec = ConstrDec
 
 context-free syntax
 
-  ClassMemberDec = FieldDec 
-  ClassMemberDec = MethodDec 
-  ClassMemberDec = ClassDec 
-  ClassMemberDec = InterfaceDec 
-  ClassMemberDec.Semicolon = <;> 
+  ClassMemberDec = FieldDec
+  ClassMemberDec = MethodDec
+  ClassMemberDec = ClassDec
+  ClassMemberDec = InterfaceDec
+  ClassMemberDec.Semicolon = <;>

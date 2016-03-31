@@ -1,15 +1,15 @@
 module languages/Java-1.5/names/types/names
 
 imports
-	
-	signatures/-
-	runtime/task/-
-	runtime/types/-
-	runtime/properties/-
-	runtime/relations/-
-	
+
+  signatures/-
+  runtime/task/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/relations/-
+
 type rules
-	
+
   AmbName(n)
 + AmbName(_, n)
 + PackageOrTypeName(n)

@@ -3,9 +3,9 @@
  %%%
 module ImportDeclarations
 
-imports 
+imports
 
-  Identifiers	
+  Identifiers
   Expressions
   Names
 
@@ -15,7 +15,7 @@ sorts
 
 context-free syntax
 
-  ImportDec.TypeImportDec = <import <TypeName> ;> 
-  ImportDec.TypeImportOnDemandDec = <import <PackageName> . * ;> 
-  ImportDec.StaticImportDec = <import static <TypeName> . <Id> ;> 
-  ImportDec.StaticImportOnDemandDec = <import static <TypeName> . * ;> 
+  ImportDec.TypeImportDec = <import <TypeName> ;>
+  ImportDec.TypeImportOnDemandDec = <import <PackageName> . * ;>
+  ImportDec.StaticImportDec = <import static <TypeName> . <Id> ;>
+  ImportDec.StaticImportOnDemandDec = <import static <TypeName> . * ;>

@@ -5,7 +5,7 @@ module LocalVariableDeclarations
 
 imports
 
-  MethodDeclarations	
+  MethodDeclarations
   FieldDeclarations
   Types
   Annotations
@@ -18,5 +18,5 @@ context-free syntax
 
   LocalVarDecStm.LocalVarDecStm = <<LocalVarDec> ;> {prefer}
   LocalVarDec.LocalVarDec = <<AnnoOrVarMod> <Type> <{VarDec ","}+>> {prefer}
-  AnnoOrVarMod = Anno 
-  AnnoOrVarMod = VarMod 
+  AnnoOrVarMod = Anno
+  AnnoOrVarMod = VarMod

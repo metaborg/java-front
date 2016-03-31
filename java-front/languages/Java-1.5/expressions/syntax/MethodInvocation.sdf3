@@ -3,7 +3,7 @@
  %%%
 module MethodInvocation
 
-imports 
+imports
 
   Expressions
   Names
@@ -16,14 +16,14 @@ sorts
 
 context-free syntax
 
-  MethodArgs.MethodArgs = <<{Expr ","}*>> 
-  Expr.Invoke = <<MethodSpec> ( <MethodArgs> )> 
-  MethodSpec.Method = MethodName 
-  MethodSpec.Method = <<Expr> . <TypeArgs?> <Id>> 
-  MethodSpec.SuperMethod = <super . <TypeArgs?> <Id>> 
-  MethodSpec.QSuperMethod = <<TypeName> . super . <TypeArgs?> <Id>> 
-  MethodSpec.GenericMethod = <<AmbName> . <TypeArgs> <Id>> 
+  MethodArgs.MethodArgs = <<{Expr ","}*>>
+  Expr.Invoke = <<MethodSpec> ( <MethodArgs> )>
+  MethodSpec.Method = MethodName
+  MethodSpec.Method = <<Expr> . <TypeArgs?> <Id>>
+  MethodSpec.SuperMethod = <super . <TypeArgs?> <Id>>
+  MethodSpec.QSuperMethod = <<TypeName> . super . <TypeArgs?> <Id>>
+  MethodSpec.GenericMethod = <<AmbName> . <TypeArgs> <Id>>
 
 context-free priorities
 
-  MethodSpec = Expr "." TypeArgs? Id  > Expr = ExprName 
+  MethodSpec = Expr "." TypeArgs? Id  > Expr = ExprName

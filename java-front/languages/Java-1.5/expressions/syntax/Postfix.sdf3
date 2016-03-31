@@ -3,13 +3,13 @@
  %%%
 module Postfix
 
-imports 
+imports
 
   Expressions
   Names
 
 context-free syntax
 
-  Expr = ExprName 
-  Expr.PostIncr = <<Expr> ++> 
-  Expr.PostDecr = <<Expr> --> 
+  Expr = ExprName
+  Expr.PostIncr = <<Expr> ++>
+  Expr.PostDecr = <<Expr> -->

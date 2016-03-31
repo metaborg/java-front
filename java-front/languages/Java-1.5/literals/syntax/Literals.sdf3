@@ -3,11 +3,11 @@
  %%%
 module Literals
 
-imports 
+imports
 
-  IntegerLiterals	
-  FloatingPointLiterals	
-  BooleanLiterals	
-  CharacterLiterals	
-  StringLiterals	
+  IntegerLiterals
+  FloatingPointLiterals
+  BooleanLiterals
+  CharacterLiterals
+  StringLiterals
   NullLiteral

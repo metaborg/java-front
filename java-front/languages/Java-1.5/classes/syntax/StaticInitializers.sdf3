@@ -3,7 +3,7 @@
  %%%
 module StaticInitializers
 
-imports 
+imports
 
   Blocks
 
@@ -13,4 +13,4 @@ sorts
 
 context-free syntax
 
-  StaticInit.StaticInit = <static <Block>> 
+  StaticInit.StaticInit = <static <Block>>

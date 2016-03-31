@@ -5,7 +5,7 @@ module WhiteSpace
 
 lexical syntax
 
-  LAYOUT = [\ \t\12\r\n] 
+  LAYOUT = [\ \t\12\r\n]
 
 context-free restrictions
 

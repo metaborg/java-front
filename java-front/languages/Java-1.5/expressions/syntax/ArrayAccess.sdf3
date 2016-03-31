@@ -1,6 +1,6 @@
 module ArrayAccess
 
-imports 
+imports
 
   ArrayCreation
 
@@ -10,7 +10,7 @@ sorts
 
 context-free syntax
 
-  Expr = ArrayAccess 
-  ArrayAccess.ArrayAccess = <<Expr> <ArraySubscript>> 
+  Expr = ArrayAccess
+  ArrayAccess.ArrayAccess = <<Expr> <ArraySubscript>>
   ArraySubscript = <[ <Expr> ]> {bracket}
   ArrayAccess = <<ArrayCreationExpr> <ArraySubscript>> {reject}

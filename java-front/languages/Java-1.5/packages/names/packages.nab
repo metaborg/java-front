@@ -8,76 +8,76 @@ imports
   runtime/relations/-
   runtime/types/-
   runtime/editor/-
-  
+
   signatures/-
-	languages/Java-1.5/classes/names/classes
-	languages/Java-1.5/types/names/types
-	languages/Java-1.5/packages/trans/desugar
+  languages/Java-1.5/classes/names/classes
+  languages/Java-1.5/types/names/types
+  languages/Java-1.5/packages/trans/desugar
 
 namespaces
 
   Package
   DefaultPackage
   CompilationUnit
-  
+
 properties
 
-	pkgannotations of Package : List(Anno)
+  pkgannotations of Package : List(Anno)
 
 binding rules // Compilation unit
 
-	File(_):
-		scopes CompilationUnit
+  File(_):
+    scopes CompilationUnit
 
-	CompilationUnit(name, _, _):
-		defines CompilationUnit name
-		scopes Type, Method, Field
+  CompilationUnit(name, _, _):
+    defines CompilationUnit name
+    scopes Type, Method, Field
 
 binding rules // Package
 
-	DefaultPackageDec(p, _):
-		defines non-unique DefaultPackage p
-		non-transitively scopes Package, Type
+  DefaultPackageDec(p, _):
+    defines non-unique DefaultPackage p
+    non-transitively scopes Package, Type
 
-	PackageDec(p, _):
-		defines non-unique Package p
-		non-transitively scopes Package, Type
-	
+  PackageDec(p, _):
+    defines non-unique Package p
+    non-transitively scopes Package, Type
+
   PackageDec(a*, p, _):
     defines non-unique Package p
-    	of pkgannotations a*
+      of pkgannotations a*
     non-transitively scopes Package, Type
 
 binding rules // Imports
 
   TypeImportDec(i):
     imports
-    	Type i
-    
+      Type i
+
   TypeImportOnDemandDec(i):
-    imports 
-    	Type 
-    	from Package i 
+    imports
+      Type
+      from Package i
     otherwise
-    	imports 
-	    	Type 
-	    	from Type i 
-  
+      imports
+        Type
+        from Type i
+
   // TODO: modifiers is a list.
   StaticImportDec(t, s):
-    imports 
-    	Method s 
-    		of modifiers Static() 
-  		from Type t 
+    imports
+      Method s
+        of modifiers Static()
+      from Type t
     otherwise
-    	imports
-    		Field s 
-    			of modifiers Static() 
-  			from Type t
-  
+      imports
+        Field s
+          of modifiers Static()
+        from Type t
+
   // TODO: modifiers is a list.
   StaticImportOnDemandDec(t):
-    imports 
-      Method, Field 
+    imports
+      Method, Field
         of modifiers Static()
       from Type t

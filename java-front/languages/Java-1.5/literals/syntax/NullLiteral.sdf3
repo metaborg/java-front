@@ -9,4 +9,4 @@ sorts
 
 context-free syntax
 
-  NullLiteral.Null = <null> 
+  NullLiteral.Null = <null>

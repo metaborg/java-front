@@ -3,7 +3,7 @@
  %%%
 module ArrayCreation
 
-imports 
+imports
 
   ArrayInitializers
   PrimitiveTypes
@@ -15,11 +15,11 @@ sorts
 
 context-free syntax
 
-  Expr = ArrayCreationExpr 
-  ArrayCreationExpr.NewArray = <new <ArrayBaseType> <DimExpr+> <Dim*>> 
-  ArrayCreationExpr.NewArrayInit = <new <ArrayBaseType> <Dim+> <ArrayInit>> 
-  ArrayBaseType = PrimType 
-  ArrayBaseType = TypeName 
-  ArrayBaseType.UnboundWld = <<TypeName> \< ? \>> 
-  DimExpr.Dim = <[ <Expr> ]> 
-  Dim.Dim = <[ ]> 
+  Expr = ArrayCreationExpr
+  ArrayCreationExpr.NewArray = <new <ArrayBaseType> <DimExpr+> <Dim*>>
+  ArrayCreationExpr.NewArrayInit = <new <ArrayBaseType> <Dim+> <ArrayInit>>
+  ArrayBaseType = PrimType
+  ArrayBaseType = TypeName
+  ArrayBaseType.UnboundWld = <<TypeName> \< ? \>>
+  DimExpr.Dim = <[ <Expr> ]>
+  Dim.Dim = <[ ]>

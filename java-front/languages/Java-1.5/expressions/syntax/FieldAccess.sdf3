@@ -3,7 +3,7 @@
  %%%
 module FieldAccess
 
-imports 
+imports
 
   Expressions
   Names
@@ -15,11 +15,11 @@ sorts
 
 context-free syntax
 
-  Expr = FieldAccess 
+  Expr = FieldAccess
 
 context-free syntax
 
-  FieldAccess.Field = <<Expr> . <Id>> 
+  FieldAccess.Field = <<Expr> . <Id>>
   FieldAccess = <<ExprName> . <Id>> {reject}
-  FieldAccess.SuperField = <super . <Id>> 
-  FieldAccess.QSuperField = <<TypeName> . super . <Id>> 
+  FieldAccess.SuperField = <super . <Id>>
+  FieldAccess.QSuperField = <<TypeName> . super . <Id>>

@@ -3,8 +3,8 @@
  %%%
 module Statements
 
-imports 
+imports
 
-  Blocks	
-  LocalVariableDeclarations	
+  Blocks
+  LocalVariableDeclarations
   AllStatements

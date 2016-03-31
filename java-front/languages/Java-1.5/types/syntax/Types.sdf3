@@ -3,12 +3,12 @@
  %%%
 module Types
 
-imports 
+imports
 
-  PrimitiveTypes	
-	ReferenceTypes	
-	TypeVariables	
-	ParameterizedTypes
+  PrimitiveTypes
+  ReferenceTypes
+  TypeVariables
+  ParameterizedTypes
 
 sorts
 
@@ -16,5 +16,5 @@ sorts
 
 context-free syntax
 
-  Type = PrimType 
-  Type = RefType 
+  Type = PrimType
+  Type = RefType

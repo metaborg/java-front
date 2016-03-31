@@ -1,15 +1,15 @@
 module AbstractMethodDeclarations
 
-imports 
+imports
 
-  Modifiers	
-  Expressions	
-	Annotations
-	Identifiers
-	MethodDeclarations
-	ParameterizedTypes
-	TypeVariables
-	FieldDeclarations
+  Modifiers
+  Expressions
+  Annotations
+  Identifiers
+  MethodDeclarations
+  ParameterizedTypes
+  TypeVariables
+  FieldDeclarations
 
 sorts
 
@@ -17,9 +17,9 @@ sorts
 
 context-free syntax
 
-  AbstractMethodDec.AbstractMethodDec = <<AnnoOrAbstractMethodMod> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Throws?> ;> 
-  AbstractMethodDec.DeprAbstractMethodDec = <<AnnoOrAbstractMethodMod> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Dim+> <Throws?> ;> 
-  AnnoOrAbstractMethodMod = Anno 
-  AnnoOrAbstractMethodMod = AbstractMethodMod 
-  AbstractMethodMod = Public 
-  AbstractMethodMod = Abstract 
+  AbstractMethodDec.AbstractMethodDec = <<AnnoOrAbstractMethodMod> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Throws?> ;>
+  AbstractMethodDec.DeprAbstractMethodDec = <<AnnoOrAbstractMethodMod> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Dim+> <Throws?> ;>
+  AnnoOrAbstractMethodMod = Anno
+  AnnoOrAbstractMethodMod = AbstractMethodMod
+  AbstractMethodMod = Public
+  AbstractMethodMod = Abstract

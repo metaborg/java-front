@@ -3,10 +3,10 @@
  %%%
 module CompilationUnits
 
-imports 
+imports
 
-  PackageDeclarations	
-  ImportDeclarations	
+  PackageDeclarations
+  ImportDeclarations
   TypeDeclarations
 
 sorts
@@ -15,5 +15,5 @@ sorts
 
 context-free syntax
 
-  File.File = CompilationUnit 
-  CompilationUnit.CompilationUnit = <<PackageDec?> <ImportDec*> <TypeDec+>> 
+  File.File = CompilationUnit
+  CompilationUnit.CompilationUnit = <<PackageDec?> <ImportDec*> <TypeDec+>>

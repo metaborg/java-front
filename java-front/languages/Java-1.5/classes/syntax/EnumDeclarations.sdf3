@@ -3,9 +3,9 @@
  %%%
 module EnumDeclarations
 
-imports 
+imports
 
-  Identifiers	
+  Identifiers
   ClassDeclarations
   Annotations
   Primary // To import Expr sort
@@ -16,12 +16,12 @@ sorts
 
 context-free syntax
 
-  EnumDec.EnumDec = <<EnumDecHead> <EnumBody>> 
-  EnumDecHead.EnumDecHead = <<AnnoOrClassMod> enum <Id> <Interfaces?>> 
-  AnnoOrClassMod = Anno 
-  AnnoOrClassMod = ClassMod 
-  EnumBody.EnumBody = <{ <{EnumConst ","}*> <EnumBodyDecs?> }> 
-  EnumBody.EnumBody = <{ <{EnumConst ","}*> , <EnumBodyDecs?> }> 
-  EnumConst.EnumConst = <<Id> <EnumConstArgs?> <ClassBody?>> 
+  EnumDec.EnumDec = <<EnumDecHead> <EnumBody>>
+  EnumDecHead.EnumDecHead = <<AnnoOrClassMod> enum <Id> <Interfaces?>>
+  AnnoOrClassMod = Anno
+  AnnoOrClassMod = ClassMod
+  EnumBody.EnumBody = <{ <{EnumConst ","}*> <EnumBodyDecs?> }>
+  EnumBody.EnumBody = <{ <{EnumConst ","}*> , <EnumBodyDecs?> }>
+  EnumConst.EnumConst = <<Id> <EnumConstArgs?> <ClassBody?>>
   EnumConstArgs = <( <{Expr ","}*> )> {bracket}
-  EnumBodyDecs.EnumBodyDecs = <; <ClassBodyDec*>> 
+  EnumBodyDecs.EnumBodyDecs = <; <ClassBodyDec*>>

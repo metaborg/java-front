@@ -7,23 +7,23 @@ imports
   Views
 
 language General properties
-	                
+
   name          : spxjava
-  
+
   description   : "Spoofax/IMP-generated editor for the Java language"
   url           : http://strategoxt.org
-  	
+
   extensions    : java
   table         : include/spxjava.tbl
   start symbols : File
-  
-  provider : include/spxjava.jar                                                                                             
-  provider : include/spxjava-java.jar                                                                                          
-	
+
+  provider : include/spxjava.jar
+  provider : include/spxjava-java.jar
+
   observer : editor-analyze (multifile)
 //  on save  : editor-save
 
 references
-	                
+
   reference _ : editor-resolve
   hover _     : editor-hover

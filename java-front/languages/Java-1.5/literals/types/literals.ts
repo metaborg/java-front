@@ -1,15 +1,15 @@
 module languages/Java-1.5/literals/types/literals
 
 imports
-	
-	signatures/-
-	runtime/task/-
-	runtime/types/-
-	runtime/properties/-
-	runtime/relations/-
-	
-	languages/Java-1.5/types/types/references
-	
+
+  signatures/-
+  runtime/task/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/relations/-
+
+  languages/Java-1.5/types/types/references
+
 type rules
 
   Bool(_)   : Boolean()
@@ -21,7 +21,7 @@ type rules
   Double(_) : Double()
   Float(_)  : Float()
   Null()    : Null()
-  
+
   // TODO: add def (or use) annotations to the name, and type annotation to the term
   // String(_) : RefType(TypeName("String"), None())
   // Class(_)  : RefType(TypeName("Class"), None())

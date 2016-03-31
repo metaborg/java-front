@@ -1,44 +1,44 @@
 module languages/Java-1.5/expressions/types/arithmetic
 
 imports
-	
-	signatures/-
-	runtime/task/-
-	runtime/types/-
-	runtime/properties/-
-	runtime/relations/-
-	
-	languages/Java-1.5/types/types/primitives
-	languages/Java-1.5/types/types/promotion
-	
+
+  signatures/-
+  runtime/task/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/relations/-
+
+  languages/Java-1.5/types/types/primitives
+  languages/Java-1.5/types/types/promotion
+
 type rules
 
-	Plus(x, y) : ty
-	where x : x-ty
-	  and y : y-ty
-	  and (
-		  (
-		        x-ty <is: String() and x-ty => ty
-		  	 or y-ty <is: String() and y-ty => ty
-	  	)
-		  or 
-		  (
-		        x-ty <is: Numerical() else error "Expected numerical" on x
-		    and y-ty <is: Numerical() else error "Expected numerical" on y
-		  	and <promote-bin> (x-ty, y-ty) => ty
-		  )
-	  )
+  Plus(x, y) : ty
+  where x : x-ty
+    and y : y-ty
+    and (
+      (
+            x-ty <is: String() and x-ty => ty
+         or y-ty <is: String() and y-ty => ty
+      )
+      or
+      (
+            x-ty <is: Numerical() else error "Expected numerical" on x
+        and y-ty <is: Numerical() else error "Expected numerical" on y
+        and <promote-bin> (x-ty, y-ty) => ty
+      )
+    )
 
   Minus(x, y)
 + Mul(x, y)
 + Div(x, y)
 + Mod(x, y) : ty
-	where x : x-ty
-	  and y : y-ty
-	  and x-ty <is: Numerical() else error "Expected numerical" on x
-	  and y-ty <is: Numerical() else error "Expected numerical" on y
-	  and <promote-bin> (x-ty, y-ty) => ty
- 
+  where x : x-ty
+    and y : y-ty
+    and x-ty <is: Numerical() else error "Expected numerical" on x
+    and y-ty <is: Numerical() else error "Expected numerical" on y
+    and <promote-bin> (x-ty, y-ty) => ty
+
   LeftShift(x, y)
 + RightShift(x, y)
 + URightShift(x, y) : x-prom-ty

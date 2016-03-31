@@ -9,6 +9,6 @@ sorts
 
 context-free syntax
 
-  BoolLiteral.Bool = Bool 
-  Bool.True = <true> 
-  Bool.False = <false> 
+  BoolLiteral.Bool = Bool
+  Bool.True = <true>
+  Bool.False = <false>

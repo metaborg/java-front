@@ -1,18 +1,18 @@
 module spxjava
 
-imports 
+imports
 
-  Lexical 
-	Types 
-	Names 
-	Packages  
-	Classes 
-	Interfaces  
-	Arrays  
-	Statements  
-	Expressions
-	
-	CompilationUnits
+  Lexical
+  Types
+  Names
+  Packages
+  Classes
+  Interfaces
+  Arrays
+  Statements
+  Expressions
+
+  CompilationUnits
 
 context-free start-symbols // Editor
 
@@ -20,7 +20,7 @@ context-free start-symbols // Editor
 
 context-free syntax // Testing
 
-  Files.Files = <multifile <{File "====="}+>> 
+  Files.Files = <multifile <{File "====="}+>>
 
 context-free start-symbols
 

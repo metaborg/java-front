@@ -1,10 +1,10 @@
 module languages/Java-1.5/lexical/trans/desugar
 
 imports
-	
-	signatures/-
-	
+
+  signatures/-
+
 rules
-	
-	desugar-singleton-appl:
-		Id(s) -> s
+
+  desugar-singleton-appl:
+    Id(s) -> s

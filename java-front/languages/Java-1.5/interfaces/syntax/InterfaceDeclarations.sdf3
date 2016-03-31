@@ -3,19 +3,19 @@
  %%%
 module InterfaceDeclarations
 
-imports 
+imports
 
-	Identifiers	
-	Modifiers	
-	Expressions	
-	ClassDeclarations	
-	MethodDeclarations	
-	ConstantDeclarations	
-	AbstractMethodDeclarations	
-	AnnotationTypes	
-	Annotations
-	ReferenceTypes
-	TypeVariables
+  Identifiers
+  Modifiers
+  Expressions
+  ClassDeclarations
+  MethodDeclarations
+  ConstantDeclarations
+  AbstractMethodDeclarations
+  AnnotationTypes
+  Annotations
+  ReferenceTypes
+  TypeVariables
 
 sorts
 
@@ -23,26 +23,26 @@ sorts
 
 context-free syntax
 
-  InterfaceDec = AnnoDec 
-  InterfaceDec.InterfaceDec = <<InterfaceDecHead> { <InterfaceMemberDec*> }> 
-  InterfaceDecHead.InterfaceDecHead = <<Alt1*> interface <Id> <TypeParams?> <ExtendsInterfaces?>> 
-  Alt1 = Anno 
-  Alt1 = InterfaceMod 
-  ExtendsInterfaces.ExtendsInterfaces = <extends <{InterfaceType ","}+>> 
+  InterfaceDec = AnnoDec
+  InterfaceDec.InterfaceDec = <<InterfaceDecHead> { <InterfaceMemberDec*> }>
+  InterfaceDecHead.InterfaceDecHead = <<Alt1*> interface <Id> <TypeParams?> <ExtendsInterfaces?>>
+  Alt1 = Anno
+  Alt1 = InterfaceMod
+  ExtendsInterfaces.ExtendsInterfaces = <extends <{InterfaceType ","}+>>
 
 context-free syntax
 
-  InterfaceMemberDec = ConstantDec 
-  InterfaceMemberDec = AbstractMethodDec 
-  InterfaceMemberDec = ClassDec 
-  InterfaceMemberDec = InterfaceDec 
-  InterfaceMemberDec.Semicolon = <;> 
+  InterfaceMemberDec = ConstantDec
+  InterfaceMemberDec = AbstractMethodDec
+  InterfaceMemberDec = ClassDec
+  InterfaceMemberDec = InterfaceDec
+  InterfaceMemberDec.Semicolon = <;>
 
 context-free syntax
 
-  InterfaceMod = Public 
-  InterfaceMod = Protected 
-  InterfaceMod = Private 
-  InterfaceMod = Abstract 
-  InterfaceMod = Static 
-  InterfaceMod = StrictFP 
+  InterfaceMod = Public
+  InterfaceMod = Protected
+  InterfaceMod = Private
+  InterfaceMod = Abstract
+  InterfaceMod = Static
+  InterfaceMod = StrictFP

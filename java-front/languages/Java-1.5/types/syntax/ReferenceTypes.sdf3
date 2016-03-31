@@ -3,11 +3,11 @@
  %%%
 module ReferenceTypes
 
-imports 
+imports
 
-  Identifiers	
-  Expressions	
-  ParameterizedTypes	
+  Identifiers
+  Expressions
+  ParameterizedTypes
   TypeVariables
   Names
   Types
@@ -18,21 +18,21 @@ sorts
 
 context-free syntax
 
-  RefType = ClassOrInterfaceType 
-  RefType = ArrayType 
+  RefType = ClassOrInterfaceType
+  RefType = ArrayType
 
 context-free syntax
 
-  ClassOrInterfaceType.ClassOrInterfaceType = <<TypeDecSpec> <TypeArgs?>> 
-  ClassType.ClassType = <<TypeDecSpec> <TypeArgs?>> 
-  InterfaceType.InterfaceType = <<TypeDecSpec> <TypeArgs?>> 
-  TypeDecSpec = TypeName 
-  TypeDecSpec.Member = <<TypeDecSpec> <TypeArgs> . <Id>> 
+  ClassOrInterfaceType.ClassOrInterfaceType = <<TypeDecSpec> <TypeArgs?>>
+  ClassType.ClassType = <<TypeDecSpec> <TypeArgs?>>
+  InterfaceType.InterfaceType = <<TypeDecSpec> <TypeArgs?>>
+  TypeDecSpec = TypeName
+  TypeDecSpec.Member = <<TypeDecSpec> <TypeArgs> . <Id>>
 
 context-free syntax
 
-  TypeVar.TypeVar = TypeVarId 
+  TypeVar.TypeVar = TypeVarId
 
 context-free syntax
 
-  ArrayType.ArrayType = <<Type> [ ]> 
+  ArrayType.ArrayType = <<Type> [ ]>

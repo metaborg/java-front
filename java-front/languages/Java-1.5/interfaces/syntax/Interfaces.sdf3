@@ -3,9 +3,9 @@
  %%%
 module Interfaces
 
-imports 
+imports
 
-  InterfaceDeclarations	
-	AbstractMethodDeclarations	
-	AnnotationTypes	
-	Annotations
+  InterfaceDeclarations
+  AbstractMethodDeclarations
+  AnnotationTypes
+  Annotations
