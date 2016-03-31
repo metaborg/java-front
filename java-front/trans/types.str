@@ -2,17 +2,17 @@ module types
 
 imports
 	
-	languages/Java-1.5/classes/types/-
-	languages/Java-1.5/expressions/types/-
-	languages/Java-1.5/interfaces/types/-
-	languages/Java-1.5/literals/types/-
-	languages/Java-1.5/names/types/-
-	languages/Java-1.5/statements/types/-
-	languages/Java-1.5/types/types/-
-	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
-	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
-	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
-	lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
+	types/languages/Java-1.5/classes/types/-
+	types/languages/Java-1.5/expressions/types/-
+	types/languages/Java-1.5/interfaces/types/-
+	types/languages/Java-1.5/literals/types/-
+	types/languages/Java-1.5/names/types/-
+	types/languages/Java-1.5/statements/types/-
+	types/languages/Java-1.5/types/types/-
+	runtime/types/-
+	runtime/properties/-
+	runtime/nabl/-
+	runtime/task/-
 
 strategies
 

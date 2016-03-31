@@ -1,37 +1,37 @@
 module varids
 
 imports
-	
-	include/Java
-	languages/Java-1.5/classes/names/classes 
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/editor/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
+  
+  signatures/-
+  names/languages/Java-1.5/classes/names/classes 
+  runtime/editor/-
+  runtime/nabl/-
   
   languages/Java-1.5/classes/trans/desugar
 
 signature
-	
-	constructors
-		
-		Param         : T * T * T * T -> Param
-		VarArityParam : T * T * T * T -> VarArityParam
-		LocalVarDec   : T * T * T * T -> LocalVarDec
+  
+  constructors
+    
+    Param         : T * T * T * T -> Param
+    VarArityParam : T * T * T * T -> VarArityParam
+    LocalVarDec   : T * T * T * T -> LocalVarDec
 
 rules
-	
-	add-all-varids = alltd(preserve-annos(origin-track-forced(add-all-varnums)))
-	
-	add-all-varnums :
-		m@MethodDec(_, _, _, _, _, _, _, _, _) -> <alltd(add-varnum(|m))> m
-		
-	add-all-varnums :
-		m@ConstrDec(_, _, _, _, _, _, _) -> <alltd(add-varnum(|m))> m
-	
-	add-varnum(|mn) :
-		Param(m*, t, n) -> Param(m*, t, n, <next-counter> mn)
+  
+  add-all-varids = alltd(preserve-annos(origin-track-forced(add-all-varnums)))
+  
+  add-all-varnums :
+    m@MethodDec(_, _, _, _, _, _, _, _, _) -> <alltd(add-varnum(|m))> m
+    
+  add-all-varnums :
+    m@ConstrDec(_, _, _, _, _, _, _) -> <alltd(add-varnum(|m))> m
+  
+  add-varnum(|mn) :
+    Param(m*, t, n) -> Param(m*, t, n, <next-counter> mn)
 
-	add-varnum(|mn) :
-		VarArityParam(m*, t, n) -> VarArityParam(m*, t, n, <next-counter> mn)
-		  
-	add-varnum(|mn) :
-		LocalVarDec(m*, t, d) -> LocalVarDec(m*, t, d, <next-counter> mn)
+  add-varnum(|mn) :
+    VarArityParam(m*, t, n) -> VarArityParam(m*, t, n, <next-counter> mn)
+      
+  add-varnum(|mn) :
+    LocalVarDec(m*, t, d) -> LocalVarDec(m*, t, d, <next-counter> mn)

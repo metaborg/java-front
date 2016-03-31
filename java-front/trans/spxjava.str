@@ -6,50 +6,39 @@ imports
   libstratego-gpp
   libstratego-aterm
 
-  include/Java
-  editor/Java-Outliner
+  signatures/-
   
-  lib/editor-common.generated
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/analysis/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/index/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/relations/-
+  editor-common.generated
+  runtime/editor/-
+  runtime/nabl/-
+  runtime/task/-
+  runtime/index/-
+  runtime/properties/-
+  runtime/types/-
+  runtime/relations/-
   pp
   desugar
   languages/Java-1.5/packages/trans/desugar
   names
-  check
   types
   varids
-
-rules // Analysis
- 
-  editor-analyze = analysis-default-editor
-  
-  analysis-single-default-interface = 
-  	analysis-single-default(desugar-top, id, pp-message-top|<language>)
-  analysis-multiple-default-interface = 
-  	analysis-multiple-default(parse-file <+ !(), desugar-top, id, pp-message-top|<language>, <project-path>)
-  
-  editor-save = analysis-save-default(|<language>)
+  outline
+  completion
+  analysis
 
 rules // Editor services
-
-  editor-resolve:
-    (node, position, ast, path, project-path) -> <analysis-resolve(|<language>, project-path)> node
-
-  editor-hover:
-    (selected, position, ast, path, project-path) -> type
-    where
-      type := $[Type: [<hover-type <+ subterm-at(|0); hover-type <+ !"none"> selected]]
-
-	hover-type = get-type; strip-annos; pp-message
 	
-  editor-complete:
-    (node, position, ast, path, project-path) -> <analysis-propose-completions(|<language>, project-path)> ast
+  editor-outline:
+    (_, _, ast, path, project-path) -> outline
+    where
+      outline := <simple-label-outline(to-outline-label)> ast
+  
+  editor-format:
+    (node, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-debug> node
 
 rules // Debugging
   
@@ -62,31 +51,6 @@ rules // Debugging
     (selected, position, ast, path, project-path) -> (filename, <desugar-top> selected)
     with
       filename := <guarantee-extension(|"aterm")> path
-      
-  debug-show-analyzed:
-    (selected, position, ast, path, project-path) -> (filename, selected)
-    with
-      filename := <guarantee-extension(|"analyzed.aterm")> path
-
-	debug-index-project =
-		analysis-debug-index-project(|<language>)
-	debug-index-partition =
-		analysis-debug-index-partition(|<language>)
-
-	debug-task-project =
-		analysis-debug-task-project(|<language>)
-	debug-task-partition =
-		analysis-debug-task-partition(|<language>)
-	debug-task-selection =
-		analysis-debug-task-selection(|<language>)
 		
-	debug-project =
-		analysis-debug-project(|<language>)
-	debug-partition =
-		analysis-debug-partition(|<language>)
-		
-	debug-reanalyze = 
-		analysis-debug-reanalyze(|<language>)
-
   // analysis-default-debug-interface(msg) = debug(msg)
   // analysis-default-debug-interface = debug

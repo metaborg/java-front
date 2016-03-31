@@ -2,13 +2,13 @@ module languages/Java-1.5/literals/types/literals.manual
 
 imports
 
-  include/Java
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/nabl/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/task/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/types/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/properties/-
-  lib/runtime-libraries/org.spoofax.meta.runtime.libraries/relations/-
-  languages/Java-1.5/types/types/references.generated
+  signatures/-
+  runtime/nabl/-
+  runtime/task/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/relations/-
+  languages/Java-1.5/types/types/references
   
 rules
 	 

@@ -2,7 +2,7 @@ module languages/Java-1.5/statements/trans/desugar
 
 imports
 	
-  include/Java
+  signatures/-
   names
 
 rules

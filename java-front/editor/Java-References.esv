@@ -1,6 +1,0 @@
-module Java-References
-
-references
-	                
-  reference _ : editor-resolve
-  hover _     : editor-hover

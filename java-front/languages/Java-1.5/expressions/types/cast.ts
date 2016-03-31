@@ -2,11 +2,11 @@ module languages/Java-1.5/expressions/types/cast
 
 imports
 	
-	include/Java
-	lib/task/-
-	lib/types/-
-	lib/properties/-
-	lib/relations/-
+	signatures/-
+	runtime/task/-
+	runtime/types/-
+	runtime/properties/-
+	runtime/relations/-
 	
 	languages/Java-1.5/types/types/cast
 	

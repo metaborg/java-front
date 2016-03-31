@@ -1,6 +1,0 @@
-module Java-Completions
-
-completions
-	 
-  completion proposer : editor-complete
-  

@@ -1,0 +1,5 @@
+module Colorer
+
+imports editor/Colorer.generated
+
+colorer

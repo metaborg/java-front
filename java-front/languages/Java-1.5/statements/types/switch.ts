@@ -2,10 +2,10 @@ module languages/Java-1.5/statements/types/switch
 
 imports
 	
-	include/Java
-	lib/task/-
-	lib/types/-
-	lib/nabl/-
+	signatures/-
+	runtime/task/-
+	runtime/types/-
+	runtime/nabl/-
 	languages/Java-1.5/types/types/assignment
 	
 type rules

@@ -1,0 +1,16 @@
+module completion
+
+imports
+  
+  editor-common.generated
+  runtime/analysis/-
+  runtime/completion/-
+  completion/spxjava-cp
+  pp
+  
+rules
+	
+  editor-complete:
+    (node, position, ast, path, project-path) -> <analysis-propose-completions(|<language>, project-path)> ast
+  
+  pp-completion = pp-partial-spxjava-string

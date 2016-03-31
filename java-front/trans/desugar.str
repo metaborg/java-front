@@ -2,7 +2,7 @@ module desugar
 
 imports
 	
-	include/Java  
+	signatures/-  
   languages/Java-1.5/classes/trans/desugar
   languages/Java-1.5/interfaces/trans/desugar
   languages/Java-1.5/statements/trans/desugar

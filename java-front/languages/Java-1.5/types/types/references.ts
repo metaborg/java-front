@@ -2,13 +2,13 @@ module languages/Java-1.5/types/types/references
 
 imports
 	
-	include/Java
-	lib/task/-
-	lib/types/-
-	lib/properties/-
-	lib/relations/-
+	signatures/-
+	runtime/task/-
+	runtime/types/-
+	runtime/properties/-
+	runtime/relations/-
 	
-	languages/Java-1.5/classes/names/classes
+	names/languages/Java-1.5/classes/names/classes
 
 signatures
 

@@ -1,0 +1,65 @@
+module analysis
+
+imports
+  
+  editor-common.generated
+  
+  runtime/index/-
+  runtime/nabl/-
+  runtime/properties/-
+  runtime/types/-
+  runtime/task/-
+  runtime/analysis/-
+  runtime/editor/-
+  
+  pp
+  desugar
+  languages/Java-1.5/packages/trans/desugar
+
+rules // Analysis
+
+  editor-analyze = analyze-all(desugar-top, id, pp-message-top|<language>)
+
+rules // Editor services
+
+  editor-resolve:
+    (node, _, _, _, project-path) -> definition
+    where
+      definition := <analysis-resolve(|<language>, project-path)> node
+
+  editor-hover:
+    (node, _, _, _, project-path) -> type
+    where
+      label := <get-editor-properties(pp-partial-spxjava-string|<language>, project-path); properties-to-html> node
+    ; type := $[Type: [<hover-type <+ subterm-at(|0); hover-type <+ !"none"> node]]
+
+	hover-type = get-type; strip-annos; pp-message
+
+rules // Debugging
+  
+  debug-show-analyzed:
+    (_, _, ast, path, _) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"analyzed.aterm")> path;
+      result   := ast
+  
+  debug-index-project =
+    analysis-debug-index-project(|<language>)
+  debug-index-project-resolve = 
+    analysis-debug-index-project-resolve(|<language>)
+  debug-index-partition =
+    analysis-debug-index-partition(|<language>)
+
+  debug-task-project =
+    analysis-debug-task-project(|<language>)
+  debug-task-partition =
+    analysis-debug-task-partition(|<language>)
+  debug-task-selection =
+    analysis-debug-task-selection(|<language>)
+  debug-index-partition-resolve =
+    analysis-debug-index-partition-resolve(|<language>)
+    
+  debug-project =
+    analysis-debug-project(|<language>)
+  debug-partition =
+    analysis-debug-partition(|<language>)

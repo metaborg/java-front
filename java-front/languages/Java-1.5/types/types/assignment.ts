@@ -2,11 +2,11 @@ module languages/Java-1.5/types/types/assignment
 
 imports
 	
-	include/Java
-	lib/task/-
-	lib/types/-
-	lib/properties/-
-	lib/relations/-
+	signatures/-
+	runtime/task/-
+	runtime/types/-
+	runtime/properties/-
+	runtime/relations/-
 	
 	languages/Java-1.5/types/types/widening
 	languages/Java-1.5/types/types/narrowing

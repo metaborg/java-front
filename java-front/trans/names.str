@@ -2,11 +2,11 @@ module names
 
 imports
   
-  include/Java
-  languages/Java-1.5/classes/names/-
-  languages/Java-1.5/expressions/names/-
-  languages/Java-1.5/interfaces/names/-
-  languages/Java-1.5/names/names/-
-  languages/Java-1.5/packages/names/-
-  languages/Java-1.5/statements/names/-
-  languages/Java-1.5/types/names/-
+  signatures/-
+  names/languages/Java-1.5/classes/names/-
+  names/languages/Java-1.5/expressions/names/-
+  names/languages/Java-1.5/interfaces/names/-
+  names/languages/Java-1.5/names/names/-
+  names/languages/Java-1.5/packages/names/-
+  names/languages/Java-1.5/statements/names/-
+  names/languages/Java-1.5/types/names/-
