@@ -3,12 +3,12 @@ module pp
 imports
 
   signatures/-
-  editor-common.generated
+  stratego/metaborg
   runtime/task/-
   types/languages/Java-1.5/types/types/references
   libstratego-gpp
   runtime/refactoring/-
-  include/spxjava-parenthesize
+  pp/spxjava-parenthesize
   pp/spxjava-pp
 
 rules

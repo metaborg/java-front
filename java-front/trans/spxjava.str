@@ -8,7 +8,7 @@ imports
 
   signatures/-
 
-  editor-common.generated
+  stratego/metaborg
   runtime/editor/-
   runtime/nabl/-
   runtime/task/-

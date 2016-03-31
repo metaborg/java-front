@@ -14,11 +14,10 @@ language General properties
   url           : http://strategoxt.org
 
   extensions    : java
-  table         : include/spxjava.tbl
+  table         : target/metaborg/sdf.tbl
   start symbols : File
 
-  provider : include/spxjava.jar
-  provider : include/spxjava-java.jar
+  provider : target/metaborg/stratego.jar
 
   observer : editor-analyze (multifile)
 //  on save  : editor-save

@@ -2,7 +2,7 @@ module completion
 
 imports
 
-  editor-common.generated
+  stratego/metaborg
   runtime/analysis/-
   runtime/completion/-
   completion/spxjava-cp
