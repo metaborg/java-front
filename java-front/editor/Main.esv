@@ -13,7 +13,7 @@ language General properties
   description   : "Spoofax/IMP-generated editor for the Java language"
   url           : http://strategoxt.org
 
-  extensions    : java
+  extensions    : jav
   table         : target/metaborg/sdf.tbl
   start symbols : File
 
