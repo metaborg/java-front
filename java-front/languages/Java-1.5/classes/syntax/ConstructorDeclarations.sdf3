@@ -22,7 +22,7 @@ sorts
 context-free syntax
 
   ConstrDec.ConstrDec = <<ConstrHead> <ConstrBody>>
-  ConstrHead.ConstrDecHead = <<AnnoOrConstrMod> <TypeParams?> <Id> ( <{FormalParam ","}*> ) <Throws?>>
+  ConstrHead.ConstrDecHead = <<AnnoOrConstrMod*> <TypeParams?> <Id> ( <{FormalParam ","}*> ) <Throws?>>
   AnnoOrConstrMod = Anno
   AnnoOrConstrMod = ConstrMod
   ConstrBody.ConstrBody = <{ <ConstrInv?> <BlockStm*> }>

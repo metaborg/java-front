@@ -17,6 +17,6 @@ sorts
 context-free syntax
 
   LocalVarDecStm.LocalVarDecStm = <<LocalVarDec> ;> {prefer}
-  LocalVarDec.LocalVarDec = <<AnnoOrVarMod> <Type> <{VarDec ","}+>> {prefer}
+  LocalVarDec.LocalVarDec = <<AnnoOrVarMod*> <Type> <{VarDec ","}+>> {prefer}
   AnnoOrVarMod = Anno
   AnnoOrVarMod = VarMod

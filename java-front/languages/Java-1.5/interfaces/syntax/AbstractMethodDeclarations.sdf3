@@ -17,8 +17,8 @@ sorts
 
 context-free syntax
 
-  AbstractMethodDec.AbstractMethodDec = <<AnnoOrAbstractMethodMod> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Throws?> ;>
-  AbstractMethodDec.DeprAbstractMethodDec = <<AnnoOrAbstractMethodMod> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Dim+> <Throws?> ;>
+  AbstractMethodDec.AbstractMethodDec = <<AnnoOrAbstractMethodMod*> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Throws?> ;>
+  AbstractMethodDec.DeprAbstractMethodDec = <<AnnoOrAbstractMethodMod*> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Dim+> <Throws?> ;>
   AnnoOrAbstractMethodMod = Anno
   AnnoOrAbstractMethodMod = AbstractMethodMod
   AbstractMethodMod = Public

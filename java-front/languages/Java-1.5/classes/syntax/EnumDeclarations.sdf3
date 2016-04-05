@@ -17,7 +17,7 @@ sorts
 context-free syntax
 
   EnumDec.EnumDec = <<EnumDecHead> <EnumBody>>
-  EnumDecHead.EnumDecHead = <<AnnoOrClassMod> enum <Id> <Interfaces?>>
+  EnumDecHead.EnumDecHead = <<AnnoOrClassMod*> enum <Id> <Interfaces?>>
   AnnoOrClassMod = Anno
   AnnoOrClassMod = ClassMod
   EnumBody.EnumBody = <{ <{EnumConst ","}*> <EnumBodyDecs?> }>
