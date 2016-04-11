@@ -1,0 +1,100 @@
+module languages/Java-1.5/interfaces/names/interfaces
+
+imports
+
+  runtime/nabl/-
+  runtime/task/-
+  runtime/properties/-
+  runtime/relations/-
+  runtime/types/-
+  runtime/editor/-
+
+  signatures/-
+  languages/Java-1.5/interfaces/trans/desugar
+  languages/Java-1.5/classes/trans/desugar
+  languages/Java-1.5/classes/names/classes
+  languages/Java-1.5/types/names/types
+  types/languages/Java-1.5/types/types/references
+  types
+
+properties
+
+  access    of Type   : Access
+  context   of Type   : Context
+  modifiers of Type   : List(InterfaceMod)
+  access    of Field  : Access
+  context   of Field  : Context
+  modifiers of Field  : List(ConstantMod)
+  access    of Method : Access
+  context   of Method : Context
+  modifiers of Method : List(AbstractMethodMod)
+
+binding rules // Interfaces
+
+  InterfaceDec(acc, mod*, i, tp*, _, _):
+    defines Type i
+      of access acc
+      of modifiers mod*
+      of type-parameters tp*
+      of kind Interface()
+      of context Static()
+      of type RefType(TypeName(i), None())
+    scopes Type, TypeParam, Field, Method
+
+  ExtendsInterfaces(_, it):
+    imports
+      Field, imported Field,
+      Method, imported Method
+      from Type it
+
+binding rules // Constants
+
+  ConstantDec(t, VarDec(c)):
+    defines Field c
+      of type t'
+      of access Public()
+      of context Static()
+      of modifiers [Final()]
+      in subsequent scope
+      where t has type t'
+
+  ConstantDec(t, VarDec(c, _)):
+    defines Field c
+      of type t'
+      of access Public()
+      of context Static()
+      of modifiers [Final()]
+      in subsequent scope
+      where t has type t'
+
+binding rules // Asbtract methods
+
+  AbstractMethodDec(mod*, tp*, t, m, p*, th):
+    defines Method m
+      of modifiers mod*
+      of type-parameters tp*
+      of type t'
+      of parameter-types pt*
+      of throws th
+      of access Public()
+      of context Instance()
+      where p* has type pt*
+      and t has type t'
+    scopes Variable
+
+binding rules // annotations
+
+  AnnoDec(AnnoDecHead(m, a), _):
+    defines Type a
+      of type RefType(TypeName(a), None())
+      of modifiers m
+    scopes Type, Field, Method
+
+  AnnoMethodDec(mod, t, m, _):
+    defines Method m
+      of type t
+      of modifiers mod
+    scopes Variable
+
+  Anno(TypeName(a), ElemValPair(f, _)):
+    refers to Field f in Type a

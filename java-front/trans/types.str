@@ -1,0 +1,25 @@
+module types
+
+imports
+
+  types/languages/Java-1.5/classes/types/-
+  types/languages/Java-1.5/expressions/types/-
+  types/languages/Java-1.5/interfaces/types/-
+  types/languages/Java-1.5/literals/types/-
+  types/languages/Java-1.5/names/types/-
+  types/languages/Java-1.5/statements/types/-
+  types/languages/Java-1.5/types/types/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/nabl/-
+  runtime/task/-
+
+strategies
+
+  print-type = fail
+
+rules
+
+  create-type-task(|ctx): t@Result(_) -> <type-lookup(|ctx)> t
+
+  nabl-property-eq = ?(Type(), Eq(), (t1, t2)); <?t1> t2; !t1 // Match ignores annotations.

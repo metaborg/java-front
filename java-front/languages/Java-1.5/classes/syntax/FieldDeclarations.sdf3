@@ -1,0 +1,45 @@
+%%%
+ %% Section 8.3: Field Declarations
+ %%%
+module FieldDeclarations
+
+imports
+
+  Identifiers
+  Modifiers
+  Types
+  Annotations
+  ArrayInitializers
+  Expressions
+  Primary // To import Expr sort
+
+sorts
+
+  FieldDec VarDec VarDecId Dim VarInit
+
+context-free syntax
+
+  FieldDec.FieldDec = <<Alt1*> <Type> <{VarDec ","}+> ;>
+  Alt1 = Anno
+  Alt1 = FieldMod
+  VarDec.VarDec = VarDecId
+  VarDec.VarDec = <<VarDecId> = <VarInit>>
+  VarDecId = Id
+  VarDecId.ArrayVarDecId = <<Id> <Dim+>>
+  Dim.Dim = <[ ]>
+  VarInit = Expr
+  VarInit = ArrayInit
+
+sorts
+
+  FieldMod
+
+context-free syntax
+
+  FieldMod = Public
+  FieldMod = Protected
+  FieldMod = Private
+  FieldMod = Static
+  FieldMod = Final
+  FieldMod = Transient
+  FieldMod = Volatile

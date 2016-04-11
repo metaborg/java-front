@@ -1,0 +1,22 @@
+%%%
+ %% Section 14.4: Local Variable Declaration Statements
+ %%%
+module LocalVariableDeclarations
+
+imports
+
+  MethodDeclarations
+  FieldDeclarations
+  Types
+  Annotations
+
+sorts
+
+  LocalVarDecStm LocalVarDec
+
+context-free syntax
+
+  LocalVarDecStm.LocalVarDecStm = <<LocalVarDec> ;> {prefer}
+  LocalVarDec.LocalVarDec = <<AnnoOrVarMod*> <Type> <{VarDec ","}+>> {prefer}
+  AnnoOrVarMod = Anno
+  AnnoOrVarMod = VarMod

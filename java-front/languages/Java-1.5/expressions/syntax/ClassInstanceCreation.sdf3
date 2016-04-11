@@ -1,0 +1,16 @@
+%%%
+ %% Section 15.9: Class Instance Creation Expressions
+ %%%
+module ClassInstanceCreation
+
+imports
+
+  ParameterizedTypes
+  ReferenceTypes
+  Identifiers
+  ClassDeclarations
+
+context-free syntax
+
+  Expr.NewInstance = <new <TypeArgs?> <ClassOrInterfaceType> ( <{Expr ","}*> ) <ClassBody?>>
+  Expr.QNewInstance = <<Expr> . new <TypeArgs?> <Id> <TypeArgs?> ( <{Expr ","}*> ) <ClassBody?>>

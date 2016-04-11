@@ -1,0 +1,38 @@
+%%%
+ %% Section 4.3: Reference Types and Values
+ %%%
+module ReferenceTypes
+
+imports
+
+  Identifiers
+  Expressions
+  ParameterizedTypes
+  TypeVariables
+  Names
+  Types
+
+sorts
+
+  RefType ClassOrInterfaceType ClassType InterfaceType TypeDecSpec ArrayType TypeVar
+
+context-free syntax
+
+  RefType = ClassOrInterfaceType
+  RefType = ArrayType
+
+context-free syntax
+
+  ClassOrInterfaceType.ClassOrInterfaceType = <<TypeDecSpec> <TypeArgs?>>
+  ClassType.ClassType = <<TypeDecSpec> <TypeArgs?>>
+  InterfaceType.InterfaceType = <<TypeDecSpec> <TypeArgs?>>
+  TypeDecSpec = TypeName
+  TypeDecSpec.Member = <<TypeDecSpec> <TypeArgs> . <Id>>
+
+context-free syntax
+
+  TypeVar.TypeVar = TypeVarId
+
+context-free syntax
+
+  ArrayType.ArrayType = <<Type> [ ]>

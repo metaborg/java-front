@@ -1,0 +1,56 @@
+module spxjava
+
+imports
+
+  libstratego-lib
+  libstratego-gpp
+  libstratego-aterm
+
+  signatures/-
+
+  stratego/metaborg
+  runtime/editor/-
+  runtime/nabl/-
+  runtime/task/-
+  runtime/index/-
+  runtime/properties/-
+  runtime/types/-
+  runtime/relations/-
+  pp
+  desugar
+  languages/Java-1.5/packages/trans/desugar
+  names
+  types
+  varids
+  outline
+  completion
+  analysis
+
+rules // Editor services
+
+  editor-outline:
+    (_, _, ast, path, project-path) -> outline
+    where
+      outline := <simple-label-outline(to-outline-label)> ast
+
+  editor-format:
+    (node, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-debug> node
+
+rules // Debugging
+
+  debug-show-aterm:
+    (selected, position, ast, path, project-path) -> (filename, selected)
+    with
+      filename := <guarantee-extension(|"aterm")> path
+
+  debug-show-desugared:
+    (selected, position, ast, path, project-path) -> (filename, <desugar-top> selected)
+    with
+      filename := <guarantee-extension(|"aterm")> path
+
+  // analysis-default-debug-interface(msg) = debug(msg)
+  // analysis-default-debug-interface = debug

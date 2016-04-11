@@ -1,0 +1,41 @@
+%%%
+ %% Section 8.8: Constructor Declarations
+ %%%
+module ConstructorDeclarations
+
+imports
+
+  Identifiers
+  Modifiers
+  Annotations
+  Expressions
+  Primary // To import Expr sort
+  TypeVariables
+  ParameterizedTypes
+  MethodDeclarations
+  Blocks
+
+sorts
+
+  ConstrDec ConstrBody ConstrHead ConstrInv
+
+context-free syntax
+
+  ConstrDec.ConstrDec = <<ConstrHead> <ConstrBody>>
+  ConstrHead.ConstrDecHead = <<AnnoOrConstrMod*> <TypeParams?> <Id> ( <{FormalParam ","}*> ) <Throws?>>
+  AnnoOrConstrMod = Anno
+  AnnoOrConstrMod = ConstrMod
+  ConstrBody.ConstrBody = <{ <ConstrInv?> <BlockStm*> }>
+  ConstrInv.AltConstrInv = <<TypeArgs?> this ( <{Expr ","}*> ) ;>
+  ConstrInv.SuperConstrInv = <<TypeArgs?> super ( <{Expr ","}*> ) ;>
+  ConstrInv.QSuperConstrInv = <<Expr> . <TypeArgs?> super ( <{Expr ","}*> ) ;>
+
+sorts
+
+  ConstrMod
+
+context-free syntax
+
+  ConstrMod = Public
+  ConstrMod = Protected
+  ConstrMod = Private

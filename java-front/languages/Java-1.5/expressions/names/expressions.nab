@@ -1,0 +1,152 @@
+module languages/Java-1.5/expressions/names/expressions
+
+imports
+
+  runtime/nabl/-
+  runtime/task/-
+  runtime/properties/-
+  runtime/relations/-
+  runtime/types/-
+  runtime/editor/-
+
+  signatures/-
+  languages/Java-1.5/expressions/trans/desugar
+  languages/Java-1.5/classes/names/classes
+  languages/Java-1.5/types/names/types
+  languages/Java-1.5/packages/names/packages
+  types/languages/Java-1.5/types/types/references
+
+binding rules // Method invocation
+
+  // TODO: disambiguation is broken
+  Invoke(Method(m), a*) :
+    refers to Method m
+    // disambiguates Method m
+    //   with m has access acc
+    //    and m has parameter-types pt*
+    //    and enclosing Type of Method m => mt
+    //    and enclosing Package of Method m => mp
+    //    and
+    //      ( acc == Public()
+    //     or acc == Private()   and mt == ct
+    //     or acc == Default()   and mp == cp
+    //     or acc == Protected() and mp == cp
+    //     or acc == Protected() and ct <extends: mt )
+    //   by minimal distance at* <widens: pt*
+    //   where enclosing Type of current Method scope => ct
+    //     and enclosing Package of current Method scope => cp
+    //     and a* has type at*
+
+  // TODO: apply filtering and disambiguation from above
+  // TODO: x resolves to NS y is broken
+  Invoke(Method(e, _, m), _):
+    refers to Method m
+      // in Type t'
+      // where e has type RefType(t, _)
+      //   and t resolves to Type t'
+
+  // TODO: apply filtering and disambiguation from above
+  // TODO: x resolves to NS y is broken
+  Invoke(SuperMethod(_, m), _):
+    refers to Method m
+      // in Type t'
+      // where "super" resolves to ImplicitField super
+      //   and super has type RefType(t, _)
+      //   and t resolves to Type t'
+
+  // TODO: apply filtering and disambiguation from above
+  Invoke(QSuperMethod(t, _, m), _):
+    refers to Method m
+      in Type t
+
+binding rules // Field access
+
+  // TODO: x resolves to NS y is broken
+  Field(e, f):
+    refers to Field f
+      // in Type t'
+      // where e has type RefType(t, _)
+      //   and t resolves to Type t'
+
+  // TODO: x resolves to NS y is broken
+  QSuperField(t, f):
+    refers to Type t
+    refers to Field f
+      // in Type st
+      // where definition of t => d
+      //   and d has super st
+
+  // TODO: x resolves to NS y is broken
+  SuperField(f):
+    refers to Field f
+      // in Type t
+      // where s resolves to ImplicitField "super"
+      //   and s has type RefType(t, _)
+      //   and t resolves to Type t'
+
+binding rules // Class instantiation
+
+  // TODO: disambiguation
+  NewInstance(_, c, t, _, None()):
+    refers to Constructor c
+      in Type t
+
+  // TODO: disambiguation
+  NewInstance(_, c, t, _, ClassBody(body)):
+    defines Type c
+      of access Public()
+      of context Instance()
+      of modifiers []
+      of type-parameters None()
+      of kind Class()
+      of type RefType(TypeName(c), None())
+    imports
+      Field, imported Field,
+      Method, imported Method
+      from Type t
+    implicitly defines ImplicitField "this"
+      of type RefType(TypeName(c), None())
+    implicitly defines ImplicitField "super"
+      of type st
+      where t has type st
+    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
+
+  // TODO: disambiguation
+  // TODO: x resolves to NS y is broken
+  QNewInstance(e, _, c, itn, _, _, None()):
+    refers to Type itn
+      // in Type t'
+      // where e has type RefType(t, _)
+      //   and t resolves to Type t'
+    refers to Constructor c
+      // in Type itn in Type t'
+      // where e has type RefType(t, _)
+      //    and t resolves to Type t'
+
+  // TODO: disambiguation
+  QNewInstance(e, _, c, itn, _, _, ClassBody(body)):
+    refers to Type itn
+      in Type t
+      where e has type t
+    defines Type c
+      of access Public()
+      of context Instance()
+      of modifiers []
+      of type-parameters None()
+      of kind Class()
+      of type RefType(TypeName(c), None())
+    imports
+      Field, imported Field,
+      Method, imported Method
+      from Type itn
+    implicitly defines ImplicitField "this"
+      of type RefType(TypeName(c), None())
+    implicitly defines ImplicitField "super"
+      of type st
+      where itn has type st
+    scopes Type, TypeParam, Field, ImplicitField, Method, Constructor
+
+binding rules // Qualified this
+
+  QThis(t):
+    refers to Type t

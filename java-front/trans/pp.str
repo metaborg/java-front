@@ -1,0 +1,62 @@
+module pp
+
+imports
+
+  signatures/-
+  stratego/metaborg
+  runtime/task/-
+  types/languages/Java-1.5/types/types/references
+  libstratego-gpp
+  runtime/refactoring/-
+  pp/spxjava-parenthesize
+  pp/spxjava-pp
+
+rules
+
+  pp-message-top = origin-track-forced((id, strip-annos; pp-message))
+  pp-message = not(is-list); (is-string <+ pp-result <+ custom-pp-java-string <+ pp-spxjava-string <+ (strip-annos; write-to-string))
+  pp-message = map(pp-message); concat-strings
+
+  pp-result:
+    result@Result(_) -> msg
+    where
+      if <task-has-failed> result then
+        msg := "fail"
+      else
+        msg := <task-get-results; map(pp-message); separate-by(|" or "); concat-strings> result
+      end
+
+  custom-pp-java-string:
+    RefType(c, tp*) -> <pp-spxjava-string> ClassOrInterfaceType(c, tp*)
+
+rules
+
+  pp-spxjava-string =
+    parenthesize-spxjava
+    ; prettyprint-SDF-start-symbols
+    ; !V([], <id>)
+    ; box2text-string(|120)
+
+  pp-partial-spxjava-string =
+    parenthesize-spxjava
+    ; prettyprint-example
+    ; !V([], <id>)
+    ; box2text-string(|120)
+
+  pp-debug :
+    ast -> result
+    with
+       result := <pp-spxjava-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-spxjava-string); debug(!"cannot pp ")))> ast
+    ;  result := ""
+
+rules
+
+  /**
+  * Given an old AST and a new AST, pretty-prints the new AST while presevering
+  * layout (e.g. whitespacing and comments) associated with the old AST.
+  *
+  * Example:
+  *   new-text := <construct-textual-change> (old-ast, new-ast)
+  */
+  construct-textual-change = construct-textual-change(pp-partial-spxjava-string, parenthesize, override-reconstruction, resugar)

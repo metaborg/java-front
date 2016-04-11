@@ -1,0 +1,7 @@
+%%%
+ %% Chapter 10: Arrays
+ %%%
+module Arrays
+
+imports ArrayInitializers
+

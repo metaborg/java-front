@@ -1,0 +1,141 @@
+module names-inheritence-extends
+
+language Java
+
+start symbol Files
+
+test unqualified field inheritence [[
+	multifile
+	
+	class A {
+		int [[a]];
+	}
+	
+	class B extends A {
+		int b = [[a]];
+	}
+]] resolve #2 to #1
+
+test unqualified field inheritence from imported class [[
+	multifile
+
+	class A {
+		int [[a]];
+	}
+	
+	=====
+	
+	package P;
+	
+	import A;
+	
+	class B extends A {
+		int b = [[a]];
+	}
+]] resolve #2 to #1
+
+test unqualified field inheritence fails 1 [[
+	multifile
+	
+	class A {
+		int a;
+	}
+	
+	class B extends A {
+		int b = [[c]];
+	}
+]] 1 error
+
+test unqualified field inheritence fails 2 [[
+	multifile
+	
+	class A {
+		int a;
+	}
+	
+	class B extends [[C]] {
+		int b = [[a]];
+	}
+]] 3 errors // TODO: should be 2 errors, caused by filtering?
+
+
+
+test qualified field inheritence [[
+	multifile
+	
+	package P;
+	
+	class A {
+		int [[a]];
+	}
+	
+	=====
+	
+	class B extends P.A {
+		int b = [[a]];
+	}
+]] resolve #2 to #1
+
+test qualified field inheritence fails 1 [[
+	multifile
+	
+	package P;
+	
+	class A {
+		int a;
+	}
+	
+	=====
+	
+	class B extends P.A {
+		int b = [[c]];
+	}
+]] 1 error
+
+test qualified field inheritence fails 2 [[
+	multifile
+	
+	package P;
+	
+	class A {
+		int a;
+	}
+	
+	=====
+	
+	class B extends [[A]] {
+		int b = [[a]];
+	}
+]] 3 errors // TODO: should be 2 errors, caused by filtering?
+
+test qualified field inheritence fails 3 [[
+	multifile
+	
+	package P;
+	
+	class A {
+		int a;
+	}
+	
+	=====
+	
+	class B extends P.[[B]] {
+		int b = [[a]];
+	}
+]] 3 errors // TODO: should be 2 errors, caused by filtering?
+
+test qualified field inheritence fails 4 [[
+	multifile
+	
+	package P;
+	
+	class A {
+		int a;
+	}
+	
+	=====
+	
+	class B extends [[S.B]] {
+		int b = [[a]];
+	}
+]] 4 errors // TODO: should be 3 errors, caused by filtering?

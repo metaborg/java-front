@@ -1,0 +1,20 @@
+%%%
+ %% Section 4.4: Type Variables
+ %%%
+module TypeVariables
+
+imports
+
+  Identifiers
+  ReferenceTypes
+
+sorts
+
+  TypeParams TypeParam TypeBound TypeVarId
+
+context-free syntax
+
+  TypeParam.TypeParam = <<TypeVarId> <TypeBound?>>
+  TypeBound.TypeBound = <extends <{ClassOrInterfaceType "&"}+>>
+  TypeParams.TypeParams = <\< <{TypeParam ","}+> \>>
+  TypeVarId = Id

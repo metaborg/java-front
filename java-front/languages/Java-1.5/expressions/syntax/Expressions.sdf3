@@ -1,0 +1,23 @@
+%%%
+ %% Chapter 15: Expressions
+ %%%
+module Expressions
+
+imports
+
+  Primary
+  ClassInstanceCreation
+  ArrayCreation
+  FieldAccess
+  ArrayAccess
+  MethodInvocation
+  Postfix
+  UnaryOperators
+  BinaryOperators
+  AssignmentOperators
+  Restrictions
+  Priorities
+
+sorts
+
+  Expr

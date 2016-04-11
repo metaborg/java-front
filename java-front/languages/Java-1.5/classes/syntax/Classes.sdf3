@@ -1,0 +1,10 @@
+%%%
+ %% Section 8: Classes
+ %%
+ %% @author  Martin Bravenboer <martin.bravenboer@gmail.com>
+ %%%
+module Classes
+
+imports ClassDeclarations
+        EnumDeclarations
+

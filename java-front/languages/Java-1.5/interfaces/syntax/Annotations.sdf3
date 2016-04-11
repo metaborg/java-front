@@ -1,0 +1,32 @@
+%%%
+ %% Section 9.7: Annotations
+ %%%
+module Annotations
+
+imports
+
+  Identifiers
+  Names
+  Expressions
+  Primary // To import Expr sort
+  ReferenceTypes
+  AssignmentOperators
+
+sorts
+
+  Anno ElemVal ElemValPair
+
+context-free syntax
+
+  Anno.Anno = <@ <InterfaceType> ( <{ElemValPair ","}*> )>
+  Anno.SingleElemAnno = <@ <InterfaceType> ( <ElemVal> )>
+  Anno.MarkerAnno = <@ <InterfaceType>>
+
+context-free syntax
+
+  ElemValPair.ElemValPair = <<Id> = <ElemVal>>
+  ElemVal = Expr
+  ElemVal = Anno
+  ElemVal.ElemValArrayInit = <{ <{ElemVal ","}*> }>
+  ElemVal.ElemValArrayInit = <{ <{ElemVal ","}*> , }>
+  ElemVal = <<LHS> = <Expr>> {reject}

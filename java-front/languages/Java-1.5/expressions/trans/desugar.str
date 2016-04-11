@@ -1,0 +1,42 @@
+module languages/Java-1.5/expressions/trans/desugar
+
+imports
+
+  signatures/-
+
+signature
+
+  constructors
+
+    NewArray : Type * List(Dim) -> Expr
+
+    NewInstance : TypeArgs * Id * ClassOrInterfaceType * List(Expr) * ClassBody -> NewInstance
+    QNewInstance : Expr * TypeArgs * Id * Id * TypeArgs * List(Expr) * ClassBody -> QNewInstance
+
+rules
+
+  desugar-singleton-appl:
+    Lit(l) -> l
+
+  desugar-singleton-appl:
+    ExprStm(exp) -> exp
+
+  desugar:
+    This() -> ExprName("this")
+
+  desugar:
+    SuperField(f) -> Field(ExprName("super"), f)
+
+  desugar:
+    Invoke(SuperMethod(ta*, m), a*) -> Invoke(Method(ExprName("super"), ta*, m), a*)
+
+  desugar:
+    NewArray(t, dim1*, dim2*) -> NewArray(t, [dim1*, dim2*])
+
+  desugar:
+    NewInstance(type-param*,       type, expr*, body) ->
+    NewInstance(type-param*, type, type, expr*, body)
+
+  desugar:
+    QNewInstance(expr, type-param1*,       name, type-param2*, expr*, body) ->
+    QNewInstance(expr, type-param1*, name, name, type-param2*, expr*, body)

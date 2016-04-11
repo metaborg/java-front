@@ -1,0 +1,27 @@
+module languages/Java-1.5/literals/types/literals.manual
+
+imports
+
+  signatures/-
+  runtime/nabl/-
+  runtime/task/-
+  runtime/types/-
+  runtime/properties/-
+  runtime/relations/-
+  languages/Java-1.5/types/types/references
+
+rules
+
+  create-type-task(|ctx, uri*) :
+    String(_) -> <task-create-id(|ctx)> RefType(TypeName("String"{Use(choice)}), None())
+    where
+      use1   := <nabl-use-candidate(|"Java", ctx, uri*, "String")> UseCandidate(NablNsType(), [], Current(), (), ())
+    ; use2   := <nabl-use-candidate(|"Java", ctx, uri*, "String")> UseCandidate(NablNsType(), [], Context(NablNsCompilationUnit(), "current", [], Current()), True(), [])
+    ; choice := <task-create-choice(|ctx)> [use1, use2]
+
+  create-type-task(|ctx, uri*) :
+    Class(_) -> <task-create-id(|ctx)> RefType(TypeName("Class"{Use(choice)}), None())
+    where
+      use1   := <nabl-use-candidate(|"Java", ctx, uri*, "Class")> UseCandidate(NablNsType(), [], Current(), (), ())
+    ; use2   := <nabl-use-candidate(|"Java", ctx, uri*, "Class")> UseCandidate(NablNsType(), [], Context(NablNsCompilationUnit(), "current", [], Current()), True(), [])
+    ; choice := <task-create-choice(|ctx)> [use1, use2]

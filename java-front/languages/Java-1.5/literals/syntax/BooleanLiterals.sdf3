@@ -1,0 +1,14 @@
+%%%
+ %% Section 3.10.3: Boolean Literals
+ %%%
+module BooleanLiterals
+
+sorts
+
+  Bool BoolLiteral
+
+context-free syntax
+
+  BoolLiteral.Bool = Bool
+  Bool.True = <true>
+  Bool.False = <false>

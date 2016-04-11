@@ -1,0 +1,47 @@
+module names-packages-default
+
+language Java
+
+start symbol Files
+
+
+test default package sharing [[
+	multifile
+	
+	class [[D]] {}
+	=====
+		
+	class Test {
+		[[D]] d;
+	}
+]] resolve #2 to #1
+
+test class in default package not visible [[
+	multifile
+	
+	class D {}
+	
+	=====
+		
+	package p;
+	
+	class Test {
+		[[D]] d;
+	}
+]] 2 errors // TODO: should be 1 error, caused by filtering?
+
+test class import from default package [[
+	multifile
+	
+	class [[D]] {}
+	
+	=====
+		
+	package p;
+	
+	import D;
+	
+	class Test {
+		[[D]] d;
+	}
+]] resolve #2 to #1

@@ -1,0 +1,26 @@
+%%%
+ %% Section 9.3: Field (Constant) Declarations
+ %%%
+module ConstantDeclarations
+
+imports
+
+  Modifiers
+  Expressions
+  MethodDeclarations
+  Annotations
+  Types
+  FieldDeclarations
+
+sorts
+
+  ConstantDec ConstantMod
+
+context-free syntax
+
+  ConstantDec.ConstantDec = <<AnnoOrConstantMod*> <Type> <{VarDec ","}+> ;>
+  AnnoOrConstantMod = Anno
+  AnnoOrConstantMod = ConstantMod
+  ConstantMod = Public
+  ConstantMod = Static
+  ConstantMod = Final

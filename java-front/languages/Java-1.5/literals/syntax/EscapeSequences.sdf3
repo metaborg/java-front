@@ -1,0 +1,23 @@
+%%%
+ %% Section 3.10.6: Escape Sequences for Character and String Literals
+ %%%
+module EscapeSequences
+
+sorts
+
+  EscapeSeq NamedEscape OctaEscape LastOcta
+
+syntax
+
+  EscapeSeq = OctaEscape
+  EscapeSeq = NamedEscape
+  NamedEscape.NamedEscape = "\\" [btnfr\"\'\\]
+  OctaEscape.OctaEscape1 = "\\" LastOcta
+  OctaEscape.OctaEscape2 = "\\" [0-3] LastOcta
+  OctaEscape.OctaEscape2 = "\\" [4-7] [0-7]
+  OctaEscape.OctaEscape3 = "\\" [0-3] [0-7] [0-7]
+  LastOcta = [0-7]
+
+restrictions
+
+  LastOcta -/- [0-7]

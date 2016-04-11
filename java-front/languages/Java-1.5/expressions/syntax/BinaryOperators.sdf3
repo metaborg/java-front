@@ -1,0 +1,34 @@
+module BinaryOperators
+
+imports
+
+  ReferenceTypes
+
+sorts
+
+  CondMid
+
+context-free syntax
+
+  Expr.InstanceOf = <<Expr> instanceof <RefType>>
+  Expr.Mul = <<Expr> * <Expr>> {left}
+  Expr.Div = <<Expr> / <Expr>> {left}
+  Expr.Mod = <<Expr> % <Expr>> {left}
+  Expr.Plus = <<Expr> + <Expr>> {left}
+  Expr.Minus = <<Expr> - <Expr>> {left}
+  Expr.LeftShift = <<Expr> \<\< <Expr>> {left}
+  Expr.RightShift = <<Expr> \>\> <Expr>> {left}
+  Expr.URightShift = <<Expr> \>\>\> <Expr>> {left}
+  Expr.Lt = <<Expr> \< <Expr>> {left}
+  Expr.Gt = <<Expr> \> <Expr>> {left}
+  Expr.LtEq = <<Expr> \<= <Expr>> {left}
+  Expr.GtEq = <<Expr> \>= <Expr>> {left}
+  Expr.Eq = <<Expr> == <Expr>> {left}
+  Expr.NotEq = <<Expr> != <Expr>> {left}
+  Expr.LazyAnd = <<Expr> && <Expr>> {left}
+  Expr.LazyOr = <<Expr> || <Expr>> {left}
+  Expr.And = <<Expr> & <Expr>> {left}
+  Expr.ExcOr = <<Expr> ^ <Expr>> {left}
+  Expr.Or = <<Expr> | <Expr>> {left}
+  Expr.Cond = <<Expr> <CondMid> <Expr>> {right}
+  CondMid = <? <Expr> :> {bracket}
