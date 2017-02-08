@@ -8,21 +8,11 @@ imports
 
   signatures/-
 
-  runtime/editor/-
-  runtime/nabl/-
-  runtime/task/-
-  runtime/index/-
-  runtime/properties/-
-  runtime/types/-
-  runtime/relations/-
   pp
   desugar
   languages/Java-1.5/packages/trans/desugar
-  names
-  types
   varids
   outline
-  analysis
 
 rules // Debugging
 

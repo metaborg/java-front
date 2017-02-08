@@ -3,7 +3,6 @@ module languages/Java-1.5/classes/trans/desugar
 imports
 
   signatures/-
-  names
 
 signature  // Access modifiers
 

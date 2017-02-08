@@ -3,12 +3,9 @@ module varids
 imports
 
   libspoofax/term/origin
-  runtime/editor/-
-  runtime/nabl/-
   
   signatures/-
 
-  names/languages/Java-1.5/classes/names/classes
   languages/Java-1.5/classes/trans/desugar
 
 signature

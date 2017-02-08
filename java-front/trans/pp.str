@@ -5,12 +5,9 @@ imports
   libstratego-gpp
   libspoofax/sdf/pp
   libspoofax/editor/refactoring/-
-  runtime/task/-
   
   signatures/-
   pp/-
-  
-  types/languages/Java-1.5/types/types/references
 
 rules
 
@@ -20,24 +17,6 @@ rules
       ext      := <get-extension> path
     ; filename := <guarantee-extension(|$[pp.[ext]])> path
     ; result   := <pp-debug> node
-
-rules
-
-  pp-message-top = origin-track-forced((id, strip-annos; pp-message))
-  pp-message = not(is-list); (is-string <+ pp-result <+ custom-pp-java-string <+ pp-java-string <+ (strip-annos; write-to-string))
-  pp-message = map(pp-message); concat-strings
-
-  pp-result:
-    result@Result(_) -> msg
-    where
-      if <task-has-failed> result then
-        msg := "fail"
-      else
-        msg := <task-get-results; map(pp-message); separate-by(|" or "); concat-strings> result
-      end
-
-  custom-pp-java-string:
-    RefType(c, tp*) -> <pp-java-string> ClassOrInterfaceType(c, tp*)
 
 rules
 

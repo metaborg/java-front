@@ -6,10 +6,7 @@ dependencies:
   compile:
   - org.metaborg:org.metaborg.meta.lang.esv:${metaborgVersion}
   - org.metaborg:org.metaborg.meta.lang.template:${metaborgVersion}
-  - org.metaborg:org.metaborg.meta.lang.nabl:${metaborgVersion}
-  - org.metaborg:org.metaborg.meta.lang.ts:${metaborgVersion}
   source:
-  - org.metaborg:org.metaborg.meta.lib.analysis:${metaborgVersion}
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
 pardonedLanguages:
 - EditorService
