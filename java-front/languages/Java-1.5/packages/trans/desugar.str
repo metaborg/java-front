@@ -2,8 +2,10 @@ module languages/Java-1.5/packages/trans/desugar
 
 imports
 
+  libspoofax/term/origin
+  
   signatures/-
-  runtime/editor/origins
+  
   desugar
   varids
 

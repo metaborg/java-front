@@ -3,10 +3,6 @@ module languages/Java-1.5/classes/types/method
 imports
 
   signatures/-
-  runtime/task/-
-  runtime/types/-
-  runtime/properties/-
-  runtime/relations/-
 
   varids
 

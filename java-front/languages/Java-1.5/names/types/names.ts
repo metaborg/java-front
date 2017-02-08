@@ -3,10 +3,6 @@ module languages/Java-1.5/names/types/names
 imports
 
   signatures/-
-  runtime/task/-
-  runtime/types/-
-  runtime/properties/-
-  runtime/relations/-
 
 type rules
 

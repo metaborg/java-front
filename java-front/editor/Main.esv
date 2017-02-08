@@ -1,26 +1,21 @@
-module spxjava.main
+module Main
 
 imports
+
   Colorer
   Menus
   Syntax
   Views
 
-language General properties
-
-  name          : spxjava
-
-  description   : "Spoofax/IMP-generated editor for the Java language"
-  url           : http://strategoxt.org
+language
 
   extensions    : jav
   table         : target/metaborg/sdf.tbl
   start symbols : File
 
-  provider : target/metaborg/stratego.jar
+  provider : target/metaborg/stratego.ctree
 
   observer : editor-analyze (multifile)
-//  on save  : editor-save
 
 references
 

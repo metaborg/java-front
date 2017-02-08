@@ -2,17 +2,12 @@ module languages/Java-1.5/statements/names/statements
 
 imports
 
-  runtime/nabl/-
-  runtime/task/-
-  runtime/properties/-
-  runtime/relations/-
-  runtime/types/-
-  runtime/editor/-
-
   signatures/-
-  varids
+
   languages/Java-1.5/classes/names/classes
   languages/Java-1.5/names/names/names
+
+  varids
 
 namespaces
 

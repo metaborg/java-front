@@ -3,10 +3,6 @@ module languages/Java-1.5/types/types/cast
 imports
 
   signatures/-
-  runtime/task/-
-  runtime/types/-
-  runtime/properties/-
-  runtime/relations/-
 
   languages/Java-1.5/types/types/widening
   languages/Java-1.5/types/types/narrowing

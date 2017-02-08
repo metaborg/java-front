@@ -3,8 +3,15 @@ module outline
 imports
 
   signatures/-
-  runtime/editor/outline-library
-  runtime/editor/origins
+  
+  libspoofax/editor/outline
+
+rules
+
+  editor-outline:
+    (_, _, ast, path, project-path) -> outline
+    where
+      outline := <simple-label-outline(to-outline-label)> ast
 
 rules
 

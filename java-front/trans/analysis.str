@@ -2,15 +2,13 @@ module analysis
 
 imports
 
-  stratego/metaborg
-
+  libspoofax/term/position
   runtime/index/-
   runtime/nabl/-
   runtime/properties/-
   runtime/types/-
   runtime/task/-
   runtime/analysis/-
-  runtime/editor/-
 
   pp
   desugar
@@ -30,7 +28,7 @@ rules // Editor services
   editor-hover:
     (node, _, _, _, project-path) -> type
     where
-      label := <get-editor-properties(pp-partial-spxjava-string|<language>, project-path); properties-to-html> node
+      label := <get-editor-properties(pp-partial-java-string|<language>, project-path); properties-to-html> node
     ; type := $[Type: [<hover-type <+ subterm-at(|0); hover-type <+ !"none"> node]]
 
   hover-type = get-type; strip-annos; pp-message
@@ -63,3 +61,6 @@ rules // Debugging
     analysis-debug-project(|<language>)
   debug-partition =
     analysis-debug-partition(|<language>)
+    
+  // analysis-default-debug-interface(msg) = debug(msg)
+  // analysis-default-debug-interface = debug

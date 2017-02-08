@@ -2,19 +2,29 @@ module pp
 
 imports
 
-  signatures/-
-  stratego/metaborg
-  runtime/task/-
-  types/languages/Java-1.5/types/types/references
   libstratego-gpp
-  runtime/refactoring/-
-  pp/spxjava-parenthesize
-  pp/spxjava-pp
+  libspoofax/sdf/pp
+  libspoofax/editor/refactoring/-
+  runtime/task/-
+  
+  signatures/-
+  pp/-
+  
+  types/languages/Java-1.5/types/types/references
+
+rules
+
+  editor-format:
+    (node, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-debug> node
 
 rules
 
   pp-message-top = origin-track-forced((id, strip-annos; pp-message))
-  pp-message = not(is-list); (is-string <+ pp-result <+ custom-pp-java-string <+ pp-spxjava-string <+ (strip-annos; write-to-string))
+  pp-message = not(is-list); (is-string <+ pp-result <+ custom-pp-java-string <+ pp-java-string <+ (strip-annos; write-to-string))
   pp-message = map(pp-message); concat-strings
 
   pp-result:
@@ -27,18 +37,18 @@ rules
       end
 
   custom-pp-java-string:
-    RefType(c, tp*) -> <pp-spxjava-string> ClassOrInterfaceType(c, tp*)
+    RefType(c, tp*) -> <pp-java-string> ClassOrInterfaceType(c, tp*)
 
 rules
 
-  pp-spxjava-string =
-    parenthesize-spxjava
+  pp-java-string =
+    parenthesize-metaborg-java
     ; prettyprint-SDF-start-symbols
     ; !V([], <id>)
     ; box2text-string(|120)
 
-  pp-partial-spxjava-string =
-    parenthesize-spxjava
+  pp-partial-java-string =
+    parenthesize-metaborg-java
     ; prettyprint-example
     ; !V([], <id>)
     ; box2text-string(|120)
@@ -46,8 +56,8 @@ rules
   pp-debug :
     ast -> result
     with
-       result := <pp-spxjava-string> ast
-    <+ <bottomup(try(not(is-string); not(is-list); not(pp-spxjava-string); debug(!"cannot pp ")))> ast
+       result := <pp-java-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-java-string); debug(!"cannot pp ")))> ast
     ;  result := ""
 
 rules
@@ -59,4 +69,4 @@ rules
   * Example:
   *   new-text := <construct-textual-change> (old-ast, new-ast)
   */
-  construct-textual-change = construct-textual-change(pp-partial-spxjava-string, parenthesize, override-reconstruction, resugar)
+  construct-textual-change = construct-textual-change(pp-partial-java-string, parenthesize, override-reconstruction, resugar)

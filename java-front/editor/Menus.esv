@@ -28,5 +28,3 @@ menus
       action: "Partition" = debug-task-partition
       action: "Selection" = debug-task-selection
     end
-
-  // menu: "Generation"

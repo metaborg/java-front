@@ -2,18 +2,13 @@ module languages/Java-1.5/names/names/names
 
 imports
 
-  runtime/nabl/-
-  runtime/task/-
-  runtime/properties/-
-  runtime/relations/-
-  runtime/types/-
-  runtime/editor/-
-
   signatures/-
+
   languages/Java-1.5/classes/names/classes
   languages/Java-1.5/packages/names/packages
   languages/Java-1.5/packages/trans/desugar
   types/languages/Java-1.5/types/types/references
+
   types
 
 namespaces
