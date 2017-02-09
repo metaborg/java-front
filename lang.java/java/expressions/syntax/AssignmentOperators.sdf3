@@ -1,0 +1,32 @@
+%%%
+ %% Section 15.26: Assignment Operators
+ %%%
+module java/AssignmentOperators
+
+imports
+
+  java/Names
+  java/FieldAccess
+  java/ArrayAccess
+
+sorts
+
+  LHS
+
+context-free syntax
+
+  Expr.Assign = <<LHS> = <Expr>>
+  Expr.AssignMul = <<LHS> *= <Expr>>
+  Expr.AssignDiv = <<LHS> /= <Expr>>
+  Expr.AssignMod = <<LHS> %= <Expr>>
+  Expr.AssignPlus = <<LHS> += <Expr>>
+  Expr.AssignMinus = <<LHS> -= <Expr>>
+  Expr.AssignLeftShift = <<LHS> \<\<= <Expr>>
+  Expr.AssignRightShift = <<LHS> \>\>= <Expr>>
+  Expr.AssignURightShift = <<LHS> \>\>\>= <Expr>>
+  Expr.AssignAnd = <<LHS> &= <Expr>>
+  Expr.AssignExcOr = <<LHS> ^= <Expr>>
+  Expr.AssignOr = <<LHS> |= <Expr>>
+  LHS = ExprName
+  LHS = FieldAccess
+  LHS = ArrayAccess

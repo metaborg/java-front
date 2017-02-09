@@ -1,0 +1,19 @@
+%%%
+ %% Section 7.3: CompilationUnits
+ %%%
+module java/CompilationUnits
+
+imports
+
+  java/PackageDeclarations
+  java/ImportDeclarations
+  java/TypeDeclarations
+
+sorts
+
+  File CompilationUnit
+
+context-free syntax
+
+  File.File = CompilationUnit
+  CompilationUnit.CompilationUnit = <<PackageDec?> <ImportDec*> <TypeDec+>>

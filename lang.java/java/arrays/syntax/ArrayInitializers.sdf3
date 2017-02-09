@@ -1,0 +1,17 @@
+%%%
+ %% Section 10.6: Array Initializers
+ %%%
+module java/ArrayInitializers
+
+imports
+
+  java/FieldDeclarations
+
+sorts
+
+  ArrayInit
+
+context-free syntax
+
+  ArrayInit.ArrayInit = <{ <{VarInit ","}*> }>
+  ArrayInit.ArrayInit = <{ <{VarInit ","}*> , }>

@@ -1,0 +1,18 @@
+%%%
+ %% Section 7.4: Package Declarations
+ %%%
+module java/PackageDeclarations
+
+imports
+
+  java/Expressions
+  java/Annotations
+  java/Names
+
+sorts
+
+  PackageDec
+
+context-free syntax
+
+  PackageDec.PackageDec = <<Anno*> package <PackageName> ;>

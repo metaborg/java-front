@@ -1,0 +1,16 @@
+module java/ArrayAccess
+
+imports
+
+  java/ArrayCreation
+
+sorts
+
+  ArrayAccess ArraySubscript
+
+context-free syntax
+
+  Expr = ArrayAccess
+  ArrayAccess.ArrayAccess = <<Expr> <ArraySubscript>>
+  ArraySubscript = <[ <Expr> ]> {bracket}
+  ArrayAccess = <<ArrayCreationExpr> <ArraySubscript>> {reject}

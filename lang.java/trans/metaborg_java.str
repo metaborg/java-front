@@ -6,12 +6,12 @@ imports
   libstratego-gpp
   libstratego-aterm
 
-  signatures/-
+  signatures/java/-
   completion/completion
   
   pp
   desugar
-  spec/packages/trans/desugar
+  java/packages/trans/desugar
   varids
   outline
 

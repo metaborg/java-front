@@ -1,0 +1,41 @@
+%%%
+ %% Section 9.6: Annotation Types
+ %%%
+module java/AnnotationTypes
+
+imports
+
+  java/Identifiers
+  java/ClassDeclarations
+  java/EnumDeclarations
+  java/InterfaceDeclarations
+  java/AbstractMethodDeclarations
+  java/ConstantDeclarations
+  java/Annotations
+  java/Types
+
+sorts
+
+  AnnoDec AnnoDecHead
+
+context-free syntax
+
+  AnnoDec.AnnoDec = <<AnnoDecHead> { <AnnoElemDec*> }>
+  AnnoDecHead.AnnoDecHead = <<AnnoOrInterfaceMod*> @ interface <Id>>
+  AnnoOrInterfaceMod = Anno
+  AnnoOrInterfaceMod = InterfaceMod
+
+sorts
+
+  AnnoElemDec DefaultVal
+
+context-free syntax
+
+  AnnoElemDec.AnnoMethodDec = <<AbstractMethodMod*> <Type> <Id> ( ) <DefaultVal?> ;>
+  AnnoElemDec = ConstantDec
+  AnnoElemDec = ClassDec
+  AnnoElemDec = InterfaceDec
+  AnnoElemDec = EnumDec
+  AnnoElemDec = AnnoDec
+  AnnoElemDec.Semicolon = <;>
+  DefaultVal.DefaultVal = <default <ElemVal>>

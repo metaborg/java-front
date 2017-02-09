@@ -1,0 +1,16 @@
+%%%
+ %% Section 8.6: Instance Initializers
+ %%%
+module java/InstanceInitializers
+
+imports
+
+  java/Blocks
+
+sorts
+
+  InstanceInit
+
+context-free syntax
+
+  InstanceInit.InstanceInit = Block

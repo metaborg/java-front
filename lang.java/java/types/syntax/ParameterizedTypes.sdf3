@@ -1,0 +1,21 @@
+%%%
+ %% Section 4.5: Parameterized Types
+ %%%
+module java/ParameterizedTypes
+
+imports
+
+  java/ReferenceTypes
+  java/Types
+
+sorts
+
+  TypeArgs ActualTypeArg WildcardBound
+
+context-free syntax
+
+  TypeArgs.TypeArgs = <\< <{ActualTypeArg ","}+> \>>
+  ActualTypeArg = Type
+  ActualTypeArg.Wildcard = <? <WildcardBound?>>
+  WildcardBound.WildcardUpperBound = <extends <RefType>>
+  WildcardBound.WildcardLowerBound = <super <RefType>>

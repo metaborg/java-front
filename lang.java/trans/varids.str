@@ -4,9 +4,9 @@ imports
 
   libspoofax/term/origin
   
-  signatures/-
+  signatures/java/-
 
-  spec/classes/trans/desugar
+  java/classes/trans/desugar
 
 signature
 

@@ -1,0 +1,19 @@
+%%%
+ %% Section 7.6: Top Level Type Declarations
+ %%%
+module java/TypeDeclarations
+
+imports
+
+  java/ClassDeclarations
+  java/InterfaceDeclarations
+
+sorts
+
+  TypeDec
+
+context-free syntax
+
+  TypeDec = ClassDec
+  TypeDec = InterfaceDec
+  TypeDec.Semicolon = <;>

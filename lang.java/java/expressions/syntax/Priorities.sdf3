@@ -1,0 +1,83 @@
+%%%
+ %%
+ %%%
+module java/Priorities
+
+imports
+
+  java/Identifiers
+  java/Expressions
+  java/ParameterizedTypes
+  java/PrimitiveTypes
+  java/ReferenceTypes
+  java/ArrayAccess
+  java/ClassDeclarations
+  java/AssignmentOperators
+  java/BinaryOperators
+
+context-free priorities
+
+  Expr = Expr "." "new" TypeArgs? Id TypeArgs? "(" {Expr ","}* ")" ClassBody?  > {right:
+    Expr = Expr "++"
+    Expr = Expr "--" }
+
+context-free priorities
+
+  {right:
+    Expr = Expr "++"
+    Expr = Expr "--" } > {Expr = "(" PrimType ")" Expr
+                          Expr = "(" RefType ")" Expr }
+
+context-free priorities
+
+  Expr = "(" PrimType ")" Expr  > {left:
+    Expr = Expr "*" Expr
+    Expr = Expr "/" Expr
+    Expr = Expr "%" Expr }
+
+context-free priorities
+
+  Expr = "(" RefType ")" Expr  > {Expr = "++" Expr
+                                  Expr = "--" Expr
+                                  Expr = "+" Expr
+                                  Expr = "-" Expr }
+
+context-free priorities
+
+  {ArrayAccess = Expr ArraySubscript
+   FieldAccess = Expr "." Id
+   MethodSpec = Expr "." TypeArgs? Id } > {right:
+    Expr = Expr "++"
+    Expr = Expr "--" } > {Expr = "++" Expr
+                          Expr = "--" Expr
+                          Expr = "+" Expr
+                          Expr = "-" Expr
+                          Expr = "~" Expr
+                          Expr = "!" Expr } > {left:
+    Expr = Expr "*" Expr
+    Expr = Expr "/" Expr
+    Expr = Expr "%" Expr } > {left:
+    Expr = Expr "+" Expr
+    Expr = Expr "-" Expr } > {left:
+    Expr = Expr "<<" Expr
+    Expr = Expr ">>" Expr
+    Expr = Expr ">>>" Expr } > {left:
+    Expr = Expr "instanceof" RefType
+    Expr = Expr "<" Expr
+    Expr = Expr ">" Expr
+    Expr = Expr "<=" Expr
+    Expr = Expr ">=" Expr } > {left:
+    Expr = Expr "==" Expr
+    Expr = Expr "!=" Expr } > Expr = Expr "&" Expr  > Expr = Expr "^" Expr  > Expr = Expr "|" Expr  > Expr = Expr "&&" Expr  > Expr = Expr "||" Expr  > Expr = Expr CondMid Expr  > {right:
+    Expr = LHS "=" Expr
+    Expr = LHS "*=" Expr
+    Expr = LHS "/=" Expr
+    Expr = LHS "%=" Expr
+    Expr = LHS "+=" Expr
+    Expr = LHS "-=" Expr
+    Expr = LHS "<<=" Expr
+    Expr = LHS ">>=" Expr
+    Expr = LHS ">>>=" Expr
+    Expr = LHS "&=" Expr
+    Expr = LHS "^=" Expr
+    Expr = LHS "|=" Expr }

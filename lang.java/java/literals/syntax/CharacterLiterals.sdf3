@@ -1,0 +1,22 @@
+%%%
+ %% Section 3.10.4: Character Literals
+ %%%
+module java/CharacterLiterals
+
+imports
+
+  java/EscapeSequences
+  java/UnicodeEscapes
+
+sorts
+
+  CharLiteral CharContent SingleChar
+
+syntax
+
+  CharLiteral-CF = CharLiteral
+  CharLiteral.Char = "'" CharContent "'"
+  CharContent.Single = SingleChar
+  CharContent = UnicodeEscape
+  CharContent = EscapeSeq
+  SingleChar = ~[\r\n\'\\]

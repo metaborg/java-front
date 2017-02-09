@@ -1,0 +1,12 @@
+%%%
+ %% Section 3.10.7: The null Literal
+ %%%
+module java/NullLiteral
+
+sorts
+
+  NullLiteral
+
+context-free syntax
+
+  NullLiteral.Null = <null>

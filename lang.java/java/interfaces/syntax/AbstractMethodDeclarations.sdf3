@@ -1,0 +1,28 @@
+%%%
+ %%
+ %%%
+module java/AbstractMethodDeclarations
+
+imports
+
+  java/Modifiers
+  java/Expressions
+  java/Annotations
+  java/Identifiers
+  java/MethodDeclarations
+  java/ParameterizedTypes
+  java/TypeVariables
+  java/FieldDeclarations
+
+sorts
+
+  AbstractMethodDec AbstractMethodMod
+
+context-free syntax
+
+  AbstractMethodDec.AbstractMethodDec = <<AnnoOrAbstractMethodMod*> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Throws?> ;>
+  AbstractMethodDec.DeprAbstractMethodDec = <<AnnoOrAbstractMethodMod*> <TypeParams?> <ResultType> <Id> ( <MethodParams> ) <Dim+> <Throws?> ;>
+  AnnoOrAbstractMethodMod = Anno
+  AnnoOrAbstractMethodMod = AbstractMethodMod
+  AbstractMethodMod = Public
+  AbstractMethodMod = Abstract

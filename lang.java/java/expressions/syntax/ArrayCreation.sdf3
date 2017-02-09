@@ -1,0 +1,25 @@
+%%%
+ %% Section 15.10: Array Creation Expressions
+ %%%
+module java/ArrayCreation
+
+imports
+
+  java/ArrayInitializers
+  java/PrimitiveTypes
+  java/Names
+
+sorts
+
+  ArrayCreationExpr ArrayBaseType Dim DimExpr
+
+context-free syntax
+
+  Expr = ArrayCreationExpr
+  ArrayCreationExpr.NewArray = <new <ArrayBaseType> <DimExpr+> <Dim*>>
+  ArrayCreationExpr.NewArrayInit = <new <ArrayBaseType> <Dim+> <ArrayInit>>
+  ArrayBaseType = PrimType
+  ArrayBaseType = TypeName
+  ArrayBaseType.UnboundWld = <<TypeName> \< ? \>>
+  DimExpr.Dim = <[ <Expr> ]>
+  Dim.Dim = <[ ]>

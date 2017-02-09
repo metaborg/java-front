@@ -1,0 +1,27 @@
+%%%
+ %% Section 3.10.5: String Literals
+ %%%
+module java/StringLiterals
+
+imports
+
+  java/EscapeSequences
+  java/UnicodeEscapes
+
+sorts
+
+  StringLiteral StringPart StringChars FooStringChars
+
+syntax
+
+  StringLiteral-CF = StringLiteral
+  StringLiteral.String = "\"" StringPart* "\""
+  StringPart.Chars = StringChars
+  StringPart = UnicodeEscape
+  StringPart = EscapeSeq
+  StringChars = FooStringChars-LEX
+  FooStringChars-LEX = ~[\"\\\n\13]+
+
+restrictions
+
+  StringChars -/- ~[\"\\\n\13]

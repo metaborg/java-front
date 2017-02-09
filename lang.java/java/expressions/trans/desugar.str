@@ -1,0 +1,13 @@
+module java/expressions/trans/desugar
+
+imports
+
+  signatures/java/-
+
+rules
+
+  desugar-singleton-appl:
+    Lit(l) -> l
+
+  desugar-singleton-appl:
+    ExprStm(exp) -> exp

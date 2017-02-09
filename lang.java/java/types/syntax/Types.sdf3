@@ -1,0 +1,20 @@
+%%%
+ %% Chapter 4: Types, Values, and Variables
+ %%%
+module java/Types
+
+imports
+
+  java/PrimitiveTypes
+  java/ReferenceTypes
+  java/TypeVariables
+  java/ParameterizedTypes
+
+sorts
+
+  Type
+
+context-free syntax
+
+  Type = PrimType
+  Type = RefType

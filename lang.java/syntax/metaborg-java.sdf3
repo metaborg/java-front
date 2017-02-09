@@ -2,17 +2,16 @@ module metaborg-java
 
 imports
 
-  Lexical
-  Types
-  Names
-  Packages
-  Classes
-  Interfaces
-  Arrays
-  Statements
-  Expressions
-
-  CompilationUnits
+  java/Lexical
+  java/Types
+  java/Names
+  java/Packages
+  java/Classes
+  java/Interfaces
+  java/Arrays
+  java/Statements
+  java/Expressions
+  java/CompilationUnits
 
 context-free start-symbols // Editor
 

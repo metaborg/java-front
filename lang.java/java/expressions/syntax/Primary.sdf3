@@ -1,0 +1,50 @@
+%%%
+ %% Section 15.8: Primary Expressions
+ %%%
+module java/Primary
+
+imports
+
+  java/Literals
+  java/Names
+  java/Expressions
+  java/Types
+  java/IntegerLiterals
+  java/FloatingPointLiterals
+  java/BooleanLiterals
+  java/CharacterLiterals
+  java/StringLiterals
+  java/NullLiteral
+
+sorts
+
+  Literal
+
+context-free syntax
+
+  Expr.Lit = Literal
+  Literal = IntLiteral
+  Literal = FloatLiteral
+  Literal = BoolLiteral
+  Literal = CharLiteral
+  Literal = StringLiteral
+  Literal = NullLiteral
+
+sorts
+
+  ClassLiteral
+
+context-free syntax
+
+  Literal = ClassLiteral
+  ClassLiteral.Class = <<Type> . class>
+  ClassLiteral.VoidClass = <void . class>
+
+context-free syntax
+
+  Expr.This = <this>
+  Expr.QThis = <<TypeName> . this>
+
+context-free syntax
+
+  Expr = <( <Expr> )> {bracket}

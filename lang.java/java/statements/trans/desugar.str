@@ -1,0 +1,24 @@
+module java/statements/trans/desugar
+
+imports
+
+  signatures/java/-
+
+rules
+
+  desugar:
+    LocalVarDecStm(LocalVarDec(m*, t, vardec*)) -> <map(desugar-localvardec(|m*, t); try(desugar-localvardec-array))> vardec*
+
+  desugar-localvardec(|m*, t):
+    v -> LocalVarDec(m*, t, <try(desugar-vardec-arrayinit(|t))> v)
+
+  desugar-vardec-arrayinit(|type):
+    VarDec(v, ArrayInit(init*)) -> VarDec(v, NewArrayInit(ty, [Dim()], ArrayInit(init*)))
+    where
+      ArrayType(ty) := type
+
+  desugar-localvardec-array:
+    LocalVarDec(m*, t, VarDec(ArrayVarDecId(v, dim), init)) -> LocalVarDec(m*, ArrayType(t), VarDec(v, init))
+
+  desugar-localvardec-array:
+    LocalVarDec(m*, t, VarDec(ArrayVarDecId(v, dim))) -> LocalVarDec(m*, ArrayType(t), VarDec(v))

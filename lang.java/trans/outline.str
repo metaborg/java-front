@@ -2,7 +2,7 @@ module outline
 
 imports
 
-  signatures/-
+  signatures/java/-
   
   libspoofax/editor/outline
 

@@ -2,14 +2,14 @@ module desugar
 
 imports
 
-  signatures/-
+  signatures/java/-
   
-  spec/classes/trans/desugar
-  spec/interfaces/trans/desugar
-  spec/statements/trans/desugar
-  spec/expressions/trans/desugar
-  spec/lexical/trans/desugar
-  spec/packages/trans/desugar
+  java/classes/trans/desugar
+  java/interfaces/trans/desugar
+  java/statements/trans/desugar
+  java/expressions/trans/desugar
+  java/lexical/trans/desugar
+  java/packages/trans/desugar
 
 strategies
 

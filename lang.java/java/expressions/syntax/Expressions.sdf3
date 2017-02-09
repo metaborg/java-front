@@ -1,0 +1,23 @@
+%%%
+ %% Chapter 15: Expressions
+ %%%
+module java/Expressions
+
+imports
+
+  java/Primary
+  java/ClassInstanceCreation
+  java/ArrayCreation
+  java/FieldAccess
+  java/ArrayAccess
+  java/MethodInvocation
+  java/Postfix
+  java/UnaryOperators
+  java/BinaryOperators
+  java/AssignmentOperators
+  java/Restrictions
+  java/Priorities
+
+sorts
+
+  Expr
