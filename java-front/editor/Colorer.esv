@@ -1,7 +1,0 @@
-module Colorer
-
-imports
-
-  libspoofax/color/default
-
-colorer

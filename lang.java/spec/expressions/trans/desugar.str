@@ -1,0 +1,13 @@
+module spec/expressions/trans/desugar
+
+imports
+
+  signatures/-
+
+rules
+
+  desugar-singleton-appl:
+    Lit(l) -> l
+
+  desugar-singleton-appl:
+    ExprStm(exp) -> exp
