@@ -12,5 +12,8 @@ imports
 
 context-free syntax
 
-  Expr.NewInstance = <new <TypeArgs?> <ClassOrInterfaceType> ( <{Expr ","}*> ) <ClassBody?>>
-  Expr.QNewInstance = <<Expr> . new <TypeArgs?> <Id> <TypeArgs?> ( <{Expr ","}*> ) <ClassBody?>>
+  Expr.NewInstance = <new <TypeArgs?> <TypeDecSpec> <TypeArgsOrDiamond?> ( <{Expr ","}*> ) <ClassBody?>>
+  Expr.QNewInstance = <<Expr> . new <TypeArgs?> <Id> <TypeArgsOrDiamond?> ( <{Expr ","}*> ) <ClassBody?>>
+
+  TypeArgsOrDiamond = TypeArgs
+  TypeArgsOrDiamond.Diamond = <\<\>>
