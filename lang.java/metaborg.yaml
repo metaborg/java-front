@@ -8,6 +8,21 @@ dependencies:
   - org.metaborg:org.metaborg.meta.lang.template:${metaborgVersion}
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
+exports:
+- language: Stratego-Sugar
+  directory: src-gen
+  includes: 
+  - pp/java/*.str
+  - signatures/java/*.str
+- language: Stratego-Sugar
+  directory: "."
+  includes: java/**/*.str
+- language: Stratego-Sugar
+  directory: trans
+  includes: java/**/*.str
+contributions:
+- name: metaborg-java
+  id: org.metaborg:lang.java:1.0.0-SNAPSHOT
 pardonedLanguages:
 - EditorService
 - Stratego-Sugar

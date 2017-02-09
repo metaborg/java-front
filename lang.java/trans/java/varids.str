@@ -1,4 +1,4 @@
-module varids
+module java/varids
 
 imports
 

@@ -6,8 +6,8 @@ imports
   
   signatures/java/-
   
-  desugar
-  varids
+  java/desugar
+  java/varids
 
 signature
 

@@ -1,4 +1,4 @@
-module desugar
+module java/desugar
 
 imports
 

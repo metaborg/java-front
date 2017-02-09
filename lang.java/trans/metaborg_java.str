@@ -9,10 +9,11 @@ imports
   signatures/java/-
   completion/completion
   
-  pp
-  desugar
+  java/desugar
   java/packages/trans/desugar
-  varids
+  java/varids
+  java/pp
+  
   outline
 
 rules // Debugging
