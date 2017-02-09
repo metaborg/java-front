@@ -11,6 +11,8 @@ imports
   Primary // To import Expr sort
   Identifiers
   MethodDeclarations
+  Types
+  ReferenceTypes
 
 sorts
 
@@ -95,5 +97,13 @@ sorts
 context-free syntax
 
   Stm.Try = <try <Block> <CatchClause+>>
-  Stm.Try = <try <Block> <CatchClause*> finally <Block>>
-  CatchClause.Catch = <catch ( <FormalParam> ) <Block>>
+  Stm.TryFinally = <try <Block> <CatchClause*> <Finally>>
+  Stm.TryWithResources = <try ( <Resource+> <ResourceSemicolon?> ) <Block> <CatchClause*> <Finally?>>
+  
+  CatchClause.Catch = <catch ( <CatchFormalParam> ) <Block>>
+  CatchFormalParam.Param = <<AnnoOrVarMod*> <{ClassType "|"}*> <Id>>
+  
+  Finally.Finally = <finally <Block>>
+  
+  Resource.Resource = <<AnnoOrVarMod*> <Type> <Id> = <Expr>>
+  ResourceSemicolon.Semicolon = <;>

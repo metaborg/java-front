@@ -19,9 +19,7 @@ sorts
 
 context-free syntax
 
-  FieldDec.FieldDec = <<Alt1*> <Type> <{VarDec ","}+> ;>
-  Alt1 = Anno
-  Alt1 = FieldMod
+  FieldDec.FieldDec = <<AnnoOrFieldMod*> <Type> <{VarDec ","}+> ;>
   VarDec.VarDec = VarDecId
   VarDec.VarDec = <<VarDecId> = <VarInit>>
   VarDecId = Id
@@ -43,3 +41,6 @@ context-free syntax
   FieldMod = Final
   FieldMod = Transient
   FieldMod = Volatile
+  
+  AnnoOrFieldMod = Anno
+  AnnoOrFieldMod = FieldMod

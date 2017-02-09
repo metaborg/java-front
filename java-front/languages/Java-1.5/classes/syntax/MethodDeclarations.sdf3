@@ -35,12 +35,8 @@ sorts
 
 context-free syntax
 
-  FormalParam.Param = <<Alt3*> <Type> <VarDecId>>
-  Alt3 = Anno
-  Alt3 = VarMod
-  FormalParam.VarArityParam = <<Alt4*> <Type> ... <VarDecId>>
-  Alt4 = Anno
-  Alt4 = VarMod
+  FormalParam.Param = <<AnnoOrVarMod*> <Type> <VarDecId>>
+  FormalParam.VarArityParam = <<AnnoOrVarMod*> <Type> ... <VarDecId>>
 
 sorts
 
@@ -49,6 +45,9 @@ sorts
 context-free syntax
 
   VarMod = Final
+
+  AnnoOrVarMod = Anno
+  AnnoOrVarMod = VarMod
 
 sorts
 
