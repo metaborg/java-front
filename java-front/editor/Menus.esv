@@ -1,9 +1,0 @@
-module Menus
-
-menus
-
-  menu: "Syntax" (openeditor)
-
-    action: "Format"                = editor-format (source)
-    action: "Show abstract ayntax"  = debug-show-aterm (source) (meta) (realtime)
-    action: "Show desugared syntax" = debug-show-desugared (source) (meta)

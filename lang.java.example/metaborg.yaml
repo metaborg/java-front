@@ -1,0 +1,8 @@
+---
+id: org.metaborg:lang.java.example:1.0.0-SNAPSHOT
+name: metaborg-java
+dependencies:
+  compile:
+  - org.metaborg:lang.java:1.0.0-SNAPSHOT
+build:
+  useBuildSystemSpec: true
