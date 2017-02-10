@@ -18,8 +18,8 @@
   </parent>
 
   <modules>
-    <module>java</module>
-    <module>java.example</module>
-    <module>java.test</module>
+    <module>lang.java</module>
+    <module>lang.java.example</module>
+    <module>lang.java.test</module>
   </modules>
 </project>
