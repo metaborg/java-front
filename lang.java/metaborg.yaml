@@ -13,7 +13,10 @@ exports:
   directory: src-gen
   includes: 
   - pp/java/*.str
+  - pp/metaborg-java-parenthesize.str
+  - pp/metaborg-java-pp.str
   - signatures/java/*.str
+  - signatures/metaborg-java-sig.str
 - language: Stratego-Sugar
   directory: "."
   includes: java/**/*.str
