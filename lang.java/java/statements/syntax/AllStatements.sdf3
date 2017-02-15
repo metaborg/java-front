@@ -41,8 +41,8 @@ context-free syntax
 
 context-free syntax
 
-  Stm.AssertStm = <assert <Expr> ;>
-  Stm.AssertStm = <assert <Expr> : <Expr> ;>
+  Stm.Assert = <assert <Expr> ;>
+  Stm.Assert = <assert <Expr> : <Expr> ;>
 
 sorts
 
