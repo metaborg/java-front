@@ -74,7 +74,7 @@ signature // Field
 
   constructors
 
-    FieldDec : Access * Context * List(FieldMod) * Type * List(VarDec) -> FieldDec
+    FieldDec : Access * Context * List(FieldMod) * Type * VarDec -> FieldDec
 
 rules
 
