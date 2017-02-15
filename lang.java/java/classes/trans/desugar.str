@@ -139,3 +139,19 @@ rules
   desugar-constructor-body:
     ConstrBody(inv, stmts) -> ConstrBody([inv|stmts])
     where not(None() := inv)
+
+signature // Enum
+
+  constructors
+
+    EnumDec : Access * Context * List(AnnoOrClassMod) * Id * Interfaces * EnumBody -> EnumDec
+
+rules
+
+  desugar:
+    EnumDec(EnumDecHead(modifier*, name, interfaces), body) ->
+    EnumDec(access, context, modifier'*, name, interfaces, body)
+    with
+      access       := <desugar-pick-access-modifier> modifier*
+    ; context      := <desugar-pick-context-modifier> modifier*
+    ; modifier'*   := <remove-all(?access <+ ?context)> modifier*
