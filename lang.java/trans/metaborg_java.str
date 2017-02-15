@@ -10,7 +10,6 @@ imports
   completion/completion
   
   java/desugar
-  java/packages/trans/desugar
   java/varids
   java/pp
   
@@ -24,6 +23,6 @@ rules // Debugging
       filename := <guarantee-extension(|"aterm")> path
 
   debug-show-desugared:
-    (selected, position, ast, path, project-path) -> (filename, <desugar-top> selected)
+    (selected, position, ast, path, project-path) -> (filename, <desugar-all> selected)
     with
       filename := <guarantee-extension(|"aterm")> path
