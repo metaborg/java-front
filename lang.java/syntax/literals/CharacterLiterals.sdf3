@@ -1,0 +1,22 @@
+module literals/CharacterLiterals
+
+// 3.10.4. Character Literals
+
+imports
+  
+  literals/EscapeSequences
+  lexical/UnicodeEscapes
+  
+context-free start-symbols
+  
+  CharacterLiteral  
+  
+context-free syntax
+
+  CharacterLiteral.CharLiteral = CharLiteral  
+  
+lexical syntax
+
+  CharLiteral = "'" ~[\n\r\'\\] "'"
+  CharLiteral = "'" EscapeSeq "'"
+  CharLiteral = "'" UnicodeEscape "'"

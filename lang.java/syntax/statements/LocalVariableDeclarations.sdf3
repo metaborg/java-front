@@ -1,0 +1,17 @@
+module statements/LocalVariableDeclarations
+
+// 14.4. Local Variable Declaration Statements
+
+imports
+  classes/FieldDeclarations
+  interfaces/Annotations
+
+context-free syntax
+
+  LocalVariableDeclarationStatement.LocVarDeclStm = <<LocalVariableDeclaration>;>
+  LocalVariableDeclaration.LocalVarDecl = <
+  <{VariableModifier " "}*> <UnannType> <{VarDecl ", "}+>>
+  
+  VariableModifier       = Annotation
+  VariableModifier.Final = "final"
+  

@@ -1,0 +1,18 @@
+module statements/Blocks
+
+// 14.2. Blocks
+
+imports
+  classes/ClassDeclarations
+  statements/LocalVariableDeclarations
+  statements/Statements
+
+context-free syntax
+  
+  Block.Block = <
+  {
+    <{BlockStatement "\n"}*>
+  }>
+  BlockStatement = LocalVariableDeclarationStatement
+  BlockStatement = ClassDeclaration
+  BlockStatement = Statement

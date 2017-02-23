@@ -1,0 +1,19 @@
+module interfaces/InterfaceMethodDeclarations
+
+// 9.4. Method Declarations
+
+imports
+  classes/MethodDeclarations
+  interfaces/Annotations
+
+context-free syntax
+  
+  InterfaceMethodDeclaration.AbstractMethodDec = <
+  <{InterfaceMethodModifier " "}*> <MethodHeader> <MethodBody>>
+  
+  InterfaceMethodModifier = Annotation
+  InterfaceMethodModifier.Public   = "public"
+  InterfaceMethodModifier.Abstract = "abstract"
+  InterfaceMethodModifier.Default  = "default"
+  InterfaceMethodModifier.Static   = "static"
+  InterfaceMethodModifier.Strictfp = "strictfp"

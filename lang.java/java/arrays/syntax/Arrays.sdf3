@@ -1,8 +1,0 @@
-%%%
- %% Chapter 10: Arrays
- %%%
-module java/Arrays
-
-imports 
-
-  java/ArrayInitializers

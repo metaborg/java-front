@@ -1,0 +1,57 @@
+module keywords
+
+language metaborg-java
+
+start symbol Keyword
+
+test keyword abstract [[abstract]] parse fails
+test keyword assert [[assert]] parse fails
+test keyword boolean [[boolean]] parse fails
+test keyword break [[break]] parse fails
+test keyword byte [[byte]] parse fails
+test keyword case [[case]] parse fails
+test keyword catch [[catch]] parse fails
+test keyword char [[char]] parse fails
+test keyword class [[class]] parse fails
+test keyword const [[const]] parse fails
+test keyword continue [[continue]] parse fails
+test keyword default [[default]] parse fails
+test keyword do [[do]] parse fails
+test keyword double [[double]] parse fails
+test keyword else [[else]] parse fails
+test keyword enum [[enum]] parse fails
+test keyword extends [[extends]] parse fails
+test keyword final [[final]] parse fails
+test keyword finally [[finally]] parse fails
+test keyword float [[float]] parse fails
+test keyword for [[for]] parse fails
+test keyword if [[if]] parse fails
+test keyword goto [[goto]] parse fails
+test keyword implements [[implements]] parse fails
+test keyword import [[import]] parse fails
+test keyword instanceof [[instanceof]] parse fails
+test keyword int [[int]] parse fails
+test keyword interface [[interface]] parse fails
+test keyword long [[long]] parse fails
+test keyword native [[native]] parse fails
+test keyword new [[new]] parse fails
+test keyword package [[package]] parse fails
+test keyword private [[private]] parse fails
+test keyword protected [[protected]] parse fails
+test keyword public [[public]] parse fails
+test keyword return [[return]] parse fails
+test keyword short [[short]] parse fails
+test keyword static [[static]] parse fails
+test keyword strictfp [[strictfp]] parse fails
+test keyword super [[super]] parse fails
+test keyword switch [[switch]] parse fails
+test keyword synchronized [[synchronized]] parse fails
+test keyword this [[this]] parse fails
+test keyword throw [[throw]] parse fails
+test keyword throws [[throws]] parse fails
+test keyword transient [[transient]] parse fails
+test keyword try [[try]] parse fails
+test keyword void [[void]] parse fails
+test keyword volatile [[volatile]] parse fails
+test keyword while [[while]] parse fails
+

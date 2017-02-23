@@ -1,0 +1,81 @@
+module ImmutableInvariant
+
+language metaborg-java start symbol Start
+
+test ImmutableInvariant [[ package org.metaborg.meta.nabl2.relations.terms;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link Variances.Invariant}.
+ * <p>
+ * Use the static factory method to get the default singleton instance:
+ * {@code ImmutableInvariant.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Variances.Invariant"})
+@Immutable
+public final class ImmutableInvariant
+    extends Variances.Invariant
+    implements Serializable {
+  private final int hashCode;
+
+  private ImmutableInvariant() {
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableInvariant} that have equal attribute values.
+   * As instances of the {@code ImmutableInvariant} class are interned, the {@code equals} method is implemented
+   * as an efficient reference equality check.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    return this == another;
+  }
+
+  /**
+   * Returns a constant hash code value.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    return -267352528;
+  }
+
+  /**
+   * Prints the immutable value {@code Invariant}.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "Invariant{}";
+  }
+
+  private static final ImmutableInvariant INSTANCE = new ImmutableInvariant();
+
+  /**
+   * Returns the default immutable singleton value of {@code Invariant}
+   * @return An immutable instance of Invariant
+   */
+  public static ImmutableInvariant of() {
+    return INSTANCE;
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private Object readResolve() throws ObjectStreamException {
+    return INSTANCE;
+  }
+} ]] parse succeeds

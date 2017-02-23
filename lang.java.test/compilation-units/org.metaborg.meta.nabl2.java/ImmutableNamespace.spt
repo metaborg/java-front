@@ -1,0 +1,245 @@
+module ImmutableNamespace
+
+language metaborg-java start symbol Start
+
+test ImmutableNamespace [[ package org.metaborg.meta.nabl2.scopegraph.terms;
+
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+import org.metaborg.meta.nabl2.terms.ITermVar;
+import org.pcollections.PSet;
+
+/**
+ * Immutable implementation of {@link Namespace}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableNamespace.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Namespace"})
+@Immutable
+public final class ImmutableNamespace
+    extends Namespace
+    implements Serializable {
+  private final String name;
+  private final ImmutableClassToInstanceMap<Object> attachments;
+  private final int hashCode;
+
+  private ImmutableNamespace(String name) {
+    this.name = Objects.requireNonNull(name, "name");
+    this.attachments = Objects.requireNonNull(super.getAttachments(), "attachments");
+    this.hashCode = super.hashCode();
+  }
+
+  private ImmutableNamespace(
+      String name,
+      ImmutableClassToInstanceMap<Object> attachments) {
+    this.name = name;
+    this.attachments = attachments;
+    this.hashCode = super.hashCode();
+  }
+
+  /**
+   * @return The value of the {@code name} attribute
+   */
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return The value of the {@code attachments} attribute
+   */
+  @Override
+  public ImmutableClassToInstanceMap<Object> getAttachments() {
+    return attachments;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Namespace#getName() name} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for name
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableNamespace setName(String value) {
+    if (this.name.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "name");
+    return new ImmutableNamespace(newValue, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Namespace#getAttachments() attachments} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for attachments
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableNamespace setAttachments(ImmutableClassToInstanceMap<Object> value) {
+    if (this.attachments == value) return this;
+    ImmutableClassToInstanceMap<Object> newValue = Objects.requireNonNull(value, "attachments");
+    return new ImmutableNamespace(this.name, newValue);
+  }
+
+  /**
+   * Returns the precomputed-on-construction hash code from the supertype implementation of {@code super.hashCode()}.
+   * @return The hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private transient volatile long lazyInitBitmap;
+
+  private static final long OP_LAZY_INIT_BIT = 0x1L;
+
+  private transient String op;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Namespace#getOp() op} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public String getOp() {
+    if ((lazyInitBitmap & OP_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & OP_LAZY_INIT_BIT) == 0) {
+          this.op = Objects.requireNonNull(super.getOp(), "op");
+          lazyInitBitmap |= OP_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return op;
+  }
+
+  private static final long ARGS_LAZY_INIT_BIT = 0x2L;
+
+  private transient List<ITerm> args;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Namespace#getArgs() args} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public List<ITerm> getArgs() {
+    if ((lazyInitBitmap & ARGS_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & ARGS_LAZY_INIT_BIT) == 0) {
+          this.args = Objects.requireNonNull(super.getArgs(), "args");
+          lazyInitBitmap |= ARGS_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return args;
+  }
+
+  private static final long ARITY_LAZY_INIT_BIT = 0x4L;
+
+  private transient int arity;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Namespace#getArity() arity} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public int getArity() {
+    if ((lazyInitBitmap & ARITY_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & ARITY_LAZY_INIT_BIT) == 0) {
+          this.arity = super.getArity();
+          lazyInitBitmap |= ARITY_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return arity;
+  }
+
+  private static final long GROUND_LAZY_INIT_BIT = 0x8L;
+
+  private transient boolean ground;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Namespace#isGround() ground} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public boolean isGround() {
+    if ((lazyInitBitmap & GROUND_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & GROUND_LAZY_INIT_BIT) == 0) {
+          this.ground = super.isGround();
+          lazyInitBitmap |= GROUND_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return ground;
+  }
+
+  private static final long VARS_LAZY_INIT_BIT = 0x10L;
+
+  private transient PSet<ITermVar> vars;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Namespace#getVars() vars} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public PSet<ITermVar> getVars() {
+    if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+          this.vars = Objects.requireNonNull(super.getVars(), "vars");
+          lazyInitBitmap |= VARS_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return vars;
+  }
+
+  /**
+   * Construct a new immutable {@code Namespace} instance.
+   * @param name The value for the {@code name} attribute
+   * @return An immutable Namespace instance
+   */
+  public static ImmutableNamespace of(String name) {
+    return new ImmutableNamespace(name);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Namespace} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable Namespace instance
+   */
+  public static ImmutableNamespace copyOf(Namespace instance) {
+    if (instance instanceof ImmutableNamespace) {
+      return (ImmutableNamespace) instance;
+    }
+    return ImmutableNamespace.of(instance.getName())
+        .setAttachments(instance.getAttachments());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

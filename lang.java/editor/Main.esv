@@ -3,9 +3,11 @@ module Main
 imports
 
   Syntax
+  Analysis
 
 language
 
-  extensions    : jav
+  extensions : jav
 
   provider : target/metaborg/stratego.ctree
+  provider : target/metaborg/stratego-javastrat.jar

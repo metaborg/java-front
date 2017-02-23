@@ -1,0 +1,16 @@
+module ParseFacet
+
+language metaborg-java start symbol Start
+
+test ParseFacet [[ package org.metaborg.core.syntax;
+
+import org.metaborg.core.language.IFacet;
+
+public class ParseFacet implements IFacet {
+    public final String type;
+
+
+    public ParseFacet(String type) {
+        this.type = type;
+    }
+} ]] parse succeeds

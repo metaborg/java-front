@@ -1,0 +1,11 @@
+module IOccurrenceIndex
+
+language metaborg-java start symbol Start
+
+test IOccurrenceIndex [[ package org.metaborg.meta.nabl2.scopegraph;
+
+public interface IOccurrenceIndex {
+
+    String getResource();
+
+} ]] parse succeeds

@@ -1,0 +1,22 @@
+module types/PrimitiveTypes
+
+// 4.2. Primitive Types and Values
+
+imports
+  interfaces/Annotations
+
+context-free syntax
+  
+  PrimitiveType.NumericType = <<{Annotation " "}*> <NumericType>>
+  PrimitiveType.BooleanType = <<{Annotation " "}*> boolean>
+  NumericType.Byte   = <byte>
+  NumericType.Short  = <short>
+  NumericType.Int    = <int>
+  NumericType.Long   = <long>
+  NumericType.Char   = <char>
+  NumericType.Float  = <float>
+  NumericType.Double = <double>
+  
+  
+  
+  

@@ -1,0 +1,14 @@
+module types/TypeVariable
+
+// 4.4. Type Variables
+
+imports
+  types/ReferenceTypes
+  lexical/Identifiers
+  interfaces/Annotations
+
+context-free syntax
+
+  TypeParameter.TypeParameter = <<{Annotation " "}*> <Id> <TypeBound?>>
+  TypeBound.TypeBound = <extends <{ClassType "& "}+>>
+  

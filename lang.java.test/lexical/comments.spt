@@ -1,0 +1,18 @@
+module comments
+
+language metaborg-java
+
+start symbol Comment
+
+test single line comment [[// this is a comment]] parse succeeds
+
+test multi line comment 
+[[/* this is a comment
+
+*/]] parse succeeds
+
+test example comment specification
+[[/* this comment /* // /** ends here: */]] parse succeeds
+
+test no nested comments
+[[// /* this comment /* // /** ends here: */]] parse succeeds

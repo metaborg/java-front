@@ -1,0 +1,9 @@
+module character-literals
+
+language metaborg-java
+
+start symbol StringLiteral
+
+test example 1 [[""]] parse succeeds
+test example 2 [["\""]] parse succeeds
+test example 3 [["This is a string"]] parse succeeds

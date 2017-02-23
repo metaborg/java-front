@@ -1,0 +1,10 @@
+module interfaces/Main
+
+// Chapter 9. Interfaces
+
+imports
+  interfaces/InterfaceDeclarations
+  interfaces/InterfaceMethodDeclarations
+  interfaces/AnnotationTypes
+  interfaces/Annotations
+  interfaces/ConstantDeclarations

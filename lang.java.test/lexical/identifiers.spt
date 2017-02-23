@@ -1,0 +1,11 @@
+module identifiers
+
+language metaborg-java
+
+start symbol ID
+
+test example 1 [[String]] parse succeeds
+test example 2 [[i3]] parse succeeds
+test example 3 [[αρετη]] parse fails
+test example 4 [[MAX_VALUE]] parse succeeds
+test example 5 [[isLetterOrDigit]] parse succeeds

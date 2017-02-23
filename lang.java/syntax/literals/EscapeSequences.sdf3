@@ -1,0 +1,17 @@
+module literals/EscapeSequences
+
+// 3.10.6. Escape Sequences for Character and String Literals
+
+lexical syntax
+
+
+  EscapeSeq.NamedEscape = "\\" [btnfr\"\'\\]
+  EscapeSeq = OctalEscape
+  OctalEscape.OctalEscape1 = "\\" [0-7]
+  OctalEscape.OctalEscape2 = "\\" [0-7] [0-7]
+  OctalEscape.OctalEscape3 = "\\" [0-3] [0-7] [0-7]
+
+
+lexical restrictions
+
+  OctalEscape -/- [0-7]
