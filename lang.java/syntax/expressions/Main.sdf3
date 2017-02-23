@@ -1,0 +1,21 @@
+module expressions/Main
+
+// Chapter 15. Expressions
+
+imports
+
+  expressions/PrimaryExpressions
+  expressions/ClassInstanceCreation
+  expressions/ArrayCreation
+  expressions/FieldAccess
+  expressions/ArrayAccess
+  expressions/MethodInvocation
+  expressions/MethodReference
+  expressions/Postfix
+  expressions/UnaryOperators
+  expressions/BinaryOperators
+  expressions/AssignmentOperators
+  expressions/Disambiguation
+
+sorts
+  Expression

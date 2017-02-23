@@ -1,0 +1,19 @@
+module expressions/LambdaExpressions
+
+// 15.27. Lambda Expressions
+
+imports
+  statements/Blocks
+  lexical/Identifiers
+  classes/MethodDeclarations
+  
+context-free syntax
+
+  Expression.Lambda = LambdaExpression
+  
+  LambdaExpression.LambdaExpression          = [[LambdaParameters] -> [Expression]]
+  LambdaExpression.LambdaExpressionWithBlock = [[LambdaParameters] -> [Block]]
+  
+  LambdaParameters.SingleParam    = Id
+  LambdaParameters.Params         = <(<FormalParams>)>
+  LambdaParameters.InferredParams = <(<{Id ", "}+>)>

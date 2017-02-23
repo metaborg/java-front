@@ -1,0 +1,22 @@
+module literals/Main
+
+// 3.10. Literals
+
+imports
+  literals/IntegerLiterals
+  literals/FloatingPointLiterals
+  literals/BooleanLiterals
+  literals/CharacterLiterals
+  literals/StringLiterals
+  literals/NullLiteral
+  
+context-free syntax
+  
+  Literal = IntLiteral
+  Literal = FloatLiteral
+  Literal = BoolLiteral
+  Literal = CharacterLiteral
+  Literal = StringLiteral
+  Literal = NullLiteral
+    
+  

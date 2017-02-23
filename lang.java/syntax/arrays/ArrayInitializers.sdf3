@@ -1,0 +1,11 @@
+module arrays/ArrayInitializers
+
+// 10.6. Array Initializers
+
+imports
+  classes/FieldDeclarations
+  
+context-free syntax
+  
+  ArrayInitializer.ArrayInit      = <{<{VariableInitializer ","}*>}>
+  ArrayInitializer.ArrayInitComma = <{<{VariableInitializer ","}*>, }>

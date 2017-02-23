@@ -1,0 +1,7 @@
+module character-literals
+
+language metaborg-java
+
+start symbol NullLiteral
+
+test null literal [[null]] parse succeeds

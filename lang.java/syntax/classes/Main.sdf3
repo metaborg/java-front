@@ -1,0 +1,12 @@
+module classes/Main
+
+// Chapter 8. Classes
+
+imports
+  classes/ClassDeclarations
+  classes/FieldDeclarations
+  classes/MethodDeclarations
+  classes/EnumDeclarations
+  classes/InstanceInitializers
+  classes/StaticInitializers
+  classes/ConstructorDeclarations

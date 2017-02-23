@@ -1,0 +1,178 @@
+module ImmutableTuple3
+
+language metaborg-java start symbol Start
+
+test ImmutableTuple3 [[ package org.metaborg.meta.nabl2.util.tuples;
+
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link Tuple3}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableTuple3.<T1, T2, T3>of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Tuple3<T1, T2, T3>"})
+@Immutable
+public final class ImmutableTuple3<T1, T2, T3> extends Tuple3<T1, T2, T3> {
+  private final T1 _1;
+  private final T2 _2;
+  private final T3 _3;
+  private final int hashCode;
+
+  private ImmutableTuple3(T1 _1, T2 _2, T3 _3) {
+    this._1 = Objects.requireNonNull(_1, "_1");
+    this._2 = Objects.requireNonNull(_2, "_2");
+    this._3 = Objects.requireNonNull(_3, "_3");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableTuple3(ImmutableTuple3 original, T1 _1, T2 _2, T3 _3) {
+    this._1 = _1;
+    this._2 = _2;
+    this._3 = _3;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code _1} attribute
+   */
+  @Override
+  public T1 _1() {
+    return _1;
+  }
+
+  /**
+   * @return The value of the {@code _2} attribute
+   */
+  @Override
+  public T2 _2() {
+    return _2;
+  }
+
+  /**
+   * @return The value of the {@code _3} attribute
+   */
+  @Override
+  public T3 _3() {
+    return _3;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Tuple3#_1() _1} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for _1
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTuple3<T1, T2, T3> set_1(T1 value) {
+    if (this._1 == value) return this;
+    T1 newValue = Objects.requireNonNull(value, "_1");
+    return new ImmutableTuple3<T1, T2, T3>(this, newValue, this._2, this._3);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Tuple3#_2() _2} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for _2
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTuple3<T1, T2, T3> set_2(T2 value) {
+    if (this._2 == value) return this;
+    T2 newValue = Objects.requireNonNull(value, "_2");
+    return new ImmutableTuple3<T1, T2, T3>(this, this._1, newValue, this._3);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Tuple3#_3() _3} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for _3
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTuple3<T1, T2, T3> set_3(T3 value) {
+    if (this._3 == value) return this;
+    T3 newValue = Objects.requireNonNull(value, "_3");
+    return new ImmutableTuple3<T1, T2, T3>(this, this._1, this._2, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableTuple3} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableTuple3<?, ?, ?>
+        && equalTo((ImmutableTuple3<T1, T2, T3>) another);
+  }
+
+  private boolean equalTo(ImmutableTuple3<T1, T2, T3> another) {
+    return _1.equals(another._1)
+        && _2.equals(another._2)
+        && _3.equals(another._3);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code _1}, {@code _2}, {@code _3}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + _1.hashCode();
+    h = h * 17 + _2.hashCode();
+    h = h * 17 + _3.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code Tuple3} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "Tuple3{"
+        + "_1=" + _1
+        + ", _2=" + _2
+        + ", _3=" + _3
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code Tuple3} instance.
+   * @param _1 The value for the {@code _1} attribute
+   * @param _2 The value for the {@code _2} attribute
+   * @param _3 The value for the {@code _3} attribute
+   * @return An immutable Tuple3 instance
+   */
+  public static <T1, T2, T3> ImmutableTuple3<T1, T2, T3> of(T1 _1, T2 _2, T3 _3) {
+    return new ImmutableTuple3<T1, T2, T3>(_1, _2, _3);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Tuple3} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param <T1> generic parameter T1
+   * @param <T2> generic parameter T2
+   * @param <T3> generic parameter T3
+   * @param instance The instance to copy
+   * @return A copied immutable Tuple3 instance
+   */
+  public static <T1, T2, T3> ImmutableTuple3<T1, T2, T3> copyOf(Tuple3<T1, T2, T3> instance) {
+    if (instance instanceof ImmutableTuple3<?, ?, ?>) {
+      return (ImmutableTuple3<T1, T2, T3>) instance;
+    }
+    return ImmutableTuple3.<T1, T2, T3>of(instance._1(), instance._2(), instance._3());
+  }
+} ]] parse succeeds

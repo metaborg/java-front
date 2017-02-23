@@ -1,0 +1,10 @@
+module classes/InstanceInitializers
+
+// 8.6. Instance Initializers
+
+imports
+  statements/Blocks
+
+context-free syntax
+
+  InstanceInitializer.InstanceInit = Block

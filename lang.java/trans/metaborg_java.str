@@ -1,28 +1,16 @@
 module metaborg_java
 
 imports
-
-  libstratego-lib
-  libstratego-gpp
-  libstratego-aterm
-
-  signatures/java/-
+  
   completion/completion
-  
-  java/desugar
-  java/varids
-  java/pp
-  
+  pp
   outline
+  analysis
 
 rules // Debugging
-
+  
   debug-show-aterm:
-    (selected, position, ast, path, project-path) -> (filename, selected)
+    (node, _, _, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"aterm")> path
-
-  debug-show-desugared:
-    (selected, position, ast, path, project-path) -> (filename, <desugar-all> selected)
-    with
-      filename := <guarantee-extension(|"aterm")> path
+    ; result   := node

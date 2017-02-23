@@ -1,0 +1,187 @@
+module ImmutableCDistinct
+
+language metaborg-java start symbol Start
+
+test ImmutableCDistinct [[ package org.metaborg.meta.nabl2.constraints.sets;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.MessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CDistinct}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCDistinct.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CDistinct"})
+@Immutable
+public final class ImmutableCDistinct
+    extends CDistinct
+    implements Serializable {
+  private final ITerm set;
+  private final @Nullable String projection;
+  private final MessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCDistinct(
+      ITerm set,
+      Optional<String> projection,
+      MessageInfo messageInfo) {
+    this.set = Objects.requireNonNull(set, "set");
+    this.projection = projection.orElse(null);
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCDistinct(
+      ImmutableCDistinct original,
+      ITerm set,
+      @Nullable String projection,
+      MessageInfo messageInfo) {
+    this.set = set;
+    this.projection = projection;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code set} attribute
+   */
+  @Override
+  public ITerm getSet() {
+    return set;
+  }
+
+  /**
+   * @return The value of the {@code projection} attribute
+   */
+  @Override
+  public Optional<String> getProjection() {
+    return Optional.ofNullable(projection);
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public MessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CDistinct#getSet() set} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for set
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCDistinct setSet(ITerm value) {
+    if (this.set == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "set");
+    return new ImmutableCDistinct(this, newValue, this.projection, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a <i>present</i> value for the optional {@link CDistinct#getProjection() projection} attribute.
+   * @param value The value for projection
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableCDistinct setProjection(String value) {
+    @Nullable String newValue = Objects.requireNonNull(value, "projection");
+    if (Objects.equals(this.projection, newValue)) return this;
+    return new ImmutableCDistinct(this, this.set, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting an optional value for the {@link CDistinct#getProjection() projection} attribute.
+   * An equality check is used on inner nullable value to prevent copying of the same value by returning {@code this}.
+   * @param optional A value for projection
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableCDistinct setProjection(Optional<String> optional) {
+    @Nullable String value = optional.orElse(null);
+    if (Objects.equals(this.projection, value)) return this;
+    return new ImmutableCDistinct(this, this.set, value, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CDistinct#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCDistinct setMessageInfo(MessageInfo value) {
+    if (this.messageInfo == value) return this;
+    MessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCDistinct(this, this.set, this.projection, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCDistinct} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCDistinct
+        && equalTo((ImmutableCDistinct) another);
+  }
+
+  private boolean equalTo(ImmutableCDistinct another) {
+    return set.equals(another.set)
+        && Objects.equals(projection, another.projection)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code set}, {@code projection}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + set.hashCode();
+    h = h * 17 + Objects.hashCode(projection);
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CDistinct} instance.
+   * @param set The value for the {@code set} attribute
+   * @param projection The value for the {@code projection} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CDistinct instance
+   */
+  public static ImmutableCDistinct of(ITerm set, Optional<String> projection, MessageInfo messageInfo) {
+    return new ImmutableCDistinct(set, projection, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CDistinct} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CDistinct instance
+   */
+  public static ImmutableCDistinct copyOf(CDistinct instance) {
+    if (instance instanceof ImmutableCDistinct) {
+      return (ImmutableCDistinct) instance;
+    }
+    return ImmutableCDistinct.of(instance.getSet(), instance.getProjection(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

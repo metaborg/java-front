@@ -1,0 +1,17 @@
+module packages/CompilationUnits
+
+// 7.3. Compilation Units
+
+imports 
+  packages/PackageDeclarations
+  packages/ImportDeclarations
+  packages/TypeDeclarations
+
+context-free syntax
+
+  CompilationUnit.CompilationUnit = <
+  <PackageDeclaration?>
+  
+  <{ImportDeclaration "\n"}*>
+     
+  <{TypeDeclaration "\n"}*>> 

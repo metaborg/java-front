@@ -1,0 +1,147 @@
+module ImmutableCGoal
+
+language metaborg-java start symbol Start
+
+test ImmutableCGoal [[ package org.metaborg.meta.nabl2.constraints.sym;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.IMessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CGoal}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCGoal.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CGoal"})
+@Immutable
+public final class ImmutableCGoal
+    extends CGoal
+    implements Serializable {
+  private final ITerm goal;
+  private final IMessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCGoal(
+      ITerm goal,
+      IMessageInfo messageInfo) {
+    this.goal = Objects.requireNonNull(goal, "goal");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCGoal(
+      ImmutableCGoal original,
+      ITerm goal,
+      IMessageInfo messageInfo) {
+    this.goal = goal;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code goal} attribute
+   */
+  @Override
+  public ITerm getGoal() {
+    return goal;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public IMessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGoal#getGoal() goal} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for goal
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGoal setGoal(ITerm value) {
+    if (this.goal == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "goal");
+    return new ImmutableCGoal(this, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGoal#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGoal setMessageInfo(IMessageInfo value) {
+    if (this.messageInfo == value) return this;
+    IMessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCGoal(this, this.goal, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCGoal} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCGoal
+        && equalTo((ImmutableCGoal) another);
+  }
+
+  private boolean equalTo(ImmutableCGoal another) {
+    return goal.equals(another.goal)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code goal}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + goal.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CGoal} instance.
+   * @param goal The value for the {@code goal} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CGoal instance
+   */
+  public static ImmutableCGoal of(ITerm goal, IMessageInfo messageInfo) {
+    return new ImmutableCGoal(goal, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CGoal} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CGoal instance
+   */
+  public static ImmutableCGoal copyOf(CGoal instance) {
+    if (instance instanceof ImmutableCGoal) {
+      return (ImmutableCGoal) instance;
+    }
+    return ImmutableCGoal.of(instance.getGoal(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

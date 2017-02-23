@@ -1,0 +1,9 @@
+module SdfVersion
+
+language metaborg-java start symbol Start
+
+test SdfVersion [[ package org.metaborg.spoofax.meta.core.config;
+
+public enum SdfVersion {
+    sdf2, sdf3
+} ]] parse succeeds

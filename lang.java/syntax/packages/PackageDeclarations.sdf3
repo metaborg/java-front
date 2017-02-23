@@ -1,0 +1,12 @@
+module packages/PackageDeclarations
+
+// 7.4. Package Declarations
+
+imports
+  lexical/Identifiers
+  interfaces/Annotations
+  
+context-free syntax
+  
+  PackageDeclaration.PackageDeclaration = <<{Annotation " "}*> package <{Id "."}+>;>
+  

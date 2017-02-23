@@ -1,0 +1,18 @@
+module expressions/MethodInvocation
+
+// 15.12. Method Invocation Expressions
+
+imports
+  names/Names
+  lexical/Identifiers
+  types/ParameterizedTypes
+  
+context-free syntax
+  
+  Expression.Invoke          = <<MethodName>(<{Expression ", "}*>)>
+//  ambiguous with Expression?
+//  Expression.InvokeQTypeName = <<TypeName>.<TypeArguments?> <Id>(<{Expression ", "}*>)>
+//  Expression.InvokeQExpName  = <<ExpressionName>.<TypeArguments?> <Id>(<{Expression ", "}*>)>
+  Expression.InvokeQExp      = <<Expression>.<TypeArguments?> <Id>(<{Expression ", "}*>)>
+  Expression.InvokeSuper     = <super.<TypeArguments?> <Id>(<{Expression ", "}*>)>
+  Expression.InvokeQSuper    = <<TypeName>.super.<TypeArguments?> <Id>(<{Expression ", "}*>)>

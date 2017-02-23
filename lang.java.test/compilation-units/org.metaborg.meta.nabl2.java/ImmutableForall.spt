@@ -1,0 +1,325 @@
+module ImmutableForall
+
+language metaborg-java start symbol Start
+
+test ImmutableForall [[ package org.metaborg.meta.nabl2.poly;
+
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import javax.annotation.Generated;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+import org.metaborg.meta.nabl2.terms.ITermVar;
+import org.pcollections.PSet;
+
+/**
+ * Immutable implementation of {@link Forall}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableForall.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Forall"})
+@Immutable
+public final class ImmutableForall extends Forall implements Serializable {
+  private final Set<TypeVar> typeVars;
+  private final ITerm type;
+  private final ImmutableClassToInstanceMap<Object> attachments;
+  private final int hashCode;
+
+  private ImmutableForall(
+      Iterable<? extends TypeVar> typeVars,
+      ITerm type) {
+    this.typeVars = createUnmodifiableSet(createSafeList(typeVars, true, false));
+    this.type = Objects.requireNonNull(type, "type");
+    this.attachments = Objects.requireNonNull(super.getAttachments(), "attachments");
+    this.hashCode = super.hashCode();
+  }
+
+  private ImmutableForall(
+      Set<TypeVar> typeVars,
+      ITerm type,
+      ImmutableClassToInstanceMap<Object> attachments) {
+    this.typeVars = typeVars;
+    this.type = type;
+    this.attachments = attachments;
+    this.hashCode = super.hashCode();
+  }
+
+  /**
+   * @return The value of the {@code typeVars} attribute
+   */
+  @Override
+  public Set<TypeVar> getTypeVars() {
+    return typeVars;
+  }
+
+  /**
+   * @return The value of the {@code type} attribute
+   */
+  @Override
+  public ITerm getType() {
+    return type;
+  }
+
+  /**
+   * @return The value of the {@code attachments} attribute
+   */
+  @Override
+  public ImmutableClassToInstanceMap<Object> getAttachments() {
+    return attachments;
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link Forall#getTypeVars() typeVars}.
+   * @param elements The elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableForall setTypeVars(TypeVar... elements) {
+    Set<TypeVar> newValue = createUnmodifiableSet(createSafeList(Arrays.asList(elements), true, false));
+    return new ImmutableForall(newValue, this.type, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link Forall#getTypeVars() typeVars}.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param elements An iterable of typeVars elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableForall setTypeVars(Iterable<? extends TypeVar> elements) {
+    if (this.typeVars == elements) return this;
+    Set<TypeVar> newValue = createUnmodifiableSet(createSafeList(elements, true, false));
+    return new ImmutableForall(newValue, this.type, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Forall#getType() type} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for type
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableForall setType(ITerm value) {
+    if (this.type == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "type");
+    return new ImmutableForall(this.typeVars, newValue, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Forall#getAttachments() attachments} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for attachments
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableForall setAttachments(ImmutableClassToInstanceMap<Object> value) {
+    if (this.attachments == value) return this;
+    ImmutableClassToInstanceMap<Object> newValue = Objects.requireNonNull(value, "attachments");
+    return new ImmutableForall(this.typeVars, this.type, newValue);
+  }
+
+  /**
+   * Returns the precomputed-on-construction hash code from the supertype implementation of {@code super.hashCode()}.
+   * @return The hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private transient volatile long lazyInitBitmap;
+
+  private static final long OP_LAZY_INIT_BIT = 0x1L;
+
+  private transient String op;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Forall#getOp() op} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public String getOp() {
+    if ((lazyInitBitmap & OP_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & OP_LAZY_INIT_BIT) == 0) {
+          this.op = Objects.requireNonNull(super.getOp(), "op");
+          lazyInitBitmap |= OP_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return op;
+  }
+
+  private static final long ARGS_LAZY_INIT_BIT = 0x2L;
+
+  private transient List<ITerm> args;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Forall#getArgs() args} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public List<ITerm> getArgs() {
+    if ((lazyInitBitmap & ARGS_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & ARGS_LAZY_INIT_BIT) == 0) {
+          this.args = Objects.requireNonNull(super.getArgs(), "args");
+          lazyInitBitmap |= ARGS_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return args;
+  }
+
+  private static final long ARITY_LAZY_INIT_BIT = 0x4L;
+
+  private transient int arity;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Forall#getArity() arity} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public int getArity() {
+    if ((lazyInitBitmap & ARITY_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & ARITY_LAZY_INIT_BIT) == 0) {
+          this.arity = super.getArity();
+          lazyInitBitmap |= ARITY_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return arity;
+  }
+
+  private static final long GROUND_LAZY_INIT_BIT = 0x8L;
+
+  private transient boolean ground;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Forall#isGround() ground} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public boolean isGround() {
+    if ((lazyInitBitmap & GROUND_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & GROUND_LAZY_INIT_BIT) == 0) {
+          this.ground = super.isGround();
+          lazyInitBitmap |= GROUND_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return ground;
+  }
+
+  private static final long VARS_LAZY_INIT_BIT = 0x10L;
+
+  private transient PSet<ITermVar> vars;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Forall#getVars() vars} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public PSet<ITermVar> getVars() {
+    if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+          this.vars = Objects.requireNonNull(super.getVars(), "vars");
+          lazyInitBitmap |= VARS_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return vars;
+  }
+
+  /**
+   * Construct a new immutable {@code Forall} instance.
+   * @param typeVars The value for the {@code typeVars} attribute
+   * @param type The value for the {@code type} attribute
+   * @return An immutable Forall instance
+   */
+  public static ImmutableForall of(Set<TypeVar> typeVars, ITerm type) {
+    return of((Iterable<? extends TypeVar>) typeVars, type);
+  }
+
+  /**
+   * Construct a new immutable {@code Forall} instance.
+   * @param typeVars The value for the {@code typeVars} attribute
+   * @param type The value for the {@code type} attribute
+   * @return An immutable Forall instance
+   */
+  public static ImmutableForall of(Iterable<? extends TypeVar> typeVars, ITerm type) {
+    return new ImmutableForall(typeVars, type);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Forall} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable Forall instance
+   */
+  public static ImmutableForall copyOf(Forall instance) {
+    if (instance instanceof ImmutableForall) {
+      return (ImmutableForall) instance;
+    }
+    return ImmutableForall.of(instance.getTypeVars(), instance.getType())
+        .setAttachments(instance.getAttachments());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private static <T> List<T> createSafeList(Iterable<? extends T> iterable, boolean checkNulls, boolean skipNulls) {
+    ArrayList<T> list;
+    if (iterable instanceof Collection<?>) {
+      int size = ((Collection<?>) iterable).size();
+      if (size == 0) return Collections.emptyList();
+      list = new ArrayList<T>();
+    } else {
+      list = new ArrayList<T>();
+    }
+    for (T element : iterable) {
+      if (skipNulls && element == null) continue;
+      if (checkNulls) Objects.requireNonNull(element, "element");
+      list.add(element);
+    }
+    return list;
+  }
+
+  /** Unmodifiable set constructed from list to avoid rehashing. */
+  private static <T> Set<T> createUnmodifiableSet(List<T> list) {
+    switch(list.size()) {
+    case 0: return Collections.emptySet();
+    case 1: return Collections.singleton(list.get(0));
+    default:
+      Set<T> set = new LinkedHashSet<T>(list.size());
+      set.addAll(list);
+      return Collections.unmodifiableSet(set);
+    }
+  }
+} ]] parse succeeds

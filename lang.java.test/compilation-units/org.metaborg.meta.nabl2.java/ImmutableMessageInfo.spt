@@ -1,0 +1,174 @@
+module ImmutableMessageInfo
+
+language metaborg-java start symbol Start
+
+test ImmutableMessageInfo [[ package org.metaborg.meta.nabl2.constraints.messages;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link MessageInfo}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableMessageInfo.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "MessageInfo"})
+@Immutable
+public final class ImmutableMessageInfo
+    extends MessageInfo
+    implements Serializable {
+  private final MessageKind kind;
+  private final IMessageContent content;
+  private final ITerm originTerm;
+  private final int hashCode;
+
+  private ImmutableMessageInfo(
+      MessageKind kind,
+      IMessageContent content,
+      ITerm originTerm) {
+    this.kind = Objects.requireNonNull(kind, "kind");
+    this.content = Objects.requireNonNull(content, "content");
+    this.originTerm = Objects.requireNonNull(originTerm, "originTerm");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableMessageInfo(
+      ImmutableMessageInfo original,
+      MessageKind kind,
+      IMessageContent content,
+      ITerm originTerm) {
+    this.kind = kind;
+    this.content = content;
+    this.originTerm = originTerm;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code kind} attribute
+   */
+  @Override
+  public MessageKind getKind() {
+    return kind;
+  }
+
+  /**
+   * @return The value of the {@code content} attribute
+   */
+  @Override
+  public IMessageContent getContent() {
+    return content;
+  }
+
+  /**
+   * @return The value of the {@code originTerm} attribute
+   */
+  @Override
+  public ITerm getOriginTerm() {
+    return originTerm;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link MessageInfo#getKind() kind} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for kind
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableMessageInfo setKind(MessageKind value) {
+    if (this.kind == value) return this;
+    MessageKind newValue = Objects.requireNonNull(value, "kind");
+    return new ImmutableMessageInfo(this, newValue, this.content, this.originTerm);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link MessageInfo#getContent() content} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for content
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableMessageInfo setContent(IMessageContent value) {
+    if (this.content == value) return this;
+    IMessageContent newValue = Objects.requireNonNull(value, "content");
+    return new ImmutableMessageInfo(this, this.kind, newValue, this.originTerm);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link MessageInfo#getOriginTerm() originTerm} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for originTerm
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableMessageInfo setOriginTerm(ITerm value) {
+    if (this.originTerm == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "originTerm");
+    return new ImmutableMessageInfo(this, this.kind, this.content, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableMessageInfo} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableMessageInfo
+        && equalTo((ImmutableMessageInfo) another);
+  }
+
+  private boolean equalTo(ImmutableMessageInfo another) {
+    return kind.equals(another.kind)
+        && content.equals(another.content)
+        && originTerm.equals(another.originTerm);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code kind}, {@code content}, {@code originTerm}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + kind.hashCode();
+    h = h * 17 + content.hashCode();
+    h = h * 17 + originTerm.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code MessageInfo} instance.
+   * @param kind The value for the {@code kind} attribute
+   * @param content The value for the {@code content} attribute
+   * @param originTerm The value for the {@code originTerm} attribute
+   * @return An immutable MessageInfo instance
+   */
+  public static ImmutableMessageInfo of(MessageKind kind, IMessageContent content, ITerm originTerm) {
+    return new ImmutableMessageInfo(kind, content, originTerm);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link MessageInfo} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable MessageInfo instance
+   */
+  public static ImmutableMessageInfo copyOf(MessageInfo instance) {
+    if (instance instanceof ImmutableMessageInfo) {
+      return (ImmutableMessageInfo) instance;
+    }
+    return ImmutableMessageInfo.of(instance.getKind(), instance.getContent(), instance.getOriginTerm());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

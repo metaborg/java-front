@@ -1,0 +1,142 @@
+module ImmutableSymbol
+
+language metaborg-java start symbol Start
+
+test ImmutableSymbol [[ package org.metaborg.meta.nabl2.regexp;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link Symbol}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableSymbol.<S>of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Symbol<S>"})
+@Immutable
+final class ImmutableSymbol<S>
+    extends Symbol<S>
+    implements Serializable {
+  private final S symbol;
+  private final IRegExpBuilder<S> builder;
+  private final int hashCode;
+
+  private ImmutableSymbol(S symbol, IRegExpBuilder<S> builder) {
+    this.symbol = Objects.requireNonNull(symbol, "symbol");
+    this.builder = Objects.requireNonNull(builder, "builder");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableSymbol(ImmutableSymbol original, S symbol, IRegExpBuilder<S> builder) {
+    this.symbol = symbol;
+    this.builder = builder;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code symbol} attribute
+   */
+  @Override
+  public S getSymbol() {
+    return symbol;
+  }
+
+  /**
+   * @return The value of the {@code builder} attribute
+   */
+  @Override
+  public IRegExpBuilder<S> getBuilder() {
+    return builder;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Symbol#getSymbol() symbol} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for symbol
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSymbol<S> setSymbol(S value) {
+    if (this.symbol == value) return this;
+    S newValue = Objects.requireNonNull(value, "symbol");
+    return new ImmutableSymbol<S>(this, newValue, this.builder);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Symbol#getBuilder() builder} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for builder
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSymbol<S> setBuilder(IRegExpBuilder<S> value) {
+    if (this.builder == value) return this;
+    IRegExpBuilder<S> newValue = Objects.requireNonNull(value, "builder");
+    return new ImmutableSymbol<S>(this, this.symbol, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableSymbol} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableSymbol<?>
+        && equalTo((ImmutableSymbol<S>) another);
+  }
+
+  private boolean equalTo(ImmutableSymbol<S> another) {
+    return symbol.equals(another.symbol)
+        && builder.equals(another.builder);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code symbol}, {@code builder}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + symbol.hashCode();
+    h = h * 17 + builder.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code Symbol} instance.
+   * @param symbol The value for the {@code symbol} attribute
+   * @param builder The value for the {@code builder} attribute
+   * @return An immutable Symbol instance
+   */
+  public static <S> ImmutableSymbol<S> of(S symbol, IRegExpBuilder<S> builder) {
+    return new ImmutableSymbol<S>(symbol, builder);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Symbol} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param <S> generic parameter S
+   * @param instance The instance to copy
+   * @return A copied immutable Symbol instance
+   */
+  public static <S> ImmutableSymbol<S> copyOf(Symbol<S> instance) {
+    if (instance instanceof ImmutableSymbol<?>) {
+      return (ImmutableSymbol<S>) instance;
+    }
+    return ImmutableSymbol.<S>of(instance.getSymbol(), instance.getBuilder());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

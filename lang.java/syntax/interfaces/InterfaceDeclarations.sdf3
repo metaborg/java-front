@@ -1,0 +1,40 @@
+module interfaces/InterfaceDeclarations
+
+// 9.1. Interface Declarations
+
+imports
+  lexical/Identifiers
+  classes/ClassDeclarations
+  types/ReferenceTypes
+  interfaces/Annotations
+  interfaces/ConstantDeclarations
+  interfaces/InterfaceMethodDeclarations
+  interfaces/AnnotationTypes
+
+context-free syntax
+  
+  InterfaceDeclaration.NormalInterface = <
+  <{InterfaceModifier " "}*> interface <Id><TypeParameters?> <ExtendsInterfaces?> {
+    <{InterfaceMemberDeclaration "\n"}*>
+  }>
+  
+  InterfaceDeclaration = AnnotationTypeDeclaration
+  
+  InterfaceModifier           = Annotation
+  InterfaceModifier.Public    = "public"
+  InterfaceModifier.Protected = "protected"
+  InterfaceModifier.Private   = "private"
+  InterfaceModifier.Abstract  = "abstract"
+  InterfaceModifier.Static    = "static"
+  InterfaceModifier.Strictfp  = "strictfp"
+  
+  ExtendsInterfaces.ExtendsInterfaces = <extends <{ClassType ", "}+>>
+  
+  InterfaceMemberDeclaration = ConstantDeclaration
+  InterfaceMemberDeclaration = InterfaceMethodDeclaration
+  InterfaceMemberDeclaration = ClassDeclaration
+  InterfaceMemberDeclaration = InterfaceDeclaration
+  InterfaceMemberDeclaration.SemiColon = ";"
+  
+  
+  

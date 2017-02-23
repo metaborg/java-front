@@ -1,0 +1,6 @@
+module arrays/Main
+
+// Chapter 10. Arrays
+
+imports
+  arrays/ArrayInitializers

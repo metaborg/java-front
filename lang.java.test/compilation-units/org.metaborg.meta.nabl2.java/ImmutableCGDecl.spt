@@ -1,0 +1,175 @@
+module ImmutableCGDecl
+
+language metaborg-java start symbol Start
+
+test ImmutableCGDecl [[ package org.metaborg.meta.nabl2.constraints.namebinding;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.IMessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CGDecl}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCGDecl.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CGDecl"})
+@Immutable
+public final class ImmutableCGDecl
+    extends CGDecl
+    implements Serializable {
+  private final ITerm scope;
+  private final ITerm declaration;
+  private final IMessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCGDecl(
+      ITerm scope,
+      ITerm declaration,
+      IMessageInfo messageInfo) {
+    this.scope = Objects.requireNonNull(scope, "scope");
+    this.declaration = Objects.requireNonNull(declaration, "declaration");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCGDecl(
+      ImmutableCGDecl original,
+      ITerm scope,
+      ITerm declaration,
+      IMessageInfo messageInfo) {
+    this.scope = scope;
+    this.declaration = declaration;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code scope} attribute
+   */
+  @Override
+  public ITerm getScope() {
+    return scope;
+  }
+
+  /**
+   * @return The value of the {@code declaration} attribute
+   */
+  @Override
+  public ITerm getDeclaration() {
+    return declaration;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public IMessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGDecl#getScope() scope} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for scope
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGDecl setScope(ITerm value) {
+    if (this.scope == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "scope");
+    return new ImmutableCGDecl(this, newValue, this.declaration, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGDecl#getDeclaration() declaration} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for declaration
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGDecl setDeclaration(ITerm value) {
+    if (this.declaration == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "declaration");
+    return new ImmutableCGDecl(this, this.scope, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGDecl#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGDecl setMessageInfo(IMessageInfo value) {
+    if (this.messageInfo == value) return this;
+    IMessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCGDecl(this, this.scope, this.declaration, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCGDecl} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCGDecl
+        && equalTo((ImmutableCGDecl) another);
+  }
+
+  private boolean equalTo(ImmutableCGDecl another) {
+    return scope.equals(another.scope)
+        && declaration.equals(another.declaration)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code scope}, {@code declaration}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + scope.hashCode();
+    h = h * 17 + declaration.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CGDecl} instance.
+   * @param scope The value for the {@code scope} attribute
+   * @param declaration The value for the {@code declaration} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CGDecl instance
+   */
+  public static ImmutableCGDecl of(ITerm scope, ITerm declaration, IMessageInfo messageInfo) {
+    return new ImmutableCGDecl(scope, declaration, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CGDecl} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CGDecl instance
+   */
+  public static ImmutableCGDecl copyOf(CGDecl instance) {
+    if (instance instanceof ImmutableCGDecl) {
+      return (ImmutableCGDecl) instance;
+    }
+    return ImmutableCGDecl.of(instance.getScope(), instance.getDeclaration(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

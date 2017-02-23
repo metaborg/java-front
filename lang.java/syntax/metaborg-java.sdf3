@@ -1,5 +1,28 @@
 module metaborg-java
 
-imports
+// The Java® Language Specification
+// Java SE 8 Edition
 
-  java/Java
+imports
+  arrays/Main
+  classes/Main
+  expressions/Main
+  interfaces/Main
+  lexical/Main
+  literals/Main
+  names/Names
+  packages/Main
+  statements/Main
+  types/Main  
+
+sorts
+
+  CompilationUnit
+  
+context-free start-symbols
+
+  Start  
+
+context-free syntax
+
+  Start = CompilationUnit

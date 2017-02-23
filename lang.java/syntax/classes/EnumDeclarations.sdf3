@@ -1,0 +1,31 @@
+module classes/EnumDeclarations
+
+// 8.9. Enum Types
+
+imports
+  lexical/Identifiers
+  classes/ClassDeclarations
+  interfaces/Annotations
+  expressions/Main
+
+context-free syntax
+
+  EnumDeclaration.EnumDeclComma = <
+  <{ClassModifier " "}*> enum <Id> <SuperInterfaces?> {
+    <{EnumConstant ", "}*>,
+    <EnumBodyDeclarations?>
+  }>
+  EnumDeclaration.EnumDecl = <
+  <{ClassModifier " "}*> enum <Id> <SuperInterfaces?> {
+    <{EnumConstant ", "}*>
+    <EnumBodyDeclarations?>
+  }>
+  EnumConstant.EnumConst = <
+  <{Annotation " "}*> <Id> <EnumConstantArgs?>{
+    <{ClassBodyDeclaration "\n"}*>
+  }>
+  EnumConstant.EnumConstNoBody = <
+  <{Annotation " "}*> <Id> <EnumConstantArgs?>>
+  
+  EnumConstantArgs.EnumConstArgs    = <(<{Expression ", "}*>)>
+  EnumBodyDeclarations.EnumBodyDecs = <;  <{ClassBodyDeclaration "\n"}*>>
