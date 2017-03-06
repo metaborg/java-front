@@ -57,3 +57,18 @@ rules // Annotations
 
   desugar-anno(|t):
     pair -> Anno(t, pair)
+
+signature // Annotation declaration
+
+  constructors
+
+    AnnoDec : Access * List(AnnoOrInterfaceMod) * Id * List(AnnoElemDec) -> AnnoDec
+
+rules
+
+  desugar:
+    AnnoDec(AnnoDecHead(modifier*, name), dec*) ->
+    AnnoDec(access, modifier'*, name, dec*)
+    with
+      access     := <desugar-pick-access-modifier> modifier*
+    ; modifier'* := <remove-all(?access)> modifier*

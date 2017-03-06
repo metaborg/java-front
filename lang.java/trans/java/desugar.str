@@ -17,3 +17,7 @@ rules
 
   desugar-singleton-appl:
     Some(t) -> t
+
+  desugar-none:
+    None() -> []
+    

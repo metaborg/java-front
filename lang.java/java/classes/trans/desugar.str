@@ -42,14 +42,14 @@ signature // Class
 
   constructors
 
-    ClassDec : Access * Context * List(ClassMod) * Id * TypeParams * Super * Interfaces * ClassBody -> ClassDec
+    ClassDec : Access * Context * List(ClassMod) * Id * TypeParams * Super * Interfaces * List(ClassBodyDec) -> ClassDec
     ImplementsDec : Id * InterfaceType -> ImplementsDec
 
 rules
 
   desugar:
-    ClassDec(ClassDecHead(modifier*, name, type-param*, super-class, implements), body) ->
-    ClassDec(access, context, modifier'*, name, type-param*, super-class', implements', body)
+    ClassDec(ClassDecHead(modifier*, name, type-param*, super-class, implements), ClassBody(dec*)) ->
+    ClassDec(access, context, modifier'*, name, type-param*, super-class', implements', dec*)
     with
       access       := <desugar-pick-access-modifier> modifier*
     ; context      := <desugar-pick-context-modifier> modifier*
@@ -61,7 +61,6 @@ rules
     SuperDec(super-class) -> SuperDec(super-class)
 
   desugar-super-class:
-    // None() -> SuperDec(ClassType(TypeName(PackageOrTypeName(PackageOrTypeName("java"), "lang"), "Object"), None()))
     None() -> SuperDec(ClassType(TypeName("Object"), None()))
 
   desugar-implements(|c):
@@ -98,60 +97,98 @@ signature // Method
 
   constructors
 
-    MethodDec : Access * Context * List(MethodMod) * TypeParams * Type * Id * MethodParams * Throws * MethodBody -> MethodDec
+    MethodDec : Access * Context * List(MethodMod) * TypeParams * Type * Id * MethodParams * Throws * List(BlockStm) -> MethodDec
 
 rules
 
   desugar:
     _ ->
-    MethodDec(access, context, modifier'*, type-param*, type, name, param*, throws, body)
+    MethodDec(access, context, modifier'*, type-param*, type, name, param*, throws, stmt*)
     where
       ?MethodDec(MethodDecHead(modifier*, type-param*, type, name, param*, throws), body)
     + ?MethodDec(DeprMethodDecHead(modifier*, type-param*, type, name, param*, _, throws), body)
     with
-      access       := <desugar-pick-access-modifier> modifier*
-    ; context      := <desugar-pick-context-modifier> modifier*
-    ; modifier'*   := <remove-all(?access <+ ?context)> modifier*
+      access     := <desugar-pick-access-modifier> modifier*
+    ; context    := <desugar-pick-context-modifier> modifier*
+    ; modifier'* := <remove-all(?access <+ ?context)> modifier*
+    ; stmt*      := <desugar-method-body> body
+    
+  desugar-method-body:
+    NoMethodBody() -> []
 
+  desugar-method-body:
+    Block(stmt*) -> stmt*
+    
 signature // Constructor
 
   constructors
 
-    ConstrDec : Access * List(ConstrMod) * TypeParams * Id * List(FormalParam) * Throws * ConstrBody -> ConstrDec
+    ConstrDec : Access * List(ConstrMod) * TypeParams * Id * List(FormalParam) * Throws * List(BlockStm) -> ConstrDec
     ConstrBody : Statement -> ConstrBody
 
 rules
 
   desugar:
     ConstrDec(ConstrDecHead(modifier*, type-param*, name, param*, throws), body) ->
-    ConstrDec(access, modifier'*, type-param*, name, param*, throws, body')
+    ConstrDec(access, modifier'*, type-param*, name, param*, throws, stmt*)
     with
       access     := <desugar-pick-access-modifier> modifier*
     ; modifier'* := <remove-all(?access)> modifier*
-    ; body'      := <desugar-constructor-body> body
+    ; stmt*      := <desugar-constructor-body> body
 
   desugar-constructor-body:
-    None() -> None()
+    None() -> []
 
   desugar-constructor-body:
-    ConstrBody(None(), stmts) -> ConstrBody(stmts)
+    ConstrBody(None(), stmts) -> stmts
 
   desugar-constructor-body:
-    ConstrBody(inv, stmts) -> ConstrBody([inv|stmts])
+    ConstrBody(inv, stmts) -> [inv|stmts]
     where not(None() := inv)
 
 signature // Enum
 
   constructors
 
-    EnumDec : Access * Context * List(AnnoOrClassMod) * Id * Interfaces * EnumBody -> EnumDec
-
+    EnumDec : Access * Context * List(AnnoOrClassMod) * Id * Interfaces * List(EnumConst) * List(ClassBodyDec) -> EnumDec
+    EnumConst : Id * List(Expr) * List(ClassBodyDec) -> EnumConst
+    
 rules
 
   desugar:
-    EnumDec(EnumDecHead(modifier*, name, interfaces), body) ->
-    EnumDec(access, context, modifier'*, name, interfaces, body)
+    EnumDec(EnumDecHead(modifier*, name, implements), EnumBody(const*, decs)) ->
+    EnumDec(access, context, modifier'*, name, implements', const'*, dec*)
     with
       access       := <desugar-pick-access-modifier> modifier*
     ; context      := <desugar-pick-context-modifier> modifier*
     ; modifier'*   := <remove-all(?access <+ ?context)> modifier*
+    ; implements'  := <desugar-implements(|name)> implements
+    ; const'*      := <map(desugar-enum-const)> const*
+    ; dec*         := <desugar-enum-body-decs> decs 
+
+
+  desugar-enum-const:
+    EnumConst(name, args, body) -> EnumConst(name, args', dec*)
+    with
+      args' := <desugar-enum-const-args> args
+    ; dec*  := <desugar-enum-const-body> body
+
+  desugar-enum-const-args:
+    None() -> []
+
+  desugar-enum-const-args:
+    args -> args
+    where not(None() := args)
+
+
+  desugar-enum-const-body:
+    None() -> []
+
+  desugar-enum-const-body:
+    ClassBody(dec*) -> dec*
+
+  desugar-enum-body-decs:
+    None() -> []
+
+  desugar-enum-body-decs:
+    EnumBodyDecs(dec*) -> dec*
