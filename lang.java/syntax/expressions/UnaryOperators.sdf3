@@ -17,6 +17,5 @@ context-free syntax
   Expression.Not        = <!<Expression>>
   Expression.CastPrimitive = <(<PrimitiveType>) <Expression>>
   Expression.CastReference = <(<ReferenceType> <{AdditionalBound " "}*>) <Expression>>
-  Expression.CastLambda    = <(<ReferenceType> <{AdditionalBound " "}*>) <LambdaExpression>>
   AdditionalBound.AdditionalBound = <& <ClassType>>
   

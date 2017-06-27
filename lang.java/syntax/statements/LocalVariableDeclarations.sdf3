@@ -8,9 +8,9 @@ imports
 
 context-free syntax
 
-  LocalVariableDeclarationStatement.LocVarDeclStm = <<LocalVariableDeclaration>;>
+  LocalVariableDeclarationStatement.LocVarDeclStm = <<LocalVariableDeclaration>;> //{prefer}
   LocalVariableDeclaration.LocalVarDecl = <
-  <{VariableModifier " "}*> <UnannType> <{VarDecl ", "}+>>
+  <{VariableModifier " "}*> <UnannType> <{VarDecl ", "}+>> {prefer}
   
   VariableModifier       = Annotation
   VariableModifier.Final = "final"
