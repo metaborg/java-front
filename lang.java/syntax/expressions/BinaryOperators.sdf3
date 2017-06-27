@@ -22,8 +22,8 @@ context-free syntax
   Expression.Sub = <<Expression> - <Expression>> {left}
   
   Expression.LeftShift = [[Expression] << [Expression]] {left}
-  Expression.RightShift = [[Expression] << [Expression]] {left}
-  Expression.URightShift = [[Expression] << [Expression]] {left}
+  Expression.RightShift = [[Expression] >> [Expression]] {left}
+  Expression.URightShift = [[Expression] >>> [Expression]] {left}
   
   Expression.Lt   = [[Expression] < [Expression]] {left}
   Expression.Gt   = [[Expression] > [Expression]] {left}

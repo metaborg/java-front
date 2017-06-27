@@ -6,7 +6,6 @@ module metaborg-java
 imports
   arrays/Main
   classes/Main
-  expressions/Main
   interfaces/Main
   lexical/Main
   literals/Main
@@ -14,6 +13,8 @@ imports
   packages/Main
   statements/Main
   types/Main  
+  expressions/Main
+  expressions/Disambiguation
 
 sorts
 

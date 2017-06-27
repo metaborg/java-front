@@ -11,15 +11,13 @@ imports
   expressions/AssignmentOperators
   expressions/LambdaExpressions
   names/Names
-
+  
 context-free priorities
 
   FieldAccess.Field > 
-  Expression = ExpressionName
+  Expression = ExpressionName,
   
-context-free priorities
-  
-  ElementValue = Expression >
+  ElementValue = Expression <0> >
   Expression.Assign  
 
 context-free priorities
@@ -37,7 +35,7 @@ context-free priorities
   Expression.CastPrimitive > 
   {left: 
     Expression.Mul 
-    Expression.Div 
+    Expression.Div
     Expression.Mod }
   
 context-free priorities
@@ -47,6 +45,11 @@ context-free priorities
     Expression.PreDecr
     Expression.Plus
     Expression.Minus }
+  ,
+  Expression.CastReference <4> .> 
+  { Expression.Plus
+    Expression.Minus }   
+    
  
 context-free priorities
   
@@ -101,7 +104,7 @@ context-free priorities
     Expression.AssignAnd
     Expression.AssignXor
     Expression.AssignOr
-    Expression.Lambda }
+    Expression.LambdaExpression }
 
 lexical restrictions
 

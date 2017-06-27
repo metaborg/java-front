@@ -15,7 +15,7 @@ context-free syntax
 
   Statement.Labeled = <<Id> : <Statement>>
 
-  Statement.If      = <if(<Expression>) <Statement>> {prefer}
+  Statement.If      = <if(<Expression>) <Statement>>
   Statement.IfElse  = <if(<Expression>) <Statement> else <Statement>>
   
   Statement.While = <while(<Expression>) <Statement>>
@@ -34,6 +34,10 @@ context-free syntax
   
   Statement.ExpressionStatement = <<Expression>;>
   
+  Statement = ExpressionName "<" ExpressionName ">" Expression ";" {reject}
+  Statement = ExpressionName "<" ExpressionName "<" ExpressionName ">>" Expression ";" {reject} 
+  Statement = ExpressionName "<" ExpressionName "<" ExpressionName "<" ExpressionName ">>>" Expression ";" {reject} 
+  
   Statement.Assert = <assert <Expression>;>
   Statement.Assert = <assert <Expression> : <Expression>;>
   
@@ -49,7 +53,7 @@ context-free syntax
   >
   
   SwitchLabel.CaseExpr     = <case <Expression> :>
-  SwitchLabel.CaseEnumName = <case <Id> :>
+//  SwitchLabel.CaseEnumName = <case <Id> :>
   SwitchLabel.Default      = <default :>
   
   Statement.DoWhile = <
@@ -109,4 +113,4 @@ template options
 // new SDF3 table generator
 context-free priorities
 
-  Statement.IfElse <4>.> Statement.If
+  Statement.IfElse  > Statement.If

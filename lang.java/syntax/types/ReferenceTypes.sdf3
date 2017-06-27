@@ -26,8 +26,8 @@ context-free syntax
   
   ArrayType.ArrayTypePrimitive = <<PrimitiveType> <AnnotatedDims>>
   ArrayType.ArrayTypeClassType = <<ClassType> <AnnotatedDims>>
-  AnnotatedDims      = {AnnotatedDim " "}+
-  AnnotatedDimsEmpty = {AnnotatedDim " "}*
+  AnnotatedDims      = <<{AnnotatedDim " "}+>>
+  AnnotatedDimsEmpty = <<{AnnotatedDim " "}*>>
   AnnotatedDim.AnnotateDim = <<{Annotation " "}*> []>
   
 template options
