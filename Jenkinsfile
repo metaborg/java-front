@@ -30,7 +30,7 @@ node{
 
     stage('Archive') {
       archiveArtifacts(
-        artifacts: 'java.eclipse.site/target/site/',
+        artifacts: 'lang.java.eclipse.site/target/site/',
         excludes: null,
         onlyIfSuccessful: true
       )
