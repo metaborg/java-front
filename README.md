@@ -1,3 +1,5 @@
+[![Build status](http://buildfarm.metaborg.org/job/java-front/job/java-1.8/badge/icon)](http://buildfarm.metaborg.org/job/java-front/job/java-1.8/)
+
 This is a declarative specification of Java's 1.8 syntax.
 
 Each directory contains specifications for a section of the Java language:
