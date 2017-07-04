@@ -50,16 +50,16 @@ node{
   }
 }
 
-// def notifyBuild(String buildStatus) {
-//  def message = """${buildStatus}: ${env.JOB_NAME} [${env.BUILD_NUMBER}] ${env.BUILD_URL}"""
+def notifyBuild(String buildStatus) {
+  def message = """${buildStatus}: ${env.JOB_NAME} [${env.BUILD_NUMBER}] ${env.BUILD_URL}"""
 
-//  if (buildStatus == 'Succeeded') {
-//    color = 'good'
-//  } else if (buildStatus == 'Failed') {
-//    color = 'danger'
-//  } else {
-//    color = '#4183C4' // Slack blue
-//  }
+  if (buildStatus == 'Succeeded') {
+    color = 'good'
+  } else if (buildStatus == 'Failed') {
+    color = 'danger'
+  } else {
+    color = '#4183C4' // Slack blue
+  }
 
 //  slackSend (color: color, message: message, channel: '#some-slack-channel')
-//}
+}
