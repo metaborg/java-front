@@ -3,16 +3,57 @@ imports
   metaborg-java
 
 exports
-   %%%
-   %% Quotations for CompilationUnit
-   %%%
-   context-free syntax
+  %%%
+  %% Quotations for CompilationUnit
+  %%%
+  context-free syntax
     "java:compilation-unit" "|[" CompilationUnit "]|"  -> E {cons("ToMetaExpr")}
          "compilation-unit" "|[" CompilationUnit "]|"  -> E {cons("ToMetaExpr")}
     "java"                  "|[" CompilationUnit "]|"  -> E {cons("ToMetaExpr")}
                             "|[" CompilationUnit "]|"  -> E {cons("ToMetaExpr")}
-   
-      %% Quotation for Type
+  
+  %%%
+  %% Variables for Formal Parameters
+  %%%
+  variables
+    "param" [0-9]*            -> FormalParam  {prefer}
+    "param_" [a-zA-Z0-9]*     -> FormalParam  {prefer}
+    "params" [0-9]*           -> FormalParams {prefer}
+    "params_" [a-zA-Z0-9]*    -> FormalParams {prefer}
+    "param" [0-9]* "*"        -> FormalParams {prefer}
+    "param_" [a-zA-Z0-9]* "*" -> FormalParams {prefer}
+
+  %%%
+  %% Quotations for Formal Parameters
+  %%%
+  context-free syntax
+         "param"  "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
+    "java:param"  "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
+
+         "param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+    "java:param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+
+    "java:formal-param" "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
+         "formal-param" "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
+    "java"              "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
+                        "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
+
+    "java:formal-param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+         "formal-param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+    "java"               "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+                         "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
+
+  %%%
+  %% Anti Quotations for Formal Parameters
+  %%%
+  context-free syntax
+    "~"  E  ->  FormalParam       {cons("FromMetaExpr")}
+    "~*" E  -> {FormalParam ","}* {cons("FromMetaExpr")}
+  
+  %%%
+  %% Anti-Quotation for Types
+  %%%
+  context-free syntax
             "t" "|[" UnannType "]|"   -> E {cons("ToMetaExpr")}
            "ty" "|[" UnannType "]|"   -> E {cons("ToMetaExpr")}
 
@@ -32,6 +73,49 @@ exports
     "~refType"  E -> ReferenceType {cons("FromMetaExpr")}
     "~rtype:"   E -> ReferenceType {cons("FromMetaExpr")}
 
+  %%%
+  %% Variables for Types
+  %%%
+  variables
+    MetaTypeVar          -> UnannType {prefer}
+    MetaPrimTypeVar      -> PrimitiveType {prefer}
+    MetaReferenceTypeVar -> ReferenceType {prefer}
+
+  lexical syntax
+    "t"   [0-9\']*           -> MetaTypeVar
+    "t_"  [a-zA-Z0-9\']*     -> MetaTypeVar
+    "ty"  [0-9\']*           -> MetaTypeVar
+    "ty_" [a-zA-Z0-9\']*     -> MetaTypeVar
+
+    "primt"   [0-9\']*       -> MetaPrimTypeVar
+    "primt_"  [a-zA-Z0-9\']* -> MetaPrimTypeVar
+    "primty"  [0-9\']*       -> MetaPrimTypeVar
+    "primty_" [a-zA-Z0-9\']* -> MetaPrimTypeVar
+  
+    "rt"   [0-9\']*       -> MetaReferenceTypeVar
+    "rt_"  [a-zA-Z0-9\']* -> MetaReferenceTypeVar
+    "rty"  [0-9\']*       -> MetaReferenceTypeVar
+    "rty_" [a-zA-Z0-9\']* -> MetaReferenceTypeVar
+    
+    "t"   [0-9\']*           -> ID {reject}
+    "t_"  [a-zA-Z0-9\']*     -> ID {reject}
+    "ty"  [0-9\']*           -> ID {reject}
+    "ty_" [a-zA-Z0-9\']*     -> ID {reject}
+
+    "primt"   [0-9\']*       -> ID {reject}
+    "primt_"  [a-zA-Z0-9\']* -> ID {reject}
+    "primty"  [0-9\']*       -> ID {reject}
+    "primty_" [a-zA-Z0-9\']* -> ID {reject}
+
+    "rt"   [0-9\']*          -> ID {reject}
+    "rt_"  [a-zA-Z0-9\']*    -> ID {reject}
+    "rty"  [0-9\']*          -> ID {reject}
+    "rty_" [a-zA-Z0-9\']*    -> ID {reject}
+
+  lexical restrictions
+    MetaTypeVar          -/- [a-zA-Z0-9\_\$\']
+    MetaPrimTypeVar      -/- [a-zA-Z0-9\_\$\']
+    MetaReferenceTypeVar -/- [a-zA-Z0-9\_\$\']
 
   %%%
   %% Quotations for Statements
@@ -79,6 +163,17 @@ exports
     "~"               E -> SwitchGroup {cons("FromMetaExpr")}
     "~switch-group:"  E -> SwitchGroup {cons("FromMetaExpr")}
 
+  %%%
+  %% Variables for Statements
+  %%%
+  variables
+
+    "stm"  [0-9\']*             -> Statement         {prefer}
+    "stm_" [a-zA-Z0-9\']*       -> Statement         {prefer}
+    "bstm" [0-9\']*             -> BlockStatement    {prefer}
+    "bstm_" [a-zA-Z0-9\']*      -> BlockStatement    {prefer}
+    "bstm" [0-9\']* "*"         -> BlockStatement*   {prefer}    
+    "bstm_" [a-zA-Z0-9\']* "*"  -> BlockStatement*   {prefer}
 
   %%%
   %% Quotations for Expressions
@@ -110,65 +205,50 @@ exports
   lexical syntax
     "e" [0-9\']*            -> ID {reject}
     "e_" [a-zA-Z0-9\']*     -> ID {reject}  
-    
+   
   %%%
   %% Anti Quotations for LeftHandSide of Assignment
   %%%
+  context-free syntax
     "~"     E     -> LHS   {cons("FromMetaExpr")}
     "~lhs:"  E    -> LHS   {cons("FromMetaExpr")}
-
 
   %%%
   %% Quotations for Id
   %%%
   context-free syntax
-            "ident" "|[" Id "]|"   -> E {cons("ToMetaExpr")}
+     "ident" "|[" Id "]|"   -> E {cons("ToMetaExpr")}
+
   %%%
   %% Anti Quotations for ID
   %%%
     "~"     E     -> ID   {cons("FromMetaExpr")}
     "~id:"  E     -> ID   {cons("FromMetaExpr")}
     "~idd:" E ":" -> ID   {cons("FromMetaExpr")}
-    
+
+  %%%
+  %% Variables for ID
+  %%%    
+  variables
+    [xyz] [0-9\']*            -> ID {prefer}
+    [xyz] [\_] [a-zA-Z0-9\']* -> ID {prefer}
+  
+  context-free restrictions
+    ID -/- [\_a-zA-Z0-9\']
+  
   %%%
   %% Anti Quotations for Literal
   %%%
+  context-free syntax
     "~"     E         -> StringLit   {cons("FromMetaExpr")}
     "~strlit:"  E     -> StringLit   {cons("FromMetaExpr")}
     
-
 %%    "~" <E-CF> <LAYOUT?-CF> -> SingleChar  {cons("FromMetaExpr"), prefer}
 
 %%exports
 %%  variables
 %%    [ij]  [0-9\']*            -> DeciLiteral {prefer}
 %%    [ij]  [\_] [a-zA-Z0-9\']* -> DeciLiteral {prefer}
-%%    [xyz] [0-9\']*            -> ID          {prefer}
-%%    [xyz] [\_] [a-zA-Z0-9\']* -> ID          {prefer}
-%%
-%%  context-free restrictions
-%%    ID -/- [\_a-zA-Z0-9\']
-%%
-%%%%%
-%% %% Expressions
-%% %%%
-%%exports
-%%
-%%  %%%
-%%   %% Variables for Expressions
-%%   %%%
-%%  variables
-%%    "e"    [0-9\']*         -> Expression           {prefer}
-%%    "e_" [a-zA-Z0-9\']*     -> Expression           {prefer}
-%%    "e"    [0-9\']* "*"     -> {VariableInitializer ","}* {prefer}
-%%    "e_" [a-zA-Z0-9\']* "*" -> {VariableInitializer ","}* {prefer}
-%%    "e"    [0-9\']* "*"     -> {Expression ","}*    {prefer}
-%%    "e_" [a-zA-Z0-9\']* "*" -> {Expression ","}*    {prefer}
-%%
-%%  lexical syntax
-%%    "e" [0-9\']*            -> ID {reject}
-%%    "e_" [a-zA-Z0-9\']*     -> ID {reject}
-%%
 
 %%
 %%    "var-init" "|[" VariableInitializer "]|" -> E {cons("ToMetaExpr")}
@@ -423,48 +503,6 @@ exports
 %%
 %%    "anno" "|[" Annotation "]|" -> E {cons("ToMetaExpr")}
 %%
-%%
-%%%%%
-%% %% Formal Parameters
-%% %%%
-%%exports
-%%
-%%  %%%
-%%   %% Variables for Formal Parameters
-%%   %%%
-%%  variables
-%%     "param" [0-9]*            -> FormalParam  {prefer}
-%%     "param_" [a-zA-Z0-9]*     -> FormalParam  {prefer}
-%%     "param" [0-9]* "*"        -> {FormalParam ","}*  {prefer}
-%%     "param_" [a-zA-Z0-9]* "*" -> {FormalParam ","}* {prefer}
-%%
-%%  %%%
-%%   %% Quotations for Formal Parameters
-%%   %%%
-%%  context-free syntax
-%%
-%%         "param"  "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
-%%    "java:param"  "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
-%%
-%%         "param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
-%%    "java:param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
-%%
-%%    "java:formal-param" "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
-%%         "formal-param" "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
-%%    "java"              "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
-%%                        "|[" FormalParam "]|" -> E {cons("ToMetaExpr")}
-%%
-%%    "java:formal-param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
-%%         "formal-param*" "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
-%%    "java"               "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
-%%                         "|[" {FormalParam ","}* "]|" -> E {cons("ToMetaExpr")}
-%%
-%%  %%%
-%%   %% Anti Quotations for Formal Parameters
-%%   %%%
-%%  context-free syntax
-%%    "~"  E  ->  FormalParam       {cons("FromMetaExpr")}
-%%    "~*" E  -> {FormalParam ","}* {cons("FromMetaExpr")}
 %%
 %%%%%
 %% %% Package Declarations
