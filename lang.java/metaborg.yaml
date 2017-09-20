@@ -16,7 +16,11 @@ pardonedLanguages:
 - SDF
 exports:
 - language: Stratego-Sugar
-  directory: src-gen 
+  directory: src-gen
+- language: SDF
+  directory: syntax
+- language: SDF
+  directory: src-gen/syntax
 language:
   sdf:
     sdf2table: java
