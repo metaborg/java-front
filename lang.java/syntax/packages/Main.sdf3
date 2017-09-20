@@ -1,8 +1,0 @@
-module packages/Main
-
-// Chapter 7. Packages
-
-imports
-  packages/CompilationUnits
-  packages/ImportDeclarations
-  packages/PackageDeclarations

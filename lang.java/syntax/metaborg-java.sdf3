@@ -4,17 +4,17 @@ module metaborg-java
 // Java SE 8 Edition
 
 imports
-  arrays/Main
-  classes/Main
-  interfaces/Main
-  lexical/Main
-  literals/Main
-  names/Names
-  packages/Main
-  statements/Main
-  types/Main  
-  expressions/Main
-  expressions/Disambiguation
+  java/arrays/Main
+  java/classes/Main
+  java/interfaces/Main
+  java/lexical/Main
+  java/literals/Main
+  java/names/Names
+  java/packages/Main
+  java/statements/Main
+  java/types/Main  
+  java/expressions/Main
+  java/expressions/Disambiguation
 
 sorts
 
