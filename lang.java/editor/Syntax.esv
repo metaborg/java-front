@@ -7,7 +7,7 @@ imports
 
 language
 
-  table         : target/metaborg/sdf-new.tbl
+  table         : target/metaborg/sdf.tbl
   start symbols : Start
 
   line comment  : "//"
@@ -20,6 +20,7 @@ menus
     
     action: "Format"          = editor-format (source)
     action: "Show parsed AST" = debug-show-aterm (source)
+    action: "Time pretty-printing" = time-pretty-printing (source)
 
 views
   

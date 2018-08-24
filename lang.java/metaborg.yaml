@@ -23,7 +23,7 @@ exports:
   directory: src-gen/syntax
 language:
   sdf:
-    sdf2table: java
+    sdf2table: c
   stratego:
     format: ctree
     args:

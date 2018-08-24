@@ -1,16 +1,22 @@
 module metaborg_java
 
 imports
-  
+
   completion/completion
   pp
   outline
   analysis
 
 rules // Debugging
-  
+
   debug-show-aterm:
     (node, _, _, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"aterm")> path
     ; result   := node
+
+  time-pretty-printing:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"aterm")> path
+    ; result   := <profile(!"pretty printing time: ", pp-metaborg-java-string)> node
