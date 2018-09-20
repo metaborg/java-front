@@ -1,0 +1,196 @@
+module ImmutableTermVar
+
+language metaborg-java start symbol Start
+
+test ImmutableTermVar [[ package org.metaborg.meta.nabl2.terms.generic;
+
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITermVar;
+import org.pcollections.PSet;
+
+/**
+ * Immutable implementation of {@link TermVar}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableTermVar.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "TermVar"})
+@Immutable
+public final class ImmutableTermVar
+    extends TermVar
+    implements Serializable {
+  private final String resource;
+  private final String name;
+  private final ImmutableClassToInstanceMap<Object> attachments;
+  private final int hashCode;
+
+  private ImmutableTermVar(String resource, String name) {
+    this.resource = Objects.requireNonNull(resource, "resource");
+    this.name = Objects.requireNonNull(name, "name");
+    this.attachments = Objects.requireNonNull(super.getAttachments(), "attachments");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableTermVar(
+      String resource,
+      String name,
+      ImmutableClassToInstanceMap<Object> attachments) {
+    this.resource = resource;
+    this.name = name;
+    this.attachments = attachments;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code resource} attribute
+   */
+  @Override
+  public String getResource() {
+    return resource;
+  }
+
+  /**
+   * @return The value of the {@code name} attribute
+   */
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return The value of the {@code attachments} attribute
+   */
+  @Override
+  public ImmutableClassToInstanceMap<Object> getAttachments() {
+    return attachments;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link TermVar#getResource() resource} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for resource
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTermVar setResource(String value) {
+    if (this.resource.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "resource");
+    return new ImmutableTermVar(newValue, this.name, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link TermVar#getName() name} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for name
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTermVar setName(String value) {
+    if (this.name.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "name");
+    return new ImmutableTermVar(this.resource, newValue, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link TermVar#getAttachments() attachments} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for attachments
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTermVar setAttachments(ImmutableClassToInstanceMap<Object> value) {
+    if (this.attachments == value) return this;
+    ImmutableClassToInstanceMap<Object> newValue = Objects.requireNonNull(value, "attachments");
+    return new ImmutableTermVar(this.resource, this.name, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableTermVar} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableTermVar
+        && equalTo((ImmutableTermVar) another);
+  }
+
+  private boolean equalTo(ImmutableTermVar another) {
+    return resource.equals(another.resource)
+        && name.equals(another.name);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code resource}, {@code name}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + resource.hashCode();
+    h = h * 17 + name.hashCode();
+    return h;
+  }
+
+  private transient volatile long lazyInitBitmap;
+
+  private static final long VARS_LAZY_INIT_BIT = 0x1L;
+
+  private transient PSet<ITermVar> vars;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link TermVar#getVars() vars} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public PSet<ITermVar> getVars() {
+    if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+          this.vars = Objects.requireNonNull(super.getVars(), "vars");
+          lazyInitBitmap |= VARS_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return vars;
+  }
+
+  /**
+   * Construct a new immutable {@code TermVar} instance.
+   * @param resource The value for the {@code resource} attribute
+   * @param name The value for the {@code name} attribute
+   * @return An immutable TermVar instance
+   */
+  public static ImmutableTermVar of(String resource, String name) {
+    return new ImmutableTermVar(resource, name);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link TermVar} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable TermVar instance
+   */
+  public static ImmutableTermVar copyOf(TermVar instance) {
+    if (instance instanceof ImmutableTermVar) {
+      return (ImmutableTermVar) instance;
+    }
+    return ImmutableTermVar.of(instance.getResource(), instance.getName())
+        .setAttachments(instance.getAttachments());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

@@ -1,0 +1,9 @@
+module CompletionKind
+
+language metaborg-java start symbol Start
+
+test CompletionKind [[ package org.metaborg.core.completion;
+
+public enum CompletionKind {
+    recovery, expansion, expansionEditing
+} ]] parse succeeds

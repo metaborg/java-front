@@ -1,0 +1,9 @@
+module ResourceChangeKind
+
+language metaborg-java start symbol Start
+
+test ResourceChangeKind [[ package org.metaborg.core.resource;
+
+public enum ResourceChangeKind {
+    Create, Delete, Rename, Copy, Modify,
+} ]] parse succeeds

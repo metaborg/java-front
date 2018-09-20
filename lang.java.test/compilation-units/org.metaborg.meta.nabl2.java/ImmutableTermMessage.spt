@@ -1,0 +1,115 @@
+module ImmutableTermMessage
+
+language metaborg-java start symbol Start
+
+test ImmutableTermMessage [[ package org.metaborg.meta.nabl2.constraints.messages;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link MessageContent.TermMessage}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableTermMessage.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "MessageContent.TermMessage"})
+@Immutable
+final class ImmutableTermMessage
+    extends MessageContent.TermMessage
+    implements Serializable {
+  private final ITerm term;
+  private final int hashCode;
+
+  private ImmutableTermMessage(ITerm term) {
+    this.term = Objects.requireNonNull(term, "term");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableTermMessage(ImmutableTermMessage original, ITerm term) {
+    this.term = term;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code term} attribute
+   */
+  @Override
+  ITerm getTerm() {
+    return term;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link MessageContent.TermMessage#getTerm() term} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for term
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTermMessage setTerm(ITerm value) {
+    if (this.term == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "term");
+    return new ImmutableTermMessage(this, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableTermMessage} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableTermMessage
+        && equalTo((ImmutableTermMessage) another);
+  }
+
+  private boolean equalTo(ImmutableTermMessage another) {
+    return term.equals(another.term);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code term}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + term.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code TermMessage} instance.
+   * @param term The value for the {@code term} attribute
+   * @return An immutable TermMessage instance
+   */
+  public static ImmutableTermMessage of(ITerm term) {
+    return new ImmutableTermMessage(term);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link MessageContent.TermMessage} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable TermMessage instance
+   */
+  public static ImmutableTermMessage copyOf(MessageContent.TermMessage instance) {
+    if (instance instanceof ImmutableTermMessage) {
+      return (ImmutableTermMessage) instance;
+    }
+    return ImmutableTermMessage.of(instance.getTerm());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

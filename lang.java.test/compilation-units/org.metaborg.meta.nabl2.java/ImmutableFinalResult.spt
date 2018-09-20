@@ -1,0 +1,136 @@
+module ImmutableFinalResult
+
+language metaborg-java start symbol Start
+
+test ImmutableFinalResult [[ package org.metaborg.meta.nabl2.spoofax.analysis;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link FinalResult}.
+ * <p>
+ * Use the static factory method to get the default singleton instance:
+ * {@code ImmutableFinalResult.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "FinalResult"})
+@Immutable
+public final class ImmutableFinalResult
+    extends FinalResult
+    implements Serializable {
+  private final @Nullable ITerm customResult;
+  private final int hashCode;
+
+  private ImmutableFinalResult() {
+    this.customResult = null;
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableFinalResult(@Nullable ITerm customResult) {
+    this.customResult = customResult;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code customResult} attribute
+   */
+  @Override
+  public Optional<ITerm> getCustomResult() {
+    return Optional.ofNullable(customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a <i>present</i> value for the optional {@link FinalResult#getCustomResult() customResult} attribute.
+   * @param value The value for customResult
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableFinalResult setCustomResult(ITerm value) {
+    @Nullable ITerm newValue = Objects.requireNonNull(value, "customResult");
+    if (this.customResult == newValue) return this;
+    return validate(new ImmutableFinalResult(newValue));
+  }
+
+  /**
+   * Copy the current immutable object by setting an optional value for the {@link FinalResult#getCustomResult() customResult} attribute.
+   * A shallow reference equality check is used on unboxed optional value to prevent copying of the same value by returning {@code this}.
+   * @param optional A value for customResult
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableFinalResult setCustomResult(Optional<ITerm> optional) {
+    @Nullable ITerm value = optional.orElse(null);
+    if (this.customResult == value) return this;
+    return validate(new ImmutableFinalResult(value));
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableFinalResult} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableFinalResult
+        && equalTo((ImmutableFinalResult) another);
+  }
+
+  private boolean equalTo(ImmutableFinalResult another) {
+    return Objects.equals(customResult, another.customResult);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code customResult}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + Objects.hashCode(customResult);
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code FinalResult} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder("FinalResult{");
+    if (customResult != null) {
+      builder.append("customResult=").append(customResult);
+    }
+    return builder.append("}").toString();
+  }
+
+  private static final ImmutableFinalResult INSTANCE = validate(new ImmutableFinalResult());
+
+  /**
+   * Returns the default immutable singleton value of {@code FinalResult}
+   * @return An immutable instance of FinalResult
+   */
+  public static ImmutableFinalResult of() {
+    return INSTANCE;
+  }
+
+  private static ImmutableFinalResult validate(ImmutableFinalResult instance) {
+    return INSTANCE != null && INSTANCE.equalTo(instance) ? INSTANCE : instance;
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private Object readResolve() throws ObjectStreamException {
+    return validate(this);
+  }
+} ]] parse succeeds

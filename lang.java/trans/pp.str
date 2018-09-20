@@ -1,3 +1,49 @@
 module pp
 
-imports java/pp
+imports
+
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/editor/refactoring/-
+  pp/metaborg-java-parenthesize
+  pp/metaborg-java-pp
+
+rules
+
+  editor-format:
+    (node, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-debug> node
+
+rules
+  
+  pp-metaborg-java-string =
+    parenthesize-metaborg-java
+    ; prettyprint-metaborg-java-start-symbols
+    ; !V([], <id>)
+    ; box2text-string(|120)
+      
+  pp-partial-metaborg-java-string =
+    parenthesize-metaborg-java
+    ; prettyprint-metaborg-java
+    ; !V([], <id>)
+    ; box2text-string(|120)
+    
+  pp-partial-metaborg-java-string(|sort) =
+    parenthesize-metaborg-java
+    ; prettyprint-metaborg-java(|sort)
+    ; !V([], <id>)
+    ; box2text-string(|120)  
+      
+  pp-debug :
+    ast -> result
+    with
+       result := <pp-metaborg-java-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-metaborg-java-string); debug(!"cannot pp ")))> ast
+    ;  result := ""
+
+rules
+  
+  construct-textual-change = construct-textual-change(pp-partial-metaborg-java-string, parenthesize, override-reconstruction, resugar)

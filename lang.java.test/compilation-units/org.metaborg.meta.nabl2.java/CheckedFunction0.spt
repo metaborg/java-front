@@ -1,0 +1,12 @@
+module CheckedFunction0
+
+language metaborg-java start symbol Start
+
+test CheckedFunction0 [[ package org.metaborg.meta.nabl2.util.functions;
+
+@FunctionalInterface
+public interface CheckedFunction0<R, E extends Throwable> {
+
+    R apply() throws E;
+
+} ]] parse succeeds

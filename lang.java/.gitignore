@@ -1,3 +1,5 @@
+/.cache
+/bin
 /src-gen
 /target
 

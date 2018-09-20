@@ -2,8 +2,6 @@ module test
 
 language metaborg-java
 
-test parse class [[
-  public class C {
-  
-  }
+test parse [[
+
 ]] parse succeeds

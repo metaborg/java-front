@@ -1,0 +1,11 @@
+module ITransformAction
+
+language metaborg-java start symbol Start
+
+test ITransformAction [[ package org.metaborg.core.action;
+
+public interface ITransformAction extends IAction {
+    ITransformGoal goal();
+    
+    TransformActionFlags flags();
+} ]] parse succeeds

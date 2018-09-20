@@ -1,0 +1,486 @@
+module ImmutableSolution
+
+language metaborg-java start symbol Start
+
+test ImmutableSolution [[ package org.metaborg.meta.nabl2.solver;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.IMessageInfo;
+import org.metaborg.meta.nabl2.relations.IRelations;
+import org.metaborg.meta.nabl2.scopegraph.INameResolution;
+import org.metaborg.meta.nabl2.scopegraph.IScopeGraph;
+import org.metaborg.meta.nabl2.scopegraph.terms.Label;
+import org.metaborg.meta.nabl2.scopegraph.terms.Occurrence;
+import org.metaborg.meta.nabl2.scopegraph.terms.Scope;
+import org.metaborg.meta.nabl2.terms.ITerm;
+import org.metaborg.meta.nabl2.terms.generic.TermIndex;
+import org.metaborg.meta.nabl2.unification.IUnifier;
+
+/**
+ * Immutable implementation of {@link Solution}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableSolution.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Solution"})
+@Immutable
+public final class ImmutableSolution
+    extends Solution
+    implements Serializable {
+  private final IProperties<TermIndex> astProperties;
+  private final IScopeGraph<Scope, Label, Occurrence> scopeGraph;
+  private final INameResolution<Scope, Label, Occurrence> nameResolution;
+  private final IProperties<Occurrence> declProperties;
+  private final IRelations<ITerm> relations;
+  private final IUnifier unifier;
+  private final ISymbolicConstraints symbolic;
+  private final List<IMessageInfo> messages;
+  private final int hashCode;
+
+  private ImmutableSolution(
+      IProperties<TermIndex> astProperties,
+      IScopeGraph<Scope, Label, Occurrence> scopeGraph,
+      INameResolution<Scope, Label, Occurrence> nameResolution,
+      IProperties<Occurrence> declProperties,
+      IRelations<ITerm> relations,
+      IUnifier unifier,
+      ISymbolicConstraints symbolic,
+      Iterable<? extends IMessageInfo> messages) {
+    this.astProperties = Objects.requireNonNull(astProperties, "astProperties");
+    this.scopeGraph = Objects.requireNonNull(scopeGraph, "scopeGraph");
+    this.nameResolution = Objects.requireNonNull(nameResolution, "nameResolution");
+    this.declProperties = Objects.requireNonNull(declProperties, "declProperties");
+    this.relations = Objects.requireNonNull(relations, "relations");
+    this.unifier = Objects.requireNonNull(unifier, "unifier");
+    this.symbolic = Objects.requireNonNull(symbolic, "symbolic");
+    this.messages = createUnmodifiableList(false, createSafeList(messages, true, false));
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableSolution(
+      ImmutableSolution original,
+      IProperties<TermIndex> astProperties,
+      IScopeGraph<Scope, Label, Occurrence> scopeGraph,
+      INameResolution<Scope, Label, Occurrence> nameResolution,
+      IProperties<Occurrence> declProperties,
+      IRelations<ITerm> relations,
+      IUnifier unifier,
+      ISymbolicConstraints symbolic,
+      List<IMessageInfo> messages) {
+    this.astProperties = astProperties;
+    this.scopeGraph = scopeGraph;
+    this.nameResolution = nameResolution;
+    this.declProperties = declProperties;
+    this.relations = relations;
+    this.unifier = unifier;
+    this.symbolic = symbolic;
+    this.messages = messages;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code astProperties} attribute
+   */
+  @Override
+  public IProperties<TermIndex> getAstProperties() {
+    return astProperties;
+  }
+
+  /**
+   * @return The value of the {@code scopeGraph} attribute
+   */
+  @Override
+  public IScopeGraph<Scope, Label, Occurrence> getScopeGraph() {
+    return scopeGraph;
+  }
+
+  /**
+   * @return The value of the {@code nameResolution} attribute
+   */
+  @Override
+  public INameResolution<Scope, Label, Occurrence> getNameResolution() {
+    return nameResolution;
+  }
+
+  /**
+   * @return The value of the {@code declProperties} attribute
+   */
+  @Override
+  public IProperties<Occurrence> getDeclProperties() {
+    return declProperties;
+  }
+
+  /**
+   * @return The value of the {@code relations} attribute
+   */
+  @Override
+  public IRelations<ITerm> getRelations() {
+    return relations;
+  }
+
+  /**
+   * @return The value of the {@code unifier} attribute
+   */
+  @Override
+  public IUnifier getUnifier() {
+    return unifier;
+  }
+
+  /**
+   * @return The value of the {@code symbolic} attribute
+   */
+  @Override
+  public ISymbolicConstraints getSymbolic() {
+    return symbolic;
+  }
+
+  /**
+   * @return The value of the {@code messages} attribute
+   */
+  @Override
+  public List<IMessageInfo> getMessages() {
+    return messages;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Solution#getAstProperties() astProperties} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for astProperties
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolution setAstProperties(IProperties<TermIndex> value) {
+    if (this.astProperties == value) return this;
+    IProperties<TermIndex> newValue = Objects.requireNonNull(value, "astProperties");
+    return new ImmutableSolution(
+        this,
+        newValue,
+        this.scopeGraph,
+        this.nameResolution,
+        this.declProperties,
+        this.relations,
+        this.unifier,
+        this.symbolic,
+        this.messages);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Solution#getScopeGraph() scopeGraph} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for scopeGraph
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolution setScopeGraph(IScopeGraph<Scope, Label, Occurrence> value) {
+    if (this.scopeGraph == value) return this;
+    IScopeGraph<Scope, Label, Occurrence> newValue = Objects.requireNonNull(value, "scopeGraph");
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        newValue,
+        this.nameResolution,
+        this.declProperties,
+        this.relations,
+        this.unifier,
+        this.symbolic,
+        this.messages);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Solution#getNameResolution() nameResolution} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for nameResolution
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolution setNameResolution(INameResolution<Scope, Label, Occurrence> value) {
+    if (this.nameResolution == value) return this;
+    INameResolution<Scope, Label, Occurrence> newValue = Objects.requireNonNull(value, "nameResolution");
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        this.scopeGraph,
+        newValue,
+        this.declProperties,
+        this.relations,
+        this.unifier,
+        this.symbolic,
+        this.messages);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Solution#getDeclProperties() declProperties} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for declProperties
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolution setDeclProperties(IProperties<Occurrence> value) {
+    if (this.declProperties == value) return this;
+    IProperties<Occurrence> newValue = Objects.requireNonNull(value, "declProperties");
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        this.scopeGraph,
+        this.nameResolution,
+        newValue,
+        this.relations,
+        this.unifier,
+        this.symbolic,
+        this.messages);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Solution#getRelations() relations} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for relations
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolution setRelations(IRelations<ITerm> value) {
+    if (this.relations == value) return this;
+    IRelations<ITerm> newValue = Objects.requireNonNull(value, "relations");
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        this.scopeGraph,
+        this.nameResolution,
+        this.declProperties,
+        newValue,
+        this.unifier,
+        this.symbolic,
+        this.messages);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Solution#getUnifier() unifier} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for unifier
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolution setUnifier(IUnifier value) {
+    if (this.unifier == value) return this;
+    IUnifier newValue = Objects.requireNonNull(value, "unifier");
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        this.scopeGraph,
+        this.nameResolution,
+        this.declProperties,
+        this.relations,
+        newValue,
+        this.symbolic,
+        this.messages);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Solution#getSymbolic() symbolic} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for symbolic
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolution setSymbolic(ISymbolicConstraints value) {
+    if (this.symbolic == value) return this;
+    ISymbolicConstraints newValue = Objects.requireNonNull(value, "symbolic");
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        this.scopeGraph,
+        this.nameResolution,
+        this.declProperties,
+        this.relations,
+        this.unifier,
+        newValue,
+        this.messages);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link Solution#getMessages() messages}.
+   * @param elements The elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableSolution setMessages(IMessageInfo... elements) {
+    List<IMessageInfo> newValue = createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        this.scopeGraph,
+        this.nameResolution,
+        this.declProperties,
+        this.relations,
+        this.unifier,
+        this.symbolic,
+        newValue);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link Solution#getMessages() messages}.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param elements An iterable of messages elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableSolution setMessages(Iterable<? extends IMessageInfo> elements) {
+    if (this.messages == elements) return this;
+    List<IMessageInfo> newValue = createUnmodifiableList(false, createSafeList(elements, true, false));
+    return new ImmutableSolution(
+        this,
+        this.astProperties,
+        this.scopeGraph,
+        this.nameResolution,
+        this.declProperties,
+        this.relations,
+        this.unifier,
+        this.symbolic,
+        newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableSolution} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableSolution
+        && equalTo((ImmutableSolution) another);
+  }
+
+  private boolean equalTo(ImmutableSolution another) {
+    return astProperties.equals(another.astProperties)
+        && scopeGraph.equals(another.scopeGraph)
+        && nameResolution.equals(another.nameResolution)
+        && declProperties.equals(another.declProperties)
+        && relations.equals(another.relations)
+        && unifier.equals(another.unifier)
+        && symbolic.equals(another.symbolic)
+        && messages.equals(another.messages);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code astProperties}, {@code scopeGraph}, {@code nameResolution}, {@code declProperties}, {@code relations}, {@code unifier}, {@code symbolic}, {@code messages}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + astProperties.hashCode();
+    h = h * 17 + scopeGraph.hashCode();
+    h = h * 17 + nameResolution.hashCode();
+    h = h * 17 + declProperties.hashCode();
+    h = h * 17 + relations.hashCode();
+    h = h * 17 + unifier.hashCode();
+    h = h * 17 + symbolic.hashCode();
+    h = h * 17 + messages.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code Solution} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "Solution{"
+        + "astProperties=" + astProperties
+        + ", scopeGraph=" + scopeGraph
+        + ", nameResolution=" + nameResolution
+        + ", declProperties=" + declProperties
+        + ", relations=" + relations
+        + ", unifier=" + unifier
+        + ", symbolic=" + symbolic
+        + ", messages=" + messages
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code Solution} instance.
+   * @param astProperties The value for the {@code astProperties} attribute
+   * @param scopeGraph The value for the {@code scopeGraph} attribute
+   * @param nameResolution The value for the {@code nameResolution} attribute
+   * @param declProperties The value for the {@code declProperties} attribute
+   * @param relations The value for the {@code relations} attribute
+   * @param unifier The value for the {@code unifier} attribute
+   * @param symbolic The value for the {@code symbolic} attribute
+   * @param messages The value for the {@code messages} attribute
+   * @return An immutable Solution instance
+   */
+  public static ImmutableSolution of(IProperties<TermIndex> astProperties, IScopeGraph<Scope, Label, Occurrence> scopeGraph, INameResolution<Scope, Label, Occurrence> nameResolution, IProperties<Occurrence> declProperties, IRelations<ITerm> relations, IUnifier unifier, ISymbolicConstraints symbolic, List<IMessageInfo> messages) {
+    return of(astProperties, scopeGraph, nameResolution, declProperties, relations, unifier, symbolic, (Iterable<? extends IMessageInfo>) messages);
+  }
+
+  /**
+   * Construct a new immutable {@code Solution} instance.
+   * @param astProperties The value for the {@code astProperties} attribute
+   * @param scopeGraph The value for the {@code scopeGraph} attribute
+   * @param nameResolution The value for the {@code nameResolution} attribute
+   * @param declProperties The value for the {@code declProperties} attribute
+   * @param relations The value for the {@code relations} attribute
+   * @param unifier The value for the {@code unifier} attribute
+   * @param symbolic The value for the {@code symbolic} attribute
+   * @param messages The value for the {@code messages} attribute
+   * @return An immutable Solution instance
+   */
+  public static ImmutableSolution of(IProperties<TermIndex> astProperties, IScopeGraph<Scope, Label, Occurrence> scopeGraph, INameResolution<Scope, Label, Occurrence> nameResolution, IProperties<Occurrence> declProperties, IRelations<ITerm> relations, IUnifier unifier, ISymbolicConstraints symbolic, Iterable<? extends IMessageInfo> messages) {
+    return new ImmutableSolution(astProperties, scopeGraph, nameResolution, declProperties, relations, unifier, symbolic, messages);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Solution} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable Solution instance
+   */
+  public static ImmutableSolution copyOf(Solution instance) {
+    if (instance instanceof ImmutableSolution) {
+      return (ImmutableSolution) instance;
+    }
+    return ImmutableSolution.of(instance.getAstProperties(), instance.getScopeGraph(), instance.getNameResolution(), instance.getDeclProperties(), instance.getRelations(), instance.getUnifier(), instance.getSymbolic(), instance.getMessages());
+  }
+
+  private static final long serialVersionUID = 1L;
+
+  private static <T> List<T> createSafeList(Iterable<? extends T> iterable, boolean checkNulls, boolean skipNulls) {
+    ArrayList<T> list;
+    if (iterable instanceof Collection<?>) {
+      int size = ((Collection<?>) iterable).size();
+      if (size == 0) return Collections.emptyList();
+      list = new ArrayList<T>();
+    } else {
+      list = new ArrayList<T>();
+    }
+    for (T element : iterable) {
+      if (skipNulls && element == null) continue;
+      if (checkNulls) Objects.requireNonNull(element, "element");
+      list.add(element);
+    }
+    return list;
+  }
+
+  private static <T> List<T> createUnmodifiableList(boolean clone, List<T> list) {
+    switch(list.size()) {
+    case 0: return Collections.emptyList();
+    case 1: return Collections.singletonList(list.get(0));
+    default:
+      if (clone) {
+        return Collections.unmodifiableList(new ArrayList<T>(list));
+      } else {
+        if (list instanceof ArrayList<?>) {
+          ((ArrayList<?>) list).trimToSize();
+        }
+        return Collections.unmodifiableList(list);
+      }
+    }
+  }
+} ]] parse succeeds

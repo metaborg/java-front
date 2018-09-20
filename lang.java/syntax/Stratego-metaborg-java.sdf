@@ -1,0 +1,8 @@
+module Stratego-metaborg-java
+
+imports StrategoMix[StrategoHost]
+        embeddedJava/EmbeddedJava8[Term[[StrategoHost]]]
+        
+exports 
+      context-free start-symbols 
+          Module[[StrategoHost]]        

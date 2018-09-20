@@ -1,0 +1,13 @@
+module ITermIndex
+
+language metaborg-java start symbol Start
+
+test ITermIndex [[ package org.metaborg.meta.nabl2.terms;
+
+public interface ITermIndex {
+
+    String getResource();
+
+    int getId();
+
+} ]] parse succeeds

@@ -1,0 +1,11 @@
+module IMenuAction
+
+language metaborg-java start symbol Start
+
+test IMenuAction [[ package org.metaborg.core.menu;
+
+import org.metaborg.core.action.ITransformAction;
+
+public interface IMenuAction extends IMenuItem {
+    ITransformAction action();
+} ]] parse succeeds

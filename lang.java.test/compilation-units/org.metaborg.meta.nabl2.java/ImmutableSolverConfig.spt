@@ -1,0 +1,233 @@
+module ImmutableSolverConfig
+
+language metaborg-java start symbol Start
+
+test ImmutableSolverConfig [[ package org.metaborg.meta.nabl2.solver;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.relations.terms.Relations;
+import org.metaborg.meta.nabl2.scopegraph.terms.ResolutionParameters;
+import org.metaborg.meta.nabl2.terms.ITerm;
+import org.metaborg.meta.nabl2.util.functions.Function1;
+
+/**
+ * Immutable implementation of {@link SolverConfig}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableSolverConfig.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "SolverConfig"})
+@Immutable
+public final class ImmutableSolverConfig
+    extends SolverConfig
+    implements Serializable {
+  private final ResolutionParameters resolutionParams;
+  private final Relations<ITerm> relations;
+  private final Map<String, Function1<ITerm, Optional<ITerm>>> functions;
+  private final int hashCode;
+
+  private ImmutableSolverConfig(
+      ResolutionParameters resolutionParams,
+      Relations<ITerm> relations,
+      Map<String, ? extends Function1<ITerm, Optional<ITerm>>> functions) {
+    this.resolutionParams = Objects.requireNonNull(resolutionParams, "resolutionParams");
+    this.relations = Objects.requireNonNull(relations, "relations");
+    this.functions = createUnmodifiableMap(true, false, functions);
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableSolverConfig(
+      ImmutableSolverConfig original,
+      ResolutionParameters resolutionParams,
+      Relations<ITerm> relations,
+      Map<String, Function1<ITerm, Optional<ITerm>>> functions) {
+    this.resolutionParams = resolutionParams;
+    this.relations = relations;
+    this.functions = functions;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code resolutionParams} attribute
+   */
+  @Override
+  public ResolutionParameters getResolutionParams() {
+    return resolutionParams;
+  }
+
+  /**
+   * @return The value of the {@code relations} attribute
+   */
+  @Override
+  public Relations<ITerm> getRelations() {
+    return relations;
+  }
+
+  /**
+   * @return The value of the {@code functions} attribute
+   */
+  @Override
+  public Map<String, Function1<ITerm, Optional<ITerm>>> getFunctions() {
+    return functions;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link SolverConfig#getResolutionParams() resolutionParams} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for resolutionParams
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolverConfig setResolutionParams(ResolutionParameters value) {
+    if (this.resolutionParams == value) return this;
+    ResolutionParameters newValue = Objects.requireNonNull(value, "resolutionParams");
+    return new ImmutableSolverConfig(this, newValue, this.relations, this.functions);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link SolverConfig#getRelations() relations} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for relations
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableSolverConfig setRelations(Relations<ITerm> value) {
+    if (this.relations == value) return this;
+    Relations<ITerm> newValue = Objects.requireNonNull(value, "relations");
+    return new ImmutableSolverConfig(this, this.resolutionParams, newValue, this.functions);
+  }
+
+  /**
+   * Copy the current immutable object by replacing the {@link SolverConfig#getFunctions() functions} map with the specified map.
+   * Nulls are not permitted as keys or values.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param entries The entries to be added to the functions map
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableSolverConfig setFunctions(Map<String, ? extends Function1<ITerm, Optional<ITerm>>> entries) {
+    if (this.functions == entries) return this;
+    Map<String, Function1<ITerm, Optional<ITerm>>> newValue = createUnmodifiableMap(true, false, entries);
+    return new ImmutableSolverConfig(this, this.resolutionParams, this.relations, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableSolverConfig} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableSolverConfig
+        && equalTo((ImmutableSolverConfig) another);
+  }
+
+  private boolean equalTo(ImmutableSolverConfig another) {
+    return resolutionParams.equals(another.resolutionParams)
+        && relations.equals(another.relations)
+        && functions.equals(another.functions);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code resolutionParams}, {@code relations}, {@code functions}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + resolutionParams.hashCode();
+    h = h * 17 + relations.hashCode();
+    h = h * 17 + functions.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code SolverConfig} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "SolverConfig{"
+        + "resolutionParams=" + resolutionParams
+        + ", relations=" + relations
+        + ", functions=" + functions
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code SolverConfig} instance.
+   * @param resolutionParams The value for the {@code resolutionParams} attribute
+   * @param relations The value for the {@code relations} attribute
+   * @param functions The value for the {@code functions} attribute
+   * @return An immutable SolverConfig instance
+   */
+  public static ImmutableSolverConfig of(ResolutionParameters resolutionParams, Relations<ITerm> relations, Map<String, ? extends Function1<ITerm, Optional<ITerm>>> functions) {
+    return new ImmutableSolverConfig(resolutionParams, relations, functions);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link SolverConfig} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable SolverConfig instance
+   */
+  public static ImmutableSolverConfig copyOf(SolverConfig instance) {
+    if (instance instanceof ImmutableSolverConfig) {
+      return (ImmutableSolverConfig) instance;
+    }
+    return ImmutableSolverConfig.of(instance.getResolutionParams(), instance.getRelations(), instance.getFunctions());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private static <K, V> Map<K, V> createUnmodifiableMap(boolean checkNulls, boolean skipNulls, Map<? extends K, ? extends V> map) {
+    switch (map.size()) {
+    case 0: return Collections.emptyMap();
+    case 1: {
+      Map.Entry<? extends K, ? extends V> e = map.entrySet().iterator().next();
+      K k = e.getKey();
+      V v = e.getValue();
+      if (checkNulls) {
+        Objects.requireNonNull(k, "key");
+        Objects.requireNonNull(v, "value");
+      }
+      if (skipNulls && (k == null || v == null)) {
+        return Collections.emptyMap();
+      }
+      return Collections.singletonMap(k, v);
+    }
+    default: {
+      Map<K, V> linkedMap = new LinkedHashMap<K, V>(map.size());
+      if (skipNulls || checkNulls) {
+        for (Map.Entry<? extends K, ? extends V> e : map.entrySet()) {
+          K k = e.getKey();
+          V v = e.getValue();
+          if (skipNulls) {
+            if (k == null || v == null) continue;
+          } else if (checkNulls) {
+            Objects.requireNonNull(k, "key");
+            Objects.requireNonNull(v, "value");
+          }
+          linkedMap.put(k, v);
+        }
+      } else {
+        linkedMap.putAll(map);
+      }
+      return Collections.unmodifiableMap(linkedMap);
+    }
+    }
+  }
+} ]] parse succeeds
