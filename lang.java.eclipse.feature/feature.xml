@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
   id="lang.java.eclipse.feature"
-  label="metaborg-java language Eclipse plugin"
+  label="Java-Front Spoofax language Eclipse plugin"
   version="1.0.0.qualifier"
 >
   <plugin id="lang.java.eclipse" version="1.0.0.qualifier" unpack="true" />
