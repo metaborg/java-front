@@ -1,65 +1,39 @@
-properties([
-  pipelineTriggers([
-    upstream(
-      threshold: hudson.model.Result.SUCCESS,
-      upstreamProjects: '/metaborg/spoofax-releng/master' // build this project after Spoofax-master is built
-    )
-  ]),
-  buildDiscarder(logRotator(artifactNumToKeepStr: '3')),
-  disableConcurrentBuilds() //disableds parallel builds
-])
-
-node{
-  try{
-    notifyBuild('Started')
-
-    stage('Checkout') {
-      checkout scm
-      sh "git clean -fXd"
-    }
-
-    stage('Build and Test') {
-      withMaven(
-        //mavenLocalRepo: "${env.JENKINS_HOME}/m2repos/${env.EXECUTOR_NUMBER}", //http://yellowgrass.org/issue/SpoofaxWithCore/173
-        mavenLocalRepo: ".repository",
-        mavenOpts: '-Xmx1G -Xms1G -Xss16m'
-      ){
-        sh 'mvn -B -U clean verify -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
+pipeline {
+  agent any
+  triggers {
+    upstream '/metaborg/spoofax-releng/master'
+  }
+  options {
+    buildDiscarder logRotator(numToKeepStr: '3')
+    disableConcurrentBuilds()
+    timeout(time: 1, unit: 'HOURS')
+  }
+  stages {
+    stage('Clean') {
+      steps {
+        sh 'git clean -ddffxx'
       }
     }
-
-    stage('Archive') {
-      archiveArtifacts(
-        artifacts: 'lang.java.eclipse.site/target/site/',
-        excludes: null,
-        onlyIfSuccessful: true
-      )
+    stage('Build/Test/Deploy') {
+      steps {
+        withMaven(mavenLocalRepo: ".repository", mavenOpts: '-Xmx1G -Xms1G -Xss16m') {
+          sh 'mvn -B -U clean verify -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
+        }
+      }
     }
-
-    stage('Cleanup') {
-      sh "git clean -fXd"
+  }
+  post {
+    success {
+      archiveArtifacts(artifacts: 'lang.java.eclipse.site/target/site/', excludes: null)
     }
-
-    notifyBuild('Succeeded')
-
-  } catch (e) {
-
-    notifyBuild('Failed')
-    throw e
-
+    failure {
+      slackSend(color: 'danger', channel: '#spoofax-dev', message: "Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}] (<${env.BUILD_URL}|Status> <${env.BUILD_URL}console|Console>)")
+    }
+    fixed {
+      slackSend(color: 'good', channel: '#spoofax-dev', message: "Fixed: ${env.JOB_NAME} [${env.BUILD_NUMBER}] (<${env.BUILD_URL}|Status> <${env.BUILD_URL}console|Console>)")
+    }
+    cleanup {
+      sh 'git clean -ddffxx'
+    }
   }
-}
-
-def notifyBuild(String buildStatus) {
-  def message = """${buildStatus}: ${env.JOB_NAME} [${env.BUILD_NUMBER}] ${env.BUILD_URL}"""
-
-  if (buildStatus == 'Succeeded') {
-    color = 'good'
-  } else if (buildStatus == 'Failed') {
-    color = 'danger'
-  } else {
-    color = '#4183C4' // Slack blue
-  }
-
-//  slackSend (color: color, message: message, channel: '#some-slack-channel')
 }
