@@ -39,7 +39,7 @@ pipeline {
       }
       steps {
         withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenDeploySettings) {
-          sh "mvn -B -U deploy -DforceContextQualifier=$dateTime -DskipTests -Dmaven.test.skip=true"
+          sh "mvn -B -nsu deploy -DforceContextQualifier=$dateTime -DskipTests -Dmaven.test.skip=true"
         }
       }
     }
