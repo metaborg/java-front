@@ -14,7 +14,7 @@ pipeline {
     mavenOpts = '-Xmx1G -Xss16M'
     mavenBuildSettings = 'metaborg-mirror-maven-global-config'
     mavenDeploySettings = 'metaborg-mirror-deploy-global-maven-config'
-    dateTime = sh(returnStdout: true, script: 'date +%Y%m%d%H%M')
+    dateTime = sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()
   }
   stages {
     stage('Clean') {
@@ -24,7 +24,7 @@ pipeline {
     }
     stage('Build & Test') {
       steps {
-      withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenBuildSettings) {
+        withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenBuildSettings) {
           sh "mvn -B -U clean verify -DforceContextQualifier=$dateTime"
         }
       }
@@ -36,7 +36,7 @@ pipeline {
       } // Deploy release artifacts only on release branch, when a commit is tagged with a v* (e.g., v0.1.0) tag.
       steps {
         withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenDeploySettings) {
-          sh "mvn -B -nsu deploy -P release -DskipTests -Dmaven.test.skip=true"
+          sh "mvn -B -nsu deploy -DskipTests -Dmaven.test.skip=true -P release"
         } // Add release profile (-P release) to enforce that no snapshot dependencies are used in a release.
       }
     }
@@ -46,7 +46,7 @@ pipeline {
       } // Deploy snapshot artifacts only on master branch.
       steps {
         withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenDeploySettings) {
-          sh "mvn -B -nsu deploy -DforceContextQualifier=$dateTime -DskipTests -Dmaven.test.skip=true"
+          sh "mvn -B -nsu deploy -DskipTests -Dmaven.test.skip=true -DforceContextQualifier=$dateTime"
         }
       }
     }
