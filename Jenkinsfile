@@ -1,17 +1,18 @@
 pipeline {
   agent any
   triggers {
-    upstream '/metaborg/spoofax-releng/master'
+    snapshotDependencies()
   }
   options {
     buildDiscarder logRotator(numToKeepStr: '3')
     disableConcurrentBuilds()
+    durabilityHint 'PERFORMANCE_OPTIMIZED'
     timeout(time: 1, unit: 'HOURS')
   }
   environment {
     mavenRepo = '.m2repo'
     mavenOpts = '-Xmx1G -Xss16M'
-    mavenSettings = 'metaborg-mirror-maven-global-config'
+    mavenBuildSettings = 'metaborg-mirror-maven-global-config'
     mavenDeploySettings = 'metaborg-mirror-deploy-global-maven-config'
     dateTime = sh(returnStdout: true, script: 'date +%Y%m%d%H%M')
   }
@@ -23,20 +24,26 @@ pipeline {
     }
     stage('Build & Test') {
       steps {
-      withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenSettings) {
+      withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenBuildSettings) {
           sh "mvn -B -U clean verify -DforceContextQualifier=$dateTime"
         }
       }
     }
-    stage('Deploy') {
+    stage('Deploy Release') {
       when {
-        not { changeRequest() }
-        anyOf {
-          branch 'master'
-          branch 'release'
-          tag 'v*'
-        }
+        branch 'release'
+        tag 'v*'
+      } // Deploy release artifacts only on release branch, when a commit is tagged with a v* (e.g., v0.1.0) tag.
+      steps {
+        withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenDeploySettings) {
+          sh "mvn -B -nsu deploy -P release -DskipTests -Dmaven.test.skip=true"
+        } // Add release profile (-P release) to enforce that no snapshot dependencies are used in a release.
       }
+    }
+    stage('Deploy Snapshot') {
+      when {
+        branch 'master'
+      } // Deploy snapshot artifacts only on master branch.
       steps {
         withMaven(mavenLocalRepo: mavenRepo, mavenOpts: mavenOpts, globalMavenSettingsConfig: mavenDeploySettings) {
           sh "mvn -B -nsu deploy -DforceContextQualifier=$dateTime -DskipTests -Dmaven.test.skip=true"
