@@ -11,7 +11,7 @@ pipeline {
   environment {
     mavenRepo = '.m2repo'
     mavenOpts = '-Xmx1G -Xss16M'
-    mavenSettings = 'metaborg-mirror-global-maven-config'
+    mavenSettings = 'metaborg-mirror-maven-global-config'
     mavenDeploySettings = 'metaborg-mirror-deploy-global-maven-config'
     dateTime = sh(returnStdout: true, script: 'date +%Y%m%d%H%M')
   }
