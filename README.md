@@ -1,4 +1,4 @@
-[![Build status](http://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/badge/icon)](http://buildfarm.metaborg.org/job/metaborg/job/java-front/job/java-1.8/)
+[![Build status](http://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/badge/icon)](http://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/)
 
 This is a declarative specification of Java's 1.8 syntax.
 
