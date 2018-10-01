@@ -1,12 +1,15 @@
 [![Build status](http://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/badge/icon)](http://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/)
 
-This is a declarative specification of Java's 1.8 syntax.
+# Java Front
 
-# Usage
+A declarative specification of Java 8's syntax in Spoofax.
 
-The maven artifacts for this project are supplied on our artifact server, see [the instructions on our website](http://www.metaborg.org/en/latest/source/dev/maven.html#spoofax-maven-artifacts). To use the java-front plugin in Eclipse you also need to install the plugin through [the update site hosted on our buildfarm](https://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/lastSuccessfulBuild/artifact/lang.java.eclipse.site/target/site/site.xml) (linked is the nightly build).
+## Usage
 
-# Project Structure
+The maven artifacts for this project are supplied on our artifact server, see [the instructions on our website](http://www.metaborg.org/en/latest/source/dev/maven.html#spoofax-maven-artifacts).
+To use the java-front plugin in Eclipse you also need to install the plugin through [the update site hosted on our buildfarm](https://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/lastSuccessfulBuild/artifact/lang.java.eclipse.site/target/site/site.xml) (linked is the nightly build).
+
+## Project Structure
 
 Each directory contains specifications for a section of the Java language:
 
@@ -21,8 +24,12 @@ Each directory contains specifications for a section of the Java language:
 * statements - All statements
 * types - Primitive and reference types
 
-The project also contains tests with java files from the Spoofax codebase, and succeeding tests from the Java language specification. 
+The project also contains tests with java files from the Spoofax codebase, and succeeding tests from the Java language specification.
 
-# Contribute
+## Deployment
 
-Feel free to contribute with changes/improvements to the project.
+Development (`-SNAPSHOT`) versions on the `master` branch are automatically deployed by the buildfarm.
+
+To deploy a release version of java-front, set the versions in all `pom.xml` and `metaborg.yaml` files to the next release version (such as `0.2.0`), commit and push this version change to the `release` branch, and tag it with a version tag such as `v0.2.0`. The buildfarm will then build and deploy the release version.
+
+TODO: an command-line script to easily change the version.
