@@ -3,16 +3,17 @@
 set -eu
 
 if [ "$#" -eq "0" ]; then
-  echo "Usage: $0 VERSION\nReplaces \${VERSION}-SNAPSHOT with \$VERSION, updates Spoofax to latest release version. "
+  echo "Usage: $0 VERSION SPOOFAX_VERSION\nReplaces \${VERSION}-SNAPSHOT with \$VERSION, updates Spoofax to latest release version. \n\$SPOOFAX_VERSION should also be this latest version to update a file with that cannot be auto-updated with maven. "
   exit 0
 fi
 
 NEW_VERSION=$1
+SPOOFAX_VERSION=$2
 
 sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java/metaborg.yaml
 sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java.example/metaborg.yaml
 sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java.test/metaborg.yaml
-sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" .mvn/extensions.xml
+sed -i '' "s|<version>.*</version>|<version>$SPOOFAX_VERSION</version>|g" .mvn/extensions.xml
 
 sed -i '' "s/$NEW_VERSION.qualifier/$NEW_VERSION/g" lang.java.eclipse.site/site.xml
 sed -i '' "s/$NEW_VERSION.qualifier/$NEW_VERSION/g" lang.java.eclipse.feature/feature.xml
