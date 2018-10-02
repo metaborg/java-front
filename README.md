@@ -30,7 +30,6 @@ The project also contains tests with java files from the Spoofax codebase, and s
 
 Development (`-SNAPSHOT`) versions on the `master` branch are automatically deployed by the buildfarm.
 
-To deploy a release version of java-front, set the versions in all `pom.xml` and `metaborg.yaml` files to the next release version (such as `0.2.0`), commit and push this version change to the `release` branch, and tag it with a version tag such as `v0.2.0`. The buildfarm will then build and deploy the release version.
+To deploy a release version of java-front, merge `master` into `release` and use the `set_release_version.sh` script to update to the release version and latest released Spoofax version. Now commit and push this version change to the `release` branch, and tag it with a version tag such as `v0.2.0`. Remember to use `git push --tags` to push the tag. The buildfarm will build and deploy the release version when it receives the new tag.
 
-The `update_version.sh` can help with this, although the maven versions plugin used is a bit slow/finicky. 
-
+Once a release is done `master` should be updated to a new development version. **Never** merge `release` into `master`, then the version numbers won't match the helper script. For updating the development version you can use the `update_develop_version.sh` script. It needs the current version (without `-SNAPSHOT`), a new version (without `-SNAPSHOT`) and the latest Spoofax nightly version (without `-SNAPSHOT`). 
