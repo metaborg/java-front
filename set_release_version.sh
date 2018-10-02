@@ -2,8 +2,17 @@
 
 set -eu
 
-OLD_VERSION=$1
-NEW_VERSION=$2
+if [ "$#" -eq "0" ]; then
+  echo "Usage: $0 VERSION\nReplaces \${VERSION}-SNAPSHOT with \$VERSION, updates Spoofax to latest release version. "
+  exit 0
+fi
+
+NEW_VERSION=$1
+
+sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java/metaborg.yaml
+sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java.example/metaborg.yaml
+sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java.test/metaborg.yaml
+sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" .mvn/extensions.xml
 
 # Update Spoofax to newest released version
 mvn -f pom.xml versions:update-parent -DgenerateBackupPoms=false
@@ -20,8 +29,4 @@ mvn -f lang.java.eclipse/pom.xml versions:set -DnewVersion=$NEW_VERSION -Dgenera
 mvn -f lang.java.eclipse.feature/pom.xml versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
 # Doesn't work for some reason
 #mvn -f lang.java.eclipse.site/pom.xml versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
-sed -i '' "s/$OLD_VERSION/$NEW_VERSION/g" lang.java.eclipse.site/pom.xml
-
-sed -i '' "s/$OLD_VERSION/$NEW_VERSION/g" lang.java/metaborg.yaml
-sed -i '' "s/$OLD_VERSION/$NEW_VERSION/g" lang.java.example/metaborg.yaml
-sed -i '' "s/$OLD_VERSION/$NEW_VERSION/g" lang.java.test/metaborg.yaml
+sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java.eclipse.site/pom.xml
