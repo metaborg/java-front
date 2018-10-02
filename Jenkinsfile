@@ -31,7 +31,6 @@ pipeline {
     }
     stage('Deploy Release') {
       when {
-        branch 'release'
         tag 'v*'
       } // Deploy release artifacts only on release branch, when a commit is tagged with a v* (e.g., v0.1.0) tag.
       steps {
