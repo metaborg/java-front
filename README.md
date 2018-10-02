@@ -32,4 +32,5 @@ Development (`-SNAPSHOT`) versions on the `master` branch are automatically depl
 
 To deploy a release version of java-front, set the versions in all `pom.xml` and `metaborg.yaml` files to the next release version (such as `0.2.0`), commit and push this version change to the `release` branch, and tag it with a version tag such as `v0.2.0`. The buildfarm will then build and deploy the release version.
 
-TODO: an command-line script to easily change the version.
+The `update_version.sh` can help with this, although the maven versions plugin used is a bit slow/finicky. 
+
