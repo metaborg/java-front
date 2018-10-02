@@ -14,6 +14,10 @@ sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java.example/metaborg.ya
 sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" lang.java.test/metaborg.yaml
 sed -i '' "s/$NEW_VERSION-SNAPSHOT/$NEW_VERSION/g" .mvn/extensions.xml
 
+sed -i '' "s/$NEW_VERSION.qualifier/$NEW_VERSION/g" lang.java.eclipse.site/site.xml
+sed -i '' "s/$NEW_VERSION.qualifier/$NEW_VERSION/g" lang.java.eclipse.feature/feature.xml
+sed -i '' "s/$NEW_VERSION.qualifier/$NEW_VERSION/g" lang.java.eclipse/META-INF/MANIFEST.MF
+
 # Update Spoofax to newest released version
 mvn -f pom.xml versions:update-parent -DgenerateBackupPoms=false
 # Update java-front version to new version
