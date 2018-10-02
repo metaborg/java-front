@@ -7,7 +7,7 @@ A declarative specification of Java 8's syntax in Spoofax.
 ## Usage
 
 The maven artifacts for this project are supplied on our artifact server, see [the instructions on our website](http://www.metaborg.org/en/latest/source/dev/maven.html#spoofax-maven-artifacts).
-To use the java-front plugin in Eclipse you also need to install the plugin through [the update site hosted on our buildfarm](https://buildfarm.metaborg.org/job/metaborg/job/java-front/job/master/lastSuccessfulBuild/artifact/lang.java.eclipse.site/target/site/site.xml) (linked is the nightly build).
+To use the java-front plugin in Eclipse you also need to install the plugin through [the update site hosted on our buildfarm](https://buildfarm.metaborg.org/job/metaborg/job/java-front/job/release/lastSuccessfulBuild/artifact/lang.java.eclipse.site/target/site/site.xml).
 
 ## Project Structure
 
