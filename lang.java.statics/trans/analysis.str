@@ -1,0 +1,31 @@
+module analysis
+
+imports
+
+  libspoofax/core/language
+  
+  statixruntime
+  
+  signatures/-
+  pp/-
+
+  desugar
+
+rules // Analysis
+
+//  editor-analyze = stx-editor-analyze(id|"statics", "programOK")
+  editor-analyze = stx-editor-analyze(desugar-all|"statics", "projectOk", "fileOk")
+
+rules // Editor services
+  
+  editor-resolve = stx-editor-resolve
+
+  editor-hover = stx-editor-hover
+
+rules // Debugging
+
+  debug-show-analyzed:
+    (_, _, ast, path, _) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"analyzed.aterm")> path;
+      result   := ast

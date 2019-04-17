@@ -1,0 +1,9 @@
+module desugar
+
+rules
+
+  desugar-all =
+    topdown(try(desugar))
+    
+  desugar: None()  -> []
+  desugar: Some(t) -> [t]

@@ -1,0 +1,178 @@
+module statics
+
+signature
+
+  ////////////////////////////////////////////////////////
+  // 3.8. Identifiers
+  ////////////////////////////////////////////////////////
+
+  sorts Id constructors
+    Id : string -> Id
+
+  ////////////////////////////////////////////////////////
+  // 4.3. Reference Types and Values
+  ////////////////////////////////////////////////////////
+
+  sorts ReferenceType = ClassType
+                   // = ArrayType
+
+  sorts ClassType constructors
+    ClassType : list(Annotation) * Id * MaybeTypeArguments -> ClassType
+    ClassOrInterfaceTypeMember : ClassType * list(Annotation) * Id * MaybeTypeArguments -> ClassType
+
+  ////////////////////////////////////////////////////////
+  // 4.5. Parameterized Types
+  ////////////////////////////////////////////////////////
+
+  sorts MaybeTypeArguments = list(TypeArguments)
+  sorts TypeArguments constructors
+    TypeArguments : list(TypeArgument) -> TypeArguments
+
+  sorts TypeArgument = ReferenceType
+                  // = Wildcard
+
+  ////////////////////////////////////////////////////////
+  // 7.3. Compilation Units
+  ////////////////////////////////////////////////////////
+
+  sorts CompilationUnit constructors
+    CompilationUnit : MaybePackageDeclaration * list(ImportDeclaration) * list(TypeDeclaration) -> CompilationUnit
+
+  sorts MaybePackageDeclaration = list(PackageDeclaration)
+  sorts PackageDeclaration
+
+  sorts ImportDeclaration constructors
+
+  sorts TypeDeclaration constructors
+
+  ////////////////////////////////////////////////////////
+  // 8.1. Class Declarations
+  ////////////////////////////////////////////////////////
+
+  constructors
+    // ClassDeclaration => TypeDeclaration
+    ClassDeclaration : list(ClassModifier) * Id * MaybeTypeParameters * MaybeSuperClass * MaybeSuperInterfaces * list(ClassBodyDeclaration) -> TypeDeclaration
+
+  sorts ClassModifier
+
+  sorts MaybeTypeParameters = list(TypeParameters)
+  sorts TypeParameters
+
+  sorts MaybeSuperClass = list(SuperClass)
+  sorts SuperClass constructors
+    SuperClass : ClassType -> SuperClass
+
+  sorts MaybeSuperInterfaces = list(SuperInterfaces)
+  sorts SuperInterfaces constructors
+    SuperInterface : list(ClassType) -> SuperInterfaces
+
+  sorts ClassBodyDeclaration
+
+  ////////////////////////////////////////////////////////
+  // 9.1. Interface Declarations
+  ////////////////////////////////////////////////////////
+
+  constructors
+    // InterfaceDeclaration => TypeDeclaration
+    NormalInterface : list(InterfaceModifier) * Id * MaybeTypeParameters * MaybeExtendsInterfaces * list(InterfaceMemberDeclaration) -> TypeDeclaration
+
+  sorts InterfaceModifier
+  
+  sorts MaybeExtendsInterfaces = list(ExtendsInterfaces)
+  sorts ExtendsInterfaces constructors
+    ExtendsInterfaces : list(ClassType) -> ExtendsInterfaces
+  
+  sorts InterfaceMemberDeclaration
+
+  ////////////////////////////////////////////////////////
+  // 9.7. Annotations
+  ////////////////////////////////////////////////////////
+
+  sorts Annotation
+
+signature
+
+  sorts TYPE constructors
+    CLASS : scope -> TYPE
+    INTF  : scope -> TYPE
+
+  name-resolution
+    labels P
+    resolve Type filter pathMatch[P*] min pathLt[$ < P]
+
+  namespaces
+    Type : Id
+
+  relations
+    declType : occurrence -> TYPE
+
+rules
+
+  projectOk : scope
+
+  projectOk(s).
+
+rules
+
+  fileOk : scope * CompilationUnit
+
+  fileOk(s, CompilationUnit(maybePackageDeclaration, importDeclarations, typeDeclarations)) :-
+    typeDeclarationsOk(s, typeDeclarations).
+
+rules
+
+  typeDeclarationsOk maps typeDeclarationOk(*, list(*))
+
+  typeDeclarationOk : scope * TypeDeclaration
+
+  typeDeclarationOk(s, ClassDeclaration(classModifiers, id, maybeTypeParameters, maybeSuperClass, maybeSuperInterfaces, classBodyDeclarations)) :-
+  {s'}
+    new s', s' -P-> s,
+    !declType[Type{id@id}, CLASS(s')] in s,
+    maybeSuperClassOk(s, maybeSuperClass),
+    maybeSuperInterfacesOk(s, maybeSuperInterfaces).
+
+  typeDeclarationOk(s, NormalInterface(interfaceModifiers, id, maybeTypeParameters, maybeExtendsInterfaces, interfaceMemberDeclarations)) :-
+  {s'}
+    new s', s' -P-> s,
+    !declType[Type{id@id}, INTF(s')] in s,
+    maybeExtendsInterfacesOk(s, maybeExtendsInterfaces).
+
+rules
+
+  maybeSuperClassOk maps superClassOk(*, list(*))
+
+  superClassOk : scope * SuperClass
+  
+  superClassOk(s, SuperClass(classType)) :-
+    classTypeOk(s, classType).
+
+rules
+
+  maybeSuperInterfacesOk maps superInterfacesOk(*, list(*))
+
+  superInterfacesOk : scope * SuperInterfaces
+  
+  superInterfacesOk(s, SuperInterface(classTypes)) :-
+    classTypesOk(s, classTypes).
+
+rules
+
+  maybeExtendsInterfacesOk maps extendsInterfacesOk(*, list(*))
+  
+  extendsInterfacesOk : scope * ExtendsInterfaces
+
+  extendsInterfacesOk(s, ExtendsInterfaces(classTypes)) :-
+    classTypesOk(s, classTypes).
+
+rules
+
+  classTypesOk maps classTypeOk(*, list(*))
+
+  classTypeOk : scope * ClassType
+  
+  classTypeOk(s, ClassType(annotations, id, maybeTypeArguments)) :-
+    declType of Type{id@-} in s |-> [_].
+
+  classTypeOk(s, ClassOrInterfaceTypeMember(classType, annotations, id, maybeTypeArguments)) :-
+    classTypeOk(s, classType).

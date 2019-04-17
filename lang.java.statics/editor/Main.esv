@@ -1,0 +1,9 @@
+module Main
+
+imports
+
+  Analysis
+
+language
+
+  provider : target/metaborg/stratego.ctree
