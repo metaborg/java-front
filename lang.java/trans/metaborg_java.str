@@ -5,7 +5,6 @@ imports
   completion/completion
   pp
   outline
-  analysis
 
 rules // Debugging
 
