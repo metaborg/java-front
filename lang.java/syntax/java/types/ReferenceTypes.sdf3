@@ -12,7 +12,7 @@ context-free syntax
 
   ReferenceType = ClassType  
   ReferenceType = ArrayType
-  
+
   ClassType.ClassType                  = <<{Annotation " "}*> <Id><TypeArguments?>>
   ClassType.ClassOrInterfaceTypeMember = <<ClassType>.<{Annotation " "}*> <Id><TypeArguments?>>
   
