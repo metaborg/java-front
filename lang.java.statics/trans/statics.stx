@@ -32,18 +32,45 @@ signature
                   // = Wildcard
 
   ////////////////////////////////////////////////////////
+  // 6.5. Determining the Meaning of a Name
+  ////////////////////////////////////////////////////////
+
+  sorts PackageName constructors
+    PackageName          : Id -> PackageName
+    QualifiedPackageName : PackageName * Id -> PackageName
+
+  sorts TypeName constructors
+    TypeName          : Id -> TypeName
+    QualifiedTypeName : PackageOrTypeName * Id -> TypeName
+
+  sorts PackageOrTypeName constructors
+    PackageOrTypeName          : Id -> PackageOrTypeName
+    QualifiedPackageOrTypeName : PackageOrTypeName * Id -> PackageOrTypeName
+
+  ////////////////////////////////////////////////////////
   // 7.3. Compilation Units
   ////////////////////////////////////////////////////////
 
   sorts CompilationUnit constructors
     CompilationUnit : MaybePackageDeclaration * list(ImportDeclaration) * list(TypeDeclaration) -> CompilationUnit
 
+  sorts TypeDeclaration constructors
+
+  ////////////////////////////////////////////////////////
+  // 7.4. Package Declarations
+  ////////////////////////////////////////////////////////
+
   sorts MaybePackageDeclaration = list(PackageDeclaration)
-  sorts PackageDeclaration
+  sorts PackageDeclaration constructors
+    PackageDeclaration : list(Annotation) * list(Id) -> PackageDeclaration
+
+  ////////////////////////////////////////////////////////
+  // 7.5. Import Declarations
+  ////////////////////////////////////////////////////////
 
   sorts ImportDeclaration constructors
-
-  sorts TypeDeclaration constructors
+    SingleTypeImport     : TypeName -> ImportDeclaration
+    TypeImportOnDemand   : PackageOrTypeName -> ImportDeclaration
 
   ////////////////////////////////////////////////////////
   // 8.1. Class Declarations
@@ -90,21 +117,33 @@ signature
 
   sorts Annotation
 
+
 signature
+
+  sorts PKG = (path * (occurrence * scope))
 
   sorts TYPE constructors
     CLASS : scope -> TYPE
     INTF  : scope -> TYPE
 
   name-resolution
-    labels P
-    resolve Type filter pathMatch[P*] min pathLt[$ < P]
+    labels LEX // lexical parent
+           PKG // package composition
+           IMP // import
+           EXT // extends
+    resolve Pkg  filter pathMatch[LEX*]
+                 min    pathLt[$ < LEX]
+    resolve Type filter pathMatch[LEX*(e|PKG|IMP)]
+                 min    pathLt[$ < LEX, $ < PKG, $ < IMP, IMP < PKG, PKG < LEX]
 
   namespaces
     Type : Id
+    Pkg  : list(Id)
 
   relations
-    declType : occurrence -> TYPE
+    types    : occurrence -> TYPE
+    packages : occurrence -> scope
+
 
 rules
 
@@ -112,12 +151,94 @@ rules
 
   projectOk(s).
 
+
 rules
 
   fileOk : scope * CompilationUnit
 
   fileOk(s, CompilationUnit(maybePackageDeclaration, importDeclarations, typeDeclarations)) :-
-    typeDeclarationsOk(s, typeDeclarations).
+  {s_cu}
+    new s_cu, s_cu -LEX-> s,
+    maybePackageDeclarationOk(s, maybePackageDeclaration, s_cu),
+    importDeclarationsOk(s, importDeclarations, s_cu),
+    typeDeclarationsOk(s_cu, typeDeclarations).
+
+
+rules
+
+  maybePackageDeclarationOk maps packageDeclarationOk(*, list(*), *)
+  
+  packageDeclarationOk : scope * PackageDeclaration * scope
+  
+  packageDeclarationOk(s, p@PackageDeclaration(annotations, ids), s_pkg) :-
+  {pkgs}
+    !packages[Pkg{ids@p}, s_pkg] in s,
+    packages of Pkg{ids@-} in s |-> pkgs,
+    composePackages(s_pkg, pkgs).
+
+
+  composePackages maps composePackage(*, list(*))
+
+  composePackage : scope * PKG
+
+  composePackage(s, (_, (_, s'))) :-
+    s -PKG-> s'.
+
+
+rules
+
+  importDeclarationsOk maps importDeclarationOk(*, list(*), *)
+
+  importDeclarationOk : scope * ImportDeclaration * scope
+
+  importDeclarationOk(s, SingleTypeImport(typeName), s_cu) :-
+  {s_imp d type}
+    new s_imp, s_cu -IMP-> s_imp,
+    resolveTypeName(s, typeName) == (d, type),
+    !types[d, type] in s_imp.
+
+  importDeclarationOk(s, TypeImportOnDemand(packageOrTypeName), s_cu) :-
+  {pkgs}
+    resolvePackageOrTypeName(s, packageOrTypeName) == pkgs,
+    importPackages(s_cu, pkgs).
+
+
+  resolveTypeName : scope * TypeName -> occurrence * TYPE
+  
+  resolveTypeName(s, TypeName(id)) = type :-
+    types of Type{id@-} in s |-> [(_, type)]. // FIXME Is `s` correct here, or should that be the package scope?
+
+  resolveTypeName(s, QualifiedTypeName(packageOrTypeName, id)) = type :-
+  {s_imp pkgs}
+    new s_imp,
+    resolvePackageOrTypeName(s, packageOrTypeName) == pkgs,
+    importPackages(s_imp, pkgs),
+    types of Type{id@-} in s_imp |-> [(_, type)].
+
+  
+  resolvePackageOrTypeName : scope * PackageOrTypeName -> list(PKG)
+
+  resolvePackageOrTypeName(s, packageOrTypeName) = pkgs :-
+  {pkg}
+    packageOrTypeName2Pkg(packageOrTypeName, []) == pkg,
+    packages of pkg in s |-> pkgs.
+
+
+  packageOrTypeName2Pkg : PackageOrTypeName * list(Id) -> occurrence
+  
+  packageOrTypeName2Pkg(PackageOrTypeName(id), ids) = Pkg{[id|ids]@-}.
+
+  packageOrTypeName2Pkg(QualifiedPackageOrTypeName(packageOrTypeName, id), ids) =
+    packageOrTypeName2Pkg(packageOrTypeName, [id|ids]).
+
+
+  importPackages maps importPackage(*, list(*))
+
+  importPackage : scope * PKG
+
+  importPackage(s, (_, (_, s'))) :-
+    s -IMP-> s'.
+
 
 rules
 
@@ -126,26 +247,30 @@ rules
   typeDeclarationOk : scope * TypeDeclaration
 
   typeDeclarationOk(s, ClassDeclaration(classModifiers, id, maybeTypeParameters, maybeSuperClass, maybeSuperInterfaces, classBodyDeclarations)) :-
-  {s'}
-    new s', s' -P-> s,
-    !declType[Type{id@id}, CLASS(s')] in s,
-    maybeSuperClassOk(s, maybeSuperClass),
+  {s_cls}
+    new s_cls, s_cls -LEX-> s,
+    !types[Type{id@id}, CLASS(s_cls)] in s,
+    maybeSuperClassOk(s, maybeSuperClass, s_cls),
     maybeSuperInterfacesOk(s, maybeSuperInterfaces).
 
   typeDeclarationOk(s, NormalInterface(interfaceModifiers, id, maybeTypeParameters, maybeExtendsInterfaces, interfaceMemberDeclarations)) :-
-  {s'}
-    new s', s' -P-> s,
-    !declType[Type{id@id}, INTF(s')] in s,
+  {s_intf}
+    new s_intf, s_intf -LEX-> s,
+    !types[Type{id@id}, INTF(s_intf)] in s,
     maybeExtendsInterfacesOk(s, maybeExtendsInterfaces).
+
 
 rules
 
-  maybeSuperClassOk maps superClassOk(*, list(*))
+  maybeSuperClassOk maps superClassOk(*, list(*), *)
 
-  superClassOk : scope * SuperClass
+  superClassOk : scope * SuperClass * scope
   
-  superClassOk(s, SuperClass(classType)) :-
-    classTypeOk(s, classType).
+  superClassOk(s, SuperClass(classType), s_this) :-
+  {s_super}
+    classTypeOk(s, classType) == CLASS(s_super),
+    s_this -EXT-> s_super.
+
 
 rules
 
@@ -154,7 +279,17 @@ rules
   superInterfacesOk : scope * SuperInterfaces
   
   superInterfacesOk(s, SuperInterface(classTypes)) :-
-    classTypesOk(s, classTypes).
+  {types}
+    classTypesOk(s, classTypes) == types,
+    allInterface(types).
+
+
+  allInterface : list(TYPE)
+
+  allInterface([]).
+
+  allInterface([INTF(_)|types]) :- allInterface(types).
+
 
 rules
 
@@ -163,16 +298,14 @@ rules
   extendsInterfacesOk : scope * ExtendsInterfaces
 
   extendsInterfacesOk(s, ExtendsInterfaces(classTypes)) :-
-    classTypesOk(s, classTypes).
+    classTypesOk(s, classTypes) == _.
+
 
 rules
 
-  classTypesOk maps classTypeOk(*, list(*))
+  classTypesOk maps classTypeOk(*, list(*)) = list(*)
 
-  classTypeOk : scope * ClassType
+  classTypeOk : scope * ClassType -> TYPE
   
-  classTypeOk(s, ClassType(annotations, id, maybeTypeArguments)) :-
-    declType of Type{id@-} in s |-> [_].
-
-  classTypeOk(s, ClassOrInterfaceTypeMember(classType, annotations, id, maybeTypeArguments)) :-
-    classTypeOk(s, classType).
+  classTypeOk(s, ClassType(annotations, id, maybeTypeArguments)) = ty :-
+    types of Type{id@-} in s |-> [(_, (_, ty))].
