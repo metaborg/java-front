@@ -15,14 +15,18 @@ language
   fences        : [ ] ( ) { }
 
 menus
-  
+
   menu: "Syntax" (openeditor)
-    
+
     action: "Format"          = editor-format (source)
     action: "Show parsed AST" = debug-show-aterm (source)
     action: "Time pretty-printing" = time-pretty-printing (source)
 
+    separator
+
+    action: "Strip implementation" = editor-strip (source)
+
 views
-  
+
   outline view: editor-outline (source)
     expand to level: 3

@@ -1,0 +1,96 @@
+module strip
+
+imports
+
+  signatures/-
+  signatures/classes/-
+  signatures/interfaces/-
+
+  pp
+
+rules
+
+  editor-strip:
+    (_, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[stripped.[ext]])> path
+    ; stripped := <strip-all> ast
+    ; result   := <pp-metaborg-java-string> stripped
+
+  null-statement-list = ![<null-statement>]
+  null-statement =
+    !Throw( NewInstance(
+              None()
+            , []
+            , Id("java")
+            , [QualifiedId([], Id("lang")), QualifiedId([], Id("RuntimeException"))]
+            , None()
+            , [StringLiteral("\"Implementation stripped\"")]
+            )
+          )
+
+  null-expression-list = ![<null-expression>]
+  null-expression = !Null()
+
+rules
+
+  strip-all =
+    strip-privates
+  ; strip-bodies
+  ; strip-unused-imports
+
+rules
+
+  strip-bodies = topdown(try(strip-body))
+
+  // 8.3. Field Declarations
+  strip-body = ?VariableDeclInit(<id>, _)
+
+  // 8.8. Constructor Declarations
+  strip-body = ConstrDecl(id, id, id, id, id, id, null-statement-list)
+
+  // 8.9. Enum Types
+  strip-body = EnumConstArgs(null-expression-list)
+
+  // 14.2. Blocks
+  strip-body = Block(null-statement-list)
+
+rules
+
+  strip-privates = topdown(try(strip-private))
+
+  // 7.3. Compilation Units
+  strip-private = CompilationUnit(id, id, filter(not(is-private)))
+
+  // 8.1. Class Declarations
+  is-private = ?ClassDeclaration(<getfirst(?Private())>, _, _, _, _, _)
+  strip-private = ClassDeclaration(id, id, id, id, id, filter(not(is-private)))
+
+  // 8.3. Field Declarations
+  is-private = ?FieldDecl(<getfirst(?Private())>, _, _)
+
+  // 8.4. Method Declarations
+  is-private = ?MethodDecl(<getfirst(?Private())>, _, _)
+
+  // 8.8. Constructor Declarations
+  is-private = ?ConstrDecl(<getfirst(?Private())>, _, _, _, _, _, _)
+
+  // 9.1. Interface Declarations
+  is-private = ?NormalInterface(<getfirst(?Private())>, _, _, _, _)
+  strip-private = NormalInterface(id, id, id, id, filter(not(is-private)))
+
+rules
+
+  strip-unused-imports =
+    with(used := <collect-all(?ClassType(_, <id>, _) + ?ClassType(<id>, _))>)
+  ; CompilationUnit(id, filter(not(is-unused(\ x -> <getfirst(?x)> used \))), id)
+
+  // 6.5. Determining the Meaning of a Name
+  is-unused(used) = ?TypeName(<not(used)>)
+  is-unused(used) = ?QualifiedTypeName(_, <not(used)>)
+
+  // 7.5. Import Declarations
+  is-unused(used) = ?SingleTypeImport(<is-unused(used)>)
+  is-unused(used) = ?SingleStaticImport(_,_)
+  is-unused(used) = ?StaticImportOnDemand(_)

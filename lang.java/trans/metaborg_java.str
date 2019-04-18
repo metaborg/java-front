@@ -5,6 +5,7 @@ imports
   completion/completion
   pp
   outline
+  strip
 
 rules // Debugging
 
