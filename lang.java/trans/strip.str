@@ -2,9 +2,10 @@ module strip
 
 imports
 
-  signatures/-
-  signatures/classes/-
-  signatures/interfaces/-
+  signatures/java/-
+  signatures/java/classes/-
+  signatures/java/interfaces/-
+  signatures/java/packages/-
 
   pp
 
@@ -36,49 +37,71 @@ rules
 rules
 
   strip-all =
-    strip-privates
+    strip-accesses
   ; strip-bodies
   ; strip-unused-imports
+
+  is-nonpublic = not(getfirst(?Public()))
+  is-private   = getfirst(?Private())
+  is-protected = getfirst(?Protected())
+
+rules
+
+  strip-accesses = topdown(try(strip-access))
+
+  // 7.3. Compilation Units
+  strip-access = CompilationUnit(id, id, filter(not(is-access)))
+
+  // 8.1. Class Declarations
+  strip-body = ClassDeclaration(id, id, id, id, id, filter(not(is-access)))
+
+rules
+
+  // 8.1. Class Declarations
+  is-access = ?ClassDeclaration(<is-nonpublic>, _, _, _, _, _)
+
+  // 8.3. Field Declarations
+  is-access = ?FieldDecl(<is-nonpublic>, _, _)
+
+  // 8.4. Method Declarations
+  is-access = ?MethodDecl(<is-nonpublic>, _, _)
+
+  // 8.7. Static Initializers
+  is-access = ?StaticInit(_)
+
+  // 8.8. Constructor Declarations
+//is-access = ?ConstrDecl(<has-mod>, _, _, _, _, _, _)
+
+  // 9.1. Interface Declarations
+  is-access = ?NormalInterface(<is-nonpublic>, _, _, _, _)
 
 rules
 
   strip-bodies = topdown(try(strip-body))
 
+  // 8.1. Class Declarations
+  strip-body = ClassDeclaration(strip-anns, id, id, id, id, id)
+
   // 8.3. Field Declarations
+  strip-body = FieldDecl(strip-anns, id, id)
   strip-body = ?VariableDeclInit(<id>, _)
 
+  // 8.4. Method Declarations
+  strip-body = MethodDecl(strip-anns, id, id)
+
   // 8.8. Constructor Declarations
-  strip-body = ConstrDecl(id, id, id, id, id, id, null-statement-list)
+  strip-body = ConstrDecl(id, id, id, id, id, id, ![])
 
   // 8.9. Enum Types
   strip-body = EnumConstArgs(null-expression-list)
 
+  // 9.1. Interface Declarations
+  strip-body = NormalInterface(strip-anns, id, id, id, id)
+
   // 14.2. Blocks
   strip-body = Block(null-statement-list)
 
-rules
-
-  strip-privates = topdown(try(strip-private))
-
-  // 7.3. Compilation Units
-  strip-private = CompilationUnit(id, id, filter(not(is-private)))
-
-  // 8.1. Class Declarations
-  is-private = ?ClassDeclaration(<getfirst(?Private())>, _, _, _, _, _)
-  strip-private = ClassDeclaration(id, id, id, id, id, filter(not(is-private)))
-
-  // 8.3. Field Declarations
-  is-private = ?FieldDecl(<getfirst(?Private())>, _, _)
-
-  // 8.4. Method Declarations
-  is-private = ?MethodDecl(<getfirst(?Private())>, _, _)
-
-  // 8.8. Constructor Declarations
-  is-private = ?ConstrDecl(<getfirst(?Private())>, _, _, _, _, _, _)
-
-  // 9.1. Interface Declarations
-  is-private = ?NormalInterface(<getfirst(?Private())>, _, _, _, _)
-  strip-private = NormalInterface(id, id, id, id, filter(not(is-private)))
+  strip-anns = filter(not(?Anno(_, _) + ?MarkerAnno(_) + ?SingleElemAnno(_, _)))
 
 rules
 
