@@ -1,9 +1,19 @@
 module desugar
 
+imports
+
+  signatures/java/lexical/-
+  signatures/java/names/-
+  signatures/java/packages/-
+
 rules
 
   desugar-all =
     topdown(try(desugar))
-    
+  ; import-java-lang
+
   desugar: None()  -> []
   desugar: Some(t) -> [t]
+
+  import-java-lang =
+    CompilationUnit(id, ![TypeImportOnDemand(QualifiedPackageOrTypeName(PackageOrTypeName(Id("java")),Id("lang")))|<id>], id)

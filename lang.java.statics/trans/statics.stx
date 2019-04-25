@@ -96,6 +96,20 @@ signature
   sorts ClassBodyDeclaration
 
   ////////////////////////////////////////////////////////
+  // 8.9. Enum Types
+  ////////////////////////////////////////////////////////
+
+  constructors
+    // EnumDeclaration => TypeDeclaration
+    EnumDeclComma : list(ClassModifier) * Id * MaybeSuperInterfaces * list(EnumConstant) * MaybeEnumBodyDeclarations -> TypeDeclaration
+    EnumDecl : list(ClassModifier) * Id * MaybeSuperInterfaces * list(EnumConstant) * MaybeEnumBodyDeclarations -> TypeDeclaration
+
+  sorts EnumConstant
+
+  sorts MaybeEnumBodyDeclarations = list(EnumBodyDeclarations)
+  sorts EnumBodyDeclarations
+
+  ////////////////////////////////////////////////////////
   // 9.1. Interface Declarations
   ////////////////////////////////////////////////////////
 
@@ -112,6 +126,16 @@ signature
   sorts InterfaceMemberDeclaration
 
   ////////////////////////////////////////////////////////
+  // 9.6. Annotation Types
+  ////////////////////////////////////////////////////////
+
+  constructors
+    // AnnotationTypeDeclaration => TypeDeclaration
+    AnnoDec : list(InterfaceModifier) * Id * list(AnnotationTypeMemberDeclaration) -> TypeDeclaration
+
+  sorts AnnotationTypeMemberDeclaration
+
+  ////////////////////////////////////////////////////////
   // 9.7. Annotations
   ////////////////////////////////////////////////////////
 
@@ -123,14 +147,17 @@ signature
   sorts PKG = (path * (occurrence * scope))
 
   sorts TYPE constructors
+    ANNO  : scope -> TYPE
     CLASS : scope -> TYPE
     INTF  : scope -> TYPE
+    ENUM  : scope -> TYPE
 
   name-resolution
-    labels LEX // lexical parent
-           PKG // package composition
-           IMP // import
-           EXT // extends
+    labels LEX  // lexical parent
+           PKG  // package composition
+           IMP  // import
+           EXT  // extends
+           IMPL // implements
     resolve Pkg  filter pathMatch[LEX*]
                  min    pathLt[$ < LEX]
     resolve Type filter pathMatch[LEX*(e|PKG|IMP)]
@@ -251,7 +278,19 @@ rules
     new s_cls, s_cls -LEX-> s,
     !types[Type{id@id}, CLASS(s_cls)] in s,
     maybeSuperClassOk(s, maybeSuperClass, s_cls),
-    maybeSuperInterfacesOk(s, maybeSuperInterfaces).
+    maybeSuperInterfacesOk(s, maybeSuperInterfaces, s_cls).
+
+  typeDeclarationOk(s, EnumDeclComma(classModifiers, id, maybeSuperInterfaces, enumConstants, maybeEnumBodyDeclarations)) :-
+  {s_enum}
+    new s_enum, s_enum -LEX-> s,
+    !types[Type{id@id}, ENUM(s_enum)] in s,
+    maybeSuperInterfacesOk(s, maybeSuperInterfaces, s_enum).
+
+  typeDeclarationOk(s, EnumDecl(classModifiers, id, maybeSuperInterfaces, enumConstants, maybeEnumBodyDeclarations)) :-
+  {s_enum}
+    new s_enum, s_enum -LEX-> s,
+    !types[Type{id@id}, ENUM(s_enum)] in s,
+    maybeSuperInterfacesOk(s, maybeSuperInterfaces, s_enum).
 
   typeDeclarationOk(s, NormalInterface(interfaceModifiers, id, maybeTypeParameters, maybeExtendsInterfaces, interfaceMemberDeclarations)) :-
   {s_intf}
@@ -259,6 +298,10 @@ rules
     !types[Type{id@id}, INTF(s_intf)] in s,
     maybeExtendsInterfacesOk(s, maybeExtendsInterfaces).
 
+  typeDeclarationOk(s, AnnoDec(interfaceModifiers, id, annotationTypeMemberDeclarations)) :-
+  {s_anno}
+    new s_anno, s_anno -LEX-> s,
+    !types[Type{id@id}, ANNO(s_anno)] in s.
 
 rules
 
@@ -274,21 +317,22 @@ rules
 
 rules
 
-  maybeSuperInterfacesOk maps superInterfacesOk(*, list(*))
+  maybeSuperInterfacesOk maps superInterfacesOk(*, list(*), *)
 
-  superInterfacesOk : scope * SuperInterfaces
+  superInterfacesOk : scope * SuperInterfaces * scope
   
-  superInterfacesOk(s, SuperInterface(classTypes)) :-
+  superInterfacesOk(s, SuperInterface(classTypes), s_this) :-
   {types}
     classTypesOk(s, classTypes) == types,
-    allInterface(types).
+    implementInterfaces(types, s).
 
 
-  allInterface : list(TYPE)
+  implementInterfaces maps implementInterface(list(*), *)
 
-  allInterface([]).
+  implementInterface : TYPE * scope
 
-  allInterface([INTF(_)|types]) :- allInterface(types).
+  implementInterface(INTF(s_intf), s_this) :-
+    s_this -IMPL-> s_intf.
 
 
 rules
@@ -309,3 +353,19 @@ rules
   
   classTypeOk(s, ClassType(annotations, id, maybeTypeArguments)) = ty :-
     types of Type{id@-} in s |-> [(_, (_, ty))].
+
+  classTypeOk(s, ClassOrInterfaceTypeMember(classType, annotations, id, maybeTypeArguments)) = ty :-
+  {pkg pkgs s_imp}
+    classType2Pkg(classType, []) == pkg,
+    packages of pkg in s |-> pkgs,
+    new s_imp,
+    importPackages(s_imp, pkgs),
+    classTypeOk(s_imp, ClassType(annotations, id, maybeTypeArguments)) == ty.
+
+
+  classType2Pkg : ClassType * list(Id) -> occurrence
+  
+  classType2Pkg(ClassType(_, id, _), ids) = Pkg{[id|ids]@-}.
+
+  classType2Pkg(ClassOrInterfaceTypeMember(classType, _, id, _), ids) =
+    classType2Pkg(classType, [id|ids]).

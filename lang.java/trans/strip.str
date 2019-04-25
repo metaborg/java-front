@@ -2,10 +2,14 @@ module strip
 
 imports
 
-  signatures/java/-
+  signatures/-
   signatures/java/classes/-
   signatures/java/interfaces/-
+  signatures/java/lexical/-
+  signatures/java/names/-
   signatures/java/packages/-
+  signatures/java/statements/-
+  signatures/java/types/-
 
   pp
 
@@ -53,7 +57,14 @@ rules
   strip-access = CompilationUnit(id, id, filter(not(is-access)))
 
   // 8.1. Class Declarations
-  strip-body = ClassDeclaration(id, id, id, id, id, filter(not(is-access)))
+  strip-access = ClassDeclaration(id, id, id, id, id, filter(not(is-access)))
+
+  // 8.9. Enum Types
+  strip-access = EnumDeclComma(id, id, id, id, filter(not(is-access)))
+  strip-access = EnumDecl(id, id, id, id, filter(not(is-access)))
+
+  // 9.6. Annotation Types
+  strip-access = AnnoDec(id, id, filter(not(is-access)))
 
 rules
 
@@ -72,8 +83,15 @@ rules
   // 8.8. Constructor Declarations
 //is-access = ?ConstrDecl(<has-mod>, _, _, _, _, _, _)
 
+  // 8.9. Enum Types
+  is-access = ?EnumDeclComma(<is-nonpublic>, _, _, _, _)
+  is-access = ?EnumDecl(<is-nonpublic>, _, _, _, _)
+
   // 9.1. Interface Declarations
   is-access = ?NormalInterface(<is-nonpublic>, _, _, _, _)
+
+  // 9.6. Annotation Types
+  is-access = ?AnnoDec(<is-nonpublic>, _, _)
 
 rules
 
@@ -93,15 +111,22 @@ rules
   strip-body = ConstrDecl(id, id, id, id, id, id, ![])
 
   // 8.9. Enum Types
+  strip-body = EnumDeclComma(strip-anns, id, id, id, id)
+  strip-body = EnumDecl(strip-anns, id, id, id, id)
   strip-body = EnumConstArgs(null-expression-list)
 
   // 9.1. Interface Declarations
   strip-body = NormalInterface(strip-anns, id, id, id, id)
 
+  // 9.6. Annotation Types
+  strip-body = AnnoDec(strip-anns, id, id)
+
+  // 9.7. Annotations
+  strip-anns = filter(not(?Anno(_, _) + ?MarkerAnno(_) + ?SingleElemAnno(_, _)))
+
   // 14.2. Blocks
   strip-body = Block(null-statement-list)
 
-  strip-anns = filter(not(?Anno(_, _) + ?MarkerAnno(_) + ?SingleElemAnno(_, _)))
 
 rules
 
