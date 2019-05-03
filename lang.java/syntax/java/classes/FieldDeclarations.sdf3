@@ -33,8 +33,8 @@ context-free syntax
   
 context-free syntax  
   
-  UnannType = UnannPrimitiveType
-  UnannType = UnannReferenceType
+  UnannType.UT2UPT = UnannPrimitiveType
+  UnannType.UT2URT = UnannReferenceType
   
   UnannPrimitiveType.NumericType = NumericType
   UnannPrimitiveType.BooleanType = "boolean"
