@@ -4,6 +4,7 @@ imports
 
   signatures/-
   signatures/java/classes/-
+  signatures/java/expressions/-
   signatures/java/interfaces/-
   signatures/java/lexical/-
   signatures/java/names/-
@@ -136,7 +137,7 @@ rules
 
   // 6.5. Determining the Meaning of a Name
   is-unused(used) = ?TypeName(<not(used)>)
-  is-unused(used) = ?QualifiedTypeName(_, <not(used)>)
+  is-unused(used) = ?TypeName(_, <not(used)>)
 
   // 7.5. Import Declarations
   is-unused(used) = ?SingleTypeImport(<is-unused(used)>)

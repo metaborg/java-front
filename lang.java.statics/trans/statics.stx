@@ -36,16 +36,16 @@ signature
   ////////////////////////////////////////////////////////
 
   sorts PackageName constructors
-    PackageName          : Id -> PackageName
-    QualifiedPackageName : PackageName * Id -> PackageName
+    PackageName : Id -> PackageName
+    PackageName : PackageName * Id -> PackageName
 
   sorts TypeName constructors
-    TypeName          : Id -> TypeName
-    QualifiedTypeName : PackageOrTypeName * Id -> TypeName
+    TypeName : Id -> TypeName
+    TypeName : PackageOrTypeName * Id -> TypeName
 
   sorts PackageOrTypeName constructors
-    PackageOrTypeName          : Id -> PackageOrTypeName
-    QualifiedPackageOrTypeName : PackageOrTypeName * Id -> PackageOrTypeName
+    PackageOrTypeName : Id -> PackageOrTypeName
+    PackageOrTypeName : PackageOrTypeName * Id -> PackageOrTypeName
 
   ////////////////////////////////////////////////////////
   // 7.3. Compilation Units
@@ -235,7 +235,7 @@ rules
   resolveTypeName(s, TypeName(id)) = type :-
     types of Type{id@-} in s |-> [(_, type)]. // FIXME Is `s` correct here, or should that be the package scope?
 
-  resolveTypeName(s, QualifiedTypeName(packageOrTypeName, id)) = type :-
+  resolveTypeName(s, TypeName(packageOrTypeName, id)) = type :-
   {s_imp pkgs}
     new s_imp,
     resolvePackageOrTypeName(s, packageOrTypeName) == pkgs,
@@ -255,7 +255,7 @@ rules
   
   packageOrTypeName2Pkg(PackageOrTypeName(id), ids) = Pkg{[id|ids]@-}.
 
-  packageOrTypeName2Pkg(QualifiedPackageOrTypeName(packageOrTypeName, id), ids) =
+  packageOrTypeName2Pkg(PackageOrTypeName(packageOrTypeName, id), ids) =
     packageOrTypeName2Pkg(packageOrTypeName, [id|ids]).
 
 
