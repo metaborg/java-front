@@ -8,6 +8,6 @@ imports
 
 context-free syntax
   
-  TypeDeclaration = ClassDeclaration
-  TypeDeclaration = InterfaceDeclaration
+  TypeDeclaration.TD2CD = ClassDeclaration
+  TypeDeclaration.TD2ID = InterfaceDeclaration
   TypeDeclaration.SemiColon = <;>

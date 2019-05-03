@@ -16,8 +16,8 @@ imports
 
 context-free syntax
   
-  ClassDeclaration = NormalClassDeclaration
-  ClassDeclaration = EnumDeclaration
+  ClassDeclaration.CD2NCD = NormalClassDeclaration
+  ClassDeclaration.CD2ED  = EnumDeclaration
   
   NormalClassDeclaration.ClassDeclaration = <
   <{ClassModifier " "}*> class <Id><TypeParameters?> <SuperClass?> <SuperInterfaces?> {
@@ -41,13 +41,13 @@ context-free syntax
   
   SuperInterfaces.SuperInterface = <implements <{ClassType ", "}+>>
   
-  ClassBodyDeclaration = ClassMemberDeclaration
-  ClassBodyDeclaration = InstanceInitializer
-  ClassBodyDeclaration = StaticInitializer
-  ClassBodyDeclaration = ConstructorDeclaration
+  ClassBodyDeclaration.CBD2CMD = ClassMemberDeclaration
+  ClassBodyDeclaration.CBD2II  = InstanceInitializer
+  ClassBodyDeclaration.CBD2SI  = StaticInitializer
+  ClassBodyDeclaration.CBD2CD  = ConstructorDeclaration
   
-  ClassMemberDeclaration = FieldDeclaration
-  ClassMemberDeclaration = MethodDeclaration
-  ClassMemberDeclaration = ClassDeclaration
-  ClassMemberDeclaration = InterfaceDeclaration
+  ClassMemberDeclaration.CMD2FD = FieldDeclaration
+  ClassMemberDeclaration.CMD2MD = MethodDeclaration
+  ClassMemberDeclaration.CMD2CD = ClassDeclaration
+  ClassMemberDeclaration.CMD2ID = InterfaceDeclaration
   ClassMemberDeclaration.SemiColon = ";"
