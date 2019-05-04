@@ -9,7 +9,7 @@ imports
   
 context-free syntax
   
-  Expression = Literal
+  Expression.E2L = Literal
   Expression = ClassLiteral
   Expression.This = "this"
   Expression.QThis = <<TypeName>.this>

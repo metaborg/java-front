@@ -22,6 +22,6 @@ context-free syntax
   Expression.AssignXor         = <<LHS> ^= <Expression>>
   Expression.AssignOr          = <<LHS> |= <Expression>>
   
-  LHS = ExpressionName
-  LHS = FieldAccess
-  LHS = ArrayAccess
+  LHS.LHS2EN = ExpressionName
+  LHS.LHS2FA = FieldAccess
+  LHS.LHS2AA = ArrayAccess

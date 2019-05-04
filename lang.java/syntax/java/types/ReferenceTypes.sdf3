@@ -10,8 +10,8 @@ imports
 
 context-free syntax
 
-  ReferenceType = ClassType  
-  ReferenceType = ArrayType
+  ReferenceType.RT2CT = ClassType
+  ReferenceType.RT2AT = ArrayType
 
   ClassType.ClassType                  = <<{Annotation " "}*> <Id><TypeArguments?>>
   ClassType.ClassOrInterfaceTypeMember = <<ClassType>.<{Annotation " "}*> <Id><TypeArguments?>>
