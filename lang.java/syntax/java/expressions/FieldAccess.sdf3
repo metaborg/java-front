@@ -8,7 +8,7 @@ imports
 
 context-free syntax
   
-  Expression.E2FA = FieldAccess
+  Expression = FieldAccess
   
   FieldAccess.Field       = <<Expression>.<Id>>
   FieldAccess.SuperField  = <super.<Id>>

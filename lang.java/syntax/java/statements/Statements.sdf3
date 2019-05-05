@@ -28,7 +28,7 @@ context-free syntax
   
   ForUpdate.ExprList = <<{Expression ", "}*>>
   
-  Statement.S2B = Block
+  Statement = Block
   
   Statement.Empty = ";"
   

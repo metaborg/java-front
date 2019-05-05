@@ -17,10 +17,10 @@ context-free syntax
   VarDeclId.VariableDecl      = Id
   VarDeclId.VariableDeclArray = <<Id><AnnotatedDim+>>
   VarDecl.VariableDeclInit    = <<VarDeclId> = <VariableInitializer>>
-  VarDecl.VD2VDI              = VarDeclId
+  VarDecl              = VarDeclId
   
-  VariableInitializer.VI2E  = Expression
-  VariableInitializer.VI2AI = ArrayInitializer
+  VariableInitializer  = Expression
+  VariableInitializer = ArrayInitializer
   
   FieldModifier           = Annotation
   FieldModifier.Public    = "public"
@@ -33,14 +33,14 @@ context-free syntax
   
 context-free syntax  
   
-  UnannType.UT2UPT = UnannPrimitiveType
-  UnannType.UT2URT = UnannReferenceType
+  UnannType = UnannPrimitiveType
+  UnannType = UnannReferenceType
   
   UnannPrimitiveType.NumericType = NumericType
   UnannPrimitiveType.BooleanType = "boolean"
   
-  UnannReferenceType.URT2UCT = UnannClassType
-  UnannReferenceType.URT2UAT = UnannArrayType
+  UnannReferenceType = UnannClassType
+  UnannReferenceType = UnannArrayType
   
   UnannClassType.ClassType                  = <<Id><TypeArguments?>>
   UnannClassType.ClassOrInterfaceTypeMember = <<UnannClassType>.<{Annotation " "}*> <Id><TypeArguments?>>

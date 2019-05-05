@@ -9,4 +9,4 @@ context-free syntax
   
   Expression.PostIncr = <<Expression>++>
   Expression.PostDecr = <<Expression>-->
-  Expression.E2EN = ExpressionName
+  Expression = ExpressionName

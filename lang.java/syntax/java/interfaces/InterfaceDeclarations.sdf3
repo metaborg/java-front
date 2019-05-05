@@ -30,10 +30,10 @@ context-free syntax
   
   ExtendsInterfaces.ExtendsInterfaces = <extends <{ClassType ", "}+>>
   
-  InterfaceMemberDeclaration.IMD2CD  = ConstantDeclaration
-  InterfaceMemberDeclaration.IMD2IMD = InterfaceMethodDeclaration
-  InterfaceMemberDeclaration.IMD2CD  = ClassDeclaration
-  InterfaceMemberDeclaration.IMD2ID  = InterfaceDeclaration
+  InterfaceMemberDeclaration  = ConstantDeclaration
+  InterfaceMemberDeclaration = InterfaceMethodDeclaration
+  InterfaceMemberDeclaration  = ClassDeclaration
+  InterfaceMemberDeclaration  = InterfaceDeclaration
   InterfaceMemberDeclaration.SemiColon = ";"
   
   

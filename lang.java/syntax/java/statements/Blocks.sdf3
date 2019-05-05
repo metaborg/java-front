@@ -13,6 +13,6 @@ context-free syntax
   {
     <{BlockStatement "\n"}*>
   }>
-  BlockStatement.BS2LVDS = LocalVariableDeclarationStatement
-  BlockStatement.BS2CD   = ClassDeclaration
-  BlockStatement.BS2S    = Statement
+  BlockStatement = LocalVariableDeclarationStatement
+  BlockStatement   = ClassDeclaration
+  BlockStatement    = Statement

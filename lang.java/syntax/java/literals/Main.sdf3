@@ -12,11 +12,11 @@ imports
   
 context-free syntax
   
-  Literal.L2IL = IntLiteral
-  Literal.L2FL = FloatLiteral
-  Literal.L2BL = BoolLiteral
-  Literal.L2CL = CharacterLiteral
-  Literal.L2SL = StringLiteral
-  Literal.L2NL = NullLiteral
+  Literal = IntLiteral
+  Literal = FloatLiteral
+  Literal = BoolLiteral
+  Literal = CharacterLiteral
+  Literal = StringLiteral
+  Literal = NullLiteral
     
   

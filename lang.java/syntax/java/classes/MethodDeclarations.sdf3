@@ -20,7 +20,7 @@ context-free syntax
   MethodHeader.MethodHeaderTypeParameters = <
   <TypeParameters> <{Annotation " "}*> <Result> <Id>(<FormalParams>) <Throws?>>
   
-  Result.R2UT = UnannType
+  Result = UnannType
   Result.Void = "void"
   
   Throws.ThrowsDec = <throws <{ExceptionType ", "}+>>
@@ -37,7 +37,7 @@ context-free syntax
   MethodModifier.Native       = "native"
   MethodModifier.Strictfp     = "strictfp"
   
-  MethodBody.MB2B         = Block
+  MethodBody         = Block
   MethodBody.NoMethodBody = ";"
   
   ReceiverParam.ReceiverParamQual = <<{Annotation " "}*> <UnannType> <Id>.this>
@@ -49,7 +49,7 @@ context-free syntax
   FormalParams.ParamList         = <<{FormalParam ","}+>, <LastFormalParam>>
   FormalParams.ReceiverParamList = <<ReceiverParam>, <{FormalParam ","}*>, <LastFormalParam>>
   
-  LastFormalParam.LFP2FP        = FormalParam
+  LastFormalParam        = FormalParam
   LastFormalParam.VarArityParam = <<{VariableModifier " "}*> <UnannType> <{Annotation " "}*> ... <VarDeclId>>
     
   FormalParam.FormalParam = <<{VariableModifier " "}*> <UnannType> <VarDeclId>>
