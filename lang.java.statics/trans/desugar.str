@@ -16,4 +16,4 @@ rules
   desugar: Some(t) -> [t]
 
   import-java-lang =
-    CompilationUnit(id, ![TypeImportOnDemand(QualifiedPackageOrTypeName(PackageOrTypeName(Id("java")),Id("lang")))|<id>], id)
+    CompilationUnit(id, ![TypeImportOnDemand(PackageOrTypeName(PackageOrTypeName(Id("java")),Id("lang")))|<id>], id)
