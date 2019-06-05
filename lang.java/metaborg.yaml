@@ -9,6 +9,10 @@ dependencies:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
 exports:
 - language: Stratego-Sugar
+  directory: trans
+  includes:
+  - java/**/*.str
+- language: Stratego-Sugar
   directory: src-gen
 - language: SDF
   directory: syntax

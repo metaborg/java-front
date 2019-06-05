@@ -1,4 +1,4 @@
-module strip
+module java/strip
 
 imports
 
@@ -7,6 +7,7 @@ imports
   signatures/java/expressions/-
   signatures/java/interfaces/-
   signatures/java/lexical/-
+  signatures/java/literals/-
   signatures/java/names/-
   signatures/java/packages/-
   signatures/java/statements/-
@@ -15,14 +16,6 @@ imports
   pp
 
 rules
-
-  editor-strip:
-    (_, _, ast, path, project-path) -> (filename, result)
-    with
-      ext      := <get-extension> path
-    ; filename := <guarantee-extension(|$[stripped.[ext]])> path
-    ; stripped := <strip-all> ast
-    ; result   := <pp-metaborg-java-string> stripped
 
   null-statement-list = ![<null-statement>]
   null-statement =

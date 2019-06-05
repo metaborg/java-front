@@ -1,0 +1,16 @@
+module java/injections
+
+imports
+
+  libspoofax/sdf/pp
+
+rules
+
+  java-explicate-injections =
+    explicate-injections(java-inj-name)
+
+  java-inj-name: (sort, into-sort) -> $[[sort']2[into-sort']]
+    with sort' := <camel-abbr> sort
+    with into-sort' := <camel-abbr> into-sort
+
+  camel-abbr = explode-string; filter(is-upper); implode-string

@@ -2,12 +2,10 @@ module metaborg_java
 
 imports
 
-  libspoofax/sdf/pp
-
   completion/completion
   pp
   outline
-  strip
+  java/-
 
 rules // Debugging
 
@@ -23,11 +21,18 @@ rules // Debugging
       filename := <guarantee-extension(|"aterm")> path
     ; result   := <profile(!"pretty printing time: ", pp-metaborg-java-string)> node
 
+rules
+
+  editor-strip:
+    (_, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[stripped.[ext]])> path
+    ; stripped := <strip-all> ast
+    ; result   := <pp-metaborg-java-string> stripped
+
   editor-explicate:
     (_, _, ast, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"aterm")> path
-    ; result := <explicate-injections(camel-abbr)> ast
-
-  camel-abbr = explode-string; filter(is-upper); implode-string
-
+    ; result := <java-explicate-injections> ast

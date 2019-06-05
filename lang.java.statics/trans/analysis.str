@@ -7,7 +7,9 @@ imports
 
   statix/api
   statixruntime
-  
+
+  java/injections
+
   signatures/-
   pp/-
 
@@ -16,9 +18,7 @@ imports
 rules // Analysis
 
 //  editor-analyze = stx-editor-analyze(id|"statics", "programOK")
-  editor-analyze = stx-editor-analyze(explicate-injections(camel-abbr);desugar-all|"statics", "projectOk", "fileOk")
-
-  camel-abbr = explode-string; filter(is-upper); implode-string
+  editor-analyze = stx-editor-analyze(java-explicate-injections;desugar-all|"statics", "projectOk", "fileOk")
 
 rules // Editor services
   
