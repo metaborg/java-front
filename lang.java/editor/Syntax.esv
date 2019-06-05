@@ -24,6 +24,7 @@ menus
 
     separator
 
+    action: "Explicate injections" = editor-explicate (source)
     action: "Strip implementation" = editor-strip (source)
 
 views

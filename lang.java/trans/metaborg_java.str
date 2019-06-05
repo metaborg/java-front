@@ -2,6 +2,8 @@ module metaborg_java
 
 imports
 
+  libspoofax/sdf/pp
+
   completion/completion
   pp
   outline
@@ -20,3 +22,12 @@ rules // Debugging
     with
       filename := <guarantee-extension(|"aterm")> path
     ; result   := <profile(!"pretty printing time: ", pp-metaborg-java-string)> node
+
+  editor-explicate:
+    (_, _, ast, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"aterm")> path
+    ; result := <explicate-injections(camel-abbr)> ast
+
+  camel-abbr = explode-string; filter(is-upper); implode-string
+

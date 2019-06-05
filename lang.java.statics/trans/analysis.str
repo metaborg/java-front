@@ -3,7 +3,8 @@ module analysis
 imports
 
   libspoofax/core/language
-  
+  libspoofax/sdf/pp
+
   statix/api
   statixruntime
   
@@ -15,7 +16,9 @@ imports
 rules // Analysis
 
 //  editor-analyze = stx-editor-analyze(id|"statics", "programOK")
-  editor-analyze = stx-editor-analyze(desugar-all|"statics", "projectOk", "fileOk")
+  editor-analyze = stx-editor-analyze(explicate-injections(camel-abbr);desugar-all|"statics", "projectOk", "fileOk")
+
+  camel-abbr = explode-string; filter(is-upper); implode-string
 
 rules // Editor services
   

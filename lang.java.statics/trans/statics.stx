@@ -55,6 +55,8 @@ signature
     CompilationUnit : MaybePackageDeclaration * list(ImportDeclaration) * list(TypeDeclaration) -> CompilationUnit
 
   sorts TypeDeclaration constructors
+    CD2TD : ClassDeclaration  -> TypeDeclaration
+    ID2TD : InterfaceDeclaration  -> TypeDeclaration
 
   ////////////////////////////////////////////////////////
   // 7.4. Package Declarations
@@ -69,16 +71,19 @@ signature
   ////////////////////////////////////////////////////////
 
   sorts ImportDeclaration constructors
-    SingleTypeImport     : TypeName -> ImportDeclaration
-    TypeImportOnDemand   : PackageOrTypeName -> ImportDeclaration
+    SingleTypeImport   : TypeName -> ImportDeclaration
+    TypeImportOnDemand : PackageOrTypeName -> ImportDeclaration
 
   ////////////////////////////////////////////////////////
   // 8.1. Class Declarations
   ////////////////////////////////////////////////////////
 
-  constructors
-    // ClassDeclaration => TypeDeclaration
-    ClassDeclaration : list(ClassModifier) * Id * MaybeTypeParameters * MaybeSuperClass * MaybeSuperInterfaces * list(ClassBodyDeclaration) -> TypeDeclaration
+  sorts ClassDeclaration constructors
+    NCD2CD : NormalClassDeclaration -> ClassDeclaration
+    ED2CD  : EnumDeclaration -> ClassDeclaration
+
+  sorts NormalClassDeclaration constructors
+    ClassDeclaration : list(ClassModifier) * Id * MaybeTypeParameters * MaybeSuperClass * MaybeSuperInterfaces * list(ClassBodyDeclaration) -> NormalClassDeclaration
 
   sorts ClassModifier
 
@@ -99,10 +104,9 @@ signature
   // 8.9. Enum Types
   ////////////////////////////////////////////////////////
 
-  constructors
-    // EnumDeclaration => TypeDeclaration
-    EnumDeclComma : list(ClassModifier) * Id * MaybeSuperInterfaces * list(EnumConstant) * MaybeEnumBodyDeclarations -> TypeDeclaration
-    EnumDecl : list(ClassModifier) * Id * MaybeSuperInterfaces * list(EnumConstant) * MaybeEnumBodyDeclarations -> TypeDeclaration
+  sorts EnumDeclaration constructors
+    EnumDeclComma : list(ClassModifier) * Id * MaybeSuperInterfaces * list(EnumConstant) * MaybeEnumBodyDeclarations -> EnumDeclaration
+    EnumDecl : list(ClassModifier) * Id * MaybeSuperInterfaces * list(EnumConstant) * MaybeEnumBodyDeclarations -> EnumDeclaration
 
   sorts EnumConstant
 
@@ -113,9 +117,9 @@ signature
   // 9.1. Interface Declarations
   ////////////////////////////////////////////////////////
 
-  constructors
-    // InterfaceDeclaration => TypeDeclaration
-    NormalInterface : list(InterfaceModifier) * Id * MaybeTypeParameters * MaybeExtendsInterfaces * list(InterfaceMemberDeclaration) -> TypeDeclaration
+  sorts InterfaceDeclaration constructors
+    NormalInterface : list(InterfaceModifier) * Id * MaybeTypeParameters * MaybeExtendsInterfaces * list(InterfaceMemberDeclaration) -> InterfaceDeclaration
+    ATD2ID : AnnotationTypeDeclaration -> InterfaceDeclaration
 
   sorts InterfaceModifier
   
@@ -129,9 +133,8 @@ signature
   // 9.6. Annotation Types
   ////////////////////////////////////////////////////////
 
-  constructors
-    // AnnotationTypeDeclaration => TypeDeclaration
-    AnnoDec : list(InterfaceModifier) * Id * list(AnnotationTypeMemberDeclaration) -> TypeDeclaration
+  sorts AnnotationTypeDeclaration constructors
+    AnnoDec : list(InterfaceModifier) * Id * list(AnnotationTypeMemberDeclaration) -> AnnotationTypeDeclaration
 
   sorts AnnotationTypeMemberDeclaration
 
@@ -274,32 +277,80 @@ rules
 
   typeDeclarationOk : scope * TypeDeclaration
 
-  typeDeclarationOk(s, ClassDeclaration(classModifiers, id, maybeTypeParameters, maybeSuperClass, maybeSuperInterfaces, classBodyDeclarations)) :-
+  typeDeclarationOk(s, CD2TD(cd)) :-
+    classDeclarationOk(s, cd).
+
+  typeDeclarationOk(s, ID2TD(id)) :-
+    interfaceDeclarationOk(s, id).
+
+
+rules
+
+  classDeclarationsOk maps classDeclarationOk(*, list(*))
+
+  classDeclarationOk : scope * ClassDeclaration
+
+  classDeclarationOk(s, NCD2CD(ncd)) :-
+    normalClassDeclarationOk(s, ncd).
+
+  classDeclarationOk(s, ED2CD(ed)) :-
+    enumDeclarationOk(s, ed).
+
+
+rules
+
+  normalClassDeclarationsOk maps normalClassDeclarationOk(*, list(*))
+
+  normalClassDeclarationOk : scope * NormalClassDeclaration
+
+  normalClassDeclarationOk(s, ClassDeclaration(normalClassModifiers, id, maybeTypeParameters, maybeSuperClass, maybeSuperInterfaces, normalClassBodyDeclarations)) :-
   {s_cls}
     new s_cls, s_cls -LEX-> s,
     !types[Type{id@id}, CLASS(s_cls)] in s,
     maybeSuperClassOk(s, maybeSuperClass, s_cls),
     maybeSuperInterfacesOk(s, maybeSuperInterfaces, s_cls).
 
-  typeDeclarationOk(s, EnumDeclComma(classModifiers, id, maybeSuperInterfaces, enumConstants, maybeEnumBodyDeclarations)) :-
+
+rules
+
+  enumDeclarationsOk maps enumDeclarationOk(*, list(*))
+
+  enumDeclarationOk : scope * EnumDeclaration
+
+  enumDeclarationOk(s, EnumDeclComma(classModifiers, id, maybeSuperInterfaces, enumConstants, maybeEnumBodyDeclarations)) :-
   {s_enum}
     new s_enum, s_enum -LEX-> s,
     !types[Type{id@id}, ENUM(s_enum)] in s,
     maybeSuperInterfacesOk(s, maybeSuperInterfaces, s_enum).
 
-  typeDeclarationOk(s, EnumDecl(classModifiers, id, maybeSuperInterfaces, enumConstants, maybeEnumBodyDeclarations)) :-
+  enumDeclarationOk(s, EnumDecl(classModifiers, id, maybeSuperInterfaces, enumConstants, maybeEnumBodyDeclarations)) :-
   {s_enum}
     new s_enum, s_enum -LEX-> s,
     !types[Type{id@id}, ENUM(s_enum)] in s,
     maybeSuperInterfacesOk(s, maybeSuperInterfaces, s_enum).
 
-  typeDeclarationOk(s, NormalInterface(interfaceModifiers, id, maybeTypeParameters, maybeExtendsInterfaces, interfaceMemberDeclarations)) :-
+rules
+
+  interfaceDeclarationsOk maps interfaceDeclarationOk(*, list(*))
+
+  interfaceDeclarationOk : scope * InterfaceDeclaration
+
+  interfaceDeclarationOk(s, NormalInterface(interfaceModifiers, id, maybeTypeParameters, maybeExtendsInterfaces, interfaceMemberDeclarations)) :-
   {s_intf}
     new s_intf, s_intf -LEX-> s,
     !types[Type{id@id}, INTF(s_intf)] in s,
     maybeExtendsInterfacesOk(s, maybeExtendsInterfaces).
 
-  typeDeclarationOk(s, AnnoDec(interfaceModifiers, id, annotationTypeMemberDeclarations)) :-
+  interfaceDeclarationOk(s, ATD2ID(atd)) :-
+    annotationTypeDeclarationOk(s, atd).
+
+rules
+
+  annotationTypeDeclarationsOk maps annotationTypeDeclarationOk(*, list(*))
+
+  annotationTypeDeclarationOk : scope * AnnotationTypeDeclaration
+
+  annotationTypeDeclarationOk(s, AnnoDec(interfaceModifiers, id, annotationTypeMemberDeclarations)) :-
   {s_anno}
     new s_anno, s_anno -LEX-> s,
     !types[Type{id@id}, ANNO(s_anno)] in s.
