@@ -22,8 +22,5 @@ sorts
   
 context-free start-symbols
 
-  Start  
+  CompilationUnit  
 
-context-free syntax
-
-  Start = CompilationUnit
