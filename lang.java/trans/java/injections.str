@@ -10,7 +10,9 @@ rules
     explicate-injections(java-inj-name)
 
   java-inj-name: (sort, into-sort) -> $[[sort']2[into-sort']]
+    where not("Start" := into-sort) // ignore Start injection
     with sort' := <camel-abbr> sort
     with into-sort' := <camel-abbr> into-sort
 
   camel-abbr = explode-string; filter(is-upper); implode-string
+

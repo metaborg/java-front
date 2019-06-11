@@ -19,8 +19,12 @@ imports
 sorts
 
   CompilationUnit
-  
+
 context-free start-symbols
 
-  CompilationUnit  
+  Start
+
+context-free syntax
+
+  Start = CompilationUnit
 
