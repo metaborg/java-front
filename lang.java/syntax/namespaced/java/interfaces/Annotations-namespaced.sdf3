@@ -1,0 +1,18 @@
+module java/interfaces/Annotations-namespaced
+
+imports
+  java/names/Names-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/expressions/Main-namespaced
+
+context-free syntax
+
+  Metaborg-java-Annotation.Anno = <@<Metaborg-java-TypeName>(<{Metaborg-java-ElementValuePair ", "}*>)> {}
+  Metaborg-java-Annotation.MarkerAnno = <@<Metaborg-java-TypeName>> {}
+  Metaborg-java-Annotation.SingleElemAnno = <@<Metaborg-java-TypeName>(<Metaborg-java-ElementValue>)> {}
+  Metaborg-java-ElementValuePair.ElemValPair = <<Metaborg-java-Id> = <Metaborg-java-ElementValue>> {}
+  Metaborg-java-ElementValue = Metaborg-java-Expression {}
+  Metaborg-java-ElementValue = Metaborg-java-ElementValueArrayInitializer {}
+  Metaborg-java-ElementValue = Metaborg-java-Annotation {}
+  Metaborg-java-ElementValueArrayInitializer.ElementValArrayInit = <{<{Metaborg-java-ElementValue ","}*>}> {}
+  Metaborg-java-ElementValueArrayInitializer.ElementValArrayInitComman = <{<{Metaborg-java-ElementValue ","}*>, }> {}

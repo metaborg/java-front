@@ -1,0 +1,28 @@
+module java/expressions/BinaryOperators-namespaced
+
+imports
+  java/types/ReferenceTypes-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression.Mul = <<Metaborg-java-Expression> * <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.Div = <<Metaborg-java-Expression> / <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.Mod = <<Metaborg-java-Expression> % <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.Add = <<Metaborg-java-Expression> + <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.Sub = <<Metaborg-java-Expression> - <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.LeftShift = [[Metaborg-java-Expression] << [Metaborg-java-Expression]] {left}
+  Metaborg-java-Expression.RightShift = [[Metaborg-java-Expression] >> [Metaborg-java-Expression]] {left}
+  Metaborg-java-Expression.URightShift = [[Metaborg-java-Expression] >>> [Metaborg-java-Expression]] {left}
+  Metaborg-java-Expression.Lt = [[Metaborg-java-Expression] < [Metaborg-java-Expression]] {left}
+  Metaborg-java-Expression.Gt = [[Metaborg-java-Expression] > [Metaborg-java-Expression]] {left}
+  Metaborg-java-Expression.LtEq = [[Metaborg-java-Expression] <= [Metaborg-java-Expression]] {left}
+  Metaborg-java-Expression.GtEq = [[Metaborg-java-Expression] >= [Metaborg-java-Expression]] {left}
+  Metaborg-java-Expression.InstanceOf = <<Metaborg-java-Expression> instanceof <Metaborg-java-ReferenceType>> {}
+  Metaborg-java-Expression.Eq = <<Metaborg-java-Expression> == <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.NotEq = <<Metaborg-java-Expression> != <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.And = <<Metaborg-java-Expression> & <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.Xor = <<Metaborg-java-Expression> ^ <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.Or = <<Metaborg-java-Expression> | <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.LazyAnd = <<Metaborg-java-Expression> && <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.LazyOr = <<Metaborg-java-Expression> || <Metaborg-java-Expression>> {left}
+  Metaborg-java-Expression.Cond = <<Metaborg-java-Expression> ? <Metaborg-java-Expression> : <Metaborg-java-Expression>> {right}

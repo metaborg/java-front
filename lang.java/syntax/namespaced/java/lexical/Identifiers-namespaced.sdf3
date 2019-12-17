@@ -1,0 +1,24 @@
+module java/lexical/Identifiers-namespaced
+
+imports
+  java/lexical/Keywords-namespaced
+
+lexical start-symbols
+
+  Metaborg-java-ID
+
+context-free syntax
+
+  Metaborg-java-Id.Id = Metaborg-java-ID {}
+
+lexical syntax
+
+  Metaborg-java-ID = [A-Za-z\_\$] [A-Za-z0-9\_\$]* {}
+  Metaborg-java-ID = Metaborg-java-Keyword {reject}
+  Metaborg-java-ID = "true" {reject}
+  Metaborg-java-ID = "false" {reject}
+  Metaborg-java-ID = "null" {reject}
+
+lexical restrictions
+
+  Metaborg-java-ID -/- [a-zA-Z0-9\_\$]

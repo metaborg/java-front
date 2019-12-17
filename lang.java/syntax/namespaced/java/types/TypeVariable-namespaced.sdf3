@@ -1,0 +1,11 @@
+module java/types/TypeVariable-namespaced
+
+imports
+  java/types/ReferenceTypes-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-TypeParameter.TypeParameter = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id> <Metaborg-java-TypeBound?>> {}
+  Metaborg-java-TypeBound.TypeBound = <extends <{Metaborg-java-ClassType "& "}+>> {}

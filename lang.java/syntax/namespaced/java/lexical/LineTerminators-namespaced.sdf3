@@ -1,0 +1,22 @@
+module java/lexical/LineTerminators-namespaced
+
+
+lexical syntax
+
+  Metaborg-java-LineTerminator = [\n] {}
+  Metaborg-java-LineTerminator = [\r] [\n] {}
+  Metaborg-java-LineTerminator = Metaborg-java-CarriageReturn {}
+  Metaborg-java-LineTerminator = Metaborg-java-EndOfFile {}
+  Metaborg-java-CarriageReturn = [\r] {}
+
+lexical restrictions
+
+  Metaborg-java-CarriageReturn -/- [\n]
+
+lexical syntax
+
+  Metaborg-java-EndOfFile =  {}
+
+lexical restrictions
+
+  Metaborg-java-EndOfFile -/- ~[]

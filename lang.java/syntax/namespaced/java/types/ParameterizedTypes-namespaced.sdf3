@@ -1,0 +1,14 @@
+module java/types/ParameterizedTypes-namespaced
+
+imports
+  java/types/ReferenceTypes-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-TypeArguments.TypeArguments = [<[{Metaborg-java-TypeArgument ", "}+]>] {}
+  Metaborg-java-TypeArgument = Metaborg-java-ReferenceType {}
+  Metaborg-java-TypeArgument.WildCard = Metaborg-java-WildCard {}
+  Metaborg-java-WildCard.WildCard = <<{Metaborg-java-Annotation " "}*> ?> {}
+  Metaborg-java-WildCard.WildCardExtends = <<{Metaborg-java-Annotation " "}*> ? extends <Metaborg-java-ReferenceType>> {}
+  Metaborg-java-WildCard.WildCardSuper = <<{Metaborg-java-Annotation " "}*> ? super <Metaborg-java-ReferenceType>> {}

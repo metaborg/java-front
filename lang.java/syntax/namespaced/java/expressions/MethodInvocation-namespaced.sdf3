@@ -1,0 +1,13 @@
+module java/expressions/MethodInvocation-namespaced
+
+imports
+  java/names/Names-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/types/ParameterizedTypes-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression.Invoke = <<Metaborg-java-MethodName>(<{Metaborg-java-Expression ", "}*>)> {}
+  Metaborg-java-Expression.InvokeQExp = <<Metaborg-java-Expression>.<Metaborg-java-TypeArguments?> <Metaborg-java-Id>(<{Metaborg-java-Expression ", "}*>)> {}
+  Metaborg-java-Expression.InvokeSuper = <super.<Metaborg-java-TypeArguments?> <Metaborg-java-Id>(<{Metaborg-java-Expression ", "}*>)> {}
+  Metaborg-java-Expression.InvokeQSuper = <<Metaborg-java-TypeName>.super.<Metaborg-java-TypeArguments?> <Metaborg-java-Id>(<{Metaborg-java-Expression ", "}*>)> {}

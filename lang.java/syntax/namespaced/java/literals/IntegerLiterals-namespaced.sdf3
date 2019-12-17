@@ -1,0 +1,39 @@
+module java/literals/IntegerLiterals-namespaced
+
+
+context-free start-symbols
+
+  Metaborg-java-IntLiteral
+
+context-free syntax
+
+  Metaborg-java-IntLiteral.Deci = Metaborg-java-DeciLiteral {prefer}
+  Metaborg-java-IntLiteral.Hexa = Metaborg-java-HexaLiteral {prefer}
+  Metaborg-java-IntLiteral.Octa = Metaborg-java-OctaLiteral {prefer}
+  Metaborg-java-IntLiteral.Bin = Metaborg-java-BinLiteral {prefer}
+
+lexical syntax
+
+  Metaborg-java-DeciLiteral = Metaborg-java-DeciNumeral [lL]? {}
+  Metaborg-java-HexaLiteral = Metaborg-java-HexaNumeral [lL]? {}
+  Metaborg-java-OctaLiteral = Metaborg-java-OctaNumeral [lL]? {}
+  Metaborg-java-BinLiteral = Metaborg-java-BinNumeral [lL]? {}
+  Metaborg-java-DeciNumeral = "0" {}
+  Metaborg-java-DeciNumeral = [1-9] [0-9\_]* [0-9] {}
+  Metaborg-java-DeciNumeral = [1-9] {}
+  Metaborg-java-HexaNumeral = [0] [xX] [0-9a-fA-F\_]* [0-9a-fA-F] {}
+  Metaborg-java-OctaNumeral = [0] [\_0-7]* [0-7] {}
+  Metaborg-java-BinNumeral = "0" [bB] Metaborg-java-BinDigits {}
+  Metaborg-java-BinDigits = [01] {}
+  Metaborg-java-BinDigits = [01] [01\_]* [01] {}
+
+lexical restrictions
+
+  Metaborg-java-DeciNumeral -/- [0-9\.fFdD]
+  Metaborg-java-HexaNumeral -/- [0-9a-fA-F]
+  Metaborg-java-OctaNumeral -/- [0-7]
+  Metaborg-java-BinNumeral -/- [01]
+  Metaborg-java-DeciLiteral -/- [lL]
+  Metaborg-java-HexaLiteral -/- [lL]
+  Metaborg-java-OctaLiteral -/- [lL]
+  Metaborg-java-BinLiteral -/- [lL]

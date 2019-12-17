@@ -1,0 +1,16 @@
+module java/literals/EscapeSequences-namespaced
+
+
+lexical syntax
+
+  Metaborg-java-EscapeSeq.NamedEscape = "\\" [btnfr\"\'\\] {}
+  Metaborg-java-EscapeSeq = Metaborg-java-OctalEscape {}
+  Metaborg-java-OctalEscape.OctalEscape1 = "\\" Metaborg-java-LastOcta {}
+  Metaborg-java-OctalEscape.OctalEscape2 = "\\" [0-3] Metaborg-java-LastOcta {}
+  Metaborg-java-OctalEscape.OctalEscape2 = "\\" [4-7] [0-7] {}
+  Metaborg-java-OctalEscape.OctalEscape3 = "\\" [0-3] [0-7] [0-7] {}
+  Metaborg-java-LastOcta = [0-7] {}
+
+lexical restrictions
+
+  Metaborg-java-LastOcta -/- [0-7]

@@ -1,0 +1,10 @@
+module java/expressions/Postfix-namespaced
+
+imports
+  java/names/Names-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression.PostIncr = <<Metaborg-java-Expression>++> {}
+  Metaborg-java-Expression.PostDecr = <<Metaborg-java-Expression>--> {}
+  Metaborg-java-Expression = Metaborg-java-ExpressionName {}

@@ -1,0 +1,13 @@
+module java/statements/LocalVariableDeclarations-namespaced
+
+imports
+  java/classes/FieldDeclarations-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-LocalVariableDeclarationStatement.LocVarDeclStm = <<Metaborg-java-LocalVariableDeclaration>;> {}
+  Metaborg-java-LocalVariableDeclaration.LocalVarDecl = <
+  <{Metaborg-java-VariableModifier " "}*> <Metaborg-java-UnannType> <{Metaborg-java-VarDecl ", "}+>> {prefer}
+  Metaborg-java-VariableModifier = Metaborg-java-Annotation {}
+  Metaborg-java-VariableModifier.Final = "final" {}

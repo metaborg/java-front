@@ -1,0 +1,24 @@
+module java/expressions/AssignmentOperators-namespaced 
+
+imports
+  java/expressions/ArrayAccess-namespaced	
+  java/expressions/FieldAccess-namespaced	
+  java/names/Names-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression.Assign = <<Metaborg-java-LHS> = <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignMul = <<Metaborg-java-LHS> *= <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignDiv = <<Metaborg-java-LHS> /= <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignMod = <<Metaborg-java-LHS> %= <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignAdd = <<Metaborg-java-LHS> += <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignSub = <<Metaborg-java-LHS> -= <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignLeftShift = [[Metaborg-java-LHS] <<= [Metaborg-java-Expression]] {}
+  Metaborg-java-Expression.AssignRightShift = [[Metaborg-java-LHS] >>= [Metaborg-java-Expression]] {}
+  Metaborg-java-Expression.AssignURightShift = [[Metaborg-java-LHS] >>>= [Metaborg-java-Expression]] {}
+  Metaborg-java-Expression.AssignAnd = <<Metaborg-java-LHS> &= <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignXor = <<Metaborg-java-LHS> ^= <Metaborg-java-Expression>> {}
+  Metaborg-java-Expression.AssignOr = <<Metaborg-java-LHS> |= <Metaborg-java-Expression>> {}
+  Metaborg-java-LHS = Metaborg-java-ExpressionName {}
+  Metaborg-java-LHS = Metaborg-java-FieldAccess {}
+  Metaborg-java-LHS = Metaborg-java-ArrayAccess {}

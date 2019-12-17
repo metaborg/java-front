@@ -1,0 +1,6 @@
+module java/statements/Main-namespaced
+
+imports
+  java/statements/Blocks-namespaced	
+  java/statements/LocalVariableDeclarations-namespaced	
+  java/statements/Statements-namespaced

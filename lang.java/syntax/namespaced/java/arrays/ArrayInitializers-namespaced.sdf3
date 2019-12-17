@@ -1,0 +1,9 @@
+module java/arrays/ArrayInitializers-namespaced
+
+imports
+  java/classes/FieldDeclarations-namespaced
+
+context-free syntax
+
+  Metaborg-java-ArrayInitializer.ArrayInit = <{<{Metaborg-java-VariableInitializer ","}*>}> {}
+  Metaborg-java-ArrayInitializer.ArrayInitComma = <{<{Metaborg-java-VariableInitializer ","}*>, }> {}

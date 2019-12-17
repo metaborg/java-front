@@ -1,0 +1,28 @@
+module java/classes/EnumDeclarations-namespaced
+
+imports
+  java/lexical/Identifiers-namespaced	
+  java/classes/ClassDeclarations-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/expressions/Main-namespaced
+
+context-free syntax
+
+  Metaborg-java-EnumDeclaration.EnumDeclComma = <
+  <{Metaborg-java-ClassModifier " "}*> enum <Metaborg-java-Id> <Metaborg-java-SuperInterfaces?> {
+    <{Metaborg-java-EnumConstant ", "}*>,
+    <Metaborg-java-EnumBodyDeclarations?>
+  }> {}
+  Metaborg-java-EnumDeclaration.EnumDecl = <
+  <{Metaborg-java-ClassModifier " "}*> enum <Metaborg-java-Id> <Metaborg-java-SuperInterfaces?> {
+    <{Metaborg-java-EnumConstant ", "}*>
+    <Metaborg-java-EnumBodyDeclarations?>
+  }> {}
+  Metaborg-java-EnumConstant.EnumConst = <
+  <{Metaborg-java-Annotation " "}*> <Metaborg-java-Id> <Metaborg-java-EnumConstantArgs?>{
+    <{Metaborg-java-ClassBodyDeclaration "\n"}*>
+  }> {}
+  Metaborg-java-EnumConstant.EnumConstNoBody = <
+  <{Metaborg-java-Annotation " "}*> <Metaborg-java-Id> <Metaborg-java-EnumConstantArgs?>> {}
+  Metaborg-java-EnumConstantArgs.EnumConstArgs = <(<{Metaborg-java-Expression ", "}*>)> {}
+  Metaborg-java-EnumBodyDeclarations.EnumBodyDecs = <;  <{Metaborg-java-ClassBodyDeclaration "\n"}*>> {}

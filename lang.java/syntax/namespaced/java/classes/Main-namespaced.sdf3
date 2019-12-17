@@ -1,0 +1,10 @@
+module java/classes/Main-namespaced
+
+imports
+  java/classes/ClassDeclarations-namespaced	
+  java/classes/FieldDeclarations-namespaced	
+  java/classes/MethodDeclarations-namespaced	
+  java/classes/EnumDeclarations-namespaced	
+  java/classes/InstanceInitializers-namespaced	
+  java/classes/StaticInitializers-namespaced	
+  java/classes/ConstructorDeclarations-namespaced

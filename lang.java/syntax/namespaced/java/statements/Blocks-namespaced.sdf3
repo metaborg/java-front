@@ -1,0 +1,16 @@
+module java/statements/Blocks-namespaced
+
+imports
+  java/classes/ClassDeclarations-namespaced	
+  java/statements/LocalVariableDeclarations-namespaced	
+  java/statements/Statements-namespaced
+
+context-free syntax
+
+  Metaborg-java-Block.Block = <
+  {
+    <{Metaborg-java-BlockStatement "\n"}*>
+  }> {}
+  Metaborg-java-BlockStatement = Metaborg-java-LocalVariableDeclarationStatement {}
+  Metaborg-java-BlockStatement = Metaborg-java-ClassDeclaration {}
+  Metaborg-java-BlockStatement = Metaborg-java-Statement {}

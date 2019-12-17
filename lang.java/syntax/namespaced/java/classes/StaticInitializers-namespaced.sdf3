@@ -1,0 +1,8 @@
+module java/classes/StaticInitializers-namespaced 
+
+imports
+  java/statements/Blocks-namespaced
+
+context-free syntax
+
+  Metaborg-java-StaticInitializer.StaticInit = <static <Metaborg-java-Block>> {}

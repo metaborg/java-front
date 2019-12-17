@@ -1,0 +1,16 @@
+module java/expressions/FieldAccess-namespaced
+
+imports
+  java/names/Names-namespaced	
+  java/lexical/Identifiers-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression = Metaborg-java-FieldAccess {}
+  Metaborg-java-FieldAccess.Field = <<Metaborg-java-Expression>.<Metaborg-java-Id>> {}
+  Metaborg-java-FieldAccess.SuperField = <super.<Metaborg-java-Id>> {}
+  Metaborg-java-FieldAccess.QSuperField = <<Metaborg-java-TypeName>.super.<Metaborg-java-Id>> {}
+
+template options
+
+  tokenize : "."

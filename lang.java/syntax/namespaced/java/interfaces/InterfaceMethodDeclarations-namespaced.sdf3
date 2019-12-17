@@ -1,0 +1,16 @@
+module java/interfaces/InterfaceMethodDeclarations-namespaced
+
+imports
+  java/classes/MethodDeclarations-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-InterfaceMethodDeclaration.AbstractMethodDec = <
+  <{Metaborg-java-InterfaceMethodModifier " "}*> <Metaborg-java-MethodHeader> <Metaborg-java-MethodBody>> {}
+  Metaborg-java-InterfaceMethodModifier = Metaborg-java-Annotation {}
+  Metaborg-java-InterfaceMethodModifier.Public = "public" {}
+  Metaborg-java-InterfaceMethodModifier.Abstract = "abstract" {}
+  Metaborg-java-InterfaceMethodModifier.Default = "default" {}
+  Metaborg-java-InterfaceMethodModifier.Static = "static" {}
+  Metaborg-java-InterfaceMethodModifier.Strictfp = "strictfp" {}

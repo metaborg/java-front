@@ -1,0 +1,11 @@
+module java/packages/TypeDeclarations-namespaced
+
+imports
+  java/classes/ClassDeclarations-namespaced	
+  java/interfaces/InterfaceDeclarations-namespaced
+
+context-free syntax
+
+  Metaborg-java-TypeDeclaration = Metaborg-java-ClassDeclaration {}
+  Metaborg-java-TypeDeclaration = Metaborg-java-InterfaceDeclaration {}
+  Metaborg-java-TypeDeclaration.SemiColon = <;> {}

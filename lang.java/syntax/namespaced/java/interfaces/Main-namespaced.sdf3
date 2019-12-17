@@ -1,0 +1,8 @@
+module java/interfaces/Main-namespaced
+
+imports
+  java/interfaces/InterfaceDeclarations-namespaced	
+  java/interfaces/InterfaceMethodDeclarations-namespaced	
+  java/interfaces/AnnotationTypes-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/interfaces/ConstantDeclarations-namespaced

@@ -1,0 +1,8 @@
+module java/classes/InstanceInitializers-namespaced 
+
+imports
+  java/statements/Blocks-namespaced
+
+context-free syntax
+
+  Metaborg-java-InstanceInitializer.InstanceInit = Metaborg-java-Block {}

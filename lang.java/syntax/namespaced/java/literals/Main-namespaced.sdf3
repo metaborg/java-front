@@ -1,0 +1,18 @@
+module java/literals/Main-namespaced
+
+imports
+  java/literals/IntegerLiterals-namespaced	
+  java/literals/FloatingPointLiterals-namespaced	
+  java/literals/BooleanLiterals-namespaced	
+  java/literals/CharacterLiterals-namespaced	
+  java/literals/StringLiterals-namespaced	
+  java/literals/NullLiteral-namespaced
+
+context-free syntax
+
+  Metaborg-java-Literal = Metaborg-java-IntLiteral {}
+  Metaborg-java-Literal = Metaborg-java-FloatLiteral {}
+  Metaborg-java-Literal = Metaborg-java-BoolLiteral {}
+  Metaborg-java-Literal = Metaborg-java-CharacterLiteral {}
+  Metaborg-java-Literal = Metaborg-java-StringLiteral {}
+  Metaborg-java-Literal = Metaborg-java-NullLiteral {}

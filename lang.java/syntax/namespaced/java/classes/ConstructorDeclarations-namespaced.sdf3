@@ -1,0 +1,26 @@
+module java/classes/ConstructorDeclarations-namespaced 
+
+imports
+  java/classes/ClassDeclarations-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/classes/MethodDeclarations-namespaced	
+  java/types/ParameterizedTypes-namespaced	
+  java/names/Names-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/expressions/Main-namespaced	
+  java/statements/Blocks-namespaced
+
+context-free syntax
+
+  Metaborg-java-ConstructorDeclaration.ConstrDecl = <
+  <{Metaborg-java-ConstructorModifier " "}*> <Metaborg-java-TypeParameters?> <Metaborg-java-Id>(<Metaborg-java-FormalParams>) <Metaborg-java-Throws?>{
+    <Metaborg-java-ConstructorInvocation?>
+    <{Metaborg-java-BlockStatement "\n"}*>
+  }> {}
+  Metaborg-java-ConstructorModifier = Metaborg-java-Annotation {}
+  Metaborg-java-ConstructorModifier.Public = "public" {}
+  Metaborg-java-ConstructorModifier.Private = "private" {}
+  Metaborg-java-ConstructorModifier.Protected = "protected" {}
+  Metaborg-java-ConstructorInvocation.AltConstrInv = <<Metaborg-java-TypeArguments?>this(<{Metaborg-java-Expression ", "}*>);> {}
+  Metaborg-java-ConstructorInvocation.SuperConstrInv = <<Metaborg-java-TypeArguments?>super(<{Metaborg-java-Expression ", "}*>);> {}
+  Metaborg-java-ConstructorInvocation.ExprNameConstrInv = <<Metaborg-java-Expression>.<Metaborg-java-TypeArguments?>super(<{Metaborg-java-Expression ", "}*>);> {}

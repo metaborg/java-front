@@ -1,0 +1,41 @@
+module java/lexical/Comments-namespaced
+
+imports
+  java/lexical/LineTerminators-namespaced
+
+lexical start-symbols
+
+  Metaborg-java-Comment
+
+lexical syntax
+
+  LAYOUT = Metaborg-java-Comment {}
+  Metaborg-java-Comment = "//" Metaborg-java-EOLCommentChars Metaborg-java-LineTerminator {}
+  Metaborg-java-EOLCommentChars = ~[\n\r]* {}
+  Metaborg-java-Comment = "/*" Metaborg-java-CommentPart* "*/" {}
+  Metaborg-java-Comment = "/**" Metaborg-java-CommentPart* "*/" {}
+  Metaborg-java-Comment = "/**/" {}
+  Metaborg-java-CommentPart = Metaborg-java-BlockCommentChars {}
+  Metaborg-java-CommentPart = Metaborg-java-EscChar {}
+  Metaborg-java-CommentPart = Metaborg-java-EscEscChar {}
+  Metaborg-java-CommentPart = Metaborg-java-Asterisk {}
+  Metaborg-java-CommentPart = Metaborg-java-UnicodeEscape {}
+  Metaborg-java-BlockCommentChars = ~[\*\\]+ {}
+  Metaborg-java-Asterisk = "*" {}
+  Metaborg-java-EscEscChar = "\\\\" {}
+  Metaborg-java-EscChar = "\\" {}
+  Metaborg-java-UnicodeEscape = "\\" [u]+ [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] {}
+
+lexical restrictions
+
+  "/**" -/- [\/]
+  "/*" -/- [\*]
+  Metaborg-java-Asterisk -/- [\/]
+  Metaborg-java-EscChar -/- [\\u]
+  Metaborg-java-BlockCommentChars -/- ~[\*\\]
+  Metaborg-java-EOLCommentChars -/- ~[\n\13]
+
+context-free restrictions
+
+  LAYOUT? -/- [\/].[\*]
+  LAYOUT? -/- [\/].[\/]

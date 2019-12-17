@@ -1,0 +1,14 @@
+module java/interfaces/ConstantDeclarations-namespaced
+
+imports
+  java/classes/FieldDeclarations-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-ConstantDeclaration.ConstantDecl = <
+  <{Metaborg-java-ConstantModifier " "}*> <Metaborg-java-UnannType> <{Metaborg-java-VarDecl ", "}+>> {}
+  Metaborg-java-ConstantModifier = Metaborg-java-Annotation {}
+  Metaborg-java-ConstantModifier.Public = "public" {}
+  Metaborg-java-ConstantModifier.Static = "static" {}
+  Metaborg-java-ConstantModifier.Final = "final" {}

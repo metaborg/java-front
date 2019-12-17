@@ -1,0 +1,16 @@
+module java/types/PrimitiveTypes-namespaced
+
+imports
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-PrimitiveType.NumericType = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-NumericType>> {}
+  Metaborg-java-PrimitiveType.BooleanType = <<{Metaborg-java-Annotation " "}*> boolean> {}
+  Metaborg-java-NumericType.Byte = <byte> {}
+  Metaborg-java-NumericType.Short = <short> {}
+  Metaborg-java-NumericType.Int = <int> {}
+  Metaborg-java-NumericType.Long = <long> {}
+  Metaborg-java-NumericType.Char = <char> {}
+  Metaborg-java-NumericType.Float = <float> {}
+  Metaborg-java-NumericType.Double = <double> {}

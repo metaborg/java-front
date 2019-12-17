@@ -1,0 +1,108 @@
+module java/lexical/Keywords-namespaced
+
+
+lexical syntax
+
+  Metaborg-java-Keyword = "abstract" {}
+  Metaborg-java-Keyword = "assert" {}
+  Metaborg-java-Keyword = "boolean" {}
+  Metaborg-java-Keyword = "break" {}
+  Metaborg-java-Keyword = "byte" {}
+  Metaborg-java-Keyword = "case" {}
+  Metaborg-java-Keyword = "catch" {}
+  Metaborg-java-Keyword = "char" {}
+  Metaborg-java-Keyword = "class" {}
+  Metaborg-java-Keyword = "const" {}
+  Metaborg-java-Keyword = "continue" {}
+  Metaborg-java-Keyword = "default" {}
+  Metaborg-java-Keyword = "do" {}
+  Metaborg-java-Keyword = "double" {}
+  Metaborg-java-Keyword = "else" {}
+  Metaborg-java-Keyword = "enum" {}
+  Metaborg-java-Keyword = "extends" {}
+  Metaborg-java-Keyword = "final" {}
+  Metaborg-java-Keyword = "finally" {}
+  Metaborg-java-Keyword = "float" {}
+  Metaborg-java-Keyword = "for" {}
+  Metaborg-java-Keyword = "goto" {}
+  Metaborg-java-Keyword = "if" {}
+  Metaborg-java-Keyword = "implements" {}
+  Metaborg-java-Keyword = "import" {}
+  Metaborg-java-Keyword = "instanceof" {}
+  Metaborg-java-Keyword = "int" {}
+  Metaborg-java-Keyword = "interface" {}
+  Metaborg-java-Keyword = "long" {}
+  Metaborg-java-Keyword = "native" {}
+  Metaborg-java-Keyword = "new" {}
+  Metaborg-java-Keyword = "package" {}
+  Metaborg-java-Keyword = "private" {}
+  Metaborg-java-Keyword = "protected" {}
+  Metaborg-java-Keyword = "public" {}
+  Metaborg-java-Keyword = "return" {}
+  Metaborg-java-Keyword = "short" {}
+  Metaborg-java-Keyword = "static" {}
+  Metaborg-java-Keyword = "strictfp" {}
+  Metaborg-java-Keyword = "super" {}
+  Metaborg-java-Keyword = "switch" {}
+  Metaborg-java-Keyword = "synchronized" {}
+  Metaborg-java-Keyword = "this" {}
+  Metaborg-java-Keyword = "throw" {}
+  Metaborg-java-Keyword = "throws" {}
+  Metaborg-java-Keyword = "transient" {}
+  Metaborg-java-Keyword = "try" {}
+  Metaborg-java-Keyword = "void" {}
+  Metaborg-java-Keyword = "volatile" {}
+  Metaborg-java-Keyword = "while" {}
+
+lexical restrictions
+
+  "abstract"
+  "assert"
+  "boolean"
+  "break"
+  "byte"
+  "case"
+  "catch"
+  "char"
+  "class"
+  "const"
+  "continue"
+  "default"
+  "do"
+  "double"
+  "else"
+  "enum"
+  "extends"
+  "final"
+  "finally"
+  "float"
+  "for"
+  "goto"
+  "if"
+  "implements"
+  "import"
+  "instanceof"
+  "int"
+  "interface"
+  "long"
+  "native"
+  "new"
+  "package"
+  "private"
+  "protected"
+  "public"
+  "return"
+  "short"
+  "static"
+  "strictfp"
+  "super"
+  "switch"
+  "synchronized"
+  "this"
+  "throw"
+  "throws"
+  "transient"
+  "try"
+  "void"
+  "volatile"
+  "while" -/- [A-Za-z0-9\_\$]

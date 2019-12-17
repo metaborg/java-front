@@ -1,0 +1,25 @@
+module java/literals/StringLiterals-namespaced
+
+imports
+  java/literals/EscapeSequences-namespaced	
+  java/lexical/UnicodeEscapes-namespaced
+
+context-free start-symbols
+
+  Metaborg-java-StringLiteral
+
+context-free syntax
+
+  Metaborg-java-StringLiteral.StringLiteral = Metaborg-java-StringLit {}
+
+lexical syntax
+
+  Metaborg-java-StringLit = "\"" Metaborg-java-StringPart* "\"" {}
+  Metaborg-java-StringPart = Metaborg-java-UnicodeEscape {}
+  Metaborg-java-StringPart = Metaborg-java-EscapeSeq {}
+  Metaborg-java-StringPart = Metaborg-java-StringChars {}
+  Metaborg-java-StringChars = ~[\"\\\n\r]+ {}
+
+lexical restrictions
+
+  Metaborg-java-StringChars -/- ~[\"\\\n\r]

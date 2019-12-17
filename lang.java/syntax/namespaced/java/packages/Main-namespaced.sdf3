@@ -1,0 +1,6 @@
+module java/packages/Main-namespaced
+
+imports
+  java/packages/CompilationUnits-namespaced	
+  java/packages/ImportDeclarations-namespaced	
+  java/packages/PackageDeclarations-namespaced

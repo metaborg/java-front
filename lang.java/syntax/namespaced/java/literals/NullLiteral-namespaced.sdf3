@@ -1,0 +1,10 @@
+module java/literals/NullLiteral-namespaced
+
+
+context-free start-symbols
+
+  Metaborg-java-NullLiteral
+
+context-free syntax
+
+  Metaborg-java-NullLiteral.Null = <null> {}

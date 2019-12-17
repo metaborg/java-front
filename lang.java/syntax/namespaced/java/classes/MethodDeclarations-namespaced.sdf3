@@ -1,0 +1,46 @@
+module java/classes/MethodDeclarations-namespaced 
+
+imports
+  java/classes/FieldDeclarations-namespaced	
+  java/types/ReferenceTypes-namespaced	
+  java/classes/ClassDeclarations-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/statements/Blocks-namespaced
+
+context-free syntax
+
+  Metaborg-java-MethodDeclaration.MethodDecl = <
+  <{Metaborg-java-MethodModifier " "}*> <Metaborg-java-MethodHeader> <Metaborg-java-MethodBody>> {}
+  Metaborg-java-MethodHeader.MethodHeader = <
+  <Metaborg-java-Result> <Metaborg-java-Id>(<Metaborg-java-FormalParams>) <Metaborg-java-AnnotatedDimsEmpty> <Metaborg-java-Throws?>> {}
+  Metaborg-java-MethodHeader.MethodHeaderTypeParameters = <
+  <Metaborg-java-TypeParameters> <{Metaborg-java-Annotation " "}*> <Metaborg-java-Result> <Metaborg-java-Id>(<Metaborg-java-FormalParams>) <Metaborg-java-Throws?>> {}
+  Metaborg-java-Result = Metaborg-java-UnannType {}
+  Metaborg-java-Result.Void = "void" {}
+  Metaborg-java-Throws.ThrowsDec = <throws <{Metaborg-java-ExceptionType ", "}+>> {}
+  Metaborg-java-ExceptionType = Metaborg-java-ClassType {}
+  Metaborg-java-MethodModifier = Metaborg-java-Annotation {}
+  Metaborg-java-MethodModifier.Public = "public" {}
+  Metaborg-java-MethodModifier.Protected = "protected" {}
+  Metaborg-java-MethodModifier.Private = "private" {}
+  Metaborg-java-MethodModifier.Abstract = "abstract" {}
+  Metaborg-java-MethodModifier.Static = "static" {}
+  Metaborg-java-MethodModifier.Final = "final" {}
+  Metaborg-java-MethodModifier.Synchronized = "synchronized" {}
+  Metaborg-java-MethodModifier.Native = "native" {}
+  Metaborg-java-MethodModifier.Strictfp = "strictfp" {}
+  Metaborg-java-MethodBody = Metaborg-java-Block {}
+  Metaborg-java-MethodBody.NoMethodBody = ";" {}
+  Metaborg-java-ReceiverParam.ReceiverParamQual = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-UnannType> <Metaborg-java-Id>.this> {}
+  Metaborg-java-ReceiverParam.ReceiverParam = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-UnannType> this> {}
+  Metaborg-java-FormalParams.NoParams =  {}
+  Metaborg-java-FormalParams = Metaborg-java-ReceiverParam {}
+  Metaborg-java-FormalParams.SingleParam = Metaborg-java-LastFormalParam {}
+  Metaborg-java-FormalParams.ParamList = <<{Metaborg-java-FormalParam ","}+>, <Metaborg-java-LastFormalParam>> {}
+  Metaborg-java-FormalParams.ReceiverParamList = <<Metaborg-java-ReceiverParam>, <{Metaborg-java-FormalParam ","}*>, <Metaborg-java-LastFormalParam>> {}
+  Metaborg-java-LastFormalParam = Metaborg-java-FormalParam {}
+  Metaborg-java-LastFormalParam.VarArityParam = <<{Metaborg-java-VariableModifier " "}*> <Metaborg-java-UnannType> <{Metaborg-java-Annotation " "}*> ... <Metaborg-java-VarDeclId>> {}
+  Metaborg-java-FormalParam.FormalParam = <<{Metaborg-java-VariableModifier " "}*> <Metaborg-java-UnannType> <Metaborg-java-VarDeclId>> {}
+  Metaborg-java-VariableModifier = Metaborg-java-Annotation {}
+  Metaborg-java-VariableModifier.Final = "final" {}

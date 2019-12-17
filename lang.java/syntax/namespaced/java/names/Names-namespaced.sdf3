@@ -1,0 +1,18 @@
+module java/names/Names-namespaced
+
+imports
+  java/lexical/Identifiers-namespaced
+
+context-free syntax
+
+  Metaborg-java-PackageName.PackageName = Metaborg-java-Id {}
+  Metaborg-java-PackageName.PackageName = <<Metaborg-java-PackageName>.<Metaborg-java-Id>> {}
+  Metaborg-java-TypeName.TypeName = Metaborg-java-Id {}
+  Metaborg-java-TypeName.TypeName = <<Metaborg-java-PackageOrTypeName>.<Metaborg-java-Id>> {}
+  Metaborg-java-PackageOrTypeName.PackageOrTypeName = Metaborg-java-Id {}
+  Metaborg-java-PackageOrTypeName.PackageOrTypeName = <<Metaborg-java-PackageOrTypeName>.<Metaborg-java-Id>> {}
+  Metaborg-java-ExpressionName.ExpressionName = Metaborg-java-Id {}
+  Metaborg-java-ExpressionName.ExpressionName = <<Metaborg-java-AmbiguousName>.<Metaborg-java-Id>> {}
+  Metaborg-java-AmbiguousName.AmbiguousName = Metaborg-java-Id {}
+  Metaborg-java-AmbiguousName.AmbiguousName = <<Metaborg-java-AmbiguousName>.<Metaborg-java-Id>> {}
+  Metaborg-java-MethodName.MethodName = Metaborg-java-Id {}

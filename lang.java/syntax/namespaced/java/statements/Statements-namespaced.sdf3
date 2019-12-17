@@ -1,0 +1,86 @@
+module java/statements/Statements-namespaced
+
+imports
+  java/classes/FieldDeclarations-namespaced	
+  java/classes/MethodDeclarations-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/statements/Blocks-namespaced	
+  java/names/Names-namespaced	
+  java/types/ReferenceTypes-namespaced	
+  java/expressions/Main-namespaced
+
+context-free syntax
+
+  Metaborg-java-Statement.Labeled = <<Metaborg-java-Id> : <Metaborg-java-Statement>> {}
+  Metaborg-java-Statement.If = <if(<Metaborg-java-Expression>) <Metaborg-java-Statement>> {}
+  Metaborg-java-Statement.IfElse = <if(<Metaborg-java-Expression>) <Metaborg-java-Statement> else <Metaborg-java-Statement>> {}
+  Metaborg-java-Statement.While = <while(<Metaborg-java-Expression>) <Metaborg-java-Statement>> {}
+  Metaborg-java-Statement.For = <for(<Metaborg-java-ForInit>; <Metaborg-java-Expression?>; <Metaborg-java-ForUpdate>) <Metaborg-java-Statement>> {}
+  Metaborg-java-Statement.ForEach = <for(<{Metaborg-java-VariableModifier " "}*> <Metaborg-java-UnannType> <Metaborg-java-VarDeclId> : <Metaborg-java-Expression>) <Metaborg-java-Statement>> {}
+  Metaborg-java-ForInit.ExprList = <<{Metaborg-java-Expression ", "}*>> {}
+  Metaborg-java-ForInit.VarDecls = <<{Metaborg-java-VariableModifier " "}*> <Metaborg-java-UnannType> <{Metaborg-java-VarDecl ", "}+>> {}
+  Metaborg-java-ForUpdate.ExprList = <<{Metaborg-java-Expression ", "}*>> {}
+  Metaborg-java-Statement = Metaborg-java-Block {}
+  Metaborg-java-Statement.Empty = ";" {}
+  Metaborg-java-Statement.ExpressionStatement = <<Metaborg-java-Expression>;> {}
+  Metaborg-java-Statement = Metaborg-java-ExpressionName "<" Metaborg-java-ExpressionName ">" Metaborg-java-Expression ";" {reject}
+  Metaborg-java-Statement = Metaborg-java-ExpressionName "<" Metaborg-java-ExpressionName "<" Metaborg-java-ExpressionName ">>" Metaborg-java-Expression ";" {reject}
+  Metaborg-java-Statement = Metaborg-java-ExpressionName "<" Metaborg-java-ExpressionName "<" Metaborg-java-ExpressionName "<" Metaborg-java-ExpressionName ">>>" Metaborg-java-Expression ";" {reject}
+  Metaborg-java-Statement.Assert = <assert <Metaborg-java-Expression>;> {}
+  Metaborg-java-Statement.Assert = <assert <Metaborg-java-Expression> : <Metaborg-java-Expression>;> {}
+  Metaborg-java-Statement.Switch = <
+  switch(<Metaborg-java-Expression>) {
+    <{Metaborg-java-SwitchGroup "\n"}*>
+    <{Metaborg-java-SwitchLabel "\n"}*>
+  }> {}
+  Metaborg-java-SwitchGroup.SwitchGroup = <
+  <{Metaborg-java-SwitchLabel "\n"}+>
+  <{Metaborg-java-BlockStatement "\n"}+>
+  > {}
+  Metaborg-java-SwitchLabel.CaseExpr = <case <Metaborg-java-Expression> :> {}
+  Metaborg-java-SwitchLabel.Default = <default :> {}
+  Metaborg-java-Statement.DoWhile = <
+  do <Metaborg-java-Statement>
+  while(<Metaborg-java-Expression>);> {}
+  Metaborg-java-Statement.Break = <break;> {}
+  Metaborg-java-Statement.Break = <break <Metaborg-java-Id>;> {}
+  Metaborg-java-Statement.Continue = <continue;> {}
+  Metaborg-java-Statement.Continue = <continue <Metaborg-java-Id>;> {}
+  Metaborg-java-Statement.Return = <return;> {}
+  Metaborg-java-Statement.Return = <return <Metaborg-java-Expression>;> {}
+  Metaborg-java-Statement.Synchronized = <synchronized(<Metaborg-java-Expression>) <Metaborg-java-Block>> {}
+  Metaborg-java-Statement.Throw = <throw <Metaborg-java-Expression>;> {}
+  Metaborg-java-Statement.Try = <
+  try <Metaborg-java-Block>
+  <{Metaborg-java-CatchClause "\n"}+>> {}
+  Metaborg-java-Statement.TryFinally = <
+  try <Metaborg-java-Block>
+  <{Metaborg-java-CatchClause "\n"}*>
+  finally <Metaborg-java-Block>> {}
+  Metaborg-java-CatchClause.Catch = <catch(<Metaborg-java-CatchFormalParameter>) <Metaborg-java-Block>> {}
+  Metaborg-java-CatchFormalParameter.CatchParam = <<{Metaborg-java-VariableModifier " "}*> <Metaborg-java-CatchType> <Metaborg-java-VarDeclId>> {}
+  Metaborg-java-CatchType.CatchType = <<Metaborg-java-UnannClassType> <{Metaborg-java-CatchTypeRest " "}*>> {}
+  Metaborg-java-CatchTypeRest.CatchTypeElem = <| <Metaborg-java-ClassType>> {}
+  Metaborg-java-Statement.TryWithResources = <
+  try (<{Metaborg-java-Resource "; "}*>) <Metaborg-java-Block> 
+  <{Metaborg-java-CatchClause "\n"}*>> {}
+  Metaborg-java-Statement.TryWithResourcesSemiColon = <
+  try (<{Metaborg-java-Resource "; "}*>;) <Metaborg-java-Block> 
+  <{Metaborg-java-CatchClause "\n"}*>> {}
+  Metaborg-java-Statement.TryWithResources = <
+  try (<{Metaborg-java-Resource "; "}*>) <Metaborg-java-Block> 
+  <{Metaborg-java-CatchClause "\n"}*>
+  finally <Metaborg-java-Block>> {}
+  Metaborg-java-Statement.TryWithResourcesSemiColon = <
+  try (<{Metaborg-java-Resource "; "}*>;) <Metaborg-java-Block> 
+  <{Metaborg-java-CatchClause "\n"}*>
+  finally <Metaborg-java-Block>> {}
+  Metaborg-java-Resource.Resource = <<{Metaborg-java-VariableModifier " "}*> <Metaborg-java-UnannType> <Metaborg-java-VarDeclId> = <Metaborg-java-Expression>> {}
+
+template options
+
+  tokenize : "(;"
+
+context-free priorities
+
+  Metaborg-java-Statement.IfElse > Metaborg-java-Statement.If

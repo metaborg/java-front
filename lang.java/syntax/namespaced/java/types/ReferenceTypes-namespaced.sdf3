@@ -1,0 +1,24 @@
+module java/types/ReferenceTypes-namespaced
+
+imports
+  java/lexical/Identifiers-namespaced	
+  java/types/PrimitiveTypes-namespaced	
+  java/types/ParameterizedTypes-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-ReferenceType = Metaborg-java-ClassType {}
+  Metaborg-java-ReferenceType = Metaborg-java-ArrayType {}
+  Metaborg-java-ClassType.ClassType = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id><Metaborg-java-TypeArguments?>> {}
+  Metaborg-java-ClassType.ClassOrInterfaceTypeMember = <<Metaborg-java-ClassType>.<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id><Metaborg-java-TypeArguments?>> {}
+  Metaborg-java-TypeVariable.TypeVar = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id>> {}
+  Metaborg-java-ArrayType.ArrayTypePrimitive = <<Metaborg-java-PrimitiveType> <Metaborg-java-AnnotatedDims>> {}
+  Metaborg-java-ArrayType.ArrayTypeClassType = <<Metaborg-java-ClassType> <Metaborg-java-AnnotatedDims>> {}
+  Metaborg-java-AnnotatedDims = <<{Metaborg-java-AnnotatedDim " "}+>> {}
+  Metaborg-java-AnnotatedDimsEmpty = <<{Metaborg-java-AnnotatedDim " "}*>> {}
+  Metaborg-java-AnnotatedDim.AnnotateDim = <<{Metaborg-java-Annotation " "}*> []> {}
+
+template options
+
+  tokenize : "["

@@ -1,0 +1,16 @@
+module java/expressions/ArrayCreation-namespaced 
+
+imports
+  java/types/ReferenceTypes-namespaced	
+  java/types/PrimitiveTypes-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/arrays/ArrayInitializers-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression = Metaborg-java-ArrayCreationExpression {}
+  Metaborg-java-ArrayCreationExpression.NewArray = <new <Metaborg-java-ArrayBaseType><{Metaborg-java-DimExpr " "}+><Metaborg-java-AnnotatedDimsEmpty>> {}
+  Metaborg-java-ArrayCreationExpression.NewArrayInit = <new <Metaborg-java-ArrayBaseType><Metaborg-java-AnnotatedDims><Metaborg-java-ArrayInitializer>> {}
+  Metaborg-java-ArrayBaseType = Metaborg-java-ClassType {}
+  Metaborg-java-ArrayBaseType = Metaborg-java-PrimitiveType {}
+  Metaborg-java-DimExpr.Dim = <<{Metaborg-java-Annotation " "}*> [<Metaborg-java-Expression>]> {}

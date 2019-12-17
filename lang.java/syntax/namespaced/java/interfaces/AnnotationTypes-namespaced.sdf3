@@ -1,0 +1,28 @@
+module java/interfaces/AnnotationTypes-namespaced
+
+imports
+  java/interfaces/InterfaceDeclarations-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/types/ReferenceTypes-namespaced	
+  java/classes/FieldDeclarations-namespaced	
+  java/interfaces/ConstantDeclarations-namespaced	
+  java/classes/ClassDeclarations-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-AnnotationTypeDeclaration.AnnoDec = <
+  <{Metaborg-java-InterfaceModifier " "}*> @interface <Metaborg-java-Id> {
+    <{Metaborg-java-AnnotationTypeMemberDeclaration "\n"}*>
+  }> {}
+  Metaborg-java-AnnotationTypeMemberDeclaration = Metaborg-java-AnnotationTypeElementDeclaration {}
+  Metaborg-java-AnnotationTypeMemberDeclaration = Metaborg-java-ConstantDeclaration {}
+  Metaborg-java-AnnotationTypeMemberDeclaration = Metaborg-java-ClassDeclaration {}
+  Metaborg-java-AnnotationTypeMemberDeclaration = Metaborg-java-InterfaceDeclaration {}
+  Metaborg-java-AnnotationTypeMemberDeclaration.SemiColon = ";" {}
+  Metaborg-java-AnnotationTypeElementDeclaration.AnnotationTypeElementDecl = <
+  <{Metaborg-java-AnnotationTypeElementModifier " "}*> <Metaborg-java-UnannType> <Metaborg-java-Id>() <Metaborg-java-AnnotatedDimsEmpty> <Metaborg-java-DefaultValue?>;> {}
+  Metaborg-java-AnnotationTypeElementModifier = Metaborg-java-Annotation {}
+  Metaborg-java-AnnotationTypeElementModifier.Public = "public" {}
+  Metaborg-java-AnnotationTypeElementModifier.Abstract = "abstract" {}
+  Metaborg-java-DefaultValue.DefaultVal = <default <Metaborg-java-ElementValue>> {}

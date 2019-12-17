@@ -1,0 +1,41 @@
+module java/classes/FieldDeclarations-namespaced
+
+imports
+  java/lexical/Identifiers-namespaced	
+  java/types/ReferenceTypes-namespaced	
+  java/types/PrimitiveTypes-namespaced	
+  java/types/ParameterizedTypes-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/arrays/ArrayInitializers-namespaced	
+  java/expressions/Main-namespaced
+
+context-free syntax
+
+  Metaborg-java-FieldDeclaration.FieldDecl = <<{Metaborg-java-FieldModifier " "}*> <Metaborg-java-UnannType> <{Metaborg-java-VarDecl ", "}+>;> {}
+  Metaborg-java-VarDeclId.VariableDecl = Metaborg-java-Id {}
+  Metaborg-java-VarDeclId.VariableDeclArray = <<Metaborg-java-Id><Metaborg-java-AnnotatedDim+>> {}
+  Metaborg-java-VarDecl.VariableDeclInit = <<Metaborg-java-VarDeclId> = <Metaborg-java-VariableInitializer>> {}
+  Metaborg-java-VarDecl = Metaborg-java-VarDeclId {}
+  Metaborg-java-VariableInitializer = Metaborg-java-Expression {}
+  Metaborg-java-VariableInitializer = Metaborg-java-ArrayInitializer {}
+  Metaborg-java-FieldModifier = Metaborg-java-Annotation {}
+  Metaborg-java-FieldModifier.Public = "public" {}
+  Metaborg-java-FieldModifier.Protected = "protected" {}
+  Metaborg-java-FieldModifier.Private = "private" {}
+  Metaborg-java-FieldModifier.Static = "static" {}
+  Metaborg-java-FieldModifier.Final = "final" {}
+  Metaborg-java-FieldModifier.Transient = "transient" {}
+  Metaborg-java-FieldModifier.Volatile = "volatile" {}
+
+context-free syntax
+
+  Metaborg-java-UnannType = Metaborg-java-UnannPrimitiveType {}
+  Metaborg-java-UnannType = Metaborg-java-UnannReferenceType {}
+  Metaborg-java-UnannPrimitiveType.NumericType = Metaborg-java-NumericType {}
+  Metaborg-java-UnannPrimitiveType.BooleanType = "boolean" {}
+  Metaborg-java-UnannReferenceType = Metaborg-java-UnannClassType {}
+  Metaborg-java-UnannReferenceType = Metaborg-java-UnannArrayType {}
+  Metaborg-java-UnannClassType.ClassType = <<Metaborg-java-Id><Metaborg-java-TypeArguments?>> {}
+  Metaborg-java-UnannClassType.ClassOrInterfaceTypeMember = <<Metaborg-java-UnannClassType>.<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id><Metaborg-java-TypeArguments?>> {}
+  Metaborg-java-UnannArrayType.ArrayTypePrimitive = <<Metaborg-java-UnannPrimitiveType> <Metaborg-java-AnnotatedDim+>> {}
+  Metaborg-java-UnannArrayType.ArrayTypeClassType = <<Metaborg-java-UnannClassType> <Metaborg-java-AnnotatedDim+>> {}

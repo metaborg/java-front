@@ -1,0 +1,15 @@
+module java/packages/CompilationUnits-namespaced
+
+imports
+  java/packages/PackageDeclarations-namespaced	
+  java/packages/ImportDeclarations-namespaced	
+  java/packages/TypeDeclarations-namespaced
+
+context-free syntax
+
+  Metaborg-java-CompilationUnit.CompilationUnit = <
+  <Metaborg-java-PackageDeclaration?>
+  
+  <{Metaborg-java-ImportDeclaration "\n"}*>
+     
+  <{Metaborg-java-TypeDeclaration "\n"}*>> {}

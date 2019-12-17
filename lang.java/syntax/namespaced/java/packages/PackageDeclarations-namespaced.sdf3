@@ -1,0 +1,9 @@
+module java/packages/PackageDeclarations-namespaced
+
+imports
+  java/lexical/Identifiers-namespaced	
+  java/interfaces/Annotations-namespaced
+
+context-free syntax
+
+  Metaborg-java-PackageDeclaration.PackageDeclaration = <<{Metaborg-java-Annotation " "}*> package <{Metaborg-java-Id "."}+>;> {}

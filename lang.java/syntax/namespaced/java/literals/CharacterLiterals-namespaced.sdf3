@@ -1,0 +1,19 @@
+module java/literals/CharacterLiterals-namespaced
+
+imports
+  java/literals/EscapeSequences-namespaced	
+  java/lexical/UnicodeEscapes-namespaced
+
+context-free start-symbols
+
+  Metaborg-java-CharacterLiteral
+
+context-free syntax
+
+  Metaborg-java-CharacterLiteral.CharLiteral = Metaborg-java-CharLiteral {}
+
+lexical syntax
+
+  Metaborg-java-CharLiteral = "'" ~[\n\r\'\\] "'" {}
+  Metaborg-java-CharLiteral = "'" Metaborg-java-EscapeSeq "'" {}
+  Metaborg-java-CharLiteral = "'" Metaborg-java-UnicodeEscape "'" {}

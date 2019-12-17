@@ -1,0 +1,14 @@
+module java/expressions/ArrayAccess-namespaced
+
+imports
+  java/names/Names-namespaced	
+  java/expressions/ArrayCreation-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression = Metaborg-java-ArrayAccess {}
+  Metaborg-java-ArrayAccess.ArrayAccess = <<Metaborg-java-Expression>[<Metaborg-java-Expression>]> {}
+
+context-free priorities
+
+  Metaborg-java-ArrayAccess.ArrayAccess <0>. > Metaborg-java-Expression = Metaborg-java-ArrayCreationExpression {}

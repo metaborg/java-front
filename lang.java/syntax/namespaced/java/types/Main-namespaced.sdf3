@@ -1,0 +1,14 @@
+module java/types/Main-namespaced
+
+imports
+  java/types/PrimitiveTypes-namespaced	
+  java/types/ReferenceTypes-namespaced
+
+context-free start-symbols
+
+  Metaborg-java-Type
+
+context-free syntax
+
+  Metaborg-java-Type = Metaborg-java-PrimitiveType {}
+  Metaborg-java-Type = Metaborg-java-ReferenceType {}

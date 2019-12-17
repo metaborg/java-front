@@ -1,0 +1,9 @@
+module java/lexical/Main-namespaced
+
+imports
+  java/lexical/Comments-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/lexical/Keywords-namespaced	
+  java/lexical/LineTerminators-namespaced	
+  java/lexical/UnicodeEscapes-namespaced	
+  java/lexical/WhiteSpace-namespaced

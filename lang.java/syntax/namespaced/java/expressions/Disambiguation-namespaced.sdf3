@@ -1,0 +1,88 @@
+module java/expressions/Disambiguation-namespaced
+
+imports
+  java/expressions/ClassInstanceCreation-namespaced	
+  java/expressions/Postfix-namespaced	
+  java/expressions/UnaryOperators-namespaced	
+  java/expressions/BinaryOperators-namespaced	
+  java/expressions/ArrayAccess-namespaced	
+  java/expressions/FieldAccess-namespaced	
+  java/expressions/MethodInvocation-namespaced	
+  java/expressions/AssignmentOperators-namespaced	
+  java/expressions/LambdaExpressions-namespaced	
+  java/names/Names-namespaced
+
+context-free priorities
+
+  Metaborg-java-FieldAccess.Field > Metaborg-java-Expression = Metaborg-java-ExpressionName {},
+  Metaborg-java-ElementValue = Metaborg-java-Expression {} <0> > Metaborg-java-Expression.Assign
+
+context-free priorities
+
+  Metaborg-java-Expression.QualifiedInstance > {right :
+    Metaborg-java-Expression.PostIncr
+    Metaborg-java-Expression.PostDecr} > {Metaborg-java-Expression.CastPrimitive
+                                          Metaborg-java-Expression.CastReference}
+
+context-free priorities
+
+  Metaborg-java-Expression.CastPrimitive > {left :
+    Metaborg-java-Expression.Mul
+    Metaborg-java-Expression.Div
+    Metaborg-java-Expression.Mod}
+
+context-free priorities
+
+  Metaborg-java-Expression.CastReference > {Metaborg-java-Expression.PreIncr
+                                            Metaborg-java-Expression.PreDecr
+                                            Metaborg-java-Expression.Plus
+                                            Metaborg-java-Expression.Minus},
+  Metaborg-java-Expression.CastReference <4>. > {Metaborg-java-Expression.Plus
+                                                 Metaborg-java-Expression.Minus}
+
+context-free priorities
+
+  {Metaborg-java-ArrayAccess.ArrayAccess
+   Metaborg-java-FieldAccess.Field
+   Metaborg-java-Expression.InvokeQExp} <0> > {right :
+    Metaborg-java-Expression.PostIncr
+    Metaborg-java-Expression.PostDecr} > {Metaborg-java-Expression.PreIncr
+                                          Metaborg-java-Expression.PreDecr
+                                          Metaborg-java-Expression.Plus
+                                          Metaborg-java-Expression.Minus
+                                          Metaborg-java-Expression.Complement
+                                          Metaborg-java-Expression.Not} > {left :
+    Metaborg-java-Expression.Mul
+    Metaborg-java-Expression.Div
+    Metaborg-java-Expression.Mod} > {left :
+    Metaborg-java-Expression.Add
+    Metaborg-java-Expression.Sub} > {left :
+    Metaborg-java-Expression.LeftShift
+    Metaborg-java-Expression.RightShift
+    Metaborg-java-Expression.URightShift} > {left :
+    Metaborg-java-Expression.InstanceOf
+    Metaborg-java-Expression.Lt
+    Metaborg-java-Expression.Gt
+    Metaborg-java-Expression.LtEq
+    Metaborg-java-Expression.GtEq} > {left :
+    Metaborg-java-Expression.Eq
+    Metaborg-java-Expression.NotEq} > Metaborg-java-Expression.And > Metaborg-java-Expression.Xor > Metaborg-java-Expression.Or > Metaborg-java-Expression.LazyAnd > Metaborg-java-Expression.LazyOr > Metaborg-java-Expression.Cond > {right :
+    Metaborg-java-Expression.Assign
+    Metaborg-java-Expression.AssignMul
+    Metaborg-java-Expression.AssignDiv
+    Metaborg-java-Expression.AssignMod
+    Metaborg-java-Expression.AssignAdd
+    Metaborg-java-Expression.AssignSub
+    Metaborg-java-Expression.AssignLeftShift
+    Metaborg-java-Expression.AssignRightShift
+    Metaborg-java-Expression.AssignURightShift
+    Metaborg-java-Expression.AssignAnd
+    Metaborg-java-Expression.AssignXor
+    Metaborg-java-Expression.AssignOr
+    Metaborg-java-Expression.LambdaExpression}
+
+lexical restrictions
+
+  "+" -/- [\+]
+  "-" -/- [\-]
+  "/" -/- [\/]

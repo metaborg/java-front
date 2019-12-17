@@ -1,0 +1,10 @@
+module java/lexical/WhiteSpace-namespaced
+
+
+lexical syntax
+
+  LAYOUT = [\ \t\12\r\n] {}
+
+context-free restrictions
+
+  LAYOUT? -/- [\ \t\12\n\r]

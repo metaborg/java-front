@@ -1,0 +1,51 @@
+module java/literals/FloatingPointLiterals-namespaced
+
+
+context-free start-symbols
+
+  Metaborg-java-FloatLiteral
+
+context-free syntax
+
+  Metaborg-java-FloatLiteral.DeciFloat = Metaborg-java-DeciFloatLiteral {}
+  Metaborg-java-FloatLiteral.HexaFloat = Metaborg-java-HexaFloatLiteral {}
+  Metaborg-java-FloatLiteral.DeciDouble = Metaborg-java-DeciDoubleLiteral {}
+  Metaborg-java-FloatLiteral.HexaDouble = Metaborg-java-HexaDoubleLiteral {}
+
+lexical syntax
+
+  Metaborg-java-DeciFloatLiteral = Metaborg-java-Digits "." Metaborg-java-Digits? Metaborg-java-DeciFloatExponentPart? [fF] {}
+  Metaborg-java-DeciFloatLiteral = "." Metaborg-java-Digits Metaborg-java-DeciFloatExponentPart? [fF] {}
+  Metaborg-java-DeciFloatLiteral = Metaborg-java-Digits Metaborg-java-DeciFloatExponentPart [fF] {}
+  Metaborg-java-DeciFloatLiteral = Metaborg-java-Digits [fF] {}
+  Metaborg-java-DeciDoubleLiteral = Metaborg-java-Digits "." Metaborg-java-Digits? Metaborg-java-DeciFloatExponentPart? [dD]? {}
+  Metaborg-java-DeciDoubleLiteral = "." Metaborg-java-Digits Metaborg-java-DeciFloatExponentPart? [dD]? {}
+  Metaborg-java-DeciDoubleLiteral = Metaborg-java-Digits Metaborg-java-DeciFloatExponentPart [dD]? {}
+  Metaborg-java-DeciDoubleLiteral = Metaborg-java-Digits [dD] {}
+  Metaborg-java-DeciFloatExponentPart = [eE] Metaborg-java-SignedInteger {}
+  Metaborg-java-SignedInteger = [\+\-]? Metaborg-java-Digits {}
+  Metaborg-java-Digits = Metaborg-java-Digit {}
+  Metaborg-java-Digits = Metaborg-java-Digit Metaborg-java-DigitsAndUnderscores? Metaborg-java-Digit {}
+  Metaborg-java-Digit = [0] {}
+  Metaborg-java-Digit = [1-9] {}
+  Metaborg-java-DigitsAndUnderscores = Metaborg-java-DigitsOrUnderscore+ {}
+  Metaborg-java-DigitsOrUnderscore = Metaborg-java-Digit | [\_] {}
+  Metaborg-java-Underscores = [\_]+ {}
+
+lexical restrictions
+
+  Metaborg-java-DeciFloatLiteral -/- [fF]
+  Metaborg-java-DeciDoubleLiteral -/- [dD]
+  Metaborg-java-SignedInteger -/- [0-9]
+
+lexical syntax
+
+  Metaborg-java-HexaFloatLiteral = Metaborg-java-HexaSignificand Metaborg-java-BinaryExponent [fF] {}
+  Metaborg-java-HexaDoubleLiteral = Metaborg-java-HexaSignificand Metaborg-java-BinaryExponent [dD]? {}
+  Metaborg-java-HexaSignificand = [0] [xX] [0-9a-fA-F\_]* [0-9a-fA-F] "."? {}
+  Metaborg-java-HexaSignificand = [0] [xX] [0-9a-fA-F\_]* [0-9a-fA-F] "." [0-9a-fA-F\_]* [0-9a-fA-F] {}
+  Metaborg-java-BinaryExponent = [pP] Metaborg-java-SignedInteger {}
+
+lexical restrictions
+
+  Metaborg-java-HexaSignificand -/- [0-9a-fA-F\.]

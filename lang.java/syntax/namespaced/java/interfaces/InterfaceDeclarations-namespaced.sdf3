@@ -1,0 +1,31 @@
+module java/interfaces/InterfaceDeclarations-namespaced
+
+imports
+  java/lexical/Identifiers-namespaced	
+  java/classes/ClassDeclarations-namespaced	
+  java/types/ReferenceTypes-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/interfaces/ConstantDeclarations-namespaced	
+  java/interfaces/InterfaceMethodDeclarations-namespaced	
+  java/interfaces/AnnotationTypes-namespaced
+
+context-free syntax
+
+  Metaborg-java-InterfaceDeclaration.NormalInterface = <
+  <{Metaborg-java-InterfaceModifier " "}*> interface <Metaborg-java-Id><Metaborg-java-TypeParameters?> <Metaborg-java-ExtendsInterfaces?> {
+    <{Metaborg-java-InterfaceMemberDeclaration "\n"}*>
+  }> {}
+  Metaborg-java-InterfaceDeclaration = Metaborg-java-AnnotationTypeDeclaration {}
+  Metaborg-java-InterfaceModifier = Metaborg-java-Annotation {}
+  Metaborg-java-InterfaceModifier.Public = "public" {}
+  Metaborg-java-InterfaceModifier.Protected = "protected" {}
+  Metaborg-java-InterfaceModifier.Private = "private" {}
+  Metaborg-java-InterfaceModifier.Abstract = "abstract" {}
+  Metaborg-java-InterfaceModifier.Static = "static" {}
+  Metaborg-java-InterfaceModifier.Strictfp = "strictfp" {}
+  Metaborg-java-ExtendsInterfaces.ExtendsInterfaces = <extends <{Metaborg-java-ClassType ", "}+>> {}
+  Metaborg-java-InterfaceMemberDeclaration = Metaborg-java-ConstantDeclaration {}
+  Metaborg-java-InterfaceMemberDeclaration = Metaborg-java-InterfaceMethodDeclaration {}
+  Metaborg-java-InterfaceMemberDeclaration = Metaborg-java-ClassDeclaration {}
+  Metaborg-java-InterfaceMemberDeclaration = Metaborg-java-InterfaceDeclaration {}
+  Metaborg-java-InterfaceMemberDeclaration.SemiColon = ";" {}

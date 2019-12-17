@@ -1,0 +1,26 @@
+module java/expressions/ClassInstanceCreation-namespaced
+
+imports
+  java/names/Names-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/types/ParameterizedTypes-namespaced	
+  java/classes/ClassDeclarations-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression = Metaborg-java-UnqualifiedInstance {}
+  Metaborg-java-Expression.QualifiedInstance = <<Metaborg-java-Expression>.<Metaborg-java-UnqualifiedInstance>> {}
+  Metaborg-java-UnqualifiedInstance.NewInstance = <
+  new <Metaborg-java-TypeArguments?> <{Metaborg-java-Annotation " "}*> <Metaborg-java-Id> <Metaborg-java-QualifiedId*> <Metaborg-java-TypeArgumentsOrDiamond?>(<{Metaborg-java-Expression ","}*>) > {}
+  Metaborg-java-UnqualifiedInstance.NewInstance = <  
+  new <Metaborg-java-TypeArguments?> <{Metaborg-java-Annotation " "}*> <Metaborg-java-Id> <Metaborg-java-QualifiedId*> <Metaborg-java-TypeArgumentsOrDiamond?>(<{Metaborg-java-Expression ","}*>) {
+    <{Metaborg-java-ClassBodyDeclaration "\n"}*>
+  }> {}
+  Metaborg-java-QualifiedId.QualifiedId = <.<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id>> {}
+  Metaborg-java-TypeArgumentsOrDiamond = Metaborg-java-TypeArguments {}
+  Metaborg-java-TypeArgumentsOrDiamond.Diamond = [<>] {}
+
+template options
+
+  tokenize : "<"

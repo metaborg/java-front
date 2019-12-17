@@ -1,0 +1,4 @@
+module java/arrays/Main-namespaced
+
+imports
+  java/arrays/ArrayInitializers-namespaced

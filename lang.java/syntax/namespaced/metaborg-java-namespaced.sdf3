@@ -1,0 +1,26 @@
+module metaborg-java-namespaced
+
+imports
+  java/arrays/Main-namespaced	
+  java/classes/Main-namespaced	
+  java/interfaces/Main-namespaced	
+  java/lexical/Main-namespaced	
+  java/literals/Main-namespaced	
+  java/names/Names-namespaced	
+  java/packages/Main-namespaced	
+  java/statements/Main-namespaced	
+  java/types/Main-namespaced	
+  java/expressions/Main-namespaced	
+  java/expressions/Disambiguation-namespaced
+
+sorts
+
+  Metaborg-java-CompilationUnit
+
+context-free start-symbols
+
+  Metaborg-java-Start
+
+context-free syntax
+
+  Metaborg-java-Start = Metaborg-java-CompilationUnit {}

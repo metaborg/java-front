@@ -1,0 +1,23 @@
+module java/expressions/PrimaryExpressions-namespaced
+
+imports
+  java/literals/Main-namespaced	
+  java/names/Names-namespaced	
+  java/types/PrimitiveTypes-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression = Metaborg-java-Literal {}
+  Metaborg-java-Expression = Metaborg-java-ClassLiteral {}
+  Metaborg-java-Expression.This = "this" {}
+  Metaborg-java-Expression.QThis = <<Metaborg-java-TypeName>.this> {}
+  Metaborg-java-Expression = <(<Metaborg-java-Expression>)> {bracket}
+  Metaborg-java-ClassLiteral.TypeNameClassLiteral = <<Metaborg-java-TypeName><Metaborg-java-Dims*>.class> {}
+  Metaborg-java-ClassLiteral.NumericTypeClassLiteral = <<Metaborg-java-NumericType><Metaborg-java-Dims*>.class> {}
+  Metaborg-java-ClassLiteral.BooleanClassLiteral = <boolean<Metaborg-java-Dims*>.class> {}
+  Metaborg-java-ClassLiteral.VoidClassLiteral = <void.class> {}
+  Metaborg-java-Dims.Dimension = <[]> {}
+
+template options
+
+  tokenize : ".["

@@ -1,0 +1,14 @@
+module java/expressions/LambdaExpressions-namespaced
+
+imports
+  java/statements/Blocks-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/classes/MethodDeclarations-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression.LambdaExpression = [[Metaborg-java-LambdaParameters] -> [Metaborg-java-Expression]] {}
+  Metaborg-java-Expression.LambdaExpressionWithBlock = [[Metaborg-java-LambdaParameters] -> [Metaborg-java-Block]] {}
+  Metaborg-java-LambdaParameters.SingleParam = Metaborg-java-Id {}
+  Metaborg-java-LambdaParameters.Params = <(<Metaborg-java-FormalParams>)> {}
+  Metaborg-java-LambdaParameters.InferredParams = <(<{Metaborg-java-Id ", "}+>)> {}

@@ -1,0 +1,26 @@
+module java/expressions/MethodReference-namespaced
+
+imports
+  java/types/ReferenceTypes-namespaced	
+  java/types/ParameterizedTypes-namespaced	
+  java/lexical/Identifiers-namespaced	
+  java/names/Names-namespaced	
+  java/expressions/UnaryOperators-namespaced
+
+context-free syntax
+
+  Metaborg-java-Expression.MethodReferenceRType = <<Metaborg-java-ReferenceType>::<Metaborg-java-TypeArguments?><Metaborg-java-Id>> {}
+  Metaborg-java-Expression.MethodReferenceExpr = <<Metaborg-java-Expression>::<Metaborg-java-TypeArguments?><Metaborg-java-Id>> {}
+  Metaborg-java-Expression.MethodReferenceSuper = <super::<Metaborg-java-TypeArguments?><Metaborg-java-Id>> {}
+  Metaborg-java-Expression.MethodReferenceQSuper = <<Metaborg-java-TypeName>.super::<Metaborg-java-TypeArguments?><Metaborg-java-Id>> {}
+  Metaborg-java-Expression.MethodReferenceCType = <<Metaborg-java-ClassType>::<Metaborg-java-TypeArguments?> new> {}
+  Metaborg-java-Expression.MethodReferenceAType = <<Metaborg-java-ArrayType>::<Metaborg-java-TypeArguments?> new> {}
+
+context-free priorities
+
+  Metaborg-java-Expression.MethodReferenceExpr > Metaborg-java-Expression = Metaborg-java-ExpressionName {},
+  Metaborg-java-Expression.MethodReferenceExpr > Metaborg-java-Expression.CastReference
+
+template options
+
+  tokenize : "::"

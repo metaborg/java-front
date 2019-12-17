@@ -1,0 +1,16 @@
+module java/packages/ImportDeclarations-namespaced
+
+imports
+  java/names/Names-namespaced	
+  java/lexical/Identifiers-namespaced
+
+context-free syntax
+
+  Metaborg-java-ImportDeclaration.SingleTypeImport = <import <Metaborg-java-TypeName>;> {}
+  Metaborg-java-ImportDeclaration.TypeImportOnDemand = <import <Metaborg-java-PackageOrTypeName>.*;> {}
+  Metaborg-java-ImportDeclaration.SingleStaticImport = <import static <Metaborg-java-TypeName>.<Metaborg-java-Id>;> {}
+  Metaborg-java-ImportDeclaration.StaticImportOnDemand = <import static <Metaborg-java-TypeName>.*;> {}
+
+template options
+
+  tokenize : ".;"

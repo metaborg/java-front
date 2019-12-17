@@ -1,0 +1,11 @@
+module java/literals/BooleanLiterals-namespaced
+
+
+context-free start-symbols
+
+  Metaborg-java-BoolLiteral
+
+context-free syntax
+
+  Metaborg-java-BoolLiteral.True = <true> {}
+  Metaborg-java-BoolLiteral.False = <false> {}

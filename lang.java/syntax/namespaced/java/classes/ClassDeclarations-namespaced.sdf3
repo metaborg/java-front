@@ -1,0 +1,44 @@
+module java/classes/ClassDeclarations-namespaced
+
+imports
+  java/lexical/Identifiers-namespaced	
+  java/types/ReferenceTypes-namespaced	
+  java/classes/FieldDeclarations-namespaced	
+  java/classes/MethodDeclarations-namespaced	
+  java/classes/InstanceInitializers-namespaced	
+  java/classes/StaticInitializers-namespaced	
+  java/classes/EnumDeclarations-namespaced	
+  java/classes/ConstructorDeclarations-namespaced	
+  java/interfaces/Annotations-namespaced	
+  java/interfaces/InterfaceDeclarations-namespaced
+
+context-free syntax
+
+  Metaborg-java-ClassDeclaration = Metaborg-java-NormalClassDeclaration {}
+  Metaborg-java-ClassDeclaration = Metaborg-java-EnumDeclaration {}
+  Metaborg-java-NormalClassDeclaration.ClassDeclaration = <
+  <{Metaborg-java-ClassModifier " "}*> class <Metaborg-java-Id><Metaborg-java-TypeParameters?> <Metaborg-java-SuperClass?> <Metaborg-java-SuperInterfaces?> {
+    <{Metaborg-java-ClassBodyDeclaration "\n"}*>
+  }> {}
+  Metaborg-java-ClassModifier = Metaborg-java-Annotation {}
+  Metaborg-java-ClassModifier.Public = "public" {}
+  Metaborg-java-ClassModifier.Protected = "protected" {}
+  Metaborg-java-ClassModifier.Private = "private" {}
+  Metaborg-java-ClassModifier.Abstract = "abstract" {}
+  Metaborg-java-ClassModifier.Static = "static" {}
+  Metaborg-java-ClassModifier.Final = "final" {}
+  Metaborg-java-ClassModifier.Strictfp = "strictfp" {}
+  Metaborg-java-TypeParameters.TypeParameters = [<[{Metaborg-java-TypeParameter ","}+]>] {}
+  Metaborg-java-TypeParameter.TypeParameter = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id>> {}
+  Metaborg-java-TypeParameter.TypeParameterExtendsClassType = <<{Metaborg-java-Annotation " "}*> <Metaborg-java-Id> extends <{Metaborg-java-ClassType "& "}+>> {}
+  Metaborg-java-SuperClass.SuperClass = <extends <Metaborg-java-ClassType>> {}
+  Metaborg-java-SuperInterfaces.SuperInterface = <implements <{Metaborg-java-ClassType ", "}+>> {}
+  Metaborg-java-ClassBodyDeclaration = Metaborg-java-ClassMemberDeclaration {}
+  Metaborg-java-ClassBodyDeclaration = Metaborg-java-InstanceInitializer {}
+  Metaborg-java-ClassBodyDeclaration = Metaborg-java-StaticInitializer {}
+  Metaborg-java-ClassBodyDeclaration = Metaborg-java-ConstructorDeclaration {}
+  Metaborg-java-ClassMemberDeclaration = Metaborg-java-FieldDeclaration {}
+  Metaborg-java-ClassMemberDeclaration = Metaborg-java-MethodDeclaration {}
+  Metaborg-java-ClassMemberDeclaration = Metaborg-java-ClassDeclaration {}
+  Metaborg-java-ClassMemberDeclaration = Metaborg-java-InterfaceDeclaration {}
+  Metaborg-java-ClassMemberDeclaration.SemiColon = ";" {}
