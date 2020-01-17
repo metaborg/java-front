@@ -1,7 +1,0 @@
-module test
-
-language metaborg-java
-
-test parse [[
-
-]] parse succeeds
