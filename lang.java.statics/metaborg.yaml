@@ -15,6 +15,9 @@ contributions:
 exports:
 - directory: src-gen/statix
   includes: "**/*.aterm"
+runtime:
+  nabl2:
+    debug: analysis files
 language:
   sdf:
     enabled: false 
