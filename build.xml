@@ -199,7 +199,7 @@
 			<pathelement location="${base-strategoxt}" />
 		</path>
 
-		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" includeAntRuntime="no" includeJavaRuntime="no" classpathref="build.classpath" source="1.7" target="1.7" nowarn="off" debug="true" debuglevel="source" />
+		<javac srcdir="${bin.java.lib}" destdir="${bin}/classes" includeAntRuntime="no" includeJavaRuntime="no" classpathref="build.classpath" source="1.8" target="1.8" nowarn="off" debug="true" debuglevel="source" />
 		<jar destfile="${bin}/java_front.jar" update="false">
 			<fileset dir="${bin}/classes" includes="**/*.class" />
 			<fileset dir="${bin}/languages/java" includes="*.tbl, *.pp.af" />
