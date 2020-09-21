@@ -12,4 +12,3 @@ test example 5 [['\'']] parse succeeds
 test example 6 [['\u03a9']] parse succeeds
 test example 7 [['\uFFFF']] parse succeeds
 test example 8 [['\177']] parse succeeds
-test example 9 [['™']] parse succeeds
