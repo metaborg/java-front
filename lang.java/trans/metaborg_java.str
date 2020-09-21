@@ -35,4 +35,4 @@ rules
     (_, _, ast, path, project-path) -> (filename, result)
     with
       filename := <guarantee-extension(|"aterm")> path
-    ; result := <java-explicate-injections> ast
+    ; result := <java-explicate-injections;strip-annos> ast
