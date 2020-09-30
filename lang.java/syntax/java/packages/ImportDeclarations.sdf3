@@ -6,6 +6,10 @@ imports
   java/names/Names
   java/lexical/Identifiers
 
+context-free sorts
+
+  ImportDeclaration
+
 context-free syntax
   
   ImportDeclaration.SingleTypeImport     = <import <TypeName>;>

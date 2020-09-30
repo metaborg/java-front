@@ -9,6 +9,12 @@ imports
   java/types/ParameterizedTypes
   java/classes/ClassDeclarations
 
+context-free sorts
+
+  UnqualifiedInstance
+  QualifiedId
+  TypeArgumentsOrDiamond
+
 context-free syntax
   
   Expression              = UnqualifiedInstance

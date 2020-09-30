@@ -7,6 +7,11 @@ imports
   java/statements/LocalVariableDeclarations
   java/statements/Statements
 
+context-free sorts
+
+  Block
+  BlockStatement
+
 context-free syntax
   
   Block.Block = <

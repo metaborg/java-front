@@ -6,6 +6,10 @@ context-free start-symbols
   
   IntLiteral
 
+context-free sorts
+  
+  IntLiteral
+
 context-free syntax
 
   IntLiteral.Deci = DeciLiteral {prefer}
@@ -13,6 +17,13 @@ context-free syntax
   IntLiteral.Octa = OctaLiteral {prefer}
   IntLiteral.Bin  = BinLiteral  {prefer}
   
+/*FIXME: lexical*/ sorts
+
+  DeciLiteral
+  HexaLiteral
+  OctaLiteral
+  BinLiteral
+
 lexical syntax
 
   DeciLiteral = DeciNumeral [lL]?

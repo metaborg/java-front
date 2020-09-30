@@ -6,12 +6,23 @@ context-free start-symbols
   
   FloatLiteral
 
+context-free sorts
+  
+  FloatLiteral
+
 context-free syntax
 
   FloatLiteral.DeciFloat = DeciFloatLiteral
   FloatLiteral.HexaFloat = HexaFloatLiteral
   FloatLiteral.DeciDouble = DeciDoubleLiteral
   FloatLiteral.HexaDouble = HexaDoubleLiteral
+
+/*FIXME: lexical */ sorts
+
+  DeciFloatLiteral
+  HexaFloatLiteral
+  DeciDoubleLiteral
+  HexaDoubleLiteral
 
 lexical syntax
 

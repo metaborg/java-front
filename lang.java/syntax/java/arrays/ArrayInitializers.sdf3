@@ -5,6 +5,10 @@ module java/arrays/ArrayInitializers
 imports
   java/classes/FieldDeclarations
   
+context-free sorts
+
+  ArrayInitializer
+  
 context-free syntax
   
   ArrayInitializer.ArrayInit      = <{<{VariableInitializer ","}*>}>

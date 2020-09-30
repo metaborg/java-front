@@ -10,10 +10,18 @@ context-free start-symbols
   
   CharacterLiteral  
   
+context-free sorts
+  
+  CharacterLiteral  
+  
 context-free syntax
 
   CharacterLiteral.CharLiteral = CharLiteral  
   
+/*FIXME: lexical*/ sorts
+
+  CharLiteral  
+
 lexical syntax
 
   CharLiteral = "'" ~[\n\r\'\\] "'"

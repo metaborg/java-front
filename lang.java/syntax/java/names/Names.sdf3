@@ -6,6 +6,15 @@ module java/names/Names
 imports 
   java/lexical/Identifiers
   
+context-free sorts
+  
+  PackageName
+  TypeName
+  PackageOrTypeName
+  ExpressionName
+  AmbiguousName
+  MethodName
+
 context-free syntax
   
   PackageName.PackageName             = Id

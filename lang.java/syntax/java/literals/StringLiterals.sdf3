@@ -10,10 +10,18 @@ context-free start-symbols
 
   StringLiteral
   
+context-free sorts
+
+  StringLiteral
+
 context-free syntax
 
   StringLiteral.StringLiteral = StringLit  
   
+/*FIXME: lexical*/ sorts
+
+  StringLit
+
 lexical syntax
 
   StringLit = "\"" StringPart* "\""

@@ -11,6 +11,24 @@ imports
   java/types/ReferenceTypes
   java/expressions/Main
 
+context-free sorts
+
+  Statement
+  ForInit
+  ForUpdate
+  ExprList
+  SwitchGroup
+  SwitchLabel
+  CatchClause
+  CatchFormalParameter
+  CatchType
+  CatchTypeRest
+  Resource
+    
+context-free priorities
+
+  Statement.IfElse  > Statement.If
+
 context-free syntax
 
   Statement.Labeled = <<Id> : <Statement>>
@@ -23,10 +41,12 @@ context-free syntax
   Statement.For     = <for(<ForInit>; <Expression?>; <ForUpdate>) <Statement>>
   Statement.ForEach = <for(<{VariableModifier " "}*> <UnannType> <VarDeclId> : <Expression>) <Statement>>
   
-  ForInit.ExprList = <<{Expression ", "}*>>
+  ForInit = ExprList
   ForInit.VarDecls = <<{VariableModifier " "}*> <UnannType> <{VarDecl ", "}+>>
   
-  ForUpdate.ExprList = <<{Expression ", "}*>>
+  ForUpdate = ExprList
+  
+  ExprList.ExprList =  <<{Expression ", "}*>>
   
   Statement = Block
   
@@ -54,7 +74,7 @@ context-free syntax
   
   SwitchLabel.CaseExpr     = <case <Expression> :>
 //  SwitchLabel.CaseEnumName = <case <Id> :>
-  SwitchLabel.Default      = <default :>
+  SwitchLabel.DefaultCase  = <default :>
   
   Statement.DoWhile = <
   do <Statement>

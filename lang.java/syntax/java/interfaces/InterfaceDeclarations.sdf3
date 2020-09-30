@@ -4,6 +4,8 @@ module java/interfaces/InterfaceDeclarations
 
 imports
   java/lexical/Identifiers
+  java/lexical/Modifiers
+  java/lexical/SemiColon
   java/classes/ClassDeclarations
   java/types/ReferenceTypes
   java/interfaces/Annotations
@@ -11,7 +13,15 @@ imports
   java/interfaces/InterfaceMethodDeclarations
   java/interfaces/AnnotationTypes
 
+context-free sorts
+
+  InterfaceDeclaration
+  InterfaceModifier
+  ExtendsInterfaces
+  InterfaceMemberDeclaration
+
 context-free syntax
+
   
   InterfaceDeclaration.NormalInterface = <
   <{InterfaceModifier " "}*> interface <Id><TypeParameters?> <ExtendsInterfaces?> {
@@ -20,21 +30,19 @@ context-free syntax
   
   InterfaceDeclaration = AnnotationTypeDeclaration
   
-  InterfaceModifier           = Annotation
-  InterfaceModifier.Public    = "public"
-  InterfaceModifier.Protected = "protected"
-  InterfaceModifier.Private   = "private"
-  InterfaceModifier.Abstract  = "abstract"
-  InterfaceModifier.Static    = "static"
-  InterfaceModifier.Strictfp  = "strictfp"
+  InterfaceModifier = Annotation
+  InterfaceModifier = Public
+  InterfaceModifier = Protected
+  InterfaceModifier = Private
+  InterfaceModifier = Abstract
+  InterfaceModifier = Static
+  InterfaceModifier = Strictfp
   
   ExtendsInterfaces.ExtendsInterfaces = <extends <{ClassType ", "}+>>
   
-  InterfaceMemberDeclaration  = ConstantDeclaration
+  InterfaceMemberDeclaration = ConstantDeclaration
   InterfaceMemberDeclaration = InterfaceMethodDeclaration
-  InterfaceMemberDeclaration  = ClassDeclaration
-  InterfaceMemberDeclaration  = InterfaceDeclaration
-  InterfaceMemberDeclaration.SemiColon = ";"
-  
-  
+  InterfaceMemberDeclaration = ClassDeclaration
+  InterfaceMemberDeclaration = InterfaceDeclaration
+  InterfaceMemberDeclaration = SemiColon
   

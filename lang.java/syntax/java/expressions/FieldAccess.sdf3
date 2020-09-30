@@ -5,6 +5,11 @@ module java/expressions/FieldAccess
 imports
   java/names/Names
   java/lexical/Identifiers
+  java/expressions/Main
+
+context-free sorts
+
+  FieldAccess
 
 context-free syntax
   

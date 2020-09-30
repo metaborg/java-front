@@ -3,8 +3,14 @@ module java/interfaces/InterfaceMethodDeclarations
 // 9.4. Method Declarations
 
 imports
+  java/lexical/Modifiers
   java/classes/MethodDeclarations
   java/interfaces/Annotations
+
+context-free sorts
+
+  InterfaceMethodDeclaration
+  InterfaceMethodModifier 
 
 context-free syntax
   
@@ -12,8 +18,8 @@ context-free syntax
   <{InterfaceMethodModifier " "}*> <MethodHeader> <MethodBody>>
   
   InterfaceMethodModifier = Annotation
-  InterfaceMethodModifier.Public   = "public"
-  InterfaceMethodModifier.Abstract = "abstract"
-  InterfaceMethodModifier.Default  = "default"
-  InterfaceMethodModifier.Static   = "static"
-  InterfaceMethodModifier.Strictfp = "strictfp"
+  InterfaceMethodModifier = Public
+  InterfaceMethodModifier = Abstract
+  InterfaceMethodModifier = Default
+  InterfaceMethodModifier = Static
+  InterfaceMethodModifier = Strictfp

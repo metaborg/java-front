@@ -4,6 +4,7 @@ module java/expressions/Postfix
 
 imports
   java/names/Names
+  java/expressions/Main
 
 context-free syntax
   

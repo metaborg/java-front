@@ -11,14 +11,15 @@ imports
   java/literals/Main
   java/names/Names
   java/packages/Main
+  java/packages/CompilationUnits
   java/statements/Main
   java/types/Main  
   java/expressions/Main
   java/expressions/Disambiguation
 
-sorts
+context-free sorts
 
-  CompilationUnit
+  Start
 
 context-free start-symbols
 

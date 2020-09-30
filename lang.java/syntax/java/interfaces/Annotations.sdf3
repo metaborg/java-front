@@ -7,6 +7,13 @@ imports
   java/lexical/Identifiers
   java/expressions/Main
 
+context-free sorts
+
+  Annotation
+  ElementValuePair
+  ElementValue
+  ElementValueArrayInitializer
+
 context-free syntax
 
   Annotation.Anno = <@<TypeName>(<{ElementValuePair ", "}*>)>

@@ -7,7 +7,12 @@ imports
   java/packages/ImportDeclarations
   java/packages/TypeDeclarations
 
+context-free sorts
+
+  CompilationUnit
+
 context-free syntax
+
 
   CompilationUnit.CompilationUnit = <
   <PackageDeclaration?>

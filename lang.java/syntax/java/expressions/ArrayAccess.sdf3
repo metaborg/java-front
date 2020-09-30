@@ -6,6 +6,10 @@ imports
   java/names/Names
   java/expressions/ArrayCreation
 
+context-free sorts
+
+  ArrayAccess
+
 context-free syntax
 
   Expression = ArrayAccess

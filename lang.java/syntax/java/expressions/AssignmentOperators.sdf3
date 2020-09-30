@@ -7,6 +7,10 @@ imports
   java/expressions/FieldAccess
   java/names/Names
 
+context-free sorts
+
+  LHS
+
 context-free syntax
   
   Expression.Assign            = <<LHS> = <Expression>>
