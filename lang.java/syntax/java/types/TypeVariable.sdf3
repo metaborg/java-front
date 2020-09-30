@@ -2,6 +2,8 @@ module java/types/TypeVariable
 
 // 4.4. Type Variables
 
+// duplicate of TypeParameter in java/classes/ClassDeclarations
+
 imports
   java/types/ReferenceTypes
   java/lexical/Identifiers
@@ -9,10 +11,10 @@ imports
 
 context-free sorts
 
-  TypeBound
+//  TypeBound
 
 context-free syntax
 
-  TypeParameter.TypeParameter = <<{Annotation " "}*> <Id> <TypeBound?>>
-  TypeBound.TypeBound = <extends <{ClassType "& "}+>>
+//  TypeParameter.TypeParameter = <<{Annotation " "}*> <Id> <TypeBound?>>
+//  TypeBound.TypeBound = <extends <{ClassType "& "}+>>
   

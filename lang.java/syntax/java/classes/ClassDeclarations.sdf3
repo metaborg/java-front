@@ -7,7 +7,6 @@ imports
   java/lexical/Modifiers
   java/lexical/SemiColon
   java/types/ReferenceTypes
-  java/types/TypeVariable
   java/classes/FieldDeclarations
   java/classes/MethodDeclarations
   java/classes/InstanceInitializers
