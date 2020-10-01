@@ -10,9 +10,8 @@ imports
 context-free sorts
 
   TypeParameter
-  TypeBound
 
 context-free syntax
 
-  TypeParameter.TypeParameter = <<{Annotation " "}*> <Id> <TypeBound?>>
-  TypeBound.TypeBound = <extends <{ClassType "& "}+>>
+  TypeParameter.TypeParameter        = <<{Annotation " "}*> <Id>>
+  TypeParameter.TypeParameterExtends = <<{Annotation " "}*> <Id> extends <{ClassType "& "}+>>

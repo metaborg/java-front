@@ -4,5 +4,17 @@ imports
 
   signatures/java/arrays/Main-sig
 
-rules
+rules // Chapter 10. Arrays
 
+
+rules // 10.6. Array Initializers
+
+  arrayInitOk : ArrayInitializer
+  
+  arrayInitOk(ArrayInit(varInits)) :-
+    try { false } | note "unimplemented" @varInits
+  , true.
+  
+  arrayInitOk(ArrayInitComma(varInits)) :-
+    try { false } | note "unimplemented" @varInits
+  , true.

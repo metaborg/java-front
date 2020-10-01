@@ -13,7 +13,10 @@ rules // 7.3. Compilation Units
   compilationUnitOk : CompilationUnit
 
   compilationUnitOk(CompilationUnit(pkgDecl', importDecls, typeDecls)) :-
-    false.
+    try { false } | note "unimplemented" @pkgDecl'
+  , try { false } | note "unimplemented" @importDecls
+  , try { false } | note "unimplemented" @typeDecls
+  , true.
 
 
 rules // 7.4. Package Declarations
@@ -21,7 +24,9 @@ rules // 7.4. Package Declarations
   packageDeclOk : PackageDeclaration
 
   packageDeclOk(PackageDeclaration(annos, ids)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @ids
+  , true.
 
 
 rules // 7.5. Import Declarations
@@ -29,7 +34,8 @@ rules // 7.5. Import Declarations
   importDeclOk : ImportDeclaration
   
   importDeclOk(SingleTypeImport(typeName)) :-
-    false.
+    try { false } | note "unimplemented" @typeName
+  , true.
 
 
 rules // 7.6. Top Level Type Declarations
@@ -37,10 +43,12 @@ rules // 7.6. Top Level Type Declarations
   typeDeclOk : TypeDeclaration
   
   typeDeclOk(ClassDeclaration2TypeDeclaration(clsDecl)) :-
-    false.
+    try { false } | note "unimplemented" @clsDecl
+  , true.
 
   typeDeclOk(InterfaceDeclaration2TypeDeclaration(id)) :-
-    false.
+    try { false } | note "unimplemented" @id
+  , true.
 
   typeDeclOk(SemiColon2TypeDeclaration(_)) :-
-    false.
+    true.

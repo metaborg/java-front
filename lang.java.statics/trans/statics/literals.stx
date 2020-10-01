@@ -4,5 +4,93 @@ imports
 
   signatures/java/literals/Main-sig
 
-rules
+rules // 3.10. Literals
 
+  litOk : Literal
+
+  litOk(IntLiteral2Literal(intLit)) :-
+    intLitOk(intLit).
+
+  litOk(FloatLiteral2Literal(floatLit)) :-
+    floatLitOk(floatLit).
+
+  litOk(BoolLiteral2Literal(boolLit)) :-
+    boolLitOk(boolLit).
+
+  litOk(CharacterLiteral2Literal(charLit)) :-
+    charLitOk(charLit).
+
+  litOk(StringLiteral2Literal(stringLit)) :-
+    stringLitOk(stringLit).
+
+  litOk(NullLiteral2Literal(nullLit)) :-
+    nullLitOk(nullLit).
+
+
+rules// 3.10.1. Integer Literals
+
+  intLitOk : IntLiteral
+  
+  intLitOk(Deci(_)) :-
+    false.
+
+  intLitOk(Hexa(_)) :-
+    false.
+
+  intLitOk(Octa(_)) :-
+    false.
+
+  intLitOk(Bin(_)) :-
+    false.
+
+
+rules // 3.10.2. Floating-Point Literals
+
+  floatLitOk : FloatLiteral
+  
+  floatLitOk(DeciFloat(_)) :-
+    false.
+
+  floatLitOk(HexaFloat(_)) :-
+    false.
+
+  floatLitOk(DeciDouble(_)) :-
+    false.
+
+  floatLitOk(HexaDouble(_)) :-
+    false.
+
+
+rules // 3.10.3. Boolean Literals
+
+  boolLitOk : BoolLiteral
+
+  boolLitOk(True()) :-
+    false.
+    
+  boolLitOk(False()) :-
+    false.
+
+
+rules // 3.10.4. Character Literals
+
+  charLitOk : CharacterLiteral
+  
+  charLitOk(CharLiteral(_)) :-
+    false.
+
+    
+rules // 3.10.5. String Literals
+
+  stringLitOk : StringLiteral
+  
+  stringLitOk(StringLiteral(_)) :-
+    false.
+
+
+rules // 3.10.7. The Null Literal
+
+  nullLitOk : NullLiteral
+
+  nullLitOk(Null()) :-
+    false.

@@ -10,10 +10,12 @@ rules // Chapter 4. Types, Values, and Variables
   typeOk : Type
   
   typeOk(PrimitiveType2Type(primType)) :-
-    false.
+    try { false } | note "unimplemented" @primType
+  , true.
 
   typeOk(ReferenceType2Type(refType)) :-
-    false.
+    try { false } | note "unimplemented" @refType
+  , true.
 
 
 rules // 4.2. Primitive Types and Values
@@ -21,10 +23,13 @@ rules // 4.2. Primitive Types and Values
   primTypeOk : PrimitiveType
   
   primTypeOk(NumericType(annos, numType)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @numType
+  , true.
 
   primTypeOk(BooleanType(annos)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , true.
 
 
   numTypeOk : NumericType
@@ -43,93 +48,121 @@ rules // 4.3. Reference Types and Values
   refTypeOk : ReferenceType
   
   refTypeOk(ClassType2ReferenceType(clsType)) :-
-    false.
+    try { false } | note "unimplemented" @clsType
+  , true.
     
   refTypeOk(ArrayType2ReferenceType(arrayType)) :-
-    false.
+    try { false } | note "unimplemented" @arrayType
+  , true.
 
 
   clsTypeOk : ClassType
   
   clsTypeOk(ClassType(annos, id, typeArgs')) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @id
+  , try { false } | note "unimplemented" @typeArgs'
+  , true.
 
   clsTypeOk(ClassOrInterfaceTypeMember(clsType, annos, id, typeArgs')) :-
-    false.
+    try { false } | note "unimplemented" @clsType
+  , try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @id
+  , try { false } | note "unimplemented" @typeArgs'
+  , true.
 
 
   typeVarOk : TypeVariable
   
   typeVarOk(TypeVar(annos, id)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @id
+  , true.
 
 
   arrayTypeOk : ArrayType
   
-  arrayTypeOk(ArrayTypePrimitive(pt, annDims)) :-
-    false.
+  arrayTypeOk(ArrayTypePrimitive(primType, annDims)) :-
+    try { false } | note "unimplemented" @primType
+  , try { false } | note "unimplemented" @annDims
+  , true.
 
-  arrayTypeOk(ArrayTypeClassType(ct, annDims)) :-
-    false.
+  arrayTypeOk(ArrayTypeClassType(clsType, annDims)) :-
+    try { false } | note "unimplemented" @clsType
+  , try { false } | note "unimplemented" @annDims
+  , true.
 
 
   annDimsOk : AnnotatedDims
   
   annDimsOk(AnnotatedDims2AnnotatedDims(annDims)) :-
-    false.
+    try { false } | note "unimplemented" @annDims
+  , true.
 
 
   annDimsEmptyOk : AnnotatedDimsEmpty
   
   annDimsEmptyOk(AnnotatedDims2AnnotatedDimsEmpty(annDims)) :-
-    false.
+    try { false } | note "unimplemented" @annDims
+  , true.
 
 
   annDimOk : AnnotatedDim
   
   annDimOk(AnnotateDim(annos)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , true.
 
 
 rules // 4.4. Type Variables
 
   typeParamOk : TypeParameter
 
-  typeParamOk(TypeParameter(annos, id, typeBound')) :-
-    false.
+  typeParamOk(TypeParameter(annos, id)) :-
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @id
+  , true.
+    
+  typeParamOk(TypeParameterExtends(annos, id, clsTypes)) :-
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @id
+  , try { false } | note "unimplemented" @clsTypes
+  , true.
     
     
-  typeBoundOk : TypeBound
-  
-  typeBoundOk(TypeBound(clsTypes)) :-
-    false.
-
-
 rules // 4.5. Parameterized Types
 
   typeArgsOk : TypeArguments
   
   typeArgsOk(TypeArguments(typeArgs)) :-
-    false.
+    try { false } | note "unimplemented" @typeArgs
+  , true.
     
 
   typeArgOk : TypeArgument
   
   typeArgOk(ReferenceType2TypeArgument(refType)) :-
-    false.
+    try { false } | note "unimplemented" @refType
+  , true.
     
   typeArgOk(WildCard2TypeArgument(wildCard)) :-
-    false.
+    try { false } | note "unimplemented" @wildCard
+  , true.
     
   
   wildCardOk : WildCard
   
   wildCardOk(WildCard(annos)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , true.
     
   wildCardOk(WildCardExtends(annos, refType)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @refType
+  , true.
     
   wildCardOk(WildCardSuper(annos, refType)) :-
-    false.
+    try { false } | note "unimplemented" @annos
+  , try { false } | note "unimplemented" @refType
+  , true.
     
