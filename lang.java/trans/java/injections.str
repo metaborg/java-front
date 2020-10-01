@@ -3,16 +3,12 @@ module java/injections
 imports
 
   libspoofax/sdf/pp
+  injections/metaborg-java-injections
 
 rules
 
   java-explicate-injections =
-    explicate-injections(java-inj-name)
+    explicate-injections-metaborg-java
 
-  java-inj-name: (sort, into-sort) -> $[[sort']2[into-sort']]
-    where not("Start" := into-sort) // ignore Start injection
-    with sort' := <camel-abbr> sort
-    with into-sort' := <camel-abbr> into-sort
-
-  camel-abbr = explode-string; filter(is-upper); implode-string
-
+  java-implicate-injections =
+    implicate-injections-metaborg-java
