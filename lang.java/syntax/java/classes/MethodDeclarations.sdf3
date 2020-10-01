@@ -58,7 +58,7 @@ context-free syntax
   
   ReceiverParam.ReceiverParamQual = <<{Annotation " "}*> <UnannType> <Id>.this>
   ReceiverParam.ReceiverParam     = <<{Annotation " "}*> <UnannType> this>
-  
+
   FormalParams.NoParams          = 
   FormalParams                   = ReceiverParam
   FormalParams.SingleParam       = LastFormalParam

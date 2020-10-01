@@ -1,6 +1,5 @@
 module java/names/Names
 
-// Chapter 6. Names
 // 6.5. Determining the Meaning of a Name
 
 imports 

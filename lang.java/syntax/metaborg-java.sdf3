@@ -4,18 +4,8 @@ module metaborg-java
 // Java SE 8 Edition
 
 imports
-  java/arrays/Main
-  java/classes/Main
-  java/interfaces/Main
-  java/lexical/Main
-  java/literals/Main
-  java/names/Names
-  java/packages/Main
+  java/Main
   java/packages/CompilationUnits
-  java/statements/Main
-  java/types/Main  
-  java/expressions/Main
-  java/expressions/Disambiguation
 
 context-free sorts
 

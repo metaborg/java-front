@@ -15,6 +15,7 @@ imports
   java/classes/ConstructorDeclarations
   java/interfaces/Annotations
   java/interfaces/InterfaceDeclarations
+  java/types/TypeVariable
 
 context-free sorts
 
@@ -22,7 +23,6 @@ context-free sorts
   NormalClassDeclaration
   ClassModifier
   TypeParameters
-  TypeParameter
   SuperClass
   SuperInterfaces
   ClassBodyDeclaration
@@ -48,9 +48,9 @@ context-free syntax
   ClassModifier = Strictfp
   
   TypeParameters.TypeParameters               = [<[{TypeParameter ","}+]>]
-  TypeParameter.TypeParameter                 = <<{Annotation " "}*> <Id>>
-  TypeParameter.TypeParameterExtendsClassType = <<{Annotation " "}*> <Id> extends <{ClassType "& "}+>>
-  
+
+  // TypeParameter is already defined in 4.4 / java/types/TypeVariable
+
   SuperClass.SuperClass = <extends <ClassType>>
   
   SuperInterfaces.SuperInterface = <implements <{ClassType ", "}+>>
