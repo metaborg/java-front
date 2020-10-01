@@ -18,8 +18,16 @@ exports:
   directory: src-gen
 - language: SDF
   directory: syntax
+  includes:
+  - injections/java/**/*.str
+  - pp/java/**/*.str
+  - signatures/java/**/*.str
 - language: SDF
   directory: src-gen/syntax
+- language: StatixLang
+  directory: src-gen/statix
+  includes:
+  - signatures/java/**/*.stx
 language:
   sdf:
     sdf2table: java
