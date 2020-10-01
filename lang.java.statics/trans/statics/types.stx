@@ -1,0 +1,135 @@
+module statics/types
+
+imports
+
+  signatures/java/types/Main-sig
+
+
+rules // Chapter 4. Types, Values, and Variables
+
+  typeOk : Type
+  
+  typeOk(PrimitiveType2Type(primType)) :-
+    false.
+
+  typeOk(ReferenceType2Type(refType)) :-
+    false.
+
+
+rules // 4.2. Primitive Types and Values
+
+  primTypeOk : PrimitiveType
+  
+  primTypeOk(NumericType(annos, numType)) :-
+    false.
+
+  primTypeOk(BooleanType(annos)) :-
+    false.
+
+
+  numTypeOk : NumericType
+
+  numTypeOk(Byte()) :- false.
+  numTypeOk(Short()) :- false.
+  numTypeOk(Int()) :- false.
+  numTypeOk(Long()) :- false.
+  numTypeOk(Char()) :- false.
+  numTypeOk(Float()) :- false.
+  numTypeOk(Double()) :- false.
+
+
+rules // 4.3. Reference Types and Values
+
+  refTypeOk : ReferenceType
+  
+  refTypeOk(ClassType2ReferenceType(clsType)) :-
+    false.
+    
+  refTypeOk(ArrayType2ReferenceType(arrayType)) :-
+    false.
+
+
+  clsTypeOk : ClassType
+  
+  clsTypeOk(ClassType(annos, id, typeArgs')) :-
+    false.
+
+  clsTypeOk(ClassOrInterfaceTypeMember(clsType, annos, id, typeArgs')) :-
+    false.
+
+
+  typeVarOk : TypeVariable
+  
+  typeVarOk(TypeVar(annos, id)) :-
+    false.
+
+
+  arrayTypeOk : ArrayType
+  
+  arrayTypeOk(ArrayTypePrimitive(pt, annDims)) :-
+    false.
+
+  arrayTypeOk(ArrayTypeClassType(ct, annDims)) :-
+    false.
+
+
+  annDimsOk : AnnotatedDims
+  
+  annDimsOk(AnnotatedDims2AnnotatedDims(annDims)) :-
+    false.
+
+
+  annDimsEmptyOk : AnnotatedDimsEmpty
+  
+  annDimsEmptyOk(AnnotatedDims2AnnotatedDimsEmpty(annDims)) :-
+    false.
+
+
+  annDimOk : AnnotatedDim
+  
+  annDimOk(AnnotateDim(annos)) :-
+    false.
+
+
+rules // 4.4. Type Variables
+
+  typeParamOk : TypeParameter
+
+  typeParamOk(TypeParameter(annos, id, typeBound')) :-
+    false.
+    
+    
+  typeBoundOk : TypeBound
+  
+  typeBoundOk(TypeBound(clsTypes)) :-
+    false.
+
+
+rules // 4.5. Parameterized Types
+
+  typeArgsOk : TypeArguments
+  
+  typeArgsOk(TypeArguments(typeArgs)) :-
+    false.
+    
+
+  typeArgOk : TypeArgument
+  
+  typeArgOk(ReferenceType2TypeArgument(refType)) :-
+    false.
+    
+  typeArgOk(WildCard2TypeArgument(wildCard)) :-
+    false.
+    
+  
+  wildCardOk : WildCard
+  
+  wildCardOk(WildCard(annos)) :-
+    false.
+    
+  wildCardOk(WildCardExtends(annos, refType)) :-
+    false.
+    
+  wildCardOk(WildCardSuper(annos, refType)) :-
+    false.
+    

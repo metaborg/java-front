@@ -2,7 +2,48 @@ module statics
 
 imports
 
-  statics/syntax
+  statics/arrays
+  statics/classes
+  statics/expressions
+  statics/interfaces
+  statics/literals
+  statics/names
+  statics/packages
+  statics/statements
+  statics/types
+
+/*
+rules
+
+  projectOk : scope
+
+  projectOk(s) :- {s_object s_array tLength}
+    //Extend object in the program scope
+    CLASS(s_object) == classTypeOkNoId(s, ClassOrInterfaceTypeMember(ClassOrInterfaceTypeMember(ClassType([], Id("java"), []), [], Id("lang"), []), [], Id("Object"), [])),
+    s -EXT-> s_object,
+    
+    //Array with length field
+    new s_array, s_array -LEX-> s_object,
+    !scopes[Builtin{"array"@-}, s_array] in s,
+    tLength == Id("length"),
+    !types[Var{tLength@-}, PRIMITIVE()] in s_array.
+
+
+rules
+
+  fileOk : scope * CompilationUnit
+
+  fileOk(s, CompilationUnit(maybePackageDeclaration, importDeclarations, typeDeclarations)) :-
+  {s_cu}
+    new s_cu, s_cu -LEX-> s,
+    maybePackageDeclarationOk(s, maybePackageDeclaration, s_cu),
+    importDeclarationsOk(s, importDeclarations, s_cu),
+    typeDeclarationsOk(s_cu, typeDeclarations).
+
+
+imports
+
+  signatures/java/Main-sig
 
 signature
 
@@ -47,33 +88,6 @@ signature
     packages : occurrence -> scope
     scopes   : occurrence -> scope
     supers   : occurrence -> list(occurrence)
-
-rules
-
-  projectOk : scope
-
-  projectOk(s) :- {s_object s_array tLength}
-    //Extend object in the program scope
-    CLASS(s_object) == classTypeOkNoId(s, ClassOrInterfaceTypeMember(ClassOrInterfaceTypeMember(ClassType([], Id("java"), []), [], Id("lang"), []), [], Id("Object"), [])),
-    s -EXT-> s_object,
-    
-    //Array with length field
-    new s_array, s_array -LEX-> s_object,
-    !scopes[Builtin{"array"@-}, s_array] in s,
-    tLength == Id("length"),
-    !types[Var{tLength@-}, PRIMITIVE()] in s_array.
-
-
-rules
-
-  fileOk : scope * CompilationUnit
-
-  fileOk(s, CompilationUnit(maybePackageDeclaration, importDeclarations, typeDeclarations)) :-
-  {s_cu}
-    new s_cu, s_cu -LEX-> s,
-    maybePackageDeclarationOk(s, maybePackageDeclaration, s_cu),
-    importDeclarationsOk(s, importDeclarations, s_cu),
-    typeDeclarationsOk(s_cu, typeDeclarations).
 
 
 rules
@@ -199,10 +213,10 @@ rules
 
   typeDeclarationOk : scope * TypeDeclaration
 
-  typeDeclarationOk(s, CD2TD(cd)) :-
+  typeDeclarationOk(s, ClassDeclaration2TypeDeclaration(cd)) :-
     classDeclarationOk(s, cd).
 
-  typeDeclarationOk(s, ID2TD(id)) :-
+  typeDeclarationOk(s, InterfaceDeclaration2TypeDeclaration(id)) :-
     interfaceDeclarationOk(s, id).
 
 
@@ -212,10 +226,10 @@ rules
 
   classDeclarationOk : scope * ClassDeclaration
 
-  classDeclarationOk(s, NCD2CD(ncd)) :-
+  classDeclarationOk(s, NormalClassDeclaration2ClassDeclaration(ncd)) :-
     normalClassDeclarationOk(s, ncd).
 
-  classDeclarationOk(s, ED2CD(ed)) :-
+  classDeclarationOk(s, EnumDeclaration2ClassDeclaration(ed)) :-
     enumDeclarationOk(s, ed).
 
 
@@ -286,7 +300,7 @@ rules
     maybeExtendsInterfacesOk(s, maybeExtendsInterfaces),
     maybeInterfaceMemberDeclarationsOk(s, interfaceMemberDeclarations, s_intf).
 
-  interfaceDeclarationOk(s, ATD2ID(atd)) :-
+  interfaceDeclarationOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(atd)) :-
     annotationTypeDeclarationOk(s, atd).
 
 rules
@@ -383,20 +397,23 @@ rules
   maybeClassBodyDeclarationsOk maps maybeClassBodyDeclarationOk(*, list(*), *)
   maybeClassBodyDeclarationOk: scope * ClassBodyDeclaration * scope
   
-  maybeClassBodyDeclarationOk(s, CMD2CBD(FD2CMD(fields)), s_cls) :-
-    maybeFieldDeclsOk(s, fields, s_cls).
-//  modbound maybeClassBodyDeclarationOk(s, CMD2CBD(MD2CMD(MethodDecl(mods, uid, header, Block(stmts)))), s_cls) | $[[uid]] :- {s_mtd}
-  maybeClassBodyDeclarationOk(s, CMD2CBD(MD2CMD(MethodDecl(mods, uid, header, Block(stmts)))), s_cls) :- {s_mtd}
+  maybeClassBodyDeclarationOk(s, ClassMemberDeclaration2ClassBodyDeclaration(cmd), s_cls) :-
+    classMemberDeclarationOk(s, cmd, s_cls).
+  
+  classMemberDeclarationOk : scope * ClassMemberDeclaration * scope
+  classMemberDeclarationOk(s, FieldDeclaration2ClassMemberDeclaration(field), s_cls) :-
+    fieldDeclOk(s, field, s_cls).
+  classMemberDeclarationOk(s, MethodDeclaration2ClassMemberDeclaration(MethodDecl(mods, header, body)), s_cls) :- {s_mtd}
     new s_mtd, s_mtd -LEX-> s_cls,
     methodHeaderOk(s, header, s_cls, s_mtd),
-    statementsOk(s, stmts, s_mtd).
+    methodBodyOk(s, body, s_mtd).
   
   //Inner class
-  maybeClassBodyDeclarationOk(s, CMD2CBD(CD2CMD(cd)), s_cls) :-
+  maybeClassBodyDeclarationOk(s, ClassMemberDeclaration2ClassBodyDeclaration(ClassDeclaration2ClassMemberDeclaration(cd)), s_cls) :-
     classDeclarationOk(s_cls, cd).
     
   //Inner interface
-  maybeClassBodyDeclarationOk(s, CMD2CBD(ID2CMD(id)), s_cls) :-
+  maybeClassBodyDeclarationOk(s, ClassMemberDeclaration2ClassBodyDeclaration(InterfaceDeclaration2ClassMemberDeclaration(id)), s_cls) :-
     interfaceDeclarationOk(s_cls, id).
     
   //Initializer / Constructor
@@ -405,24 +422,24 @@ rules
   //Interfaces
   maybeInterfaceMemberDeclarationsOk maps interfaceMemberDeclarationOk(*, list(*), *)
   interfaceMemberDeclarationOk : scope * InterfaceMemberDeclaration * scope
-  interfaceMemberDeclarationOk(s, IMD2IMD(AbstractMethodDec(mods, _, header, Block([]))), s_intf) :-
+  interfaceMemberDeclarationOk(s, InterfaceMethodDeclaration2InterfaceMemberDeclaration(AbstractMethodDec(mods, header, body)), s_intf) :-
   {s_mtd}
     new s_mtd, s_mtd -LEX-> s_intf,
     methodHeaderOk(s, header, s_intf, s_mtd).
 //  modbound interfaceMemberDeclarationOk(s, IMD2IMD(AbstractMethodDec(mods, uid, header, Block(stmts@[_ | _]))), s_intf) | $[[uid]] :-
-  interfaceMemberDeclarationOk(s, IMD2IMD(AbstractMethodDec(mods, uid, header, Block(stmts@[_ | _]))), s_intf) :-
+  interfaceMemberDeclarationOk(s, InterfaceMethodDeclaration2InterfaceMemberDeclaration(AbstractMethodDec(mods, header, body)), s_intf) :-
   {s_mtd}
     new s_mtd, s_mtd -LEX-> s_intf,
     methodHeaderOk(s, header, s_intf, s_mtd),
-    statementsOk(s, stmts, s_mtd).
+    methodBodyOk(s, body, s_mtd).
   
-  interfaceMemberDeclarationOk(s, CD2IMD(cd), s_intf) :-
+  interfaceMemberDeclarationOk(s, ClassDeclaration2InterfaceMemberDeclaration(cd), s_intf) :-
     classDeclarationOk(s_intf, cd).
   
-  interfaceMemberDeclarationOk(s, ID2IMD(id), s_intf) :-
+  interfaceMemberDeclarationOk(s, InterfaceDeclaration2InterfaceMemberDeclaration(id), s_intf) :-
     interfaceDeclarationOk(s_intf, id).
   
-  interfaceMemberDeclarationOk(s, ConstD2IMD(fields), s_intf) :-
+  interfaceMemberDeclarationOk(s, ConstDeclaration2InterfaceMemberDeclaration(fields), s_intf) :-
     maybeFieldDeclsOk(s, fields, s_intf).
   
   //Semicolon
@@ -434,10 +451,11 @@ rules
 //-------------------------------------------------------------------------------------------------
 rules
   maybeFieldDeclsOk maps maybeFieldDeclOk(*, list(*), *)
-  maybeFieldDeclOk : scope * FieldDeclaration * scope
-  maybeFieldDeclOk(s, TFieldDecl(mods, ty, name), s_cls) :-
+
+  fieldDeclOk : scope * FieldDeclaration * scope
+  fieldDeclOk(s, FieldDecl(mods, ty, name), s_cls) :-
     !types[Var{name@name}, typeOk(s_cls, ty)] in s_cls.
-  maybeFieldDeclOk(s, TFieldDeclArray(mods, ty, name, count), s_cls) :-
+  fieldDeclOk(s, FieldDeclArray(mods, ty, name, count), s_cls) :-
     !types[Var{name@name}, ARRAY(typeOk(s_cls, ty))] in s_cls.
 
 //-------------------------------------------------------------------------------------------------
@@ -445,13 +463,13 @@ rules
 //-------------------------------------------------------------------------------------------------
 rules
   methodHeaderOk : scope * MethodHeader * scope * scope
-  methodHeaderOk(s, MethodHeader(ty, name, params, _, throws), s_cls, s_mtd) :- {rty ptys}
+  methodHeaderOk(s, MethodHeader(result, name, params, _, throws), s_cls, s_mtd) :- {rty ptys}
     !types[Method{name@name}, FUNCTION(ptys, rty)] in s_cls,
-    rty == typeOk(s_cls, ty),
+    rty == resultOk(s_cls, result),
     ptys == paramTypesOk(s_cls, params, s_mtd).
-  methodHeaderOk(s, MethodHeaderTypeParameters(typs, annots, ty, name, params, throws), s_cls, s_mtd) :- {rty ptys}
+  methodHeaderOk(s, MethodHeaderTypeParameters(typs, annots, result, name, params, throws), s_cls, s_mtd) :- {rty ptys}
     !types[Method{name@name}, FUNCTION(ptys, rty)] in s_cls,
-    rty == typeOk(s_cls, ty),
+    rty == resultOk(s_cls, result),
     ptys == paramTypesOk(s_cls, params, s_mtd).
   
   paramTypesOk maps paramTypeOk(*, list(*), *) = list(*)
@@ -466,13 +484,21 @@ rules
   paramTypeOk(s, ReceiverParam(annots, ty), s_mtd) = typeOk(s, ty).
   paramTypeOk(s, ReceiverParamQual(annots, ty, id), s_mtd) = typeOk(s, ty).
     
+  resultOk : scope * Result -> TYPE
+  resultOk(s, UnannType2Result(ty)) = typeOf(s, ty).
+  resultOk(s, Void()) = VOID().
+    
+  methodBodyOk : scope * MethodBody * scope
+  methodBodyOk(s, NoMethodBody(), s_mthd).
+  methodBodyOk(s, Block2MethodBody(Block(stmts)), s_mthd) :- statementsOk(s, stmts, s_mthd).
+    
 //-------------------------------------------------------------------------------------------------
 //Statements
 //-------------------------------------------------------------------------------------------------
 rules
   statementsOk maps statementOk(*, list(*), *)
   statementOk: scope * Statement * scope
-  statementOk(s, Block(stmts), s_method) :- {s_block}
+  statementOk(s, Statement2Block(Block(stmts)), s_method) :- {s_block}
     new s_block,
     s_block -LEX-> s_method,
     statementsOk(s, stmts, s_block).
@@ -490,33 +516,46 @@ rules
     !types[Var{name@name}, ARRAY(typeOk(s_mtd, ty))] in s_mtd.
 
 //-------------------------------------------------------------------------------------------------
+//Blocks
+//-------------------------------------------------------------------------------------------------
+rules
+
+  blockOk : scope * Block * scope
+  blockOk(s, Block(bstmts), s_def) :- blockStatementsOk(s, bstmts, s_def).
+
+  blockStatementsOk maps blockStatementOk(*, list(*), *)
+
+  blockStatementOk : scope * BlockStatement * scope
+  blockStatementOk(s, Statement2BlockStatement(stmt), s_def) :- statementOk(s, stmt, s_def).
+
+//-------------------------------------------------------------------------------------------------
 //Expressions
 //-------------------------------------------------------------------------------------------------
 rules
   expressionsOk maps expressionOk(*, list(*), *) = list(*)
   expressionOk : scope * Expression * scope -> TYPE
   
-  expressionOk(s, EN2E(ExpressionName(id)), s_mtd) = T :-
+  expressionOk(s, ExpressionName2Expression(ExpressionName(id)), s_mtd) = T :-
     types of Var{id@-} in s_mtd |-> [(_, (_, T))].
-  expressionOk(s, EN2E(ExpressionName(ambName, id)), s_mtd) = T :-
+  expressionOk(s, ExpressionName2Expression(ExpressionName(ambName, id)), s_mtd) = T :-
   {tyAmb sTyAmb} 
     handleAmbiguous(s_mtd, ambName) == [(_, (_, tyAmb))],
     scopeOf(s, tyAmb) == sTyAmb,
     types of Var{id@-} in sTyAmb |-> [(_, (_, T))].
   
   //Fields
-  expressionOk(s, FA2E(Field(exp, id)), s_mtd) = T :-
+  expressionOk(s, FieldAccess2Expression(Field(exp, id)), s_mtd) = T :-
     {Texp s_ty}
     Texp == expressionOk(s, exp, s_mtd),
     s_ty == scopeOf(s, Texp),
     types of Var{id@-} in s_ty |-> [(_, (_, T))].
   
-  expressionOk(s, FA2E(SuperField(id)), s_mtd) = T :-
+  expressionOk(s, FieldAccess2Expression(SuperField(id)), s_mtd) = T :-
     query types filter LEX* EXT EXT* and { Var{id@-} }
                 min $ < EXT, EXT < LEX, $ < LEX and true
                 in s_mtd |-> [(_, (_, T))].
   
-  expressionOk(s, FA2E(QSuperField(typeName, id)), s_mtd) = T :- {tyTN sTN}
+  expressionOk(s, FieldAccess2Expression(QSuperField(typeName, id)), s_mtd) = T :- {tyTN sTN}
     resolveTypeName(s_mtd, typeName) == (_, tyTN),
     scopeOf(s, tyTN) == sTN,
     types of Var{id@-} in sTN |-> [(_, (_, T))].
@@ -560,21 +599,21 @@ rules
   
   
   //Literals
-  expressionOk(s, L2E(Literal(ty)), s_mtd) = typeOk(s, ty).
-  expressionOk(s, L2E(Null()), s_mtd) = CLASS(s).
+  expressionOk(s, Literal2Expression(Literal(ty)), s_mtd) = typeOk(s, ty).
+  expressionOk(s, Literal2Expression(Null()), s_mtd) = CLASS(s).
   expressionOk(s, This(), s_mtd) = T :- {tThis}
     tThis == Id("this"), types of Var{tThis@-} in s_mtd |-> [(_, (_, T))].
   expressionOk(s, QThis(tyName), s_mtd) = T :-
     resolveTypeName(s_mtd, tyName) == (_, T).
-  expressionOk(s, CL2E(_), s_mtd) = T :-
+  expressionOk(s, CL2Expression(_), s_mtd) = T :-
     resolveTypeName2(s_mtd, TypeName(PackageOrTypeName(PackageOrTypeName(Id("lang")), Id("java")), Id("Class"))) == (_, T).
   
   //InstanceCreation
-  expressionOk(s, UI2E(NewInstance(typeArgs, annots, id, qids, typeArgs2, args)), s_mtd) = T :-
+  expressionOk(s, UI2Expression(NewInstance(typeArgs, annots, id, qids, typeArgs2, args)), s_mtd) = T :-
   {tyArgs}
     expressionsOk(s, args, s_mtd) == tyArgs,
     resolveTypeName(s_mtd, toTypeName([id | qidsToIds(qids)])) == (_, T).
-  expressionOk(s, UI2E(NewInstance(typeArgs, annots, id, qids, typeArgs2, args, cbds)), s_mtd) = T :-
+  expressionOk(s, UI2Expression(NewInstance(typeArgs, annots, id, qids, typeArgs2, args, cbds)), s_mtd) = T :-
   {tyArgs}
     expressionsOk(s, args, s_mtd) == tyArgs,
     resolveTypeName(s_mtd, toTypeName([id | qidsToIds(qids)])) == (_, T).
@@ -583,11 +622,11 @@ rules
     scopeOf(s, expressionOk(s, exp, s_mtd)) == s_exp,
     expressionOk(s, UI2E(ui), s_exp) == T.
   
-  expressionOk(s, AA2E(ArrayAccess(e1, e2)), s_mtd) = T :-
+  expressionOk(s, ArrayAccess2Expression(ArrayAccess(e1, e2)), s_mtd) = T :-
     expressionOk(s, e1, s_mtd) == ARRAY(T),
     expressionOk(s, e2, s_mtd) == _.
-  expressionOk(s, ACE2E(NewArray(ty, _, _)), s_mtd) = typeOk(s_mtd, ty).
-  expressionOk(s, ACE2E(NewArrayInit(ty, _, _)), s_mtd) = typeOk(s_mtd, ty).
+  expressionOk(s, ACE2Expression(NewArray(ty, _, _)), s_mtd) = typeOk(s_mtd, ty).
+  expressionOk(s, ACE2Expression(NewArrayInit(ty, _, _)), s_mtd) = typeOk(s_mtd, ty).
   
   expressionOk(s, Assign(e1, e2), s_mtd) = T :-
     expressionOk(s, e1, s_mtd) == T,
@@ -628,10 +667,9 @@ rules
 rules
   typesOk maps typeOk(*, list(*)) = list(*)
   typeOk: scope * Type -> TYPE
-  typeOk(s, RT2T(CT2RT(ct))) = classTypeOk(s, ct).
-  typeOk(s, RT2T(AT2RT(at))) = arrayTypeOk(s, at).
-  typeOk(s, PT2T(pt)) = PRIMITIVE().
-  typeOk(s, Void()) = VOID().
+  typeOk(s, ReferenceType2Type(ClassType2ReferenceType(ct))) = classTypeOk(s, ct).
+  typeOk(s, ReferenceType2Type(ArrayType2ReferenceType(at))) = arrayTypeOk(s, at).
+  typeOk(s, PrimitiveType2Type(pt)) = PRIMITIVE().
   typeOk(s, ArrayType(ty, _)) = ARRAY(typeOk(s, ty)).
   
   arrayTypeOk: scope * ArrayType -> TYPE
@@ -763,3 +801,4 @@ rules
   joinScopes([], l) = l.
   joinScopes(l@[_ | _], []) = l.
   joinScopes([h | t], l) = [h | joinScopes(t, l)].
+*/

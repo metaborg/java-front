@@ -13,12 +13,12 @@ imports
   signatures/-
   pp/-
 
-  desugar
-
 rules // Analysis
 
-//  editor-analyze = stx-editor-analyze(id|"statics", "programOK")
-  editor-analyze = stx-editor-analyze(java-explicate-injections;desugar-all|"statics", "projectOk", "fileOk")
+  editor-analyze = stx-editor-analyze(import-java-lang;java-explicate-injections,java-implicate-injections|"statics", "projectOk", "fileOk")
+
+  import-java-lang =
+    CompilationUnit(id, ![TypeImportOnDemand(PackageOrTypeName(PackageOrTypeName(Id("java")),Id("lang")))|<id>], id)
 
 rules // Editor services
   

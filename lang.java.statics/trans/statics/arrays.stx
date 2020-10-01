@@ -1,0 +1,8 @@
+module statics/arrays
+
+imports
+
+  signatures/java/arrays/Main-sig
+
+rules
+

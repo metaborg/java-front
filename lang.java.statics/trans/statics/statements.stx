@@ -1,0 +1,8 @@
+module statics/statements
+
+imports
+
+  signatures/java/statements/Main-sig
+
+rules
+

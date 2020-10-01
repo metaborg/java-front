@@ -1,0 +1,367 @@
+module statics/classes
+
+imports
+
+  signatures/java/classes/Main-sig
+
+rules // Chapter 8. Classes
+
+
+rules // 8.1. Class Declarations
+
+  clsDeclOk : ClassDeclaration
+  
+  clsDeclOk(NormalClassDeclaration2ClassDeclaration(normalClsDecl)) :-
+    false.
+
+  clsDeclOk(EnumDeclaration2ClassDeclaration(enumDecl)) :-
+    false.
+
+
+  normalClsDeclOk : NormalClassDeclaration
+  
+  normalClsDeclOk(ClassDeclaration(clsMods, id, typeParams', superCls', superIntfs', clsBodyDecl)) :-
+    false.
+
+
+  clsModOk : ClassModifier
+  
+  clsModOk(Annotation2ClassModifier(_)) :- false.
+  clsModOk(Public2ClassModifier(_)) :- false.
+  clsModOk(Protected2ClassModifier(_)) :- false.
+  clsModOk(Private2ClassModifier(_)) :- false.
+  clsModOk(Abstract2ClassModifier(_)) :- false.
+  clsModOk(Static2ClassModifier(_)) :- false.
+  clsModOk(Final2ClassModifier(_)) :- false.
+  clsModOk(Strictfp2ClassModifier(_)) :- false.
+
+
+  typeParamsOk : TypeParameters
+  
+  typeParamsOk(TypeParameters(typeParams)) :-
+    false.
+
+
+  superClsOk : SuperClass
+  
+  superClsOk(SuperClass(clsTypes)) :-
+    false.
+
+
+  superIntfsOk : SuperInterfaces
+  
+  superIntfsOk(SuperInterface(clsTypes)) :-
+    false.
+
+
+  clsBodyDeclOk : ClassBodyDeclaration
+  
+  clsBodyDeclOk(ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl)) :-
+    false.
+
+  clsBodyDeclOk(InstanceInitializer2ClassBodyDeclaration(instInit)) :-
+    false.
+
+  clsBodyDeclOk(StaticInitializer2ClassBodyDeclaration(staticInit)) :-
+    false.
+
+  clsBodyDeclOk(ConstructorDeclaration2ClassBodyDeclaration(ctorDecl)) :-
+    false.
+
+
+  clsMemDeclOk : ClassMemberDeclaration
+  
+  clsMemDeclOk(FieldDeclaration2ClassMemberDeclaration(fldDecl)) :-
+    false.
+  
+  clsMemDeclOk(MethodDeclaration2ClassMemberDeclaration(mthdDecl)) :-
+    false.
+  
+  clsMemDeclOk(ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
+    false.
+
+  clsMemDeclOk(InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
+    false.
+
+  clsMemDeclOk(SemiColon2ClassMemberDeclaration(semiColon)) :-
+    false.
+
+
+rules // 8.3. Field Declarations
+
+  fldDeclOk : FieldDeclaration
+  
+  fldDeclOk(FieldDecl(fldMods, unannType, varDecls)) :-
+    false.
+
+
+  varDeclIdOk : VarDeclId
+  
+  varDeclIdOk(VariableDecl(id)) :-
+    false.
+
+  varDeclIdOk(VariableDeclArray(id, annDims)) :-
+    false.
+
+
+  varDeclOk : VarDecl
+  
+  varDeclOk(VariableDeclInit(varDeclId, varInit)) :-
+    false.
+
+  varDeclOk(VarDeclId2VarDecl(varDeclId)) :-
+    false.
+
+
+  varInitOk : VariableInitializer
+  
+  varInitOk(Expression2VariableInitializer(expr)) :-
+    false.
+
+  varInitOk(ArrayInitializer2VariableInitializer(arrayInit)) :-
+    false.
+
+
+  fldModOk : FieldModifier
+  
+  fldModOk(Annotation2FieldModifier(anno)) :- false.
+  fldModOk(Public2FieldModifier(_)) :- false.
+  fldModOk(Protected2FieldModifier(_)) :- false.
+  fldModOk(Private2FieldModifier(_)) :- false.
+  fldModOk(Static2FieldModifier(_)) :- false.
+  fldModOk(Final2FieldModifier(_)) :- false.
+  fldModOk(Transient2FieldModifier(_)) :- false.
+  fldModOk(Volatile2FieldModifier(_)) :- false.
+
+
+  unannTypeOk : UnannType
+  
+  unannTypeOk(UnannPrimitiveType2UnannType(unannPrimType)) :-
+    false.
+
+  unannTypeOk(UnannReferenceType2UnannType(unannRefType)) :-
+    false.
+
+
+  unannPrimTypeOk : UnannPrimitiveType
+  
+  unannPrimTypeOk(NumericType(numType)) :-
+    false.
+
+  unannPrimTypeOk(BooleanType()) :-
+    false.
+
+
+  unannRefTypeOk : UnannReferenceType
+  
+  unannRefTypeOk(UnannClassType2UnannReferenceType(unannClsType)) :-
+    false.
+
+  unannRefTypeOk(UnannArrayType2UnannReferenceType(unannArrayType)) :-
+    false.
+
+
+  unannClsTypeOk : UnannClassType
+  
+  unannClsTypeOk(ClassType(id, typeArgs')) :-
+    false.
+
+  unannClsTypeOk(UnannClassOrInterfaceTypeMember(unannClsType, annos, id, typeArgs')) :-
+    false.
+
+
+  unannArrayTypeOk : UnannArrayType
+  
+  unannArrayTypeOk(UnannArrayTypePrimitive(unannPrimType, annDims)) :-
+    false.
+
+  unannArrayTypeOk(UnannArrayTypeClassType(unannClsType, annDims)) :-
+    false.
+
+
+rules // 8.4. Method Declarations
+
+  mthdDeclOk : MethodDeclaration
+  
+  mthdDeclOk(MethodDecl(mthdMods, mthdHeader, mthdBody)) :-
+    false.
+
+
+  mthdHeaderOk : MethodHeader
+  
+  mthdHeaderOk(MethodHeader(annos, result, id, formalParams, throws')) :-
+    false.
+
+  mthdHeaderOk(MethodHeaderTypeParameters(typeParams, annos, result, id, formalParams, throws')) :-
+    false.
+
+
+  resultOk : Result
+  
+  resultOk(UnannType2Result(unannType)) :-
+    false.
+
+  resultOk(Void()) :-
+    false.
+
+
+  throwsOk : Throws
+  
+  throwsOk(ThrowsDec(exceptTypes)) :-
+    false.
+
+
+  exceptTypeOk : ExceptionType
+  
+  exceptTypeOk(ClassType2ExceptionType(clsType)) :-
+    false.
+
+
+  mthdMods : MethodModifier
+
+  mthdMods(Annotation2MethodModifier(annos)) :- false.
+  mthdMods(Public2MethodModifier(_)) :- false.
+  mthdMods(Protected2MethodModifier(_)) :- false.
+  mthdMods(Private2MethodModifier(_)) :- false.
+  mthdMods(Abstract2MethodModifier(_)) :- false.
+  mthdMods(Static2MethodModifier(_)) :- false.
+  mthdMods(Final2MethodModifier(_)) :- false.
+  mthdMods(Synchronized2MethodModifier(_)) :- false.
+  mthdMods(Native2MethodModifier(_)) :- false.
+  mthdMods(Strictfp2MethodModifier(_)) :- false.
+
+
+  mthdBodyOk : MethodBody
+  
+  mthdBodyOk(Block2MethodBody(blk)) :-
+    false.
+
+  mthdBodyOk(NoMethodBody()) :-
+    false.
+
+
+  recvParamOk : ReceiverParam
+  
+  recvParamOk(ReceiverParamQual(annos, unannType, id)) :-
+    false.
+
+  recvParamOk(ReceiverParam(annos, unannType)) :-
+    false.
+
+
+  formalParamsOk : FormalParams
+  
+  formalParamsOk(NoParams()) :-
+    false.
+
+  formalParamsOk(ReceiverParam2FormalParams(recvParam)) :-
+    false.
+
+  formalParamsOk(SingleParam(recvParam)) :-
+    false.
+
+  formalParamsOk(ParamList(formalParams, lastFormalParam)) :-
+    false.
+
+  formalParamsOk(ReceiverParamList(recvParam, formalParams, lastFormalParam)) :-
+    false.
+
+
+  lastFormalParamOk : LastFormalParam
+  
+  lastFormalParamOk(FormalParam2LastFormalParam(formalParam)) :-
+    false.
+    
+  lastFormalParamOk(VarArityParam(varMods, unannType, annos, varDeclId)) :-
+    false.
+
+
+  formalParamOk : FormalParam
+  
+  formalParamOk(FormalParam(varMods, unannType, varDeclId)) :-
+    false.
+
+
+  varModOk : VariableModifier
+  
+  varModOk(Annotation2VariableModifier(anno)) :-
+    false.
+
+  varModOk(Final2VariableModifier(_)) :-
+    false.
+
+
+rules // 8.6. Instance Initializers
+
+  instInit : InstanceInitializer
+  
+  instInit(InstanceInit(blk)) :-
+    false.
+
+
+rules // 8.7. Static Initializers
+
+  staticInitOk : StaticInitializer
+
+  staticInitOk(StaticInit(blk)) :-
+    false.
+
+rules // 8.8. Constructor Declarations
+
+  ctorDeclOk : ConstructorDeclaration
+  
+  ctorDeclOk(ConstrDecl(ctorMods, typeParams', id, formalParams, throws', ctorInvoke, blkStmts)) :-
+    false.
+
+
+  ctorModOk : ConstructorModifier
+  
+  ctorModOk(Annotation2ConstructorModifier(annos)) :- false.
+  ctorModOk(Public2ConstructorModifier(_)) :- false.
+  ctorModOk(Private2ConstructorModifier(_)) :- false.
+  ctorModOk(Protected2ConstructorModifier(_)) :- false.
+
+
+  ctorInvOk : ConstructorInvocation
+  
+  ctorInvOk(AltConstrInv(typeArgs', exps)) :-
+    false.
+
+  ctorInvOk(SuperConstrInv(typeArgs', exps)) :-
+    false.
+
+  ctorInvOk(ExprNameConstrInv(exp, typeArgs', exps)) :-
+    false.
+
+
+rules // 8.9. Enum Types
+
+  enumDeclOk : EnumDeclaration
+  
+  enumDeclOk(EnumDeclComma(clsMods, id, superIntfs', enumConsts, enumBodyDecls')) :-
+    false.
+
+  enumDeclOk(EnumDecl(clsMods, id, superIntfs', enumConsts, enumBodyDecls')) :-
+    false.
+
+
+  enumConstOk : EnumConstant
+  
+  enumConstOk(EnumConst(annos, id, enumConstArgs', clsBodyDecls)) :-
+    false.
+
+  enumConstOk(EnumConstNoBody(annos, id, enumConstArgs')) :-
+    false.
+
+
+  enumConstArgsOk : EnumConstantArgs
+  
+  enumConstArgsOk(EnumConstArgs(exps)) :-
+    false.
+    
+    
+  enumBodyDeclsOk : EnumBodyDeclarations
+  
+  enumBodyDeclsOk(EnumBodyDecs(clsBodyDecls)) :-
+    false.
+

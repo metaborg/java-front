@@ -1,0 +1,46 @@
+module statics/packages
+
+imports
+
+  signatures/java/packages/Main-sig
+
+
+rules // Chapter 7. Packages
+
+
+rules // 7.3. Compilation Units
+
+  compilationUnitOk : CompilationUnit
+
+  compilationUnitOk(CompilationUnit(pkgDecl', importDecls, typeDecls)) :-
+    false.
+
+
+rules // 7.4. Package Declarations
+
+  packageDeclOk : PackageDeclaration
+
+  packageDeclOk(PackageDeclaration(annos, ids)) :-
+    false.
+
+
+rules // 7.5. Import Declarations
+
+  importDeclOk : ImportDeclaration
+  
+  importDeclOk(SingleTypeImport(typeName)) :-
+    false.
+
+
+rules // 7.6. Top Level Type Declarations
+
+  typeDeclOk : TypeDeclaration
+  
+  typeDeclOk(ClassDeclaration2TypeDeclaration(clsDecl)) :-
+    false.
+
+  typeDeclOk(InterfaceDeclaration2TypeDeclaration(id)) :-
+    false.
+
+  typeDeclOk(SemiColon2TypeDeclaration(_)) :-
+    false.

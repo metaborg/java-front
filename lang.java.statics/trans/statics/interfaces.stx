@@ -1,0 +1,8 @@
+module statics/interfaces
+
+imports
+
+  signatures/java/interfaces/Main-sig
+
+rules
+

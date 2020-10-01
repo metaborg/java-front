@@ -1,0 +1,8 @@
+module statics/literals
+
+imports
+
+  signatures/java/literals/Main-sig
+
+rules
+
