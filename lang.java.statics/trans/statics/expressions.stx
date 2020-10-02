@@ -4,10 +4,514 @@ imports
 
   signatures/java/expressions/Main-sig
 
+  statics/arrays
+  statics/classes
+  statics/interfaces
+  statics/literals
+  statics/names
+  statics/statements
+  statics/types
+
 rules // Chapter 15. Expressions
 
   exprOk : Expression
   exprOptOk maps exprOk(list(*))
   exprListOk maps exprOk(list(*))
   
-  exprOk(_).
+
+rules // 15.8. Primary Expressions
+
+  exprOk(Literal2Expression(lit)) :-
+    litOk(lit),
+    true.
+    
+  exprOk(ClassLiteral2Expression(clsLit)) :-
+    clsLitOk(clsLit),
+    true.
+    
+  exprOk(This()) :-
+    true.
+    
+  exprOk(QThis(typeName)) :-
+    typeNameOk(typeName),
+    true.
+    
+    
+  clsLitOk : ClassLiteral
+  
+  clsLitOk(TypeNameClassLiteral(typeName, dimsList)) :-
+    typeNameOk(typeName),
+    dimsListOk(dimsList),
+    true.
+    
+  clsLitOk(NumericTypeClassLiteral(numType, dimsList)) :-
+    numTypeOk(numType),
+    dimsListOk(dimsList),
+    true.
+    
+  clsLitOk(BooleanClassLiteral(dimsList)) :-
+    dimsListOk(dimsList),
+    true.
+    
+  clsLitOk(VoidClassLiteral()) :-
+    true.
+
+
+  dimsOk : Dims
+  dimsListOk maps dimsOk(list(*))
+  
+  dimsOk(Dimension()) :-
+    true.
+
+
+rules // 15.9. Class Instance Creation Expressions
+
+  exprOk(UnqualifiedInstance2Expression(unqualInst)) :-
+    unqualInstOk(unqualInst),
+    true.
+
+  exprOk(QualifiedInstance(expr, unqualInst)) :-
+    exprOk(expr),
+    unqualInstOk(unqualInst),
+    true.
+
+
+  unqualInstOk : UnqualifiedInstance
+  
+  unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    annoListOk(annoList),
+    qualIdListOk(qualIdList),
+    typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
+    exprListOk(exprList),
+    true.
+
+  unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    annoListOk(annoList),
+    qualIdListOk(qualIdList),
+    typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
+    exprListOk(exprList),
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
+    
+
+  qualIdOk : QualifiedId
+  qualIdListOk maps qualIdOk(list(*))
+  
+  qualIdOk(QualifiedId(annoList, id)) :-
+    annoListOk(annoList),
+    true.
+    
+    
+  typeArgsOrDiamondOk : TypeArgumentsOrDiamond
+  typeArgsOrDiamondOptOk maps typeArgsOrDiamondOk(list(*))
+  
+  typeArgsOrDiamondOk(TypeArguments2TypeArgumentsOrDiamond(typeArgs)) :-
+    typeArgsOk(typeArgs).
+
+  typeArgsOrDiamondOk(Diamond()) :-
+    true.
+
+
+rules // 15.10.1. Array Creation Expressions
+
+  exprOk(ArrayCreationExpression2Expression(arrayCreationExpr)) :-
+    arrayCreationExprOk(arrayCreationExpr),
+    true.
+    
+  
+  arrayCreationExprOk : ArrayCreationExpression
+  
+  arrayCreationExprOk(NewArray(arrayBaseType, dimExprList, annDimsEmpty)) :-
+    arrayBaseTypeOk(arrayBaseType),
+    dimExprListOk(dimExprList),
+    annDimsEmptyOk(annDimsEmpty),
+    true.
+
+  arrayCreationExprOk(NewArrayInit(arrayBaseType, annDims, arrayInit)) :-
+    arrayBaseTypeOk(arrayBaseType),
+    annDimsOk(annDims),
+    arrayInitOk(arrayInit),
+    true.
+    
+
+  arrayBaseTypeOk : ArrayBaseType
+  
+  arrayBaseTypeOk(ClassType2ArrayBaseType(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+  
+  arrayBaseTypeOk(PrimitiveType2ArrayBaseType(primType)) :-
+    primTypeOk(primType),
+    true.
+  
+
+  dimExprOk : DimExpr
+  dimExprListOk maps dimExprOk(list(*))
+  
+  dimExprOk(Dim(annoList, expr)) :-
+    annoListOk(annoList),
+    exprOk(expr),
+    true.
+
+
+rules // 15.10.3. Array Access Expressions
+
+  exprOk(ArrayAccess2Expression(arrayAccess)) :-
+    arrayAccessOk(arrayAccess).
+    
+    
+  arrayAccessOk : ArrayAccess
+  
+  arrayAccessOk(ArrayAccess(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true.
+
+
+rules // 15.11. Field Access Expressions
+
+  exprOk(FieldAccess2Expression(fldAccess)) :-
+    fldAccessOk(fldAccess),
+    true.
+    
+  
+  fldAccessOk : FieldAccess
+  
+  fldAccessOk(Field(expr, id)) :-
+    exprOk(expr),
+    true.
+
+  fldAccessOk(SuperField(id)) :-
+    true.
+
+  fldAccessOk(QSuperField(typeName, id)) :-
+    typeNameOk(typeName),
+    true.
+
+
+rules // 15.12. Method Invocation Expressions
+
+  exprOk(Invoke(mthdName, exprList)) :-
+    mthdNameOk(mthdName),
+    exprListOk(exprList),
+    true.
+
+  exprOk(InvokeQExp(expr, typeArgsOpt, id, exprList)) :-
+    exprOk(expr),
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+  exprOk(InvokeSuper(typeArgsOpt, id, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+  exprOk(InvokeQSuper(typeName, typeArgsOpt, id, exprList)) :-
+    typeNameOk(typeName),
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+
+rules // 15.13. Method Reference Expressions
+
+  exprOk(MethodReferenceRType(refType, typeArgsOpt, id)) :-
+    refTypeOk(refType),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceExpr(expr, typeArgsOpt, id)) :-
+    exprOk(expr),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceSuper(typeArgsOpt, id)) :-
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceQSuper(typeName, typeArgsOpt, id)) :-
+    typeNameOk(typeName),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceCType(clsType, typeArgsOpt)) :-
+    clsTypeOk(clsType),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceAType(arrayType, typeArgsOpt)) :-
+    arrayTypeOk(arrayType),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+
+rules // 15.14. Postfix Expressions
+
+  exprOk(PostIncr(expr)) :-
+    exprOk(expr),
+    true.
+
+  exprOk(PostDecr(expr)) :-
+    exprOk(expr),
+    true.
+
+  exprOk(ExpressionName2Expression(exprName)) :-
+    exprNameOk(exprName),
+    true.
+
+
+rules // 15.15. Unary Operators
+
+  exprOk(Plus(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(Minus(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(PreIncr(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(PreDecr(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(Complement(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(Not(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(CastPrimitive(primType, expr)) :-
+    primTypeOk(primType),
+    exprOk(expr),
+    true.
+    
+  exprOk(CastReference(refType, additionalBoundList, expr)) :-
+    refTypeOk(refType),
+    additionalBoundListOk(additionalBoundList),
+    exprOk(expr),
+    true.
+    
+  additionalBoundOk : AdditionalBound
+  additionalBoundListOk maps additionalBoundOk(list(*))
+  
+  additionalBoundOk(AdditionalBound(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+
+
+rules // 15.17. Multiplicative Operators
+      // 15.18. Additive Operators
+      // 15.19. Shift Operators
+      // 15.20. Relational Operators
+      // 15.21. Equality Operators
+      // 15.22. Bitwise and Logical Operators
+      // 15.23. Conditional-And Operator &&
+      // 15.24. Conditional-Or Operator ||
+      
+  exprOk(Mul(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Div(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Mod(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Add(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Sub(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(LeftShift(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(RightShift(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(URightShift(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Lt(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Gt(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(LtEq(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(GtEq(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(InstanceOf(expr, refType)) :-
+    exprOk(expr),
+    refTypeOk(refType),
+    true. 
+      
+  exprOk(Eq(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(NotEq(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(And(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Xor(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Or(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(LazyAnd(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(LazyOr(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true. 
+      
+  exprOk(Cond(expr_cond, expr_then, expr_else)) :-
+    exprOk(expr_cond),
+    exprOk(expr_then),
+    exprOk(expr_else),
+    true. 
+
+
+rules // 15.26. Assignment Operators
+
+  exprOk(Assign(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignMul(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignDiv(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignMod(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignAdd(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignSub(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignLeftShift(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignRightShift(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignURightShift(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignAnd(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignXor(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignOr(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+
+  lhsOk : LHS
+  
+  lhsOk(ExpressionName2LHS(exprName)) :-
+    exprNameOk(exprName),
+    true.
+    
+  lhsOk(FieldAccess2LHS(fldAccess)) :-
+    fldAccessOk(fldAccess),
+    true.
+
+  lhsOk(ArrayAccess2LHS(arrayAccess)) :-
+    arrayAccessOk(arrayAccess),
+    true.
+
+
+rules // 15.27. Lambda Expressions
+
+  exprOk(LambdaExpression(lambdaParams, expr)) :-
+    lambdaParamsOk(lambdaParams),
+    exprOk(expr),
+    true.
+    
+  exprOk(LambdaExpressionWithBlock(lambdaParams, blk)) :-
+    lambdaParamsOk(lambdaParams),
+    blkOk(blk),
+    true.
+  
+
+  lambdaParamsOk : LambdaParameters
+  
+  lambdaParamsOk(SingleInferredParam(id)) :-
+    true.
+    
+  lambdaParamsOk(Params(formalParams)) :-
+    formalParamsOk(formalParams),
+    true.
+    
+  lambdaParamsOk(InferredParams(idList)) :-
+    true.
+ 
