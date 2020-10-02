@@ -14,7 +14,7 @@ context-free sorts
 
   Id
 
-/*FIXME: lexical */ sorts
+lexical sorts
   
   ID
 

@@ -17,7 +17,7 @@ context-free syntax
   IntLiteral.Octa = OctaLiteral {prefer}
   IntLiteral.Bin  = BinLiteral  {prefer}
   
-/*FIXME: lexical*/ sorts
+lexical sorts
 
   DeciLiteral
   HexaLiteral

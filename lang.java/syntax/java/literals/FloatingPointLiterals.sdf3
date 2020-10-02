@@ -17,7 +17,7 @@ context-free syntax
   FloatLiteral.DeciDouble = DeciDoubleLiteral
   FloatLiteral.HexaDouble = HexaDoubleLiteral
 
-/*FIXME: lexical */ sorts
+lexical sorts
 
   DeciFloatLiteral
   HexaFloatLiteral

@@ -18,7 +18,7 @@ context-free syntax
 
   StringLiteral.StringLiteral = StringLit  
   
-/*FIXME: lexical*/ sorts
+lexical sorts
 
   StringLit
 

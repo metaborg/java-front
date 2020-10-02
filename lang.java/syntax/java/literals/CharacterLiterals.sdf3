@@ -18,7 +18,7 @@ context-free syntax
 
   CharacterLiteral.CharLiteral = CharLiteral  
   
-/*FIXME: lexical*/ sorts
+lexical sorts
 
   CharLiteral  
 
