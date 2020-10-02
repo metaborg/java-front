@@ -12,6 +12,20 @@ imports
   statics/statements
   statics/types
 
+
+rules
+
+  projectOk : scope
+
+  projectOk(s).
+  
+  
+  fileOk : scope * CompilationUnit
+  
+  fileOk(s, compilationUnit) :-
+    compilationUnitOk(compilationUnit).
+
+
 /*
 rules
 
