@@ -4,5 +4,232 @@ imports
 
   signatures/java/interfaces/Main-sig
 
-rules
+  statics/classes
+  statics/expressions
+  statics/names
+  statics/types
+
+rules // Chapter 9. Interfaces
+
+
+rules // 9.1. Interface Declarations
+
+  intfDeclOk : InterfaceDeclaration
+  
+  intfDeclOk(NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) :-
+    intfModListOk(intfModList),
+    typeParamsOptOk(typeParamsOpt),
+    extendsIntfsOptOk(extendsIntfsOpt),
+    intfMemDeclListOk(intfMemDeclList),
+    true.
+
+  intfDeclOk(AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl)) :-
+    annoTypeDeclOk(annoTypeDecl),
+    true.
+    
+    
+  intfModOk : InterfaceModifier
+  intfModListOk maps intfModOk(list(*))
+  
+  intfModOk(Annotation2InterfaceModifier(anno)) :-
+    annoOk(anno),
+    true.
+  intfModOk(Public2InterfaceModifier(_)) :- true.
+  intfModOk(Protected2InterfaceModifier(_)) :- true.
+  intfModOk(Private2InterfaceModifier(_)) :- true.
+  intfModOk(Abstract2InterfaceModifier(_)) :- true.
+  intfModOk(Static2InterfaceModifier(_)) :- true.
+  intfModOk(Strictfp2InterfaceModifier(_)) :- true.
+
+
+  extendsIntfsOk : ExtendsInterfaces
+  extendsIntfsOptOk maps extendsIntfsOk(list(*))
+  
+  extendsIntfsOk(ExtendsInterfaces(clsTypeList)) :-
+    clsTypeListOk(clsTypeList),
+    true.
+    
+    
+  intfMemDeclOk : InterfaceMemberDeclaration
+  intfMemDeclListOk maps intfMemDeclOk(list(*))
+  
+  intfMemDeclOk(ConstantDeclaration2InterfaceMemberDeclaration(constDecl)) :-
+    constDeclOk(constDecl),
+    true.
+
+  intfMemDeclOk(InterfaceMethodDeclaration2InterfaceMemberDeclaration(intfMthdDecl)) :-
+    intfMthdDeclOk(intfMthdDecl),
+    true.
+
+  intfMemDeclOk(ClassDeclaration2InterfaceMemberDeclaration(clsDecl)) :-
+    clsDeclOk(clsDecl),
+    true.
+
+  intfMemDeclOk(InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl)) :-
+    intfDeclOk(intfDecl),
+    true.
+
+  intfMemDeclOk(SemiColon2InterfaceMemberDeclaration(_)) :-
+    true.
+
+
+rules // 9.3. Field (Constant) Declarations
+
+  constDeclOk : ConstantDeclaration
+  
+  constDeclOk(ConstantDecl(constModList, unannType, varDeclList)) :-
+    constModListOk(constModList),
+    unannTypeOk(unannType),
+    varDeclListOk(varDeclList),
+    true.
+
+
+  constModOk : ConstantModifier
+  constModListOk maps constModOk(list(*))
+  
+  constModOk(Annotation2ConstantModifier(anno)) :-
+    annoOk(anno),
+    true.
+  constModOk(Public2ConstantModifier(_)) :- true.
+  constModOk(Static2ConstantModifier(_)) :- true.
+  constModOk(Final2ConstantModifier(_)) :- true.
+
+
+rules // 9.4. Method Declarations
+
+  intfMthdDeclOk : InterfaceMethodDeclaration
+  
+  intfMthdDeclOk(AbstractMethodDec(intfMthdModList, mthdHeader, mthdBody)) :-
+    intfMthdModListOk(intfMthdModList),
+    mthdHeaderOk(mthdHeader),
+    mthdBodyOk(mthdBody),
+    true.
+    
+  
+  intfMthdModOk : InterfaceMethodModifier
+  intfMthdModListOk maps intfMthdModOk(list(*))
+
+  intfMthdModOk(Annotation2InterfaceMethodModifier(anno)) :-
+    annoOk(anno),
+    true.
+  intfMthdModOk(Public2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Abstract2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Default2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Static2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Strictfp2InterfaceMethodModifier(_)) :- true.
+
+
+rules // 9.6. Annotation Types
+
+  annoTypeDeclOk : AnnotationTypeDeclaration
+  
+  annoTypeDeclOk(AnnoDec(intfModList, id, annoTypeMemDeclList)) :-
+    intfModListOk(intfModList),
+    annoTypeMemDeclListOk(annoTypeMemDeclList),
+    true.
+    
+    
+  annoTypeMemDeclOk : AnnotationTypeMemberDeclaration
+  annoTypeMemDeclListOk maps annoTypeMemDeclOk(list(*))
+
+  annoTypeMemDeclOk(AnnotationTypeElementDeclaration2AnnotationTypeMemberDeclaration(annoTypeElemDecl)) :-
+    annoTypeElemDeclOk(annoTypeElemDecl),
+    true.
+
+  annoTypeMemDeclOk(ConstantDeclaration2AnnotationTypeMemberDeclaration(constDecl)) :-
+    constDeclOk(constDecl),
+    true.
+
+  annoTypeMemDeclOk(ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl)) :-
+    clsDeclOk(clsDecl),
+    true.
+
+  annoTypeMemDeclOk(InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl)) :-
+    intfDeclOk(intfDecl),
+    true.
+
+  annoTypeMemDeclOk(SemiColon2AnnotationTypeMemberDeclaration(_)) :-
+    true.
+
+
+  annoTypeElemDeclOk : AnnotationTypeElementDeclaration
+
+  annoTypeElemDeclOk(AnnotationTypeElementDecl(annoTypeElemModList, unannType, id, annDimsEmpty, defaultValOpt)) :-
+    annoTypeElemModListOk(annoTypeElemModList),
+    unannTypeOk(unannType),
+    annDimsEmptyOk(annDimsEmpty),
+    defaultValOptOk(defaultValOpt),
+    true.
+    
+    
+  annoTypeElemModOk : AnnotationTypeElementModifier
+  annoTypeElemModListOk maps annoTypeElemModOk(list(*))
+
+  annoTypeElemModOk(Annotation2AnnotationTypeElementModifier(anno)) :-
+    annoOk(anno),
+    true.
+  annoTypeElemModOk(Public2AnnotationTypeElementModifier(_)) :- true.
+  annoTypeElemModOk(Abstract2AnnotationTypeElementModifier(_)) :- true.
+  
+  
+  defaultValOk : DefaultValue
+  defaultValOptOk maps defaultValOk(list(*))
+  
+  defaultValOk(DefaultVal(elemVal)) :-
+    false.
+
+
+rules // 9.7. Annotations
+
+  annoOk : Annotation
+  annoListOk maps annoOk(list(*))
+  
+  annoOk(Anno(typeName, elemValPairList)) :-
+    typeNameOk(typeName),
+    elemValPairListOk(elemValPairList),
+    true.
+    
+  annoOk(MarkerAnno(typeName)) :-
+    typeNameOk(typeName),
+    true.
+    
+  annoOk(SingleElemAnno(typeName, elemVal)) :-
+    typeNameOk(typeName),
+    elemValOk(elemVal),
+    true.
+    
+    
+  elemValPairOk : ElementValuePair
+  elemValPairListOk maps elemValPairOk(list(*))
+  
+  elemValPairOk(ElemValPair(id, elemVal)) :-
+    elemValOk(elemVal),
+    true.
+    
+    
+  elemValOk : ElementValue
+  elemValListOk maps elemValOk(list(*))
+  
+  elemValOk(Expression2ElementValue(expr)) :-
+    exprOk(expr),
+    true.
+    
+  elemValOk(ElementValueArrayInitializer2ElementValue(elemValArrayInit)) :-
+    elemValArrayInitOk(elemValArrayInit),
+    true.
+    
+  elemValOk(Annotation2ElementValue(anno)) :-
+    annoOk(anno),
+    true.
+
+
+  elemValArrayInitOk : ElementValueArrayInitializer
+  
+  elemValArrayInitOk(ElementValArrayInit(elemValList)) :-
+    elemValListOk(elemValList),
+    true.
+
+  elemValArrayInitOk(ElementValArrayInitComma(elemValList)) :-
+    elemValListOk(elemValList),
+    false.
 

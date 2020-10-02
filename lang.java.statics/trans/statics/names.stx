@@ -14,65 +14,54 @@ rules // 6.5. Determining the Meaning of a Name
   pkgNameOk : PackageName
 
   pkgNameOk(PackageName(id)) :-
-    try { false } | note "unimplemented" @id
-  , true.
+    true.
 
   pkgNameOk(PackageName(pkgName, id)) :-
-    try { false } | note "unimplemented" @pkgName
-  , try { false } | note "unimplemented" @id
-  , true.
+    pkgNameOk(pkgName),
+    true.
 
     
   typeNameOk : TypeName
   
   typeNameOk(TypeName(id)) :-
-    try { false } | note "unimplemented" @id
-  , true.
+    true.
     
   typeNameOk(TypeName(pkgOrTypeName, id)) :-
-    try { false } | note "unimplemented" @pkgOrTypeName
-  , try { false } | note "unimplemented" @id
-  , true.
+    pkgOrTypeNameOk(pkgOrTypeName),
+    true.
 
 
   pkgOrTypeNameOk : PackageOrTypeName
   
   pkgOrTypeNameOk(PackageOrTypeName(id)) :-
-    try { false } | note "unimplemented" @id
-  , true.
+    true.
     
   pkgOrTypeNameOk(PackageOrTypeName(pkgOrTypeName, id)) :-
-    try { false } | note "unimplemented" @pkgOrTypeName
-  , try { false } | note "unimplemented" @id
-  , true.
+    pkgOrTypeNameOk(pkgOrTypeName),
+    true.
 
     
   exprNameOk : ExpressionName
   
   exprNameOk(ExpressionName(id)) :-
-    try { false } | note "unimplemented" @id
-  , true.
+    true.
     
   exprNameOk(ExpressionName(ambName, id)) :-
-    try { false } | note "unimplemented" @ambName
-  , try { false } | note "unimplemented" @id
-  , true.
+    ambNameOk(ambName),
+    true.
  
  
   ambNameOk : AmbiguousName
   
   ambNameOk(AmbiguousName(id)) :-
-    try { false } | note "unimplemented" @id
-  , true. 
+    true. 
  
   ambNameOk(AmbiguousName(ambName, id)) :-
-    try { false } | note "unimplemented" @ambName
-  , try { false } | note "unimplemented" @id
-  , true. 
+    ambNameOk(ambName),
+    true. 
 
 
   mthdNameOk : MethodName
   
   mthdNameOk(MethodName(id)) :-
-    try { false } | note "unimplemented" @id
-  , true.
+    true.

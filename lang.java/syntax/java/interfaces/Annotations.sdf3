@@ -26,5 +26,5 @@ context-free syntax
   ElementValue = Annotation
   
   ElementValueArrayInitializer.ElementValArrayInit = <{<{ElementValue ","}*>}>
-  ElementValueArrayInitializer.ElementValArrayInitComman = <{<{ElementValue ","}*>, }>
+  ElementValueArrayInitializer.ElementValArrayInitComma = <{<{ElementValue ","}*>, }>
   

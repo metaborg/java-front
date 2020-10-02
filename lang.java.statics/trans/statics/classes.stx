@@ -4,6 +4,12 @@ imports
 
   signatures/java/classes/Main-sig
 
+  statics/arrays
+  statics/interfaces
+  statics/expressions
+  statics/statements
+  statics/types
+
 rules // Chapter 8. Classes
 
 
@@ -12,31 +18,31 @@ rules // 8.1. Class Declarations
   clsDeclOk : ClassDeclaration
   
   clsDeclOk(NormalClassDeclaration2ClassDeclaration(normalClsDecl)) :-
-    try { false } | note "unimplemented" @normalClsDecl
-  , true.
+    normalClsDeclOk(normalClsDecl),
+    true.
 
   clsDeclOk(EnumDeclaration2ClassDeclaration(enumDecl)) :-
-    try { false } | note "unimplemented" @enumDecl
-  , true.
+    enumDeclOk(enumDecl),
+    true.
 
 
   normalClsDeclOk : NormalClassDeclaration
   
-  normalClsDeclOk(ClassDeclaration(clsMods, id, typeParams', superCls', superIntfs', clsBodyDecls)) :-
-    try { false } | note "unimplemented" @clsMods
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @typeParams'
-  , try { false } | note "unimplemented" @superCls'
-  , try { false } | note "unimplemented" @superIntfs'
-  , try { false } | note "unimplemented" @clsBodyDecls
-  , true.
+  normalClsDeclOk(ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
+    clsModListOk(clsModList),
+    typeParamsOptOk(typeParamsOpt),
+    superClsOptOk(superClsOpt),
+    superIntfsOptOk(superIntfsOpt),
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
 
 
   clsModOk : ClassModifier
+  clsModListOk maps clsModOk(list(*))
   
   clsModOk(Annotation2ClassModifier(anno)) :-
-    try { false } | note "unimplemented" @anno
-  , true.
+    annoOk(anno),
+    true.
   clsModOk(Public2ClassModifier(_)) :- false.
   clsModOk(Protected2ClassModifier(_)) :- false.
   clsModOk(Private2ClassModifier(_)) :- false.
@@ -47,62 +53,66 @@ rules // 8.1. Class Declarations
 
 
   typeParamsOk : TypeParameters
+  typeParamsOptOk maps typeParamsOk(list(*))
   
-  typeParamsOk(TypeParameters(typeParams)) :-
-    try { false } | note "unimplemented" @typeParams
-  , true.
+  typeParamsOk(TypeParameters(typeParamList)) :-
+    typeParamListOk(typeParamList),
+    true.
 
 
   superClsOk : SuperClass
+  superClsOptOk maps superClsOk(list(*))
   
-  superClsOk(SuperClass(clsTypes)) :-
-    try { false } | note "unimplemented" @clsTypes
-  , true.
+  superClsOk(SuperClass(clsType)) :-
+    clsTypeOk(clsType),
+    true.
 
 
   superIntfsOk : SuperInterfaces
+  superIntfsOptOk maps superIntfsOk(list(*))
   
-  superIntfsOk(SuperInterface(clsTypes)) :-
-    try { false } | note "unimplemented" @clsTypes
-  , true.
+  superIntfsOk(SuperInterface(clsTypeList)) :-
+    clsTypeListOk(clsTypeList),
+    true.
 
 
   clsBodyDeclOk : ClassBodyDeclaration
+  clsBodyDeclListOk maps clsBodyDeclOk(list(*))
   
   clsBodyDeclOk(ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl)) :-
-    try { false } | note "unimplemented" @clsMemDecl
-  , true.
+    clsMemDeclOk(clsMemDecl),
+    true.
 
   clsBodyDeclOk(InstanceInitializer2ClassBodyDeclaration(instInit)) :-
-    try { false } | note "unimplemented" @instInit
-  , true.
+    instInitOk(instInit),
+    true.
 
   clsBodyDeclOk(StaticInitializer2ClassBodyDeclaration(staticInit)) :-
-    try { false } | note "unimplemented" @staticInit
-  , true.
+    staticInitOk(staticInit),
+    true.
 
   clsBodyDeclOk(ConstructorDeclaration2ClassBodyDeclaration(ctorDecl)) :-
-    try { false } | note "unimplemented" @ctorDecl
-  , true.
+    ctorDeclOk(ctorDecl),
+    true.
 
 
   clsMemDeclOk : ClassMemberDeclaration
   
   clsMemDeclOk(FieldDeclaration2ClassMemberDeclaration(fldDecl)) :-
-    try { false } | note "unimplemented" @fldDecl
-  , true.
+    fldDeclOk(fldDecl),
+    true.
   
   clsMemDeclOk(MethodDeclaration2ClassMemberDeclaration(mthdDecl)) :-
-    try { false } | note "unimplemented" @mthdDecl
-  , true.
+    mthdDeclOk(mthdDecl),
+    true.
   
   clsMemDeclOk(ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
-    try { false } | note "unimplemented" @clsDecl
-  , true.
+    clsDeclOk(clsDecl),
+    true.
 
   clsMemDeclOk(InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
-    try { false } | note "unimplemented" @intfDecl
-  , true.
+    intfDeclOk(intfDecl),
+    true.
 
   clsMemDeclOk(SemiColon2ClassMemberDeclaration(semiColon)) :-
     true.
@@ -112,198 +122,198 @@ rules // 8.3. Field Declarations
 
   fldDeclOk : FieldDeclaration
   
-  fldDeclOk(FieldDecl(fldMods, unannType, varDecls)) :-
-    try { false } | note "unimplemented" @fldMods
-  , try { false } | note "unimplemented" @unannType
-  , try { false } | note "unimplemented" @varDecls
-  , true.
+  fldDeclOk(FieldDecl(fldModList, unannType, varDeclList)) :-
+    fldModListOk(fldModList),
+    unannTypeOk(unannType),
+    varDeclListOk(varDeclList),
+    true.
 
 
   varDeclIdOk : VarDeclId
   
   varDeclIdOk(VariableDecl(id)) :-
-    try { false } | note "unimplemented" @id
-  , true.
+    true.
 
-  varDeclIdOk(VariableDeclArray(id, annDims)) :-
-    try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @annDims
-  , true.
+  varDeclIdOk(VariableDeclArray(id, annDimList)) :-
+    annDimListOk(annDimList),
+    true.
 
 
   varDeclOk : VarDecl
+  varDeclListOk maps varDeclOk(list(*))
   
   varDeclOk(VariableDeclInit(varDeclId, varInit)) :-
-    try { false } | note "unimplemented" @varDeclId
-  , try { false } | note "unimplemented" @varInit
-  , true.
+    varDeclIdOk(varDeclId),
+    varInitOk(varInit),
+    true.
 
   varDeclOk(VarDeclId2VarDecl(varDeclId)) :-
-    try { false } | note "unimplemented" @varDeclId
-  , true.
+    varDeclIdOk(varDeclId),
+    true.
 
 
   varInitOk : VariableInitializer
+  varInitListOk maps varInitOk(list(*))
   
   varInitOk(Expression2VariableInitializer(expr)) :-
-    try { false } | note "unimplemented" @expr
-  , true.
+    exprOk(expr),
+    true.
 
   varInitOk(ArrayInitializer2VariableInitializer(arrayInit)) :-
-    try { false } | note "unimplemented" @arrayInit
-  , true.
+    arrayInitOk(arrayInit),
+    true.
 
 
   fldModOk : FieldModifier
+  fldModListOk maps fldModOk(list(*))
   
   fldModOk(Annotation2FieldModifier(anno)) :-
-    try { false } | note "unimplemented" @anno
-  , true.
-  fldModOk(Public2FieldModifier(_)) :- false.
-  fldModOk(Protected2FieldModifier(_)) :- false.
-  fldModOk(Private2FieldModifier(_)) :- false.
-  fldModOk(Static2FieldModifier(_)) :- false.
-  fldModOk(Final2FieldModifier(_)) :- false.
-  fldModOk(Transient2FieldModifier(_)) :- false.
-  fldModOk(Volatile2FieldModifier(_)) :- false.
+    annoOk(anno),
+    true.
+  fldModOk(Public2FieldModifier(_)) :- true.
+  fldModOk(Protected2FieldModifier(_)) :- true.
+  fldModOk(Private2FieldModifier(_)) :- true.
+  fldModOk(Static2FieldModifier(_)) :- true.
+  fldModOk(Final2FieldModifier(_)) :- true.
+  fldModOk(Transient2FieldModifier(_)) :- true.
+  fldModOk(Volatile2FieldModifier(_)) :- true.
 
 
   unannTypeOk : UnannType
   
   unannTypeOk(UnannPrimitiveType2UnannType(unannPrimType)) :-
-    try { false } | note "unimplemented" @unannPrimType
-  , true.
+    unannPrimTypeOk(unannPrimType),
+    true.
 
   unannTypeOk(UnannReferenceType2UnannType(unannRefType)) :-
-    try { false } | note "unimplemented" @unannRefType
-  , true.
+    unannRefTypeOk(unannRefType),
+    true.
 
 
   unannPrimTypeOk : UnannPrimitiveType
   
   unannPrimTypeOk(NumericType(numType)) :-
-    try { false } | note "unimplemented" @numType
-  , true.
+    numTypeOk(numType),
+    true.
 
   unannPrimTypeOk(BooleanType()) :-
-    false.
+    true.
 
 
   unannRefTypeOk : UnannReferenceType
   
   unannRefTypeOk(UnannClassType2UnannReferenceType(unannClsType)) :-
-    try { false } | note "unimplemented" @unannClsType
-  , true.
+    unannClsTypeOk(unannClsType),
+    true.
 
   unannRefTypeOk(UnannArrayType2UnannReferenceType(unannArrayType)) :-
-    try { false } | note "unimplemented" @unannArrayType
-  , true.
+    unannArrayTypeOk(unannArrayType),
+    true.
 
 
   unannClsTypeOk : UnannClassType
   
-  unannClsTypeOk(ClassType(id, typeArgs')) :-
-    try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @typeArgs'
-  , true.
+  unannClsTypeOk(ClassType(id, typeArgsOpt)) :-
+    typeArgsOptOk(typeArgsOpt),
+    true.
 
-  unannClsTypeOk(UnannClassOrInterfaceTypeMember(unannClsType, annos, id, typeArgs')) :-
-    try { false } | note "unimplemented" @unannClsType
-  , try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @typeArgs'
-  , true.
+  unannClsTypeOk(UnannClassOrInterfaceTypeMember(unannClsType, annoList, id, typeArgsOpt)) :-
+    unannClsTypeOk(unannClsType),
+    annoListOk(annoList),
+    typeArgsOptOk(typeArgsOpt),
+    true.
 
 
   unannArrayTypeOk : UnannArrayType
   
-  unannArrayTypeOk(UnannArrayTypePrimitive(unannPrimType, annDims)) :-
-    try { false } | note "unimplemented" @unannPrimType
-  , try { false } | note "unimplemented" @annDims
-  , true.
+  unannArrayTypeOk(UnannArrayTypePrimitive(unannPrimType, annDimList)) :-
+    unannPrimTypeOk(unannPrimType),
+    annDimListOk(annDimList),
+    true.
 
-  unannArrayTypeOk(UnannArrayTypeClassType(unannClsType, annDims)) :-
-    try { false } | note "unimplemented" @unannClsType
-  , try { false } | note "unimplemented" @annDims
-  , true.
+  unannArrayTypeOk(UnannArrayTypeClassType(unannClsType, annDimList)) :-
+    unannClsTypeOk(unannClsType),
+    annDimListOk(annDimList),
+    true.
 
 
 rules // 8.4. Method Declarations
 
   mthdDeclOk : MethodDeclaration
   
-  mthdDeclOk(MethodDecl(mthdMods, mthdHeader, mthdBody)) :-
-    try { false } | note "unimplemented" @mthdMods
-  , try { false } | note "unimplemented" @mthdHeader
-  , try { false } | note "unimplemented" @mthdBody
-  , true.
+  mthdDeclOk(MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
+    mthdModListOk(mthdModList),
+    mthdHeaderOk(mthdHeader),
+    mthdBodyOk(mthdBody),
+    true.
 
 
   mthdHeaderOk : MethodHeader
   
-  mthdHeaderOk(MethodHeader(annos, result, id, formalParams, throws')) :-
-    try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @result
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @formalParams
-  , try { false } | note "unimplemented" @throws'
-  , true.
+  mthdHeaderOk(MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt)) :-
+    resultOk(result),
+    formalParamsOk(formalParams),
+    annDimsEmptyOk(annDimsEmpty),
+    throwsOptOk(throwsOpt),
+    true.
 
-  mthdHeaderOk(MethodHeaderTypeParameters(typeParams, annos, result, id, formalParams, throws')) :-
-    try { false } | note "unimplemented" @typeParams
-  , try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @result
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @formalParams
-  , try { false } | note "unimplemented" @throws'
-  , true.
+  mthdHeaderOk(MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
+    typeParamsOk(typeParams),
+    annoListOk(annoList),
+    resultOk(result),
+    formalParamsOk(formalParams),
+    throwsOptOk(throwsOpt),
+    true.
 
 
   resultOk : Result
   
   resultOk(UnannType2Result(unannType)) :-
-    try { false } | note "unimplemented" @unannType
-  , true.
+    unannTypeOk(unannType),
+    true.
 
   resultOk(Void()) :-
-    false.
+    true.
 
 
   throwsOk : Throws
+  throwsOptOk maps throwsOk(list(*))
   
-  throwsOk(ThrowsDec(exceptTypes)) :-
-    try { false } | note "unimplemented" @exceptTypes
-  , true.
+  throwsOk(ThrowsDec(exceptTypeList)) :-
+    exceptTypeListOk(exceptTypeList),
+    true.
 
 
   exceptTypeOk : ExceptionType
+  exceptTypeListOk maps exceptTypeOk(list(*))
   
   exceptTypeOk(ClassType2ExceptionType(clsType)) :-
-    try { false } | note "unimplemented" @clsType
-  , true.
+    clsTypeOk(clsType),
+    true.
 
 
-  mthdMods : MethodModifier
+  mthdModOk : MethodModifier
+  mthdModListOk maps mthdModOk(list(*))
 
-  mthdMods(Annotation2MethodModifier(anno)) :-
-    try { false } | note "unimplemented" @anno
-  , true.
-  mthdMods(Public2MethodModifier(_)) :- false.
-  mthdMods(Protected2MethodModifier(_)) :- false.
-  mthdMods(Private2MethodModifier(_)) :- false.
-  mthdMods(Abstract2MethodModifier(_)) :- false.
-  mthdMods(Static2MethodModifier(_)) :- false.
-  mthdMods(Final2MethodModifier(_)) :- false.
-  mthdMods(Synchronized2MethodModifier(_)) :- false.
-  mthdMods(Native2MethodModifier(_)) :- false.
-  mthdMods(Strictfp2MethodModifier(_)) :- false.
+  mthdModOk(Annotation2MethodModifier(anno)) :-
+    annoOk(anno),
+    true.
+  mthdModOk(Public2MethodModifier(_)) :- true.
+  mthdModOk(Protected2MethodModifier(_)) :- true.
+  mthdModOk(Private2MethodModifier(_)) :- true.
+  mthdModOk(Abstract2MethodModifier(_)) :- true.
+  mthdModOk(Static2MethodModifier(_)) :- true.
+  mthdModOk(Final2MethodModifier(_)) :- true.
+  mthdModOk(Synchronized2MethodModifier(_)) :- true.
+  mthdModOk(Native2MethodModifier(_)) :- true.
+  mthdModOk(Strictfp2MethodModifier(_)) :- true.
 
 
   mthdBodyOk : MethodBody
   
   mthdBodyOk(Block2MethodBody(blk)) :-
-    try { false } | note "unimplemented" @blk
-  , true.
+    blkOk(blk),
+    true.
 
   mthdBodyOk(NoMethodBody()) :-
     true.
@@ -311,16 +321,15 @@ rules // 8.4. Method Declarations
 
   recvParamOk : ReceiverParam
   
-  recvParamOk(ReceiverParamQual(annos, unannType, id)) :-
-    try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @unannType
-  , try { false } | note "unimplemented" @id
-  , true.
+  recvParamOk(ReceiverParamQual(annoList, unannType, id)) :-
+    annoListOk(annoList),
+    unannTypeOk(unannType),
+    true.
 
-  recvParamOk(ReceiverParam(annos, unannType)) :-
-    try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @unannType
-  , true.
+  recvParamOk(ReceiverParam(annoList, unannType)) :-
+    annoListOk(annoList),
+    unannTypeOk(unannType),
+    true.
 
 
   formalParamsOk : FormalParams
@@ -329,65 +338,66 @@ rules // 8.4. Method Declarations
     true.
 
   formalParamsOk(ReceiverParam2FormalParams(recvParam)) :-
-    try { false } | note "unimplemented" @recvParam
-  , true.
+    recvParamOk(recvParam),
+    true.
 
-  formalParamsOk(SingleParam(recvParam)) :-
-    try { false } | note "unimplemented" @recvParam
-  , true.
+  formalParamsOk(SingleParam(lastFormalParam)) :-
+    lastFormalParamOk(lastFormalParam),
+    true.
 
-  formalParamsOk(ParamList(formalParams, lastFormalParam)) :-
-    try { false } | note "unimplemented" @formalParams
-  , try { false } | note "unimplemented" @lastFormalParam
-  , true.
+  formalParamsOk(ParamList(formalParamList, lastFormalParam)) :-
+    formalParamListOk(formalParamList),
+    lastFormalParamOk(lastFormalParam),
+    true.
 
-  formalParamsOk(ReceiverParamList(recvParam, formalParams, lastFormalParam)) :-
-    try { false } | note "unimplemented" @recvParam
-  , try { false } | note "unimplemented" @formalParams
-  , try { false } | note "unimplemented" @lastFormalParam
-  , true.
+  formalParamsOk(ReceiverParamList(recvParam, formalParamList, lastFormalParam)) :-
+    recvParamOk(recvParam),
+    formalParamListOk(formalParamList),
+    lastFormalParamOk(lastFormalParam),
+    true.
 
 
   lastFormalParamOk : LastFormalParam
   
   lastFormalParamOk(FormalParam2LastFormalParam(formalParam)) :-
-    try { false } | note "unimplemented" @formalParam
-  , true.
+    formalParamOk(formalParam),
+    true.
     
-  lastFormalParamOk(VarArityParam(varMods, unannType, annos, varDeclId)) :-
-    try { false } | note "unimplemented" @varMods
-  , try { false } | note "unimplemented" @unannType
-  , try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @varDeclId
-  , true.
+  lastFormalParamOk(VarArityParam(varModList, unannType, annoList, varDeclId)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    annoListOk(annoList),
+    varDeclIdOk(varDeclId),
+    true.
 
 
   formalParamOk : FormalParam
+  formalParamListOk maps formalParamOk(list(*))
   
-  formalParamOk(FormalParam(varMods, unannType, varDeclId)) :-
-    try { false } | note "unimplemented" @varMods
-  , try { false } | note "unimplemented" @unannType
-  , try { false } | note "unimplemented" @varDeclId
-  , true.
+  formalParamOk(FormalParam(varModList, unannType, varDeclId)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    varDeclIdOk(varDeclId),
+    true.
 
 
   varModOk : VariableModifier
+  varModListOk maps varModOk(list(*))
   
   varModOk(Annotation2VariableModifier(anno)) :-
-    try { false } | note "unimplemented" @anno
-  , true.
-
+    annoOk(anno),
+    true.
   varModOk(Final2VariableModifier(_)) :-
     false.
 
 
 rules // 8.6. Instance Initializers
 
-  instInit : InstanceInitializer
+  instInitOk : InstanceInitializer
   
-  instInit(InstanceInit(blk)) :-
-    try { false } | note "unimplemented" @blk
-  , true.
+  instInitOk(InstanceInit(blk)) :-
+    blkOk(blk),
+    true.
 
 
 rules // 8.7. Static Initializers
@@ -395,101 +405,101 @@ rules // 8.7. Static Initializers
   staticInitOk : StaticInitializer
 
   staticInitOk(StaticInit(blk)) :-
-    try { false } | note "unimplemented" @blk
-  , true.
+    blkOk(blk),
+    true.
 
 
 rules // 8.8. Constructor Declarations
 
   ctorDeclOk : ConstructorDeclaration
   
-  ctorDeclOk(ConstrDecl(ctorMods, typeParams', id, formalParams, throws', ctorInvoke, blkStmts)) :-
-    try { false } | note "unimplemented" @ctorMods
-  , try { false } | note "unimplemented" @typeParams'
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @formalParams
-  , try { false } | note "unimplemented" @throws'
-  , try { false } | note "unimplemented" @ctorInvoke
-  , try { false } | note "unimplemented" @blkStmts
-  , true.
+  ctorDeclOk(ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
+    ctorModListOk(ctorModList),
+    typeParamsOptOk(typeParamsOpt),
+    formalParamsOk(formalParams),
+    throwsOptOk(throwsOpt),
+    ctorInvOptOk(ctorInvOpt),
+    blkStmtListOk(blkStmtList),
+    true.
 
 
   ctorModOk : ConstructorModifier
+  ctorModListOk maps ctorModOk(list(*))
   
-  ctorModOk(Annotation2ConstructorModifier(annos)) :-
-    try { false } | note "unimplemented" @annos
-  , true.
+  ctorModOk(Annotation2ConstructorModifier(anno)) :-
+    annoOk(anno),
+    true.
   ctorModOk(Public2ConstructorModifier(_)) :- false.
   ctorModOk(Private2ConstructorModifier(_)) :- false.
   ctorModOk(Protected2ConstructorModifier(_)) :- false.
 
 
   ctorInvOk : ConstructorInvocation
+  ctorInvOptOk maps ctorInvOk(list(*))
   
-  ctorInvOk(AltConstrInv(typeArgs', exprs)) :-
-    try { false } | note "unimplemented" @typeArgs'
-  , try { false } | note "unimplemented" @exprs
-  , true.
+  ctorInvOk(AltConstrInv(typeArgsOpt, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
 
-  ctorInvOk(SuperConstrInv(typeArgs', exprs)) :-
-    try { false } | note "unimplemented" @typeArgs'
-  , try { false } | note "unimplemented" @exprs
-  , true.
+  ctorInvOk(SuperConstrInv(typeArgsOpt, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
 
-  ctorInvOk(ExprNameConstrInv(expr, typeArgs', exprs)) :-
-    try { false } | note "unimplemented" @expr
-  , try { false } | note "unimplemented" @typeArgs'
-  , try { false } | note "unimplemented" @exprs
-  , true.
+  ctorInvOk(ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
+    exprOk(expr),
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
 
 
 rules // 8.9. Enum Types
 
   enumDeclOk : EnumDeclaration
   
-  enumDeclOk(EnumDeclComma(clsMods, id, superIntfs', enumConsts, enumBodyDecls')) :-
-    try { false } | note "unimplemented" @clsMods
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @superIntfs'
-  , try { false } | note "unimplemented" @enumConsts
-  , try { false } | note "unimplemented" @enumBodyDecls'
-  , true.
+  enumDeclOk(EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+    clsModListOk(clsModList),
+    superIntfsOptOk(superIntfsOpt),
+    enumConstListOk(enumConstList),
+    enumBodyDeclsOptOk(enumBodyDeclsOpt),
+    true.
 
-  enumDeclOk(EnumDecl(clsMods, id, superIntfs', enumConsts, enumBodyDecls')) :-
-    try { false } | note "unimplemented" @clsMods
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @superIntfs'
-  , try { false } | note "unimplemented" @enumConsts
-  , try { false } | note "unimplemented" @enumBodyDecls'
-  , true.
+  enumDeclOk(EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+    clsModListOk(clsModList),
+    superIntfsOptOk(superIntfsOpt),
+    enumConstListOk(enumConstList),
+    enumBodyDeclsOptOk(enumBodyDeclsOpt),
+    true.
 
 
   enumConstOk : EnumConstant
+  enumConstListOk maps enumConstOk(list(*))
   
-  enumConstOk(EnumConst(annos, id, enumConstArgs', clsBodyDecls)) :-
-    try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @enumConstArgs'
-  , try { false } | note "unimplemented" @clsBodyDecls
-  , true.
+  enumConstOk(EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList)) :-
+    annoListOk(annoList),
+    enumConstArgsOptOk(enumConstArgsOpt),
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
 
-  enumConstOk(EnumConstNoBody(annos, id, enumConstArgs')) :-
-    try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @id
-  , try { false } | note "unimplemented" @enumConstArgs'
-  , true.
+  enumConstOk(EnumConstNoBody(annoList, id, enumConstArgsOpt)) :-
+    annoListOk(annoList),
+    enumConstArgsOptOk(enumConstArgsOpt),
+    true.
 
 
   enumConstArgsOk : EnumConstantArgs
+  enumConstArgsOptOk maps enumConstArgsOk(list(*))
   
-  enumConstArgsOk(EnumConstArgs(exprs)) :-
-    try { false } | note "unimplemented" @exprs
-  , true.
+  enumConstArgsOk(EnumConstArgs(exprList)) :-
+    exprListOk(exprList),
+    true.
     
     
   enumBodyDeclsOk : EnumBodyDeclarations
+  enumBodyDeclsOptOk maps enumBodyDeclsOk(list(*))
   
-  enumBodyDeclsOk(EnumBodyDecs(clsBodyDecls)) :-
-    try { false } | note "unimplemented" @clsBodyDecls
-  , true.
+  enumBodyDeclsOk(EnumBodyDecs(clsBodyDeclList)) :-
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
 

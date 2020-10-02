@@ -32,16 +32,16 @@ rules// 3.10.1. Integer Literals
   intLitOk : IntLiteral
   
   intLitOk(Deci(_)) :-
-    false.
+    true.
 
   intLitOk(Hexa(_)) :-
-    false.
+    true.
 
   intLitOk(Octa(_)) :-
-    false.
+    true.
 
   intLitOk(Bin(_)) :-
-    false.
+    true.
 
 
 rules // 3.10.2. Floating-Point Literals
@@ -49,16 +49,16 @@ rules // 3.10.2. Floating-Point Literals
   floatLitOk : FloatLiteral
   
   floatLitOk(DeciFloat(_)) :-
-    false.
+    true.
 
   floatLitOk(HexaFloat(_)) :-
-    false.
+    true.
 
   floatLitOk(DeciDouble(_)) :-
-    false.
+    true.
 
   floatLitOk(HexaDouble(_)) :-
-    false.
+    true.
 
 
 rules // 3.10.3. Boolean Literals
@@ -66,10 +66,10 @@ rules // 3.10.3. Boolean Literals
   boolLitOk : BoolLiteral
 
   boolLitOk(True()) :-
-    false.
+    true.
     
   boolLitOk(False()) :-
-    false.
+    true.
 
 
 rules // 3.10.4. Character Literals
@@ -77,7 +77,7 @@ rules // 3.10.4. Character Literals
   charLitOk : CharacterLiteral
   
   charLitOk(CharLiteral(_)) :-
-    false.
+    true.
 
     
 rules // 3.10.5. String Literals
@@ -85,7 +85,7 @@ rules // 3.10.5. String Literals
   stringLitOk : StringLiteral
   
   stringLitOk(StringLiteral(_)) :-
-    false.
+    true.
 
 
 rules // 3.10.7. The Null Literal
@@ -93,4 +93,4 @@ rules // 3.10.7. The Null Literal
   nullLitOk : NullLiteral
 
   nullLitOk(Null()) :-
-    false.
+    true.

@@ -3,6 +3,279 @@ module statics/statements
 imports
 
   signatures/java/statements/Main-sig
+  
+  statics/classes
+  statics/expressions
+  statics/statements
+  statics/types
 
-rules
+rules // Chapter 14. Blocks and Statements
 
+
+rules // 14.2. Blocks
+
+  blkOk : Block
+  
+  blkOk(Block(blkStmtList)) :-
+    blkStmtListOk(blkStmtList),
+    true.
+    
+
+  blkStmtOk : BlockStatement
+  blkStmtListOk maps blkStmtOk(list(*))
+  
+  blkStmtOk(LocalVariableDeclarationStatement2BlockStatement(localVarDeclStmt)) :-
+    localVarDeclStmtOk(localVarDeclStmt),
+    true.
+    
+  blkStmtOk(ClassDeclaration2BlockStatement(clsDecl)) :-
+    clsDeclOk(clsDecl),
+    true.
+    
+  blkStmtOk(Statement2BlockStatement(stmt)) :-
+    stmtOk(stmt),
+    true.
+    
+
+rules // 14.4. Local Variable Declaration Statements
+
+
+  localVarDeclStmtOk : LocalVariableDeclarationStatement
+  
+  localVarDeclStmtOk(LocVarDeclStm(localVarDecl)) :-
+    localVarDeclOk(localVarDecl),
+    true.
+
+
+  localVarDeclOk : LocalVariableDeclaration
+  
+  localVarDeclOk(LocalVarDecl(varModList, unannType, varDeclList)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    varDeclListOk(varDeclList),
+    true.
+
+
+rules // 14.5. Statements
+
+  stmtOk : Statement
+
+
+  stmtOk(Labeled(id, stmt)) :-
+    stmtOk(stmt),
+    true.
+
+
+  stmtOk(If(expr_cond, stmt_then)) :-
+    exprOk(expr_cond),
+    stmtOk(stmt_then),
+    true.
+
+  stmtOk(IfElse(expr_cond, stmt_then, stmt_else)) :-
+    exprOk(expr_cond),
+    stmtOk(stmt_then),
+    stmtOk(stmt_else),
+    true.
+  
+
+  stmtOk(While(expr_cond, stmt)) :-
+    exprOk(expr_cond),
+    stmtOk(stmt),
+    true.
+  
+
+  stmtOk(For(forInit, exprOpt, forUpdate, stmt)) :-
+    forInitOk(forInit),
+    exprOptOk(exprOpt),
+    forUpdateOk(forUpdate),
+    stmtOk(stmt),
+    true.
+
+  stmtOk(ForEach(varModList, unannType, varDeclId, expr, stmt)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    varDeclIdOk(varDeclId),
+    exprOk(expr),
+    stmtOk(stmt),
+    true.
+
+  forInitOk : ForInit
+  
+  forInitOk(Exprs2ForInit(exprs)) :-
+    exprsOk(exprs),
+    true.
+
+  forInitOk(VarDecls(varModList, unannType, varDeclList)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    varDeclListOk(varDeclList),
+    true.
+
+  forUpdateOk : ForUpdate
+  
+  forUpdateOk(Exprs2ForUpdate(exprs)) :-
+    exprsOk(exprs),
+    true.
+
+  exprsOk : Exprs
+  
+  exprsOk(ExprList(exprList)) :-
+    exprListOk(exprList),
+    true.
+
+    
+  stmtOk(Block2Statement(blk)) :-
+    blkOk(blk),
+    true.
+    
+    
+  stmtOk(ExpressionStatement(expr)) :-
+    exprOk(expr),
+    true.
+    
+  
+  stmtOk(Assert(expr)) :-
+    exprOk(expr),
+    true.
+    
+  stmtOk(Assert(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true.
+    
+    
+  stmtOk(Switch(expr, switchGroupList, switchLabelList)) :-
+    exprOk(expr),
+    switchGroupListOk(switchGroupList),
+    switchLabelListOk(switchLabelList),
+    true.
+    
+  switchGroupOk : SwitchGroup
+  switchGroupListOk maps switchGroupOk(list(*))
+
+  switchGroupOk(SwitchGroup(switchLabelList, blkStmtList)) :-
+    switchLabelListOk(switchLabelList),
+    blkStmtListOk(blkStmtList),
+    true.
+
+  switchLabelOk : SwitchLabel
+  switchLabelListOk maps switchLabelOk(list(*))
+
+  switchLabelOk(CaseExpr(expr)) :-
+    exprOk(expr),
+    true.
+    
+  switchLabelOk(DefaultCase()) :-
+    true.
+    
+    
+  stmtOk(DoWhile(stmt, expr)) :-
+    stmtOk(stmt),
+    exprOk(expr),
+    true. 
+   
+
+  stmtOk(Break()) :-
+    true.
+    
+  stmtOk(Break(id)) :-
+    true.
+    
+    
+  stmtOk(Continue()) :-
+    true.
+    
+  stmtOk(Continue(id)) :-
+    true. 
+    
+    
+  stmtOk(Return()) :-
+    true.
+    
+  stmtOk(Return(expr)) :-
+    exprOk(expr),
+    true.
+    
+    
+  stmtOk(Synchronized(expr, blk)) :-
+    exprOk(expr),
+    blkOk(blk),
+    true.
+    
+    
+  stmtOk(Throw(expr)) :-
+    exprOk(expr),
+    true.
+    
+    
+  stmtOk(Try(blk, catchClauseList)) :-
+    blkOk(blk),
+    catchClauseListOk(catchClauseList),
+    true.
+    
+  catchClauseOk : CatchClause
+  catchClauseListOk maps catchClauseOk(list(*))
+  
+  catchClauseOk(Catch(catchFormalParam, blk)) :-
+    catchFormalParamOk(catchFormalParam),
+    blkOk(blk),
+    true.
+    
+  catchFormalParamOk : CatchFormalParameter
+  
+  catchFormalParamOk(CatchParam(varModList, catchType, varDeclId)) :-
+    varModListOk(varModList),
+    catchTypeOk(catchType),
+    varDeclIdOk(varDeclId),
+    true.
+    
+  catchTypeOk : CatchType
+  
+  catchTypeOk(CatchType(unannClsType, catchTypeRestList)) :-
+    unannClsTypeOk(unannClsType),
+    catchTypeRestListOk(catchTypeRestList),
+    true.
+    
+  catchTypeRestOk : CatchTypeRest
+  catchTypeRestListOk maps catchTypeRestOk(list(*))
+  
+  catchTypeRestOk(CatchTypeElem(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+    
+    
+  stmtOk(TryWithResources(resourceList, blk_catch, catchClauseList)) :-
+    resourceListOk(resourceList),
+    blkOk(blk_catch),
+    catchClauseListOk(catchClauseList),
+    true.
+    
+  stmtOk(TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList)) :-
+    resourceListOk(resourceList),
+    blkOk(blk_catch),
+    catchClauseListOk(catchClauseList),
+    true.
+  
+  stmtOk(TryWithResources(resourceList, blk_catch, catchClauseList, blk_finally)) :-
+    resourceListOk(resourceList),
+    blkOk(blk_catch),
+    catchClauseListOk(catchClauseList),
+    blkOk(blk_finally),
+    true.
+    
+  stmtOk(TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList, blk_finally)) :-
+    resourceListOk(resourceList),
+    blkOk(blk_catch),
+    catchClauseListOk(catchClauseList),
+    blkOk(blk_finally),
+    true.
+  
+  resourceOk : Resource
+  resourceListOk maps resourceOk(list(*))
+  
+  resourceOk(Resource(varModList, unannType, varDeclId, expr)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    varDeclIdOk(varDeclId),
+    exprOk(expr),
+    true.

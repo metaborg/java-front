@@ -4,6 +4,9 @@ imports
 
   signatures/java/packages/Main-sig
 
+  statics/classes
+  statics/interfaces
+  statics/names
 
 rules // Chapter 7. Packages
 
@@ -12,21 +15,19 @@ rules // 7.3. Compilation Units
 
   compilationUnitOk : CompilationUnit
 
-  compilationUnitOk(CompilationUnit(pkgDecl', importDecls, typeDecls)) :-
-    try { false } | note "unimplemented" @pkgDecl'
-  , try { false } | note "unimplemented" @importDecls
-  , try { false } | note "unimplemented" @typeDecls
-  , true.
+  compilationUnitOk(CompilationUnit(pkgDeclOpt, importDeclList, typeDeclList)) :-
+    pkgDeclOptOk(pkgDeclOpt),
+    true.
 
 
 rules // 7.4. Package Declarations
 
-  packageDeclOk : PackageDeclaration
+  pkgDeclOk : PackageDeclaration
+  pkgDeclOptOk maps pkgDeclOk(list(*))
 
-  packageDeclOk(PackageDeclaration(annos, ids)) :-
-    try { false } | note "unimplemented" @annos
-  , try { false } | note "unimplemented" @ids
-  , true.
+  pkgDeclOk(PackageDeclaration(annoList, idList)) :-
+    annoListOk(annoList),
+    true.
 
 
 rules // 7.5. Import Declarations
@@ -34,8 +35,8 @@ rules // 7.5. Import Declarations
   importDeclOk : ImportDeclaration
   
   importDeclOk(SingleTypeImport(typeName)) :-
-    try { false } | note "unimplemented" @typeName
-  , true.
+    typeNameOk(typeName),
+    true.
 
 
 rules // 7.6. Top Level Type Declarations
@@ -43,12 +44,12 @@ rules // 7.6. Top Level Type Declarations
   typeDeclOk : TypeDeclaration
   
   typeDeclOk(ClassDeclaration2TypeDeclaration(clsDecl)) :-
-    try { false } | note "unimplemented" @clsDecl
-  , true.
+    clsDeclOk(clsDecl),
+    true.
 
-  typeDeclOk(InterfaceDeclaration2TypeDeclaration(id)) :-
-    try { false } | note "unimplemented" @id
-  , true.
+  typeDeclOk(InterfaceDeclaration2TypeDeclaration(intfDecl)) :-
+    intfDeclOk(intfDecl),
+    true.
 
   typeDeclOk(SemiColon2TypeDeclaration(_)) :-
     true.

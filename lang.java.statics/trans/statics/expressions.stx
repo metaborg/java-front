@@ -4,5 +4,10 @@ imports
 
   signatures/java/expressions/Main-sig
 
-rules
+rules // Chapter 15. Expressions
 
+  exprOk : Expression
+  exprOptOk maps exprOk(list(*))
+  exprListOk maps exprOk(list(*))
+  
+  exprOk(_).

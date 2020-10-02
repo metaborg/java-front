@@ -16,7 +16,7 @@ context-free sorts
   Statement
   ForInit
   ForUpdate
-  ExprList
+  Exprs
   SwitchGroup
   SwitchLabel
   CatchClause
@@ -41,12 +41,12 @@ context-free syntax
   Statement.For     = <for(<ForInit>; <Expression?>; <ForUpdate>) <Statement>>
   Statement.ForEach = <for(<{VariableModifier " "}*> <UnannType> <VarDeclId> : <Expression>) <Statement>>
   
-  ForInit = ExprList
+  ForInit = Exprs
   ForInit.VarDecls = <<{VariableModifier " "}*> <UnannType> <{VarDecl ", "}+>>
   
-  ForUpdate = ExprList
+  ForUpdate = Exprs
   
-  ExprList.ExprList =  <<{Expression ", "}*>>
+  Exprs.ExprList =  <<{Expression ", "}*>>
   
   Statement = Block
   

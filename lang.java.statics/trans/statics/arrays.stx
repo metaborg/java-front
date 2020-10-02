@@ -3,6 +3,8 @@ module statics/arrays
 imports
 
   signatures/java/arrays/Main-sig
+  
+  statics/classes
 
 rules // Chapter 10. Arrays
 
@@ -10,11 +12,11 @@ rules // Chapter 10. Arrays
 rules // 10.6. Array Initializers
 
   arrayInitOk : ArrayInitializer
+
+  arrayInitOk(ArrayInit(varInitList)) :-
+    varInitListOk(varInitList),
+    true.
   
-  arrayInitOk(ArrayInit(varInits)) :-
-    try { false } | note "unimplemented" @varInits
-  , true.
-  
-  arrayInitOk(ArrayInitComma(varInits)) :-
-    try { false } | note "unimplemented" @varInits
-  , true.
+  arrayInitOk(ArrayInitComma(varInitList)) :-
+    varInitListOk(varInitList),
+    true.
