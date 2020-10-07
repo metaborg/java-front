@@ -1,0 +1,57 @@
+module java/expressions/PrimaryExpressions
+
+imports
+
+  signatures/java/expressions/PrimaryExpressions-sig
+
+  java/expressions/Main
+  java/literals/Main
+  java/names/TypeNames
+  java/types/PrimitiveTypes
+
+
+rules // 15.8. Primary Expressions
+
+  exprOk(Literal2Expression(lit)) :-
+    litOk(lit),
+    true.
+    
+  exprOk(ClassLiteral2Expression(clsLit)) :-
+    clsLitOk(clsLit),
+    true.
+    
+  exprOk(This()) :-
+    true.
+    
+  exprOk(QThis(typeName)) :-
+    typeNameOk(_, typeName) == _,
+    true.
+    
+    
+  clsLitOk : ClassLiteral
+  
+  clsLitOk(TypeNameClassLiteral(typeName, dimsList)) :-
+    typeNameOk(_, typeName) == _,
+    dimsListOk(dimsList),
+    true.
+    
+  clsLitOk(NumericTypeClassLiteral(numType, dimsList)) :-
+    numTypeOk(numType),
+    dimsListOk(dimsList),
+    true.
+    
+  clsLitOk(BooleanClassLiteral(dimsList)) :-
+    dimsListOk(dimsList),
+    true.
+    
+  clsLitOk(VoidClassLiteral()) :-
+    true.
+
+
+  dimsOk : Dims
+  dimsListOk maps dimsOk(list(*))
+  
+  dimsOk(Dimension()) :-
+    true.
+
+

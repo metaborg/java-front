@@ -1,0 +1,61 @@
+module java/classes/ConstructorDeclarations
+
+imports
+
+  signatures/java/classes/ConstructorDeclarations-sig
+
+  java/classes/ClassDeclarations
+  java/classes/Main
+  java/classes/MethodDeclarations
+  java/expressions/Main
+  java/interfaces/Annotations
+  java/statements/Blocks
+  java/types/ParameterizedTypes
+  java/types/TypeVariable
+
+
+rules // 8.8. Constructor Declarations
+
+  ctorDeclOk : ConstructorDeclaration
+  
+  ctorDeclOk(ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
+    ctorModListOk(ctorModList),
+    typeParamsOptOk(typeParamsOpt),
+    formalParamsOk(formalParams),
+    throwsOptOk(throwsOpt),
+    ctorInvOptOk(ctorInvOpt),
+    blkStmtListOk(blkStmtList),
+    true.
+
+
+  ctorModOk : ConstructorModifier
+  ctorModListOk maps ctorModOk(list(*))
+  
+  ctorModOk(Annotation2ConstructorModifier(anno)) :-
+    annoOk(anno),
+    true.
+  ctorModOk(Public2ConstructorModifier(_)) :- true.
+  ctorModOk(Private2ConstructorModifier(_)) :- true.
+  ctorModOk(Protected2ConstructorModifier(_)) :- true.
+
+
+  ctorInvOk : ConstructorInvocation
+  ctorInvOptOk maps ctorInvOk(list(*))
+  
+  ctorInvOk(AltConstrInv(typeArgsOpt, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+  ctorInvOk(SuperConstrInv(typeArgsOpt, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+  ctorInvOk(ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
+    exprOk(expr),
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+

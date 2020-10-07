@@ -1,0 +1,19 @@
+module java/classes/InstanceInitializers
+
+imports
+
+  signatures/java/classes/InstanceInitializers-sig
+
+  java/classes/Main
+  java/statements/Blocks
+
+
+rules // 8.6. Instance Initializers
+
+  instInitOk : InstanceInitializer
+  
+  instInitOk(InstanceInit(blk)) :-
+    blkOk(blk),
+    true.
+
+

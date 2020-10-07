@@ -1,0 +1,31 @@
+module java/expressions/FieldAccess
+
+imports
+
+  signatures/java/expressions/FieldAccess-sig
+
+  java/expressions/Main
+  java/names/TypeNames
+
+
+rules // 15.11. Field Access Expressions
+
+  exprOk(FieldAccess2Expression(fldAccess)) :-
+    fldAccessOk(fldAccess),
+    true.
+    
+  
+  fldAccessOk : FieldAccess
+  
+  fldAccessOk(Field(expr, id)) :-
+    exprOk(expr),
+    true.
+
+  fldAccessOk(SuperField(id)) :-
+    true.
+
+  fldAccessOk(QSuperField(typeName, id)) :-
+    typeNameOk(_, typeName) == _,
+    true.
+
+

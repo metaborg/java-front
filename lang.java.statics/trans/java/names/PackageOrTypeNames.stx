@@ -1,0 +1,74 @@
+module java/names/PackageOrTypeNames
+
+imports
+
+  signatures/java/names/Names-sig
+
+  java/names/Main
+  java/names/PackageNames
+  java/names/TypeNames
+  java/types/Main
+
+
+// 6.5.4 Meaning of PackageOrTypeNames
+
+signature
+
+  sorts PKG_OR_TYPE_DECL constructors
+    PKG_DECL  : PKG_DECL  -> PKG_OR_TYPE_DECL
+    TYPE_DECL : TYPE_DECL -> PKG_OR_TYPE_DECL
+
+
+rules
+
+  pkgOrTypeNameOk : scope * PackageOrTypeName -> PKG_OR_TYPE_DECL
+  
+  pkgOrTypeNameOk(s, PackageOrTypeName(id)) = pkgOrTypeDecl :-
+    pkgOrTypeDecl == resolveLexicalPkgOrTypeName(s, id),
+    true.
+
+  pkgOrTypeNameOk(s, PackageOrTypeName(pkgOrTypeName, id)) = pkgOrTypeDecl :-
+  {s_pkgOrType}
+    s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeNameOk(s, pkgOrTypeName)),
+    pkgOrTypeDecl == resolveMemberPkgOrTypeName(s_pkgOrType, id),
+    true.
+
+
+  pkgOrTypeDeclScope : PKG_OR_TYPE_DECL -> scope
+  
+  pkgOrTypeDeclScope(PKG_DECL(pkgDecl)) = pkgDeclScope(pkgDecl).
+
+  pkgOrTypeDeclScope(TYPE_DECL(typeDecl)) = typeDeclScope(typeDecl).
+
+
+  resolveLexicalPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
+  resolveLexicalPkgOrTypeName1 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
+  resolveLexicalPkgOrTypeName2 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
+  
+  resolveLexicalPkgOrTypeName(s, id) = resolveLexicalPkgOrTypeName1(s, id, resolveLexicalPkgNames(s, id)).
+
+  resolveLexicalPkgOrTypeName1(s, id, []) = resolveLexicalPkgOrTypeName2(s, id, resolveLexicalTypeNames(s, id)).
+
+  resolveLexicalPkgOrTypeName1(s, id, pkgPathList) = PKG_DECL(composePkgDecl(id, pkgPathList)).
+
+  resolveLexicalPkgOrTypeName2(s, id, []) = _ :-
+    false | error $[Package or type [id] not found].
+
+  resolveLexicalPkgOrTypeName2(s, id, typePathList) = TYPE_DECL(singleTypeDecl(id, typePathList)).
+
+
+  resolveMemberPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
+  resolveMemberPkgOrTypeName1 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
+  resolveMemberPkgOrTypeName2 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
+  
+  resolveMemberPkgOrTypeName(s, id) = resolveMemberPkgOrTypeName1(s, id, resolveMemberPkgNames(s, id)).
+
+  resolveMemberPkgOrTypeName1(s, id, []) = resolveMemberPkgOrTypeName2(s, id, resolveMemberTypeNames(s, id)).
+
+  resolveMemberPkgOrTypeName1(s, id, pkgPathList) = PKG_DECL(composePkgDecl(id, pkgPathList)).
+
+  resolveMemberPkgOrTypeName2(s, id, []) = _ :-
+    false | error $[Package or type [id] not found].
+
+  resolveMemberPkgOrTypeName2(s, id, typePathList) = TYPE_DECL(singleTypeDecl(id, typePathList)).
+

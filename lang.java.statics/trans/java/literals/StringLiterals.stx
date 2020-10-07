@@ -1,0 +1,17 @@
+module java/literals/StringLiterals
+
+imports
+
+  signatures/java/literals/StringLiterals-sig
+
+  java/literals/Main
+
+
+rules // 3.10.5. String Literals
+
+  stringLitOk : StringLiteral
+  
+  stringLitOk(StringLiteral(_)) :-
+    true.
+
+

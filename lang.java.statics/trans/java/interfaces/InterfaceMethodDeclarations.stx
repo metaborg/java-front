@@ -1,0 +1,35 @@
+module java/interfaces/InterfaceMethodDeclarations
+
+imports
+
+  signatures/java/interfaces/InterfaceMethodDeclarations-sig
+
+  java/classes/MethodDeclarations
+  java/interfaces/Annotations
+  java/interfaces/Main
+
+
+rules // 9.4. Method Declarations
+
+  intfMthdDeclOk : InterfaceMethodDeclaration
+  
+  intfMthdDeclOk(AbstractMethodDec(intfMthdModList, mthdHeader, mthdBody)) :-
+    intfMthdModListOk(intfMthdModList),
+    mthdHeaderOk(mthdHeader),
+    mthdBodyOk(mthdBody),
+    true.
+    
+  
+  intfMthdModOk : InterfaceMethodModifier
+  intfMthdModListOk maps intfMthdModOk(list(*))
+
+  intfMthdModOk(Annotation2InterfaceMethodModifier(anno)) :-
+    annoOk(anno),
+    true.
+  intfMthdModOk(Public2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Abstract2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Default2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Static2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(Strictfp2InterfaceMethodModifier(_)) :- true.
+
+

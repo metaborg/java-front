@@ -1,0 +1,76 @@
+module java/interfaces/AnnotationTypes
+
+imports
+
+  signatures/java/interfaces/AnnotationTypes-sig
+
+  java/classes/ClassDeclarations
+  java/classes/FieldDeclarations
+  java/interfaces/Annotations
+  java/interfaces/InterfaceDeclarations
+  java/interfaces/ConstantDeclarations
+  java/interfaces/Main
+  java/types/ReferenceTypes
+
+
+rules // 9.6. Annotation Types
+
+  annoTypeDeclOk : AnnotationTypeDeclaration
+  
+  annoTypeDeclOk(AnnoDec(intfModList, id, annoTypeMemDeclList)) :-
+    intfModListOk(intfModList),
+    annoTypeMemDeclListOk(annoTypeMemDeclList),
+    true.
+    
+    
+  annoTypeMemDeclOk : AnnotationTypeMemberDeclaration
+  annoTypeMemDeclListOk maps annoTypeMemDeclOk(list(*))
+
+  annoTypeMemDeclOk(AnnotationTypeElementDeclaration2AnnotationTypeMemberDeclaration(annoTypeElemDecl)) :-
+    annoTypeElemDeclOk(annoTypeElemDecl),
+    true.
+
+  annoTypeMemDeclOk(ConstantDeclaration2AnnotationTypeMemberDeclaration(constDecl)) :-
+    constDeclOk(constDecl),
+    true.
+
+  annoTypeMemDeclOk(ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl)) :-
+    clsDeclOk(clsDecl),
+    true.
+
+  annoTypeMemDeclOk(InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl)) :-
+    intfDeclOk(intfDecl),
+    true.
+
+  annoTypeMemDeclOk(SemiColon2AnnotationTypeMemberDeclaration(_)) :-
+    true.
+
+
+  annoTypeElemDeclOk : AnnotationTypeElementDeclaration
+
+  annoTypeElemDeclOk(AnnotationTypeElementDecl(annoTypeElemModList, unannType, id, annDimsEmpty, defaultValOpt)) :-
+    annoTypeElemModListOk(annoTypeElemModList),
+    unannTypeOk(unannType),
+    annDimsEmptyOk(annDimsEmpty),
+    defaultValOptOk(defaultValOpt),
+    true.
+    
+    
+  annoTypeElemModOk : AnnotationTypeElementModifier
+  annoTypeElemModListOk maps annoTypeElemModOk(list(*))
+
+  annoTypeElemModOk(Annotation2AnnotationTypeElementModifier(anno)) :-
+    annoOk(anno),
+    true.
+  annoTypeElemModOk(Public2AnnotationTypeElementModifier(_)) :- true.
+  annoTypeElemModOk(Abstract2AnnotationTypeElementModifier(_)) :- true.
+  
+  
+  defaultValOk : DefaultValue
+  defaultValOptOk maps defaultValOk(list(*))
+  
+  defaultValOk(DefaultVal(elemVal)) :-
+    elemValOk(elemVal),
+    true.
+
+

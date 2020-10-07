@@ -1,0 +1,61 @@
+module java/classes/EnumDeclarations
+
+imports
+
+  signatures/java/classes/EnumDeclarations-sig
+
+  java/classes/ClassDeclarations
+  java/classes/Main
+  java/expressions/Main
+  java/interfaces/Annotations
+
+
+rules // 8.9. Enum Types
+
+  enumDeclOk : EnumDeclaration
+  
+  enumDeclOk(EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+    clsModListOk(clsModList),
+    superIntfsOptOk(superIntfsOpt),
+    enumConstListOk(enumConstList),
+    enumBodyDeclsOptOk(enumBodyDeclsOpt),
+    true.
+
+  enumDeclOk(EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+    clsModListOk(clsModList),
+    superIntfsOptOk(superIntfsOpt),
+    enumConstListOk(enumConstList),
+    enumBodyDeclsOptOk(enumBodyDeclsOpt),
+    true.
+
+
+  enumConstOk : EnumConstant
+  enumConstListOk maps enumConstOk(list(*))
+  
+  enumConstOk(EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList)) :-
+    annoListOk(annoList),
+    enumConstArgsOptOk(enumConstArgsOpt),
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
+
+  enumConstOk(EnumConstNoBody(annoList, id, enumConstArgsOpt)) :-
+    annoListOk(annoList),
+    enumConstArgsOptOk(enumConstArgsOpt),
+    true.
+
+
+  enumConstArgsOk : EnumConstantArgs
+  enumConstArgsOptOk maps enumConstArgsOk(list(*))
+  
+  enumConstArgsOk(EnumConstArgs(exprList)) :-
+    exprListOk(exprList),
+    true.
+    
+    
+  enumBodyDeclsOk : EnumBodyDeclarations
+  enumBodyDeclsOptOk maps enumBodyDeclsOk(list(*))
+  
+  enumBodyDeclsOk(EnumBodyDecs(clsBodyDeclList)) :-
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
+

@@ -1,0 +1,46 @@
+module java/types/PrimitiveTypes
+
+imports
+
+  signatures/java/types/PrimitiveTypes-sig
+
+  java/types/Main
+  java/interfaces/Annotations
+
+
+// 4.2. Primitive Types and Values
+
+signature
+
+  constructors
+    BOOLEAN : TYPE
+    BYTE    : TYPE
+    SHORT   : TYPE
+    INT     : TYPE
+    LONG    : TYPE
+
+rules
+
+  primTypeOk : PrimitiveType
+  
+  primTypeOk(NumericType(annoList, numType)) :-
+    annoListOk(annoList),
+    numTypeOk(numType),
+    true.
+
+  primTypeOk(BooleanType(annoList)) :-
+    annoListOk(annoList),
+    true.
+
+
+  numTypeOk : NumericType
+
+  numTypeOk(Byte()) :- true.
+  numTypeOk(Short()) :- true.
+  numTypeOk(Int()) :- true.
+  numTypeOk(Long()) :- true.
+  numTypeOk(Char()) :- true.
+  numTypeOk(Float()) :- true.
+  numTypeOk(Double()) :- true.
+
+

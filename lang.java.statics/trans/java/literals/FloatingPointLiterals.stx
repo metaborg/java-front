@@ -1,0 +1,26 @@
+module java/literals/FloatingPointLiterals
+
+imports
+
+  signatures/java/literals/FloatingPointLiterals-sig
+
+  java/literals/Main
+
+
+rules // 3.10.2. Floating-Point Literals
+
+  floatLitOk : FloatLiteral
+  
+  floatLitOk(DeciFloat(_)) :-
+    true.
+
+  floatLitOk(HexaFloat(_)) :-
+    true.
+
+  floatLitOk(DeciDouble(_)) :-
+    true.
+
+  floatLitOk(HexaDouble(_)) :-
+    true.
+
+

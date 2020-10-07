@@ -18,6 +18,8 @@ exports:
 language:
   sdf:
     enabled: false 
+  statix:
+    concurrent: false
   stratego:
     format: ctree
     args:

@@ -1,0 +1,25 @@
+module java/expressions/Postfix
+
+imports
+
+  signatures/java/expressions/Postfix-sig
+
+  java/expressions/Main
+  java/names/ExpressionNames
+
+
+rules // 15.14. Postfix Expressions
+
+  exprOk(PostIncr(expr)) :-
+    exprOk(expr),
+    true.
+
+  exprOk(PostDecr(expr)) :-
+    exprOk(expr),
+    true.
+
+  exprOk(ExpressionName2Expression(exprName)) :-
+    exprNameOk(_, exprName) == _,
+    true.
+
+

@@ -1,0 +1,15 @@
+module java/literals/NullLiteral
+
+imports
+
+  signatures/java/literals/NullLiteral-sig
+
+  java/literals/Main
+
+
+rules // 3.10.7. The Null Literal
+
+  nullLitOk : NullLiteral
+
+  nullLitOk(Null()) :-
+    true.

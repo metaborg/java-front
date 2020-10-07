@@ -1,0 +1,32 @@
+module java/packages/ImportDeclarations
+
+imports
+
+  signatures/java/packages/ImportDeclarations-sig
+
+  java/names/PackageOrTypeNames
+  java/names/TypeNames
+  java/packages/Main
+
+
+rules // 7.5. Import Declarations
+
+  importDeclOk : scope * ImportDeclaration * scope
+  importDeclListOk maps importDeclOk(*, list(*), *)
+  
+  importDeclOk(s, SingleTypeImport(typeName), s_imp) :-
+    typeNameOk(s, typeName) == _,
+    true.
+
+  importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_imp) :-
+    pkgOrTypeNameOk(s, pkgOrTypeName) == _,
+    true.
+
+  importDeclOk(s, SingleStaticImport(typeName, id), s_imp) :-
+    typeNameOk(s, typeName) == _,
+    true.
+
+  importDeclOk(s, StaticImportOnDemand(typeName), s_imp) :-
+    typeNameOk(s, typeName) == _,
+    true.
+

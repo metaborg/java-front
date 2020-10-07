@@ -1,0 +1,12 @@
+module java/statements/Main
+
+imports
+
+  signatures/java/statements/Main-sig
+
+  java/statements/Blocks
+  java/statements/LocalVariableDeclarations
+  java/statements/Statements
+
+
+rules // Chapter 14. Blocks and Statements

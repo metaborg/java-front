@@ -1,0 +1,23 @@
+module java/expressions/ArrayAccess
+
+imports
+
+  signatures/java/expressions/ArrayAccess-sig
+
+  java/expressions/Main
+
+
+rules // 15.10.3. Array Access Expressions
+
+  exprOk(ArrayAccess2Expression(arrayAccess)) :-
+    arrayAccessOk(arrayAccess).
+    
+    
+  arrayAccessOk : ArrayAccess
+  
+  arrayAccessOk(ArrayAccess(expr1, expr2)) :-
+    exprOk(expr1),
+    exprOk(expr2),
+    true.
+
+

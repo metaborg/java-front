@@ -1,0 +1,40 @@
+module java/packages/PackageDeclarations
+
+imports
+
+  signatures/java/packages/PackageDeclarations-sig
+
+  java/interfaces/Annotations
+  java/names/Main
+  java/names/PackageNames
+  java/packages/Main
+
+
+// 7.4. Package Declarations
+
+rules
+
+  pkgDeclOk : scope * PackageDeclaration * scope
+  pkgDeclOptOk maps pkgDeclOk(*, list(*), *)
+
+  pkgDeclOk(s, PackageDeclaration(annoList, idList), s_pkg) :-
+    annoListOk(annoList),
+    declarePkg(s, idList, s_pkg),
+    true.
+
+
+  declarePkg : scope * list(Id) * scope
+
+  declarePkg(s, [id], s_pkg) :-
+    !pkg[id, s_pkg] in s,
+    composePkgPathList(s_pkg, resolveMemberPkgNames(s, id)),
+    true.
+
+  declarePkg(s, [id|idList], s_pkg) :-
+  {s_pkg'}
+    new s_pkg',
+    !pkg[id, s_pkg'] in s,
+    composePkgPathList(s_pkg', resolveMemberPkgNames(s, id)),
+    declarePkg(s_pkg', idList, s_pkg),
+    true.
+

@@ -1,0 +1,36 @@
+module java/literals/Main
+
+imports
+
+  signatures/java/literals/Main-sig
+
+  java/literals/BooleanLiterals
+  java/literals/CharacterLiterals
+  java/literals/FloatingPointLiterals
+  java/literals/IntegerLiterals
+  java/literals/NullLiteral
+  java/literals/StringLiterals
+
+
+rules // 3.10. Literals
+
+  litOk : Literal
+
+  litOk(IntLiteral2Literal(intLit)) :-
+    intLitOk(intLit).
+
+  litOk(FloatLiteral2Literal(floatLit)) :-
+    floatLitOk(floatLit).
+
+  litOk(BoolLiteral2Literal(boolLit)) :-
+    boolLitOk(boolLit).
+
+  litOk(CharacterLiteral2Literal(charLit)) :-
+    charLitOk(charLit).
+
+  litOk(StringLiteral2Literal(stringLit)) :-
+    stringLitOk(stringLit).
+
+  litOk(NullLiteral2Literal(nullLit)) :-
+    nullLitOk(nullLit).
+

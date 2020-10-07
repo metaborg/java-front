@@ -1,0 +1,62 @@
+module java/expressions/ClassInstanceCreation
+
+imports
+
+  signatures/java/expressions/ClassInstanceCreation-sig
+
+  java/classes/ClassDeclarations
+  java/expressions/Main
+  java/interfaces/Annotations
+  java/types/ParameterizedTypes
+
+
+rules // 15.9. Class Instance Creation Expressions
+
+  exprOk(UnqualifiedInstance2Expression(unqualInst)) :-
+    unqualInstOk(unqualInst),
+    true.
+
+  exprOk(QualifiedInstance(expr, unqualInst)) :-
+    exprOk(expr),
+    unqualInstOk(unqualInst),
+    true.
+
+
+  unqualInstOk : UnqualifiedInstance
+  
+  unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    annoListOk(annoList),
+    qualIdListOk(qualIdList),
+    typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
+    exprListOk(exprList),
+    true.
+
+  unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    annoListOk(annoList),
+    qualIdListOk(qualIdList),
+    typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
+    exprListOk(exprList),
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
+    
+
+  qualIdOk : QualifiedId
+  qualIdListOk maps qualIdOk(list(*))
+  
+  qualIdOk(QualifiedId(annoList, id)) :-
+    annoListOk(annoList),
+    true.
+    
+    
+  typeArgsOrDiamondOk : TypeArgumentsOrDiamond
+  typeArgsOrDiamondOptOk maps typeArgsOrDiamondOk(list(*))
+  
+  typeArgsOrDiamondOk(TypeArguments2TypeArgumentsOrDiamond(typeArgs)) :-
+    typeArgsOk(typeArgs).
+
+  typeArgsOrDiamondOk(Diamond()) :-
+    true.
+
+

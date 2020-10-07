@@ -1,0 +1,76 @@
+module java/interfaces/InterfaceDeclarations
+
+imports
+
+  signatures/java/interfaces/InterfaceDeclarations-sig
+
+  java/classes/ClassDeclarations
+  java/interfaces/Annotations
+  java/interfaces/AnnotationTypes
+  java/interfaces/ConstantDeclarations
+  java/interfaces/Main
+  java/interfaces/InterfaceMethodDeclarations
+  java/types/ReferenceTypes
+
+
+rules // 9.1. Interface Declarations
+
+  intfDeclOk : InterfaceDeclaration
+  
+  intfDeclOk(NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) :-
+    intfModListOk(intfModList),
+    typeParamsOptOk(typeParamsOpt),
+    extendsIntfsOptOk(extendsIntfsOpt),
+    intfMemDeclListOk(intfMemDeclList),
+    true.
+
+  intfDeclOk(AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl)) :-
+    annoTypeDeclOk(annoTypeDecl),
+    true.
+    
+    
+  intfModOk : InterfaceModifier
+  intfModListOk maps intfModOk(list(*))
+  
+  intfModOk(Annotation2InterfaceModifier(anno)) :-
+    annoOk(anno),
+    true.
+  intfModOk(Public2InterfaceModifier(_)) :- true.
+  intfModOk(Protected2InterfaceModifier(_)) :- true.
+  intfModOk(Private2InterfaceModifier(_)) :- true.
+  intfModOk(Abstract2InterfaceModifier(_)) :- true.
+  intfModOk(Static2InterfaceModifier(_)) :- true.
+  intfModOk(Strictfp2InterfaceModifier(_)) :- true.
+
+
+  extendsIntfsOk : ExtendsInterfaces
+  extendsIntfsOptOk maps extendsIntfsOk(list(*))
+  
+  extendsIntfsOk(ExtendsInterfaces(clsTypeList)) :-
+    clsTypeListOk(clsTypeList),
+    true.
+    
+    
+  intfMemDeclOk : InterfaceMemberDeclaration
+  intfMemDeclListOk maps intfMemDeclOk(list(*))
+  
+  intfMemDeclOk(ConstantDeclaration2InterfaceMemberDeclaration(constDecl)) :-
+    constDeclOk(constDecl),
+    true.
+
+  intfMemDeclOk(InterfaceMethodDeclaration2InterfaceMemberDeclaration(intfMthdDecl)) :-
+    intfMthdDeclOk(intfMthdDecl),
+    true.
+
+  intfMemDeclOk(ClassDeclaration2InterfaceMemberDeclaration(clsDecl)) :-
+    clsDeclOk(clsDecl),
+    true.
+
+  intfMemDeclOk(InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl)) :-
+    intfDeclOk(intfDecl),
+    true.
+
+  intfMemDeclOk(SemiColon2InterfaceMemberDeclaration(_)) :-
+    true.
+
+

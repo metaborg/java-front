@@ -1,0 +1,63 @@
+module java/types/Main
+
+imports
+
+  signatures/java/types/Main-sig
+
+  java/types/ParameterizedTypes
+  java/types/PrimitiveTypes
+  java/types/ReferenceTypes
+  java/types/TypeVariable
+
+// Chapter 4. Types, Values, and Variables
+
+signature
+
+  sorts TYPE
+
+  relations
+
+    withType : -> TYPE
+
+rules
+
+  matchType : TYPE -> scope
+  
+  matchType(T) = s :-
+    T == toType(s).
+
+
+  toType : scope -> TYPE
+
+  toType(s) = T :-
+    query withType
+      filter e and true
+      min /* */ and true
+      in s |-> [(_, T)].
+
+
+  fromType : TYPE -> scope
+
+  fromType(T) = s :-
+    new s, !withType[T] in s.
+
+
+rules
+
+  typeOk : Type
+  
+  typeOk(PrimitiveType2Type(primType)) :-
+    primTypeOk(primType),
+    true.
+
+  typeOk(ReferenceType2Type(refType)) :-
+    refTypeOk(refType),
+    true.
+
+
+// 4.1 The Kinds of Types and Values
+
+signature
+
+  constructors
+    NULL : TYPE

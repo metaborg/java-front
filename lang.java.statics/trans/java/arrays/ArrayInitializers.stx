@@ -1,0 +1,23 @@
+module java/arrays/ArrayInitializers
+
+imports
+
+  signatures/java/arrays/ArrayInitializers-sig
+  
+  java/arrays/Main
+  java/classes/FieldDeclarations
+
+rules // Chapter 10. Arrays
+
+
+rules // 10.6. Array Initializers
+
+  arrayInitOk : ArrayInitializer
+
+  arrayInitOk(ArrayInit(varInitList)) :-
+    varInitListOk(varInitList),
+    true.
+  
+  arrayInitOk(ArrayInitComma(varInitList)) :-
+    varInitListOk(varInitList),
+    true.

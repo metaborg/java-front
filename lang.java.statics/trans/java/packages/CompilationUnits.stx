@@ -1,0 +1,25 @@
+module java/packages/CompilationUnits
+
+imports
+
+  signatures/java/packages/CompilationUnits-sig
+
+  java/names/Main
+  java/packages/Main
+  java/packages/ImportDeclarations
+  java/packages/PackageDeclarations
+  java/packages/TypeDeclarations
+
+
+rules // 7.3. Compilation Units
+
+  compilationUnitOk : scope * CompilationUnit
+
+  compilationUnitOk(s, CompilationUnit(pkgDeclOpt, importDeclList, typeDeclList)) :-
+  {s_pkg d_pkg}
+    new s_pkg, s_pkg -LEX-> s,
+    pkgDeclOptOk(s, pkgDeclOpt, s_pkg),
+    importDeclListOk(s, importDeclList, s_pkg),
+    typeDeclListOk(s_pkg, typeDeclList),
+    true.
+

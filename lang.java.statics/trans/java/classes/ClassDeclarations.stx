@@ -1,0 +1,124 @@
+module java/classes/ClassDeclarations
+
+imports
+
+  signatures/java/classes/ClassDeclarations-sig
+
+  java/classes/Main
+  java/classes/ConstructorDeclarations
+  java/classes/EnumDeclarations
+  java/classes/FieldDeclarations
+  java/classes/InstanceInitializers
+  java/classes/MethodDeclarations
+  java/classes/StaticInitializers
+  java/interfaces/Annotations
+  java/interfaces/InterfaceDeclarations
+  java/types/ReferenceTypes
+  java/types/TypeVariable
+
+
+rules // 8.1. Class Declarations
+
+  clsDeclOk : ClassDeclaration
+  
+  clsDeclOk(NormalClassDeclaration2ClassDeclaration(normalClsDecl)) :-
+    normalClsDeclOk(normalClsDecl),
+    true.
+
+  clsDeclOk(EnumDeclaration2ClassDeclaration(enumDecl)) :-
+    enumDeclOk(enumDecl),
+    true.
+
+
+  normalClsDeclOk : NormalClassDeclaration
+  
+  normalClsDeclOk(ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
+    clsModListOk(clsModList),
+    typeParamsOptOk(typeParamsOpt),
+    superClsOptOk(superClsOpt),
+    superIntfsOptOk(superIntfsOpt),
+    clsBodyDeclListOk(clsBodyDeclList),
+    true.
+
+
+  clsModOk : ClassModifier
+  clsModListOk maps clsModOk(list(*))
+  
+  clsModOk(Annotation2ClassModifier(anno)) :-
+    annoOk(anno),
+    true.
+  clsModOk(Public2ClassModifier(_)) :- true.
+  clsModOk(Protected2ClassModifier(_)) :- true.
+  clsModOk(Private2ClassModifier(_)) :- true.
+  clsModOk(Abstract2ClassModifier(_)) :- true.
+  clsModOk(Static2ClassModifier(_)) :- true.
+  clsModOk(Final2ClassModifier(_)) :- true.
+  clsModOk(Strictfp2ClassModifier(_)) :- true.
+
+
+  typeParamsOk : TypeParameters
+  typeParamsOptOk maps typeParamsOk(list(*))
+  
+  typeParamsOk(TypeParameters(typeParamList)) :-
+    typeParamListOk(typeParamList),
+    true.
+
+
+  superClsOk : SuperClass
+  superClsOptOk maps superClsOk(list(*))
+  
+  superClsOk(SuperClass(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+
+
+  superIntfsOk : SuperInterfaces
+  superIntfsOptOk maps superIntfsOk(list(*))
+  
+  superIntfsOk(SuperInterface(clsTypeList)) :-
+    clsTypeListOk(clsTypeList),
+    true.
+
+
+  clsBodyDeclOk : ClassBodyDeclaration
+  clsBodyDeclListOk maps clsBodyDeclOk(list(*))
+  
+  clsBodyDeclOk(ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl)) :-
+    clsMemDeclOk(clsMemDecl),
+    true.
+
+  clsBodyDeclOk(InstanceInitializer2ClassBodyDeclaration(instInit)) :-
+    instInitOk(instInit),
+    true.
+
+  clsBodyDeclOk(StaticInitializer2ClassBodyDeclaration(staticInit)) :-
+    staticInitOk(staticInit),
+    true.
+
+  clsBodyDeclOk(ConstructorDeclaration2ClassBodyDeclaration(ctorDecl)) :-
+    ctorDeclOk(ctorDecl),
+    true.
+
+
+  clsMemDeclOk : ClassMemberDeclaration
+  
+  clsMemDeclOk(FieldDeclaration2ClassMemberDeclaration(fldDecl)) :-
+    fldDeclOk(fldDecl),
+    true.
+  
+  clsMemDeclOk(MethodDeclaration2ClassMemberDeclaration(mthdDecl)) :-
+    mthdDeclOk(mthdDecl),
+    true.
+  
+  clsMemDeclOk(ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
+    clsDeclOk(clsDecl),
+    true.
+
+  clsMemDeclOk(InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
+    intfDeclOk(intfDecl),
+    true.
+
+  clsMemDeclOk(SemiColon2ClassMemberDeclaration(semiColon)) :-
+    true.
+
+

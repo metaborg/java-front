@@ -1,0 +1,19 @@
+module java/classes/StaticInitializers
+
+imports
+
+  signatures/java/classes/StaticInitializers-sig
+
+  java/classes/Main
+  java/statements/Blocks
+
+
+rules // 8.7. Static Initializers
+
+  staticInitOk : StaticInitializer
+
+  staticInitOk(StaticInit(blk)) :-
+    blkOk(blk),
+    true.
+
+

@@ -1,0 +1,134 @@
+module java/classes/FieldDeclarations
+
+imports
+
+  signatures/java/classes/FieldDeclarations-sig
+
+  java/arrays/ArrayInitializers
+  java/classes/Main
+  java/expressions/Main
+  java/interfaces/Annotations
+  java/types/ParameterizedTypes
+  java/types/PrimitiveTypes
+  java/types/ReferenceTypes
+
+
+rules // 8.3. Field Declarations
+
+  fldDeclOk : FieldDeclaration
+  
+  fldDeclOk(FieldDecl(fldModList, unannType, varDeclList)) :-
+    fldModListOk(fldModList),
+    unannTypeOk(unannType),
+    varDeclListOk(varDeclList),
+    true.
+
+
+  varDeclIdOk : VarDeclId
+  
+  varDeclIdOk(VariableDecl(id)) :-
+    true.
+
+  varDeclIdOk(VariableDeclArray(id, annDimList)) :-
+    annDimListOk(annDimList),
+    true.
+
+
+  varDeclOk : VarDecl
+  varDeclListOk maps varDeclOk(list(*))
+  
+  varDeclOk(VariableDeclInit(varDeclId, varInit)) :-
+    varDeclIdOk(varDeclId),
+    varInitOk(varInit),
+    true.
+
+  varDeclOk(VarDeclId2VarDecl(varDeclId)) :-
+    varDeclIdOk(varDeclId),
+    true.
+
+
+  varInitOk : VariableInitializer
+  varInitListOk maps varInitOk(list(*))
+  
+  varInitOk(Expression2VariableInitializer(expr)) :-
+    exprOk(expr),
+    true.
+
+  varInitOk(ArrayInitializer2VariableInitializer(arrayInit)) :-
+    arrayInitOk(arrayInit),
+    true.
+
+
+  fldModOk : FieldModifier
+  fldModListOk maps fldModOk(list(*))
+  
+  fldModOk(Annotation2FieldModifier(anno)) :-
+    annoOk(anno),
+    true.
+  fldModOk(Public2FieldModifier(_)) :- true.
+  fldModOk(Protected2FieldModifier(_)) :- true.
+  fldModOk(Private2FieldModifier(_)) :- true.
+  fldModOk(Static2FieldModifier(_)) :- true.
+  fldModOk(Final2FieldModifier(_)) :- true.
+  fldModOk(Transient2FieldModifier(_)) :- true.
+  fldModOk(Volatile2FieldModifier(_)) :- true.
+
+
+  unannTypeOk : UnannType
+  
+  unannTypeOk(UnannPrimitiveType2UnannType(unannPrimType)) :-
+    unannPrimTypeOk(unannPrimType),
+    true.
+
+  unannTypeOk(UnannReferenceType2UnannType(unannRefType)) :-
+    unannRefTypeOk(unannRefType),
+    true.
+
+
+  unannPrimTypeOk : UnannPrimitiveType
+  
+  unannPrimTypeOk(NumericType(numType)) :-
+    numTypeOk(numType),
+    true.
+
+  unannPrimTypeOk(BooleanType()) :-
+    true.
+
+
+  unannRefTypeOk : UnannReferenceType
+  
+  unannRefTypeOk(UnannClassType2UnannReferenceType(unannClsType)) :-
+    unannClsTypeOk(unannClsType),
+    true.
+
+  unannRefTypeOk(UnannArrayType2UnannReferenceType(unannArrayType)) :-
+    unannArrayTypeOk(unannArrayType),
+    true.
+
+
+  unannClsTypeOk : UnannClassType
+  
+  unannClsTypeOk(ClassType(id, typeArgsOpt)) :-
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  unannClsTypeOk(UnannClassOrInterfaceTypeMember(unannClsType, annoList, id, typeArgsOpt)) :-
+    unannClsTypeOk(unannClsType),
+    annoListOk(annoList),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+
+  unannArrayTypeOk : UnannArrayType
+  
+  unannArrayTypeOk(UnannArrayTypePrimitive(unannPrimType, annDimList)) :-
+    unannPrimTypeOk(unannPrimType),
+    annDimListOk(annDimList),
+    true.
+
+  unannArrayTypeOk(UnannArrayTypeClassType(unannClsType, annDimList)) :-
+    unannClsTypeOk(unannClsType),
+    annDimListOk(annDimList),
+    true.
+
+

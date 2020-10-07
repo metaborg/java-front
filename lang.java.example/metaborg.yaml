@@ -4,10 +4,6 @@ name: metaborg-java
 dependencies:
   compile:
   - org.metaborg:lang.java:1.1.0-SNAPSHOT
-runtime:
-  nabl2:
-    debug: analysis files custom
-debug:
-  typesmart: false
+  - org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
 build:
   useBuildSystemSpec: true

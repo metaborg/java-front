@@ -1,0 +1,25 @@
+module java/names/Main
+
+imports
+
+  signatures/java/names/Main-sig
+
+  java/names/ExpressionNames
+  java/names/MethodNames
+  java/names/PackageNames
+  java/names/PackageOrTypeNames
+  java/names/TypeNames
+
+
+// 6.5. Determining the Meaning of a Name
+
+signature
+
+  name-resolution
+    labels
+      EXT     // extends
+      IMPL    // implements
+      IMP_ST  // sinlge-type import
+      IMP_OD  // on-demand import
+      LEX     // lexical parent
+      PKGC    // package composition

@@ -1,0 +1,78 @@
+module java/expressions/AssignmentOperators
+
+imports
+
+  signatures/java/expressions/AssignmentOperators-sig
+
+  java/expressions/Main
+  java/expressions/ArrayAccess
+  java/expressions/FieldAccess
+  java/names/ExpressionNames
+
+
+rules // 15.26. Assignment Operators
+
+  exprOk(Assign(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignMul(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignDiv(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignMod(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignAdd(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignSub(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignLeftShift(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignRightShift(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignURightShift(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignAnd(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignXor(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+  exprOk(AssignOr(lhs, expr)) :-
+    lhsOk(lhs),
+    exprOk(expr).
+
+
+  lhsOk : LHS
+  
+  lhsOk(ExpressionName2LHS(exprName)) :-
+    exprNameOk(_, exprName) == _,
+    true.
+    
+  lhsOk(FieldAccess2LHS(fldAccess)) :-
+    fldAccessOk(fldAccess),
+    true.
+
+  lhsOk(ArrayAccess2LHS(arrayAccess)) :-
+    arrayAccessOk(arrayAccess),
+    true.
+
+

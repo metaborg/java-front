@@ -1,0 +1,37 @@
+module java/statements/Blocks
+
+imports
+
+  signatures/java/statements/Blocks-sig
+
+  java/classes/ClassDeclarations
+  java/statements/LocalVariableDeclarations
+  java/statements/Main
+  java/statements/Statements
+
+
+rules // 14.2. Blocks
+
+  blkOk : Block
+  
+  blkOk(Block(blkStmtList)) :-
+    blkStmtListOk(blkStmtList),
+    true.
+    
+
+  blkStmtOk : BlockStatement
+  blkStmtListOk maps blkStmtOk(list(*))
+  
+  blkStmtOk(LocalVariableDeclarationStatement2BlockStatement(localVarDeclStmt)) :-
+    localVarDeclStmtOk(localVarDeclStmt),
+    true.
+    
+  blkStmtOk(ClassDeclaration2BlockStatement(clsDecl)) :-
+    clsDeclOk(clsDecl),
+    true.
+    
+  blkStmtOk(Statement2BlockStatement(stmt)) :-
+    stmtOk(stmt),
+    true.
+    
+

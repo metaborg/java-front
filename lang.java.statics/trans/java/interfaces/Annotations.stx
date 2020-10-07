@@ -1,0 +1,65 @@
+module java/interfaces/Annotations
+
+imports
+
+  signatures/java/interfaces/Annotations-sig
+
+  java/expressions/Main
+  java/interfaces/Main
+  java/names/TypeNames
+
+
+rules // 9.7. Annotations
+
+  annoOk : Annotation
+  annoListOk maps annoOk(list(*))
+  
+  annoOk(Anno(typeName, elemValPairList)) :-
+    typeNameOk(_, typeName) == _,
+    elemValPairListOk(elemValPairList),
+    true.
+    
+  annoOk(MarkerAnno(typeName)) :-
+    typeNameOk(_, typeName) == _,
+    true.
+    
+  annoOk(SingleElemAnno(typeName, elemVal)) :-
+    typeNameOk(_, typeName) == _,
+    elemValOk(elemVal),
+    true.
+    
+    
+  elemValPairOk : ElementValuePair
+  elemValPairListOk maps elemValPairOk(list(*))
+  
+  elemValPairOk(ElemValPair(id, elemVal)) :-
+    elemValOk(elemVal),
+    true.
+    
+    
+  elemValOk : ElementValue
+  elemValListOk maps elemValOk(list(*))
+  
+  elemValOk(Expression2ElementValue(expr)) :-
+    exprOk(expr),
+    true.
+    
+  elemValOk(ElementValueArrayInitializer2ElementValue(elemValArrayInit)) :-
+    elemValArrayInitOk(elemValArrayInit),
+    true.
+    
+  elemValOk(Annotation2ElementValue(anno)) :-
+    annoOk(anno),
+    true.
+
+
+  elemValArrayInitOk : ElementValueArrayInitializer
+  
+  elemValArrayInitOk(ElementValArrayInit(elemValList)) :-
+    elemValListOk(elemValList),
+    true.
+
+  elemValArrayInitOk(ElementValArrayInitComma(elemValList)) :-
+    elemValListOk(elemValList),
+    true.
+

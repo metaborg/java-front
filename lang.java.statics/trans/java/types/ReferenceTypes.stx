@@ -1,0 +1,91 @@
+module java/types/ReferenceTypes
+
+imports
+
+  signatures/java/types/ReferenceTypes-sig
+
+  java/interfaces/Annotations
+  java/types/Main
+  java/types/ParameterizedTypes
+  java/types/PrimitiveTypes
+
+
+// 4.3. Reference Types and Values
+
+signature
+
+  constructors
+    ARRAY     : TYPE -> TYPE
+    CLASS     : scope -> TYPE
+    INTF      : scope -> TYPE
+  
+rules 
+
+  refTypeOk : ReferenceType
+  
+  refTypeOk(ClassType2ReferenceType(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+    
+  refTypeOk(ArrayType2ReferenceType(arrayType)) :-
+    arrayTypeOk(arrayType),
+    true.
+
+
+  clsTypeOk : ClassType
+  clsTypeListOk maps clsTypeOk(list(*))
+  
+  clsTypeOk(ClassType(annoList, id, typeArgsOpt)) :-
+    annoListOk(annoList),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  clsTypeOk(ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) :-
+    clsTypeOk(clsType),
+    annoListOk(annoList),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+
+  typeVarOk : TypeVariable
+  
+  typeVarOk(TypeVar(annoList, id)) :-
+    annoListOk(annoList),
+    true.
+
+
+  arrayTypeOk : ArrayType
+  
+  arrayTypeOk(ArrayTypePrimitive(primType, annDims)) :-
+    primTypeOk(primType),
+    annDimsOk(annDims),
+    true.
+
+  arrayTypeOk(ArrayTypeClassType(clsType, annDims)) :-
+    clsTypeOk(clsType),
+    annDimsOk(annDims),
+    true.
+
+
+  annDimsOk : AnnotatedDims
+  
+  annDimsOk(AnnotatedDims2AnnotatedDims(annDimList)) :-
+    annDimListOk(annDimList),
+    true.
+
+
+  annDimsEmptyOk : AnnotatedDimsEmpty
+  
+  annDimsEmptyOk(AnnotatedDims2AnnotatedDimsEmpty(annDimList)) :-
+    annDimListOk(annDimList),
+    true.
+
+
+  annDimOk : AnnotatedDim
+  annDimListOk maps annDimOk(list(*))
+
+  annDimOk(AnnotateDim(annoList)) :-
+    annoListOk(annoList),
+    true.
+
+

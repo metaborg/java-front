@@ -1,0 +1,51 @@
+module java/names/ExpressionNames
+
+imports
+
+  signatures/java/names/Names-sig
+
+  java/names/Main
+  java/types/Main
+
+
+// 6.5.6 Meaning of Expression Names
+
+rules
+
+  exprNameOk : scope * ExpressionName -> ()
+  
+  exprNameOk(s, ExpressionName(id)) = _ :-
+    resolveLexicalExprName(s, id) == _,
+    true.
+    
+  exprNameOk(s, ExpressionName(ambName, id)) = _ :-
+  {s_amb}
+    ambNameOk(s, ambName) == _,
+    resolveMemberExprName(s_amb, id) == _,
+    true.
+ 
+ 
+  resolveLexicalExprName : scope * Id -> ()
+  
+  resolveLexicalExprName(s, id) = () :-
+    true.
+
+
+  resolveMemberExprName : scope * Id -> ()
+  
+  resolveMemberExprName(s, id) = () :-
+    true.
+
+
+rules
+
+  ambNameOk : scope * AmbiguousName -> ()
+  
+  ambNameOk(s, AmbiguousName(id)) = _ :-
+    true. 
+ 
+  ambNameOk(s, AmbiguousName(ambName, id)) = _ :-
+    ambNameOk(s, ambName) == _,
+    true. 
+
+

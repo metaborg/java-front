@@ -1,0 +1,44 @@
+module java/expressions/MethodReference
+
+imports
+
+  signatures/java/expressions/MethodReference-sig
+
+  java/expressions/Main
+  java/names/TypeNames
+  java/types/ParameterizedTypes
+  java/types/ReferenceTypes
+
+
+rules // 15.13. Method Reference Expressions
+
+  exprOk(MethodReferenceRType(refType, typeArgsOpt, id)) :-
+    refTypeOk(refType),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceExpr(expr, typeArgsOpt, id)) :-
+    exprOk(expr),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceSuper(typeArgsOpt, id)) :-
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceQSuper(typeName, typeArgsOpt, id)) :-
+    typeNameOk(_, typeName) == _,
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceCType(clsType, typeArgsOpt)) :-
+    clsTypeOk(clsType),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  exprOk(MethodReferenceAType(arrayType, typeArgsOpt)) :-
+    arrayTypeOk(arrayType),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+

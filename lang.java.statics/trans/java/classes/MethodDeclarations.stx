@@ -1,0 +1,167 @@
+module java/classes/MethodDeclarations
+
+imports
+
+  signatures/java/classes/MethodDeclarations-sig
+
+  java/classes/Main
+  java/classes/ClassDeclarations
+  java/classes/FieldDeclarations
+  java/interfaces/Annotations
+  java/statements/Blocks
+  java/types/ReferenceTypes
+
+
+rules // 8.4. Method Declarations
+
+  mthdDeclOk : MethodDeclaration
+  
+  mthdDeclOk(MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
+    mthdModListOk(mthdModList),
+    mthdHeaderOk(mthdHeader),
+    mthdBodyOk(mthdBody),
+    true.
+
+
+  mthdHeaderOk : MethodHeader
+  
+  mthdHeaderOk(MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt)) :-
+    resultOk(result),
+    formalParamsOk(formalParams),
+    annDimsEmptyOk(annDimsEmpty),
+    throwsOptOk(throwsOpt),
+    true.
+
+  mthdHeaderOk(MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
+    typeParamsOk(typeParams),
+    annoListOk(annoList),
+    resultOk(result),
+    formalParamsOk(formalParams),
+    throwsOptOk(throwsOpt),
+    true.
+
+
+  resultOk : Result
+  
+  resultOk(UnannType2Result(unannType)) :-
+    unannTypeOk(unannType),
+    true.
+
+  resultOk(Void()) :-
+    true.
+
+
+  throwsOk : Throws
+  throwsOptOk maps throwsOk(list(*))
+  
+  throwsOk(ThrowsDec(exceptTypeList)) :-
+    exceptTypeListOk(exceptTypeList),
+    true.
+
+
+  exceptTypeOk : ExceptionType
+  exceptTypeListOk maps exceptTypeOk(list(*))
+  
+  exceptTypeOk(ClassType2ExceptionType(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+
+
+  mthdModOk : MethodModifier
+  mthdModListOk maps mthdModOk(list(*))
+
+  mthdModOk(Annotation2MethodModifier(anno)) :-
+    annoOk(anno),
+    true.
+  mthdModOk(Public2MethodModifier(_)) :- true.
+  mthdModOk(Protected2MethodModifier(_)) :- true.
+  mthdModOk(Private2MethodModifier(_)) :- true.
+  mthdModOk(Abstract2MethodModifier(_)) :- true.
+  mthdModOk(Static2MethodModifier(_)) :- true.
+  mthdModOk(Final2MethodModifier(_)) :- true.
+  mthdModOk(Synchronized2MethodModifier(_)) :- true.
+  mthdModOk(Native2MethodModifier(_)) :- true.
+  mthdModOk(Strictfp2MethodModifier(_)) :- true.
+
+
+  mthdBodyOk : MethodBody
+  
+  mthdBodyOk(Block2MethodBody(blk)) :-
+    blkOk(blk),
+    true.
+
+  mthdBodyOk(NoMethodBody()) :-
+    true.
+
+
+  recvParamOk : ReceiverParam
+  
+  recvParamOk(ReceiverParamQual(annoList, unannType, id)) :-
+    annoListOk(annoList),
+    unannTypeOk(unannType),
+    true.
+
+  recvParamOk(ReceiverParam(annoList, unannType)) :-
+    annoListOk(annoList),
+    unannTypeOk(unannType),
+    true.
+
+
+  formalParamsOk : FormalParams
+  
+  formalParamsOk(NoParams()) :-
+    true.
+
+  formalParamsOk(ReceiverParam2FormalParams(recvParam)) :-
+    recvParamOk(recvParam),
+    true.
+
+  formalParamsOk(SingleParam(lastFormalParam)) :-
+    lastFormalParamOk(lastFormalParam),
+    true.
+
+  formalParamsOk(ParamList(formalParamList, lastFormalParam)) :-
+    formalParamListOk(formalParamList),
+    lastFormalParamOk(lastFormalParam),
+    true.
+
+  formalParamsOk(ReceiverParamList(recvParam, formalParamList, lastFormalParam)) :-
+    recvParamOk(recvParam),
+    formalParamListOk(formalParamList),
+    lastFormalParamOk(lastFormalParam),
+    true.
+
+
+  lastFormalParamOk : LastFormalParam
+  
+  lastFormalParamOk(FormalParam2LastFormalParam(formalParam)) :-
+    formalParamOk(formalParam),
+    true.
+    
+  lastFormalParamOk(VarArityParam(varModList, unannType, annoList, varDeclId)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    annoListOk(annoList),
+    varDeclIdOk(varDeclId),
+    true.
+
+
+  formalParamOk : FormalParam
+  formalParamListOk maps formalParamOk(list(*))
+  
+  formalParamOk(FormalParam(varModList, unannType, varDeclId)) :-
+    varModListOk(varModList),
+    unannTypeOk(unannType),
+    varDeclIdOk(varDeclId),
+    true.
+
+
+  varModOk : VariableModifier
+  varModListOk maps varModOk(list(*))
+  
+  varModOk(Annotation2VariableModifier(anno)) :-
+    annoOk(anno),
+    true.
+  varModOk(Final2VariableModifier(_)) :- true.
+
+

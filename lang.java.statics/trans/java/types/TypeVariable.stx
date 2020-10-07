@@ -1,0 +1,26 @@
+module java/types/TypeVariable
+
+imports
+
+  signatures/java/types/TypeVariable-sig
+
+  java/interfaces/Annotations
+  java/types/Main
+  java/types/ReferenceTypes
+
+
+rules // 4.4. Type Variables
+
+  typeParamOk : TypeParameter
+  typeParamListOk maps typeParamOk(list(*))
+
+  typeParamOk(TypeParameter(annoList, id)) :-
+    annoListOk(annoList),
+    true.
+    
+  typeParamOk(TypeParameterExtends(annoList, id, clsTypeList)) :-
+    annoListOk(annoList),
+    clsTypeListOk(clsTypeList),
+    true.
+    
+    

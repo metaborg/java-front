@@ -1,0 +1,36 @@
+module java/expressions/LambdaExpressions
+
+imports
+
+  signatures/java/expressions/LambdaExpressions-sig
+
+  java/classes/MethodDeclarations
+  java/expressions/Main
+  java/statements/Blocks
+
+
+rules // 15.27. Lambda Expressions
+
+  exprOk(LambdaExpression(lambdaParams, expr)) :-
+    lambdaParamsOk(lambdaParams),
+    exprOk(expr),
+    true.
+    
+  exprOk(LambdaExpressionWithBlock(lambdaParams, blk)) :-
+    lambdaParamsOk(lambdaParams),
+    blkOk(blk),
+    true.
+  
+
+  lambdaParamsOk : LambdaParameters
+  
+  lambdaParamsOk(SingleInferredParam(id)) :-
+    true.
+    
+  lambdaParamsOk(Params(formalParams)) :-
+    formalParamsOk(formalParams),
+    true.
+    
+  lambdaParamsOk(InferredParams(idList)) :-
+    true.
+ 

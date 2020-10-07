@@ -1,0 +1,82 @@
+module java/names/PackageNames
+
+imports
+
+  signatures/java/names/Names-sig
+
+  java/names/Main
+  java/types/Main
+
+
+// 6.5.3 Meaning of Module Names and Package Names
+
+signature
+
+  sorts
+    PKG_DECL   = (Id * scope)
+    PKG_PATH   = (path * (Id * scope))
+
+  relations
+    pkg  : Id -> scope
+
+
+rules
+
+  pkgNameOk : scope * PackageName -> PKG_DECL
+
+  pkgNameOk(s, PackageName(id)) = pkgDecl :-
+    pkgDecl == composePkgDecl(id, resolveLexicalPkgNames(s, id)),
+    true.
+
+  pkgNameOk(s, PackageName(pkgName, id)) = pkgDecl :-
+  {s_pkg}
+    s_pkg == pkgDeclScope(pkgNameOk(s, pkgName)),
+    pkgDecl == composePkgDecl(id, resolveMemberPkgNames(s_pkg, id)),
+    true.
+
+
+  pkgDeclScope : PKG_DECL -> scope
+  
+  pkgDeclScope((_, s_pkg)) = s_pkg.
+
+    
+  resolveLexicalPkgNames : scope * Id -> list(PKG_PATH)
+  
+  resolveLexicalPkgNames(s, id) = pkgPathList :-
+    query pkg
+      filter /* lex pkg re */
+          LEX*
+        and { id' :- id' == id }
+      min /* pkg ord */
+          $ < LEX
+        and true
+      in s |-> pkgPathList,
+    true.
+
+
+  resolveMemberPkgNames : scope * Id -> list(PKG_PATH)
+  
+  resolveMemberPkgNames(s, id) = pkgPathList :-
+    query pkg
+      filter /* mem pkg re */
+          PKGC?
+        and { id' :- id' == id }
+      in s |-> pkgPathList,
+    true.
+
+
+
+  composePkgDecl : Id * list(PKG_PATH) -> PKG_DECL
+  
+  composePkgDecl(id, pkgPathList) = (id, s_pkg) :-
+    new s_pkg,
+    composePkgPathList(s_pkg, pkgPathList).
+
+
+  composePkgPath : scope * PKG_PATH
+  composePkgPathList maps composePkgPath(*, list(*))
+
+  composePkgPath(s_pkg, (_, (id, s_pkg'))) :-
+    s_pkg -PKGC-> s_pkg',
+    true.
+

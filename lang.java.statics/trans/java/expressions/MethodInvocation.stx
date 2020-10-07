@@ -1,0 +1,37 @@
+module java/expressions/MethodInvocation
+
+imports
+
+  signatures/java/expressions/MethodInvocation-sig
+
+  java/expressions/Main
+  java/names/MethodNames
+  java/names/TypeNames
+  java/types/ParameterizedTypes
+
+
+rules // 15.12. Method Invocation Expressions
+
+  exprOk(Invoke(mthdName, exprList)) :-
+    mthdNameOk(_, mthdName) == _,
+    exprListOk(exprList),
+    true.
+
+  exprOk(InvokeQExp(expr, typeArgsOpt, id, exprList)) :-
+    exprOk(expr),
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+  exprOk(InvokeSuper(typeArgsOpt, id, exprList)) :-
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+  exprOk(InvokeQSuper(typeName, typeArgsOpt, id, exprList)) :-
+    typeNameOk(_, typeName) == _,
+    typeArgsOptOk(typeArgsOpt),
+    exprListOk(exprList),
+    true.
+
+

@@ -1,0 +1,55 @@
+module java/expressions/ArrayCreation
+
+imports
+
+  signatures/java/expressions/ArrayCreation-sig
+
+  java/arrays/ArrayInitializers
+  java/expressions/Main
+  java/interfaces/Annotations
+  java/types/PrimitiveTypes
+  java/types/ReferenceTypes
+
+
+rules // 15.10.1. Array Creation Expressions
+
+  exprOk(ArrayCreationExpression2Expression(arrayCreationExpr)) :-
+    arrayCreationExprOk(arrayCreationExpr),
+    true.
+    
+  
+  arrayCreationExprOk : ArrayCreationExpression
+  
+  arrayCreationExprOk(NewArray(arrayBaseType, dimExprList, annDimsEmpty)) :-
+    arrayBaseTypeOk(arrayBaseType),
+    dimExprListOk(dimExprList),
+    annDimsEmptyOk(annDimsEmpty),
+    true.
+
+  arrayCreationExprOk(NewArrayInit(arrayBaseType, annDims, arrayInit)) :-
+    arrayBaseTypeOk(arrayBaseType),
+    annDimsOk(annDims),
+    arrayInitOk(arrayInit),
+    true.
+    
+
+  arrayBaseTypeOk : ArrayBaseType
+  
+  arrayBaseTypeOk(ClassType2ArrayBaseType(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+  
+  arrayBaseTypeOk(PrimitiveType2ArrayBaseType(primType)) :-
+    primTypeOk(primType),
+    true.
+  
+
+  dimExprOk : DimExpr
+  dimExprListOk maps dimExprOk(list(*))
+  
+  dimExprOk(Dim(annoList, expr)) :-
+    annoListOk(annoList),
+    exprOk(expr),
+    true.
+
+

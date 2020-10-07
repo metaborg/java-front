@@ -1,0 +1,56 @@
+module java/expressions/UnaryOperators
+
+imports
+
+  signatures/java/expressions/UnaryOperators-sig
+
+  java/expressions/Main
+  java/types/PrimitiveTypes
+  java/types/ReferenceTypes
+
+
+rules // 15.15. Unary Operators
+
+  exprOk(Plus(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(Minus(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(PreIncr(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(PreDecr(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(Complement(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(Not(expr)) :-
+    exprOk(expr),
+    true.
+    
+  exprOk(CastPrimitive(primType, expr)) :-
+    primTypeOk(primType),
+    exprOk(expr),
+    true.
+    
+  exprOk(CastReference(refType, additionalBoundList, expr)) :-
+    refTypeOk(refType),
+    additionalBoundListOk(additionalBoundList),
+    exprOk(expr),
+    true.
+    
+  additionalBoundOk : AdditionalBound
+  additionalBoundListOk maps additionalBoundOk(list(*))
+  
+  additionalBoundOk(AdditionalBound(clsType)) :-
+    clsTypeOk(clsType),
+    true.
+
+

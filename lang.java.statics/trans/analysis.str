@@ -4,6 +4,7 @@ imports
 
   libspoofax/core/language
   libspoofax/sdf/pp
+  libspoofax/term/origin
 
   statix/api
   statixruntime
@@ -11,14 +12,17 @@ imports
   java/injections
 
   signatures/-
+  signatures/java/packages/-
   pp/-
 
 rules // Analysis
 
-  editor-analyze = stx-editor-analyze(import-java-lang;java-explicate-injections,java-implicate-injections|"statics", "projectOk", "fileOk")
+  editor-analyze = stx-editor-analyze((id<+import-java-lang);java-explicate-injections,java-implicate-injections|"statics", "projectOk", "fileOk")
 
-  import-java-lang =
-    CompilationUnit(id, ![TypeImportOnDemand(PackageOrTypeName(PackageOrTypeName(Id("java")),Id("lang")))|<id>], id)
+  import-java-lang:
+      CompilationUnit(pkgDecl, importDeclList, typeDeclList) -> CompilationUnit(pkgDecl, importDeclList', typeDeclList)
+    with javaLangImport  := <origin-track-forced(!TypeImportOnDemand(PackageOrTypeName(PackageOrTypeName(Id("java")),Id("lang"))))> pkgDecl
+       ; importDeclList' := [javaLangImport|importDeclList]
 
 rules // Editor services
   
