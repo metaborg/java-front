@@ -36,7 +36,7 @@ rules // 15.10.1. Array Creation Expressions
   arrayBaseTypeOk : ArrayBaseType
   
   arrayBaseTypeOk(ClassType2ArrayBaseType(clsType)) :-
-    clsTypeOk(clsType),
+    clsTypeOk(_, clsType),
     true.
   
   arrayBaseTypeOk(PrimitiveType2ArrayBaseType(primType)) :-

@@ -16,14 +16,14 @@ rules // 8.9. Enum Types
   
   enumDeclOk(EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
     clsModListOk(clsModList),
-    superIntfsOptOk(superIntfsOpt),
+    superIntfsOptOk(_, superIntfsOpt),
     enumConstListOk(enumConstList),
     enumBodyDeclsOptOk(enumBodyDeclsOpt),
     true.
 
   enumDeclOk(EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
     clsModListOk(clsModList),
-    superIntfsOptOk(superIntfsOpt),
+    superIntfsOptOk(_, superIntfsOpt),
     enumConstListOk(enumConstList),
     enumBodyDeclsOptOk(enumBodyDeclsOpt),
     true.

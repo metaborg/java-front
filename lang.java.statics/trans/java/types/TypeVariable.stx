@@ -20,7 +20,7 @@ rules // 4.4. Type Variables
     
   typeParamOk(TypeParameterExtends(annoList, id, clsTypeList)) :-
     annoListOk(annoList),
-    clsTypeListOk(clsTypeList),
+    clsTypeListOk(_, clsTypeList),
     true.
     
     

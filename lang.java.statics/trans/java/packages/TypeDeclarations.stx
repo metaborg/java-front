@@ -15,11 +15,11 @@ rules // 7.6. Top Level Type Declarations
   typeDeclListOk maps typeDeclOk(*, list(*))
   
   typeDeclOk(s, ClassDeclaration2TypeDeclaration(clsDecl)) :-
-    clsDeclOk(clsDecl),
+    clsDeclOk(s, clsDecl),
     true.
 
   typeDeclOk(s, InterfaceDeclaration2TypeDeclaration(intfDecl)) :-
-    intfDeclOk(intfDecl),
+    intfDeclOk(s, intfDecl),
     true.
 
   typeDeclOk(s, SemiColon2TypeDeclaration(_)) :-

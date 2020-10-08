@@ -13,30 +13,48 @@ imports
   java/classes/StaticInitializers
   java/interfaces/Annotations
   java/interfaces/InterfaceDeclarations
+  java/names/Main
+  java/names/TypeNames
+  java/types/Main
   java/types/ReferenceTypes
   java/types/TypeVariable
 
 
 rules // 8.1. Class Declarations
 
-  clsDeclOk : ClassDeclaration
+  clsDeclOk : scope * ClassDeclaration
   
-  clsDeclOk(NormalClassDeclaration2ClassDeclaration(normalClsDecl)) :-
-    normalClsDeclOk(normalClsDecl),
+  clsDeclOk(s, NormalClassDeclaration2ClassDeclaration(normalClsDecl)) :-
+    normalClsDeclOk(s, normalClsDecl),
     true.
 
-  clsDeclOk(EnumDeclaration2ClassDeclaration(enumDecl)) :-
+  clsDeclOk(s, EnumDeclaration2ClassDeclaration(enumDecl)) :-
     enumDeclOk(enumDecl),
     true.
 
 
-  normalClsDeclOk : NormalClassDeclaration
+  normalClsDeclOk : scope * NormalClassDeclaration
   
-  normalClsDeclOk(ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
+  normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
+  {s_cls}
     clsModListOk(clsModList),
+
+    new s_cls,
+    declareType(s, id, CLASS(s_cls)),
+    // FIXME noDuplicateType
+    // FIXME noEnclosingTypeSameName
+    // FIXME noClassCycle
+    
     typeParamsOptOk(typeParamsOpt),
-    superClsOptOk(superClsOpt),
-    superIntfsOptOk(superIntfsOpt),
+
+    superClsOptOk(s, superClsOpt),
+    superIntfsOptOk(s, superIntfsOpt),
+
+    // FIXME declare self (?)
+    s_cls -LEX-> s,
+
+    // FIXME declare `this`
+
     clsBodyDeclListOk(clsBodyDeclList),
     true.
 
@@ -64,19 +82,19 @@ rules // 8.1. Class Declarations
     true.
 
 
-  superClsOk : SuperClass
-  superClsOptOk maps superClsOk(list(*))
+  superClsOk : scope * SuperClass
+  superClsOptOk maps superClsOk(*, list(*))
   
-  superClsOk(SuperClass(clsType)) :-
-    clsTypeOk(clsType),
+  superClsOk(s, SuperClass(clsType)) :-
+    clsTypeOk(s, clsType),
     true.
 
 
-  superIntfsOk : SuperInterfaces
-  superIntfsOptOk maps superIntfsOk(list(*))
+  superIntfsOk : scope * SuperInterfaces
+  superIntfsOptOk maps superIntfsOk(*, list(*))
   
-  superIntfsOk(SuperInterface(clsTypeList)) :-
-    clsTypeListOk(clsTypeList),
+  superIntfsOk(s, SuperInterface(clsTypeList)) :-
+    clsTypeListOk(s, clsTypeList),
     true.
 
 
@@ -111,11 +129,11 @@ rules // 8.1. Class Declarations
     true.
   
   clsMemDeclOk(ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
-    clsDeclOk(clsDecl),
+    clsDeclOk(_, clsDecl),
     true.
 
   clsMemDeclOk(InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
-    intfDeclOk(intfDecl),
+    intfDeclOk(_, intfDecl),
     true.
 
   clsMemDeclOk(SemiColon2ClassMemberDeclaration(semiColon)) :-

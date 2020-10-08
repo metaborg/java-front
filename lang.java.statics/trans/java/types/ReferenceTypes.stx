@@ -5,6 +5,8 @@ imports
   signatures/java/types/ReferenceTypes-sig
 
   java/interfaces/Annotations
+  java/names/TypeNames
+  java/names/PackageOrTypeNames
   java/types/Main
   java/types/ParameterizedTypes
   java/types/PrimitiveTypes
@@ -24,7 +26,7 @@ rules
   refTypeOk : ReferenceType
   
   refTypeOk(ClassType2ReferenceType(clsType)) :-
-    clsTypeOk(clsType),
+    clsTypeOk(_, clsType),
     true.
     
   refTypeOk(ArrayType2ReferenceType(arrayType)) :-
@@ -32,19 +34,47 @@ rules
     true.
 
 
-  clsTypeOk : ClassType
-  clsTypeListOk maps clsTypeOk(list(*))
+  clsTypeOk : scope * ClassType
+  clsTypeListOk maps clsTypeOk(*, list(*))
   
-  clsTypeOk(ClassType(annoList, id, typeArgsOpt)) :-
+  clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) :-
+  {typeDecl}
     annoListOk(annoList),
+    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
     typeArgsOptOk(typeArgsOpt),
     true.
 
-  clsTypeOk(ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) :-
-    clsTypeOk(clsType),
+  clsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) :-
+  {s_pkgOrCls typeDecl}
+    s_pkgOrCls == pkgOrClsTypeOk(s, clsType),
     annoListOk(annoList),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
     typeArgsOptOk(typeArgsOpt),
     true.
+
+
+  pkgOrClsTypeOk : scope * ClassType -> scope
+  pkgOrClsTypeOk1 : scope * Id * list(TYPE_PATH) -> scope
+  pkgOrClsTypeOk2 : scope * Id * list(PKG_PATH) -> scope
+
+  pkgOrClsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = s_pkgOrCls :-
+    annoListOk(annoList),
+    s_pkgOrCls == pkgOrTypeDeclScope(resolveLexicalPkgOrTypeName(s, id)),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+  pkgOrClsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) = s_pkgOrCls :-
+  {s_pkgOrCls'}
+    s_pkgOrCls' == pkgOrClsTypeOk(s, clsType),
+    annoListOk(annoList),
+    s_pkgOrCls == pkgOrTypeDeclScope(resolveMemberPkgOrTypeName(s, id)),
+    typeArgsOptOk(typeArgsOpt),
+    true.
+
+
+
+
+
 
 
   typeVarOk : TypeVariable
@@ -62,7 +92,7 @@ rules
     true.
 
   arrayTypeOk(ArrayTypeClassType(clsType, annDims)) :-
-    clsTypeOk(clsType),
+    clsTypeOk(_, clsType),
     annDimsOk(annDims),
     true.
 
@@ -89,3 +119,11 @@ rules
     true.
 
 
+rules
+
+  typeScope : TYPE -> scope
+  
+  typeScope(CLASS(s_cls)) = s_cls.
+
+  typeScope(INTF(s_intf)) = s_intf.
+  

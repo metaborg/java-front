@@ -10,21 +10,38 @@ imports
   java/interfaces/ConstantDeclarations
   java/interfaces/Main
   java/interfaces/InterfaceMethodDeclarations
+  java/names/Main
+  java/names/TypeNames
   java/types/ReferenceTypes
 
 
 rules // 9.1. Interface Declarations
 
-  intfDeclOk : InterfaceDeclaration
+  intfDeclOk : scope * InterfaceDeclaration
   
-  intfDeclOk(NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) :-
+  intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) :-
+  {s_intf}
     intfModListOk(intfModList),
+    
+    new s_intf,
+    declareType(s, id, INTF(s_intf)),
+    // FIXME noDuplicateType
+    // FIXME noEnclosingTypeSameName
+    // FIXME noExtendsCycle
+    
     typeParamsOptOk(typeParamsOpt),
-    extendsIntfsOptOk(extendsIntfsOpt),
+
+    // FIXME declare self (?)
+    s_intf -LEX-> s,
+
+    extendsIntfsOptOk(s, extendsIntfsOpt),
+    
+    // FIXME declare `this`
+    
     intfMemDeclListOk(intfMemDeclList),
     true.
 
-  intfDeclOk(AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl)) :-
+  intfDeclOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl)) :-
     annoTypeDeclOk(annoTypeDecl),
     true.
     
@@ -43,11 +60,11 @@ rules // 9.1. Interface Declarations
   intfModOk(Strictfp2InterfaceModifier(_)) :- true.
 
 
-  extendsIntfsOk : ExtendsInterfaces
-  extendsIntfsOptOk maps extendsIntfsOk(list(*))
+  extendsIntfsOk : scope * ExtendsInterfaces
+  extendsIntfsOptOk maps extendsIntfsOk(*, list(*))
   
-  extendsIntfsOk(ExtendsInterfaces(clsTypeList)) :-
-    clsTypeListOk(clsTypeList),
+  extendsIntfsOk(s, ExtendsInterfaces(clsTypeList)) :-
+    clsTypeListOk(s, clsTypeList),
     true.
     
     
@@ -63,11 +80,11 @@ rules // 9.1. Interface Declarations
     true.
 
   intfMemDeclOk(ClassDeclaration2InterfaceMemberDeclaration(clsDecl)) :-
-    clsDeclOk(clsDecl),
+    clsDeclOk(_, clsDecl),
     true.
 
   intfMemDeclOk(InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl)) :-
-    intfDeclOk(intfDecl),
+    intfDeclOk(_, intfDecl),
     true.
 
   intfMemDeclOk(SemiColon2InterfaceMemberDeclaration(_)) :-

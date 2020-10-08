@@ -63,7 +63,7 @@ rules // 8.4. Method Declarations
   exceptTypeListOk maps exceptTypeOk(list(*))
   
   exceptTypeOk(ClassType2ExceptionType(clsType)) :-
-    clsTypeOk(clsType),
+    clsTypeOk(_, clsType),
     true.
 
 

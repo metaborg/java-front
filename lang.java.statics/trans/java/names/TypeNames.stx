@@ -78,9 +78,15 @@ rules
   singleTypeDecl(id, []) = _ :-
     false | error $[Type [id] not found] @id.
 
-  singleTypeDecl(id, [(_, typeDecl)]) = (id, T) :-
-    (id, matchType(T)) == typeDecl.
+  singleTypeDecl(id, [(_, typeDecl)]) = (id', T) :-
+    (id', matchType(T)) == typeDecl,
+    @id.ref := id'.
 
   singleTypeDecl(id, _) = _ :-
     false | error $[Type [id] is ambiguous] @id.
 
+
+  declareType : scope * Id * TYPE
+  
+  declareType(s, id, T) :-
+    !type[id, fromType(T)] in s.

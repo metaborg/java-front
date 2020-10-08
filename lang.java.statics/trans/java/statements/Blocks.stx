@@ -27,7 +27,7 @@ rules // 14.2. Blocks
     true.
     
   blkStmtOk(ClassDeclaration2BlockStatement(clsDecl)) :-
-    clsDeclOk(clsDecl),
+    clsDeclOk(_, clsDecl),
     true.
     
   blkStmtOk(Statement2BlockStatement(stmt)) :-

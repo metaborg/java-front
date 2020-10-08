@@ -32,7 +32,7 @@ rules // 15.13. Method Reference Expressions
     true.
 
   exprOk(MethodReferenceCType(clsType, typeArgsOpt)) :-
-    clsTypeOk(clsType),
+    clsTypeOk(_, clsType),
     typeArgsOptOk(typeArgsOpt),
     true.
 

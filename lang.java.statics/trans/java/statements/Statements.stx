@@ -196,7 +196,7 @@ rules // 14.5. Statements
   catchTypeRestListOk maps catchTypeRestOk(list(*))
   
   catchTypeRestOk(CatchTypeElem(clsType)) :-
-    clsTypeOk(clsType),
+    clsTypeOk(_, clsType),
     true.
     
     

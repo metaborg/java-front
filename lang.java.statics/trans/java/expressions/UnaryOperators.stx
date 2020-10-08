@@ -50,7 +50,7 @@ rules // 15.15. Unary Operators
   additionalBoundListOk maps additionalBoundOk(list(*))
   
   additionalBoundOk(AdditionalBound(clsType)) :-
-    clsTypeOk(clsType),
+    clsTypeOk(_, clsType),
     true.
 
 

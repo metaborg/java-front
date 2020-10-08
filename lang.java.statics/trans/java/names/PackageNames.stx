@@ -70,13 +70,22 @@ rules
   
   composePkgDecl(id, pkgPathList) = (id, s_pkg) :-
     new s_pkg,
-    composePkgPathList(s_pkg, pkgPathList).
-
-
-  composePkgPath : scope * PKG_PATH
-  composePkgPathList maps composePkgPath(*, list(*))
-
-  composePkgPath(s_pkg, (_, (id, s_pkg'))) :-
-    s_pkg -PKGC-> s_pkg',
+    composePkgPathList(id, s_pkg, pkgPathList),
     true.
 
+
+  composePkgPath : Id * scope * PKG_PATH
+  composePkgPathList maps composePkgPath(*, *, list(*))
+
+  composePkgPath(_, s_pkg, (_, (_, s_pkg))).
+
+  composePkgPath(id, s_pkg, (_, (id', s_pkg'))) :-
+    s_pkg -PKGC-> s_pkg',
+    @id.ref += id',
+    true.
+
+
+  declarePkg : scope * Id * scope
+  
+  declarePkg(s, id, s_pkg) :-
+    !pkg[id, s_pkg] in s.

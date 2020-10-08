@@ -35,11 +35,11 @@ rules // 9.6. Annotation Types
     true.
 
   annoTypeMemDeclOk(ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl)) :-
-    clsDeclOk(clsDecl),
+    clsDeclOk(_, clsDecl),
     true.
 
   annoTypeMemDeclOk(InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl)) :-
-    intfDeclOk(intfDecl),
+    intfDeclOk(_, intfDecl),
     true.
 
   annoTypeMemDeclOk(SemiColon2AnnotationTypeMemberDeclaration(_)) :-

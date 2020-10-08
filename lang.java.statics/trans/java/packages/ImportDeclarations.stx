@@ -4,9 +4,12 @@ imports
 
   signatures/java/packages/ImportDeclarations-sig
 
+  java/names/Main
   java/names/PackageOrTypeNames
   java/names/TypeNames
   java/packages/Main
+  java/types/Main
+  java/types/ReferenceTypes
 
 
 rules // 7.5. Import Declarations
@@ -14,12 +17,18 @@ rules // 7.5. Import Declarations
   importDeclOk : scope * ImportDeclaration * scope
   importDeclListOk maps importDeclOk(*, list(*), *)
   
-  importDeclOk(s, SingleTypeImport(typeName), s_imp) :-
-    typeNameOk(s, typeName) == _,
+  importDeclOk(s, SingleTypeImport(typeName), s_pkg) :-
+  {id T s_type s_imp}
+    (id, T) == typeNameOk(s, typeName),
+    new s_imp,
+    s_pkg -IMP_ST-> s_imp,
+    declareType(s_imp, id, T),
     true.
 
-  importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_imp) :-
-    pkgOrTypeNameOk(s, pkgOrTypeName) == _,
+  importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_pkg) :-
+  {s_pkgOrType}
+    s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeNameOk(s, pkgOrTypeName)),
+    s_pkg -IMP_OD-> s_pkgOrType,
     true.
 
   importDeclOk(s, SingleStaticImport(typeName, id), s_imp) :-
