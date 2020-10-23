@@ -21,7 +21,7 @@ rules // 9.1. Interface Declarations
   
   intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) :-
   {s_intf}
-    intfModListOk(intfModList),
+    intfModListOk(s, intfModList),
     
     new s_intf,
     declareType(s, id, INTF(s_intf)),
@@ -29,7 +29,7 @@ rules // 9.1. Interface Declarations
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
     
-    typeParamsOptOk(typeParamsOpt),
+    typeParamsOptOk(s, typeParamsOpt, s_intf),
 
     // FIXME declare self (?)
     s_intf -LEX-> s,
@@ -38,26 +38,26 @@ rules // 9.1. Interface Declarations
     
     // FIXME declare `this`
     
-    intfMemDeclListOk(intfMemDeclList),
+    intfMemDeclListOk(s_intf, intfMemDeclList),
     true.
 
   intfDeclOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl)) :-
-    annoTypeDeclOk(annoTypeDecl),
+    annoTypeDeclOk(s, annoTypeDecl),
     true.
     
     
-  intfModOk : InterfaceModifier
-  intfModListOk maps intfModOk(list(*))
+  intfModOk : scope * InterfaceModifier
+  intfModListOk maps intfModOk(*, list(*))
   
-  intfModOk(Annotation2InterfaceModifier(anno)) :-
-    annoOk(anno),
+  intfModOk(s, Annotation2InterfaceModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  intfModOk(Public2InterfaceModifier(_)) :- true.
-  intfModOk(Protected2InterfaceModifier(_)) :- true.
-  intfModOk(Private2InterfaceModifier(_)) :- true.
-  intfModOk(Abstract2InterfaceModifier(_)) :- true.
-  intfModOk(Static2InterfaceModifier(_)) :- true.
-  intfModOk(Strictfp2InterfaceModifier(_)) :- true.
+  intfModOk(s, Public2InterfaceModifier(_)) :- true.
+  intfModOk(s, Protected2InterfaceModifier(_)) :- true.
+  intfModOk(s, Private2InterfaceModifier(_)) :- true.
+  intfModOk(s, Abstract2InterfaceModifier(_)) :- true.
+  intfModOk(s, Static2InterfaceModifier(_)) :- true.
+  intfModOk(s, Strictfp2InterfaceModifier(_)) :- true.
 
 
   extendsIntfsOk : scope * ExtendsInterfaces
@@ -68,26 +68,26 @@ rules // 9.1. Interface Declarations
     true.
     
     
-  intfMemDeclOk : InterfaceMemberDeclaration
-  intfMemDeclListOk maps intfMemDeclOk(list(*))
+  intfMemDeclOk : scope * InterfaceMemberDeclaration
+  intfMemDeclListOk maps intfMemDeclOk(*, list(*))
   
-  intfMemDeclOk(ConstantDeclaration2InterfaceMemberDeclaration(constDecl)) :-
-    constDeclOk(constDecl),
+  intfMemDeclOk(s, ConstantDeclaration2InterfaceMemberDeclaration(constDecl)) :-
+    constDeclOk(s, constDecl),
     true.
 
-  intfMemDeclOk(InterfaceMethodDeclaration2InterfaceMemberDeclaration(intfMthdDecl)) :-
-    intfMthdDeclOk(intfMthdDecl),
+  intfMemDeclOk(s, InterfaceMethodDeclaration2InterfaceMemberDeclaration(intfMthdDecl)) :-
+    intfMthdDeclOk(s, intfMthdDecl),
     true.
 
-  intfMemDeclOk(ClassDeclaration2InterfaceMemberDeclaration(clsDecl)) :-
-    clsDeclOk(_, clsDecl),
+  intfMemDeclOk(s, ClassDeclaration2InterfaceMemberDeclaration(clsDecl)) :-
+    clsDeclOk(s, clsDecl),
     true.
 
-  intfMemDeclOk(InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl)) :-
-    intfDeclOk(_, intfDecl),
+  intfMemDeclOk(s, InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl)) :-
+    intfDeclOk(s, intfDecl),
     true.
 
-  intfMemDeclOk(SemiColon2InterfaceMemberDeclaration(_)) :-
+  intfMemDeclOk(s, SemiColon2InterfaceMemberDeclaration(_)) :-
     true.
 
 

@@ -12,67 +12,67 @@ imports
 
 rules // 15.26. Assignment Operators
 
-  exprOk(Assign(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, Assign(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignMul(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignMul(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignDiv(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignDiv(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignMod(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignMod(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignAdd(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignAdd(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignSub(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignSub(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignLeftShift(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignLeftShift(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignRightShift(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignRightShift(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignURightShift(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignURightShift(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignAnd(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignAnd(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignXor(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignXor(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
-  exprOk(AssignOr(lhs, expr)) :-
-    lhsOk(lhs),
-    exprOk(expr).
+  exprOk(s, AssignOr(lhs, expr)) = _ :-
+    _ == lhsOk(s, lhs),
+    _ == exprOk(s, expr).
 
 
-  lhsOk : LHS
+  lhsOk : scope * LHS -> TYPE
   
-  lhsOk(ExpressionName2LHS(exprName)) :-
-    exprNameOk(_, exprName) == _,
+  lhsOk(s, ExpressionName2LHS(exprName)) = _ :-
+    exprNameOk(s, exprName) == _,
     true.
     
-  lhsOk(FieldAccess2LHS(fldAccess)) :-
-    fldAccessOk(fldAccess),
+  lhsOk(s, FieldAccess2LHS(fldAccess)) = _ :-
+    fldAccessOk(s, fldAccess),
     true.
 
-  lhsOk(ArrayAccess2LHS(arrayAccess)) :-
-    arrayAccessOk(arrayAccess),
+  lhsOk(s, ArrayAccess2LHS(arrayAccess)) = _ :-
+    arrayAccessOk(s, arrayAccess),
     true.
 
 

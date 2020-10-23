@@ -29,7 +29,7 @@ rules // 8.1. Class Declarations
     true.
 
   clsDeclOk(s, EnumDeclaration2ClassDeclaration(enumDecl)) :-
-    enumDeclOk(enumDecl),
+    enumDeclOk(s, enumDecl),
     true.
 
 
@@ -37,7 +37,7 @@ rules // 8.1. Class Declarations
   
   normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
   {s_cls}
-    clsModListOk(clsModList),
+    clsModListOk(s, clsModList),
 
     new s_cls,
     declareType(s, id, CLASS(s_cls)),
@@ -45,98 +45,98 @@ rules // 8.1. Class Declarations
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
     
-    typeParamsOptOk(typeParamsOpt),
+    typeParamsOptOk(s, typeParamsOpt, s_cls),
 
-    superClsOptOk(s, superClsOpt),
-    superIntfsOptOk(s, superIntfsOpt),
+    superClsOptOk(s, superClsOpt, s_cls),
+    superIntfsOptOk(s, superIntfsOpt, s_cls),
 
     // FIXME declare self (?)
     s_cls -LEX-> s,
 
     // FIXME declare `this`
 
-    clsBodyDeclListOk(clsBodyDeclList),
+    clsBodyDeclListOk(s_cls, clsBodyDeclList),
     true.
 
 
-  clsModOk : ClassModifier
-  clsModListOk maps clsModOk(list(*))
+  clsModOk : scope * ClassModifier
+  clsModListOk maps clsModOk(*, list(*))
   
-  clsModOk(Annotation2ClassModifier(anno)) :-
-    annoOk(anno),
+  clsModOk(s, Annotation2ClassModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  clsModOk(Public2ClassModifier(_)) :- true.
-  clsModOk(Protected2ClassModifier(_)) :- true.
-  clsModOk(Private2ClassModifier(_)) :- true.
-  clsModOk(Abstract2ClassModifier(_)) :- true.
-  clsModOk(Static2ClassModifier(_)) :- true.
-  clsModOk(Final2ClassModifier(_)) :- true.
-  clsModOk(Strictfp2ClassModifier(_)) :- true.
+  clsModOk(s, Public2ClassModifier(_)) :- true.
+  clsModOk(s, Protected2ClassModifier(_)) :- true.
+  clsModOk(s, Private2ClassModifier(_)) :- true.
+  clsModOk(s, Abstract2ClassModifier(_)) :- true.
+  clsModOk(s, Static2ClassModifier(_)) :- true.
+  clsModOk(s, Final2ClassModifier(_)) :- true.
+  clsModOk(s, Strictfp2ClassModifier(_)) :- true.
 
 
-  typeParamsOk : TypeParameters
-  typeParamsOptOk maps typeParamsOk(list(*))
+  typeParamsOk : scope * TypeParameters * scope
+  typeParamsOptOk maps typeParamsOk(*, list(*), *)
   
-  typeParamsOk(TypeParameters(typeParamList)) :-
-    typeParamListOk(typeParamList),
+  typeParamsOk(s, TypeParameters(typeParamList), s_cls) :-
+    typeParamListOk(s, typeParamList, s_cls),
     true.
 
 
-  superClsOk : scope * SuperClass
-  superClsOptOk maps superClsOk(*, list(*))
+  superClsOk : scope * SuperClass * scope
+  superClsOptOk maps superClsOk(*, list(*), *)
   
-  superClsOk(s, SuperClass(clsType)) :-
+  superClsOk(s, SuperClass(clsType), s_cls) :-
     clsTypeOk(s, clsType),
     true.
 
 
-  superIntfsOk : scope * SuperInterfaces
-  superIntfsOptOk maps superIntfsOk(*, list(*))
+  superIntfsOk : scope * SuperInterfaces * scope
+  superIntfsOptOk maps superIntfsOk(*, list(*), *)
   
-  superIntfsOk(s, SuperInterface(clsTypeList)) :-
+  superIntfsOk(s, SuperInterface(clsTypeList), s_cls) :-
     clsTypeListOk(s, clsTypeList),
     true.
 
 
-  clsBodyDeclOk : ClassBodyDeclaration
-  clsBodyDeclListOk maps clsBodyDeclOk(list(*))
+  clsBodyDeclOk : scope * ClassBodyDeclaration
+  clsBodyDeclListOk maps clsBodyDeclOk(*, list(*))
   
-  clsBodyDeclOk(ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl)) :-
-    clsMemDeclOk(clsMemDecl),
+  clsBodyDeclOk(s, ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl)) :-
+    clsMemDeclOk(s, clsMemDecl),
     true.
 
-  clsBodyDeclOk(InstanceInitializer2ClassBodyDeclaration(instInit)) :-
+  clsBodyDeclOk(s, InstanceInitializer2ClassBodyDeclaration(instInit)) :-
     instInitOk(instInit),
     true.
 
-  clsBodyDeclOk(StaticInitializer2ClassBodyDeclaration(staticInit)) :-
+  clsBodyDeclOk(s, StaticInitializer2ClassBodyDeclaration(staticInit)) :-
     staticInitOk(staticInit),
     true.
 
-  clsBodyDeclOk(ConstructorDeclaration2ClassBodyDeclaration(ctorDecl)) :-
-    ctorDeclOk(ctorDecl),
+  clsBodyDeclOk(s, ConstructorDeclaration2ClassBodyDeclaration(ctorDecl)) :-
+    ctorDeclOk(s, ctorDecl),
     true.
 
 
-  clsMemDeclOk : ClassMemberDeclaration
+  clsMemDeclOk : scope * ClassMemberDeclaration
   
-  clsMemDeclOk(FieldDeclaration2ClassMemberDeclaration(fldDecl)) :-
-    fldDeclOk(fldDecl),
-    true.
-  
-  clsMemDeclOk(MethodDeclaration2ClassMemberDeclaration(mthdDecl)) :-
-    mthdDeclOk(mthdDecl),
+  clsMemDeclOk(s, FieldDeclaration2ClassMemberDeclaration(fldDecl)) :-
+    fldDeclOk(s, fldDecl),
     true.
   
-  clsMemDeclOk(ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
-    clsDeclOk(_, clsDecl),
+  clsMemDeclOk(s, MethodDeclaration2ClassMemberDeclaration(mthdDecl)) :-
+    mthdDeclOk(s, mthdDecl),
+    true.
+  
+  clsMemDeclOk(s, ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
+    clsDeclOk(s, clsDecl),
     true.
 
-  clsMemDeclOk(InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
-    intfDeclOk(_, intfDecl),
+  clsMemDeclOk(s, InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
+    intfDeclOk(s, intfDecl),
     true.
 
-  clsMemDeclOk(SemiColon2ClassMemberDeclaration(semiColon)) :-
+  clsMemDeclOk(s, SemiColon2ClassMemberDeclaration(semiColon)) :-
     true.
 
 

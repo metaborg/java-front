@@ -10,67 +10,72 @@ imports
   java/interfaces/InterfaceDeclarations
   java/interfaces/ConstantDeclarations
   java/interfaces/Main
+  java/names/Main
   java/types/ReferenceTypes
 
 
 rules // 9.6. Annotation Types
 
-  annoTypeDeclOk : AnnotationTypeDeclaration
+  annoTypeDeclOk : scope * AnnotationTypeDeclaration
   
-  annoTypeDeclOk(AnnoDec(intfModList, id, annoTypeMemDeclList)) :-
-    intfModListOk(intfModList),
-    annoTypeMemDeclListOk(annoTypeMemDeclList),
+  annoTypeDeclOk(s, AnnoDec(intfModList, id, annoTypeMemDeclList)) :-
+  {s_anno}
+    intfModListOk(s, intfModList),
+    
+    new s_anno, s_anno -LEX-> s,
+    
+    annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList),
     true.
     
     
-  annoTypeMemDeclOk : AnnotationTypeMemberDeclaration
-  annoTypeMemDeclListOk maps annoTypeMemDeclOk(list(*))
+  annoTypeMemDeclOk : scope * AnnotationTypeMemberDeclaration
+  annoTypeMemDeclListOk maps annoTypeMemDeclOk(*, list(*))
 
-  annoTypeMemDeclOk(AnnotationTypeElementDeclaration2AnnotationTypeMemberDeclaration(annoTypeElemDecl)) :-
-    annoTypeElemDeclOk(annoTypeElemDecl),
+  annoTypeMemDeclOk(s, AnnotationTypeElementDeclaration2AnnotationTypeMemberDeclaration(annoTypeElemDecl)) :-
+    annoTypeElemDeclOk(s, annoTypeElemDecl),
     true.
 
-  annoTypeMemDeclOk(ConstantDeclaration2AnnotationTypeMemberDeclaration(constDecl)) :-
-    constDeclOk(constDecl),
+  annoTypeMemDeclOk(s, ConstantDeclaration2AnnotationTypeMemberDeclaration(constDecl)) :-
+    constDeclOk(s, constDecl),
     true.
 
-  annoTypeMemDeclOk(ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl)) :-
-    clsDeclOk(_, clsDecl),
+  annoTypeMemDeclOk(s, ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl)) :-
+    clsDeclOk(s, clsDecl),
     true.
 
-  annoTypeMemDeclOk(InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl)) :-
-    intfDeclOk(_, intfDecl),
+  annoTypeMemDeclOk(s, InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl)) :-
+    intfDeclOk(s, intfDecl),
     true.
 
-  annoTypeMemDeclOk(SemiColon2AnnotationTypeMemberDeclaration(_)) :-
+  annoTypeMemDeclOk(s, SemiColon2AnnotationTypeMemberDeclaration(_)) :-
     true.
 
 
-  annoTypeElemDeclOk : AnnotationTypeElementDeclaration
+  annoTypeElemDeclOk : scope * AnnotationTypeElementDeclaration
 
-  annoTypeElemDeclOk(AnnotationTypeElementDecl(annoTypeElemModList, unannType, id, annDimsEmpty, defaultValOpt)) :-
-    annoTypeElemModListOk(annoTypeElemModList),
-    unannTypeOk(unannType),
-    annDimsEmptyOk(annDimsEmpty),
-    defaultValOptOk(defaultValOpt),
+  annoTypeElemDeclOk(s, AnnotationTypeElementDecl(annoTypeElemModList, unannType, id, annDimsEmpty, defaultValOpt)) :-
+    annoTypeElemModListOk(s, annoTypeElemModList),
+    unannTypeOk(s, unannType),
+    annDimsEmptyOk(s, annDimsEmpty),
+    defaultValOptOk(s, defaultValOpt),
     true.
     
     
-  annoTypeElemModOk : AnnotationTypeElementModifier
-  annoTypeElemModListOk maps annoTypeElemModOk(list(*))
+  annoTypeElemModOk : scope * AnnotationTypeElementModifier
+  annoTypeElemModListOk maps annoTypeElemModOk(*, list(*))
 
-  annoTypeElemModOk(Annotation2AnnotationTypeElementModifier(anno)) :-
-    annoOk(anno),
+  annoTypeElemModOk(s, Annotation2AnnotationTypeElementModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  annoTypeElemModOk(Public2AnnotationTypeElementModifier(_)) :- true.
-  annoTypeElemModOk(Abstract2AnnotationTypeElementModifier(_)) :- true.
+  annoTypeElemModOk(s, Public2AnnotationTypeElementModifier(_)) :- true.
+  annoTypeElemModOk(s, Abstract2AnnotationTypeElementModifier(_)) :- true.
   
   
-  defaultValOk : DefaultValue
-  defaultValOptOk maps defaultValOk(list(*))
+  defaultValOk : scope * DefaultValue
+  defaultValOptOk maps defaultValOk(*, list(*))
   
-  defaultValOk(DefaultVal(elemVal)) :-
-    elemValOk(elemVal),
+  defaultValOk(s, DefaultVal(elemVal)) :-
+    elemValOk(s, elemVal),
     true.
 
 

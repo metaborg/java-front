@@ -9,6 +9,7 @@ imports
   java/classes/MethodDeclarations
   java/expressions/Main
   java/interfaces/Annotations
+  java/names/Main
   java/statements/Blocks
   java/types/ParameterizedTypes
   java/types/TypeVariable
@@ -16,46 +17,50 @@ imports
 
 rules // 8.8. Constructor Declarations
 
-  ctorDeclOk : ConstructorDeclaration
+  ctorDeclOk : scope * ConstructorDeclaration
   
-  ctorDeclOk(ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
-    ctorModListOk(ctorModList),
-    typeParamsOptOk(typeParamsOpt),
-    formalParamsOk(formalParams),
-    throwsOptOk(throwsOpt),
-    ctorInvOptOk(ctorInvOpt),
-    blkStmtListOk(blkStmtList),
+  ctorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
+  {s_ctor}
+    ctorModListOk(s, ctorModList),
+
+    new s_ctor, s_ctor -LEX-> s,
+
+    typeParamsOptOk(s, typeParamsOpt, s_ctor),
+    formalParamsOk(s_ctor, formalParams),
+    throwsOptOk(s, throwsOpt),
+    ctorInvOptOk(s_ctor, ctorInvOpt),
+    blkStmtListOk(s_ctor, blkStmtList),
     true.
 
 
-  ctorModOk : ConstructorModifier
-  ctorModListOk maps ctorModOk(list(*))
+  ctorModOk : scope * ConstructorModifier
+  ctorModListOk maps ctorModOk(*, list(*))
   
-  ctorModOk(Annotation2ConstructorModifier(anno)) :-
-    annoOk(anno),
+  ctorModOk(s, Annotation2ConstructorModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  ctorModOk(Public2ConstructorModifier(_)) :- true.
-  ctorModOk(Private2ConstructorModifier(_)) :- true.
-  ctorModOk(Protected2ConstructorModifier(_)) :- true.
+  ctorModOk(s, Public2ConstructorModifier(_)) :- true.
+  ctorModOk(s, Private2ConstructorModifier(_)) :- true.
+  ctorModOk(s, Protected2ConstructorModifier(_)) :- true.
 
 
-  ctorInvOk : ConstructorInvocation
-  ctorInvOptOk maps ctorInvOk(list(*))
+  ctorInvOk : scope * ConstructorInvocation
+  ctorInvOptOk maps ctorInvOk(*, list(*))
   
-  ctorInvOk(AltConstrInv(typeArgsOpt, exprList)) :-
-    typeArgsOptOk(typeArgsOpt),
-    exprListOk(exprList),
+  ctorInvOk(s, AltConstrInv(typeArgsOpt, exprList)) :-
+    typeArgsOptOk(s, typeArgsOpt),
+    _ == exprListOk(s, exprList),
     true.
 
-  ctorInvOk(SuperConstrInv(typeArgsOpt, exprList)) :-
-    typeArgsOptOk(typeArgsOpt),
-    exprListOk(exprList),
+  ctorInvOk(s, SuperConstrInv(typeArgsOpt, exprList)) :-
+    typeArgsOptOk(s, typeArgsOpt),
+    _ == exprListOk(s, exprList),
     true.
 
-  ctorInvOk(ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
-    exprOk(expr),
-    typeArgsOptOk(typeArgsOpt),
-    exprListOk(exprList),
+  ctorInvOk(s, ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
+    _ == exprOk(s, expr),
+    typeArgsOptOk(s, typeArgsOpt),
+    _ == exprListOk(s, exprList),
     true.
 
 

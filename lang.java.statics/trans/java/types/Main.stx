@@ -44,14 +44,14 @@ rules
 
 rules
 
-  typeOk : Type
+  typeOk : scope * Type
   
-  typeOk(PrimitiveType2Type(primType)) :-
-    primTypeOk(primType),
+  typeOk(s, PrimitiveType2Type(primType)) :-
+    primTypeOk(s, primType),
     true.
 
-  typeOk(ReferenceType2Type(refType)) :-
-    refTypeOk(refType),
+  typeOk(s, ReferenceType2Type(refType)) :-
+    refTypeOk(s, refType),
     true.
 
 

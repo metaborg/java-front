@@ -11,55 +11,55 @@ imports
 
 rules // 9.7. Annotations
 
-  annoOk : Annotation
-  annoListOk maps annoOk(list(*))
+  annoOk : scope * Annotation
+  annoListOk maps annoOk(*, list(*))
   
-  annoOk(Anno(typeName, elemValPairList)) :-
-    typeNameOk(_, typeName) == _,
-    elemValPairListOk(elemValPairList),
+  annoOk(s, Anno(typeName, elemValPairList)) :-
+    typeNameOk(s, typeName) == _,
+    elemValPairListOk(s, elemValPairList),
     true.
     
-  annoOk(MarkerAnno(typeName)) :-
-    typeNameOk(_, typeName) == _,
+  annoOk(s, MarkerAnno(typeName)) :-
+    typeNameOk(s, typeName) == _,
     true.
     
-  annoOk(SingleElemAnno(typeName, elemVal)) :-
-    typeNameOk(_, typeName) == _,
-    elemValOk(elemVal),
+  annoOk(s, SingleElemAnno(typeName, elemVal)) :-
+    typeNameOk(s, typeName) == _,
+    elemValOk(s, elemVal),
     true.
     
     
-  elemValPairOk : ElementValuePair
-  elemValPairListOk maps elemValPairOk(list(*))
+  elemValPairOk : scope * ElementValuePair
+  elemValPairListOk maps elemValPairOk(*, list(*))
   
-  elemValPairOk(ElemValPair(id, elemVal)) :-
-    elemValOk(elemVal),
+  elemValPairOk(s, ElemValPair(id, elemVal)) :-
+    elemValOk(s, elemVal),
     true.
     
     
-  elemValOk : ElementValue
-  elemValListOk maps elemValOk(list(*))
+  elemValOk : scope * ElementValue
+  elemValListOk maps elemValOk(*, list(*))
   
-  elemValOk(Expression2ElementValue(expr)) :-
-    exprOk(expr),
+  elemValOk(s, Expression2ElementValue(expr)) :-
+    _ == exprOk(s, expr),
     true.
     
-  elemValOk(ElementValueArrayInitializer2ElementValue(elemValArrayInit)) :-
-    elemValArrayInitOk(elemValArrayInit),
+  elemValOk(s, ElementValueArrayInitializer2ElementValue(elemValArrayInit)) :-
+    elemValArrayInitOk(s, elemValArrayInit),
     true.
     
-  elemValOk(Annotation2ElementValue(anno)) :-
-    annoOk(anno),
+  elemValOk(s, Annotation2ElementValue(anno)) :-
+    annoOk(s, anno),
     true.
 
 
-  elemValArrayInitOk : ElementValueArrayInitializer
+  elemValArrayInitOk : scope * ElementValueArrayInitializer
   
-  elemValArrayInitOk(ElementValArrayInit(elemValList)) :-
-    elemValListOk(elemValList),
+  elemValArrayInitOk(s, ElementValArrayInit(elemValList)) :-
+    elemValListOk(s, elemValList),
     true.
 
-  elemValArrayInitOk(ElementValArrayInitComma(elemValList)) :-
-    elemValListOk(elemValList),
+  elemValArrayInitOk(s, ElementValArrayInitComma(elemValList)) :-
+    elemValListOk(s, elemValList),
     true.
 

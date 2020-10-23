@@ -10,22 +10,22 @@ imports
 
 rules // 15.11. Field Access Expressions
 
-  exprOk(FieldAccess2Expression(fldAccess)) :-
-    fldAccessOk(fldAccess),
+  exprOk(s, FieldAccess2Expression(fldAccess)) = _ :-
+    fldAccessOk(s, fldAccess),
     true.
     
   
-  fldAccessOk : FieldAccess
+  fldAccessOk : scope * FieldAccess
   
-  fldAccessOk(Field(expr, id)) :-
-    exprOk(expr),
+  fldAccessOk(s, Field(expr, id)) :-
+    _ == exprOk(s, expr),
     true.
 
-  fldAccessOk(SuperField(id)) :-
+  fldAccessOk(s, SuperField(id)) :-
     true.
 
-  fldAccessOk(QSuperField(typeName, id)) :-
-    typeNameOk(_, typeName) == _,
+  fldAccessOk(s, QSuperField(typeName, id)) :-
+    typeNameOk(s, typeName) == _,
     true.
 
 

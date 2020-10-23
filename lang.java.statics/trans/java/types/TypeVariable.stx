@@ -11,16 +11,15 @@ imports
 
 rules // 4.4. Type Variables
 
-  typeParamOk : TypeParameter
-  typeParamListOk maps typeParamOk(list(*))
+  typeParamOk : scope * TypeParameter * scope
+  typeParamListOk maps typeParamOk(*, list(*), *)
 
-  typeParamOk(TypeParameter(annoList, id)) :-
-    annoListOk(annoList),
+  typeParamOk(s, TypeParameter(annoList, id), s_ty) :-
+    annoListOk(s, annoList),
     true.
     
-  typeParamOk(TypeParameterExtends(annoList, id, clsTypeList)) :-
-    annoListOk(annoList),
-    clsTypeListOk(_, clsTypeList),
+  typeParamOk(s, TypeParameterExtends(annoList, id, clsTypeList), s_ty) :-
+    annoListOk(s, annoList),
+    clsTypeListOk(s, clsTypeList),
     true.
-    
-    
+

@@ -11,23 +11,23 @@ imports
 
 rules // 9.3. Field (Constant) Declarations
 
-  constDeclOk : ConstantDeclaration
+  constDeclOk : scope * ConstantDeclaration
   
-  constDeclOk(ConstantDecl(constModList, unannType, varDeclList)) :-
-    constModListOk(constModList),
-    unannTypeOk(unannType),
-    varDeclListOk(varDeclList),
+  constDeclOk(s, ConstantDecl(constModList, unannType, varDeclList)) :-
+    constModListOk(s, constModList),
+    unannTypeOk(s, unannType),
+    varDeclListOk(s, varDeclList),
     true.
 
 
-  constModOk : ConstantModifier
-  constModListOk maps constModOk(list(*))
+  constModOk : scope * ConstantModifier
+  constModListOk maps constModOk(*, list(*))
   
-  constModOk(Annotation2ConstantModifier(anno)) :-
-    annoOk(anno),
+  constModOk(s, Annotation2ConstantModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  constModOk(Public2ConstantModifier(_)) :- true.
-  constModOk(Static2ConstantModifier(_)) :- true.
-  constModOk(Final2ConstantModifier(_)) :- true.
+  constModOk(s, Public2ConstantModifier(_)) :- true.
+  constModOk(s, Static2ConstantModifier(_)) :- true.
+  constModOk(s, Final2ConstantModifier(_)) :- true.
 
 

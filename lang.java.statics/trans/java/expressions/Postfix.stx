@@ -10,16 +10,16 @@ imports
 
 rules // 15.14. Postfix Expressions
 
-  exprOk(PostIncr(expr)) :-
-    exprOk(expr),
+  exprOk(s, PostIncr(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
 
-  exprOk(PostDecr(expr)) :-
-    exprOk(expr),
+  exprOk(s, PostDecr(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
 
-  exprOk(ExpressionName2Expression(exprName)) :-
-    exprNameOk(_, exprName) == _,
+  exprOk(s, ExpressionName2Expression(exprName)) = _ :-
+    exprNameOk(s, exprName) == _,
     true.
 
 

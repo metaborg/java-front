@@ -13,43 +13,43 @@ imports
 
 rules // 15.10.1. Array Creation Expressions
 
-  exprOk(ArrayCreationExpression2Expression(arrayCreationExpr)) :-
-    arrayCreationExprOk(arrayCreationExpr),
+  exprOk(s, ArrayCreationExpression2Expression(arrayCreationExpr)) = _ :-
+    arrayCreationExprOk(s, arrayCreationExpr),
     true.
     
   
-  arrayCreationExprOk : ArrayCreationExpression
+  arrayCreationExprOk : scope * ArrayCreationExpression
   
-  arrayCreationExprOk(NewArray(arrayBaseType, dimExprList, annDimsEmpty)) :-
-    arrayBaseTypeOk(arrayBaseType),
-    dimExprListOk(dimExprList),
-    annDimsEmptyOk(annDimsEmpty),
+  arrayCreationExprOk(s, NewArray(arrayBaseType, dimExprList, annDimsEmpty)) :-
+    arrayBaseTypeOk(s, arrayBaseType),
+    dimExprListOk(s, dimExprList),
+    annDimsEmptyOk(s, annDimsEmpty),
     true.
 
-  arrayCreationExprOk(NewArrayInit(arrayBaseType, annDims, arrayInit)) :-
-    arrayBaseTypeOk(arrayBaseType),
-    annDimsOk(annDims),
-    arrayInitOk(arrayInit),
+  arrayCreationExprOk(s, NewArrayInit(arrayBaseType, annDims, arrayInit)) :-
+    arrayBaseTypeOk(s, arrayBaseType),
+    annDimsOk(s, annDims),
+    arrayInitOk(s, arrayInit),
     true.
     
 
-  arrayBaseTypeOk : ArrayBaseType
+  arrayBaseTypeOk : scope * ArrayBaseType
   
-  arrayBaseTypeOk(ClassType2ArrayBaseType(clsType)) :-
-    clsTypeOk(_, clsType),
+  arrayBaseTypeOk(s, ClassType2ArrayBaseType(clsType)) :-
+    clsTypeOk(s, clsType),
     true.
   
-  arrayBaseTypeOk(PrimitiveType2ArrayBaseType(primType)) :-
-    primTypeOk(primType),
+  arrayBaseTypeOk(s, PrimitiveType2ArrayBaseType(primType)) :-
+    primTypeOk(s, primType),
     true.
   
 
-  dimExprOk : DimExpr
-  dimExprListOk maps dimExprOk(list(*))
+  dimExprOk : scope * DimExpr
+  dimExprListOk maps dimExprOk(*, list(*))
   
-  dimExprOk(Dim(annoList, expr)) :-
-    annoListOk(annoList),
-    exprOk(expr),
+  dimExprOk(s, Dim(annoList, expr)) :-
+    annoListOk(s, annoList),
+    _ == exprOk(s, expr),
     true.
 
 

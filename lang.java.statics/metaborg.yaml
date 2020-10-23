@@ -17,9 +17,9 @@ exports:
   includes: "**/*.aterm"
 language:
   sdf:
-    enabled: false 
+    enabled: false
   statix:
-    concurrent: false
+    concurrent: true
   stratego:
     format: ctree
     args:

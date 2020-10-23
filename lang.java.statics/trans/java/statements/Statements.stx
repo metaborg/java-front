@@ -7,6 +7,7 @@ imports
   java/classes/FieldDeclarations
   java/classes/MethodDeclarations
   java/expressions/Main
+  java/names/Main
   java/statements/Blocks
   java/statements/Main
   java/types/ReferenceTypes
@@ -14,224 +15,245 @@ imports
 
 rules // 14.5. Statements
 
-  stmtOk : Statement
+  stmtOk : scope * Statement
 
 
-  stmtOk(Labeled(id, stmt)) :-
-    stmtOk(stmt),
+  stmtOk(s, Labeled(id, stmt)) :-
+    stmtOk(s, stmt),
     true.
 
 
-  stmtOk(If(expr_cond, stmt_then)) :-
-    exprOk(expr_cond),
-    stmtOk(stmt_then),
+  stmtOk(s, If(expr_cond, stmt_then)) :-
+  {s_then}
+    _ == exprOk(s, expr_cond),
+    new s_then, s_then -LEX-> s,
+    stmtOk(s_then, stmt_then),
     true.
 
-  stmtOk(IfElse(expr_cond, stmt_then, stmt_else)) :-
-    exprOk(expr_cond),
-    stmtOk(stmt_then),
-    stmtOk(stmt_else),
+  stmtOk(s, IfElse(expr_cond, stmt_then, stmt_else)) :-
+  {s_then s_else}
+    _ == exprOk(s, expr_cond),
+    new s_then, s_then -LEX-> s,
+    stmtOk(s_then, stmt_then),
+    new s_else, s_else -LEX-> s,
+    stmtOk(s_else, stmt_else),
     true.
   
 
-  stmtOk(While(expr_cond, stmt)) :-
-    exprOk(expr_cond),
-    stmtOk(stmt),
+  stmtOk(s, While(expr_cond, stmt)) :-
+  {s_while}
+    _ == exprOk(s, expr_cond),
+    new s_while, s_while -LEX-> s,
+    stmtOk(s, stmt),
     true.
   
 
-  stmtOk(For(forInit, exprOpt, forUpdate, stmt)) :-
-    forInitOk(forInit),
-    exprOptOk(exprOpt),
-    forUpdateOk(forUpdate),
-    stmtOk(stmt),
+  stmtOk(s, For(forInit, exprOpt, forUpdate, stmt)) :-
+  {s_for}
+    new s_for, s_for -LEX-> s,
+    forInitOk(s, forInit),
+    _ == exprOptOk(s, exprOpt),
+    forUpdateOk(s, forUpdate),
+    stmtOk(s_for, stmt),
     true.
 
-  stmtOk(ForEach(varModList, unannType, varDeclId, expr, stmt)) :-
-    varModListOk(varModList),
-    unannTypeOk(unannType),
-    varDeclIdOk(varDeclId),
-    exprOk(expr),
-    stmtOk(stmt),
+  stmtOk(s, ForEach(varModList, unannType, varDeclId, expr, stmt)) :-
+  {s_foreach}
+    new s_foreach, s_foreach -LEX-> s,
+    varModListOk(s, varModList),
+    unannTypeOk(s, unannType),
+    varDeclIdOk(s, varDeclId),
+    _ == exprOk(s, expr),
+    stmtOk(s_foreach, stmt),
     true.
 
-  forInitOk : ForInit
+  forInitOk : scope * ForInit
   
-  forInitOk(Exprs2ForInit(exprs)) :-
-    exprsOk(exprs),
+  forInitOk(s, Exprs2ForInit(exprs)) :-
+    exprsOk(s, exprs),
     true.
 
-  forInitOk(VarDecls(varModList, unannType, varDeclList)) :-
-    varModListOk(varModList),
-    unannTypeOk(unannType),
-    varDeclListOk(varDeclList),
+  forInitOk(s, VarDecls(varModList, unannType, varDeclList)) :-
+    varModListOk(s, varModList),
+    unannTypeOk(s, unannType),
+    varDeclListOk(s, varDeclList),
     true.
 
-  forUpdateOk : ForUpdate
+  forUpdateOk : scope * ForUpdate
   
-  forUpdateOk(Exprs2ForUpdate(exprs)) :-
-    exprsOk(exprs),
+  forUpdateOk(s, Exprs2ForUpdate(exprs)) :-
+    exprsOk(s, exprs),
     true.
 
-  exprsOk : Exprs
+  exprsOk : scope * Exprs
   
-  exprsOk(ExprList(exprList)) :-
-    exprListOk(exprList),
+  exprsOk(s, ExprList(exprList)) :-
+    _ == exprListOk(s, exprList),
     true.
 
     
-  stmtOk(Block2Statement(blk)) :-
-    blkOk(blk),
+  stmtOk(s, Block2Statement(blk)) :-
+    blkOk(s, blk),
     true.
     
     
-  stmtOk(ExpressionStatement(expr)) :-
-    exprOk(expr),
+  stmtOk(s, ExpressionStatement(expr)) :-
+    _ == exprOk(s, expr),
     true.
     
   
-  stmtOk(Assert(expr)) :-
-    exprOk(expr),
+  stmtOk(s, Assert(expr)) :-
+    _ == exprOk(s, expr),
     true.
     
-  stmtOk(Assert(expr1, expr2)) :-
-    exprOk(expr1),
-    exprOk(expr2),
+  stmtOk(s, Assert(expr1, expr2)) :-
+    _ == exprOk(s, expr1),
+    _ == exprOk(s, expr2),
     true.
     
     
-  stmtOk(Switch(expr, switchGroupList, switchLabelList)) :-
-    exprOk(expr),
-    switchGroupListOk(switchGroupList),
-    switchLabelListOk(switchLabelList),
+  stmtOk(s, Switch(expr, switchGroupList, switchLabelList)) :-
+    _ == exprOk(s, expr),
+    switchGroupListOk(s, switchGroupList),
+    switchLabelListOk(s, switchLabelList),
     true.
     
-  switchGroupOk : SwitchGroup
-  switchGroupListOk maps switchGroupOk(list(*))
+  switchGroupOk : scope * SwitchGroup
+  switchGroupListOk maps switchGroupOk(*, list(*))
 
-  switchGroupOk(SwitchGroup(switchLabelList, blkStmtList)) :-
-    switchLabelListOk(switchLabelList),
-    blkStmtListOk(blkStmtList),
+  switchGroupOk(s, SwitchGroup(switchLabelList, blkStmtList)) :-
+    switchLabelListOk(s, switchLabelList),
+    blkStmtListOk(s, blkStmtList),
     true.
 
-  switchLabelOk : SwitchLabel
-  switchLabelListOk maps switchLabelOk(list(*))
+  switchLabelOk : scope * SwitchLabel
+  switchLabelListOk maps switchLabelOk(*, list(*))
 
-  switchLabelOk(CaseExpr(expr)) :-
-    exprOk(expr),
+  switchLabelOk(s, CaseExpr(expr)) :-
+    _ == exprOk(s, expr),
     true.
     
-  switchLabelOk(DefaultCase()) :-
+  switchLabelOk(s, DefaultCase()) :-
     true.
     
     
-  stmtOk(DoWhile(stmt, expr)) :-
-    stmtOk(stmt),
-    exprOk(expr),
+  stmtOk(s, DoWhile(stmt, expr)) :-
+    stmtOk(s, stmt),
+    _ == exprOk(s, expr),
     true. 
    
 
-  stmtOk(Break()) :-
+  stmtOk(s, Break()) :-
     true.
     
-  stmtOk(Break(id)) :-
+  stmtOk(s, Break(id)) :-
     true.
     
     
-  stmtOk(Continue()) :-
+  stmtOk(s, Continue()) :-
     true.
     
-  stmtOk(Continue(id)) :-
+  stmtOk(s, Continue(id)) :-
     true. 
     
     
-  stmtOk(Return()) :-
+  stmtOk(s, Return()) :-
     true.
     
-  stmtOk(Return(expr)) :-
-    exprOk(expr),
-    true.
-    
-    
-  stmtOk(Synchronized(expr, blk)) :-
-    exprOk(expr),
-    blkOk(blk),
+  stmtOk(s, Return(expr)) :-
+    _ == exprOk(s, expr),
     true.
     
     
-  stmtOk(Throw(expr)) :-
-    exprOk(expr),
+  stmtOk(s, Synchronized(expr, blk)) :-
+    _ == exprOk(s, expr),
+    blkOk(s, blk),
     true.
     
     
-  stmtOk(Try(blk, catchClauseList)) :-
-    blkOk(blk),
-    catchClauseListOk(catchClauseList),
+  stmtOk(s, Throw(expr)) :-
+    _ == exprOk(s, expr),
     true.
     
-  catchClauseOk : CatchClause
-  catchClauseListOk maps catchClauseOk(list(*))
+    
+  stmtOk(s, Try(blk, catchClauseList)) :-
+    blkOk(s, blk),
+    catchClauseListOk(s, catchClauseList),
+    true.
+    
+  catchClauseOk : scope * CatchClause
+  catchClauseListOk maps catchClauseOk(*, list(*))
   
-  catchClauseOk(Catch(catchFormalParam, blk)) :-
-    catchFormalParamOk(catchFormalParam),
-    blkOk(blk),
+  catchClauseOk(s, Catch(catchFormalParam, blk)) :-
+  {s_catch}
+    new s_catch, s_catch -LEX-> s,
+    catchFormalParamOk(s_catch, catchFormalParam),
+    blkOk(s_catch, blk),
     true.
     
-  catchFormalParamOk : CatchFormalParameter
+  catchFormalParamOk : scope * CatchFormalParameter
   
-  catchFormalParamOk(CatchParam(varModList, catchType, varDeclId)) :-
-    varModListOk(varModList),
-    catchTypeOk(catchType),
-    varDeclIdOk(varDeclId),
+  catchFormalParamOk(s, CatchParam(varModList, catchType, varDeclId)) :-
+    varModListOk(s, varModList),
+    catchTypeOk(s, catchType),
+    varDeclIdOk(s, varDeclId),
     true.
     
-  catchTypeOk : CatchType
+  catchTypeOk : scope * CatchType
   
-  catchTypeOk(CatchType(unannClsType, catchTypeRestList)) :-
-    unannClsTypeOk(unannClsType),
-    catchTypeRestListOk(catchTypeRestList),
+  catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) :-
+    unannClsTypeOk(s, unannClsType),
+    catchTypeRestListOk(s, catchTypeRestList),
     true.
     
-  catchTypeRestOk : CatchTypeRest
-  catchTypeRestListOk maps catchTypeRestOk(list(*))
+  catchTypeRestOk : scope * CatchTypeRest
+  catchTypeRestListOk maps catchTypeRestOk(*, list(*))
   
-  catchTypeRestOk(CatchTypeElem(clsType)) :-
-    clsTypeOk(_, clsType),
+  catchTypeRestOk(s, CatchTypeElem(clsType)) :-
+    clsTypeOk(s, clsType),
     true.
     
     
-  stmtOk(TryWithResources(resourceList, blk_catch, catchClauseList)) :-
-    resourceListOk(resourceList),
-    blkOk(blk_catch),
-    catchClauseListOk(catchClauseList),
+  stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s_try, resourceList),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
     true.
     
-  stmtOk(TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList)) :-
-    resourceListOk(resourceList),
-    blkOk(blk_catch),
-    catchClauseListOk(catchClauseList),
-    true.
-  
-  stmtOk(TryWithResources(resourceList, blk_catch, catchClauseList, blk_finally)) :-
-    resourceListOk(resourceList),
-    blkOk(blk_catch),
-    catchClauseListOk(catchClauseList),
-    blkOk(blk_finally),
-    true.
-    
-  stmtOk(TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList, blk_finally)) :-
-    resourceListOk(resourceList),
-    blkOk(blk_catch),
-    catchClauseListOk(catchClauseList),
-    blkOk(blk_finally),
+  stmtOk(s, TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s_try, resourceList),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
     true.
   
-  resourceOk : Resource
-  resourceListOk maps resourceOk(list(*))
+  stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList, blk_finally)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s_try, resourceList),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
+    blkOk(s_try, blk_finally),
+    true.
+    
+  stmtOk(s, TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList, blk_finally)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s_try, resourceList),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
+    blkOk(s_try, blk_finally),
+    true.
   
-  resourceOk(Resource(varModList, unannType, varDeclId, expr)) :-
-    varModListOk(varModList),
-    unannTypeOk(unannType),
-    varDeclIdOk(varDeclId),
-    exprOk(expr),
+  resourceOk : scope * Resource
+  resourceListOk maps resourceOk(*, list(*))
+  
+  resourceOk(s, Resource(varModList, unannType, varDeclId, expr)) :-
+    varModListOk(s, varModList),
+    unannTypeOk(s, unannType),
+    varDeclIdOk(s, varDeclId),
+    _ == exprOk(s, expr),
     true.

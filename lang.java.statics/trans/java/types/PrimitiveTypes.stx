@@ -21,15 +21,15 @@ signature
 
 rules
 
-  primTypeOk : PrimitiveType
+  primTypeOk : scope * PrimitiveType
   
-  primTypeOk(NumericType(annoList, numType)) :-
-    annoListOk(annoList),
+  primTypeOk(s, NumericType(annoList, numType)) :-
+    annoListOk(s, annoList),
     numTypeOk(numType),
     true.
 
-  primTypeOk(BooleanType(annoList)) :-
-    annoListOk(annoList),
+  primTypeOk(s, BooleanType(annoList)) :-
+    annoListOk(s, annoList),
     true.
 
 

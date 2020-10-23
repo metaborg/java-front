@@ -12,12 +12,12 @@ rules // Chapter 10. Arrays
 
 rules // 10.6. Array Initializers
 
-  arrayInitOk : ArrayInitializer
+  arrayInitOk : scope * ArrayInitializer
 
-  arrayInitOk(ArrayInit(varInitList)) :-
-    varInitListOk(varInitList),
+  arrayInitOk(s, ArrayInit(varInitList)) :-
+    varInitListOk(s, varInitList),
     true.
   
-  arrayInitOk(ArrayInitComma(varInitList)) :-
-    varInitListOk(varInitList),
+  arrayInitOk(s, ArrayInitComma(varInitList)) :-
+    varInitListOk(s, varInitList),
     true.

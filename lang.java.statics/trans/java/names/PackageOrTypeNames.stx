@@ -58,17 +58,17 @@ rules
 
 
   resolveMemberPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
-  resolveMemberPkgOrTypeName1 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
-  resolveMemberPkgOrTypeName2 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
+  resolveMemberPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
+  resolveMemberPkgOrTypeName2 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
   
-  resolveMemberPkgOrTypeName(s, id) = resolveMemberPkgOrTypeName1(s, id, resolveMemberPkgNames(s, id)).
+  resolveMemberPkgOrTypeName(s, id) = resolveMemberPkgOrTypeName1(s, id, resolveMemberTypeNames(s, id)).
 
-  resolveMemberPkgOrTypeName1(s, id, []) = resolveMemberPkgOrTypeName2(s, id, resolveMemberTypeNames(s, id)).
+  resolveMemberPkgOrTypeName1(s, id, []) = resolveMemberPkgOrTypeName2(s, id, resolveMemberPkgNames(s, id)).
 
-  resolveMemberPkgOrTypeName1(s, id, pkgPathList) = PKG_DECL(composePkgDecl(id, pkgPathList)).
+  resolveMemberPkgOrTypeName1(s, id, typePathList) = TYPE_DECL(singleTypeDecl(id, typePathList)).
 
   resolveMemberPkgOrTypeName2(s, id, []) = _ :-
     false | error $[Package or type [id] not found].
 
-  resolveMemberPkgOrTypeName2(s, id, typePathList) = TYPE_DECL(singleTypeDecl(id, typePathList)).
+  resolveMemberPkgOrTypeName2(s, id, pkgPathList) = PKG_DECL(composePkgDecl(id, pkgPathList)).
 

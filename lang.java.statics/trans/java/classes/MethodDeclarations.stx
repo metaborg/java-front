@@ -8,160 +8,164 @@ imports
   java/classes/ClassDeclarations
   java/classes/FieldDeclarations
   java/interfaces/Annotations
+  java/names/Main
   java/statements/Blocks
   java/types/ReferenceTypes
 
 
 rules // 8.4. Method Declarations
 
-  mthdDeclOk : MethodDeclaration
+  mthdDeclOk : scope * MethodDeclaration
   
-  mthdDeclOk(MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
-    mthdModListOk(mthdModList),
-    mthdHeaderOk(mthdHeader),
-    mthdBodyOk(mthdBody),
+  mthdDeclOk(s, MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
+  {s_mthd}
+    mthdModListOk(s, mthdModList),
+
+    new s_mthd, s_mthd -LEX-> s,
+
+    mthdHeaderOk(s_mthd, mthdHeader),
+    mthdBodyOk(s_mthd, mthdBody),
     true.
 
 
-  mthdHeaderOk : MethodHeader
+  mthdHeaderOk : scope * MethodHeader
   
-  mthdHeaderOk(MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt)) :-
-    resultOk(result),
-    formalParamsOk(formalParams),
-    annDimsEmptyOk(annDimsEmpty),
-    throwsOptOk(throwsOpt),
+  mthdHeaderOk(s, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt)) :-
+    resultOk(s, result),
+    formalParamsOk(s, formalParams),
+    annDimsEmptyOk(s, annDimsEmpty),
+    throwsOptOk(s, throwsOpt),
     true.
 
-  mthdHeaderOk(MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
-    typeParamsOk(typeParams),
-    annoListOk(annoList),
-    resultOk(result),
-    formalParamsOk(formalParams),
-    throwsOptOk(throwsOpt),
+  mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
+    typeParamsOk(s, typeParams, _),
+    annoListOk(s, annoList),
+    resultOk(s, result),
+    formalParamsOk(s, formalParams),
+    throwsOptOk(s, throwsOpt),
     true.
 
 
-  resultOk : Result
+  resultOk : scope * Result
   
-  resultOk(UnannType2Result(unannType)) :-
-    unannTypeOk(unannType),
+  resultOk(s, UnannType2Result(unannType)) :-
+    unannTypeOk(s, unannType),
     true.
 
-  resultOk(Void()) :-
+  resultOk(s, Void()) :-
     true.
 
 
-  throwsOk : Throws
-  throwsOptOk maps throwsOk(list(*))
+  throwsOk : scope * Throws
+  throwsOptOk maps throwsOk(*, list(*))
   
-  throwsOk(ThrowsDec(exceptTypeList)) :-
-    exceptTypeListOk(exceptTypeList),
+  throwsOk(s, ThrowsDec(exceptTypeList)) :-
+    exceptTypeListOk(s, exceptTypeList),
     true.
 
 
-  exceptTypeOk : ExceptionType
-  exceptTypeListOk maps exceptTypeOk(list(*))
+  exceptTypeOk : scope * ExceptionType
+  exceptTypeListOk maps exceptTypeOk(*, list(*))
   
-  exceptTypeOk(ClassType2ExceptionType(clsType)) :-
-    clsTypeOk(_, clsType),
+  exceptTypeOk(s, ClassType2ExceptionType(clsType)) :-
+    clsTypeOk(s, clsType),
     true.
 
 
-  mthdModOk : MethodModifier
-  mthdModListOk maps mthdModOk(list(*))
+  mthdModOk : scope * MethodModifier
+  mthdModListOk maps mthdModOk(*, list(*))
 
-  mthdModOk(Annotation2MethodModifier(anno)) :-
-    annoOk(anno),
+  mthdModOk(s, Annotation2MethodModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  mthdModOk(Public2MethodModifier(_)) :- true.
-  mthdModOk(Protected2MethodModifier(_)) :- true.
-  mthdModOk(Private2MethodModifier(_)) :- true.
-  mthdModOk(Abstract2MethodModifier(_)) :- true.
-  mthdModOk(Static2MethodModifier(_)) :- true.
-  mthdModOk(Final2MethodModifier(_)) :- true.
-  mthdModOk(Synchronized2MethodModifier(_)) :- true.
-  mthdModOk(Native2MethodModifier(_)) :- true.
-  mthdModOk(Strictfp2MethodModifier(_)) :- true.
+  mthdModOk(s, Public2MethodModifier(_)) :- true.
+  mthdModOk(s, Protected2MethodModifier(_)) :- true.
+  mthdModOk(s, Private2MethodModifier(_)) :- true.
+  mthdModOk(s, Abstract2MethodModifier(_)) :- true.
+  mthdModOk(s, Static2MethodModifier(_)) :- true.
+  mthdModOk(s, Final2MethodModifier(_)) :- true.
+  mthdModOk(s, Synchronized2MethodModifier(_)) :- true.
+  mthdModOk(s, Native2MethodModifier(_)) :- true.
+  mthdModOk(s, Strictfp2MethodModifier(_)) :- true.
 
 
-  mthdBodyOk : MethodBody
+  mthdBodyOk : scope * MethodBody
   
-  mthdBodyOk(Block2MethodBody(blk)) :-
-    blkOk(blk),
+  mthdBodyOk(s, Block2MethodBody(blk)) :-
+    blkOk(s, blk),
     true.
 
-  mthdBodyOk(NoMethodBody()) :-
+  mthdBodyOk(s, NoMethodBody()) :-
     true.
 
 
-  recvParamOk : ReceiverParam
+  recvParamOk : scope * ReceiverParam
   
-  recvParamOk(ReceiverParamQual(annoList, unannType, id)) :-
-    annoListOk(annoList),
-    unannTypeOk(unannType),
+  recvParamOk(s, ReceiverParamQual(annoList, unannType, id)) :-
+    annoListOk(s, annoList),
+    unannTypeOk(s, unannType),
     true.
 
-  recvParamOk(ReceiverParam(annoList, unannType)) :-
-    annoListOk(annoList),
-    unannTypeOk(unannType),
+  recvParamOk(s, ReceiverParam(annoList, unannType)) :-
+    annoListOk(s, annoList),
+    unannTypeOk(s, unannType),
     true.
 
 
-  formalParamsOk : FormalParams
+  formalParamsOk : scope * FormalParams
   
-  formalParamsOk(NoParams()) :-
+  formalParamsOk(s, NoParams()) :-
     true.
 
-  formalParamsOk(ReceiverParam2FormalParams(recvParam)) :-
-    recvParamOk(recvParam),
+  formalParamsOk(s, ReceiverParam2FormalParams(recvParam)) :-
+    recvParamOk(s, recvParam),
     true.
 
-  formalParamsOk(SingleParam(lastFormalParam)) :-
-    lastFormalParamOk(lastFormalParam),
+  formalParamsOk(s, SingleParam(lastFormalParam)) :-
+    lastFormalParamOk(s, lastFormalParam),
     true.
 
-  formalParamsOk(ParamList(formalParamList, lastFormalParam)) :-
-    formalParamListOk(formalParamList),
-    lastFormalParamOk(lastFormalParam),
+  formalParamsOk(s, ParamList(formalParamList, lastFormalParam)) :-
+    formalParamListOk(s, formalParamList),
+    lastFormalParamOk(s, lastFormalParam),
     true.
 
-  formalParamsOk(ReceiverParamList(recvParam, formalParamList, lastFormalParam)) :-
-    recvParamOk(recvParam),
-    formalParamListOk(formalParamList),
-    lastFormalParamOk(lastFormalParam),
+  formalParamsOk(s, ReceiverParamList(recvParam, formalParamList, lastFormalParam)) :-
+    recvParamOk(s, recvParam),
+    formalParamListOk(s, formalParamList),
+    lastFormalParamOk(s, lastFormalParam),
     true.
 
 
-  lastFormalParamOk : LastFormalParam
+  lastFormalParamOk : scope * LastFormalParam
   
-  lastFormalParamOk(FormalParam2LastFormalParam(formalParam)) :-
-    formalParamOk(formalParam),
+  lastFormalParamOk(s, FormalParam2LastFormalParam(formalParam)) :-
+    formalParamOk(s, formalParam),
     true.
     
-  lastFormalParamOk(VarArityParam(varModList, unannType, annoList, varDeclId)) :-
-    varModListOk(varModList),
-    unannTypeOk(unannType),
-    annoListOk(annoList),
-    varDeclIdOk(varDeclId),
+  lastFormalParamOk(s, VarArityParam(varModList, unannType, annoList, varDeclId)) :-
+    varModListOk(s, varModList),
+    unannTypeOk(s, unannType),
+    annoListOk(s, annoList),
+    varDeclIdOk(s, varDeclId),
     true.
 
 
-  formalParamOk : FormalParam
-  formalParamListOk maps formalParamOk(list(*))
+  formalParamOk : scope * FormalParam
+  formalParamListOk maps formalParamOk(*, list(*))
   
-  formalParamOk(FormalParam(varModList, unannType, varDeclId)) :-
-    varModListOk(varModList),
-    unannTypeOk(unannType),
-    varDeclIdOk(varDeclId),
+  formalParamOk(s, FormalParam(varModList, unannType, varDeclId)) :-
+    varModListOk(s, varModList),
+    unannTypeOk(s, unannType),
+    varDeclIdOk(s, varDeclId),
     true.
 
 
-  varModOk : VariableModifier
-  varModListOk maps varModOk(list(*))
+  varModOk : scope * VariableModifier
+  varModListOk maps varModOk(*, list(*))
   
-  varModOk(Annotation2VariableModifier(anno)) :-
-    annoOk(anno),
+  varModOk(s, Annotation2VariableModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  varModOk(Final2VariableModifier(_)) :- true.
-
+  varModOk(s, Final2VariableModifier(_)) :- true.
 

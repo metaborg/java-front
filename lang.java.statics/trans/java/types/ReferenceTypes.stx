@@ -19,18 +19,19 @@ signature
   constructors
     ARRAY     : TYPE -> TYPE
     CLASS     : scope -> TYPE
+    ENUM      : scope -> TYPE
     INTF      : scope -> TYPE
   
 rules 
 
-  refTypeOk : ReferenceType
+  refTypeOk : scope * ReferenceType
   
-  refTypeOk(ClassType2ReferenceType(clsType)) :-
-    clsTypeOk(_, clsType),
+  refTypeOk(s, ClassType2ReferenceType(clsType)) :-
+    clsTypeOk(s, clsType),
     true.
     
-  refTypeOk(ArrayType2ReferenceType(arrayType)) :-
-    arrayTypeOk(arrayType),
+  refTypeOk(s, ArrayType2ReferenceType(arrayType)) :-
+    arrayTypeOk(s, arrayType),
     true.
 
 
@@ -39,83 +40,76 @@ rules
   
   clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) :-
   {typeDecl}
-    annoListOk(annoList),
+    annoListOk(s, annoList),
     typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
-    typeArgsOptOk(typeArgsOpt),
+    typeArgsOptOk(s, typeArgsOpt),
     true.
 
   clsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) :-
   {s_pkgOrCls typeDecl}
     s_pkgOrCls == pkgOrClsTypeOk(s, clsType),
-    annoListOk(annoList),
+    annoListOk(s, annoList),
     typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
-    typeArgsOptOk(typeArgsOpt),
+    typeArgsOptOk(s, typeArgsOpt),
     true.
 
 
   pkgOrClsTypeOk : scope * ClassType -> scope
-  pkgOrClsTypeOk1 : scope * Id * list(TYPE_PATH) -> scope
-  pkgOrClsTypeOk2 : scope * Id * list(PKG_PATH) -> scope
 
   pkgOrClsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = s_pkgOrCls :-
-    annoListOk(annoList),
+    annoListOk(s, annoList),
     s_pkgOrCls == pkgOrTypeDeclScope(resolveLexicalPkgOrTypeName(s, id)),
-    typeArgsOptOk(typeArgsOpt),
+    typeArgsOptOk(s, typeArgsOpt),
     true.
 
   pkgOrClsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) = s_pkgOrCls :-
   {s_pkgOrCls'}
     s_pkgOrCls' == pkgOrClsTypeOk(s, clsType),
-    annoListOk(annoList),
+    annoListOk(s, annoList),
     s_pkgOrCls == pkgOrTypeDeclScope(resolveMemberPkgOrTypeName(s, id)),
-    typeArgsOptOk(typeArgsOpt),
+    typeArgsOptOk(s, typeArgsOpt),
     true.
 
 
-
-
-
-
-
-  typeVarOk : TypeVariable
+  typeVarOk : scope * TypeVariable
   
-  typeVarOk(TypeVar(annoList, id)) :-
-    annoListOk(annoList),
+  typeVarOk(s, TypeVar(annoList, id)) :-
+    annoListOk(s, annoList),
     true.
 
 
-  arrayTypeOk : ArrayType
+  arrayTypeOk : scope * ArrayType
   
-  arrayTypeOk(ArrayTypePrimitive(primType, annDims)) :-
-    primTypeOk(primType),
-    annDimsOk(annDims),
+  arrayTypeOk(s, ArrayTypePrimitive(primType, annDims)) :-
+    primTypeOk(s, primType),
+    annDimsOk(s, annDims),
     true.
 
-  arrayTypeOk(ArrayTypeClassType(clsType, annDims)) :-
-    clsTypeOk(_, clsType),
-    annDimsOk(annDims),
+  arrayTypeOk(s, ArrayTypeClassType(clsType, annDims)) :-
+    clsTypeOk(s, clsType),
+    annDimsOk(s, annDims),
     true.
 
 
-  annDimsOk : AnnotatedDims
+  annDimsOk : scope * AnnotatedDims
   
-  annDimsOk(AnnotatedDims2AnnotatedDims(annDimList)) :-
-    annDimListOk(annDimList),
+  annDimsOk(s, AnnotatedDims2AnnotatedDims(annDimList)) :-
+    annDimListOk(s, annDimList),
     true.
 
 
-  annDimsEmptyOk : AnnotatedDimsEmpty
+  annDimsEmptyOk : scope * AnnotatedDimsEmpty
   
-  annDimsEmptyOk(AnnotatedDims2AnnotatedDimsEmpty(annDimList)) :-
-    annDimListOk(annDimList),
+  annDimsEmptyOk(s, AnnotatedDims2AnnotatedDimsEmpty(annDimList)) :-
+    annDimListOk(s, annDimList),
     true.
 
 
-  annDimOk : AnnotatedDim
-  annDimListOk maps annDimOk(list(*))
+  annDimOk : scope * AnnotatedDim
+  annDimListOk maps annDimOk(*, list(*))
 
-  annDimOk(AnnotateDim(annoList)) :-
-    annoListOk(annoList),
+  annDimOk(s, AnnotateDim(annoList)) :-
+    annoListOk(s, annoList),
     true.
 
 
@@ -126,4 +120,6 @@ rules
   typeScope(CLASS(s_cls)) = s_cls.
 
   typeScope(INTF(s_intf)) = s_intf.
-  
+
+  typeScope(ENUM(s_enum)) = s_enum.
+

@@ -12,12 +12,12 @@ imports
 
 rules // 15.9. Class Instance Creation Expressions
 
-  exprOk(UnqualifiedInstance2Expression(unqualInst)) :-
+  exprOk(s, UnqualifiedInstance2Expression(unqualInst)) = _ :-
     unqualInstOk(unqualInst),
     true.
 
-  exprOk(QualifiedInstance(expr, unqualInst)) :-
-    exprOk(expr),
+  exprOk(s, QualifiedInstance(expr, unqualInst)) = _ :-
+    _ == exprOk(s, expr),
     unqualInstOk(unqualInst),
     true.
 
@@ -25,20 +25,20 @@ rules // 15.9. Class Instance Creation Expressions
   unqualInstOk : UnqualifiedInstance
   
   unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) :-
-    typeArgsOptOk(typeArgsOpt),
-    annoListOk(annoList),
+    typeArgsOptOk(_, typeArgsOpt),
+    annoListOk(_, annoList),
     qualIdListOk(qualIdList),
     typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
-    exprListOk(exprList),
+    _ == exprListOk(_, exprList),
     true.
 
   unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) :-
-    typeArgsOptOk(typeArgsOpt),
-    annoListOk(annoList),
+    typeArgsOptOk(_, typeArgsOpt),
+    annoListOk(_, annoList),
     qualIdListOk(qualIdList),
     typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
-    exprListOk(exprList),
-    clsBodyDeclListOk(clsBodyDeclList),
+    _ == exprListOk(_, exprList),
+    clsBodyDeclListOk(_, clsBodyDeclList),
     true.
     
 
@@ -46,7 +46,7 @@ rules // 15.9. Class Instance Creation Expressions
   qualIdListOk maps qualIdOk(list(*))
   
   qualIdOk(QualifiedId(annoList, id)) :-
-    annoListOk(annoList),
+    annoListOk(_, annoList),
     true.
     
     
@@ -54,7 +54,7 @@ rules // 15.9. Class Instance Creation Expressions
   typeArgsOrDiamondOptOk maps typeArgsOrDiamondOk(list(*))
   
   typeArgsOrDiamondOk(TypeArguments2TypeArgumentsOrDiamond(typeArgs)) :-
-    typeArgsOk(typeArgs).
+    typeArgsOk(_, typeArgs).
 
   typeArgsOrDiamondOk(Diamond()) :-
     true.

@@ -12,26 +12,26 @@ imports
 
 rules // 14.2. Blocks
 
-  blkOk : Block
+  blkOk : scope * Block
   
-  blkOk(Block(blkStmtList)) :-
-    blkStmtListOk(blkStmtList),
+  blkOk(s, Block(blkStmtList)) :-
+    blkStmtListOk(s, blkStmtList),
     true.
     
 
-  blkStmtOk : BlockStatement
-  blkStmtListOk maps blkStmtOk(list(*))
+  blkStmtOk : scope * BlockStatement
+  blkStmtListOk maps blkStmtOk(*, list(*))
   
-  blkStmtOk(LocalVariableDeclarationStatement2BlockStatement(localVarDeclStmt)) :-
-    localVarDeclStmtOk(localVarDeclStmt),
+  blkStmtOk(s, LocalVariableDeclarationStatement2BlockStatement(localVarDeclStmt)) :-
+    localVarDeclStmtOk(s, localVarDeclStmt),
     true.
     
-  blkStmtOk(ClassDeclaration2BlockStatement(clsDecl)) :-
-    clsDeclOk(_, clsDecl),
+  blkStmtOk(s, ClassDeclaration2BlockStatement(clsDecl)) :-
+    clsDeclOk(s, clsDecl),
     true.
     
-  blkStmtOk(Statement2BlockStatement(stmt)) :-
-    stmtOk(stmt),
+  blkStmtOk(s, Statement2BlockStatement(stmt)) :-
+    stmtOk(s, stmt),
     true.
     
 

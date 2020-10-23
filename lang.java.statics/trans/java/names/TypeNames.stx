@@ -7,6 +7,7 @@ imports
   java/names/Main
   java/names/PackageOrTypeNames
   java/types/Main
+  java/types/ReferenceTypes
 
 
 // 6.5.5 Meaning of Type Names
@@ -38,7 +39,7 @@ rules
 
   typeDeclScope : TYPE_DECL -> scope
   
-  typeDeclScope((_, _)) = s_ty.
+  typeDeclScope((_, ty)) = typeScope(ty).
 
 
   resolveLexicalTypeNames : scope * Id -> list(TYPE_PATH)

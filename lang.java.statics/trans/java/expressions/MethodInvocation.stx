@@ -12,26 +12,26 @@ imports
 
 rules // 15.12. Method Invocation Expressions
 
-  exprOk(Invoke(mthdName, exprList)) :-
-    mthdNameOk(_, mthdName) == _,
-    exprListOk(exprList),
+  exprOk(s, Invoke(mthdName, exprList)) = _ :-
+    mthdNameOk(s, mthdName) == _,
+    _ == exprListOk(s, exprList),
     true.
 
-  exprOk(InvokeQExp(expr, typeArgsOpt, id, exprList)) :-
-    exprOk(expr),
-    typeArgsOptOk(typeArgsOpt),
-    exprListOk(exprList),
+  exprOk(s, InvokeQExp(expr, typeArgsOpt, id, exprList)) = _ :-
+    _ == exprOk(s, expr),
+    typeArgsOptOk(s, typeArgsOpt),
+    _ == exprListOk(s, exprList),
     true.
 
-  exprOk(InvokeSuper(typeArgsOpt, id, exprList)) :-
-    typeArgsOptOk(typeArgsOpt),
-    exprListOk(exprList),
+  exprOk(s, InvokeSuper(typeArgsOpt, id, exprList)) = _ :-
+    typeArgsOptOk(s, typeArgsOpt),
+    _ == exprListOk(s, exprList),
     true.
 
-  exprOk(InvokeQSuper(typeName, typeArgsOpt, id, exprList)) :-
-    typeNameOk(_, typeName) == _,
-    typeArgsOptOk(typeArgsOpt),
-    exprListOk(exprList),
+  exprOk(s, InvokeQSuper(typeName, typeArgsOpt, id, exprList)) = _ :-
+    typeNameOk(s, typeName) == _,
+    typeArgsOptOk(s, typeArgsOpt),
+    _ == exprListOk(s, exprList),
     true.
 
 

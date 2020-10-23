@@ -12,18 +12,18 @@ imports
 
 rules // 15.8. Primary Expressions
 
-  exprOk(Literal2Expression(lit)) :-
+  exprOk(s, Literal2Expression(lit)) = _ :-
     litOk(lit),
     true.
     
-  exprOk(ClassLiteral2Expression(clsLit)) :-
+  exprOk(s, ClassLiteral2Expression(clsLit)) = _ :-
     clsLitOk(clsLit),
     true.
     
-  exprOk(This()) :-
+  exprOk(s, This()) = _:-
     true.
     
-  exprOk(QThis(typeName)) :-
+  exprOk(s, QThis(typeName)) = _ :-
     typeNameOk(_, typeName) == _,
     true.
     

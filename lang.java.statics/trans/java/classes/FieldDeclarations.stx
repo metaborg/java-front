@@ -8,6 +8,8 @@ imports
   java/classes/Main
   java/expressions/Main
   java/interfaces/Annotations
+  java/names/TypeNames
+  java/names/PackageOrTypeNames
   java/types/ParameterizedTypes
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
@@ -15,73 +17,73 @@ imports
 
 rules // 8.3. Field Declarations
 
-  fldDeclOk : FieldDeclaration
+  fldDeclOk : scope * FieldDeclaration
   
-  fldDeclOk(FieldDecl(fldModList, unannType, varDeclList)) :-
-    fldModListOk(fldModList),
-    unannTypeOk(unannType),
-    varDeclListOk(varDeclList),
+  fldDeclOk(s, FieldDecl(fldModList, unannType, varDeclList)) :-
+    fldModListOk(s, fldModList),
+    unannTypeOk(s, unannType),
+    varDeclListOk(s, varDeclList),
     true.
 
 
-  varDeclIdOk : VarDeclId
+  varDeclIdOk : scope * VarDeclId
+
+  varDeclIdOk(s, VariableDecl(id)) :-
+    true.
+
+  varDeclIdOk(s, VariableDeclArray(id, annDimList)) :-
+    annDimListOk(s, annDimList),
+    true.
+
+
+  varDeclOk : scope * VarDecl
+  varDeclListOk maps varDeclOk(*, list(*))
   
-  varDeclIdOk(VariableDecl(id)) :-
+  varDeclOk(s, VariableDeclInit(varDeclId, varInit)) :-
+    varDeclIdOk(s, varDeclId),
+    varInitOk(s, varInit),
     true.
 
-  varDeclIdOk(VariableDeclArray(id, annDimList)) :-
-    annDimListOk(annDimList),
+  varDeclOk(s, VarDeclId2VarDecl(varDeclId)) :-
+    varDeclIdOk(s, varDeclId),
     true.
 
 
-  varDeclOk : VarDecl
-  varDeclListOk maps varDeclOk(list(*))
+  varInitOk : scope * VariableInitializer
+  varInitListOk maps varInitOk(*, list(*))
   
-  varDeclOk(VariableDeclInit(varDeclId, varInit)) :-
-    varDeclIdOk(varDeclId),
-    varInitOk(varInit),
+  varInitOk(s, Expression2VariableInitializer(expr)) :-
+    _ == exprOk(s, expr),
     true.
 
-  varDeclOk(VarDeclId2VarDecl(varDeclId)) :-
-    varDeclIdOk(varDeclId),
+  varInitOk(s, ArrayInitializer2VariableInitializer(arrayInit)) :-
+    arrayInitOk(s, arrayInit),
     true.
 
 
-  varInitOk : VariableInitializer
-  varInitListOk maps varInitOk(list(*))
+  fldModOk : scope * FieldModifier
+  fldModListOk maps fldModOk(*, list(*))
   
-  varInitOk(Expression2VariableInitializer(expr)) :-
-    exprOk(expr),
+  fldModOk(s, Annotation2FieldModifier(anno)) :-
+    annoOk(s, anno),
     true.
+  fldModOk(s, Public2FieldModifier(_)) :- true.
+  fldModOk(s, Protected2FieldModifier(_)) :- true.
+  fldModOk(s, Private2FieldModifier(_)) :- true.
+  fldModOk(s, Static2FieldModifier(_)) :- true.
+  fldModOk(s, Final2FieldModifier(_)) :- true.
+  fldModOk(s, Transient2FieldModifier(_)) :- true.
+  fldModOk(s, Volatile2FieldModifier(_)) :- true.
 
-  varInitOk(ArrayInitializer2VariableInitializer(arrayInit)) :-
-    arrayInitOk(arrayInit),
-    true.
 
-
-  fldModOk : FieldModifier
-  fldModListOk maps fldModOk(list(*))
+  unannTypeOk : scope * UnannType
   
-  fldModOk(Annotation2FieldModifier(anno)) :-
-    annoOk(anno),
-    true.
-  fldModOk(Public2FieldModifier(_)) :- true.
-  fldModOk(Protected2FieldModifier(_)) :- true.
-  fldModOk(Private2FieldModifier(_)) :- true.
-  fldModOk(Static2FieldModifier(_)) :- true.
-  fldModOk(Final2FieldModifier(_)) :- true.
-  fldModOk(Transient2FieldModifier(_)) :- true.
-  fldModOk(Volatile2FieldModifier(_)) :- true.
-
-
-  unannTypeOk : UnannType
-  
-  unannTypeOk(UnannPrimitiveType2UnannType(unannPrimType)) :-
+  unannTypeOk(s, UnannPrimitiveType2UnannType(unannPrimType)) :-
     unannPrimTypeOk(unannPrimType),
     true.
 
-  unannTypeOk(UnannReferenceType2UnannType(unannRefType)) :-
-    unannRefTypeOk(unannRefType),
+  unannTypeOk(s, UnannReferenceType2UnannType(unannRefType)) :-
+    unannRefTypeOk(s, unannRefType),
     true.
 
 
@@ -95,40 +97,60 @@ rules // 8.3. Field Declarations
     true.
 
 
-  unannRefTypeOk : UnannReferenceType
+  unannRefTypeOk : scope * UnannReferenceType
   
-  unannRefTypeOk(UnannClassType2UnannReferenceType(unannClsType)) :-
-    unannClsTypeOk(unannClsType),
+  unannRefTypeOk(s, UnannClassType2UnannReferenceType(unannClsType)) :-
+    unannClsTypeOk(s, unannClsType),
     true.
 
-  unannRefTypeOk(UnannArrayType2UnannReferenceType(unannArrayType)) :-
-    unannArrayTypeOk(unannArrayType),
+  unannRefTypeOk(s, UnannArrayType2UnannReferenceType(unannArrayType)) :-
+    unannArrayTypeOk(s, unannArrayType),
     true.
 
 
-  unannClsTypeOk : UnannClassType
+  unannClsTypeOk : scope * UnannClassType
   
-  unannClsTypeOk(ClassType(id, typeArgsOpt)) :-
-    typeArgsOptOk(typeArgsOpt),
+  unannClsTypeOk(s, ClassType(id, typeArgsOpt)) :-
+  {typeDecl}
+    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
+    typeArgsOptOk(s, typeArgsOpt),
     true.
 
-  unannClsTypeOk(UnannClassOrInterfaceTypeMember(unannClsType, annoList, id, typeArgsOpt)) :-
-    unannClsTypeOk(unannClsType),
-    annoListOk(annoList),
-    typeArgsOptOk(typeArgsOpt),
+  unannClsTypeOk(s, UnannClassOrInterfaceTypeMember(unannClsType, annoList, id, typeArgsOpt)) :-
+  {s_pkgOrCls typeDecl}
+    s_pkgOrCls == unannPkgOrClsTypeOk(s, unannClsType),
+    annoListOk(s, annoList),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
+    typeArgsOptOk(s, typeArgsOpt),
     true.
 
 
-  unannArrayTypeOk : UnannArrayType
+  unannPkgOrClsTypeOk : scope * UnannClassType -> scope
+
+  unannPkgOrClsTypeOk(s, ClassType(id, typeArgsOpt)) = s_pkgOrCls :-
+    s_pkgOrCls == pkgOrTypeDeclScope(resolveLexicalPkgOrTypeName(s, id)),
+    typeArgsOptOk(s, typeArgsOpt),
+    true.
+
+  unannPkgOrClsTypeOk(s, UnannClassOrInterfaceTypeMember(unannClsType, annoList, id, typeArgsOpt)) = s_pkgOrCls :-
+  {s_pkgOrCls'}
+    s_pkgOrCls' == unannPkgOrClsTypeOk(s, unannClsType),
+    annoListOk(s, annoList),
+    s_pkgOrCls == pkgOrTypeDeclScope(resolveMemberPkgOrTypeName(s, id)),
+    typeArgsOptOk(s, typeArgsOpt),
+    true.
+
+
+  unannArrayTypeOk : scope * UnannArrayType
   
-  unannArrayTypeOk(UnannArrayTypePrimitive(unannPrimType, annDimList)) :-
+  unannArrayTypeOk(s, UnannArrayTypePrimitive(unannPrimType, annDimList)) :-
     unannPrimTypeOk(unannPrimType),
-    annDimListOk(annDimList),
+    annDimListOk(s, annDimList),
     true.
 
-  unannArrayTypeOk(UnannArrayTypeClassType(unannClsType, annDimList)) :-
-    unannClsTypeOk(unannClsType),
-    annDimListOk(annDimList),
+  unannArrayTypeOk(s, UnannArrayTypeClassType(unannClsType, annDimList)) :-
+    unannClsTypeOk(s, unannClsType),
+    annDimListOk(s, annDimList),
     true.
 
 

@@ -8,54 +8,76 @@ imports
   java/classes/Main
   java/expressions/Main
   java/interfaces/Annotations
+  java/names/Main
+  java/names/TypeNames
 
 
 rules // 8.9. Enum Types
 
-  enumDeclOk : EnumDeclaration
+  enumDeclOk : scope * EnumDeclaration
   
-  enumDeclOk(EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
-    clsModListOk(clsModList),
-    superIntfsOptOk(_, superIntfsOpt),
-    enumConstListOk(enumConstList),
-    enumBodyDeclsOptOk(enumBodyDeclsOpt),
+  enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+  {s_enum}
+    clsModListOk(s, clsModList),
+
+    new s_enum,
+    declareType(s, id, ENUM(s_enum)),
+
+    superIntfsOptOk(s, superIntfsOpt, s_enum),
+    
+    s_enum -LEX-> s,
+
+    enumConstListOk(s_enum, enumConstList),
+    enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
     true.
 
-  enumDeclOk(EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
-    clsModListOk(clsModList),
-    superIntfsOptOk(_, superIntfsOpt),
-    enumConstListOk(enumConstList),
-    enumBodyDeclsOptOk(enumBodyDeclsOpt),
+  enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+  {s_enum}
+    clsModListOk(s, clsModList),
+
+    new s_enum, s_enum -LEX-> s,
+
+    superIntfsOptOk(s, superIntfsOpt, s_enum),
+    enumConstListOk(s_enum, enumConstList),
+    enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
     true.
 
 
-  enumConstOk : EnumConstant
-  enumConstListOk maps enumConstOk(list(*))
+  enumConstOk : scope * EnumConstant
+  enumConstListOk maps enumConstOk(*, list(*))
   
-  enumConstOk(EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList)) :-
-    annoListOk(annoList),
-    enumConstArgsOptOk(enumConstArgsOpt),
-    clsBodyDeclListOk(clsBodyDeclList),
+  enumConstOk(s, EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList)) :-
+  {s_const}
+    annoListOk(s, annoList),
+    
+    new s_const, s_const -LEX-> s,
+    
+    enumConstArgsOptOk(s, enumConstArgsOpt),
+    clsBodyDeclListOk(s_const, clsBodyDeclList),
     true.
 
-  enumConstOk(EnumConstNoBody(annoList, id, enumConstArgsOpt)) :-
-    annoListOk(annoList),
-    enumConstArgsOptOk(enumConstArgsOpt),
+  enumConstOk(s, EnumConstNoBody(annoList, id, enumConstArgsOpt)) :-
+  {s_const}
+    annoListOk(s, annoList),
+    
+    new s_const, s_const -LEX-> s,
+    
+    enumConstArgsOptOk(s, enumConstArgsOpt),
     true.
 
 
-  enumConstArgsOk : EnumConstantArgs
-  enumConstArgsOptOk maps enumConstArgsOk(list(*))
+  enumConstArgsOk : scope * EnumConstantArgs
+  enumConstArgsOptOk maps enumConstArgsOk(*, list(*))
   
-  enumConstArgsOk(EnumConstArgs(exprList)) :-
-    exprListOk(exprList),
+  enumConstArgsOk(s, EnumConstArgs(exprList)) :-
+    _ == exprListOk(s, exprList),
     true.
     
     
-  enumBodyDeclsOk : EnumBodyDeclarations
-  enumBodyDeclsOptOk maps enumBodyDeclsOk(list(*))
+  enumBodyDeclsOk : scope * EnumBodyDeclarations
+  enumBodyDeclsOptOk maps enumBodyDeclsOk(*, list(*))
   
-  enumBodyDeclsOk(EnumBodyDecs(clsBodyDeclList)) :-
-    clsBodyDeclListOk(clsBodyDeclList),
+  enumBodyDeclsOk(s, EnumBodyDecs(clsBodyDeclList)) :-
+    clsBodyDeclListOk(s, clsBodyDeclList),
     true.
 

@@ -11,46 +11,46 @@ imports
 
 rules // 15.15. Unary Operators
 
-  exprOk(Plus(expr)) :-
-    exprOk(expr),
+  exprOk(s, Plus(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
     
-  exprOk(Minus(expr)) :-
-    exprOk(expr),
+  exprOk(s, Minus(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
     
-  exprOk(PreIncr(expr)) :-
-    exprOk(expr),
+  exprOk(s, PreIncr(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
     
-  exprOk(PreDecr(expr)) :-
-    exprOk(expr),
+  exprOk(s, PreDecr(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
     
-  exprOk(Complement(expr)) :-
-    exprOk(expr),
+  exprOk(s, Complement(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
     
-  exprOk(Not(expr)) :-
-    exprOk(expr),
+  exprOk(s, Not(expr)) = _ :-
+    _ == exprOk(s, expr),
     true.
     
-  exprOk(CastPrimitive(primType, expr)) :-
-    primTypeOk(primType),
-    exprOk(expr),
+  exprOk(s, CastPrimitive(primType, expr)) = _ :-
+    primTypeOk(s, primType),
+    _ == exprOk(s, expr),
     true.
     
-  exprOk(CastReference(refType, additionalBoundList, expr)) :-
-    refTypeOk(refType),
-    additionalBoundListOk(additionalBoundList),
-    exprOk(expr),
+  exprOk(s, CastReference(refType, additionalBoundList, expr)) = _ :-
+    refTypeOk(s, refType),
+    additionalBoundListOk(s, additionalBoundList),
+    _ == exprOk(s, expr),
     true.
     
-  additionalBoundOk : AdditionalBound
-  additionalBoundListOk maps additionalBoundOk(list(*))
+  additionalBoundOk : scope * AdditionalBound
+  additionalBoundListOk maps additionalBoundOk(*, list(*))
   
-  additionalBoundOk(AdditionalBound(clsType)) :-
-    clsTypeOk(_, clsType),
+  additionalBoundOk(s, AdditionalBound(clsType)) :-
+    clsTypeOk(s, clsType),
     true.
 
 

@@ -18,7 +18,7 @@ rules
   pkgDeclOptOk maps pkgDeclOk(*, list(*), *)
 
   pkgDeclOk(s, PackageDeclaration(annoList, idList), s_pkg) :-
-    annoListOk(annoList),
+    annoListOk(_, annoList),
     declarePkgIds(s, idList, s_pkg),
     true.
 

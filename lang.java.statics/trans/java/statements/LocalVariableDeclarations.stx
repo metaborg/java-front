@@ -12,19 +12,19 @@ imports
 rules // 14.4. Local Variable Declaration Statements
 
 
-  localVarDeclStmtOk : LocalVariableDeclarationStatement
+  localVarDeclStmtOk : scope * LocalVariableDeclarationStatement
   
-  localVarDeclStmtOk(LocVarDeclStm(localVarDecl)) :-
-    localVarDeclOk(localVarDecl),
+  localVarDeclStmtOk(s, LocVarDeclStm(localVarDecl)) :-
+    localVarDeclOk(s, localVarDecl),
     true.
 
 
-  localVarDeclOk : LocalVariableDeclaration
+  localVarDeclOk : scope * LocalVariableDeclaration
   
-  localVarDeclOk(LocalVarDecl(varModList, unannType, varDeclList)) :-
-    varModListOk(varModList),
-    unannTypeOk(unannType),
-    varDeclListOk(varDeclList),
+  localVarDeclOk(s, LocalVarDecl(varModList, unannType, varDeclList)) :-
+    varModListOk(s, varModList),
+    unannTypeOk(s, unannType),
+    varDeclListOk(s, varDeclList),
     true.
 
 

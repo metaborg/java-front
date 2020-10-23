@@ -13,7 +13,7 @@ rules // 8.6. Instance Initializers
   instInitOk : InstanceInitializer
   
   instInitOk(InstanceInit(blk)) :-
-    blkOk(blk),
+    blkOk(_, blk),
     true.
 
 

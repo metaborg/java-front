@@ -11,25 +11,25 @@ imports
 
 rules // 9.4. Method Declarations
 
-  intfMthdDeclOk : InterfaceMethodDeclaration
+  intfMthdDeclOk : scope * InterfaceMethodDeclaration
   
-  intfMthdDeclOk(AbstractMethodDec(intfMthdModList, mthdHeader, mthdBody)) :-
-    intfMthdModListOk(intfMthdModList),
-    mthdHeaderOk(mthdHeader),
-    mthdBodyOk(mthdBody),
+  intfMthdDeclOk(s, AbstractMethodDec(intfMthdModList, mthdHeader, mthdBody)) :-
+    intfMthdModListOk(s, intfMthdModList),
+    mthdHeaderOk(s, mthdHeader),
+    mthdBodyOk(s, mthdBody),
     true.
     
   
-  intfMthdModOk : InterfaceMethodModifier
-  intfMthdModListOk maps intfMthdModOk(list(*))
+  intfMthdModOk : scope * InterfaceMethodModifier
+  intfMthdModListOk maps intfMthdModOk(*, list(*))
 
-  intfMthdModOk(Annotation2InterfaceMethodModifier(anno)) :-
-    annoOk(anno),
+  intfMthdModOk(s, Annotation2InterfaceMethodModifier(anno)) :-
+    annoOk(s, anno),
     true.
-  intfMthdModOk(Public2InterfaceMethodModifier(_)) :- true.
-  intfMthdModOk(Abstract2InterfaceMethodModifier(_)) :- true.
-  intfMthdModOk(Default2InterfaceMethodModifier(_)) :- true.
-  intfMthdModOk(Static2InterfaceMethodModifier(_)) :- true.
-  intfMthdModOk(Strictfp2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Public2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Abstract2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Default2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Static2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Strictfp2InterfaceMethodModifier(_)) :- true.
 
 
