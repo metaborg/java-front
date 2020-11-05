@@ -1,5 +1,6 @@
 module java/names/PackageOrTypeNames.logic
 
+/*
 imports
 
   signatures/java/names/Names-sig
