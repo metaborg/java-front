@@ -3,7 +3,10 @@ module statics
 imports
 
   java/Main
+  java/names/Main
+  java/names/TypeNames
   java/packages/CompilationUnits
+  java/packages/PackageDeclarations
 
 
 rules
@@ -25,14 +28,17 @@ rules
 
   builtinObject : scope
 
-  builtinObject(s).
+  builtinObject(s) :-
+  {s_pkg s_cls}
+  
+    new s_pkg, s_pkg -LEX-> s,
+    declarePkgIds(s, [Id("java"), Id("lang")], s_pkg),
+  
+    new s_cls, s_cls -LEX-> s_pkg,
+    declareType(s_pkg, Id("Object"), CLASS(s_cls)),
+  
+    true.
 
-//  builtinObject(s) :- {s_object}
-
-//    //Extend object in the program scope
-//    CLASS(s_object) == classTypeOkNoId(s, ClassOrInterfaceTypeMember(ClassOrInterfaceTypeMember(ClassType([], Id("java"), []), [], Id("lang"), []), [], Id("Object"), [])),
-//    s -EXT-> s_object,
-//    true.
 
   builtinArrayLength : scope
   
