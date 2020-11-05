@@ -11,6 +11,7 @@ imports
   java/interfaces/ConstantDeclarations
   java/interfaces/Main
   java/names/Main
+  java/names/TypeNames
   java/types/ReferenceTypes
 
 
@@ -23,6 +24,7 @@ rules // 9.6. Annotation Types
     intfModListOk(s, intfModList),
     
     new s_anno, s_anno -LEX-> s,
+    declareType(s, id, INTF(s_anno)),
     
     annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList),
     true.

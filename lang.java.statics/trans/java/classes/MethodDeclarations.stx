@@ -38,7 +38,7 @@ rules // 8.4. Method Declarations
     true.
 
   mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
-    typeParamsOk(s, typeParams, _),
+    typeParamsOk(s, typeParams, s),
     annoListOk(s, annoList),
     resultOk(s, result),
     formalParamsOk(s, formalParams),

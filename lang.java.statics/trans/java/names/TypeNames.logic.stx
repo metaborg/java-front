@@ -1,4 +1,4 @@
-module java/names/TypeNames
+module java/names/TypeNames.logic
 
 imports
 
@@ -18,8 +18,6 @@ signature
     TYPE_DECL  = (Id * TYPE)
     TYPE_PATH  = (path * (Id * scope))
 
-    TYPE_DECL_OPT = list(TYPE_DECL)
-
   relations
     type : Id -> scope
 
@@ -28,25 +26,14 @@ rules
 
   typeNameOk : scope * TypeName -> TYPE_DECL
   
-  typeNameOk(s, typeName) = typeDecl :-
-    [typeDecl] == resolveTypeName(s, typeName),
+  typeNameOk(s, TypeName(id)) = typeDecl :-
+    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
     true.
-
-  
-  resolveTypeName : scope * TypeName -> TYPE_DECL_OPT
-  resolveTypeName1 : PKG_OR_TYPE_DECL_OPT * Id -> TYPE_DECL_OPT
-  
-  resolveTypeName(s, TypeName(id)) = singleTypeDecl(id, resolveLexicalTypeNames(s, id)).
-
-  resolveTypeName(s, TypeName(pkgOrTypeName, id)) = resolveTypeName1(resolvePkgOrTypeName(s, pkgOrTypeName), id).
-
-  resolveTypeName1([], id) = [] :-
-    false | error $[Type [id] not found]. // DUPLICATE
-
-  resolveTypeName1([pkgOrTypeDecl], id) = typeDeclOpt :-
+    
+  typeNameOk(s, TypeName(pkgOrTypeName, id)) = typeDecl :-
   {s_pkgOrType}
-    s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeDecl),
-    typeDeclOpt == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrType, id)),
+    s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeNameOk(s, pkgOrTypeName)),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrType, id)),
     true.
 
 
@@ -87,16 +74,16 @@ rules
     true.
 
 
-  singleTypeDecl : Id * list(TYPE_PATH) -> TYPE_DECL_OPT
+  singleTypeDecl : Id * list(TYPE_PATH) -> TYPE_DECL
   
-  singleTypeDecl(id, []) = [] :-
+  singleTypeDecl(id, []) = _ :-
     false | error $[Type [id] not found] @id.
 
-  singleTypeDecl(id, [(_, typeDecl)]) = [(id', T)] :-
+  singleTypeDecl(id, [(_, typeDecl)]) = (id', T) :-
     (id', matchType(T)) == typeDecl,
     @id.ref := id'.
 
-  singleTypeDecl(id, typeDeclList) = [] :-
+  singleTypeDecl(id, _) = _ :-
     false | error $[Type [id] is ambiguous] @id.
 
 

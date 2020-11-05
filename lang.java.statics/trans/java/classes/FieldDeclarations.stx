@@ -128,15 +128,18 @@ rules // 8.3. Field Declarations
   unannPkgOrClsTypeOk : scope * UnannClassType -> scope
 
   unannPkgOrClsTypeOk(s, ClassType(id, typeArgsOpt)) = s_pkgOrCls :-
-    s_pkgOrCls == pkgOrTypeDeclScope(resolveLexicalPkgOrTypeName(s, id)),
+  {pkgOrTypeDecl}
+    [pkgOrTypeDecl] == resolveLexicalPkgOrTypeName(s, id),
+    s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
     typeArgsOptOk(s, typeArgsOpt),
     true.
 
   unannPkgOrClsTypeOk(s, UnannClassOrInterfaceTypeMember(unannClsType, annoList, id, typeArgsOpt)) = s_pkgOrCls :-
-  {s_pkgOrCls'}
+  {pkgOrTypeDecl s_pkgOrCls'}
     s_pkgOrCls' == unannPkgOrClsTypeOk(s, unannClsType),
     annoListOk(s, annoList),
-    s_pkgOrCls == pkgOrTypeDeclScope(resolveMemberPkgOrTypeName(s, id)),
+    [pkgOrTypeDecl] == resolveMemberPkgOrTypeName(s, id),
+    s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
     typeArgsOptOk(s, typeArgsOpt),
     true.
 

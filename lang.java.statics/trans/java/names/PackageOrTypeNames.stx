@@ -18,19 +18,31 @@ signature
     PKG_DECL  : PKG_DECL  -> PKG_OR_TYPE_DECL
     TYPE_DECL : TYPE_DECL -> PKG_OR_TYPE_DECL
 
+  sorts PKG_OR_TYPE_DECL_OPT = list(PKG_OR_TYPE_DECL)
 
 rules
 
   pkgOrTypeNameOk : scope * PackageOrTypeName -> PKG_OR_TYPE_DECL
-  
-  pkgOrTypeNameOk(s, PackageOrTypeName(id)) = pkgOrTypeDecl :-
-    pkgOrTypeDecl == resolveLexicalPkgOrTypeName(s, id),
+
+  pkgOrTypeNameOk(s, pkgOrTypeName) = pkgOrTypeDecl :-
+    [pkgOrTypeDecl] == resolvePkgOrTypeName(s, pkgOrTypeName),
     true.
 
-  pkgOrTypeNameOk(s, PackageOrTypeName(pkgOrTypeName, id)) = pkgOrTypeDecl :-
+
+  resolvePkgOrTypeName : scope * PackageOrTypeName -> PKG_OR_TYPE_DECL_OPT
+  resolvePkgOrTypeName1 : PKG_OR_TYPE_DECL_OPT * Id -> PKG_OR_TYPE_DECL_OPT
+  
+  resolvePkgOrTypeName(s, PackageOrTypeName(id)) = resolveLexicalPkgOrTypeName(s, id).
+
+  resolvePkgOrTypeName(s, PackageOrTypeName(pkgOrTypeName, id)) = resolvePkgOrTypeName1(resolvePkgOrTypeName(s, pkgOrTypeName), id).
+
+  resolvePkgOrTypeName1([], id) = [] :-
+    false | error $[Package or type [id] not found]. // DUPLICATE
+
+  resolvePkgOrTypeName1([pkgOrTypeDecl], id) = pkgOrTypeDeclOpt :-
   {s_pkgOrType}
-    s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeNameOk(s, pkgOrTypeName)),
-    pkgOrTypeDecl == resolveMemberPkgOrTypeName(s_pkgOrType, id),
+    s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeDecl),
+    pkgOrTypeDeclOpt == resolveMemberPkgOrTypeName(s_pkgOrType, id),
     true.
 
 
@@ -41,34 +53,44 @@ rules
   pkgOrTypeDeclScope(TYPE_DECL(typeDecl)) = typeDeclScope(typeDecl).
 
 
-  resolveLexicalPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
-  resolveLexicalPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
-  resolveLexicalPkgOrTypeName2 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
+  resolveLexicalPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL_OPT
+  resolveLexicalPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL_OPT
+  resolveLexicalPkgOrTypeName2 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL_OPT
   
   resolveLexicalPkgOrTypeName(s, id) = resolveLexicalPkgOrTypeName1(s, id, resolveLexicalTypeNames(s, id)).
 
   resolveLexicalPkgOrTypeName1(s, id, []) = resolveLexicalPkgOrTypeName2(s, id, resolveLexicalPkgNames(s, id)).
 
-  resolveLexicalPkgOrTypeName1(s, id, typePathList) = TYPE_DECL(singleTypeDecl(id, typePathList)).
+  resolveLexicalPkgOrTypeName1(s, id, typePathList@[_]) = [TYPE_DECL(typeDecl)] :-
+    [typeDecl] == singleTypeDecl(id, typePathList),
+    true.
 
-  resolveLexicalPkgOrTypeName2(s, id, []) = _ :-
+  resolveLexicalPkgOrTypeName1(s, id, typePathList) = [] :-
+    false | error $[Type [id] is ambiguous].
+
+  resolveLexicalPkgOrTypeName2(s, id, []) = [] :-
     false | error $[Package or type [id] not found].
 
-  resolveLexicalPkgOrTypeName2(s, id, pkgPathList) = PKG_DECL(composePkgDecl(id, pkgPathList)).
+  resolveLexicalPkgOrTypeName2(s, id, pkgPathList) = [PKG_DECL(composePkgDecl(id, pkgPathList))].
 
 
-  resolveMemberPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
-  resolveMemberPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
-  resolveMemberPkgOrTypeName2 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
+  resolveMemberPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL_OPT
+  resolveMemberPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL_OPT
+  resolveMemberPkgOrTypeName2 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL_OPT
   
   resolveMemberPkgOrTypeName(s, id) = resolveMemberPkgOrTypeName1(s, id, resolveMemberTypeNames(s, id)).
 
   resolveMemberPkgOrTypeName1(s, id, []) = resolveMemberPkgOrTypeName2(s, id, resolveMemberPkgNames(s, id)).
 
-  resolveMemberPkgOrTypeName1(s, id, typePathList) = TYPE_DECL(singleTypeDecl(id, typePathList)).
+  resolveMemberPkgOrTypeName1(s, id, typePathList@[_]) = [TYPE_DECL(typeDecl)] :-
+    [typeDecl] == singleTypeDecl(id, typePathList),
+    true.
 
-  resolveMemberPkgOrTypeName2(s, id, []) = _ :-
+  resolveMemberPkgOrTypeName1(s, id, typePathList) = [] :-
+    false | error $[Type [id] is ambiguous].
+
+  resolveMemberPkgOrTypeName2(s, id, []) = [] :-
     false | error $[Package or type [id] not found].
 
-  resolveMemberPkgOrTypeName2(s, id, pkgPathList) = PKG_DECL(composePkgDecl(id, pkgPathList)).
+  resolveMemberPkgOrTypeName2(s, id, pkgPathList) = [PKG_DECL(composePkgDecl(id, pkgPathList))].
 

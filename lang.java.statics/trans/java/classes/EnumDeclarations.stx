@@ -23,7 +23,7 @@ rules // 8.9. Enum Types
     new s_enum,
     declareType(s, id, ENUM(s_enum)),
 
-    superIntfsOptOk(s, superIntfsOpt, s_enum),
+    superIntfsOptOk(s_enum, superIntfsOpt, s_enum),
     
     s_enum -LEX-> s,
 
@@ -36,8 +36,12 @@ rules // 8.9. Enum Types
     clsModListOk(s, clsModList),
 
     new s_enum, s_enum -LEX-> s,
+    declareType(s, id, ENUM(s_enum)),
 
     superIntfsOptOk(s, superIntfsOpt, s_enum),
+
+    s_enum -LEX-> s,
+
     enumConstListOk(s_enum, enumConstList),
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
     true.

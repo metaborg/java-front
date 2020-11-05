@@ -1,4 +1,4 @@
-module java/names/PackageNames
+module java/names/PackageNames.logic
 
 imports
 
@@ -81,6 +81,7 @@ rules
 
   composePkgPath(id, s_pkg, (_, (id', s_pkg'))) :-
     s_pkg -PKGC-> s_pkg',
+    @id.ref += id',
     true.
 
 

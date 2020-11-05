@@ -29,7 +29,7 @@ rules // 9.1. Interface Declarations
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
     
-    typeParamsOptOk(s, typeParamsOpt, s_intf),
+    typeParamsOptOk(s_intf, typeParamsOpt, s_intf),
 
     // FIXME declare self (?)
     s_intf -LEX-> s,

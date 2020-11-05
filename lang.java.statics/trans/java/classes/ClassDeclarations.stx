@@ -47,8 +47,8 @@ rules // 8.1. Class Declarations
     
     typeParamsOptOk(s, typeParamsOpt, s_cls),
 
-    superClsOptOk(s, superClsOpt, s_cls),
-    superIntfsOptOk(s, superIntfsOpt, s_cls),
+    superClsOptOk(s_cls, superClsOpt, s_cls),
+    superIntfsOptOk(s_cls, superIntfsOpt, s_cls),
 
     // FIXME declare self (?)
     s_cls -LEX-> s,

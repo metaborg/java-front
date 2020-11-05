@@ -41,7 +41,7 @@ rules
   clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) :-
   {typeDecl}
     annoListOk(s, annoList),
-    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
+    [typeDecl] == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
     typeArgsOptOk(s, typeArgsOpt),
     true.
 
@@ -49,7 +49,7 @@ rules
   {s_pkgOrCls typeDecl}
     s_pkgOrCls == pkgOrClsTypeOk(s, clsType),
     annoListOk(s, annoList),
-    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
+    [typeDecl] == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
     typeArgsOptOk(s, typeArgsOpt),
     true.
 
@@ -57,16 +57,19 @@ rules
   pkgOrClsTypeOk : scope * ClassType -> scope
 
   pkgOrClsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = s_pkgOrCls :-
+  {pkgOrTypeDecl}
     annoListOk(s, annoList),
-    s_pkgOrCls == pkgOrTypeDeclScope(resolveLexicalPkgOrTypeName(s, id)),
+    [pkgOrTypeDecl] == resolveLexicalPkgOrTypeName(s, id),
+    s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
     typeArgsOptOk(s, typeArgsOpt),
     true.
 
   pkgOrClsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) = s_pkgOrCls :-
-  {s_pkgOrCls'}
+  {pkgOrTypeDecl s_pkgOrCls'}
     s_pkgOrCls' == pkgOrClsTypeOk(s, clsType),
     annoListOk(s, annoList),
-    s_pkgOrCls == pkgOrTypeDeclScope(resolveMemberPkgOrTypeName(s, id)),
+    [pkgOrTypeDecl] == resolveMemberPkgOrTypeName(s, id),
+    s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
     typeArgsOptOk(s, typeArgsOpt),
     true.
 
