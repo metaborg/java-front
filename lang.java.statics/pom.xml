@@ -73,6 +73,14 @@
                   </includes>
                 </fileSet>
               </fileSets>
+              <auxFileSets>
+                <fileSet>
+                  <directory>${basedir}/trans</directory>
+                  <includes>
+                      <include>**/*.stx</include>
+                  </includes>
+                </fileSet>
+              </auxFileSets>
             </configuration>
           </execution>
         </executions>
