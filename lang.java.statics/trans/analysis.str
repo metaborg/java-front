@@ -17,7 +17,11 @@ imports
 
 rules // Analysis
 
-  editor-analyze = stx-editor-analyze((id<+import-java-lang);java-explicate-injections,java-implicate-injections|"statics", "projectOk", "fileOk")
+  editor-analyze = stx-editor-analyze(pre-analyze,post-analyze|"statics", "projectOk", "fileOk")
+
+  pre-analyze = (import-java-lang) ; java-explicate-injections
+
+  post-analyze = java-implicate-injections
 
   import-java-lang:
       CompilationUnit(pkgDecl, importDeclList, typeDeclList) -> CompilationUnit(pkgDecl, importDeclList', typeDeclList)
@@ -32,8 +36,15 @@ rules // Editor services
 
 rules // Debugging
 
+  debug-show-pre-analysis:
+    (_, _, ast, path, _) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"pre-analysis.aterm")> path;
+      result   := (filename, <pre-analyze> ast)
+
   debug-show-analyzed:
     (_, _, ast, path, _) -> (filename, result)
     with
       filename := <guarantee-extension(|"analyzed.aterm")> path;
       result   := ast
+
