@@ -5,22 +5,19 @@ imports
   signatures/java/literals/IntegerLiterals-sig
 
   java/literals/Main
+  java/types/Main
+  java/types/PrimitiveTypes
 
 
 rules// 3.10.1. Integer Literals
 
-  intLitOk : IntLiteral
+  intLitOk : IntLiteral -> TYPE
   
-  intLitOk(Deci(_)) :-
-    true.
+  intLitOk(Deci(_)) = INT().
 
-  intLitOk(Hexa(_)) :-
-    true.
+  intLitOk(Hexa(_)) = INT().
 
-  intLitOk(Octa(_)) :-
-    true.
+  intLitOk(Octa(_)) = INT().
 
-  intLitOk(Bin(_)) :-
-    true.
-
+  intLitOk(Bin(_)) = INT().
 

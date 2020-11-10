@@ -5,11 +5,11 @@ imports
   signatures/java/literals/NullLiteral-sig
 
   java/literals/Main
+  java/types/Main
 
 
 rules // 3.10.7. The Null Literal
 
-  nullLitOk : NullLiteral
+  nullLitOk : NullLiteral -> TYPE
 
-  nullLitOk(Null()) :-
-    true.
+  nullLitOk(Null()) = NULL().

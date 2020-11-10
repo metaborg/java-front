@@ -13,32 +13,32 @@ imports
 rules // 15.13. Method Reference Expressions
 
   exprOk(s, MethodReferenceRType(refType, typeArgsOpt, id)) = _ :-
-    refTypeOk(s, refType),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == refTypeOk(s, refType),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
   exprOk(s, MethodReferenceExpr(expr, typeArgsOpt, id)) = _ :-
     _ == exprOk(s, expr),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
   exprOk(s, MethodReferenceSuper(typeArgsOpt, id)) = _ :-
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
   exprOk(s, MethodReferenceQSuper(typeName, typeArgsOpt, id)) = _ :-
     typeNameOk(s, typeName) == _,
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
   exprOk(s, MethodReferenceCType(clsType, typeArgsOpt)) = _ :-
-    clsTypeOk(s, clsType),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == clsTypeOk(s, clsType),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
   exprOk(s, MethodReferenceAType(arrayType, typeArgsOpt)) = _ :-
-    arrayTypeOk(s, arrayType),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == arrayTypeOk(s, arrayType),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
 

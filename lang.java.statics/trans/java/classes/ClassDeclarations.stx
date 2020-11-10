@@ -4,6 +4,7 @@ imports
 
   signatures/java/classes/ClassDeclarations-sig
 
+  java/Object
   java/classes/Main
   java/classes/ConstructorDeclarations
   java/classes/EnumDeclarations
@@ -40,20 +41,18 @@ rules // 8.1. Class Declarations
     clsModListOk(s, clsModList),
 
     new s_cls,
-    declareType(s, id, CLASS(s_cls)),
+    declareType(s, id, REF(s_cls), CLASS()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
     
     typeParamsOptOk(s, typeParamsOpt, s_cls),
 
-    superClsOptOk(s_cls, superClsOpt, s_cls),
-    superIntfsOptOk(s_cls, superIntfsOpt, s_cls),
+    superClsOptOk(s, superClsOpt, s_cls),
+    superIntfsOptOk(s, superIntfsOpt, s_cls),
 
     // FIXME declare self (?)
     s_cls -LEX-> s,
-
-    // FIXME declare `this`
 
     clsBodyDeclListOk(s_cls, clsBodyDeclList),
     true.
@@ -82,20 +81,39 @@ rules // 8.1. Class Declarations
     true.
 
 
-  superClsOk : scope * SuperClass * scope
-  superClsOptOk maps superClsOk(*, list(*), *)
+  superClsOptOk : scope * list(SuperClass) * scope
   
-  superClsOk(s, SuperClass(clsType), s_cls) :-
-    clsTypeOk(s, clsType),
+  superClsOptOk(s, [], s_cls) :-
+  {T}
+    T == typeDeclType(resolveObject(s)),
+    setSuperCls(s_cls, T).
+
+  superClsOptOk(s, [SuperClass(clsType)], s_cls) :-
+  {T}
+    T == clsTypeOk(s, clsType),
+    setSuperCls(s_cls, T),
     true.
+    
+  setSuperCls : scope * TYPE
+  
+  setSuperCls(s_cls, T) :-
+    s_cls -EXT-> typeScope(T).
 
 
   superIntfsOk : scope * SuperInterfaces * scope
   superIntfsOptOk maps superIntfsOk(*, list(*), *)
   
   superIntfsOk(s, SuperInterface(clsTypeList), s_cls) :-
-    clsTypeListOk(s, clsTypeList),
-    true.
+  {Ts}
+    Ts == clsTypeListOk(s, clsTypeList),
+    addSuperIntfList(s_cls, Ts).
+
+  addSuperIntf : scope * TYPE
+  addSuperIntfList maps addSuperIntf(*, list(*))
+  
+  addSuperIntf(s_cls, T) :-
+    s_cls -IMPL-> typeScope(T).
+
 
 
   clsBodyDeclOk : scope * ClassBodyDeclaration

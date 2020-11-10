@@ -6,18 +6,19 @@ imports
   
   java/arrays/Main
   java/classes/FieldDeclarations
+  java/types/ReferenceTypes
 
 rules // Chapter 10. Arrays
 
 
 rules // 10.6. Array Initializers
 
-  arrayInitOk : scope * ArrayInitializer
+  arrayInitOk : scope * TYPE * ArrayInitializer
 
-  arrayInitOk(s, ArrayInit(varInitList)) :-
-    varInitListOk(s, varInitList),
+  arrayInitOk(s, T, ArrayInit(varInitList)) :-
+    varInitListOk(s, T, varInitList),
     true.
   
-  arrayInitOk(s, ArrayInitComma(varInitList)) :-
-    varInitListOk(s, varInitList),
+  arrayInitOk(s, T, ArrayInitComma(varInitList)) :-
+    varInitListOk(s, T, varInitList),
     true.

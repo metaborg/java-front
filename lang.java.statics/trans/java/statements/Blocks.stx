@@ -5,6 +5,7 @@ imports
   signatures/java/statements/Blocks-sig
 
   java/classes/ClassDeclarations
+  java/names/Main
   java/statements/LocalVariableDeclarations
   java/statements/Main
   java/statements/Statements
@@ -19,19 +20,23 @@ rules // 14.2. Blocks
     true.
     
 
-  blkStmtOk : scope * BlockStatement
-  blkStmtListOk maps blkStmtOk(*, list(*))
+  blkStmtListOk : scope * list(BlockStatement)
   
-  blkStmtOk(s, LocalVariableDeclarationStatement2BlockStatement(localVarDeclStmt)) :-
-    localVarDeclStmtOk(s, localVarDeclStmt),
-    true.
-    
-  blkStmtOk(s, ClassDeclaration2BlockStatement(clsDecl)) :-
-    clsDeclOk(s, clsDecl),
-    true.
-    
-  blkStmtOk(s, Statement2BlockStatement(stmt)) :-
-    stmtOk(s, stmt),
-    true.
-    
+  blkStmtListOk(s, []).
 
+  blkStmtListOk(s, [LocalVariableDeclarationStatement2BlockStatement(localVarDeclStmt)|blkStmtList]) :-
+  {s_blk}
+    new s_blk, s_blk -LEX-> s,
+    localVarDeclStmtOk(s, localVarDeclStmt),
+    blkStmtListOk(s_blk, blkStmtList).
+    
+  blkStmtListOk(s, [ClassDeclaration2BlockStatement(clsDecl)|blkStmtList]) :-
+  {s_blk}
+    new s_blk, s_blk -LEX-> s,
+    clsDeclOk(s_blk, clsDecl),
+    blkStmtListOk(s_blk, blkStmtList).
+    
+  blkStmtListOk(s, [Statement2BlockStatement(stmt)|blkStmtList]) :-
+    stmtOk(s, stmt),
+    blkStmtListOk(s, blkStmtList).
+    

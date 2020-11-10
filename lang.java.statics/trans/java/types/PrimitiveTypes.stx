@@ -18,29 +18,32 @@ signature
     SHORT   : TYPE
     INT     : TYPE
     LONG    : TYPE
+    CHAR    : TYPE
+    FLOAT   : TYPE
+    DOUBLE   : TYPE
 
 rules
 
-  primTypeOk : scope * PrimitiveType
+  primTypeOk : scope * PrimitiveType -> TYPE
   
-  primTypeOk(s, NumericType(annoList, numType)) :-
+  primTypeOk(s, NumericType(annoList, numType)) = T :-
     annoListOk(s, annoList),
-    numTypeOk(numType),
+    T == numTypeOk(numType),
     true.
 
-  primTypeOk(s, BooleanType(annoList)) :-
+  primTypeOk(s, BooleanType(annoList)) = BOOLEAN() :-
     annoListOk(s, annoList),
     true.
 
 
-  numTypeOk : NumericType
+  numTypeOk : NumericType -> TYPE
 
-  numTypeOk(Byte()) :- true.
-  numTypeOk(Short()) :- true.
-  numTypeOk(Int()) :- true.
-  numTypeOk(Long()) :- true.
-  numTypeOk(Char()) :- true.
-  numTypeOk(Float()) :- true.
-  numTypeOk(Double()) :- true.
+  numTypeOk(Byte()) = BYTE().
+  numTypeOk(Short()) = SHORT().
+  numTypeOk(Int()) = INT().
+  numTypeOk(Long()) = LONG().
+  numTypeOk(Char()) = CHAR().
+  numTypeOk(Float()) = FLOAT().
+  numTypeOk(Double()) = DOUBLE().
 
 

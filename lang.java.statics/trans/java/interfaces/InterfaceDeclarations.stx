@@ -24,7 +24,7 @@ rules // 9.1. Interface Declarations
     intfModListOk(s, intfModList),
     
     new s_intf,
-    declareType(s, id, INTF(s_intf)),
+    declareType(s, id, REF(s_intf), INTF()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
@@ -34,9 +34,7 @@ rules // 9.1. Interface Declarations
     // FIXME declare self (?)
     s_intf -LEX-> s,
 
-    extendsIntfsOptOk(s, extendsIntfsOpt),
-    
-    // FIXME declare `this`
+    extendsIntfsOptOk(s, extendsIntfsOpt, s_intf),
     
     intfMemDeclListOk(s_intf, intfMemDeclList),
     true.
@@ -60,13 +58,14 @@ rules // 9.1. Interface Declarations
   intfModOk(s, Strictfp2InterfaceModifier(_)) :- true.
 
 
-  extendsIntfsOk : scope * ExtendsInterfaces
-  extendsIntfsOptOk maps extendsIntfsOk(*, list(*))
+  extendsIntfsOk : scope * ExtendsInterfaces * scope
+  extendsIntfsOptOk maps extendsIntfsOk(*, list(*), *)
   
-  extendsIntfsOk(s, ExtendsInterfaces(clsTypeList)) :-
-    clsTypeListOk(s, clsTypeList),
-    true.
-    
+  extendsIntfsOk(s, ExtendsInterfaces(clsTypeList), s_intf) :-
+  {Ts}
+    Ts == clsTypeListOk(s, clsTypeList),
+    addSuperIntfList(s_intf, Ts).
+
     
   intfMemDeclOk : scope * InterfaceMemberDeclaration
   intfMemDeclListOk maps intfMemDeclOk(*, list(*))

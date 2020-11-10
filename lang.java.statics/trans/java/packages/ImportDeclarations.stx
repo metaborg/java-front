@@ -16,34 +16,20 @@ rules // 7.5. Import Declarations
 
   importDeclOk : scope * ImportDeclaration * scope
   importDeclListOk maps importDeclOk(*, list(*), *)
-  importDeclOk1 : TYPE_DECL_OPT * scope
-  importDeclOk2 : PKG_OR_TYPE_DECL_OPT * scope
-  
+
   importDeclOk(s, SingleTypeImport(typeName), s_pkg) :-
-    importDeclOk1(resolveTypeName(s, typeName), s_pkg).
-
-  importDeclOk1([], s_pkg) :-
-    false | error $[Import failed]. // DUPLICATE
-
-  importDeclOk1([(id, T)], s_pkg) :-
-  {s_type s_imp}
+  {typeDecl s_imp}
+    typeDecl == typeNameOk(s, typeName),
     new s_imp,
     s_pkg -IMP_ST-> s_imp,
-    declareType(s_imp, id, T),
-    true.
+    declareType(s_imp, typeDeclId(typeDecl), typeDeclType(typeDecl), typeDeclKind(typeDecl)).
 
 
   importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_pkg) :-
-    importDeclOk2(resolvePkgOrTypeName(s, pkgOrTypeName), s_pkg).
-
-  importDeclOk2([], s_pkg) :-
-    false | error $[Import failed]. // DUPLICATE
-
-  importDeclOk2([pkgOrTypeDecl], s_pkg) :-
-  {s_pkgOrType}
+  {pkgOrTypeDecl s_pkgOrType}
+    pkgOrTypeDecl == pkgOrTypeNameOk(s, pkgOrTypeName),
     s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeDecl),
-    s_pkg -IMP_OD-> s_pkgOrType,
-    true.
+    s_pkg -IMP_OD-> s_pkgOrType.
 
 
   importDeclOk(s, SingleStaticImport(typeName, id), s_imp) :-

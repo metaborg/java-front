@@ -14,9 +14,10 @@ rules // 9.3. Field (Constant) Declarations
   constDeclOk : scope * ConstantDeclaration
   
   constDeclOk(s, ConstantDecl(constModList, unannType, varDeclList)) :-
+  {T}
     constModListOk(s, constModList),
-    unannTypeOk(s, unannType),
-    varDeclListOk(s, varDeclList),
+    T == unannTypeOk(s, unannType),
+    varDeclListOk(s, T, varDeclList),
     true.
 
 

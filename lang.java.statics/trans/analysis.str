@@ -19,14 +19,9 @@ rules // Analysis
 
   editor-analyze = stx-editor-analyze(pre-analyze,post-analyze|"statics", "projectOk", "fileOk")
 
-  pre-analyze = (import-java-lang) ; java-explicate-injections
+  pre-analyze = java-explicate-injections
 
   post-analyze = java-implicate-injections
-
-  import-java-lang:
-      CompilationUnit(pkgDecl, importDeclList, typeDeclList) -> CompilationUnit(pkgDecl, importDeclList', typeDeclList)
-    with javaLangImport  := <origin-track-forced(!TypeImportOnDemand(PackageOrTypeName(PackageOrTypeName(Id("java")),Id("lang"))))> pkgDecl
-       ; importDeclList' := [javaLangImport|importDeclList]
 
 rules // Editor services
   

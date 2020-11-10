@@ -49,7 +49,7 @@ rules // 8.4. Method Declarations
   resultOk : scope * Result
   
   resultOk(s, UnannType2Result(unannType)) :-
-    unannTypeOk(s, unannType),
+    _ == unannTypeOk(s, unannType),
     true.
 
   resultOk(s, Void()) :-
@@ -68,7 +68,7 @@ rules // 8.4. Method Declarations
   exceptTypeListOk maps exceptTypeOk(*, list(*))
   
   exceptTypeOk(s, ClassType2ExceptionType(clsType)) :-
-    clsTypeOk(s, clsType),
+    _ == clsTypeOk(s, clsType),
     true.
 
 
@@ -103,12 +103,12 @@ rules // 8.4. Method Declarations
   
   recvParamOk(s, ReceiverParamQual(annoList, unannType, id)) :-
     annoListOk(s, annoList),
-    unannTypeOk(s, unannType),
+    _ == unannTypeOk(s, unannType),
     true.
 
   recvParamOk(s, ReceiverParam(annoList, unannType)) :-
     annoListOk(s, annoList),
-    unannTypeOk(s, unannType),
+    _ == unannTypeOk(s, unannType),
     true.
 
 
@@ -145,9 +145,9 @@ rules // 8.4. Method Declarations
     
   lastFormalParamOk(s, VarArityParam(varModList, unannType, annoList, varDeclId)) :-
     varModListOk(s, varModList),
-    unannTypeOk(s, unannType),
+    _ == unannTypeOk(s, unannType),
     annoListOk(s, annoList),
-    varDeclIdOk(s, varDeclId),
+    varDeclIdOk(s, _, varDeclId),
     true.
 
 
@@ -156,8 +156,8 @@ rules // 8.4. Method Declarations
   
   formalParamOk(s, FormalParam(varModList, unannType, varDeclId)) :-
     varModListOk(s, varModList),
-    unannTypeOk(s, unannType),
-    varDeclIdOk(s, varDeclId),
+    _ == unannTypeOk(s, unannType),
+    varDeclIdOk(s, _, varDeclId),
     true.
 
 

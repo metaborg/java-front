@@ -58,11 +58,11 @@ rules // 14.5. Statements
     true.
 
   stmtOk(s, ForEach(varModList, unannType, varDeclId, expr, stmt)) :-
-  {s_foreach}
+  {s_foreach T}
     new s_foreach, s_foreach -LEX-> s,
     varModListOk(s, varModList),
-    unannTypeOk(s, unannType),
-    varDeclIdOk(s, varDeclId),
+    T == unannTypeOk(s, unannType),
+    varDeclIdOk(s, T, varDeclId),
     _ == exprOk(s, expr),
     stmtOk(s_foreach, stmt),
     true.
@@ -74,9 +74,10 @@ rules // 14.5. Statements
     true.
 
   forInitOk(s, VarDecls(varModList, unannType, varDeclList)) :-
+  {T}
     varModListOk(s, varModList),
-    unannTypeOk(s, unannType),
-    varDeclListOk(s, varDeclList),
+    T == unannTypeOk(s, unannType),
+    varDeclListOk(s, T, varDeclList),
     true.
 
   forUpdateOk : scope * ForUpdate
@@ -196,13 +197,13 @@ rules // 14.5. Statements
   catchFormalParamOk(s, CatchParam(varModList, catchType, varDeclId)) :-
     varModListOk(s, varModList),
     catchTypeOk(s, catchType),
-    varDeclIdOk(s, varDeclId),
+    varDeclIdOk(s, _, varDeclId),
     true.
     
   catchTypeOk : scope * CatchType
   
   catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) :-
-    unannClsTypeOk(s, unannClsType),
+    _ == unannClsTypeOk(s, unannClsType),
     catchTypeRestListOk(s, catchTypeRestList),
     true.
     
@@ -210,7 +211,7 @@ rules // 14.5. Statements
   catchTypeRestListOk maps catchTypeRestOk(*, list(*))
   
   catchTypeRestOk(s, CatchTypeElem(clsType)) :-
-    clsTypeOk(s, clsType),
+    _ == clsTypeOk(s, clsType),
     true.
     
     
@@ -252,8 +253,9 @@ rules // 14.5. Statements
   resourceListOk maps resourceOk(*, list(*))
   
   resourceOk(s, Resource(varModList, unannType, varDeclId, expr)) :-
+  {T}
     varModListOk(s, varModList),
-    unannTypeOk(s, unannType),
-    varDeclIdOk(s, varDeclId),
+    T == unannTypeOk(s, unannType),
+    varDeclIdOk(s, T, varDeclId),
     _ == exprOk(s, expr),
     true.

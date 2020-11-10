@@ -23,9 +23,11 @@ rules // 9.6. Annotation Types
   {s_anno}
     intfModListOk(s, intfModList),
     
-    new s_anno, s_anno -LEX-> s,
-    declareType(s, id, INTF(s_anno)),
+    new s_anno,
+    declareType(s, id, REF(s_anno), INTF()),
     
+    s_anno -LEX-> s,
+
     annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList),
     true.
     
@@ -57,7 +59,7 @@ rules // 9.6. Annotation Types
 
   annoTypeElemDeclOk(s, AnnotationTypeElementDecl(annoTypeElemModList, unannType, id, annDimsEmpty, defaultValOpt)) :-
     annoTypeElemModListOk(s, annoTypeElemModList),
-    unannTypeOk(s, unannType),
+    _ == unannTypeOk(s, unannType),
     annDimsEmptyOk(s, annDimsEmpty),
     defaultValOptOk(s, defaultValOpt),
     true.

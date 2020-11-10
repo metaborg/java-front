@@ -24,21 +24,30 @@ rules
 
   pkgNameOk : scope * PackageName -> PKG_DECL
 
-  pkgNameOk(s, PackageName(id)) = pkgDecl :-
-    pkgDecl == composePkgDecl(id, resolveLexicalPkgNames(s, id)),
-    true.
+  pkgNameOk(s, PackageName(id)) = resolvePkgName(scope, pkgNameOk1(pkgName)).
 
-  pkgNameOk(s, PackageName(pkgName, id)) = pkgDecl :-
-  {s_pkg}
-    s_pkg == pkgDeclScope(pkgNameOk(s, pkgName)),
-    pkgDecl == composePkgDecl(id, resolveMemberPkgNames(s_pkg, id)),
-    true.
+      pkgNameOk1 : PackageName -> QID
+
+      pkgNameOk1(PackageName(id)) = ID(id).
+
+      pkgNameOk1(PackageName(pkgName, id)) = QID(pkgNameOk1(pkgName), id).
 
 
   pkgDeclScope : PKG_DECL -> scope
   
   pkgDeclScope((_, s_pkg)) = s_pkg.
 
+
+  resolvePkgName : scope * QID -> PKG_DECL
+  
+  resolvePkgName(s, ID(id)) = pkgDecl :-
+    pkgDecl == composePkgDecl(id, resolveLexicalPkgNames(s, id)).
+
+  resolvePkgName(s, QID(qid, id)) = pkgDecl :-
+  {s_pkg}
+    s_pkg == pkgDeclScope(resolvePkgName(s, qid)),
+    pkgDecl == composePkgDecl(id, resolveMemberPkgNames(s_pkg, id)).
+  
     
   resolveLexicalPkgNames : scope * Id -> list(PKG_PATH)
   

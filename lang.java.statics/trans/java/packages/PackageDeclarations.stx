@@ -14,11 +14,17 @@ imports
 
 rules
 
+  pkgDeclOptOk : scope * list(PackageDeclaration) * scope
+
+  pkgDeclOptOk(s, [], s_pkg) :- declarePkgIds(s, [Id("")], s_pkg).
+
+  pkgDeclOptOk(s, [pkgDecl], s_pkg) :- pkgDeclOk(s, pkgDecl, s_pkg).
+
+
   pkgDeclOk : scope * PackageDeclaration * scope
-  pkgDeclOptOk maps pkgDeclOk(*, list(*), *)
 
   pkgDeclOk(s, PackageDeclaration(annoList, idList), s_pkg) :-
-    annoListOk(_, annoList),
+    annoListOk(s, annoList),
     declarePkgIds(s, idList, s_pkg),
     true.
 

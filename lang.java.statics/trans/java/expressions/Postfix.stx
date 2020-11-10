@@ -18,8 +18,5 @@ rules // 15.14. Postfix Expressions
     _ == exprOk(s, expr),
     true.
 
-  exprOk(s, ExpressionName2Expression(exprName)) = _ :-
-    exprNameOk(s, exprName) == _,
-    true.
-
+  exprOk(s, ExpressionName2Expression(exprName)) = varDeclType(exprNameOk(s, exprName)).
 

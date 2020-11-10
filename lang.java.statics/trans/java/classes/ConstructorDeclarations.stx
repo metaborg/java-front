@@ -48,18 +48,18 @@ rules // 8.8. Constructor Declarations
   ctorInvOptOk maps ctorInvOk(*, list(*))
   
   ctorInvOk(s, AltConstrInv(typeArgsOpt, exprList)) :-
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),
     true.
 
   ctorInvOk(s, SuperConstrInv(typeArgsOpt, exprList)) :-
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),
     true.
 
   ctorInvOk(s, ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
     _ == exprOk(s, expr),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),
     true.
 

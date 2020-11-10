@@ -22,9 +22,9 @@ rules // 14.4. Local Variable Declaration Statements
   localVarDeclOk : scope * LocalVariableDeclaration
   
   localVarDeclOk(s, LocalVarDecl(varModList, unannType, varDeclList)) :-
+  {T}
     varModListOk(s, varModList),
-    unannTypeOk(s, unannType),
-    varDeclListOk(s, varDeclList),
+    T == unannTypeOk(s, unannType),
+    varDeclListOk(s, T, varDeclList),
     true.
-
 

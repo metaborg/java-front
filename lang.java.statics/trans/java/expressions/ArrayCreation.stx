@@ -21,27 +21,25 @@ rules // 15.10.1. Array Creation Expressions
   arrayCreationExprOk : scope * ArrayCreationExpression
   
   arrayCreationExprOk(s, NewArray(arrayBaseType, dimExprList, annDimsEmpty)) :-
-    arrayBaseTypeOk(s, arrayBaseType),
+  {T}
+    T == arrayBaseTypeOk(s, arrayBaseType),
     dimExprListOk(s, dimExprList),
     annDimsEmptyOk(s, annDimsEmpty),
     true.
 
   arrayCreationExprOk(s, NewArrayInit(arrayBaseType, annDims, arrayInit)) :-
-    arrayBaseTypeOk(s, arrayBaseType),
+  {T}
+    T == arrayBaseTypeOk(s, arrayBaseType),
     annDimsOk(s, annDims),
-    arrayInitOk(s, arrayInit),
+    arrayInitOk(s, T, arrayInit),
     true.
     
 
-  arrayBaseTypeOk : scope * ArrayBaseType
+  arrayBaseTypeOk : scope * ArrayBaseType -> TYPE
   
-  arrayBaseTypeOk(s, ClassType2ArrayBaseType(clsType)) :-
-    clsTypeOk(s, clsType),
-    true.
+  arrayBaseTypeOk(s, ClassType2ArrayBaseType(clsType)) = clsTypeOk(s, clsType).
   
-  arrayBaseTypeOk(s, PrimitiveType2ArrayBaseType(primType)) :-
-    primTypeOk(s, primType),
-    true.
+  arrayBaseTypeOk(s, PrimitiveType2ArrayBaseType(primType)) = primTypeOk(s, primType).
   
 
   dimExprOk : scope * DimExpr

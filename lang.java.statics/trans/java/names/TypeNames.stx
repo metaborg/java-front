@@ -15,44 +15,58 @@ imports
 signature
 
   sorts
-    TYPE_DECL  = (Id * TYPE)
+    TYPE_DECL  = (Id * scope)
     TYPE_PATH  = (path * (Id * scope))
-
-    TYPE_DECL_OPT = list(TYPE_DECL)
 
   relations
     type : Id -> scope
+    this : TYPE -> TYPE_DECL
+
+
+rules
+
+  typeDeclId : TYPE_DECL -> Id
+  
+  typeDeclId((id, _)) = id.
+
+
+  typeDeclScope : TYPE_DECL -> scope
+  
+  typeDeclScope((_, s_ty)) = typeScope(toType(s_ty)).
+
+
+  typeDeclType : TYPE_DECL -> TYPE
+  
+  typeDeclType((_, s_ty)) = toType(s_ty).
+
+
+  typeDeclKind : TYPE_DECL -> KIND
+  
+  typeDeclKind((_, s_ty)) = toKind(s_ty).
 
 
 rules
 
   typeNameOk : scope * TypeName -> TYPE_DECL
   
-  typeNameOk(s, typeName) = typeDecl :-
-    [typeDecl] == resolveTypeName(s, typeName),
-    true.
+  typeNameOk(s, typeName) = resolveTypeName(s, typeNameOk1(typeName)).
 
-  
-  resolveTypeName : scope * TypeName -> TYPE_DECL_OPT
-  resolveTypeName1 : PKG_OR_TYPE_DECL_OPT * Id -> TYPE_DECL_OPT
-  
-  resolveTypeName(s, TypeName(id)) = singleTypeDecl(id, resolveLexicalTypeNames(s, id)).
+      typeNameOk1 : TypeName -> QID
 
-  resolveTypeName(s, TypeName(pkgOrTypeName, id)) = resolveTypeName1(resolvePkgOrTypeName(s, pkgOrTypeName), id).
+      typeNameOk1(TypeName(id)) = ID(id).
 
-  resolveTypeName1([], id) = [] :-
-    false | error $[Type [id] not found]. // DUPLICATE
+      typeNameOk1(TypeName(pkgOrTypeName, id)) = QID(pkgOrTypeNameOk1(pkgOrTypeName), id).
 
-  resolveTypeName1([pkgOrTypeDecl], id) = typeDeclOpt :-
+
+  resolveTypeName : scope * QID -> TYPE_DECL
+
+  resolveTypeName(s, ID(id)) = typeDecl :-
+    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)).
+
+  resolveTypeName(s, QID(qid, id)) = typeDecl :-
   {s_pkgOrType}
-    s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeDecl),
-    typeDeclOpt == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrType, id)),
-    true.
-
-
-  typeDeclScope : TYPE_DECL -> scope
-  
-  typeDeclScope((_, ty)) = typeScope(ty).
+    s_pkgOrType == pkgOrTypeDeclScope(resolvePkgOrTypeName(s, qid)),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrType, id)).
 
 
   resolveLexicalTypeNames : scope * Id -> list(TYPE_PATH)
@@ -87,20 +101,53 @@ rules
     true.
 
 
-  singleTypeDecl : Id * list(TYPE_PATH) -> TYPE_DECL_OPT
-  
-  singleTypeDecl(id, []) = [] :-
+  singleTypeDecl : Id * list(TYPE_PATH) -> TYPE_DECL
+
+  singleTypeDecl(id, []) = _ :-
     false | error $[Type [id] not found] @id.
 
-  singleTypeDecl(id, [(_, typeDecl)]) = [(id', T)] :-
-    (id', matchType(T)) == typeDecl,
+  singleTypeDecl(id, [(_, typeDecl@(id', _))]) = typeDecl :-
     @id.ref := id'.
 
-  singleTypeDecl(id, typeDeclList) = [] :-
+  singleTypeDecl(id, typeDeclList) = _ :-
     false | error $[Type [id] is ambiguous] @id.
 
 
-  declareType : scope * Id * TYPE
+  declareType : scope * Id * TYPE * KIND
   
-  declareType(s, id, T) :-
-    !type[id, fromType(T)] in s.
+  declareType(s, id, T, K) :-
+  {s_ty}
+    new s_ty, setType(s_ty, T), setKind(s_ty, K),
+    !type[id, s_ty] in s,
+    !this[T, (id, s_ty)] in typeScope(T).
+
+   
+  thisOk : scope -> TYPE_DECL
+  
+  thisOk(s) = typeDecl :-
+    query this
+      filter LEX* and true
+      min $ < LEX and true
+      in s |-> [(_, (_, typeDecl))].
+
+
+  qualThisOk : scope * TYPE_DECL -> TYPE_DECL
+
+  qualThisOk(s, typeDecl) = typeDecl' :-
+  {s_ty}
+    s_ty == typeDeclScope(typeDecl),
+    query this
+      filter LEX* and { T :- typeScope(T) == s_ty }
+      min $ < LEX and true
+      in s |-> [(_, (_, typeDecl'))].
+
+
+  superOk : scope -> TYPE_DECL
+  
+  superOk(s) = typeDecl' :-
+  {s_this}
+    s_this == typeDeclScope(thisOk(s)),
+    query this
+      filter EXT and true
+      in s_this |-> [(_, (_, typeDecl'))].
+

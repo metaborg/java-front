@@ -15,11 +15,16 @@ imports
 
 signature
 
+  // helper sort to define uniform resolution predicates over
+  sorts QID constructors
+    ID  : Id -> QID
+    QID : QID * Id -> QID
+
   name-resolution
     labels
       EXT     // extends
       IMPL    // implements
-      IMP_ST  // sinlge-type import
+      IMP_ST  // single-type import
       IMP_OD  // on-demand import
       LEX     // lexical parent
       PKGC    // package composition

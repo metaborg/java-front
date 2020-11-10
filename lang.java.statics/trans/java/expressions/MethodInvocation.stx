@@ -19,18 +19,18 @@ rules // 15.12. Method Invocation Expressions
 
   exprOk(s, InvokeQExp(expr, typeArgsOpt, id, exprList)) = _ :-
     _ == exprOk(s, expr),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),
     true.
 
   exprOk(s, InvokeSuper(typeArgsOpt, id, exprList)) = _ :-
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),
     true.
 
   exprOk(s, InvokeQSuper(typeName, typeArgsOpt, id, exprList)) = _ :-
     typeNameOk(s, typeName) == _,
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),
     true.
 

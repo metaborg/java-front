@@ -7,56 +7,93 @@ imports
   java/classes/ClassDeclarations
   java/expressions/Main
   java/interfaces/Annotations
+  java/names/TypeNames
+  java/names/PackageOrTypeNames
   java/types/ParameterizedTypes
+  java/types/ReferenceTypes
 
 
 rules // 15.9. Class Instance Creation Expressions
 
-  exprOk(s, UnqualifiedInstance2Expression(unqualInst)) = _ :-
-    unqualInstOk(unqualInst),
+  exprOk(s, UnqualifiedInstance2Expression(unqualInst)) = T :-
+    T == unqualInstOk(s, unqualInst).
+
+  exprOk(s, QualifiedInstance(expr, unqualInst)) = T' :-
+  {T}
+    T == exprOk(s, expr),
+    T' == qualInstOk(s, T, unqualInst),
     true.
 
-  exprOk(s, QualifiedInstance(expr, unqualInst)) = _ :-
-    _ == exprOk(s, expr),
-    unqualInstOk(unqualInst),
-    true.
 
-
-  unqualInstOk : UnqualifiedInstance
+  unqualInstOk : scope * UnqualifiedInstance -> TYPE
   
-  unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) :-
-    typeArgsOptOk(_, typeArgsOpt),
-    annoListOk(_, annoList),
-    qualIdListOk(qualIdList),
-    typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
-    _ == exprListOk(_, exprList),
+  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
+  {qid}
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    annoListOk(s, annoList),
+    qid == qualIdListOk(s, id, qualIdList),
+    typeDecl == resolveTypeName(s, qid),
+    typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
+    _ == exprListOk(s, exprList),
     true.
 
-  unqualInstOk(NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) :-
-    typeArgsOptOk(_, typeArgsOpt),
-    annoListOk(_, annoList),
-    qualIdListOk(qualIdList),
-    typeArgsOrDiamondOptOk(typeArgsOrDiamondOpt),
-    _ == exprListOk(_, exprList),
-    clsBodyDeclListOk(_, clsBodyDeclList),
+  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = typeDeclType(typeDecl) :-
+  {qid}
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    annoListOk(s, annoList),
+    qid == qualIdListOk(s, id, qualIdList),
+    typeDecl == resolveTypeName(s, qid),
+    typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
+    _ == exprListOk(s, exprList),
+    clsBodyDeclListOk(s, clsBodyDeclList),
     true.
-    
 
-  qualIdOk : QualifiedId
-  qualIdListOk maps qualIdOk(list(*))
+
+  qualInstOk : scope * TYPE * UnqualifiedInstance -> TYPE
+
+  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
+  {s_ty}
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    annoListOk(s, annoList),
+    s_ty == typeScope(T),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
+    typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
+    _ == exprListOk(s, exprList).
+
+  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = typeDeclType(typeDecl) :-
+  {s_ty}
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    annoListOk(s, annoList),
+    s_ty == typeScope(T),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
+    typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
+    _ == exprListOk(s, exprList),
+    clsBodyDeclListOk(s, clsBodyDeclList).
+
+
+  qualIdListOk : scope * Id * list(QualifiedId) -> QID
+  qualIdListOk1 : scope * Id * list(QualifiedId) * list(Id) -> QID
+  qualIdListOk2 : QID * list(Id) -> QID
+
+  qualIdListOk(s, id, qualIdList) = qualIdListOk1(s, id, qualIdList, []).
+
+  qualIdListOk1(s, id, [], ids) = qualIdListOk2(ID(id), ids).
+
+  qualIdListOk1(s, id, [QualifiedId(annoList, id')|qids], ids) = qualIdListOk1(s, id, qids, [id'|ids]) :-
+    annoListOk(s, annoList).
+
+  qualIdListOk2(qid, []) = qid.
+
+  qualIdListOk2(qid, [id|ids]) = qualIdListOk2(QID(qid, id), ids).
+
+
+  typeArgsOrDiamondOk : scope * TypeArgumentsOrDiamond
+  typeArgsOrDiamondOptOk maps typeArgsOrDiamondOk(*, list(*))
   
-  qualIdOk(QualifiedId(annoList, id)) :-
-    annoListOk(_, annoList),
-    true.
-    
-    
-  typeArgsOrDiamondOk : TypeArgumentsOrDiamond
-  typeArgsOrDiamondOptOk maps typeArgsOrDiamondOk(list(*))
-  
-  typeArgsOrDiamondOk(TypeArguments2TypeArgumentsOrDiamond(typeArgs)) :-
-    typeArgsOk(_, typeArgs).
+  typeArgsOrDiamondOk(s, TypeArguments2TypeArgumentsOrDiamond(typeArgs)) :-
+    _ == typeArgsOk(s, typeArgs).
 
-  typeArgsOrDiamondOk(Diamond()) :-
+  typeArgsOrDiamondOk(s, Diamond()) :-
     true.
 
 

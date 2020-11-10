@@ -1,0 +1,43 @@
+module java/Object
+
+imports
+
+  java/names/Main
+  java/names/TypeNames
+  java/packages/PackageDeclarations
+  java/types/Main
+  java/types/ReferenceTypes
+
+signature
+
+  relations
+    javaLangObject : -> TYPE_DECL
+
+rules
+
+  declareObject : scope
+
+  declareObject(s) :-
+  {s_pkg id s_cls s_ty T K}
+  
+    new s_pkg, s_pkg -LEX-> s,
+    declarePkgIds(s, [Id("java"), Id("lang")], s_pkg),
+  
+    new s_cls, s_cls -LEX-> s_pkg,
+
+    id == Id("Object"),
+    T == REF(s_cls),
+    K == CLASS(),
+  
+    declareType(s_pkg, id, T, K),
+  
+    new s_ty, setType(s_ty, T), setKind(s_ty, K),
+    !javaLangObject[(id, s_ty)] in s,
+  
+    true.
+
+
+  resolveObject : scope -> TYPE_DECL
+  
+  resolveObject(s) = typeDecl :-
+    query javaLangObject filter LEX* and true in s |-> [(_, typeDecl)].

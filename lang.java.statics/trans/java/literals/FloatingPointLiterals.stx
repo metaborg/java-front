@@ -5,22 +5,20 @@ imports
   signatures/java/literals/FloatingPointLiterals-sig
 
   java/literals/Main
+  java/types/Main
+  java/types/PrimitiveTypes
 
 
 rules // 3.10.2. Floating-Point Literals
 
-  floatLitOk : FloatLiteral
+  floatLitOk : FloatLiteral -> TYPE
   
-  floatLitOk(DeciFloat(_)) :-
-    true.
+  floatLitOk(DeciFloat(_)) = FLOAT().
 
-  floatLitOk(HexaFloat(_)) :-
-    true.
+  floatLitOk(HexaFloat(_)) = FLOAT().
 
-  floatLitOk(DeciDouble(_)) :-
-    true.
+  floatLitOk(DeciDouble(_)) = FLOAT().
 
-  floatLitOk(HexaDouble(_)) :-
-    true.
+  floatLitOk(HexaDouble(_)) = FLOAT().
 
 

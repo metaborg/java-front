@@ -79,7 +79,7 @@ rules // 15.17. Multiplicative Operators
       
   exprOk(s, InstanceOf(expr, refType)) = _ :-
     _ == exprOk(s, expr),
-    refTypeOk(s, refType),
+    _ == refTypeOk(s, refType),
     true. 
       
   exprOk(s, Eq(expr1, expr2)) = _ :-

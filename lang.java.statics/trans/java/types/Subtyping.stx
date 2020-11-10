@@ -2,9 +2,55 @@ module java/types/Subtyping
 
 imports
 
+  java/names/Main
   java/types/Main
 
 
 // 4.10 Subtyping
 
 rules
+
+  subType : TYPE * TYPE
+
+  subType(T, U) :- superType(U, T).
+
+
+  superType : TYPE * TYPE
+
+  superType(T, T).
+
+  superType(REF(_), NULL()).
+
+  superType(T@REF(s_T), U@REF(s_U)) :-
+  {ps}
+    query () filter (EXT|IMPL)* and { s_ty :- s_ty == s_T } in s_U |-> ps,
+    superType1(ps) | error $[[U] not a subtype of [T]].
+
+      superType1 : list((path * scope))
+      superType1([]) :- false.
+      superType1(ps) :- true.
+
+  superType(DOUBLE(), FLOAT()).
+  superType(DOUBLE(), LONG()).
+  superType(DOUBLE(), INT()).
+  superType(DOUBLE(), CHAR()).
+  superType(DOUBLE(), SHORT()).
+  superType(DOUBLE(), BYTE()).
+
+  superType(FLOAT(),  LONG()).
+  superType(FLOAT(),  INT()).
+  superType(FLOAT(),  CHAR()).
+  superType(FLOAT(),  SHORT()).
+  superType(FLOAT(),  BYTE()).
+
+  superType(LONG(),   INT()).
+  superType(LONG(),   CHAR()).
+  superType(LONG(),   SHORT()).
+  superType(LONG(),   BYTE()).
+
+  superType(INT(),    CHAR()).
+  superType(INT(),    SHORT()).
+  superType(INT(),    BYTE()).
+
+  superType(SHORT(),  BYTE()).
+

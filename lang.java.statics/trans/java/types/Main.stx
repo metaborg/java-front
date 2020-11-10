@@ -13,11 +13,12 @@ imports
 
 signature
 
-  sorts TYPE
+  sorts TYPE KIND
 
   relations
 
     withType : -> TYPE
+    withKind : -> KIND
 
 rules
 
@@ -42,17 +43,46 @@ rules
     new s, !withType[T] in s.
 
 
+  setType : scope * TYPE
+
+  setType(s, T) :-
+    !withType[T] in s.
+
 rules
 
-  typeOk : scope * Type
+  matchKind : KIND -> scope
   
-  typeOk(s, PrimitiveType2Type(primType)) :-
-    primTypeOk(s, primType),
-    true.
+  matchKind(K) = s :-
+    K == toKind(s).
 
-  typeOk(s, ReferenceType2Type(refType)) :-
-    refTypeOk(s, refType),
-    true.
+
+  toKind : scope -> KIND
+
+  toKind(s) = K :-
+    query withKind
+      filter e and true
+      min /* */ and true
+      in s |-> [(_, K)].
+
+
+  fromKind : KIND -> scope
+
+  fromKind(K) = s :-
+    new s, !withKind[K] in s.
+
+  setKind : scope * KIND
+
+  setKind(s, K) :-
+    !withKind[K] in s.
+
+
+rules
+
+  typeOk : scope * Type -> TYPE
+  
+  typeOk(s, PrimitiveType2Type(primType)) = primTypeOk(s, primType).
+
+  typeOk(s, ReferenceType2Type(refType)) = refTypeOk(s, refType).
 
 
 // 4.1 The Kinds of Types and Values

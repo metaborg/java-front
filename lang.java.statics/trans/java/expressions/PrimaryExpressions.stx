@@ -12,39 +12,35 @@ imports
 
 rules // 15.8. Primary Expressions
 
-  exprOk(s, Literal2Expression(lit)) = _ :-
-    litOk(lit),
-    true.
+  exprOk(s, Literal2Expression(lit)) = T :-
+    T == litOk(lit).
     
   exprOk(s, ClassLiteral2Expression(clsLit)) = _ :-
-    clsLitOk(clsLit),
+    clsLitOk(s, clsLit),
     true.
     
-  exprOk(s, This()) = _:-
-    true.
+  exprOk(s, This()) = typeDeclType(thisOk(s)).
     
-  exprOk(s, QThis(typeName)) = _ :-
-    typeNameOk(_, typeName) == _,
-    true.
+  exprOk(s, QThis(typeName)) = typeDeclType(qualThisOk(s, typeNameOk(s, typeName))).
+
     
-    
-  clsLitOk : ClassLiteral
+  clsLitOk : scope * ClassLiteral
   
-  clsLitOk(TypeNameClassLiteral(typeName, dimsList)) :-
-    typeNameOk(_, typeName) == _,
+  clsLitOk(s, TypeNameClassLiteral(typeName, dimsList)) :-
+    typeNameOk(s, typeName) == _,
     dimsListOk(dimsList),
     true.
     
-  clsLitOk(NumericTypeClassLiteral(numType, dimsList)) :-
-    numTypeOk(numType),
+  clsLitOk(s, NumericTypeClassLiteral(numType, dimsList)) :-
+    _ == numTypeOk(numType),
     dimsListOk(dimsList),
     true.
     
-  clsLitOk(BooleanClassLiteral(dimsList)) :-
+  clsLitOk(s, BooleanClassLiteral(dimsList)) :-
     dimsListOk(dimsList),
     true.
     
-  clsLitOk(VoidClassLiteral()) :-
+  clsLitOk(s, VoidClassLiteral()) :-
     true.
 
 

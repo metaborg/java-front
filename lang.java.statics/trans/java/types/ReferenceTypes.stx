@@ -17,40 +17,38 @@ imports
 signature
 
   constructors
-    ARRAY     : TYPE -> TYPE
-    CLASS     : scope -> TYPE
-    ENUM      : scope -> TYPE
-    INTF      : scope -> TYPE
+    ARRAY : KIND
+    CLASS : KIND
+    INTF  : KIND
+    TVAR  : KIND
+
+  constructors
+    REF : scope -> TYPE
   
 rules 
 
-  refTypeOk : scope * ReferenceType
+  refTypeOk : scope * ReferenceType -> TYPE
   
-  refTypeOk(s, ClassType2ReferenceType(clsType)) :-
-    clsTypeOk(s, clsType),
-    true.
+  refTypeOk(s, ClassType2ReferenceType(clsType)) = clsTypeOk(s, clsType).
     
-  refTypeOk(s, ArrayType2ReferenceType(arrayType)) :-
-    arrayTypeOk(s, arrayType),
-    true.
+  refTypeOk(s, ArrayType2ReferenceType(arrayType)) = arrayTypeOk(s, arrayType).
 
 
-  clsTypeOk : scope * ClassType
-  clsTypeListOk maps clsTypeOk(*, list(*))
+  clsTypeOk : scope * ClassType -> TYPE
+  clsTypeListOk maps clsTypeOk(*, list(*)) = list(*)
   
-  clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) :-
-  {typeDecl}
+  clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = typeDeclType(typeDecl) :-
     annoListOk(s, annoList),
-    [typeDecl] == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
-    typeArgsOptOk(s, typeArgsOpt),
+    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
-  clsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) :-
-  {s_pkgOrCls typeDecl}
+  clsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) = typeDeclType(typeDecl) :-
+  {s_pkgOrCls}
     s_pkgOrCls == pkgOrClsTypeOk(s, clsType),
     annoListOk(s, annoList),
-    [typeDecl] == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
-    typeArgsOptOk(s, typeArgsOpt),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
 
@@ -59,18 +57,18 @@ rules
   pkgOrClsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = s_pkgOrCls :-
   {pkgOrTypeDecl}
     annoListOk(s, annoList),
-    [pkgOrTypeDecl] == resolveLexicalPkgOrTypeName(s, id),
+    pkgOrTypeDecl == resolveLexicalPkgOrTypeName(s, id),
     s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
   pkgOrClsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) = s_pkgOrCls :-
   {pkgOrTypeDecl s_pkgOrCls'}
     s_pkgOrCls' == pkgOrClsTypeOk(s, clsType),
     annoListOk(s, annoList),
-    [pkgOrTypeDecl] == resolveMemberPkgOrTypeName(s, id),
+    pkgOrTypeDecl == resolveMemberPkgOrTypeName(s, id),
     s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
-    typeArgsOptOk(s, typeArgsOpt),
+    _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
 
@@ -81,15 +79,17 @@ rules
     true.
 
 
-  arrayTypeOk : scope * ArrayType
+  arrayTypeOk : scope * ArrayType -> TYPE
   
-  arrayTypeOk(s, ArrayTypePrimitive(primType, annDims)) :-
-    primTypeOk(s, primType),
+  arrayTypeOk(s, ArrayTypePrimitive(primType, annDims)) = _ :-
+  {T}
+    T == primTypeOk(s, primType),
     annDimsOk(s, annDims),
     true.
 
-  arrayTypeOk(s, ArrayTypeClassType(clsType, annDims)) :-
-    clsTypeOk(s, clsType),
+  arrayTypeOk(s, ArrayTypeClassType(clsType, annDims)) = _ :-
+  {T}
+    T == clsTypeOk(s, clsType),
     annDimsOk(s, annDims),
     true.
 
@@ -120,9 +120,5 @@ rules
 
   typeScope : TYPE -> scope
   
-  typeScope(CLASS(s_cls)) = s_cls.
-
-  typeScope(INTF(s_intf)) = s_intf.
-
-  typeScope(ENUM(s_enum)) = s_enum.
+  typeScope(REF(s_ty)) = s_ty.
 

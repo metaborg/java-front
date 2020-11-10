@@ -14,23 +14,17 @@ imports
 
 rules // 3.10. Literals
 
-  litOk : Literal
+  litOk : Literal -> TYPE
 
-  litOk(IntLiteral2Literal(intLit)) :-
-    intLitOk(intLit).
+  litOk(IntLiteral2Literal(intLit)) = intLitOk(intLit).
 
-  litOk(FloatLiteral2Literal(floatLit)) :-
-    floatLitOk(floatLit).
+  litOk(FloatLiteral2Literal(floatLit)) = floatLitOk(floatLit).
 
-  litOk(BoolLiteral2Literal(boolLit)) :-
-    boolLitOk(boolLit).
+  litOk(BoolLiteral2Literal(boolLit)) = boolLitOk(boolLit).
 
-  litOk(CharacterLiteral2Literal(charLit)) :-
-    charLitOk(charLit).
+  litOk(CharacterLiteral2Literal(charLit)) = charLitOk(charLit).
 
-  litOk(StringLiteral2Literal(stringLit)) :-
-    stringLitOk(stringLit).
+  litOk(StringLiteral2Literal(stringLit)) = stringLitOk(stringLit).
 
-  litOk(NullLiteral2Literal(nullLit)) :-
-    nullLitOk(nullLit).
+  litOk(NullLiteral2Literal(nullLit)) = nullLitOk(nullLit).
 
