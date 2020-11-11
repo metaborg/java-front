@@ -4,6 +4,7 @@ imports
 
   signatures/java/interfaces/InterfaceDeclarations-sig
 
+  java/Object
   java/classes/ClassDeclarations
   java/interfaces/Annotations
   java/interfaces/AnnotationTypes
@@ -24,7 +25,7 @@ rules // 9.1. Interface Declarations
     intfModListOk(s, intfModList),
     
     new s_intf,
-    declareType(s, id, REF(s_intf), INTF()),
+    declareType(s, id, s_intf, INTF()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
@@ -58,8 +59,15 @@ rules // 9.1. Interface Declarations
   intfModOk(s, Strictfp2InterfaceModifier(_)) :- true.
 
 
+  extendsIntfsOptOk : scope * list(ExtendsInterfaces) * scope
+
+  extendsIntfsOptOk(s, [], s_intf) :-
+    setSuperCls(s_intf, objectOk(s)).
+
+  extendsIntfsOptOk(s, [extendsIntfs], s_intf) :-
+    extendsIntfsOk(s, extendsIntfs, s_intf).
+
   extendsIntfsOk : scope * ExtendsInterfaces * scope
-  extendsIntfsOptOk maps extendsIntfsOk(*, list(*), *)
   
   extendsIntfsOk(s, ExtendsInterfaces(clsTypeList), s_intf) :-
   {Ts}

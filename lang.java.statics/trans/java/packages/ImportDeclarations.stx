@@ -22,7 +22,7 @@ rules // 7.5. Import Declarations
     typeDecl == typeNameOk(s, typeName),
     new s_imp,
     s_pkg -IMP_ST-> s_imp,
-    declareType(s_imp, typeDeclId(typeDecl), typeDeclType(typeDecl), typeDeclKind(typeDecl)).
+    aliasType(s_imp, typeDecl).
 
 
   importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_pkg) :-

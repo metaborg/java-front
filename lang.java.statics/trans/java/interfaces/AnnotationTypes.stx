@@ -24,9 +24,11 @@ rules // 9.6. Annotation Types
     intfModListOk(s, intfModList),
     
     new s_anno,
-    declareType(s, id, REF(s_anno), INTF()),
+    declareType(s, id, s_anno, INTF()),
     
     s_anno -LEX-> s,
+
+    // FIXME Object as supertype?
 
     annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList),
     true.

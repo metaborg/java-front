@@ -20,7 +20,7 @@ signature
 
   relations
     type : Id -> scope
-    this : TYPE -> TYPE_DECL
+    this : TYPE_DECL
 
 
 rules
@@ -113,22 +113,28 @@ rules
     false | error $[Type [id] is ambiguous] @id.
 
 
-  declareType : scope * Id * TYPE * KIND
-  
-  declareType(s, id, T, K) :-
-  {s_ty}
-    new s_ty, setType(s_ty, T), setKind(s_ty, K),
+  declareType : scope * Id * scope * KIND
+
+  declareType(s, id, s_ty, K) :-
+    setType(s_ty, REF(s_ty)),
+    setKind(s_ty, K),
     !type[id, s_ty] in s,
-    !this[T, (id, s_ty)] in typeScope(T).
+    !this[(id, s_ty)] in s_ty.
 
    
+  aliasType : scope * TYPE_DECL
+   
+  aliasType(s, (id, s_ty)) :-
+    !type[id, s_ty] in s.
+
+
   thisOk : scope -> TYPE_DECL
   
   thisOk(s) = typeDecl :-
     query this
       filter LEX* and true
       min $ < LEX and true
-      in s |-> [(_, (_, typeDecl))].
+      in s |-> [(_, typeDecl)].
 
 
   qualThisOk : scope * TYPE_DECL -> TYPE_DECL
@@ -137,9 +143,9 @@ rules
   {s_ty}
     s_ty == typeDeclScope(typeDecl),
     query this
-      filter LEX* and { T :- typeScope(T) == s_ty }
+      filter LEX* and { typeDecl' :- typeDeclScope(typeDecl') == s_ty }
       min $ < LEX and true
-      in s |-> [(_, (_, typeDecl'))].
+      in s |-> [(_, typeDecl')].
 
 
   superOk : scope -> TYPE_DECL
@@ -148,6 +154,7 @@ rules
   {s_this}
     s_this == typeDeclScope(thisOk(s)),
     query this
-      filter EXT and true
-      in s_this |-> [(_, (_, typeDecl'))].
+      filter EXT|IMPL and true
+      min EXT < IMPL and true
+      in s_this |-> [(_, typeDecl')].
 

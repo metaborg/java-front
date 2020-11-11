@@ -5,6 +5,7 @@ imports
   signatures/java/types/TypeVariable-sig
 
   java/Object
+  java/classes/ClassDeclarations
   java/interfaces/Annotations
   java/names/TypeNames
   java/types/Main
@@ -17,20 +18,31 @@ rules // 4.4. Type Variables
   typeParamListOk maps typeParamOk(*, list(*), *)
 
   typeParamOk(s, TypeParameter(annoList, id), s_ty) :-
-  {typeDecl}
+  {s_var}
     annoListOk(s, annoList),
 
-    typeDecl == resolveObject(s),
-    declareType(s_ty, id, typeDeclType(typeDecl), TVAR()),
+    new s_var,
+    declareType(s_ty, id, s_var, TVAR()),
+
+    setSuperCls(s_var, objectOk(s)),
 
     true.
     
   typeParamOk(s, TypeParameterExtends(annoList, id, clsTypeList), s_ty) :-
-  {T}
+  {s_var T Ts}
     annoListOk(s, annoList),
 
-    declareType(s_ty, id, T, TVAR()),
+    new s_var,
+    declareType(s_ty, id, s_var, TVAR()),
 
-    [T|_] == clsTypeListOk(s, clsTypeList),
-    true.
+    [T|Ts] == clsTypeListOk(s, clsTypeList),
+    typeParamOk1(s_var, typeKind(T), T),
+    addSuperIntfList(s_var, Ts).
 
+        typeParamOk1 : scope * KIND * TYPE
+
+        typeParamOk1(s_var, CLASS(), T) :-
+          setSuperCls(s_var, T).
+    
+        typeParamOk1(s_var, INTF(), T) :-
+          addSuperIntf(s_var, T).

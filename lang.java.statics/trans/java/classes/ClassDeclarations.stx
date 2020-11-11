@@ -41,7 +41,7 @@ rules // 8.1. Class Declarations
     clsModListOk(s, clsModList),
 
     new s_cls,
-    declareType(s, id, REF(s_cls), CLASS()),
+    declareType(s, id, s_cls, CLASS()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
@@ -85,18 +85,18 @@ rules // 8.1. Class Declarations
   
   superClsOptOk(s, [], s_cls) :-
   {T}
-    T == typeDeclType(resolveObject(s)),
+    T == objectOk(s),
     setSuperCls(s_cls, T).
 
   superClsOptOk(s, [SuperClass(clsType)], s_cls) :-
   {T}
     T == clsTypeOk(s, clsType),
-    setSuperCls(s_cls, T),
-    true.
-    
+    setSuperCls(s_cls, T).
+
   setSuperCls : scope * TYPE
-  
+
   setSuperCls(s_cls, T) :-
+    isClsType(T),
     s_cls -EXT-> typeScope(T).
 
 
@@ -112,6 +112,7 @@ rules // 8.1. Class Declarations
   addSuperIntfList maps addSuperIntf(*, list(*))
   
   addSuperIntf(s_cls, T) :-
+    isIntfType(T),
     s_cls -IMPL-> typeScope(T).
 
 

@@ -122,3 +122,31 @@ rules
   
   typeScope(REF(s_ty)) = s_ty.
 
+
+  typeKind : TYPE -> KIND
+
+  typeKind(REF(s_ty)) = toKind(s_ty).
+
+
+  isClsType : TYPE
+  
+  isClsType(T) :- typeKind(T) == CLASS().
+
+
+  isIntfType : TYPE
+
+  isIntfType(T) :- typeKind(T) == INTF().
+
+
+  isTypeVar : TYPE
+
+  isTypeVar(T) :- typeKind(T) == TVAR().
+
+
+  isClsOrIntfType : TYPE
+  
+  isClsOrIntfType(T) :- isClsOrIntfKind(typeKind(T)).
+
+    isClsOrIntfKind : KIND
+    isClsOrIntfKind(CLASS()).
+    isClsOrIntfKind(INTF()).

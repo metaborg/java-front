@@ -18,23 +18,27 @@ rules
   declareObject : scope
 
   declareObject(s) :-
-  {s_pkg id s_cls s_ty T K}
+  {s_pkg id K s_cls}
   
     new s_pkg, s_pkg -LEX-> s,
     declarePkgIds(s, [Id("java"), Id("lang")], s_pkg),
   
-    new s_cls, s_cls -LEX-> s_pkg,
-
     id == Id("Object"),
-    T == REF(s_cls),
     K == CLASS(),
-  
-    declareType(s_pkg, id, T, K),
-  
-    new s_ty, setType(s_ty, T), setKind(s_ty, K),
-    !javaLangObject[(id, s_ty)] in s,
+
+    new s_cls,
+    declareType(s_pkg, id, s_cls, K),
+    
+    s_cls -LEX-> s_pkg,
+
+    !javaLangObject[(id, s_cls)] in s,
   
     true.
+
+
+  objectOk : scope -> TYPE
+  
+  objectOk(s) = typeDeclType(resolveObject(s)).
 
 
   resolveObject : scope -> TYPE_DECL
