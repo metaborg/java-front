@@ -63,16 +63,11 @@ rules // 15.26. Assignment Operators
 
   lhsOk : scope * LHS -> TYPE
   
-  lhsOk(s, ExpressionName2LHS(exprName)) = _ :-
-    exprNameOk(s, exprName) == _,
-    true.
+  lhsOk(s, ExpressionName2LHS(exprName)) = varDeclType(exprNameOk(s, exprName)).
     
-  lhsOk(s, FieldAccess2LHS(fldAccess)) = _ :-
-    fldAccessOk(s, fldAccess),
-    true.
+  lhsOk(s, FieldAccess2LHS(fldAccess)) = fldAccessOk(s, fldAccess).
 
   lhsOk(s, ArrayAccess2LHS(arrayAccess)) = _ :-
     arrayAccessOk(s, arrayAccess),
     true.
-
 

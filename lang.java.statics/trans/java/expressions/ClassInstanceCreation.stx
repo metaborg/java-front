@@ -7,6 +7,7 @@ imports
   java/classes/ClassDeclarations
   java/expressions/Main
   java/interfaces/Annotations
+  java/names/Main
   java/names/TypeNames
   java/names/PackageOrTypeNames
   java/types/ParameterizedTypes
@@ -37,16 +38,19 @@ rules // 15.9. Class Instance Creation Expressions
     _ == exprListOk(s, exprList),
     true.
 
-  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = typeDeclType(typeDecl) :-
-  {qid}
+  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
+  {qid typeDecl}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     qid == qualIdListOk(s, id, qualIdList),
     typeDecl == resolveTypeName(s, qid),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     _ == exprListOk(s, exprList),
-    clsBodyDeclListOk(s, clsBodyDeclList),
-    true.
+
+    new s_cls, s_cls -LEX-> s,
+    // FIXME make s_cls a subtype of typeDecl
+
+    clsBodyDeclListOk(s_cls, clsBodyDeclList).
 
 
   qualInstOk : scope * TYPE * UnqualifiedInstance -> TYPE
@@ -60,15 +64,19 @@ rules // 15.9. Class Instance Creation Expressions
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     _ == exprListOk(s, exprList).
 
-  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = typeDeclType(typeDecl) :-
-  {s_ty}
+  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
+  {s_ty typeDecl}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     s_ty == typeScope(T),
     typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     _ == exprListOk(s, exprList),
-    clsBodyDeclListOk(s, clsBodyDeclList).
+    
+    new s_cls, s_cls -LEX-> s,
+    // FIXME make s_cls a subtype of typeDecl
+    
+    clsBodyDeclListOk(s_cls, clsBodyDeclList).
 
 
   qualIdListOk : scope * Id * list(QualifiedId) -> QID

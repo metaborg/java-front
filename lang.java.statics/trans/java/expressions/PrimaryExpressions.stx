@@ -14,16 +14,16 @@ rules // 15.8. Primary Expressions
 
   exprOk(s, Literal2Expression(lit)) = T :-
     T == litOk(lit).
-    
+
   exprOk(s, ClassLiteral2Expression(clsLit)) = _ :-
     clsLitOk(s, clsLit),
     true.
-    
-  exprOk(s, This()) = typeDeclType(thisOk(s)).
-    
-  exprOk(s, QThis(typeName)) = typeDeclType(qualThisOk(s, typeNameOk(s, typeName))).
 
+  exprOk(s, This()) = typeDeclType(this(s)).
     
+  exprOk(s, QThis(typeName)) = _.
+
+
   clsLitOk : scope * ClassLiteral
   
   clsLitOk(s, TypeNameClassLiteral(typeName, dimsList)) :-

@@ -11,12 +11,12 @@ imports
   java/statements/Blocks
   java/statements/Main
   java/types/ReferenceTypes
+  java/types/Subtyping
 
 
 rules // 14.5. Statements
 
   stmtOk : scope * Statement
-
 
   stmtOk(s, Labeled(id, stmt)) :-
     stmtOk(s, stmt),
@@ -24,46 +24,47 @@ rules // 14.5. Statements
 
 
   stmtOk(s, If(expr_cond, stmt_then)) :-
-  {s_then}
-    _ == exprOk(s, expr_cond),
-    new s_then, s_then -LEX-> s,
-    stmtOk(s_then, stmt_then),
+  {T}
+    T == exprOk(s, expr_cond),
+    subType(T, BOOLEAN()),
+    stmtOk(s, stmt_then),
     true.
 
   stmtOk(s, IfElse(expr_cond, stmt_then, stmt_else)) :-
-  {s_then s_else}
-    _ == exprOk(s, expr_cond),
-    new s_then, s_then -LEX-> s,
-    stmtOk(s_then, stmt_then),
-    new s_else, s_else -LEX-> s,
-    stmtOk(s_else, stmt_else),
+  {T}
+    T == exprOk(s, expr_cond),
+    subType(T, BOOLEAN()),
+    stmtOk(s, stmt_then),
+    stmtOk(s, stmt_else),
     true.
   
 
   stmtOk(s, While(expr_cond, stmt)) :-
-  {s_while}
-    _ == exprOk(s, expr_cond),
-    new s_while, s_while -LEX-> s,
+  {T}
+    T == exprOk(s, expr_cond),
+    subType(T, BOOLEAN()),
     stmtOk(s, stmt),
     true.
   
 
   stmtOk(s, For(forInit, exprOpt, forUpdate, stmt)) :-
-  {s_for}
+  {s_for T}
     new s_for, s_for -LEX-> s,
-    forInitOk(s, forInit),
-    _ == exprOptOk(s, exprOpt),
-    forUpdateOk(s, forUpdate),
+    forInitOk(s_for, forInit),
+    T == exprOptOk(s, exprOpt),
+    subType(T, BOOLEAN()),
+    forUpdateOk(s_for, forUpdate),
     stmtOk(s_for, stmt),
     true.
 
   stmtOk(s, ForEach(varModList, unannType, varDeclId, expr, stmt)) :-
-  {s_foreach T}
+  {s_foreach T T'}
     new s_foreach, s_foreach -LEX-> s,
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclIdOk(s, T, varDeclId),
-    _ == exprOk(s, expr),
+    varDeclIdOk(s_foreach, T, varDeclId),
+    T' == exprOk(s, expr),
+    subType(T', T),
     stmtOk(s_foreach, stmt),
     true.
 
@@ -91,8 +92,8 @@ rules // 14.5. Statements
   exprsOk(s, ExprList(exprList)) :-
     _ == exprListOk(s, exprList),
     true.
-
     
+
   stmtOk(s, Block2Statement(blk)) :-
     blkOk(s, blk),
     true.
@@ -114,33 +115,38 @@ rules // 14.5. Statements
     
     
   stmtOk(s, Switch(expr, switchGroupList, switchLabelList)) :-
-    _ == exprOk(s, expr),
-    switchGroupListOk(s, switchGroupList),
-    switchLabelListOk(s, switchLabelList),
+  {T s_blk}
+    T == exprOk(s, expr),
+    // FIXME T is char/Character, byte/Byte, short/Short, int/Integer, String, or enum
+    new s_blk, s_blk -LEX-> s,
+    switchGroupListOk(s_blk, T, switchGroupList),
+    switchLabelListOk(s_blk, T, switchLabelList),
     true.
     
-  switchGroupOk : scope * SwitchGroup
-  switchGroupListOk maps switchGroupOk(*, list(*))
+  switchGroupOk : scope * TYPE * SwitchGroup
+  switchGroupListOk maps switchGroupOk(*, *, list(*))
 
-  switchGroupOk(s, SwitchGroup(switchLabelList, blkStmtList)) :-
-    switchLabelListOk(s, switchLabelList),
+  switchGroupOk(s, T, SwitchGroup(switchLabelList, blkStmtList)) :-
+    switchLabelListOk(s, T, switchLabelList),
     blkStmtListOk(s, blkStmtList),
     true.
 
-  switchLabelOk : scope * SwitchLabel
-  switchLabelListOk maps switchLabelOk(*, list(*))
+  switchLabelOk : scope * TYPE * SwitchLabel
+  switchLabelListOk maps switchLabelOk(*, *, list(*))
 
-  switchLabelOk(s, CaseExpr(expr)) :-
+  switchLabelOk(s, T, CaseExpr(expr)) :-
     _ == exprOk(s, expr),
     true.
     
-  switchLabelOk(s, DefaultCase()) :-
+  switchLabelOk(s, T, DefaultCase()) :-
     true.
     
     
   stmtOk(s, DoWhile(stmt, expr)) :-
+  {T}
     stmtOk(s, stmt),
-    _ == exprOk(s, expr),
+    T == exprOk(s, expr),
+    subType(T, BOOLEAN()),
     true. 
    
 
@@ -159,12 +165,15 @@ rules // 14.5. Statements
     
     
   stmtOk(s, Return()) :-
-    true.
-    
+    return(s) == VOID().
+
   stmtOk(s, Return(expr)) :-
-    _ == exprOk(s, expr),
-    true.
-    
+  try { false } | note "return/1",
+  {T T'}
+    TYPED(T) == return(s),
+    T' == exprOk(s, expr),
+    subType(T', T).
+ 
     
   stmtOk(s, Synchronized(expr, blk)) :-
     _ == exprOk(s, expr),
@@ -195,23 +204,24 @@ rules // 14.5. Statements
   catchFormalParamOk : scope * CatchFormalParameter
   
   catchFormalParamOk(s, CatchParam(varModList, catchType, varDeclId)) :-
+  {T}
     varModListOk(s, varModList),
-    catchTypeOk(s, catchType),
-    varDeclIdOk(s, _, varDeclId),
+    T == catchTypeOk(s, catchType),
+    varDeclIdOk(s, T, varDeclId),
     true.
     
-  catchTypeOk : scope * CatchType
+  catchTypeOk : scope * CatchType -> TYPE
   
-  catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) :-
-    _ == unannClsTypeOk(s, unannClsType),
-    catchTypeRestListOk(s, catchTypeRestList),
+  catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) = T :-
+    T == unannClsTypeOk(s, unannClsType),
+    _ == catchTypeRestListOk(s, catchTypeRestList), // FIXME include in T
     true.
     
-  catchTypeRestOk : scope * CatchTypeRest
-  catchTypeRestListOk maps catchTypeRestOk(*, list(*))
+  catchTypeRestOk : scope * CatchTypeRest -> TYPE
+  catchTypeRestListOk maps catchTypeRestOk(*, list(*)) = list(*)
   
-  catchTypeRestOk(s, CatchTypeElem(clsType)) :-
-    _ == clsTypeOk(s, clsType),
+  catchTypeRestOk(s, CatchTypeElem(clsType)) = T :-
+    T == clsTypeOk(s, clsType),
     true.
     
     
@@ -253,9 +263,11 @@ rules // 14.5. Statements
   resourceListOk maps resourceOk(*, list(*))
   
   resourceOk(s, Resource(varModList, unannType, varDeclId, expr)) :-
-  {T}
+  {T T'}
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
     varDeclIdOk(s, T, varDeclId),
-    _ == exprOk(s, expr),
+    T' == exprOk(s, expr),
+    subType(T', T),
     true.
+

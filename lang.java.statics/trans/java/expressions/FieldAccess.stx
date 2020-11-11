@@ -5,27 +5,31 @@ imports
   signatures/java/expressions/FieldAccess-sig
 
   java/expressions/Main
+  java/names/ExpressionNames
   java/names/TypeNames
+  java/types/Main
+  java/types/ReferenceTypes
 
 
 rules // 15.11. Field Access Expressions
 
-  exprOk(s, FieldAccess2Expression(fldAccess)) = _ :-
-    fldAccessOk(s, fldAccess),
-    true.
+  exprOk(s, FieldAccess2Expression(fldAccess)) = fldAccessOk(s, fldAccess).
     
   
-  fldAccessOk : scope * FieldAccess
+  fldAccessOk : scope * FieldAccess -> TYPE
   
-  fldAccessOk(s, Field(expr, id)) :-
-    _ == exprOk(s, expr),
-    true.
+  fldAccessOk(s, Field(expr, id)) = T :-
+  {s_ty varDecl}
+    s_ty == typeScope(exprOk(s, expr)),
+    varDecl == singleVarDecl(id, resolveMemberExprNames(s_ty, id)),
+    T == varDeclType(varDecl).
 
-  fldAccessOk(s, SuperField(id)) :-
-    true.
+  fldAccessOk(s, SuperField(id)) = T :-
+  {s_ty varDecl}
+    s_ty == typeDeclScope(super(s)),
+    varDecl == singleVarDecl(id, resolveMemberExprNames(s_ty, id)),
+    T == varDeclType(varDecl).
 
-  fldAccessOk(s, QSuperField(typeName, id)) :-
-    typeNameOk(s, typeName) == _,
+  fldAccessOk(s, QSuperField(typeName, id)) = _ :-
     true.
-
 

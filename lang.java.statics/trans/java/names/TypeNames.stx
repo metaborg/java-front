@@ -128,31 +128,20 @@ rules
     !type[id, s_ty] in s.
 
 
-  thisOk : scope -> TYPE_DECL
+  this : scope -> TYPE_DECL
   
-  thisOk(s) = typeDecl :-
+  this(s) = typeDecl :-
     query this
       filter LEX* and true
       min $ < LEX and true
       in s |-> [(_, typeDecl)].
 
 
-  qualThisOk : scope * TYPE_DECL -> TYPE_DECL
-
-  qualThisOk(s, typeDecl) = typeDecl' :-
-  {s_ty}
-    s_ty == typeDeclScope(typeDecl),
-    query this
-      filter LEX* and { typeDecl' :- typeDeclScope(typeDecl') == s_ty }
-      min $ < LEX and true
-      in s |-> [(_, typeDecl')].
-
-
-  superOk : scope -> TYPE_DECL
+  super : scope -> TYPE_DECL
   
-  superOk(s) = typeDecl' :-
+  super(s) = typeDecl' :-
   {s_this}
-    s_this == typeDeclScope(thisOk(s)),
+    s_this == typeDeclScope(this(s)),
     query this
       filter EXT|IMPL and true
       min EXT < IMPL and true
