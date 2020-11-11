@@ -24,8 +24,9 @@ menus
 
     separator
 
-    action: "Explicate injections" = editor-explicate (source)
-    action: "Strip implementation" = editor-strip (source)
+    action: "Explicate injections"      = editor-explicate (source)
+    action: "Strip to public interface" = editor-strip-interface (source)
+    action: "Strip to skeleton"         = editor-strip-skeleton (source)
 
 views
 

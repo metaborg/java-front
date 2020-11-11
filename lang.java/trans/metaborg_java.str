@@ -23,12 +23,20 @@ rules // Debugging
 
 rules
 
-  editor-strip:
+  editor-strip-skeleton:
     (_, _, ast, path, project-path) -> (filename, result)
     with
       ext      := <get-extension> path
-    ; filename := <guarantee-extension(|$[stripped.[ext]])> path
-    ; stripped := <strip-all> ast
+    ; filename := <guarantee-extension(|$[skeleton.[ext]])> path
+    ; stripped := <strip-to-skeleton> ast
+    ; result   := <pp-metaborg-java-string> stripped
+
+  editor-strip-interface:
+    (_, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[interface.[ext]])> path
+    ; stripped := <strip-to-public-interface> ast
     ; result   := <pp-metaborg-java-string> stripped
 
   editor-explicate:
