@@ -20,6 +20,7 @@ rules // 7.3. Compilation Units
   {s_pkg d_pkg}
     new s_pkg, s_pkg -LEX-> s,
     pkgDeclOptOk(s, pkgDeclOpt, s_pkg),
+    importJavaLang(s, s_pkg),
     importDeclListOk(s, importDeclList, s_pkg),
     typeDeclListOk(s_pkg, typeDeclList),
     true.
