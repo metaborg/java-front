@@ -1,0 +1,49 @@
+module java/Test
+
+// The Java Language Specification
+// Java SE 8 Edition
+
+imports
+  java/arrays/Main
+  java/classes/Main
+  java/interfaces/Main
+  java/lexical/Main
+  java/literals/Main
+  java/names/Main
+  java/packages/Main
+  java/statements/Main
+  java/types/Main  
+  java/expressions/Main
+  java/expressions/Disambiguation
+
+  java/lexical/Comments
+  java/lexical/LineTerminators
+  java/packages/CompilationUnits
+
+context-free sorts
+
+  Expectation TestUnit
+
+context-free syntax
+
+  CompilationUnit.Test = <
+    <{Expectation "\n"}*>
+    <{TestUnit "\n"}*>
+  >
+
+  Expectation.StatixExpect = <STATIX <ExpectationText>>
+  Expectation.JavaCExpect = <JAVAC <ExpectationText>>
+
+  TestUnit.TestUnit = <
+    [<TestUnitId>]
+    <CompilationUnit>
+  >
+
+lexical sorts
+
+  TestUnitId ExpectationText
+
+lexical syntax
+
+  TestUnitId = (~[\]])*
+  ExpectationText = EOLCommentChars LineTerminator

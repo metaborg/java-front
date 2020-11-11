@@ -5,6 +5,7 @@ module metaborg-java
 
 imports
   java/Main
+  java/Test
   java/packages/CompilationUnits
 
 context-free sorts

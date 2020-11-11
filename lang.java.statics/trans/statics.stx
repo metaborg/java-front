@@ -3,49 +3,35 @@ module statics
 imports
 
   java/Main
+  java/Object
   java/names/Main
   java/names/TypeNames
   java/packages/CompilationUnits
   java/packages/PackageDeclarations
 
+  signatures/java/Test-sig
 
 rules
 
   projectOk : scope
 
   projectOk(s) :-
-    builtinArrayLength(s),
-    builtinObject(s).
+    declareObject(s).
 
   
   fileOk : scope * CompilationUnit
   
-  fileOk(s, compilationUnit) :-
+  fileOk(s, compilationUnit@CompilationUnit(_, _, _)) :-
     compilationUnitOk(s, compilationUnit).
 
+  fileOk(_, Test(expectationList, testUnitList)) :-
+  {s}
+    new s, // isolate tests from the regular global scope
+    projectOk(s),
+    testUnitListOk(s, testUnitList).
 
-rules
+  testUnitOk : scope * TestUnit
+  testUnitListOk maps testUnitOk(*, list(*))
 
-  builtinObject : scope
-
-  builtinObject(s) :-
-  {s_pkg s_cls}
-  
-    new s_pkg, s_pkg -LEX-> s,
-    declarePkgIds(s, [Id("java"), Id("lang")], s_pkg),
-  
-    new s_cls, s_cls -LEX-> s_pkg,
-    declareType(s_pkg, Id("Object"), CLASS(s_cls)),
-  
-    true.
-
-
-  builtinArrayLength : scope
-  
-  builtinArrayLength(s).
-
-//  builtinArrayLength(s) :- {s_array, tLength}
-//    new s_array, s_array -LEX-> s_object,
-//    !scopes[Builtin{"array"@-}, s_array] in s,
-//    tLength == Id("length"),
-//    !types[Var{tLength@-}, PRIMITIVE()] in s_array.
+  testUnitOk(s, TestUnit(_, compilationUnit)) :-
+    compilationUnitOk(s, compilationUnit).
