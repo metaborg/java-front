@@ -31,17 +31,17 @@ rules
 
 
   exprNameOk : scope * ExpressionName -> VAR_DECL
-  
+
   exprNameOk(s, exprName) = varDecl :-
     varDecl == resolveExprName(s, exprNameOk1(exprName)).
-  
+
       exprNameOk1 : ExpressionName -> QID
 
       exprNameOk1(ExpressionName(id)) = ID(id).
 
       exprNameOk1(ExpressionName(ambName, id)) = QID(ambNameOk1(ambName), id).
- 
- 
+
+
   resolveExprName : scope * QID -> VAR_DECL
 
   resolveExprName(s, ID(id)) = varDecl :-
@@ -51,10 +51,10 @@ rules
   {s_amb}
     s_amb == ambDeclScope(resolveAmbName(s, qid)),
     varDecl == singleVarDecl(id, resolveMemberExprNames(s_amb, id)).
- 
+
 
   resolveLexicalExprNames : scope * Id -> list(VAR_PATH)
-  
+
   resolveLexicalExprNames(s, id) = varPathList :-
     query var
       filter /* lex expr re */
@@ -68,7 +68,7 @@ rules
 
 
   resolveMemberExprNames : scope * Id -> list(VAR_PATH)
-  
+
   resolveMemberExprNames(s, id) = varPathList :-
     query var
       filter /* mem expr re */
@@ -82,7 +82,7 @@ rules
 
 
   declareExprName : scope * Id * TYPE
-  
+
   declareExprName(s, id, T) :-
   {s_var}
     new s_var, setType(s_var, T),
@@ -111,22 +111,22 @@ signature
 rules
 
   ambDeclScope : AMB_DECL -> scope
-  
+
   ambDeclScope(VAR__DECL(varDecl)) = typeScope(varDeclType(varDecl)).
-  
+
   ambDeclScope(TYPE__DECL(typeDecl)) = typeDeclScope(typeDecl).
-  
+
   ambDeclScope(PKG__DECL(pkgDecl)) = pkgDeclScope(pkgDecl).
 
 
   ambNameOk : scope * AmbiguousName -> AMB_DECL
-  
+
   ambNameOk(s, ambName) = resolveAmbName(s, ambNameOk1(ambName)).
-  
+
       ambNameOk1 : AmbiguousName -> QID
 
       ambNameOk1(AmbiguousName(id)) = ID(id).
-     
+
       ambNameOk1(AmbiguousName(ambName, id)) = QID(ambNameOk1(ambName), id).
 
 
@@ -151,22 +151,22 @@ rules
       resolveLexicalAmbName1(s, id, []) = resolveLexicalAmbName2(s, id, resolveLexicalTypeNames(s, id)).
 
       resolveLexicalAmbName1(s, id, varPathList) = VAR__DECL(varDecl) :-
-        varDecl == singleVarDecl(id, varPathList). 
-        
+        varDecl == singleVarDecl(id, varPathList).
+
       resolveLexicalAmbName2(s, id, []) = resolveLexicalAmbName3(s, id, resolveLexicalPkgNames(s, id)).
 
       resolveLexicalAmbName2(s, id, typePathList) = TYPE__DECL(typeDecl) :-
-        typeDecl == singleTypeDecl(id, typePathList). 
-        
+        typeDecl == singleTypeDecl(id, typePathList).
+
       resolveLexicalAmbName3(s, id, []) = _ :-
-        false | error $[Expression, type, or package [id] not found]. 
+        false | error $[Expression, type, or package [id] not found].
 
       resolveLexicalAmbName3(s, id, pkgPathList) = PKG__DECL(pkgDecl) :-
         pkgDecl == composePkgDecl(id, pkgPathList).
 
-    
+
   resolveMemberAmbName : AMB_DECL * Id -> AMB_DECL
-    
+
   resolveMemberAmbName(VAR__DECL(varDecl), id) = VAR__DECL(varDecl') :-
   {s_ty}
     s_ty == typeScope(varDeclType(varDecl)),
@@ -181,13 +181,13 @@ rules
 
       resolveMemberAmbName1(s, id, varPathList) = VAR__DECL(varDecl) :-
         varDecl == singleVarDecl(id, varPathList).
-      
+
       resolveMemberAmbName2(s, id, []) = _ :-
         false | error $[Expression or type [id] not found].
-      
+
       resolveMemberAmbName2(s, id, typePathList) = TYPE__DECL(typeDecl) :-
         typeDecl == singleTypeDecl(id, typePathList).
-  
+
   resolveMemberAmbName(PKG__DECL(pkgDecl), id) = resolveMemberAmbName3(s, id, resolveMemberTypeNames(s, id)).
 
       resolveMemberAmbName3 : scope * Id * list(TYPE_PATH) -> AMB_DECL
@@ -197,10 +197,10 @@ rules
 
       resolveMemberAmbName3(s, id, typePathList) = TYPE__DECL(typeDecl) :-
         typeDecl == singleTypeDecl(id, typePathList).
-      
+
       resolveMemberAmbName4(s, id, []) = _ :-
         false | error $[Type or package [id] not found].
-      
+
       resolveMemberAmbName4(s, id, pkgPathList) = PKG__DECL(pkgDecl) :-
         pkgDecl == composePkgDecl(id, pkgPathList).
-  
+

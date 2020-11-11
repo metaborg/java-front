@@ -26,11 +26,11 @@ signature
 rules
 
   typeNameOk : scope * TypeName -> TYPE_DECL
-  
+
   typeNameOk(s, TypeName(id)) = typeDecl :-
     typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
     true.
-    
+
   typeNameOk(s, TypeName(pkgOrTypeName, id)) = typeDecl :-
   {s_pkgOrType}
     s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeNameOk(s, pkgOrTypeName)),
@@ -39,12 +39,12 @@ rules
 
 
   typeDeclScope : TYPE_DECL -> scope
-  
+
   typeDeclScope((_, ty)) = typeScope(ty).
 
 
   resolveLexicalTypeNames : scope * Id -> list(TYPE_PATH)
-  
+
   resolveLexicalTypeNames(s, id) = typePathList :-
     query type
       filter /* lex type re */
@@ -60,7 +60,7 @@ rules
 
 
   resolveMemberTypeNames : scope * Id -> list(TYPE_PATH)
-  
+
   resolveMemberTypeNames(s, id) = typePathList :-
     query type
       filter /* lex type re */
@@ -76,7 +76,7 @@ rules
 
 
   singleTypeDecl : Id * list(TYPE_PATH) -> TYPE_DECL
-  
+
   singleTypeDecl(id, []) = _ :-
     false | error $[Type [id] not found] @id.
 
@@ -89,6 +89,6 @@ rules
 
 
   declareType : scope * Id * TYPE
-  
+
   declareType(s, id, T) :-
     !type[id, fromType(T)] in s.

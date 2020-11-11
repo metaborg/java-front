@@ -14,6 +14,6 @@ rules // 3.10.3. Boolean Literals
   boolLitOk : BoolLiteral -> TYPE
 
   boolLitOk(True()) = BOOLEAN().
-    
+
   boolLitOk(False()) = BOOLEAN().
 

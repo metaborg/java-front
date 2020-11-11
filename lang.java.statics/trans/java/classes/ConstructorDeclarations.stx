@@ -18,7 +18,7 @@ imports
 rules // 8.8. Constructor Declarations
 
   ctorDeclOk : scope * ConstructorDeclaration
-  
+
   ctorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
   {s_ctor}
     ctorModListOk(s, ctorModList),
@@ -35,7 +35,7 @@ rules // 8.8. Constructor Declarations
 
   ctorModOk : scope * ConstructorModifier
   ctorModListOk maps ctorModOk(*, list(*))
-  
+
   ctorModOk(s, Annotation2ConstructorModifier(anno)) :-
     annoOk(s, anno),
     true.
@@ -46,7 +46,7 @@ rules // 8.8. Constructor Declarations
 
   ctorInvOk : scope * ConstructorInvocation
   ctorInvOptOk maps ctorInvOk(*, list(*))
-  
+
   ctorInvOk(s, AltConstrInv(typeArgsOpt, exprList)) :-
     _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),

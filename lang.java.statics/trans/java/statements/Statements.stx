@@ -37,7 +37,7 @@ rules // 14.5. Statements
     stmtOk(s, stmt_then),
     stmtOk(s, stmt_else),
     true.
-  
+
 
   stmtOk(s, While(expr_cond, stmt)) :-
   {T}
@@ -45,7 +45,7 @@ rules // 14.5. Statements
     subType(T, BOOLEAN()),
     stmtOk(s, stmt),
     true.
-  
+
 
   stmtOk(s, For(forInit, exprOpt, forUpdate, stmt)) :-
   {s_for T}
@@ -69,7 +69,7 @@ rules // 14.5. Statements
     true.
 
   forInitOk : scope * ForInit
-  
+
   forInitOk(s, Exprs2ForInit(exprs)) :-
     exprsOk(s, exprs),
     true.
@@ -82,38 +82,38 @@ rules // 14.5. Statements
     true.
 
   forUpdateOk : scope * ForUpdate
-  
+
   forUpdateOk(s, Exprs2ForUpdate(exprs)) :-
     exprsOk(s, exprs),
     true.
 
   exprsOk : scope * Exprs
-  
+
   exprsOk(s, ExprList(exprList)) :-
     _ == exprListOk(s, exprList),
     true.
-    
+
 
   stmtOk(s, Block2Statement(blk)) :-
     blkOk(s, blk),
     true.
-    
-    
+
+
   stmtOk(s, ExpressionStatement(expr)) :-
     _ == exprOk(s, expr),
     true.
-    
-  
+
+
   stmtOk(s, Assert(expr)) :-
     _ == exprOk(s, expr),
     true.
-    
+
   stmtOk(s, Assert(expr1, expr2)) :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
     true.
-    
-    
+
+
   stmtOk(s, Switch(expr, switchGroupList, switchLabelList)) :-
   {T s_blk}
     T == exprOk(s, expr),
@@ -122,7 +122,7 @@ rules // 14.5. Statements
     switchGroupListOk(s_blk, T, switchGroupList),
     switchLabelListOk(s_blk, T, switchLabelList),
     true.
-    
+
   switchGroupOk : scope * TYPE * SwitchGroup
   switchGroupListOk maps switchGroupOk(*, *, list(*))
 
@@ -137,33 +137,33 @@ rules // 14.5. Statements
   switchLabelOk(s, T, CaseExpr(expr)) :-
     _ == exprOk(s, expr),
     true.
-    
+
   switchLabelOk(s, T, DefaultCase()) :-
     true.
-    
-    
+
+
   stmtOk(s, DoWhile(stmt, expr)) :-
   {T}
     stmtOk(s, stmt),
     T == exprOk(s, expr),
     subType(T, BOOLEAN()),
-    true. 
-   
+    true.
+
 
   stmtOk(s, Break()) :-
     true.
-    
+
   stmtOk(s, Break(id)) :-
     true.
-    
-    
+
+
   stmtOk(s, Continue()) :-
     true.
-    
+
   stmtOk(s, Continue(id)) :-
-    true. 
-    
-    
+    true.
+
+
   stmtOk(s, Return()) :-
     return(s) == VOID().
 
@@ -173,58 +173,58 @@ rules // 14.5. Statements
     TYPED(T) == return(s),
     T' == exprOk(s, expr),
     subType(T', T).
- 
-    
+
+
   stmtOk(s, Synchronized(expr, blk)) :-
     _ == exprOk(s, expr),
     blkOk(s, blk),
     true.
-    
-    
+
+
   stmtOk(s, Throw(expr)) :-
     _ == exprOk(s, expr),
     true.
-    
-    
+
+
   stmtOk(s, Try(blk, catchClauseList)) :-
     blkOk(s, blk),
     catchClauseListOk(s, catchClauseList),
     true.
-    
+
   catchClauseOk : scope * CatchClause
   catchClauseListOk maps catchClauseOk(*, list(*))
-  
+
   catchClauseOk(s, Catch(catchFormalParam, blk)) :-
   {s_catch}
     new s_catch, s_catch -LEX-> s,
     catchFormalParamOk(s_catch, catchFormalParam),
     blkOk(s_catch, blk),
     true.
-    
+
   catchFormalParamOk : scope * CatchFormalParameter
-  
+
   catchFormalParamOk(s, CatchParam(varModList, catchType, varDeclId)) :-
   {T}
     varModListOk(s, varModList),
     T == catchTypeOk(s, catchType),
     varDeclIdOk(s, T, varDeclId),
     true.
-    
+
   catchTypeOk : scope * CatchType -> TYPE
-  
+
   catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) = T :-
     T == unannClsTypeOk(s, unannClsType),
     _ == catchTypeRestListOk(s, catchTypeRestList), // FIXME include in T
     true.
-    
+
   catchTypeRestOk : scope * CatchTypeRest -> TYPE
   catchTypeRestListOk maps catchTypeRestOk(*, list(*)) = list(*)
-  
+
   catchTypeRestOk(s, CatchTypeElem(clsType)) = T :-
     T == clsTypeOk(s, clsType),
     true.
-    
-    
+
+
   stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
@@ -232,7 +232,7 @@ rules // 14.5. Statements
     blkOk(s_try, blk_catch),
     catchClauseListOk(s_try, catchClauseList),
     true.
-    
+
   stmtOk(s, TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
@@ -240,7 +240,7 @@ rules // 14.5. Statements
     blkOk(s_try, blk_catch),
     catchClauseListOk(s_try, catchClauseList),
     true.
-  
+
   stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList, blk_finally)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
@@ -249,7 +249,7 @@ rules // 14.5. Statements
     catchClauseListOk(s_try, catchClauseList),
     blkOk(s_try, blk_finally),
     true.
-    
+
   stmtOk(s, TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList, blk_finally)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
@@ -258,10 +258,10 @@ rules // 14.5. Statements
     catchClauseListOk(s_try, catchClauseList),
     blkOk(s_try, blk_finally),
     true.
-  
+
   resourceOk : scope * Resource
   resourceListOk maps resourceOk(*, list(*))
-  
+
   resourceOk(s, Resource(varModList, unannType, varDeclId, expr)) :-
   {T T'}
     varModListOk(s, varModList),

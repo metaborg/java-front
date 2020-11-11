@@ -18,14 +18,14 @@ signature
   sorts RETURN constructors
     TYPED : TYPE -> RETURN
     VOID  : RETURN
-    
+
   relations
     return : -> RETURN
 
 rules // 8.4. Method Declarations
 
   mthdDeclOk : scope * MethodDeclaration
-  
+
   mthdDeclOk(s, MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
   {s_mthd}
     mthdModListOk(s, mthdModList),
@@ -39,7 +39,7 @@ rules // 8.4. Method Declarations
 
 
   mthdHeaderOk : scope * MethodHeader
-  
+
   mthdHeaderOk(s, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt)) :-
   {R}
     R == resultOk(s, result),
@@ -47,7 +47,7 @@ rules // 8.4. Method Declarations
     formalParamsOk(s, formalParams),
     annDimsEmptyOk(s, annDimsEmpty),
     throwsOptOk(s, throwsOpt),
-    
+
     true.
 
   mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
@@ -58,12 +58,12 @@ rules // 8.4. Method Declarations
     declareReturn(s, R),
     formalParamsOk(s, formalParams),
     throwsOptOk(s, throwsOpt),
-    
+
     true.
 
 
   resultOk : scope * Result -> RETURN
-  
+
   resultOk(s, UnannType2Result(unannType)) = TYPED(T) :-
     T == unannTypeOk(s, unannType).
 
@@ -72,7 +72,7 @@ rules // 8.4. Method Declarations
 
   throwsOk : scope * Throws
   throwsOptOk maps throwsOk(*, list(*))
-  
+
   throwsOk(s, ThrowsDec(exceptTypeList)) :-
     exceptTypeListOk(s, exceptTypeList),
     true.
@@ -80,7 +80,7 @@ rules // 8.4. Method Declarations
 
   exceptTypeOk : scope * ExceptionType
   exceptTypeListOk maps exceptTypeOk(*, list(*))
-  
+
   exceptTypeOk(s, ClassType2ExceptionType(clsType)) :-
     _ == clsTypeOk(s, clsType),
     true.
@@ -104,7 +104,7 @@ rules // 8.4. Method Declarations
 
 
   mthdBodyOk : scope * MethodBody
-  
+
   mthdBodyOk(s, Block2MethodBody(blk)) :-
   try { false } | note "mthdBody",
     blkOk(s, blk),
@@ -115,7 +115,7 @@ rules // 8.4. Method Declarations
 
 
   recvParamOk : scope * ReceiverParam
-  
+
   recvParamOk(s, ReceiverParamQual(annoList, unannType, id)) :-
     annoListOk(s, annoList),
     _ == unannTypeOk(s, unannType),
@@ -128,7 +128,7 @@ rules // 8.4. Method Declarations
 
 
   formalParamsOk : scope * FormalParams
-  
+
   formalParamsOk(s, NoParams()) :-
     true.
 
@@ -153,11 +153,11 @@ rules // 8.4. Method Declarations
 
 
   lastFormalParamOk : scope * LastFormalParam
-  
+
   lastFormalParamOk(s, FormalParam2LastFormalParam(formalParam)) :-
     formalParamOk(s, formalParam),
     true.
-    
+
   lastFormalParamOk(s, VarArityParam(varModList, unannType, annoList, varDeclId)) :-
   {T}
     varModListOk(s, varModList),
@@ -169,7 +169,7 @@ rules // 8.4. Method Declarations
 
   formalParamOk : scope * FormalParam
   formalParamListOk maps formalParamOk(*, list(*))
-  
+
   formalParamOk(s, FormalParam(varModList, unannType, varDeclId)) :-
   {T}
     varModListOk(s, varModList),
@@ -180,7 +180,7 @@ rules // 8.4. Method Declarations
 
   varModOk : scope * VariableModifier
   varModListOk maps varModOk(*, list(*))
-  
+
   varModOk(s, Annotation2VariableModifier(anno)) :-
     annoOk(s, anno),
     true.
@@ -190,13 +190,13 @@ rules // 8.4. Method Declarations
 rules
 
   declareReturn : scope * RETURN
-  
+
   declareReturn(s, R) :-
     !return[R] in s.
 
 
   return : scope -> RETURN
-  
+
   return(s) = R :-
     query return
       filter LEX* and true

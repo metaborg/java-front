@@ -12,6 +12,6 @@ imports
 rules // 3.10.4. Character Literals
 
   charLitOk : CharacterLiteral -> TYPE
-  
+
   charLitOk(CharLiteral(_)) = CHAR().
-    
+

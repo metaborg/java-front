@@ -18,22 +18,22 @@ imports
 rules // 9.6. Annotation Types
 
   annoTypeDeclOk : scope * AnnotationTypeDeclaration
-  
+
   annoTypeDeclOk(s, AnnoDec(intfModList, id, annoTypeMemDeclList)) :-
   {s_anno}
     intfModListOk(s, intfModList),
-    
+
     new s_anno,
     declareType(s, id, s_anno, INTF()),
-    
+
     s_anno -LEX-> s,
 
     // FIXME Object as supertype?
 
     annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList),
     true.
-    
-    
+
+
   annoTypeMemDeclOk : scope * AnnotationTypeMemberDeclaration
   annoTypeMemDeclListOk maps annoTypeMemDeclOk(*, list(*))
 
@@ -65,8 +65,8 @@ rules // 9.6. Annotation Types
     annDimsEmptyOk(s, annDimsEmpty),
     defaultValOptOk(s, defaultValOpt),
     true.
-    
-    
+
+
   annoTypeElemModOk : scope * AnnotationTypeElementModifier
   annoTypeElemModListOk maps annoTypeElemModOk(*, list(*))
 
@@ -75,11 +75,11 @@ rules // 9.6. Annotation Types
     true.
   annoTypeElemModOk(s, Public2AnnotationTypeElementModifier(_)) :- true.
   annoTypeElemModOk(s, Abstract2AnnotationTypeElementModifier(_)) :- true.
-  
-  
+
+
   defaultValOk : scope * DefaultValue
   defaultValOptOk maps defaultValOk(*, list(*))
-  
+
   defaultValOk(s, DefaultVal(elemVal)) :-
     elemValOk(s, elemVal),
     true.

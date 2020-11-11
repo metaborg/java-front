@@ -19,29 +19,29 @@ rules
 
   declareObject(s) :-
   {s_pkg id K s_cls}
-  
+
     new s_pkg, s_pkg -LEX-> s,
     declarePkgIds(s, [Id("java"), Id("lang")], s_pkg),
-  
+
     id == Id("Object"),
     K == CLASS(),
 
     new s_cls,
     declareType(s_pkg, id, s_cls, K),
-    
+
     s_cls -LEX-> s_pkg,
 
     !javaLangObject[(id, s_cls)] in s,
-  
+
     true.
 
 
   objectOk : scope -> TYPE
-  
+
   objectOk(s) = typeDeclType(resolveObject(s)).
 
 
   resolveObject : scope -> TYPE_DECL
-  
+
   resolveObject(s) = typeDecl :-
     query javaLangObject filter LEX* and true in s |-> [(_, typeDecl)].

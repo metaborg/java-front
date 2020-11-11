@@ -20,33 +20,33 @@ rules // 15.8. Primary Expressions
     true.
 
   exprOk(s, This()) = typeDeclType(this(s)).
-    
+
   exprOk(s, QThis(typeName)) = _.
 
 
   clsLitOk : scope * ClassLiteral
-  
+
   clsLitOk(s, TypeNameClassLiteral(typeName, dimsList)) :-
     typeNameOk(s, typeName) == _,
     dimsListOk(dimsList),
     true.
-    
+
   clsLitOk(s, NumericTypeClassLiteral(numType, dimsList)) :-
     _ == numTypeOk(numType),
     dimsListOk(dimsList),
     true.
-    
+
   clsLitOk(s, BooleanClassLiteral(dimsList)) :-
     dimsListOk(dimsList),
     true.
-    
+
   clsLitOk(s, VoidClassLiteral()) :-
     true.
 
 
   dimsOk : Dims
   dimsListOk maps dimsOk(list(*))
-  
+
   dimsOk(Dimension()) :-
     true.
 

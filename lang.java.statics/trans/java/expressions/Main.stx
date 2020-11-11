@@ -24,4 +24,3 @@ rules // Chapter 15. Expressions
   exprOk : scope * Expression -> TYPE
   exprOptOk maps exprOk(*, list(*)) = *
   exprListOk maps exprOk(*, list(*)) = list(*)
-  

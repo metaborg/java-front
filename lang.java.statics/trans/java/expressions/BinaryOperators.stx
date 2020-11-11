@@ -16,110 +16,110 @@ rules // 15.17. Multiplicative Operators
       // 15.22. Bitwise and Logical Operators
       // 15.23. Conditional-And Operator &&
       // 15.24. Conditional-Or Operator ||
-      
+
   exprOk(s, Mul(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Div(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Mod(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Add(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Sub(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, LeftShift(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, RightShift(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, URightShift(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Lt(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Gt(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, LtEq(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, GtEq(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, InstanceOf(expr, refType)) = _ :-
     _ == exprOk(s, expr),
     _ == refTypeOk(s, refType),
-    true. 
-      
+    true.
+
   exprOk(s, Eq(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, NotEq(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, And(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Xor(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Or(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, LazyAnd(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, LazyOr(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
-    true. 
-      
+    true.
+
   exprOk(s, Cond(expr_cond, expr_then, expr_else)) = _ :-
     _ == exprOk(s, expr_cond),
     _ == exprOk(s, expr_then),
     _ == exprOk(s, expr_else),
-    true. 
+    true.
 

@@ -21,7 +21,7 @@ imports
 rules // 8.3. Field Declarations
 
   fldDeclOk : scope * FieldDeclaration
-  
+
   fldDeclOk(s, FieldDecl(fldModList, unannType, varDeclList)) :-
   {T}
     fldModListOk(s, fldModList),
@@ -41,7 +41,7 @@ rules // 8.3. Field Declarations
 
   varDeclOk : scope * TYPE * VarDecl
   varDeclListOk maps varDeclOk(*, *, list(*))
-  
+
   varDeclOk(s, T, VariableDeclInit(varDeclId, varInit)) :-
     varDeclIdOk(s, T, varDeclId),
     varInitOk(s, T, varInit).
@@ -50,9 +50,9 @@ rules // 8.3. Field Declarations
     varDeclIdOk(s, T, varDeclId).
 
 
-  varInitOk : scope * TYPE * VariableInitializer 
+  varInitOk : scope * TYPE * VariableInitializer
   varInitListOk maps varInitOk(*, *, list(*))
-  
+
   varInitOk(s, T, Expression2VariableInitializer(expr)) :-
   {T'}
     T' == exprOk(s, expr),
@@ -64,7 +64,7 @@ rules // 8.3. Field Declarations
 
   fldModOk : scope * FieldModifier
   fldModListOk maps fldModOk(*, list(*))
-  
+
   fldModOk(s, Annotation2FieldModifier(anno)) :-
     annoOk(s, anno),
     true.
@@ -78,28 +78,28 @@ rules // 8.3. Field Declarations
 
 
   unannTypeOk : scope * UnannType -> TYPE
-  
+
   unannTypeOk(s, UnannPrimitiveType2UnannType(unannPrimType)) = unannPrimTypeOk(unannPrimType).
 
   unannTypeOk(s, UnannReferenceType2UnannType(unannRefType)) = unannRefTypeOk(s, unannRefType).
 
 
   unannPrimTypeOk : UnannPrimitiveType -> TYPE
-  
+
   unannPrimTypeOk(NumericType(numType)) = numTypeOk(numType).
 
   unannPrimTypeOk(BooleanType()) = BOOLEAN().
 
 
   unannRefTypeOk : scope * UnannReferenceType -> TYPE
-  
+
   unannRefTypeOk(s, UnannClassType2UnannReferenceType(unannClsType)) = unannClsTypeOk(s, unannClsType).
 
   unannRefTypeOk(s, UnannArrayType2UnannReferenceType(unannArrayType)) = unannArrayTypeOk(s, unannArrayType).
 
 
   unannClsTypeOk : scope * UnannClassType -> TYPE
-  
+
   unannClsTypeOk(s, ClassType(id, typeArgsOpt)) = typeDeclType(typeDecl) :-
     typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
     _ == typeArgsOptOk(s, typeArgsOpt),
@@ -134,7 +134,7 @@ rules // 8.3. Field Declarations
 
 
   unannArrayTypeOk : scope * UnannArrayType -> TYPE
-  
+
   unannArrayTypeOk(s, UnannArrayTypePrimitive(unannPrimType, annDimList)) = _ :-
   {T}
     T == unannPrimTypeOk(unannPrimType),

@@ -13,7 +13,7 @@ rules // 7.6. Top Level Type Declarations
 
   typeDeclOk : scope * TypeDeclaration
   typeDeclListOk maps typeDeclOk(*, list(*))
-  
+
   typeDeclOk(s, ClassDeclaration2TypeDeclaration(clsDecl)) :-
     clsDeclOk(s, clsDecl),
     true.

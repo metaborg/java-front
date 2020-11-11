@@ -12,14 +12,14 @@ imports
 rules // 9.4. Method Declarations
 
   intfMthdDeclOk : scope * InterfaceMethodDeclaration
-  
+
   intfMthdDeclOk(s, AbstractMethodDec(intfMthdModList, mthdHeader, mthdBody)) :-
     intfMthdModListOk(s, intfMthdModList),
     mthdHeaderOk(s, mthdHeader),
     mthdBodyOk(s, mthdBody),
     true.
-    
-  
+
+
   intfMthdModOk : scope * InterfaceMethodModifier
   intfMthdModListOk maps intfMthdModOk(*, list(*))
 

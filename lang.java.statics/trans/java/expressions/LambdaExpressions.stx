@@ -18,24 +18,24 @@ rules // 15.27. Lambda Expressions
     lambdaParamsOk(s_lambda, lambdaParams),
     _ == exprOk(s_lambda, expr),
     true.
-    
+
   exprOk(s, LambdaExpressionWithBlock(lambdaParams, blk)) = _ :-
   {s_lambda}
     new s_lambda, s_lambda -LEX-> s,
     lambdaParamsOk(s_lambda, lambdaParams),
     blkOk(s_lambda, blk),
     true.
-  
+
 
   lambdaParamsOk : scope * LambdaParameters
-  
+
   lambdaParamsOk(s, SingleInferredParam(id)) :-
     true.
-    
+
   lambdaParamsOk(s, Params(formalParams)) :-
     formalParamsOk(s, formalParams),
     true.
-    
+
   lambdaParamsOk(s, InferredParams(idList)) :-
     true.
- 
+

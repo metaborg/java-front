@@ -13,7 +13,7 @@ imports
 rules
 
   mthdNameOk : scope * MethodName -> ()
-  
+
   mthdNameOk(s, MethodName(id)) = _ :-
     true.
 

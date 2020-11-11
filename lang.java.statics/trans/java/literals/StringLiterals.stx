@@ -11,6 +11,6 @@ imports
 rules // 3.10.5. String Literals
 
   stringLitOk : StringLiteral -> TYPE
-  
+
   stringLitOk(StringLiteral(_)) = _.
 

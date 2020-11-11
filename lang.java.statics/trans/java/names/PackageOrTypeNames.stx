@@ -32,7 +32,7 @@ rules
 
 
   resolvePkgOrTypeName : scope * QID -> PKG_OR_TYPE_DECL
-  
+
   resolvePkgOrTypeName(s, ID(id)) = pkgOrTypeDecl :-
     pkgOrTypeDecl == resolveLexicalPkgOrTypeName(s, id).
 
@@ -43,7 +43,7 @@ rules
 
 
   pkgOrTypeDeclScope : PKG_OR_TYPE_DECL -> scope
-  
+
   pkgOrTypeDeclScope(PKG_DECL(pkgDecl)) = pkgDeclScope(pkgDecl).
 
   pkgOrTypeDeclScope(TYPE_DECL(typeDecl)) = typeDeclScope(typeDecl).
@@ -69,7 +69,7 @@ rules
 
 
   resolveMemberPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
-  
+
   resolveMemberPkgOrTypeName(s, id) = resolveMemberPkgOrTypeName1(s, id, resolveMemberTypeNames(s, id)).
 
       resolveMemberPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL

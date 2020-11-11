@@ -11,10 +11,10 @@ rules // 15.10.3. Array Access Expressions
 
   exprOk(s, ArrayAccess2Expression(arrayAccess)) = _ :-
     arrayAccessOk(s, arrayAccess).
-    
-    
+
+
   arrayAccessOk : scope * ArrayAccess
-  
+
   arrayAccessOk(s, ArrayAccess(expr1, expr2)) :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),

@@ -12,7 +12,7 @@ imports
 rules// 3.10.1. Integer Literals
 
   intLitOk : IntLiteral -> TYPE
-  
+
   intLitOk(Deci(_)) = INT().
 
   intLitOk(Hexa(_)) = INT().

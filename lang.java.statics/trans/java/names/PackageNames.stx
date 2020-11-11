@@ -34,12 +34,12 @@ rules
 
 
   pkgDeclScope : PKG_DECL -> scope
-  
+
   pkgDeclScope((_, s_pkg)) = s_pkg.
 
 
   resolvePkgName : scope * QID -> PKG_DECL
-  
+
   resolvePkgName(s, ID(id)) = pkgDecl :-
     pkgDecl == composePkgDecl(id, resolveLexicalPkgNames(s, id)).
 
@@ -47,10 +47,10 @@ rules
   {s_pkg}
     s_pkg == pkgDeclScope(resolvePkgName(s, qid)),
     pkgDecl == composePkgDecl(id, resolveMemberPkgNames(s_pkg, id)).
-  
-    
+
+
   resolveLexicalPkgNames : scope * Id -> list(PKG_PATH)
-  
+
   resolveLexicalPkgNames(s, id) = pkgPathList :-
     query pkg
       filter /* lex pkg re */
@@ -64,7 +64,7 @@ rules
 
 
   resolveMemberPkgNames : scope * Id -> list(PKG_PATH)
-  
+
   resolveMemberPkgNames(s, id) = pkgPathList :-
     query pkg
       filter /* mem pkg re */
@@ -76,7 +76,7 @@ rules
 
 
   composePkgDecl : Id * list(PKG_PATH) -> PKG_DECL
-  
+
   composePkgDecl(id, pkgPathList) = (id, s_pkg) :-
     new s_pkg,
     composePkgPathList(id, s_pkg, pkgPathList),
@@ -94,6 +94,6 @@ rules
 
 
   declarePkg : scope * Id * scope
-  
+
   declarePkg(s, id, s_pkg) :-
     !pkg[id, s_pkg] in s.

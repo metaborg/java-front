@@ -23,7 +23,7 @@ signature
 rules
 
   pkgOrTypeNameOk : scope * PackageOrTypeName -> PKG_OR_TYPE_DECL
-  
+
   pkgOrTypeNameOk(s, PackageOrTypeName(id)) = pkgOrTypeDecl :-
     pkgOrTypeDecl == resolveLexicalPkgOrTypeName(s, id),
     true.
@@ -36,7 +36,7 @@ rules
 
 
   pkgOrTypeDeclScope : PKG_OR_TYPE_DECL -> scope
-  
+
   pkgOrTypeDeclScope(PKG_DECL(pkgDecl)) = pkgDeclScope(pkgDecl).
 
   pkgOrTypeDeclScope(TYPE_DECL(typeDecl)) = typeDeclScope(typeDecl).
@@ -45,7 +45,7 @@ rules
   resolveLexicalPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
   resolveLexicalPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
   resolveLexicalPkgOrTypeName2 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
-  
+
   resolveLexicalPkgOrTypeName(s, id) = resolveLexicalPkgOrTypeName1(s, id, resolveLexicalTypeNames(s, id)).
 
   resolveLexicalPkgOrTypeName1(s, id, []) = resolveLexicalPkgOrTypeName2(s, id, resolveLexicalPkgNames(s, id)).
@@ -61,7 +61,7 @@ rules
   resolveMemberPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
   resolveMemberPkgOrTypeName1 : scope * Id * list(TYPE_PATH) -> PKG_OR_TYPE_DECL
   resolveMemberPkgOrTypeName2 : scope * Id * list(PKG_PATH) -> PKG_OR_TYPE_DECL
-  
+
   resolveMemberPkgOrTypeName(s, id) = resolveMemberPkgOrTypeName1(s, id, resolveMemberTypeNames(s, id)).
 
   resolveMemberPkgOrTypeName1(s, id, []) = resolveMemberPkgOrTypeName2(s, id, resolveMemberPkgNames(s, id)).

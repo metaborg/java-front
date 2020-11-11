@@ -27,7 +27,7 @@ rules // 4.4. Type Variables
     setSuperCls(s_var, objectOk(s)),
 
     true.
-    
+
   typeParamOk(s, TypeParameterExtends(annoList, id, clsTypeList), s_ty) :-
   {s_var T Ts}
     annoListOk(s, annoList),
@@ -43,6 +43,6 @@ rules // 4.4. Type Variables
 
         typeParamOk1(s_var, CLASS(), T) :-
           setSuperCls(s_var, T).
-    
+
         typeParamOk1(s_var, INTF(), T) :-
           addSuperIntf(s_var, T).

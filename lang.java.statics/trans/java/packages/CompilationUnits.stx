@@ -24,7 +24,7 @@ rules // 7.3. Compilation Units
     typeDeclListOk(s_pkg, typeDeclList),
     true.
 
-  
+
   importJavaLang : scope * scope
 
   importJavaLang(s, s_pkg) :-

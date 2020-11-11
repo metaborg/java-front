@@ -24,19 +24,19 @@ signature
 
   constructors
     REF : scope -> TYPE
-  
-rules 
+
+rules
 
   refTypeOk : scope * ReferenceType -> TYPE
-  
+
   refTypeOk(s, ClassType2ReferenceType(clsType)) = clsTypeOk(s, clsType).
-    
+
   refTypeOk(s, ArrayType2ReferenceType(arrayType)) = arrayTypeOk(s, arrayType).
 
 
   clsTypeOk : scope * ClassType -> TYPE
   clsTypeListOk maps clsTypeOk(*, list(*)) = list(*)
-  
+
   clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = typeDeclType(typeDecl) :-
     annoListOk(s, annoList),
     typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
@@ -73,14 +73,14 @@ rules
 
 
   typeVarOk : scope * TypeVariable
-  
+
   typeVarOk(s, TypeVar(annoList, id)) :-
     annoListOk(s, annoList),
     true.
 
 
   arrayTypeOk : scope * ArrayType -> TYPE
-  
+
   arrayTypeOk(s, ArrayTypePrimitive(primType, annDims)) = _ :-
   {T}
     T == primTypeOk(s, primType),
@@ -95,14 +95,14 @@ rules
 
 
   annDimsOk : scope * AnnotatedDims
-  
+
   annDimsOk(s, AnnotatedDims2AnnotatedDims(annDimList)) :-
     annDimListOk(s, annDimList),
     true.
 
 
   annDimsEmptyOk : scope * AnnotatedDimsEmpty
-  
+
   annDimsEmptyOk(s, AnnotatedDims2AnnotatedDimsEmpty(annDimList)) :-
     annDimListOk(s, annDimList),
     true.
@@ -119,7 +119,7 @@ rules
 rules
 
   typeScope : TYPE -> scope
-  
+
   typeScope(REF(s_ty)) = s_ty.
 
 
@@ -129,7 +129,7 @@ rules
 
 
   isClsType : TYPE
-  
+
   isClsType(T) :- typeKind(T) == CLASS().
 
 
@@ -144,7 +144,7 @@ rules
 
 
   isClsOrIntfType : TYPE
-  
+
   isClsOrIntfType(T) :- isClsOrIntfKind(typeKind(T)).
 
     isClsOrIntfKind : KIND

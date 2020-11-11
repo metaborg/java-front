@@ -14,15 +14,15 @@ imports
 rules // 14.2. Blocks
 
   blkOk : scope * Block
-  
+
   blkOk(s, Block(blkStmtList)) :-
   {s_blk}
     new s_blk, s_blk -LEX-> s,
     blkStmtListOk(s_blk, blkStmtList).
-    
+
 
   blkStmtListOk : scope * list(BlockStatement)
-  
+
   blkStmtListOk(s, []).
 
   blkStmtListOk(s, [blkStmt|blkStmtList]) :-
@@ -37,11 +37,11 @@ rules // 14.2. Blocks
   blkStmtOk(s, LocalVariableDeclarationStatement2BlockStatement(localVarDeclStmt)) = s' :-
     new s', s' -LEX-> s,
     localVarDeclStmtOk(s', localVarDeclStmt).
-    
+
   blkStmtOk(s, ClassDeclaration2BlockStatement(clsDecl)) = s' :-
     new s', s' -LEX-> s,
     clsDeclOk(s', clsDecl).
-    
+
   blkStmtOk(s, Statement2BlockStatement(stmt)) = s :-
     stmtOk(s, stmt).
-    
+

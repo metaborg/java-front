@@ -3,7 +3,7 @@ module java/arrays/ArrayInitializers
 imports
 
   signatures/java/arrays/ArrayInitializers-sig
-  
+
   java/arrays/Main
   java/classes/FieldDeclarations
   java/types/ReferenceTypes
@@ -18,7 +18,7 @@ rules // 10.6. Array Initializers
   arrayInitOk(s, T, ArrayInit(varInitList)) :-
     varInitListOk(s, T, varInitList),
     true.
-  
+
   arrayInitOk(s, T, ArrayInitComma(varInitList)) :-
     varInitListOk(s, T, varInitList),
     true.

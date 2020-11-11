@@ -16,10 +16,10 @@ rules // 15.10.1. Array Creation Expressions
   exprOk(s, ArrayCreationExpression2Expression(arrayCreationExpr)) = _ :-
     arrayCreationExprOk(s, arrayCreationExpr),
     true.
-    
-  
+
+
   arrayCreationExprOk : scope * ArrayCreationExpression
-  
+
   arrayCreationExprOk(s, NewArray(arrayBaseType, dimExprList, annDimsEmpty)) :-
   {T}
     T == arrayBaseTypeOk(s, arrayBaseType),
@@ -33,18 +33,18 @@ rules // 15.10.1. Array Creation Expressions
     annDimsOk(s, annDims),
     arrayInitOk(s, T, arrayInit),
     true.
-    
+
 
   arrayBaseTypeOk : scope * ArrayBaseType -> TYPE
-  
+
   arrayBaseTypeOk(s, ClassType2ArrayBaseType(clsType)) = clsTypeOk(s, clsType).
-  
+
   arrayBaseTypeOk(s, PrimitiveType2ArrayBaseType(primType)) = primTypeOk(s, primType).
-  
+
 
   dimExprOk : scope * DimExpr
   dimExprListOk maps dimExprOk(*, list(*))
-  
+
   dimExprOk(s, Dim(annoList, expr)) :-
     annoListOk(s, annoList),
     _ == exprOk(s, expr),

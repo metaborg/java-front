@@ -15,7 +15,7 @@ imports
 rules // 8.9. Enum Types
 
   enumDeclOk : scope * EnumDeclaration
-  
+
   enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
   {s_enum}
     clsModListOk(s, clsModList),
@@ -24,7 +24,7 @@ rules // 8.9. Enum Types
     declareType(s, id, s_enum, CLASS()),
 
     superIntfsOptOk(s_enum, superIntfsOpt, s_enum),
-    
+
     s_enum -LEX-> s,
 
     enumConstListOk(s_enum, enumConstList),
@@ -49,13 +49,13 @@ rules // 8.9. Enum Types
 
   enumConstOk : scope * EnumConstant
   enumConstListOk maps enumConstOk(*, list(*))
-  
+
   enumConstOk(s, EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList)) :-
   {s_const}
     annoListOk(s, annoList),
-    
+
     new s_const, s_const -LEX-> s,
-    
+
     enumConstArgsOptOk(s, enumConstArgsOpt),
     clsBodyDeclListOk(s_const, clsBodyDeclList),
     true.
@@ -63,24 +63,24 @@ rules // 8.9. Enum Types
   enumConstOk(s, EnumConstNoBody(annoList, id, enumConstArgsOpt)) :-
   {s_const}
     annoListOk(s, annoList),
-    
+
     new s_const, s_const -LEX-> s,
-    
+
     enumConstArgsOptOk(s, enumConstArgsOpt),
     true.
 
 
   enumConstArgsOk : scope * EnumConstantArgs
   enumConstArgsOptOk maps enumConstArgsOk(*, list(*))
-  
+
   enumConstArgsOk(s, EnumConstArgs(exprList)) :-
     _ == exprListOk(s, exprList),
     true.
-    
-    
+
+
   enumBodyDeclsOk : scope * EnumBodyDeclarations
   enumBodyDeclsOptOk maps enumBodyDeclsOk(*, list(*))
-  
+
   enumBodyDeclsOk(s, EnumBodyDecs(clsBodyDeclList)) :-
     clsBodyDeclListOk(s, clsBodyDeclList),
     true.

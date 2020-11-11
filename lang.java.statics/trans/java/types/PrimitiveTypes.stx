@@ -25,7 +25,7 @@ signature
 rules
 
   primTypeOk : scope * PrimitiveType -> TYPE
-  
+
   primTypeOk(s, NumericType(annoList, numType)) = T :-
     annoListOk(s, annoList),
     T == numTypeOk(numType),

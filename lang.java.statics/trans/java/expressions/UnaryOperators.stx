@@ -15,43 +15,43 @@ rules // 15.15. Unary Operators
   exprOk(s, Plus(expr)) = _ :-
     _ == exprOk(s, expr),
     true.
-    
+
   exprOk(s, Minus(expr)) = _ :-
     _ == exprOk(s, expr),
     true.
-    
+
   exprOk(s, PreIncr(expr)) = _ :-
     _ == exprOk(s, expr),
     true.
-    
+
   exprOk(s, PreDecr(expr)) = _ :-
     _ == exprOk(s, expr),
     true.
-    
+
   exprOk(s, Complement(expr)) = _ :-
     _ == exprOk(s, expr),
     true.
-    
+
   exprOk(s, Not(expr)) = _ :-
     _ == exprOk(s, expr),
     true.
-    
+
   exprOk(s, CastPrimitive(primType, expr)) = T :-
   {T'}
     T == primTypeOk(s, primType),
     T' == exprOk(s, expr),
     subType(T', T).
-    
+
   exprOk(s, CastReference(refType, additionalBoundList, expr)) = T :-
   {T'}
     T == refTypeOk(s, refType),
     _ == additionalBoundListOk(s, additionalBoundList),
     T' == exprOk(s, expr),
     subType(T', T).
-    
+
   additionalBoundOk : scope * AdditionalBound -> TYPE
   additionalBoundListOk maps additionalBoundOk(*, list(*)) = list(*)
-  
+
   additionalBoundOk(s, AdditionalBound(clsType)) = T :-
     T == clsTypeOk(s, clsType),
     true.

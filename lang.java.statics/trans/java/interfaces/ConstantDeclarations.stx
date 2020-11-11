@@ -12,7 +12,7 @@ imports
 rules // 9.3. Field (Constant) Declarations
 
   constDeclOk : scope * ConstantDeclaration
-  
+
   constDeclOk(s, ConstantDecl(constModList, unannType, varDeclList)) :-
   {T}
     constModListOk(s, constModList),
@@ -23,7 +23,7 @@ rules // 9.3. Field (Constant) Declarations
 
   constModOk : scope * ConstantModifier
   constModListOk maps constModOk(*, list(*))
-  
+
   constModOk(s, Annotation2ConstantModifier(anno)) :-
     annoOk(s, anno),
     true.

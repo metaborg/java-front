@@ -27,7 +27,7 @@ rules // 15.9. Class Instance Creation Expressions
 
 
   unqualInstOk : scope * UnqualifiedInstance -> TYPE
-  
+
   unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
   {qid}
     _ == typeArgsOptOk(s, typeArgsOpt),
@@ -72,10 +72,10 @@ rules // 15.9. Class Instance Creation Expressions
     typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     _ == exprListOk(s, exprList),
-    
+
     new s_cls, s_cls -LEX-> s,
     // FIXME make s_cls a subtype of typeDecl
-    
+
     clsBodyDeclListOk(s_cls, clsBodyDeclList).
 
 
@@ -97,7 +97,7 @@ rules // 15.9. Class Instance Creation Expressions
 
   typeArgsOrDiamondOk : scope * TypeArgumentsOrDiamond
   typeArgsOrDiamondOptOk maps typeArgsOrDiamondOk(*, list(*))
-  
+
   typeArgsOrDiamondOk(s, TypeArguments2TypeArgumentsOrDiamond(typeArgs)) :-
     _ == typeArgsOk(s, typeArgs).
 

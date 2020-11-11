@@ -26,29 +26,29 @@ signature
 rules
 
   typeDeclId : TYPE_DECL -> Id
-  
+
   typeDeclId((id, _)) = id.
 
 
   typeDeclScope : TYPE_DECL -> scope
-  
+
   typeDeclScope((_, s_ty)) = typeScope(toType(s_ty)).
 
 
   typeDeclType : TYPE_DECL -> TYPE
-  
+
   typeDeclType((_, s_ty)) = toType(s_ty).
 
 
   typeDeclKind : TYPE_DECL -> KIND
-  
+
   typeDeclKind((_, s_ty)) = toKind(s_ty).
 
 
 rules
 
   typeNameOk : scope * TypeName -> TYPE_DECL
-  
+
   typeNameOk(s, typeName) = resolveTypeName(s, typeNameOk1(typeName)).
 
       typeNameOk1 : TypeName -> QID
@@ -70,7 +70,7 @@ rules
 
 
   resolveLexicalTypeNames : scope * Id -> list(TYPE_PATH)
-  
+
   resolveLexicalTypeNames(s, id) = typePathList :-
     query type
       filter /* lex type re */
@@ -86,7 +86,7 @@ rules
 
 
   resolveMemberTypeNames : scope * Id -> list(TYPE_PATH)
-  
+
   resolveMemberTypeNames(s, id) = typePathList :-
     query type
       filter /* lex type re */
@@ -121,15 +121,15 @@ rules
     !type[id, s_ty] in s,
     !this[(id, s_ty)] in s_ty.
 
-   
+
   aliasType : scope * TYPE_DECL
-   
+
   aliasType(s, (id, s_ty)) :-
     !type[id, s_ty] in s.
 
 
   this : scope -> TYPE_DECL
-  
+
   this(s) = typeDecl :-
     query this
       filter LEX* and true
@@ -138,7 +138,7 @@ rules
 
 
   super : scope -> TYPE_DECL
-  
+
   super(s) = typeDecl' :-
   {s_this}
     s_this == typeDeclScope(this(s)),

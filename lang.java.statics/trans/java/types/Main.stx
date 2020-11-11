@@ -23,7 +23,7 @@ signature
 rules
 
   matchType : TYPE -> scope
-  
+
   matchType(T) = s :-
     T == toType(s).
 
@@ -51,7 +51,7 @@ rules
 rules
 
   matchKind : KIND -> scope
-  
+
   matchKind(K) = s :-
     K == toKind(s).
 
@@ -79,7 +79,7 @@ rules
 rules
 
   typeOk : scope * Type -> TYPE
-  
+
   typeOk(s, PrimitiveType2Type(primType)) = primTypeOk(s, primType).
 
   typeOk(s, ReferenceType2Type(refType)) = refTypeOk(s, refType).
