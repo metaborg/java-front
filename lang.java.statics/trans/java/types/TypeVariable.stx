@@ -7,6 +7,7 @@ imports
   java/Object
   java/classes/ClassDeclarations
   java/interfaces/Annotations
+  java/names/Main
   java/names/TypeNames
   java/types/Main
   java/types/ReferenceTypes
@@ -14,26 +15,36 @@ imports
 
 rules // 4.4. Type Variables
 
-  typeParamOk : scope * TypeParameter * scope
-  typeParamListOk maps typeParamOk(*, list(*), *)
+  typeParamListOk : scope * list(TypeParameter) -> scope
 
-  typeParamOk(s, TypeParameter(annoList, id), s_ty) :-
+  typeParamListOk(s, []) = s.
+
+  typeParamListOk(s, [typeParam|typeParamList]) = s'' :-
+  {s'}
+    new s', s' -LEX-> s,
+    typeParamOk(s', typeParam),
+    typeParamListOk(s', typeParamList) == s''.
+
+
+  typeParamOk : scope * TypeParameter
+
+  typeParamOk(s, TypeParameter(annoList, id)) :-
   {s_var}
     annoListOk(s, annoList),
 
     new s_var,
-    declareType(s_ty, id, s_var, TVAR()),
+    declareType(s, id, s_var, TVAR()),
 
     setSuperCls(s_var, objectOk(s)),
 
     true.
 
-  typeParamOk(s, TypeParameterExtends(annoList, id, clsTypeList), s_ty) :-
+  typeParamOk(s, TypeParameterExtends(annoList, id, clsTypeList)) :-
   {s_var T Ts}
     annoListOk(s, annoList),
 
     new s_var,
-    declareType(s_ty, id, s_var, TVAR()),
+    declareType(s, id, s_var, TVAR()),
 
     [T|Ts] == clsTypeListOk(s, clsTypeList),
     typeParamOk1(s_var, typeKind(T), T),

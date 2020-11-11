@@ -77,8 +77,9 @@ rules // 8.1. Class Declarations
   typeParamsOptOk maps typeParamsOk(*, list(*), *)
 
   typeParamsOk(s, TypeParameters(typeParamList), s_cls) :-
-    typeParamListOk(s, typeParamList, s_cls),
-    true.
+  {s'}
+    s' == typeParamListOk(s, typeParamList),
+    s_cls -LEX-> s'.
 
 
   superClsOptOk : scope * list(SuperClass) * scope
