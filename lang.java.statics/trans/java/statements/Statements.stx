@@ -168,7 +168,6 @@ rules // 14.5. Statements
     return(s) == VOID().
 
   stmtOk(s, Return(expr)) :-
-  try { false } | note "return/1",
   {T T'}
     TYPED(T) == return(s),
     T' == exprOk(s, expr),

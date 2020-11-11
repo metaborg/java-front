@@ -106,7 +106,6 @@ rules // 8.4. Method Declarations
   mthdBodyOk : scope * MethodBody
 
   mthdBodyOk(s, Block2MethodBody(blk)) :-
-  try { false } | note "mthdBody",
     blkOk(s, blk),
     true.
 
