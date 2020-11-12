@@ -51,10 +51,11 @@ rules // 8.4. Method Declarations
     true.
 
   mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
-  {R}
-    typeParamsOk(s, typeParams, s),
+  {s_typeParams R}
+    s_typeParams == typeParamsOk(s, typeParams),
+    s -LEX-> s_typeParams,
     annoListOk(s, annoList),
-    R == resultOk(s, result),
+    R == resultOk(s_typeParams, result),
     declareReturn(s, R),
     formalParamsOk(s, formalParams),
     throwsOptOk(s, throwsOpt),

@@ -37,7 +37,7 @@ rules // 8.1. Class Declarations
   normalClsDeclOk : scope * NormalClassDeclaration
 
   normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
-  {s_cls}
+  {s_cls s_typeParams}
     clsModListOk(s, clsModList),
 
     new s_cls,
@@ -46,10 +46,11 @@ rules // 8.1. Class Declarations
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
 
-    typeParamsOptOk(s, typeParamsOpt, s_cls),
+    s_typeParams == typeParamsOptOk(s, typeParamsOpt),
+    s_cls -LEX-> s_typeParams,
 
-    superClsOptOk(s, superClsOpt, s_cls),
-    superIntfsOptOk(s, superIntfsOpt, s_cls),
+    superClsOptOk(s_typeParams, superClsOpt, s_cls),
+    superIntfsOptOk(s_typeParams, superIntfsOpt, s_cls),
 
     // FIXME declare self (?)
     s_cls -LEX-> s,
@@ -73,13 +74,16 @@ rules // 8.1. Class Declarations
   clsModOk(s, Strictfp2ClassModifier(_)) :- true.
 
 
-  typeParamsOk : scope * TypeParameters * scope
-  typeParamsOptOk maps typeParamsOk(*, list(*), *)
+  typeParamsOptOk : scope * list(TypeParameters) -> scope
+  
+  typeParamsOptOk(s, []) = s.
 
-  typeParamsOk(s, TypeParameters(typeParamList), s_cls) :-
-  {s'}
-    s' == typeParamListOk(s, typeParamList),
-    s_cls -LEX-> s'.
+  typeParamsOptOk(s, [typeParams]) = typeParamsOk(s, typeParams).
+
+
+  typeParamsOk : scope * TypeParameters -> scope
+
+  typeParamsOk(s, TypeParameters(typeParamList)) = typeParamListOk(s, typeParamList).
 
 
   superClsOptOk : scope * list(SuperClass) * scope

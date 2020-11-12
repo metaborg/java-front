@@ -21,7 +21,7 @@ rules // 9.1. Interface Declarations
   intfDeclOk : scope * InterfaceDeclaration
 
   intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) :-
-  {s_intf}
+  {s_intf s_typeParams}
     intfModListOk(s, intfModList),
 
     new s_intf,
@@ -30,12 +30,13 @@ rules // 9.1. Interface Declarations
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
 
-    typeParamsOptOk(s_intf, typeParamsOpt, s_intf),
+    s_typeParams == typeParamsOptOk(s, typeParamsOpt),
+    s_intf -LEX-> s_typeParams,
 
     // FIXME declare self (?)
     s_intf -LEX-> s,
 
-    extendsIntfsOptOk(s, extendsIntfsOpt, s_intf),
+    extendsIntfsOptOk(s_typeParams, extendsIntfsOpt, s_intf),
 
     intfMemDeclListOk(s_intf, intfMemDeclList),
     true.
