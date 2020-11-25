@@ -1,0 +1,18 @@
+STATIX fail java\.expressions\.ensure-enclosing-instance
+JAVAC  fail an enclosing instance that contains A\.B is required
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public class B {}
+    }
+
+}
+
+[T]
+import p.A.B;
+public class T {
+    public B b = new B();
+}

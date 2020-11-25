@@ -40,7 +40,7 @@ rules // 14.2. Blocks
 
   blkStmtOk(s, ClassDeclaration2BlockStatement(clsDecl)) = s' :-
     new s', s' -LEX-> s,
-    clsDeclOk(s', clsDecl).
+    clsDeclOk(s', clsDecl, s').
 
   blkStmtOk(s, Statement2BlockStatement(stmt)) = s :-
     stmtOk(s, stmt).

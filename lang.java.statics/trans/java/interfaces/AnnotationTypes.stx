@@ -17,14 +17,14 @@ imports
 
 rules // 9.6. Annotation Types
 
-  annoTypeDeclOk : scope * AnnotationTypeDeclaration
+  annoTypeDeclOk : scope * AnnotationTypeDeclaration * scope
 
-  annoTypeDeclOk(s, AnnoDec(intfModList, id, annoTypeMemDeclList)) :-
+  annoTypeDeclOk(s, AnnoDec(intfModList, id, annoTypeMemDeclList), s_def) :-
   {s_anno}
     intfModListOk(s, intfModList),
 
     new s_anno,
-    declareType(s, id, s_anno, INTF()),
+    declareType(s_def, id, s_anno, INTF()),
 
     s_anno -LEX-> s,
 
@@ -46,11 +46,11 @@ rules // 9.6. Annotation Types
     true.
 
   annoTypeMemDeclOk(s, ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl)) :-
-    clsDeclOk(s, clsDecl),
+    clsDeclOk(s, clsDecl, s),
     true.
 
   annoTypeMemDeclOk(s, InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl)) :-
-    intfDeclOk(s, intfDecl),
+    intfDeclOk(s, intfDecl, s),
     true.
 
   annoTypeMemDeclOk(s, SemiColon2AnnotationTypeMemberDeclaration(_)) :-

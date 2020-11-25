@@ -1,0 +1,10 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class B {}
+    public class C {
+        public B b = new B();
+    }
+}

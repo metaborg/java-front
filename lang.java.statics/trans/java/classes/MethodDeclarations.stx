@@ -30,7 +30,8 @@ rules // 8.4. Method Declarations
   {s_mthd}
     mthdModListOk(s, mthdModList),
 
-    new s_mthd, s_mthd -LEX-> s,
+    new s_mthd,
+    s_mthd -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
 
     mthdHeaderOk(s_mthd, mthdHeader),
     mthdBodyOk(s_mthd, mthdBody),

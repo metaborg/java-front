@@ -11,16 +11,16 @@ imports
 
 rules // 7.6. Top Level Type Declarations
 
-  typeDeclOk : scope * TypeDeclaration
-  typeDeclListOk maps typeDeclOk(*, list(*))
+  typeDeclOk : scope * TypeDeclaration * scope
+  typeDeclListOk maps typeDeclOk(*, list(*), *)
 
-  typeDeclOk(s, ClassDeclaration2TypeDeclaration(clsDecl)) :-
-    clsDeclOk(s, clsDecl),
+  typeDeclOk(s, ClassDeclaration2TypeDeclaration(clsDecl), s_def) :-
+    clsDeclOk(s, clsDecl, s_def),
     true.
 
-  typeDeclOk(s, InterfaceDeclaration2TypeDeclaration(intfDecl)) :-
-    intfDeclOk(s, intfDecl),
+  typeDeclOk(s, InterfaceDeclaration2TypeDeclaration(intfDecl), s_def) :-
+    intfDeclOk(s, intfDecl, s_def),
     true.
 
-  typeDeclOk(s, SemiColon2TypeDeclaration(_)) :-
+  typeDeclOk(s, SemiColon2TypeDeclaration(_), s_def) :-
     true.

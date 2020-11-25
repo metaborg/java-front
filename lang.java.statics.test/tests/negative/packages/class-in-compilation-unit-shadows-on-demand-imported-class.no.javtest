@@ -1,0 +1,22 @@
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail incompatible types\: q\.A cannot be converted to p\.A
+
+[p] {
+
+    [A]
+    package p;
+    import q.*;
+    public class A {
+        A a = (q.A) null;
+    }
+
+}
+
+[q] {
+
+    [A]
+    package q;
+    public class A {
+    }
+
+}

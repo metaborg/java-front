@@ -1,0 +1,21 @@
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail C cannot be converted to I
+
+[A]
+public class A implements I {}
+
+[B]
+public class B {
+    public C c;
+    public I m() {
+//           new X();
+           return this.c;
+    }
+}
+
+[C]
+public class C {}
+
+[I]
+public interface I {}
+

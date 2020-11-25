@@ -1,0 +1,21 @@
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail A2\.B cannot be converted to A1\.B
+
+[A1]
+public class A1 {
+    public class B {}
+}
+
+[A2]
+public class A2 extends A1 {
+    public class B {}
+}
+
+[C]
+public class C {
+    public void m() {
+        A2 a = new A2();
+        A1.B b = a.new B();
+    }
+}
+

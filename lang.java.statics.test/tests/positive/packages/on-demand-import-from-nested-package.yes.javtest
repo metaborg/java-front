@@ -1,0 +1,27 @@
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    import q.r.*;
+    public class A {
+        public C c;
+    }
+
+}
+
+[q] {
+    [r] {
+
+        [B]
+        package q.r;
+        public class B {}
+
+        [C]
+        package q.r;
+        public class C {}
+
+    }
+}

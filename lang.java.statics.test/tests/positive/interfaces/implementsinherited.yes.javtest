@@ -1,0 +1,20 @@
+STATIX ok
+JAVAC  ok
+
+[I]
+interface I {
+  public void m(A a);
+  public B n(B a);
+}
+
+[A]
+class A extends B implements I {
+  public void m(A a) {}
+}
+
+[B]
+class B {
+  public B n(B b) {
+    return b;
+  }
+}

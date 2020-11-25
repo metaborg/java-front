@@ -14,15 +14,16 @@ imports
 
 rules // 7.3. Compilation Units
 
-  compilationUnitOk : scope * CompilationUnit
+  compilationUnitOk : scope * scope * CompilationUnit
 
-  compilationUnitOk(s, CompilationUnit(pkgDeclOpt, importDeclList, typeDeclList)) :-
-  {s_pkg d_pkg}
-    new s_pkg, s_pkg -LEX-> s,
-    pkgDeclOptOk(s, pkgDeclOpt, s_pkg),
-    importJavaLang(s, s_pkg),
-    importDeclListOk(s, importDeclList, s_pkg),
-    typeDeclListOk(s_pkg, typeDeclList),
+  compilationUnitOk(s_proj, s_pkg, CompilationUnit(pkgDeclOpt, importDeclList, typeDeclList)) :-
+  {s_cu}
+    new s_cu, s_cu -LEX-> s_proj,
+    pkgDeclOptOk(s_cu, pkgDeclOpt),
+//    importJavaLang(s, s),
+    s_cu -IMP_PKG-> s_pkg,
+    importDeclListOk(s_proj, importDeclList, s_cu),
+    typeDeclListOk(s_cu, typeDeclList, s_pkg),
     true.
 
 
@@ -30,7 +31,7 @@ rules // 7.3. Compilation Units
 
   importJavaLang(s, s_pkg) :-
   {javaDecl s_java langDecl s_lang}
-    s_java == pkgDeclScope(composePkgDecl(_, resolveLexicalPkgNames(s, Id("java")))),
-    s_lang == pkgDeclScope(composePkgDecl(_, resolveMemberPkgNames(s_java, Id("lang")))),
+    s_java == pkgDeclScope(singlePkgDecl(_, resolveLexicalPkgNames(s, Id("java")))),
+    s_lang == pkgDeclScope(singlePkgDecl(_, resolveMemberPkgNames(s_java, Id("lang")))),
     s_pkg -IMP_OD-> s_lang,
     true.

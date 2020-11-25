@@ -23,7 +23,9 @@ rules // 8.8. Constructor Declarations
   {s_ctor s_typeParams}
     ctorModListOk(s, ctorModList),
 
-    new s_ctor, s_ctor -LEX-> s,
+    new s_ctor,
+    
+    // s_ctor -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
 
     s_typeParams == typeParamsOptOk(s, typeParamsOpt),
     s_ctor -LEX-> s_typeParams,

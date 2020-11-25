@@ -1,0 +1,14 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A implements I {}
+
+[B]
+public class B {
+    public I f = new A();
+}
+
+[I]
+public interface I {}
+

@@ -1,0 +1,23 @@
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail incompatible types\: A\.I cannot be converted to C\.I
+
+[A]
+public class A {
+    public class I {}
+}
+
+[B]
+public class B extends A {}
+
+[C]
+public class C extends A {
+    public class I {}
+}
+
+[Test]
+public class Test {
+    public void m() {
+        C.I i = new B().new I();
+    }
+}
+

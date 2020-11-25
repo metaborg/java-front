@@ -7,6 +7,7 @@ imports
   java/arrays/Main
   java/classes/Main
   java/interfaces/Main
+  java/lexical/Identifiers
   java/lexical/Main
   java/literals/Main
   java/names/Main
@@ -27,15 +28,21 @@ context-free sorts
 context-free syntax
 
   CompilationUnit.Test = <
-    <{Expectation "\n"}*>
+    <{Expectation "\n"}+>
     <{TestUnit "\n"}*>
   >
 
   Expectation.StatixExpect = <STATIX <ExpectationText>>
   Expectation.JavaCExpect = <JAVAC <ExpectationText>>
 
-  TestUnit.TestUnit = <
-    [<TestUnitId>]
+  TestUnit.TestPkg = <
+    [<ID>] {
+      <{TestUnit "\n"}*>
+    }
+  >
+
+  TestUnit.TestFile = <
+    [<ID>]
     <CompilationUnit>
   >
 

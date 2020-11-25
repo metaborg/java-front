@@ -1,0 +1,13 @@
+STATIX fail 
+JAVAC  fail 
+
+[p] {
+
+    [q] {
+
+        [A]
+        package p;
+        public class A {}
+
+    }
+}

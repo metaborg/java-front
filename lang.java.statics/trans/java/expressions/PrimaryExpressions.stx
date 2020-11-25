@@ -21,7 +21,7 @@ rules // 15.8. Primary Expressions
 
   exprOk(s, This()) = typeDeclType(this(s)).
 
-  exprOk(s, QThis(typeName)) = _.
+  exprOk(s, QThis(typeName)) = typeDeclType(qualThis(typeNameOk(s, typeName), s)).
 
 
   clsLitOk : scope * ClassLiteral

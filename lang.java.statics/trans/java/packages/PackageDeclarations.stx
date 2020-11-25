@@ -14,33 +14,33 @@ imports
 
 rules
 
-  pkgDeclOptOk : scope * list(PackageDeclaration) * scope
+  pkgDeclOptOk : scope * list(PackageDeclaration)
 
-  pkgDeclOptOk(s, [], s_pkg) :- declarePkgIds(s, [Id("")], s_pkg).
+  pkgDeclOptOk(s, []) :- checkPkgIds(thisPkg(s), [Id("")]).
 
-  pkgDeclOptOk(s, [pkgDecl], s_pkg) :- pkgDeclOk(s, pkgDecl, s_pkg).
+  pkgDeclOptOk(s, [pkgDecl]) :- pkgDeclOk(s, pkgDecl).
 
 
-  pkgDeclOk : scope * PackageDeclaration * scope
+  pkgDeclOk : scope * PackageDeclaration
 
-  pkgDeclOk(s, PackageDeclaration(annoList, idList), s_pkg) :-
+  pkgDeclOk(s, PackageDeclaration(annoList, idList)) :-
     annoListOk(s, annoList),
-    declarePkgIds(s, idList, s_pkg),
+    checkPkgIds(thisPkg(s), idList),
     true.
 
 
-  declarePkgIds : scope * list(Id) * scope
+  checkPkgIds : PKG_DECL * list(Id)
 
-  declarePkgIds(s, [id], s_pkg) :-
-    declarePkg(s, id, s_pkg),
-    composePkgPathList(id, s_pkg, resolveMemberPkgNames(s, id)),
-    true.
+  checkPkgIds(pkgDecl, idList) :-
+  {idList'}
+    idList' == checkPkgIds1(pkgDecl, idList, []),
+    idList' == idList | error $[Compilation unit declared in [idList] but defined in [idList']].
 
-  declarePkgIds(s, [id|idList], s_pkg) :-
-  {s_pkg'}
-    new s_pkg',
-    declarePkg(s, id, s_pkg'),
-    composePkgPathList(id, s_pkg', resolveMemberPkgNames(s, id)),
-    declarePkgIds(s_pkg', idList, s_pkg),
-    true.
+      checkPkgIds1 : PKG_DECL * list(Id) * list(Id) -> list(Id)
+
+      checkPkgIds1(pkgDecl, [id], idList') = [id'|idList'] :-
+        id' == pkgDeclId(pkgDecl).
+
+      checkPkgIds1(pkgDecl, [id|idList], idList') = checkPkgIds1(superPkg(pkgDecl), idList, [id'|idList']) :-
+        id' == pkgDeclId(pkgDecl).
 

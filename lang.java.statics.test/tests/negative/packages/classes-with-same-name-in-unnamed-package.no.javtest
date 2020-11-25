@@ -1,0 +1,8 @@
+STATIX fail java\.duplicates\.no-duplicate-type
+JAVAC  fail duplicate class
+
+[A]
+public class A {}
+
+[A]
+public class A {}

@@ -1,0 +1,21 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A implements J, K {
+  public int m() {
+    return 42;
+  }
+}
+
+[I]
+public interface I {
+  public int m();
+}
+
+[J]
+public interface J extends I {}
+
+[K]
+public interface K extends I {}
+

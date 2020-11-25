@@ -26,5 +26,7 @@ signature
       IMPL    // implements
       IMP_ST  // single-type import
       IMP_OD  // on-demand import
+      IMP_PKG // (own) package import
       LEX     // lexical parent
-      PKGC    // package composition
+      PARENT  // parent package
+      ROOT    // root scope

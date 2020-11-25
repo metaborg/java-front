@@ -5,6 +5,7 @@ imports
   java/Main
   java/Object
   java/names/Main
+  java/names/PackageNames
   java/names/TypeNames
   java/packages/CompilationUnits
   java/packages/PackageDeclarations
@@ -15,23 +16,41 @@ rules
 
   projectOk : scope
 
-  projectOk(s) :-
-    declareObject(s).
+  projectOk(s_proj) :-
+  //declareObject(s_proj),
+    true.
+
+
+  groupOk : scope * scope * string * scope
+
+  groupOk(s_proj, s_parentPkg, id, s_thisPkg) :-
+    s_thisPkg -PARENT-> s_parentPkg,
+    declarePkg(s_parentPkg, Id(id), s_thisPkg),
+    true.
 
   
-  fileOk : scope * CompilationUnit
+  fileOk : scope * scope * CompilationUnit
   
-  fileOk(s, compilationUnit@CompilationUnit(_, _, _)) :-
-    compilationUnitOk(s, compilationUnit).
+  fileOk(s_proj, s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
+    compilationUnitOk(s_proj, s_pkg, compilationUnit).
 
-  fileOk(_, Test(expectationList, testUnitList)) :-
-  {s}
-    new s, // isolate tests from the regular global scope
-    projectOk(s),
-    testUnitListOk(s, testUnitList).
+  fileOk(_, _, Test(expectationList, testUnitList)) :-
+  {s_proj s_anonPkg}
+    // isolate tests from the regular global scope
+    new s_proj, projectOk(s_proj),
 
-  testUnitOk : scope * TestUnit
-  testUnitListOk maps testUnitOk(*, list(*))
+    new s_anonPkg, groupOk(s_proj, s_proj, "", s_anonPkg),
 
-  testUnitOk(s, TestUnit(_, compilationUnit)) :-
-    compilationUnitOk(s, compilationUnit).
+    testUnitListOk(s_proj, s_proj, s_anonPkg, testUnitList).
+
+
+  testUnitOk : scope * scope * scope * TestUnit
+  testUnitListOk maps testUnitOk(*, *, *, list(*))
+
+  testUnitOk(s_proj, s_parentPkg, s_thisPkg, TestPkg(id, testUnitList)) :-
+  {s_subPkg}
+    new s_subPkg, groupOk(s_proj, s_parentPkg, id, s_subPkg),
+    testUnitListOk(s_proj, s_subPkg, s_subPkg, testUnitList).
+
+  testUnitOk(s_proj, s_parentPkg, s_thisPkg, TestFile(_, compilationUnit)) :-
+    fileOk(s_proj, s_thisPkg, compilationUnit).

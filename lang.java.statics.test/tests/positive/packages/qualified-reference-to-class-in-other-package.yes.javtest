@@ -1,0 +1,20 @@
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public q.B b;
+    }
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {}
+
+}

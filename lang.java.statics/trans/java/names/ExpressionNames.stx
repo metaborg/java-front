@@ -58,11 +58,11 @@ rules
   resolveLexicalExprNames(s, id) = varPathList :-
     query var
       filter /* lex expr re */
-          LEX* EXT*
+          LEX* EXT* IMPL*
         and { id' :- id' == id }
       min /* expr ord */
-          $ < LEX, $ < EXT,
-          EXT < LEX
+          $ < LEX, $ < EXT, $ < IMPL,
+          EXT < LEX, IMPL < LEX
         and true
       in s |-> varPathList.
 
@@ -72,11 +72,11 @@ rules
   resolveMemberExprNames(s, id) = varPathList :-
     query var
       filter /* mem expr re */
-          EXT*
+          EXT* IMPL*
         and { id' :- id' == id }
       min /* expr ord */
-          $ < LEX, $ < EXT,
-          EXT < LEX
+          $ < LEX, $ < EXT, $ < IMPL,
+          EXT < LEX, IMPL < LEX
         and true
       in s |-> varPathList.
 
@@ -162,7 +162,7 @@ rules
         false | error $[Expression, type, or package [id] not found].
 
       resolveLexicalAmbName3(s, id, pkgPathList) = PKG__DECL(pkgDecl) :-
-        pkgDecl == composePkgDecl(id, pkgPathList).
+        pkgDecl == singlePkgDecl(id, pkgPathList).
 
 
   resolveMemberAmbName : AMB_DECL * Id -> AMB_DECL
@@ -202,5 +202,5 @@ rules
         false | error $[Type or package [id] not found].
 
       resolveMemberAmbName4(s, id, pkgPathList) = PKG__DECL(pkgDecl) :-
-        pkgDecl == composePkgDecl(id, pkgPathList).
+        pkgDecl == singlePkgDecl(id, pkgPathList).
 

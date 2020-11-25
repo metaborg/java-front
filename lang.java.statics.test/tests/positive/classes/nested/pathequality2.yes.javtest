@@ -1,0 +1,16 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+class A {
+    class B {}
+}
+
+[C]
+class C extends A {
+    class D extends B {
+        A.B m() {
+            return this;
+        }
+    }
+}

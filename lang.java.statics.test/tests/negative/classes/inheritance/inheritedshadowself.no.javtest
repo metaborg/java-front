@@ -1,0 +1,15 @@
+STATIX fail java\.subtype\.child
+JAVAC  fail incompatible types\: B cannot be converted to A\.B
+
+[A]
+public class A {
+    public class B {}
+}
+
+[B]
+public class B extends A {
+    public B m() {
+        return this; // error
+    }
+}
+

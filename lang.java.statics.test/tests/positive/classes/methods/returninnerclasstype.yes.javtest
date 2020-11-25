@@ -1,0 +1,13 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class I {}
+}
+
+[B]
+public class B {
+    public A.I a() { return null; }
+}
+

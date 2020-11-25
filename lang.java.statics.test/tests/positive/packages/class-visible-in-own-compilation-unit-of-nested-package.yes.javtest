@@ -1,0 +1,12 @@
+STATIX ok
+JAVAC  ok
+
+[p] {
+    [q] {
+        [A]
+        package p.q;
+        public class A {
+            public A a;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+STATIX ok
+JAVAC ok
+
+[A]
+public class A {}
+
+[B]
+public class B extends A {}
+

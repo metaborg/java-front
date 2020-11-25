@@ -35,7 +35,7 @@ rules // 4.4. Type Variables
     new s_var,
     declareType(s, id, s_var, TVAR()),
 
-    setSuperCls(s_var, objectOk(s)),
+  //setSuperCls(s_var, objectOk(s)),
 
     true.
 

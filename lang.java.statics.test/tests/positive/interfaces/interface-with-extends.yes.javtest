@@ -1,0 +1,13 @@
+STATIX ok
+JAVAC  ok
+
+[I]
+interface J {
+    public void m();
+}
+
+interface K {
+    public void n();
+}
+
+interface I extends J, K {}

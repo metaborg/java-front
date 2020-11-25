@@ -1,0 +1,17 @@
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail m.* in A cannot implement m.* in I
+
+[I]
+interface I {
+  public B m();
+}
+
+[A]
+class A implements I {
+  public A m() {
+    return null;
+  }
+}
+
+[B]
+class B extends A {}

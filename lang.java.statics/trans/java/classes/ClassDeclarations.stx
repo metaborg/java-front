@@ -23,25 +23,25 @@ imports
 
 rules // 8.1. Class Declarations
 
-  clsDeclOk : scope * ClassDeclaration
+  clsDeclOk : scope * ClassDeclaration * scope
 
-  clsDeclOk(s, NormalClassDeclaration2ClassDeclaration(normalClsDecl)) :-
-    normalClsDeclOk(s, normalClsDecl),
+  clsDeclOk(s, NormalClassDeclaration2ClassDeclaration(normalClsDecl), s_def) :-
+    normalClsDeclOk(s, normalClsDecl, s_def),
     true.
 
-  clsDeclOk(s, EnumDeclaration2ClassDeclaration(enumDecl)) :-
-    enumDeclOk(s, enumDecl),
+  clsDeclOk(s, EnumDeclaration2ClassDeclaration(enumDecl), s_def) :-
+    enumDeclOk(s, enumDecl, s_def),
     true.
 
 
-  normalClsDeclOk : scope * NormalClassDeclaration
+  normalClsDeclOk : scope * NormalClassDeclaration * scope
 
-  normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
+  normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList), s_def) :-
   {s_cls s_typeParams}
     clsModListOk(s, clsModList),
 
     new s_cls,
-    declareType(s, id, s_cls, CLASS()),
+    declareType(s_def, id, s_cls, CLASS()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
@@ -53,7 +53,7 @@ rules // 8.1. Class Declarations
     superIntfsOptOk(s_typeParams, superIntfsOpt, s_cls),
 
     // FIXME declare self (?)
-    s_cls -LEX-> s,
+    // s_cls -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
 
     clsBodyDeclListOk(s_cls, clsBodyDeclList),
     true.
@@ -89,9 +89,8 @@ rules // 8.1. Class Declarations
   superClsOptOk : scope * list(SuperClass) * scope
 
   superClsOptOk(s, [], s_cls) :-
-  {T}
-    T == objectOk(s),
-    setSuperCls(s_cls, T).
+  //setSuperCls(s_cls, objectOk(s)),
+    true.
 
   superClsOptOk(s, [SuperClass(clsType)], s_cls) :-
   {T}
@@ -153,11 +152,11 @@ rules // 8.1. Class Declarations
     true.
 
   clsMemDeclOk(s, ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
-    clsDeclOk(s, clsDecl),
+    clsDeclOk(s, clsDecl, s),
     true.
 
   clsMemDeclOk(s, InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
-    intfDeclOk(s, intfDecl),
+    intfDeclOk(s, intfDecl, s),
     true.
 
   clsMemDeclOk(s, SemiColon2ClassMemberDeclaration(semiColon)) :-

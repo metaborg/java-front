@@ -1,0 +1,15 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public A f;
+}
+
+[B]
+public class B extends A {
+    public A m() {
+        return super.f;
+    }
+}
+

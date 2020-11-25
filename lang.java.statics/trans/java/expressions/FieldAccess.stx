@@ -26,7 +26,7 @@ rules // 15.11. Field Access Expressions
 
   fldAccessOk(s, SuperField(id)) = T :-
   {s_ty varDecl}
-    s_ty == typeDeclScope(super(s)),
+    s_ty == typeDeclScope(super(this(s))),
     varDecl == singleVarDecl(id, resolveMemberExprNames(s_ty, id)),
     T == varDeclType(varDecl).
 

@@ -1,0 +1,25 @@
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    import q.*;
+    public class A {
+        public B b = (p.B) null;
+    }
+
+    [B]
+    package p;
+    public class B {}
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {}
+
+}

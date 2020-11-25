@@ -18,14 +18,14 @@ imports
 
 rules // 9.1. Interface Declarations
 
-  intfDeclOk : scope * InterfaceDeclaration
+  intfDeclOk : scope * InterfaceDeclaration * scope
 
-  intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) :-
+  intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList), s_def) :-
   {s_intf s_typeParams}
     intfModListOk(s, intfModList),
 
     new s_intf,
-    declareType(s, id, s_intf, INTF()),
+    declareType(s_def, id, s_intf, INTF()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
@@ -34,15 +34,15 @@ rules // 9.1. Interface Declarations
     s_intf -LEX-> s_typeParams,
 
     // FIXME declare self (?)
-    s_intf -LEX-> s,
+    // s_intf -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
 
     extendsIntfsOptOk(s_typeParams, extendsIntfsOpt, s_intf),
 
     intfMemDeclListOk(s_intf, intfMemDeclList),
     true.
 
-  intfDeclOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl)) :-
-    annoTypeDeclOk(s, annoTypeDecl),
+  intfDeclOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl), s_def) :-
+    annoTypeDeclOk(s, annoTypeDecl, s_def),
     true.
 
 
@@ -63,7 +63,8 @@ rules // 9.1. Interface Declarations
   extendsIntfsOptOk : scope * list(ExtendsInterfaces) * scope
 
   extendsIntfsOptOk(s, [], s_intf) :-
-    setSuperCls(s_intf, objectOk(s)).
+  //setSuperCls(s_intf, objectOk(s)),
+    true.
 
   extendsIntfsOptOk(s, [extendsIntfs], s_intf) :-
     extendsIntfsOk(s, extendsIntfs, s_intf).
@@ -88,11 +89,11 @@ rules // 9.1. Interface Declarations
     true.
 
   intfMemDeclOk(s, ClassDeclaration2InterfaceMemberDeclaration(clsDecl)) :-
-    clsDeclOk(s, clsDecl),
+    clsDeclOk(s, clsDecl, s),
     true.
 
   intfMemDeclOk(s, InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl)) :-
-    intfDeclOk(s, intfDecl),
+    intfDeclOk(s, intfDecl, s),
     true.
 
   intfMemDeclOk(s, SemiColon2InterfaceMemberDeclaration(_)) :-

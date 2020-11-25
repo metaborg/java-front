@@ -1,0 +1,19 @@
+STATIX fail java\.names\.lexical-type-name
+JAVAC  fail cannot find symbol
+
+[p] {
+
+    [A]
+    package p;
+    public class A {}
+
+    [q] {
+
+        [B]
+        package p.q;
+        public class B {
+            public A a;
+        }
+
+    }
+}

@@ -1,0 +1,16 @@
+STATIX fail java\.names\.lexical-type-name.*\"A\"
+JAVAC  fail cannot find symbol
+
+[A]
+public class A {
+}
+
+[p] {
+
+    [B]
+    package p;
+    public class B {
+        public A a;
+    }
+
+}

@@ -14,14 +14,14 @@ imports
 
 rules // 8.9. Enum Types
 
-  enumDeclOk : scope * EnumDeclaration
+  enumDeclOk : scope * EnumDeclaration * scope
 
-  enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+  enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_def) :-
   {s_enum}
     clsModListOk(s, clsModList),
 
     new s_enum,
-    declareType(s, id, s_enum, CLASS()),
+    declareType(s_def, id, s_enum, CLASS()),
 
     superIntfsOptOk(s_enum, superIntfsOpt, s_enum),
 
@@ -31,12 +31,12 @@ rules // 8.9. Enum Types
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
     true.
 
-  enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+  enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_def) :-
   {s_enum}
     clsModListOk(s, clsModList),
 
     new s_enum,
-    declareType(s, id, s_enum, CLASS()),
+    declareType(s_def, id, s_enum, CLASS()),
 
     superIntfsOptOk(s, superIntfsOpt, s_enum),
 

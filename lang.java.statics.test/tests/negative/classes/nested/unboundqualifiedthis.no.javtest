@@ -1,0 +1,22 @@
+STATIX fail java\.expressions\.expression-ok.*QThis.*Id\(\"Out\"\)
+JAVAC  fail not an enclosing class\: A\.B\.Out
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public class B {
+            public class C {
+                public class D {
+                    public void m() {
+                        B a = Out.this;
+                    }
+                }
+            }
+
+            public class Out {}
+        }
+    }
+
+}

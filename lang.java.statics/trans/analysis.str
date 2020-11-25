@@ -3,6 +3,7 @@ module analysis
 imports
 
   libspoofax/core/language
+  libspoofax/resource/path
   libspoofax/sdf/pp
   libspoofax/term/origin
 
@@ -17,9 +18,13 @@ imports
 
 rules // Analysis
 
-  editor-analyze = stx-editor-analyze(pre-analyze,post-analyze|"statics", "projectOk", "fileOk")
+  editor-analyze = stx-editor-analyze(pre-analyze,group-key,post-analyze|"statics", "projectOk", "groupOk", "fileOk")
 
   pre-analyze = java-explicate-injections
+
+  group-key: (resource, ast) -> key
+    with rel-path := <current-language-relative-source-or-include-path> resource
+       ; key := <string-tokenize;if ?[] then ![""] end> (['/','\'], rel-path)
 
   post-analyze = java-implicate-injections
 

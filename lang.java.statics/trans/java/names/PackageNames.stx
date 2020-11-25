@@ -17,7 +17,8 @@ signature
     PKG_PATH   = (path * (Id * scope))
 
   relations
-    pkg  : Id -> scope
+    pkg     : Id -> scope
+    thisPkg : Id -> scope
 
 
 rules
@@ -33,6 +34,11 @@ rules
       pkgNameOk1(PackageName(pkgName, id)) = QID(pkgNameOk1(pkgName), id).
 
 
+  pkgDeclId : PKG_DECL -> Id
+
+  pkgDeclId((id, _)) = id.
+
+
   pkgDeclScope : PKG_DECL -> scope
 
   pkgDeclScope((_, s_pkg)) = s_pkg.
@@ -41,12 +47,12 @@ rules
   resolvePkgName : scope * QID -> PKG_DECL
 
   resolvePkgName(s, ID(id)) = pkgDecl :-
-    pkgDecl == composePkgDecl(id, resolveLexicalPkgNames(s, id)).
+    pkgDecl == singlePkgDecl(id, resolveLexicalPkgNames(s, id)).
 
   resolvePkgName(s, QID(qid, id)) = pkgDecl :-
   {s_pkg}
     s_pkg == pkgDeclScope(resolvePkgName(s, qid)),
-    pkgDecl == composePkgDecl(id, resolveMemberPkgNames(s_pkg, id)).
+    pkgDecl == singlePkgDecl(id, resolveMemberPkgNames(s_pkg, id)).
 
 
   resolveLexicalPkgNames : scope * Id -> list(PKG_PATH)
@@ -57,7 +63,7 @@ rules
           LEX*
         and { id' :- id' == id }
       min /* pkg ord */
-          $ < LEX
+          $ < LEX // FIXME This will allow relative package names :(
         and true
       in s |-> pkgPathList,
     true.
@@ -68,32 +74,66 @@ rules
   resolveMemberPkgNames(s, id) = pkgPathList :-
     query pkg
       filter /* mem pkg re */
-          PKGC?
+          e
         and { id' :- id' == id }
       in s |-> pkgPathList,
     true.
 
 
 
-  composePkgDecl : Id * list(PKG_PATH) -> PKG_DECL
+  singlePkgDecl : Id * list(PKG_PATH) -> PKG_DECL
 
-  composePkgDecl(id, pkgPathList) = (id, s_pkg) :-
-    new s_pkg,
-    composePkgPathList(id, s_pkg, pkgPathList),
-    true.
+  singlePkgDecl(id, []) = _ :-
+    false | error $[Package [id] not found] @id.
+
+  singlePkgDecl(id, [(_, pkgDecl@(id', _))]) = pkgDecl :-
+    @id.ref := id'.
+
+  singlePkgDecl(id, pkgDeclList) = _ :-
+    false | error $[Package [id] is ambiguous] @id.
 
 
-  composePkgPath : Id * scope * PKG_PATH
-  composePkgPathList maps composePkgPath(*, *, list(*))
+//  composePkgDecl : Id * list(PKG_PATH) -> PKG_DECL
+//
+//  composePkgDecl(id, pkgPathList) = (id, s_pkg) :-
+//    new s_pkg,
+//    composePkgPathList(id, s_pkg, pkgPathList),
+//    true.
 
-  composePkgPath(_, s_pkg, (_, (_, s_pkg))).
 
-  composePkgPath(id, s_pkg, (_, (id', s_pkg'))) :-
-    s_pkg -PKGC-> s_pkg',
-    true.
+//  composePkgPath : Id * scope * PKG_PATH
+//  composePkgPathList maps composePkgPath(*, *, list(*))
+//
+//  composePkgPath(_, s_pkg, (_, (_, s_pkg))).
+//
+//  composePkgPath(id, s_pkg, (_, (id', s_pkg'))) :-
+//    s_pkg -PKGC-> s_pkg',
+//    true.
 
 
   declarePkg : scope * Id * scope
 
   declarePkg(s, id, s_pkg) :-
-    !pkg[id, s_pkg] in s.
+    !pkg[id, s_pkg] in s,
+    !thisPkg[id, s_pkg] in s_pkg.
+
+
+  thisPkg : scope -> PKG_DECL
+
+  thisPkg(s) = pkgDecl :-
+    query thisPkg
+      filter LEX* IMP_PKG and true
+      min $ < LEX and true
+      in s |-> [(_, pkgDecl)].
+
+
+  superPkg : PKG_DECL -> PKG_DECL
+
+  superPkg(pkgDecl) = pkgDecl' :-
+  {s_pkg}
+    s_pkg == pkgDeclScope(pkgDecl),
+    query thisPkg
+      filter PARENT and true
+      min /* */ and true
+      in s_pkg |-> [(_, pkgDecl')].
+

@@ -1,0 +1,21 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class I {}
+}
+
+[B]
+public class B extends A {}
+
+[C]
+public class C extends A {}
+
+[D]
+public class D {
+    public void m() {
+        C.I i = new B().new I();
+    }
+}
+

@@ -1,0 +1,19 @@
+STATIX ok
+JAVAC  ok
+
+[jav] {
+    [util] {
+
+        [List]
+        package jav.util;
+        public class List {}
+
+    }
+}
+
+[Test]
+import jav.util.List;
+public class Test {
+    public class List {}
+}
+

@@ -1,0 +1,11 @@
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail A\.B cannot be converted to A
+
+[A]
+public class A {
+    public class B {
+        public void m() {
+             A a = B.this;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public B f;
+}
+
+[B]
+public class B {}
+

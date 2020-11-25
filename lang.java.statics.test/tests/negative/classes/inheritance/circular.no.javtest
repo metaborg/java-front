@@ -1,0 +1,12 @@
+STATIX fail java\.classes\.no-class-cycle
+JAVAC  fail cyclic
+
+[Point]
+public class Point extends ColoredPoint{
+    int color;
+}
+
+[ColoredPoint]
+class ColoredPoint extends Point {
+    int color;
+}

@@ -1,0 +1,11 @@
+STATIX fail java\.interfaces\.cls-implements-sig
+JAVAC  fail A is not abstract and does not override abstract method m\(\) in I
+
+[I]
+interface I {
+  public void m();
+}
+
+[A]
+class A implements I {
+}

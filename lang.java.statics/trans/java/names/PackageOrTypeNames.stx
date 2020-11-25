@@ -65,7 +65,7 @@ rules
         false | error $[Type or package [id] not found].
 
       resolveLexicalPkgOrTypeName2(s, id, pkgPathList) = PKG_DECL(pkgDecl) :-
-        pkgDecl == composePkgDecl(id, pkgPathList).
+        pkgDecl == singlePkgDecl(id, pkgPathList).
 
 
   resolveMemberPkgOrTypeName : scope * Id -> PKG_OR_TYPE_DECL
@@ -84,5 +84,5 @@ rules
         false | error $[Type or package [id] not found].
 
       resolveMemberPkgOrTypeName2(s, id, pkgPathList) = PKG_DECL(pkgDecl) :-
-        pkgDecl == composePkgDecl(id, pkgPathList).
+        pkgDecl == singlePkgDecl(id, pkgPathList).
 

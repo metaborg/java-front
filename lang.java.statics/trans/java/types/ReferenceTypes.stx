@@ -35,6 +35,7 @@ rules
 
 
   clsTypeOk : scope * ClassType -> TYPE
+
   clsTypeListOk maps clsTypeOk(*, list(*)) = list(*)
 
   clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = typeDeclType(typeDecl) :-
@@ -66,7 +67,7 @@ rules
   {pkgOrTypeDecl s_pkgOrCls'}
     s_pkgOrCls' == pkgOrClsTypeOk(s, clsType),
     annoListOk(s, annoList),
-    pkgOrTypeDecl == resolveMemberPkgOrTypeName(s, id),
+    pkgOrTypeDecl == resolveMemberPkgOrTypeName(s_pkgOrCls', id),
     s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.

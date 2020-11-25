@@ -1,0 +1,11 @@
+STATIX fail
+JAVAC  fail
+
+[A]
+public class A {
+    public void m() {
+        class C extends B {}
+        class B {}
+    }
+}
+
