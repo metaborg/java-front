@@ -3,6 +3,7 @@ module java/Object
 imports
 
   java/names/Main
+  java/names/PackageNames
   java/names/TypeNames
   java/packages/PackageDeclarations
   java/types/Main
@@ -15,33 +16,40 @@ signature
 
 rules
 
-//  declareObject : scope
-//
-//  declareObject(s) :-
-//  {s_pkg id K s_cls}
-//
-//    new s_pkg, s_pkg -LEX-> s,
-//    declarePkgIds(s, [Id("java"), Id("lang")], s_pkg),
-//
-//    id == Id("Object"),
-//    K == CLASS(),
-//
-//    new s_cls,
-//    declareType(s_pkg, id, s_cls, K),
-//
-//    s_cls -LEX-> s_pkg,
-//
-//    !javaLangObject[(id, s_cls)] in s,
-//
-//    true.
+  declareObject : scope
+
+  declareObject(s) :-
+  {lang Object}
+    lang == resolveJavaLang(s),
+    Object == singleTypeDecl(Id("Object"), resolveMemberTypeNames(pkgDeclScope(lang), Id("Object"))),
+    !javaLangObject[Object] in s.
 
 
-//  objectOk : scope -> TYPE
-//
-//  objectOk(s) = typeDeclType(resolveObject(s)).
+  objectOk : scope -> TYPE
+
+  objectOk(s) = typeDeclType(resolveObject(s)).
 
 
-//  resolveObject : scope -> TYPE_DECL
-//
-//  resolveObject(s) = typeDecl :-
-//    query javaLangObject filter LEX* and true in s |-> [(_, typeDecl)].
+  resolveObject : scope -> TYPE_DECL
+
+  resolveObject(s) = Object :-
+    query javaLangObject filter LEX* and true in s |-> [(_, Object)].
+
+
+rules
+
+  resolveJavaLang : scope -> PKG_DECL
+  
+  resolveJavaLang(s) = lang :-
+  {java}
+    java == singlePkgDecl(Id("java"), resolveLexicalPkgNames(s, Id("java"))),
+    lang == singlePkgDecl(Id("lang"), resolveMemberPkgNames(pkgDeclScope(java), Id("lang"))).
+
+
+  importJavaLang : scope * scope
+
+  importJavaLang(s, s_pkg) :-
+  {s_lang}
+    s_lang == pkgDeclScope(resolveJavaLang(s)),
+    s_pkg -IMP_OD-> s_lang,
+    true.

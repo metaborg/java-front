@@ -63,7 +63,7 @@ rules // 9.1. Interface Declarations
   extendsIntfsOptOk : scope * list(ExtendsInterfaces) * scope
 
   extendsIntfsOptOk(s, [], s_intf) :-
-  //setSuperCls(s_intf, objectOk(s)),
+    setSuperCls(s_intf, objectOk(s)),
     true.
 
   extendsIntfsOptOk(s, [extendsIntfs], s_intf) :-

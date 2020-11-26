@@ -89,7 +89,7 @@ rules // 8.1. Class Declarations
   superClsOptOk : scope * list(SuperClass) * scope
 
   superClsOptOk(s, [], s_cls) :-
-  //setSuperCls(s_cls, objectOk(s)),
+    setSuperCls(s_cls, objectOk(s)),
     true.
 
   superClsOptOk(s, [SuperClass(clsType)], s_cls) :-

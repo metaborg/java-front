@@ -3,9 +3,12 @@ module java/packages/CompilationUnits
 imports
 
   signatures/java/packages/CompilationUnits-sig
+  signatures/java/Test-sig
 
+  java/Object
   java/names/Main
   java/names/PackageNames
+  java/names/TypeNames
   java/packages/Main
   java/packages/ImportDeclarations
   java/packages/PackageDeclarations
@@ -20,18 +23,9 @@ rules // 7.3. Compilation Units
   {s_cu}
     new s_cu, s_cu -LEX-> s_proj,
     pkgDeclOptOk(s_cu, pkgDeclOpt),
-//    importJavaLang(s, s),
+    importJavaLang(s_proj, s_cu),
     s_cu -IMP_PKG-> s_pkg,
     importDeclListOk(s_proj, importDeclList, s_cu),
     typeDeclListOk(s_cu, typeDeclList, s_pkg),
     true.
 
-
-  importJavaLang : scope * scope
-
-  importJavaLang(s, s_pkg) :-
-  {javaDecl s_java langDecl s_lang}
-    s_java == pkgDeclScope(singlePkgDecl(_, resolveLexicalPkgNames(s, Id("java")))),
-    s_lang == pkgDeclScope(singlePkgDecl(_, resolveMemberPkgNames(s_java, Id("lang")))),
-    s_pkg -IMP_OD-> s_lang,
-    true.
