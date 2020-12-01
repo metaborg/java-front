@@ -17,12 +17,31 @@ signature
 rules
 
   declareObject : scope
+    declareObject1 : list(PKG_DECL) * scope
+    declareObject2 : list(TYPE_PATH) * scope
+    declareObject3 : scope
 
   declareObject(s) :-
-  {lang Object}
-    lang == resolveJavaLang(s),
-    Object == singleTypeDecl(Id("Object"), resolveMemberTypeNames(pkgDeclScope(lang), Id("Object"))),
-    !javaLangObject[Object] in s.
+    declareObject1(resolveJavaLang(s), s).
+
+      declareObject1([lang], s) :-
+        declareObject2(resolveMemberTypeNames(pkgDeclScope(lang), Id("Object")), s).
+
+      declareObject1(_, s) :-
+        declareObject3(s).
+
+      declareObject2([(_, Object)], s) :-
+        !javaLangObject[Object] in s.
+
+      declareObject2(_, s) :-
+        declareObject3(s).
+
+      declareObject3(s) :-
+      {id s_obj Object}
+        id == Id("Object"),
+        new s_obj,
+        declareType(new, id, s_obj, CLASS()),
+        !javaLangObject[(id, s_obj)] in s.
 
 
   objectOk : scope -> TYPE
@@ -38,18 +57,34 @@ rules
 
 rules
 
-  resolveJavaLang : scope -> PKG_DECL
+  resolveJavaLang : scope -> list(PKG_DECL)
+  resolveJavaLang1 : list(PKG_PATH) -> list(PKG_DECL)
+  resolveJavaLang2 : list(PKG_PATH) -> list(PKG_DECL)
   
-  resolveJavaLang(s) = lang :-
-  {java}
-    java == singlePkgDecl(Id("java"), resolveLexicalPkgNames(s, Id("java"))),
-    lang == singlePkgDecl(Id("lang"), resolveMemberPkgNames(pkgDeclScope(java), Id("lang"))).
+  resolveJavaLang(s) = resolveJavaLang1(resolveLexicalPkgNames(s, Id("java"))).
+
+      resolveJavaLang1([(_, java)]) = resolveJavaLang2(resolveMemberPkgNames(pkgDeclScope(java), Id("lang"))).
+
+      resolveJavaLang1(_) = [].
+
+      resolveJavaLang2([(_, lang)]) = [lang].
+
+      resolveJavaLang2(_) = [].
 
 
   importJavaLang : scope * scope
 
+    importJavaLang1 : list(PKG_DECL) * scope
+
   importJavaLang(s, s_pkg) :-
-  {s_lang}
-    s_lang == pkgDeclScope(resolveJavaLang(s)),
-    s_pkg -IMP_OD-> s_lang,
-    true.
+    importJavaLang1(resolveJavaLang(s), s_pkg).
+
+      importJavaLang1([lang], s_pkg) :-
+      {s_lang}
+        s_lang == pkgDeclScope(lang),
+        s_pkg -IMP_OD-> s_lang,
+        true.
+
+      importJavaLang1(_, s_pkg) :-
+        try { false } | warning "Could not import java.lang.".
+

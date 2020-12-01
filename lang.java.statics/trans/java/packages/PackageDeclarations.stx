@@ -34,7 +34,7 @@ rules
   checkPkgIds(pkgDecl, idList) :-
   {idList'}
     idList' == checkPkgIds1(pkgDecl, idList, []),
-    idList' == idList | error $[Compilation unit declared in [idList] but defined in [idList']].
+    checkPkgIds2(idList', idList) | error $[Compilation unit declared in [idList] but defined in [idList']].
 
       checkPkgIds1 : PKG_DECL * list(Id) * list(Id) -> list(Id)
 
@@ -44,3 +44,8 @@ rules
       checkPkgIds1(pkgDecl, [id|idList], idList') = checkPkgIds1(superPkg(pkgDecl), idList, [id'|idList']) :-
         id' == pkgDeclId(pkgDecl).
 
+      checkPkgIds2 : list(Id) * list(Id)
+
+      checkPkgIds2(idList, idList).
+
+      checkPkgIds2(idList, idList') :- false.

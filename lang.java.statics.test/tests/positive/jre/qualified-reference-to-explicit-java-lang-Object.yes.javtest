@@ -1,0 +1,13 @@
+STATIX ok 
+JAVAC  ok 
+
+[java] {
+  [lang] {
+    [Object]
+    package java.lang;
+    public class Object {}
+  }
+}
+
+[Test]
+public class Test extends java.lang.Object {}
