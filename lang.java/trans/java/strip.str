@@ -37,111 +37,176 @@ rules
   has-public-access    = where(getfirst(?Public()))
   has-private-access   = where(getfirst(?Private()))
   has-protected-access = where(getfirst(?Protected()))
-
+  has-package-access   = not(getfirst(?Public() + ?Private() + ?Protected()))
+  
+  has-non-private-access = where(getfirst(?Public() + ?Protected())) <+ not(getfirst(?Private()))
+  
 
 rules
 
   strip-to-skeleton =
-    strip-decls
-  ; strip-non-publics
+    strip-non-type-decls
+  ; strip-anns
   ; strip-unused-imports
 
   strip-to-public-interface =
     strip-impls
-  ; strip-non-publics
+  ; strip-anns
   ; strip-unused-imports
 
 rules
 
-  strip-non-publics = topdown(try(strip-non-public))
+  strip-privates = topdown(try(strip-private))
 
   // 7.3. Compilation Units
-  strip-non-public = CompilationUnit(id, id, filter(where(is-public)))
+  strip-private = CompilationUnit(id, id, remove-privates)
 
   // 8.1. Class Declarations
-  strip-non-public = ClassDeclaration(id, id, id, id, id, filter(where(is-public)))
+  strip-private = ClassDeclaration(id, id, id, id, id, remove-privates)
 
   // 8.9. Enum Types
-  strip-non-public = EnumDeclComma(id, id, id, id, filter(where(is-public)))
-  strip-non-public = EnumDecl(id, id, id, id, filter(where(is-public)))
+  strip-private = EnumBodyDecs(remove-privates)
 
   // 9.6. Annotation Types
-  strip-non-public = AnnoDec(id, id, filter(where(is-public)))
+  strip-private = AnnoDec(id, id, remove-privates)
+
+
+  remove-privates = with(is-list) ; filter(where(is-non-private))
+
 
 rules
 
   // 8.1. Class Declarations
-  is-public = ?ClassDeclaration(<has-public-access>, _, _, _, _, _)
+  is-non-private = ?ClassDeclaration(<has-non-private-access>, _, _, _, _, _)
 
   // 8.3. Field Declarations
-  is-public = ?FieldDecl(<has-public-access>, _, _)
+  is-non-private = ?FieldDecl(<has-non-private-access>, _, _)
 
   // 8.4. Method Declarations
-  is-public = ?MethodDecl(<has-public-access>, _, _)
-
-  // 8.7. Static Initializers
-  is-public = ?StaticInit(_)
+  is-non-private = ?MethodDecl(<has-non-private-access>, _, _)
 
   // 8.8. Constructor Declarations
-//is-public = ?ConstrDecl(<has-mod>, _, _, _, _, _, _)
+  is-non-private = ?ConstrDecl(<has-non-private-access>, _, _, _, _, _, _)
 
   // 8.9. Enum Types
-  is-public = ?EnumDeclComma(<has-public-access>, _, _, _, _)
-  is-public = ?EnumDecl(<has-public-access>, _, _, _, _)
+  is-non-private = ?EnumDeclComma(<has-non-private-access>, _, _, _, _)
+  is-non-private = ?EnumDecl(<has-non-private-access>, _, _, _, _)
 
   // 9.1. Interface Declarations
-  is-public = ?NormalInterface(<has-public-access>, _, _, _, _)
+  is-non-private = ?NormalInterface(<has-non-private-access>, _, _, _, _)
+
+  // 9.4. Method Declarations
+  is-non-private = ?AbstractMethodDec(<has-non-private-access>, _, _)
 
   // 9.6. Annotation Types
-  is-public = ?AnnoDec(<has-public-access>, _, _)
+  is-non-private = ?AnnoDec(<has-non-private-access>, _, _)
+
 
 rules
 
-  strip-decls = topdown(try(strip-decl))
+  strip-non-type-decls = topdown(try(strip-non-type-decl))
+
+  // 7.3. Compilation Units
+  strip-non-type-decl = CompilationUnit(id, id, remove-non-type-decls)
 
   // 8.1. Class Declarations
-  strip-decl = ClassDeclaration(strip-anns, id, id, id, id, ![])
+  strip-non-type-decl = ClassDeclaration(id, id, id, id, id, remove-non-type-decls)
 
   // 8.9. Enum Types
-  strip-decl = EnumDeclComma(strip-anns, id, id, id, !None())
-  strip-decl = EnumDecl(strip-anns, id, id, id, !None())
+  strip-non-type-decl = EnumDeclComma(id, id, id, ![], id)
+  strip-non-type-decl = EnumDecl(id, id, id, ![], id)
+  strip-non-type-decl = EnumBodyDecs(remove-non-type-decls)
 
   // 9.1. Interface Declarations
-  strip-decl = NormalInterface(strip-anns, id, id, id, ![])
+  strip-non-type-decl = NormalInterface(id, id, id, id, remove-non-type-decls)
 
   // 9.6. Annotation Types
-  strip-decl = AnnoDec(strip-anns, id, ![])
+  strip-non-type-decl = AnnoDec(id, id, remove-non-type-decls)
+
+
+  remove-non-type-decls = with(is-list) ; filter(where(is-type-decl))
+
 
 rules
+
+  // 8.1. Class Declarations
+  is-type-decl = ?ClassDeclaration(_, _, _, _, _, _)
+
+  // 8.9. Enum Types
+  is-type-decl = ?EnumDeclComma(_, _, _, _, _)
+  is-type-decl = ?EnumDecl(_, _, _, _, _)
+
+  // 9.1. Interface Declarations
+  is-type-decl = ?NormalInterface(_, _, _, _, _)
+
+  // 9.6. Annotation Types
+  is-type-decl = ?AnnoDec(_, _, _)
+
+
+rules // strip anntations from elements
+
+  strip-anns = topdown(try(strip-ann))
+
+  // 8.1. Class Declarations
+  strip-ann = ClassDeclaration(remove-anns, id, id, id, id, id)
+
+  // 8.3. Field Declarations
+  strip-ann = FieldDecl(remove-anns, id, id)
+
+  // 8.4. Method Declarations
+  strip-ann = MethodDecl(remove-anns, id, id)
+
+  // 8.8. Constructor Declarations
+  strip-ann = ConstrDecl(id, id, id, id, id, id, id)
+
+  // 8.9. Enum Types
+  strip-ann = EnumDeclComma(remove-anns, id, id, id, id)
+  strip-ann = EnumDecl(remove-anns, id, id, id, id)
+
+  // 9.1. Interface Declarations
+  strip-ann = NormalInterface(remove-anns, id, id, id, id)
+
+  // 9.4. Method Declarations
+  strip-ann = AbstractMethodDec(remove-anns, id, id)
+
+  // 9.6. Annotation Types
+  strip-ann = AnnoDec(remove-anns, id, id)
+
+
+  // 9.7. Annotations
+  remove-anns = with(is-list) ; filter(not(?Anno(_, _) + ?MarkerAnno(_) + ?SingleElemAnno(_, _)))
+
+
+rules // strip implementations of methods, variable assignments etc.
 
   strip-impls = topdown(try(strip-impl))
 
   // 8.1. Class Declarations
-  strip-impl = ClassDeclaration(strip-anns, id, id, id, id, id)
+  strip-impl = ClassDeclaration(id, id, id, id, id, id)
 
   // 8.3. Field Declarations
-  strip-impl = FieldDecl(strip-anns, id, id)
+  strip-impl = FieldDecl(id, id, id)
   strip-impl = ?VariableDeclInit(<id>, _)
 
   // 8.4. Method Declarations
-  strip-impl = MethodDecl(strip-anns, id, id)
+  strip-impl = MethodDecl(id, id, id)
 
   // 8.8. Constructor Declarations
   strip-impl = ConstrDecl(id, id, id, id, id, id, ![])
 
   // 8.9. Enum Types
-  strip-impl = EnumDeclComma(strip-anns, id, id, id, id)
-  strip-impl = EnumDecl(strip-anns, id, id, id, id)
+  strip-impl = EnumDeclComma(id, id, id, id, id)
+  strip-impl = EnumDecl(id, id, id, id, id)
   strip-impl = EnumConstArgs(null-expression-list)
 
   // 9.1. Interface Declarations
-  strip-impl = NormalInterface(strip-anns, id, id, id, id)
+  strip-impl = NormalInterface(id, id, id, id, id)
+
+  // 9.4. Method Declarations
+  strip-impl = AbstractMethodDec(id, id, id)
 
   // 9.6. Annotation Types
-  strip-impl = AnnoDec(strip-anns, id, id)
-
-  // 9.7. Annotations
-  strip-anns = filter(not(?Anno(_, _) + ?MarkerAnno(_) + ?SingleElemAnno(_, _)))
+  strip-impl = AnnoDec(id, id, id)
 
   // 14.2. Blocks
   strip-impl = Block(null-statement-list)
