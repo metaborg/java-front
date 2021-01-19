@@ -1,8 +1,0 @@
-STATIX fail java\.names\.lexical-type-name.*Id\(\"A\"\)
-JAVAC  fail cannot find symbol
-
-[B]
-public class B {
-    public void b(A a, B b) {}
-}
-

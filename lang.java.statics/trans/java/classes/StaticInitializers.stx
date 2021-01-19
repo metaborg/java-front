@@ -10,10 +10,9 @@ imports
 
 rules // 8.7. Static Initializers
 
-  staticInitOk : StaticInitializer
+  staticInitOk : scope * StaticInitializer
 
-  staticInitOk(StaticInit(blk)) :-
-    blkOk(_, blk),
+  staticInitOk(s, StaticInit(blk)) :-
+    blkOk(s, blk),
     true.
-
 

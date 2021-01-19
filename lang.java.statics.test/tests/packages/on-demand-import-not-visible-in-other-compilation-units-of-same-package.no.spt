@@ -1,0 +1,33 @@
+module packages/on-demand-import-not-visible-in-other-compilation-units-of-same-package_no
+
+language metaborg-java
+
+test on-demand-import-not-visible-in-other-compilation-units-of-same-package [[
+
+STATIX fail java\.names\.lexical-type-name.*\"C\"
+JAVAC  fail cannot find symbol
+
+[p] {
+
+    [A]
+    package p;
+    import q.*;
+    public class A {}
+
+    [B]
+    package p;
+    public class B {
+        public C c;
+    }
+
+}
+
+[q] {
+
+    [C]
+    package q;
+    public class C {}
+
+}
+
+]] analysis fails

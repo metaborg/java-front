@@ -1,0 +1,21 @@
+module packages/unit-with-partial-package_no
+
+language metaborg-java
+
+test unit-with-partial-package [[
+
+STATIX fail 
+JAVAC  fail 
+
+[p] {
+
+    [q] {
+
+        [A]
+        package p;
+        public class A {}
+
+    }
+}
+
+]] analysis fails

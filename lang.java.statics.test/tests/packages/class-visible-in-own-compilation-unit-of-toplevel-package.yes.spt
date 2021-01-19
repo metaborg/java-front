@@ -1,0 +1,20 @@
+module packages/class-visible-in-own-compilation-unit-of-toplevel-package_yes
+
+language metaborg-java
+
+test class-visible-in-own-compilation-unit-of-toplevel-package [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public A a;
+    }
+
+}
+
+]] analysis succeeds

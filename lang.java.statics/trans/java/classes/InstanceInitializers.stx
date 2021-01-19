@@ -10,10 +10,10 @@ imports
 
 rules // 8.6. Instance Initializers
 
-  instInitOk : InstanceInitializer
+  instInitOk : scope * InstanceInitializer
 
-  instInitOk(InstanceInit(blk)) :-
-    blkOk(_, blk),
+  instInitOk(s, InstanceInit(blk)) :-
+    blkOk(s, blk),
     true.
 
 

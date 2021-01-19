@@ -29,25 +29,25 @@ rules // 8.3. Field Declarations
     varDeclListOk(s, T, varDeclList).
 
 
-  varDeclIdOk : scope * TYPE * VarDeclId
+  varDeclIdOk : scope * TYPE * VarDeclId * scope
 
-  varDeclIdOk(s, T, VariableDecl(id)) :-
-    declareExprName(s, id, T).
+  varDeclIdOk(s, T, VariableDecl(id), s_def) :-
+    declareExprName(s_def, id, T).
 
-  varDeclIdOk(s, T, VariableDeclArray(id, annDimList)) :-
+  varDeclIdOk(s, T, VariableDeclArray(id, annDimList), s_def) :-
     annDimListOk(s, annDimList),
-    declareExprName(s, id, _).
+    declareExprName(s_def, id, _). // FIXME Make array type
 
 
   varDeclOk : scope * TYPE * VarDecl
   varDeclListOk maps varDeclOk(*, *, list(*))
 
   varDeclOk(s, T, VariableDeclInit(varDeclId, varInit)) :-
-    varDeclIdOk(s, T, varDeclId),
+    varDeclIdOk(s, T, varDeclId, s),
     varInitOk(s, T, varInit).
 
   varDeclOk(s, T, VarDeclId2VarDecl(varDeclId)) :-
-    varDeclIdOk(s, T, varDeclId).
+    varDeclIdOk(s, T, varDeclId, s).
 
 
   varInitOk : scope * TYPE * VariableInitializer

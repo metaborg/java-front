@@ -1,0 +1,19 @@
+module classes/nested/qualifiedthis_yes
+
+language metaborg-java
+
+test qualifiedthis [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class B {
+        public void m() {
+             A a = A.this;
+        }
+    }
+}
+
+]] analysis succeeds

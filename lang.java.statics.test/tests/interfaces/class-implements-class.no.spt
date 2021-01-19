@@ -1,0 +1,16 @@
+module interfaces/class-implements-class_no
+
+language metaborg-java
+
+test class-implements-class [[
+
+STATIX fail java\.interfaces\.implement-interface
+JAVAC  fail interface expected here
+
+[B]
+class B {}
+
+[A]
+class A implements B {}
+
+]] analysis fails

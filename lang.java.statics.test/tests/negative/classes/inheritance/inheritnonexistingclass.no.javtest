@@ -1,9 +1,0 @@
-STATIX fail java\.names\.lexical-type-name.*Id\(\"C\"\).*
-JAVAC  fail cannot find symbol
-
-[A]
-public class A {}
-
-[B]
-public class B extends C {}
-

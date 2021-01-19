@@ -1,0 +1,29 @@
+module classes/nested/pathdependentsupertypeinnerclassref_yes
+
+language metaborg-java
+
+test pathdependentsupertypeinnerclassref [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class B {
+    }
+}
+
+[C]
+public class C extends A {
+}
+
+[T]
+public class T {
+    public void m() {
+        C c = new C();
+        c.new B();
+    }
+}
+
+
+]] analysis succeeds

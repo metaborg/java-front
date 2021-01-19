@@ -1,0 +1,19 @@
+module names/simple-type-name_yes
+
+language metaborg-java
+
+test simple-type-name [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {}
+
+[Test]
+public class Test {
+    public A x;
+}
+
+
+]] analysis succeeds

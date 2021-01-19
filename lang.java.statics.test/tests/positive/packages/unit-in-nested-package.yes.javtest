@@ -1,9 +1,0 @@
-STATIX ok 
-JAVAC  ok 
-
-[p] {
-  [q] {
-    [package_info]
-    package p.q;
-  }
-}

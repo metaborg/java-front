@@ -1,0 +1,21 @@
+module packages/unit-in-sub-package_no
+
+language metaborg-java
+
+test unit-in-sub-package [[
+
+STATIX fail 
+JAVAC  fail 
+
+[p] {
+
+    [q] {
+
+        [A]
+        package p;
+        public class A {}
+
+    }
+}
+
+]] analysis fails

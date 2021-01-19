@@ -1,0 +1,18 @@
+module classes/class-in-package-of-same-name_yes
+
+language metaborg-java
+
+test class-in-package-of-same-name [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [p]
+    package p;
+    public class p {}
+
+}
+
+]] analysis succeeds

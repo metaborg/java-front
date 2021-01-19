@@ -1,0 +1,14 @@
+module packages/unit-in-toplevel-package_yes
+
+language metaborg-java
+
+test unit-in-toplevel-package [[
+
+STATIX ok 
+JAVAC  ok 
+
+[p] {
+  [package_info]
+  package p;
+}
+]] analysis succeeds

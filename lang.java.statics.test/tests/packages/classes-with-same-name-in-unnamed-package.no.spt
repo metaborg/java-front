@@ -1,0 +1,16 @@
+module packages/classes-with-same-name-in-unnamed-package_no
+
+language metaborg-java
+
+test classes-with-same-name-in-unnamed-package [[
+
+STATIX fail java\.duplicates\.no-duplicate-type
+JAVAC  fail duplicate class
+
+[A]
+public class A {}
+
+[A]
+public class A {}
+
+]] analysis fails

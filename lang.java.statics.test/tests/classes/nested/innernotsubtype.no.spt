@@ -1,0 +1,27 @@
+module classes/nested/innernotsubtype_no
+
+language metaborg-java
+
+test innernotsubtype [[
+
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail incompatible types\: C\.D cannot be converted to A\.B
+
+[A]
+class A {
+    class B {}
+}
+
+[C]
+class C extends A {
+    class D {}
+}
+
+[Test]
+class Test {
+    A.B m() {
+        return new C().new D();
+    }
+}
+
+]] analysis fails

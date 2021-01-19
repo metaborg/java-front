@@ -1,0 +1,15 @@
+module duplicate-declarations/enclosing-class_no
+
+language metaborg-java
+
+test enclosing-class_no [[
+
+STATIX fail
+JAVAC  fail
+
+[A]
+public class A {
+  public class A {}
+}
+
+]] analysis fails

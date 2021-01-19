@@ -1,0 +1,28 @@
+module packages/classes-visible-in-compilation-units-of-same-nested-package_yes
+
+language metaborg-java
+
+test classes-visible-in-compilation-units-of-same-nested-package [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+    [q] {
+
+        [A]
+        package p.q;
+        public class A {
+            public B b;
+        }
+
+        [B]
+        package p.q;
+        public class B {
+            public A a;
+        }
+
+    }
+}
+
+]] analysis succeeds

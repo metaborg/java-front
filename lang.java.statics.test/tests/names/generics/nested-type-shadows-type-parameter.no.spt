@@ -1,0 +1,33 @@
+module names/generics/nested-type-shadows-type-parameter_no
+
+language metaborg-java
+
+test nested type shadows type parameter (no) [[
+
+STATIX fails
+JAVAC  fails
+
+[Test]
+public class Test<X extends q.B> {
+
+    q.B f = (X) null;
+
+    public class X extends p.A {
+    }
+    
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {}
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {}
+}
+
+
+]] analysis fails

@@ -1,0 +1,21 @@
+module names/simple-super-inner-type-name_yes
+
+language metaborg-java
+
+test simple-super-inner-type-name [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class B {}
+}
+
+[C]
+public class C extends A {
+    public B f;
+}
+
+
+]] analysis succeeds

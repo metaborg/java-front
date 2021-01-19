@@ -20,7 +20,6 @@ signature
     ARRAY : KIND
     CLASS : KIND
     INTF  : KIND
-    TVAR  : KIND
 
   constructors
     REF : scope -> TYPE
@@ -137,11 +136,6 @@ rules
   isIntfType : TYPE
 
   isIntfType(T) :- typeKind(T) == INTF().
-
-
-  isTypeVar : TYPE
-
-  isTypeVar(T) :- typeKind(T) == TVAR().
 
 
   isClsOrIntfType : TYPE

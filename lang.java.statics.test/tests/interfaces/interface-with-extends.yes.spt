@@ -1,0 +1,21 @@
+module interfaces/interface-with-extends_yes
+
+language metaborg-java
+
+test interface-with-extends [[
+
+STATIX ok
+JAVAC  ok
+
+[I]
+interface J {
+    public void m();
+}
+
+interface K {
+    public void n();
+}
+
+interface I extends J, K {}
+
+]] analysis succeeds

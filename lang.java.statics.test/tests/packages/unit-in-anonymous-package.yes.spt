@@ -1,0 +1,12 @@
+module packages/unit-in-anonymous-package_yes
+
+language metaborg-java
+
+test unit-in-anonymous-package [[
+
+STATIX ok 
+JAVAC  ok 
+
+[package_info]
+
+]] analysis succeeds

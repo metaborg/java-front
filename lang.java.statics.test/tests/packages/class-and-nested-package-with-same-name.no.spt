@@ -1,0 +1,25 @@
+module packages/class-and-nested-package-with-same-name_no
+
+language metaborg-java
+
+test class-and-nested-package-with-same-name [[
+
+STATIX fail java\.duplicates\.no-duplicate-type.*\"r\"
+JAVAC  fail class r clashes with package of same name
+
+[p] {
+
+    [r]
+    package p;
+    public class r {}
+
+    [r] {
+
+        [q]
+        package p.r;
+        public class q {}
+
+    }
+}
+
+]] analysis fails

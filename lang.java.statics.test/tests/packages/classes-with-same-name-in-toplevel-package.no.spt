@@ -1,0 +1,22 @@
+module packages/classes-with-same-name-in-toplevel-package_no
+
+language metaborg-java
+
+test classes-with-same-name-in-toplevel-package [[
+
+STATIX fail java\.duplicates\.no-duplicate-type
+JAVAC  fail duplicate class
+
+[p] {
+
+    [A]
+    package p;
+    public class A {}
+
+    [A]
+    package p;
+    public class A {}
+
+}
+
+]] analysis fails

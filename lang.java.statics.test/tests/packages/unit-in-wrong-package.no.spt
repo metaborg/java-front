@@ -1,0 +1,18 @@
+module packages/unit-in-wrong-package_no
+
+language metaborg-java
+
+test unit-in-wrong-package [[
+
+STATIX fail 
+JAVAC  fail 
+
+[p] {
+
+    [A]
+    package q;
+    public class A {}
+
+}
+
+]] analysis fails

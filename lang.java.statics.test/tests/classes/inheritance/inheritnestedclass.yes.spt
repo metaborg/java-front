@@ -1,0 +1,17 @@
+module classes/inheritance/inheritnestedclass_yes
+
+language metaborg-java
+
+test inheritnestedclass [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class B {}
+    public class C extends A.B {}
+}
+
+
+]] analysis succeeds

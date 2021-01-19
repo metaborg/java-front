@@ -83,7 +83,10 @@ rules // 8.1. Class Declarations
 
   typeParamsOk : scope * TypeParameters -> scope
 
-  typeParamsOk(s, TypeParameters(typeParamList)) = typeParamListOk(s, typeParamList).
+  typeParamsOk(s, TypeParameters(typeParamList)) = s_typeParams :-
+    new s_typeParams,
+    s_typeParams -LEX-> s,
+    typeParamListOk(s_typeParams, typeParamList).
 
 
   superClsOptOk : scope * list(SuperClass) * scope
@@ -129,11 +132,11 @@ rules // 8.1. Class Declarations
     true.
 
   clsBodyDeclOk(s, InstanceInitializer2ClassBodyDeclaration(instInit)) :-
-    instInitOk(instInit),
+    instInitOk(s, instInit),
     true.
 
   clsBodyDeclOk(s, StaticInitializer2ClassBodyDeclaration(staticInit)) :-
-    staticInitOk(staticInit),
+    staticInitOk(s, staticInit),
     true.
 
   clsBodyDeclOk(s, ConstructorDeclaration2ClassBodyDeclaration(ctorDecl)) :-

@@ -1,0 +1,28 @@
+module expressions/new-pkg-unqualified-class_no
+
+language metaborg-java
+
+test new-pkg-unqualified-class [[
+
+STATIX fail java\.names\.lexical-type-name.*\"A\"
+JAVAC  fail cannot find symbol
+
+[q] {
+
+    [A]
+    package q;
+    public class A {}
+
+}
+
+[p] {
+
+    [B]
+    package p;
+    public class B {
+        public A a = new A();
+    }
+
+}
+
+]] analysis fails

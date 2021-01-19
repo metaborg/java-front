@@ -1,0 +1,19 @@
+module classes/inheritance/inheritnonexistingnestedclass_no
+
+language metaborg-java
+
+test inheritnonexistingnestedclass [[
+
+STATIX fail java\.names\.member-type-name.*Id\(\"D\"\).*
+JAVAC  fail cannot find symbol
+
+[A]
+public class A {
+    public class B {}
+}
+
+[C]
+public class C extends A.D {}
+
+
+]] analysis fails

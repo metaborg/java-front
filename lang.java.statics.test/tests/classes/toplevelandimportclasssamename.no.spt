@@ -1,0 +1,23 @@
+module classes/toplevelandimportclasssamename_no
+
+language metaborg-java
+
+test toplevelandimportclasssamename [[
+
+STATIX fail java\.duplicates\.no-duplicate-type.*Id\(\"List\"\)
+JAVAC  fail List is already defined in this compilation unit
+
+[javas] {
+    [util] {
+        [List]
+        package javas.util;
+        public class List {}
+    }
+}
+
+[List]
+import javas.util.List;
+public class List {}
+
+
+]] analysis fails

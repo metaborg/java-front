@@ -17,19 +17,19 @@ rules // 7.5. Import Declarations
   importDeclOk : scope * ImportDeclaration * scope
   importDeclListOk maps importDeclOk(*, list(*), *)
 
-  importDeclOk(s, SingleTypeImport(typeName), s_pkg) :-
-  {typeDecl s_imp}
+  importDeclOk(s, SingleTypeImport(typeName), s_imp) :-
+  {typeDecl s_imp'}
     typeDecl == typeNameOk(s, typeName),
-    new s_imp,
-    s_pkg -IMP_ST-> s_imp,
-    aliasType(s_imp, typeDecl).
+    new s_imp',
+    s_imp -IMP_ST-> s_imp',
+    aliasType(s_imp', typeDecl).
 
 
-  importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_pkg) :-
+  importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_imp) :-
   {pkgOrTypeDecl s_pkgOrType}
     pkgOrTypeDecl == pkgOrTypeNameOk(s, pkgOrTypeName),
     s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeDecl),
-    s_pkg -IMP_OD-> s_pkgOrType.
+    s_imp -IMP_OD-> s_pkgOrType.
 
 
   importDeclOk(s, SingleStaticImport(typeName, id), s_imp) :-

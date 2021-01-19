@@ -1,8 +1,0 @@
-STATIX ok
-JAVAC  ok
-
-[A]
-public class A {
-    public B b = new B();
-    public class B {}
-}

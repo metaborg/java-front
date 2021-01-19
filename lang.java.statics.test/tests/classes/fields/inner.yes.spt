@@ -1,0 +1,17 @@
+module classes/fields/inner_yes
+
+language metaborg-java
+
+test inner [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class B {}
+    public B f;
+}
+
+
+]] analysis succeeds

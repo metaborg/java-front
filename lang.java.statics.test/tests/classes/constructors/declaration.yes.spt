@@ -1,0 +1,19 @@
+module classes/constructors/declaration_yes
+
+language metaborg-java
+
+test declaration [[
+
+STATIX ok
+JAVAC  ok
+
+[Point]
+class Point {
+    public int x, y;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+]] analysis succeeds

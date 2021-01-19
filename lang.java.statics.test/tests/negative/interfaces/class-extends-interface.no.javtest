@@ -1,8 +1,0 @@
-STATIX fail unification error.*CLASS.*INTF
-JAVAC  fail no interface expected here
-
-[I]
-interface I {}
-
-[A]
-class A extends I {}

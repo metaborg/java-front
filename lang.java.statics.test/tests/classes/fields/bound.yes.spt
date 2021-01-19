@@ -1,0 +1,19 @@
+module classes/fields/bound_yes
+
+language metaborg-java
+
+test bound [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public B f;
+}
+
+[B]
+public class B {}
+
+
+]] analysis succeeds

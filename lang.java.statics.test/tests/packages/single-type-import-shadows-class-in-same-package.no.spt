@@ -1,0 +1,33 @@
+module packages/single-type-import-shadows-class-in-same-package_no
+
+language metaborg-java
+
+test single-type-import-shadows-class-in-same-package [[
+
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail incompatible types\: p\.B cannot be converted to q\.B
+
+[p] {
+
+    [A]
+    package p;
+    import q.B;
+    public class A {
+        public B b = (p.B) null;
+    }
+
+    [B]
+    package p;
+    public class B {}
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {}
+
+}
+
+]] analysis fails

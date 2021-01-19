@@ -14,9 +14,11 @@ rules // 9.4. Method Declarations
   intfMthdDeclOk : scope * InterfaceMethodDeclaration
 
   intfMthdDeclOk(s, AbstractMethodDec(intfMthdModList, mthdHeader, mthdBody)) :-
+  {s_mthd}
     intfMthdModListOk(s, intfMthdModList),
-    mthdHeaderOk(s, mthdHeader),
-    mthdBodyOk(s, mthdBody),
+    new s_mthd,
+    mthdHeaderOk(s, mthdHeader, s_mthd), // connects `s_mthd` to `s`
+    mthdBodyOk(s_mthd, mthdBody),
     true.
 
 

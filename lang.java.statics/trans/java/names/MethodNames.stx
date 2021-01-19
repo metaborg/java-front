@@ -10,6 +10,15 @@ imports
 
 // 6.5.7 Meaning of Method Names
 
+signature
+
+  sorts RETURN constructors
+    TYPED : TYPE -> RETURN
+    VOID  : RETURN
+
+  relations
+    mthd : Id * list(TYPE) -> scope
+
 rules
 
   mthdNameOk : scope * MethodName -> ()
@@ -18,3 +27,10 @@ rules
     true.
 
 
+  declareMthdName : scope * Id * RETURN * list(TYPE)
+  
+  declareMthdName(s, id, R, Ts) :-
+  {s_mthd}
+    new s_mthd,
+    // FIXME Store return type
+    !mthd[id, Ts, s_mthd] in s.

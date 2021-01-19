@@ -1,9 +1,0 @@
-STATIX ok
-JAVAC  ok
-
-[Test]
-public class Test {
-    public class A {}
-    public A f;
-}
-

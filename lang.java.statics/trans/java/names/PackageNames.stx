@@ -80,7 +80,6 @@ rules
     true.
 
 
-
   singlePkgDecl : Id * list(PKG_PATH) -> PKG_DECL
 
   singlePkgDecl(id, []) = _ :-
@@ -136,4 +135,12 @@ rules
       filter PARENT and true
       min /* */ and true
       in s_pkg |-> [(_, pkgDecl')].
+
+
+  noHomonymousPkg: scope * Id
+  
+  noHomonymousPkg(s, id) :-
+    query pkg
+      filter e and { id' :- id' == id }
+      in s |-> [].
 

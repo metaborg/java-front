@@ -1,0 +1,15 @@
+module names/generics/type-parameters-no-duplicates_yes
+
+language metaborg-java
+
+test type-parameters-no-duplicates_yes [[
+
+STATIX fails
+JAVAC  fails
+
+[Test]
+public class Test<A, A> {
+
+}
+
+]] analysis fails

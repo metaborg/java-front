@@ -1,0 +1,20 @@
+module packages/unqualified-reference-to-missing-class_no
+
+language metaborg-java
+
+test unqualified-reference-to-missing-class [[
+
+STATIX fail java\.names\.lexical-type-name.*\"B\"
+JAVAC  fail cannot find symbol
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public B b;
+    }
+
+}
+
+]] analysis fails

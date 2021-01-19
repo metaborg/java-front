@@ -1,0 +1,15 @@
+module duplicate-declarations/toplevelclass_no
+
+language metaborg-java
+
+test toplevelclass [[
+
+STATIX fail java\.duplicates\.no-duplicate-type.*\"A\"
+JAVAC  fail duplicate class\: A
+
+[A]
+public class A {}
+public class A {}
+
+
+]] analysis fails

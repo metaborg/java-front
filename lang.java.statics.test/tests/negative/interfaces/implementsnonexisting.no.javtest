@@ -1,9 +1,0 @@
-STATIX fail java\.names\.lexical-type-name.*\"I\"
-JAVAC  fail cannot find symbol
-
-[A]
-public class A {}
-
-[B]
-public class B implements I {}
-

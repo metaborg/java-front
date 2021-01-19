@@ -15,25 +15,19 @@ imports
 
 rules // 4.4. Type Variables
 
-  typeParamListOk : scope * list(TypeParameter) -> scope
-
-  typeParamListOk(s, []) = s.
-
-  typeParamListOk(s, [typeParam|typeParamList]) = s'' :-
-  {s'}
-    new s', s' -LEX-> s,
-    typeParamOk(s', typeParam),
-    typeParamListOk(s', typeParamList) == s''.
-
+  /**
+   * Type parameters are treated as local CLASS declarations.
+   */
 
   typeParamOk : scope * TypeParameter
+  typeParamListOk maps typeParamOk(*, list(*))
 
   typeParamOk(s, TypeParameter(annoList, id)) :-
   {s_var}
     annoListOk(s, annoList),
 
     new s_var,
-    declareType(s, id, s_var, TVAR()),
+    declareType(s, id, s_var, CLASS()),
 
     setSuperCls(s_var, objectOk(s)),
 
@@ -44,7 +38,7 @@ rules // 4.4. Type Variables
     annoListOk(s, annoList),
 
     new s_var,
-    declareType(s, id, s_var, TVAR()),
+    declareType(s, id, s_var, CLASS()),
 
     [T|Ts] == clsTypeListOk(s, clsTypeList),
     typeParamOk1(s_var, typeKind(T), T),

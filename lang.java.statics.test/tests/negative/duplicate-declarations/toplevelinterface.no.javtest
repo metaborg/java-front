@@ -1,7 +1,0 @@
-STATIX fail java\.duplicates\.no-duplicate-type.*\"A\"
-JAVAC  fail duplicate class\: A
-
-[A]
-public interface A {}
-public interface A {}
-

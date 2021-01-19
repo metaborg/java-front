@@ -15,27 +15,27 @@ rules // 15.27. Lambda Expressions
   exprOk(s, LambdaExpression(lambdaParams, expr)) = _ :-
   {s_lambda}
     new s_lambda, s_lambda -LEX-> s,
-    lambdaParamsOk(s_lambda, lambdaParams),
+    lambdaParamsOk(s, lambdaParams, s_lambda),
     _ == exprOk(s_lambda, expr),
     true.
 
   exprOk(s, LambdaExpressionWithBlock(lambdaParams, blk)) = _ :-
   {s_lambda}
     new s_lambda, s_lambda -LEX-> s,
-    lambdaParamsOk(s_lambda, lambdaParams),
+    lambdaParamsOk(s, lambdaParams, s_lambda),
     blkOk(s_lambda, blk),
     true.
 
 
-  lambdaParamsOk : scope * LambdaParameters
+  lambdaParamsOk : scope * LambdaParameters * scope
 
-  lambdaParamsOk(s, SingleInferredParam(id)) :-
+  lambdaParamsOk(s, SingleInferredParam(id), s_def) :-
     true.
 
-  lambdaParamsOk(s, Params(formalParams)) :-
-    formalParamsOk(s, formalParams),
+  lambdaParamsOk(s, Params(formalParams), s_def) :-
+    formalParamsOk(s, formalParams, s_def),
     true.
 
-  lambdaParamsOk(s, InferredParams(idList)) :-
+  lambdaParamsOk(s, InferredParams(idList), s_def) :-
     true.
 

@@ -1,0 +1,17 @@
+module classes/innerinnerclasssamename_no
+
+language metaborg-java
+
+test innerinnerclasssamename [[
+
+STATIX fail java\.duplicates\.no-enclosing-type-same-name.*Id\(\"C\"\)
+JAVAC  fail class C is already defined in package unnamed package
+
+[C]
+public class C {
+    public class B {
+        public class C {}
+    }
+}
+
+]] analysis fails

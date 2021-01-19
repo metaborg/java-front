@@ -1,0 +1,18 @@
+module classes/fields/fieldmethodsamename_yes
+
+language metaborg-java
+
+test fieldmethodsamename [[
+
+STATIX ok
+JAVAC ok
+
+[Point]
+/* pg 223: overlap naming over fields and methods */
+public class Point {
+    public int color;
+    public int color() { return color; }
+}
+
+
+]] analysis succeeds

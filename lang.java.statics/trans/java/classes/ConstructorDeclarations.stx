@@ -25,13 +25,11 @@ rules // 8.8. Constructor Declarations
 
     new s_ctor,
     
-    // s_ctor -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
-
     s_typeParams == typeParamsOptOk(s, typeParamsOpt),
     s_ctor -LEX-> s_typeParams,
 
-    formalParamsOk(s_ctor, formalParams),
-    throwsOptOk(s, throwsOpt),
+    formalParamsOk(s_typeParams, formalParams, s_ctor),
+    throwsOptOk(s_typeParams, throwsOpt),
     ctorInvOptOk(s_ctor, ctorInvOpt),
     blkStmtListOk(s_ctor, blkStmtList),
     true.

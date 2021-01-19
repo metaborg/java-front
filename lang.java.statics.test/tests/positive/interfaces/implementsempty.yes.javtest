@@ -1,9 +1,0 @@
-STATIX ok
-JAVAC  ok
-
-[B]
-public class B implements I {}
-
-[I]
-public interface I {}
-

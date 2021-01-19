@@ -1,0 +1,17 @@
+module names/simple-nested-type-name_yes
+
+language metaborg-java
+
+test simple-nested-type-name [[
+
+STATIX ok
+JAVAC  ok
+
+[Test]
+public class Test {
+    public class A {}
+    public A f;
+}
+
+
+]] analysis succeeds

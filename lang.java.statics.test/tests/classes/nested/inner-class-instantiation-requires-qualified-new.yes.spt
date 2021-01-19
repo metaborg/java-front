@@ -1,0 +1,27 @@
+module classes/nested/inner-class-instantiation-requires-qualified-new_yes
+
+language metaborg-java
+
+test inner-class-instantiation-requires-qualified-new [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public class B {}
+    }
+
+}
+
+[T]
+import p.A.B;
+public class T {
+    public p.A a = new p.A();
+    public B b = a.new B();
+}
+
+]] analysis succeeds

@@ -1,0 +1,24 @@
+module packages/class-in-unnamed-package-invisible-in-compilation-units-of-toplevel-package_no
+
+language metaborg-java
+
+test class-in-unnamed-package-invisible-in-compilation-units-of-toplevel-package [[
+
+STATIX fail java\.names\.lexical-type-name.*\"A\"
+JAVAC  fail cannot find symbol
+
+[A]
+public class A {
+}
+
+[p] {
+
+    [B]
+    package p;
+    public class B {
+        public A a;
+    }
+
+}
+
+]] analysis fails

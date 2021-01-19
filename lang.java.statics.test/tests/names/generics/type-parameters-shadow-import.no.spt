@@ -1,0 +1,28 @@
+module names/generics/type-parameters-are-recursive_no
+
+language metaborg-java
+
+test type-parameters-are-recursive_no [[
+
+STATIX fails
+JAVAC  fails
+
+[Test]
+import p.A;
+
+public class Test<A> {
+
+    p.A f = (A) null;
+    
+}
+
+[p] {
+
+  [A]
+  package p;
+
+  public class A {}
+
+}
+
+]] analysis fails

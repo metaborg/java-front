@@ -1,0 +1,20 @@
+module jre/unqualified-reference-to-explicit-java-lang-Object_yes
+
+language metaborg-java
+
+test unqualified-reference-to-explicit-java-lang-Object [[
+
+STATIX ok 
+JAVAC  ok 
+
+[java] {
+  [lang] {
+    [Object]
+    package java.lang;
+    public class Object {}
+  }
+}
+
+[Test]
+public class Test extends Object {}
+]] analysis succeeds

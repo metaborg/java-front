@@ -1,0 +1,33 @@
+module packages/class-in-same-package-shadows-on-demand-imported-class_no
+
+language metaborg-java
+
+test class-in-same-package-shadows-on-demand-imported-class [[
+
+STATIX fail java\.subtype\.sub-type
+JAVAC  fail incompatible types\: q\.B cannot be converted to p\.B
+
+[p] {
+
+    [A]
+    package p;
+    import q.*;
+    public class A {
+        public B b = (q.B) null;
+    }
+
+    [B]
+    package p;
+    public class B {}
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {}
+
+}
+
+]] analysis fails

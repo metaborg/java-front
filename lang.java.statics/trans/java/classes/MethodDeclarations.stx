@@ -15,10 +15,6 @@ imports
 
 signature
 
-  sorts RETURN constructors
-    TYPED : TYPE -> RETURN
-    VOID  : RETURN
-
   relations
     return : -> RETURN
 
@@ -29,37 +25,34 @@ rules // 8.4. Method Declarations
   mthdDeclOk(s, MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
   {s_mthd}
     mthdModListOk(s, mthdModList),
-
     new s_mthd,
-    s_mthd -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
-
-    mthdHeaderOk(s_mthd, mthdHeader),
+    mthdHeaderOk(s, mthdHeader, s_mthd), // connects `s_mthd` to `s`
     mthdBodyOk(s_mthd, mthdBody),
-
     true.
 
 
-  mthdHeaderOk : scope * MethodHeader
+  mthdHeaderOk : scope * MethodHeader * scope
 
-  mthdHeaderOk(s, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt)) :-
+  mthdHeaderOk(s, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt), s_mthd) :-
   {R}
+    s_mthd -LEX-> s,
     R == resultOk(s, result),
-    declareReturn(s, R),
-    formalParamsOk(s, formalParams),
+    declareReturn(s_mthd, R),
+    formalParamsOk(s, formalParams, s_mthd),
     annDimsEmptyOk(s, annDimsEmpty),
     throwsOptOk(s, throwsOpt),
 
     true.
 
-  mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt)) :-
+  mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_mthd) :-
   {s_typeParams R}
     s_typeParams == typeParamsOk(s, typeParams),
     s -LEX-> s_typeParams,
-    annoListOk(s, annoList),
+    annoListOk(s_typeParams, annoList),
     R == resultOk(s_typeParams, result),
-    declareReturn(s, R),
-    formalParamsOk(s, formalParams),
-    throwsOptOk(s, throwsOpt),
+    declareReturn(s_mthd, R),
+    formalParamsOk(s_typeParams, formalParams, s_mthd),
+    throwsOptOk(s_typeParams, throwsOpt),
 
     true.
 
@@ -115,67 +108,69 @@ rules // 8.4. Method Declarations
     true.
 
 
-  recvParamOk : scope * ReceiverParam
+  recvParamOk : scope * ReceiverParam * scope
 
-  recvParamOk(s, ReceiverParamQual(annoList, unannType, id)) :-
+  recvParamOk(s, ReceiverParamQual(annoList, unannType, id), s_def) :-
     annoListOk(s, annoList),
     _ == unannTypeOk(s, unannType),
+    // FIXME Define local this and/or check correspondence with enclosing this
     true.
 
-  recvParamOk(s, ReceiverParam(annoList, unannType)) :-
+  recvParamOk(s, ReceiverParam(annoList, unannType), s_def) :-
     annoListOk(s, annoList),
     _ == unannTypeOk(s, unannType),
+    // FIXME Define local this and/or check correspondence with enclosing this
     true.
 
 
-  formalParamsOk : scope * FormalParams
+  formalParamsOk : scope * FormalParams * scope // -> list(TYPE)
 
-  formalParamsOk(s, NoParams()) :-
+  formalParamsOk(s, NoParams(), s_def) :-
     true.
 
-  formalParamsOk(s, ReceiverParam2FormalParams(recvParam)) :-
-    recvParamOk(s, recvParam),
+  formalParamsOk(s, ReceiverParam2FormalParams(recvParam), s_def) :-
+    recvParamOk(s, recvParam, s_def),
     true.
 
-  formalParamsOk(s, SingleParam(lastFormalParam)) :-
-    lastFormalParamOk(s, lastFormalParam),
+  formalParamsOk(s, SingleParam(lastFormalParam), s_def) :-
+    lastFormalParamOk(s, lastFormalParam, s_def),
     true.
 
-  formalParamsOk(s, ParamList(formalParamList, lastFormalParam)) :-
-    formalParamListOk(s, formalParamList),
-    lastFormalParamOk(s, lastFormalParam),
+  formalParamsOk(s, ParamList(formalParamList, lastFormalParam), s_def) :-
+    formalParamListOk(s, formalParamList, s_def),
+    lastFormalParamOk(s, lastFormalParam, s_def),
     true.
 
-  formalParamsOk(s, ReceiverParamList(recvParam, formalParamList, lastFormalParam)) :-
-    recvParamOk(s, recvParam),
-    formalParamListOk(s, formalParamList),
-    lastFormalParamOk(s, lastFormalParam),
+  formalParamsOk(s, ReceiverParamList(recvParam, formalParamList, lastFormalParam), s_def) :-
+    recvParamOk(s, recvParam, s_def),
+    formalParamListOk(s, formalParamList, s_def),
+    lastFormalParamOk(s, lastFormalParam, s_def),
     true.
 
 
-  lastFormalParamOk : scope * LastFormalParam
+  lastFormalParamOk : scope * LastFormalParam * scope
 
-  lastFormalParamOk(s, FormalParam2LastFormalParam(formalParam)) :-
-    formalParamOk(s, formalParam),
+  lastFormalParamOk(s, FormalParam2LastFormalParam(formalParam), s_def) :-
+    formalParamOk(s, formalParam, s_def),
     true.
 
-  lastFormalParamOk(s, VarArityParam(varModList, unannType, annoList, varDeclId)) :-
+  lastFormalParamOk(s, VarArityParam(varModList, unannType, annoList, varDeclId), s_def) :-
   {T}
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
     annoListOk(s, annoList),
-    varDeclIdOk(s, _, varDeclId),
+    varDeclIdOk(s, _, varDeclId, s_def), // FIXME make array type
     true.
 
 
-  formalParamOk : scope * FormalParam
-  formalParamListOk maps formalParamOk(*, list(*))
+  formalParamOk : scope * FormalParam * scope
+  formalParamListOk maps formalParamOk(*, list(*), *)
 
-  formalParamOk(s, FormalParam(varModList, unannType, varDeclId)) :-
+  formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) :-
   {T}
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclIdOk(s, T, varDeclId),
+    varDeclIdOk(s, T, varDeclId, s_def),
     true.
 
 

@@ -62,7 +62,7 @@ rules // 14.5. Statements
     new s_foreach, s_foreach -LEX-> s,
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclIdOk(s_foreach, T, varDeclId),
+    varDeclIdOk(s, T, varDeclId, s_foreach),
     T' == exprOk(s, expr),
     subType(T', T),
     stmtOk(s_foreach, stmt),
@@ -196,17 +196,17 @@ rules // 14.5. Statements
   catchClauseOk(s, Catch(catchFormalParam, blk)) :-
   {s_catch}
     new s_catch, s_catch -LEX-> s,
-    catchFormalParamOk(s_catch, catchFormalParam),
+    catchFormalParamOk(s, catchFormalParam, s_catch),
     blkOk(s_catch, blk),
     true.
 
-  catchFormalParamOk : scope * CatchFormalParameter
+  catchFormalParamOk : scope * CatchFormalParameter * scope
 
-  catchFormalParamOk(s, CatchParam(varModList, catchType, varDeclId)) :-
+  catchFormalParamOk(s, CatchParam(varModList, catchType, varDeclId), s_def) :-
   {T}
     varModListOk(s, varModList),
     T == catchTypeOk(s, catchType),
-    varDeclIdOk(s, T, varDeclId),
+    varDeclIdOk(s, T, varDeclId, s_def),
     true.
 
   catchTypeOk : scope * CatchType -> TYPE
@@ -227,7 +227,7 @@ rules // 14.5. Statements
   stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
-    resourceListOk(s_try, resourceList),
+    resourceListOk(s, resourceList, s_try),
     blkOk(s_try, blk_catch),
     catchClauseListOk(s_try, catchClauseList),
     true.
@@ -235,7 +235,7 @@ rules // 14.5. Statements
   stmtOk(s, TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
-    resourceListOk(s_try, resourceList),
+    resourceListOk(s, resourceList, s_try),
     blkOk(s_try, blk_catch),
     catchClauseListOk(s_try, catchClauseList),
     true.
@@ -243,7 +243,7 @@ rules // 14.5. Statements
   stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList, blk_finally)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
-    resourceListOk(s_try, resourceList),
+    resourceListOk(s, resourceList, s_try),
     blkOk(s_try, blk_catch),
     catchClauseListOk(s_try, catchClauseList),
     blkOk(s_try, blk_finally),
@@ -252,20 +252,20 @@ rules // 14.5. Statements
   stmtOk(s, TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList, blk_finally)) :-
   {s_try}
     new s_try, s_try -LEX-> s,
-    resourceListOk(s_try, resourceList),
+    resourceListOk(s, resourceList, s_try),
     blkOk(s_try, blk_catch),
     catchClauseListOk(s_try, catchClauseList),
     blkOk(s_try, blk_finally),
     true.
 
-  resourceOk : scope * Resource
-  resourceListOk maps resourceOk(*, list(*))
+  resourceOk : scope * Resource * scope
+  resourceListOk maps resourceOk(*, list(*), *)
 
-  resourceOk(s, Resource(varModList, unannType, varDeclId, expr)) :-
+  resourceOk(s, Resource(varModList, unannType, varDeclId, expr), s_def) :-
   {T T'}
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclIdOk(s, T, varDeclId),
+    varDeclIdOk(s, T, varDeclId, s_def),
     T' == exprOk(s, expr),
     subType(T', T),
     true.

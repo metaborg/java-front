@@ -5,6 +5,7 @@ imports
   signatures/java/names/Names-sig
 
   java/names/Main
+  java/names/PackageNames
   java/names/PackageOrTypeNames
   java/types/Main
   java/types/ReferenceTypes
@@ -119,7 +120,11 @@ rules
     setType(s_ty, REF(s_ty)),
     setKind(s_ty, K),
     !type[id, s_ty] in s,
-    !thisType[(id, s_ty)] in s_ty.
+    !thisType[(id, s_ty)] in s_ty,
+    noOtherHomonymousType(s, (id, s_ty)),
+    noEnclosingHomonymousType(s, id),
+    noHomonymousPkg(s, id),
+    true.
 
 
   aliasType : scope * TYPE_DECL
@@ -155,4 +160,20 @@ rules
       filter EXT|IMPL and true
       min EXT < IMPL and true
       in s_ty |-> [(_, typeDecl')].
+
+
+  noOtherHomonymousType: scope * TYPE_DECL
+  
+  noOtherHomonymousType(s, typeDecl@(id, _)) :-
+    query type
+      filter e and { id' :- id' == id }
+      in s |-> [(_, typeDecl)].
+
+
+  noEnclosingHomonymousType : scope * Id
+
+  noEnclosingHomonymousType(s, id) :-
+    query thisType
+      filter LEX* and { (id', _) :- id' == id }
+      in s |-> [].
 

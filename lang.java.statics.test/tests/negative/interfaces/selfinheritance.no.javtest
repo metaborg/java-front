@@ -1,6 +1,0 @@
-STATIX fail java\.interfaces\.no-extends-cycle
-JAVAC  fail cyclic inheritance involving I
-
-[I]
-public interface I extends I {}
-

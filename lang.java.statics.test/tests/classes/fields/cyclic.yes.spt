@@ -1,0 +1,16 @@
+module classes/fields/cyclic_yes
+
+language metaborg-java
+
+test cyclic [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public A f;
+}
+
+
+]] analysis succeeds

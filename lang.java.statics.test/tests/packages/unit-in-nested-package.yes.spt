@@ -1,0 +1,16 @@
+module packages/unit-in-nested-package_yes
+
+language metaborg-java
+
+test unit-in-nested-package [[
+
+STATIX ok 
+JAVAC  ok 
+
+[p] {
+  [q] {
+    [package_info]
+    package p.q;
+  }
+}
+]] analysis succeeds

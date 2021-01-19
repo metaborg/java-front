@@ -3,6 +3,7 @@ module Main
 imports
 
   Analysis
+  statix/Menus
 
 language
 

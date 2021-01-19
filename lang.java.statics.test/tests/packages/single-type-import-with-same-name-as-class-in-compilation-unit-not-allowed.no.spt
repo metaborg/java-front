@@ -1,0 +1,29 @@
+module packages/single-type-import-with-same-name-as-class-in-compilation-unit-not-allowed_no
+
+language metaborg-java
+
+test single-type-import-with-same-name-as-class-in-compilation-unit-not-allowed [[
+
+STATIX fail java\.duplicates\.no-duplicate-type.*\"A\"
+JAVAC  fail A is already defined in this compilation unit
+
+[p] {
+
+    [A]
+    package p;
+    import q.A;
+    public class A {
+    }
+
+}
+
+[q] {
+
+    [A]
+    package q;
+    public class A {
+    }
+
+}
+
+]] analysis fails

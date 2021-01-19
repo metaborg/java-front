@@ -1,0 +1,23 @@
+module interfaces/implementwithcovariantparam_no
+
+language metaborg-java
+
+test implementwithcovariantparam [[
+
+STATIX fail unification error
+JAVAC  fail A is not abstract and does not override abstract method m\(A\) in I
+
+[I]
+interface I {
+  public void m(A a);
+}
+
+[A]
+class A extends B implements I {
+  public void m(B a) {}
+}
+
+[B]
+class B {}
+
+]] analysis fails

@@ -1,0 +1,20 @@
+module classes/nested/inner-class-instantiation-in-subclass-of-enclosing-class_yes
+
+language metaborg-java
+
+test inner-class-instantiation-in-subclass-of-enclosing-class [[
+
+STATIX ok
+JAVAC  ok
+
+[A]
+public class A {
+    public class B {}
+}
+
+[C]
+public class C extends A {
+    public B b = new B();
+}
+
+]] analysis succeeds

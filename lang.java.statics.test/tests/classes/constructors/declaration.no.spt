@@ -1,0 +1,20 @@
+module classes/constructors/declaration_no
+
+language metaborg-java
+
+test declaration [[
+
+STATIX fail java\.classes\.constructors\.enclosing-type
+JAVAC fail invalid method declaration
+
+[Point]
+class Point {
+    public int x, y;
+    public Point2D(int x, int y) { // error
+        this.x = x;
+        this.y = y;
+    }
+}
+
+
+]] analysis fails

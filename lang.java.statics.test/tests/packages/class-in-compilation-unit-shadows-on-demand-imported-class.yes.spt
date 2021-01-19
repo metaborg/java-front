@@ -1,0 +1,30 @@
+module packages/class-in-compilation-unit-shadows-on-demand-imported-class_yes
+
+language metaborg-java
+
+test class-in-compilation-unit-shadows-on-demand-imported-class [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    import q.*;
+    public class A {
+        A a = (p.A) null;
+    }
+
+}
+
+[q] {
+
+    [A]
+    package q;
+    public class A {
+    }
+
+}
+
+]] analysis succeeds

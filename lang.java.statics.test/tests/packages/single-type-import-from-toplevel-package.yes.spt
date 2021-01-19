@@ -1,0 +1,33 @@
+module packages/single-type-import-from-toplevel-package_yes
+
+language metaborg-java
+
+test single-type-import-from-toplevel-package [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    import q.B;
+    public class A {
+        public B b;
+    }
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {}
+
+    [C]
+    package q;
+    public class C {}
+
+}
+
+]] analysis succeeds

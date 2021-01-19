@@ -1,0 +1,17 @@
+module interfaces/implementsempty_yes
+
+language metaborg-java
+
+test implementsempty [[
+
+STATIX ok
+JAVAC  ok
+
+[B]
+public class B implements I {}
+
+[I]
+public interface I {}
+
+
+]] analysis succeeds
