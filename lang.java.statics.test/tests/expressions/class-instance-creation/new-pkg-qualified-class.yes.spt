@@ -1,4 +1,4 @@
-module expressions/new-pkg-qualified-class_yes
+module expressions/class-instance-creation/new-pkg-qualified-class_yes
 
 language metaborg-java
 

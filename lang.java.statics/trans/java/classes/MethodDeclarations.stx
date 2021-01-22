@@ -9,14 +9,10 @@ imports
   java/classes/FieldDeclarations
   java/interfaces/Annotations
   java/names/Main
+  java/names/MethodNames
   java/statements/Blocks
   java/types/ReferenceTypes
 
-
-signature
-
-  relations
-    return : -> RETURN
 
 rules // 8.4. Method Declarations
 
@@ -34,26 +30,26 @@ rules // 8.4. Method Declarations
   mthdHeaderOk : scope * MethodHeader * scope
 
   mthdHeaderOk(s, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt), s_mthd) :-
-  {R}
+  {R Ts}
     s_mthd -LEX-> s,
     R == resultOk(s, result),
     declareReturn(s_mthd, R),
-    formalParamsOk(s, formalParams, s_mthd),
+    Ts == formalParamsOk(s, formalParams, s_mthd),
+    declareMthdName(s, id, Ts, R),
     annDimsEmptyOk(s, annDimsEmpty),
     throwsOptOk(s, throwsOpt),
-
     true.
 
   mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_mthd) :-
-  {s_typeParams R}
+  {s_typeParams R Ts}
     s_typeParams == typeParamsOk(s, typeParams),
     s -LEX-> s_typeParams,
     annoListOk(s_typeParams, annoList),
     R == resultOk(s_typeParams, result),
     declareReturn(s_mthd, R),
-    formalParamsOk(s_typeParams, formalParams, s_mthd),
+    Ts == formalParamsOk(s_typeParams, formalParams, s_mthd),
+    declareMthdName(s, id, Ts, R),
     throwsOptOk(s_typeParams, throwsOpt),
-
     true.
 
 
@@ -123,51 +119,51 @@ rules // 8.4. Method Declarations
     true.
 
 
-  formalParamsOk : scope * FormalParams * scope // -> list(TYPE)
+  formalParamsOk : scope * FormalParams * scope -> list(TYPE)
 
-  formalParamsOk(s, NoParams(), s_def) :-
+  formalParamsOk(s, NoParams(), s_def) = [] :-
     true.
 
-  formalParamsOk(s, ReceiverParam2FormalParams(recvParam), s_def) :-
+  formalParamsOk(s, ReceiverParam2FormalParams(recvParam), s_def) = [] :-
     recvParamOk(s, recvParam, s_def),
     true.
 
-  formalParamsOk(s, SingleParam(lastFormalParam), s_def) :-
-    lastFormalParamOk(s, lastFormalParam, s_def),
+  formalParamsOk(s, SingleParam(lastFormalParam), s_def) = [T] :-
+    T == lastFormalParamOk(s, lastFormalParam, s_def),
     true.
 
-  formalParamsOk(s, ParamList(formalParamList, lastFormalParam), s_def) :-
-    formalParamListOk(s, formalParamList, s_def),
-    lastFormalParamOk(s, lastFormalParam, s_def),
+  formalParamsOk(s, ParamList(formalParamList, lastFormalParam), s_def) = append1(Ts,T) :-
+    Ts == formalParamListOk(s, formalParamList, s_def),
+    T == lastFormalParamOk(s, lastFormalParam, s_def),
     true.
 
-  formalParamsOk(s, ReceiverParamList(recvParam, formalParamList, lastFormalParam), s_def) :-
+  formalParamsOk(s, ReceiverParamList(recvParam, formalParamList, lastFormalParam), s_def) = append1(Ts,T) :-
     recvParamOk(s, recvParam, s_def),
-    formalParamListOk(s, formalParamList, s_def),
-    lastFormalParamOk(s, lastFormalParam, s_def),
+    Ts == formalParamListOk(s, formalParamList, s_def),
+    T == lastFormalParamOk(s, lastFormalParam, s_def),
     true.
 
 
-  lastFormalParamOk : scope * LastFormalParam * scope
+  lastFormalParamOk : scope * LastFormalParam * scope -> TYPE
 
-  lastFormalParamOk(s, FormalParam2LastFormalParam(formalParam), s_def) :-
-    formalParamOk(s, formalParam, s_def),
+  lastFormalParamOk(s, FormalParam2LastFormalParam(formalParam), s_def) = T :-
+    T == formalParamOk(s, formalParam, s_def),
     true.
 
-  lastFormalParamOk(s, VarArityParam(varModList, unannType, annoList, varDeclId), s_def) :-
-  {T}
+  lastFormalParamOk(s, VarArityParam(varModList, unannType, annoList, varDeclId), s_def) = T :-
+  {T'}
     varModListOk(s, varModList),
-    T == unannTypeOk(s, unannType),
+    T' == unannTypeOk(s, unannType),
     annoListOk(s, annoList),
-    varDeclIdOk(s, _, varDeclId, s_def), // FIXME make array type
+    // FIXME T == Array[T']
+    varDeclIdOk(s, T, varDeclId, s_def),
     true.
 
 
-  formalParamOk : scope * FormalParam * scope
-  formalParamListOk maps formalParamOk(*, list(*), *)
+  formalParamOk : scope * FormalParam * scope -> TYPE
+  formalParamListOk maps formalParamOk(*, list(*), *) = list(*)
 
-  formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) :-
-  {T}
+  formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) = T :-
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
     varDeclIdOk(s, T, varDeclId, s_def),
@@ -185,16 +181,13 @@ rules // 8.4. Method Declarations
 
 rules
 
-  declareReturn : scope * RETURN
+  append1 : list(TYPE) * TYPE -> list(TYPE)
 
-  declareReturn(s, R) :-
-    !return[R] in s.
+  append1(Ts, T) = append(Ts, [T]).
 
+    append : list(TYPE) * list(TYPE) -> list(TYPE)
 
-  return : scope -> RETURN
+    append([], Us) = Us.
 
-  return(s) = R :-
-    query return
-      filter LEX* and true
-      min $ < LEX and true
-      in s |-> [(_, R)].
+    append([T|Ts], Us) = [T|append(Ts, Us)].
+  

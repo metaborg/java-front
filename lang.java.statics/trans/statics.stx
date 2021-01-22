@@ -3,7 +3,6 @@ module statics
 imports
 
   java/Main
-  java/Object
   java/names/Main
   java/names/PackageNames
   java/names/TypeNames
@@ -17,7 +16,6 @@ rules
   projectOk : scope
 
   projectOk(s_proj) :-
-    declareObject(s_proj),
     true.
 
 
@@ -34,14 +32,14 @@ rules
   fileOk(s_proj, s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
     compilationUnitOk(s_proj, s_pkg, compilationUnit).
 
-  fileOk(_, _, Test(expectationList, testUnitList)) :-
-  {s_proj s_anonPkg}
+  fileOk(s_proj, _, Test(expectationList, testUnitList)) :-
+  {s_test s_anonPkg}
     // isolate tests from the regular global scope
-    new s_proj, projectOk(s_proj),
+    new s_test, s_test -LEX-> s_proj,
 
-    new s_anonPkg, groupOk(s_proj, s_proj, "", s_anonPkg),
+    new s_anonPkg, groupOk(s_test, s_test, "", s_anonPkg),
 
-    testUnitListOk(s_proj, s_proj, s_anonPkg, testUnitList).
+    testUnitListOk(s_test, s_test, s_anonPkg, testUnitList).
 
 
   testUnitOk : scope * scope * scope * TestUnit

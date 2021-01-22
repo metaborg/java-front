@@ -8,6 +8,7 @@ imports
   java/classes/MethodDeclarations
   java/expressions/Main
   java/names/Main
+  java/names/MethodNames
   java/statements/Blocks
   java/statements/Main
   java/types/ReferenceTypes
@@ -165,11 +166,11 @@ rules // 14.5. Statements
 
 
   stmtOk(s, Return()) :-
-    return(s) == VOID().
+    resolveReturn(s) == VOID().
 
   stmtOk(s, Return(expr)) :-
   {T T'}
-    TYPED(T) == return(s),
+    TYPED(T) == resolveReturn(s),
     T' == exprOk(s, expr),
     subType(T', T).
 

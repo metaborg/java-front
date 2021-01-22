@@ -1,0 +1,24 @@
+module expressions/field-access/qualified-field-access-in-enclosing-class_yes
+
+language metaborg-java
+
+test qualified-field-access-in-enclosing-class_yes [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+      public int f;
+      public class B {
+        public boolean f;
+        public int g = A.this.f;
+      }
+    }
+
+}
+
+]] analysis succeeds

@@ -86,7 +86,8 @@ rules
   declareExprName(s, id, T) :-
   {s_var}
     new s_var, setType(s_var, T),
-    !var[id, s_var] in s.
+    !var[id, s_var] in s,
+    noOtherHomonymousExpr(s, (id, s_var)).
 
 
   singleVarDecl : Id * list(VAR_PATH) -> VAR_DECL
@@ -99,6 +100,14 @@ rules
 
   singleVarDecl(id, varDeclList) = _ :-
     false | error $[Var [id] is ambiguous] @id.
+
+
+  noOtherHomonymousExpr: scope * VAR_DECL
+  
+  noOtherHomonymousExpr(s, varDecl@(id, _)) :-
+    query var
+      filter e and { id' :- id' == id }
+      in s |-> [(_, varDecl)].
 
 
 signature

@@ -4,7 +4,7 @@ imports
 
   signatures/java/types/TypeVariable-sig
 
-  java/Object
+  java/JRE
   java/classes/ClassDeclarations
   java/interfaces/Annotations
   java/names/Main
@@ -41,13 +41,6 @@ rules // 4.4. Type Variables
     declareType(s, id, s_var, CLASS()),
 
     [T|Ts] == clsTypeListOk(s, clsTypeList),
-    typeParamOk1(s_var, typeKind(T), T),
+    setSuperClsOrImplementIntf(s_var, T),
     addSuperIntfList(s_var, Ts).
 
-        typeParamOk1 : scope * KIND * TYPE
-
-        typeParamOk1(s_var, CLASS(), T) :-
-          setSuperCls(s_var, T).
-
-        typeParamOk1(s_var, INTF(), T) :-
-          addSuperIntf(s_var, T).

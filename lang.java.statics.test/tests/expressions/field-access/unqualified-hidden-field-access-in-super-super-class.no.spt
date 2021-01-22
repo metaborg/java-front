@@ -1,0 +1,32 @@
+module expressions/field-access/unqualified-hidden-field-access-in-super-super-class_no
+
+language metaborg-java
+
+test unqualified-hidden-field-access-in-super-super-class_no [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+      public int i;
+    }
+
+    [B]
+    package p;
+    public class B extends A {
+      public boolean i;
+    }
+
+    [C]
+    package p;
+    public class C extends B {
+      public int j = i;
+    }
+
+}
+
+]] analysis fails

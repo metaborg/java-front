@@ -4,7 +4,7 @@ imports
 
   signatures/java/classes/ClassDeclarations-sig
 
-  java/Object
+  java/JRE
   java/classes/Main
   java/classes/ConstructorDeclarations
   java/classes/EnumDeclarations
@@ -52,8 +52,7 @@ rules // 8.1. Class Declarations
     superClsOptOk(s_typeParams, superClsOpt, s_cls),
     superIntfsOptOk(s_typeParams, superIntfsOpt, s_cls),
 
-    // FIXME declare self (?)
-    // s_cls -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
+    declareImplicitCtorIfMissing(s_cls, clsBodyDeclList),
 
     clsBodyDeclListOk(s_cls, clsBodyDeclList),
     true.
@@ -122,6 +121,31 @@ rules // 8.1. Class Declarations
     isIntfType(T),
     s_cls -IMPL-> typeScope(T).
 
+
+  setSuperClsOrImplementIntf : scope * TYPE
+
+  setSuperClsOrImplementIntf(s_cls, T) :-
+    setSuperClsOrImplementIntf1(s_cls, typeKind(T), T).
+
+      setSuperClsOrImplementIntf1 : scope * KIND * TYPE
+
+      setSuperClsOrImplementIntf1(s_cls, CLASS(), T) :-
+        setSuperCls(s_cls, T).
+
+      setSuperClsOrImplementIntf1(s_cls, INTF(), T) :-
+        setSuperCls(s_cls, objectOk(s_cls)),
+        addSuperIntf(s_cls, T).
+
+
+  declareImplicitCtorIfMissing : scope * list(ClassBodyDeclaration)
+
+  declareImplicitCtorIfMissing(s, [ConstructorDeclaration2ClassBodyDeclaration(_)|_]).
+
+  declareImplicitCtorIfMissing(s, [_|clsBodyDecls]) :-
+    declareImplicitCtorIfMissing(s, clsBodyDecls).
+
+  declareImplicitCtorIfMissing(s, []) :-
+    declareImplicitCtor(s).
 
 
   clsBodyDeclOk : scope * ClassBodyDeclaration

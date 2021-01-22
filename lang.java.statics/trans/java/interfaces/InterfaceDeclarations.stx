@@ -4,7 +4,7 @@ imports
 
   signatures/java/interfaces/InterfaceDeclarations-sig
 
-  java/Object
+  java/JRE
   java/classes/ClassDeclarations
   java/interfaces/Annotations
   java/interfaces/AnnotationTypes

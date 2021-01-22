@@ -10,6 +10,8 @@ imports
   java/expressions/Main
   java/interfaces/Annotations
   java/names/Main
+  java/names/MethodNames
+  java/names/TypeNames
   java/statements/Blocks
   java/types/ParameterizedTypes
   java/types/TypeVariable
@@ -20,18 +22,26 @@ rules // 8.8. Constructor Declarations
   ctorDeclOk : scope * ConstructorDeclaration
 
   ctorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
-  {s_ctor s_typeParams}
+  {s_ctor s_typeParams Ts R}
     ctorModListOk(s, ctorModList),
+
+    ctorIdOk(s, id),
 
     new s_ctor,
     
     s_typeParams == typeParamsOptOk(s, typeParamsOpt),
     s_ctor -LEX-> s_typeParams,
 
-    formalParamsOk(s_typeParams, formalParams, s_ctor),
+    Ts == formalParamsOk(s_typeParams, formalParams, s_ctor),
+    R == TYPED(typeDeclType(this(s))),
+    declareMthdName(s, Id("<init>"), Ts, R),
+
     throwsOptOk(s_typeParams, throwsOpt),
+
     ctorInvOptOk(s_ctor, ctorInvOpt),
+
     blkStmtListOk(s_ctor, blkStmtList),
+
     true.
 
 
@@ -46,17 +56,38 @@ rules // 8.8. Constructor Declarations
   ctorModOk(s, Protected2ConstructorModifier(_)) :- true.
 
 
+  ctorIdOk : scope * Id
+
+  ctorIdOk(s, id) :-
+    typeDeclId(this(s)) == id.
+
+
+  ctorInvOptOk : scope * list(ConstructorInvocation)
+
+  ctorInvOptOk(s, []) :-
+    ctorInvOk(s, SuperConstrInv([], [])).
+
+  ctorInvOptOk(s, [ctorInv]) :-
+    ctorInvOk(s, ctorInv).
+  
+  
+  
   ctorInvOk : scope * ConstructorInvocation
-  ctorInvOptOk maps ctorInvOk(*, list(*))
 
   ctorInvOk(s, AltConstrInv(typeArgsOpt, exprList)) :-
+  {id Ts}
+    id == Id("<init>"),
     _ == typeArgsOptOk(s, typeArgsOpt),
-    _ == exprListOk(s, exprList),
+    Ts == exprListOk(s, exprList),
+    _ == someMthdDecl(id, Ts,  resolveDirectMemberMthdNames(typeDeclScope(this(s)), id, Ts)),
     true.
 
   ctorInvOk(s, SuperConstrInv(typeArgsOpt, exprList)) :-
+  {id Ts}
+    id == Id("<init>"),
     _ == typeArgsOptOk(s, typeArgsOpt),
-    _ == exprListOk(s, exprList),
+    Ts == exprListOk(s, exprList),
+    _ == someMthdDecl(id, Ts, resolveDirectMemberMthdNames(typeDeclScope(super(this(s))), id, Ts)),
     true.
 
   ctorInvOk(s, ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
@@ -66,3 +97,12 @@ rules // 8.8. Constructor Declarations
     true.
 
 
+  declareImplicitCtor : scope
+
+  declareImplicitCtor(s) :-
+  {id}
+    id == Id("<init>"),
+    // FIXME Require super class
+    declareMthdName(s, id, [], TYPED(typeDeclType(this(s)))),
+    _ == someMthdDecl(id, [], resolveDirectMemberMthdNames(typeDeclScope(super(this(s))), id, [])),
+    true.

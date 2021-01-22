@@ -5,7 +5,7 @@ imports
   signatures/java/packages/CompilationUnits-sig
   signatures/java/Test-sig
 
-  java/Object
+  java/JRE
   java/names/Main
   java/names/PackageNames
   java/names/TypeNames

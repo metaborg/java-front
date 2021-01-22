@@ -1,0 +1,36 @@
+module classes/constructors/call-super-super-constructor_no
+
+language metaborg-java
+
+test call-super-super-constructor_no [[
+
+STATIX fail
+JAVAC  fail
+
+[p] {
+
+  [A]
+  package p;
+  public class A {
+    public A() {}
+  }
+  
+  [B]
+  package p;
+  public class B extends A {
+    public B(boolean b) {
+      super();
+    }
+  }
+  
+  [C]
+  package p;
+  public class C extends B {
+    public C() {
+      super();
+    }
+  }
+
+}
+
+]] analysis fails

@@ -11,11 +11,13 @@ imports
 rules
 
   subType : TYPE * TYPE
+  subTypeList maps subType(list(*), list(*))
 
   subType(T, U) :- superType(U, T).
 
 
   superType : TYPE * TYPE
+  superTypeList maps superType(list(*), list(*))
 
   superType(T, T).
 

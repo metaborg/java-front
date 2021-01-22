@@ -6,6 +6,7 @@ imports
 
   java/names/Main
   java/types/Main
+  java/types/Subtyping
 
 
 // 6.5.7 Meaning of Method Names
@@ -16,21 +17,144 @@ signature
     TYPED : TYPE -> RETURN
     VOID  : RETURN
 
+  sorts
+    MTHD_DECL = (Id * list(TYPE) * scope)
+    MTHD_PATH = (path * MTHD_DECL)
+
   relations
     mthd : Id * list(TYPE) -> scope
+    return : -> RETURN
+
 
 rules
 
-  mthdNameOk : scope * MethodName -> ()
+  mthdDeclId : MTHD_DECL -> Id
 
-  mthdNameOk(s, MethodName(id)) = _ :-
+  mthdDeclId((id, _, _)) = id.
+
+
+  mthdDeclParams : MTHD_DECL -> list(TYPE)
+
+  mthdDeclParams((_, Ts, _)) = Ts.
+
+
+  mthdDeclReturn : MTHD_DECL -> RETURN
+
+  mthdDeclReturn((_, _, s_mthd)) = getReturn(s_mthd).
+
+
+  mthdNameOk : scope * MethodName * list(TYPE) -> MTHD_DECL
+
+  mthdNameOk(s, MethodName(id), Ts) = resolveLexicalMthdName(s, id, Ts).
+
+
+  resolveLexicalMthdName : scope * Id * list(TYPE) -> MTHD_DECL
+
+  resolveLexicalMthdName(s, id, Ts) = someMthdDecl(id, Ts, resolveLexicalMthdNames(s, id, Ts)).
+
+
+  resolveMemberMthdName : scope * Id * list(TYPE) -> MTHD_DECL
+
+  resolveMemberMthdName(s, id, Ts) = someMthdDecl(id, Ts, resolveMemberMthdNames(s, id, Ts)).
+
+
+  resolveDirectMemberMthdName : scope * Id * list(TYPE) -> MTHD_DECL
+
+  resolveDirectMemberMthdName(s, id, Ts) = someMthdDecl(id, Ts, resolveDirectMemberMthdNames(s, id, Ts)).
+
+
+  resolveLexicalMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
+
+  resolveLexicalMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter /* lex mthd re */
+          LEX* EXT* IMPL*
+        and { (id', Ts') :- id' == id, superTypeList(Ts', Ts) }
+      min /* lex mthd ord */
+          $ < LEX, $ < EXT, $ < IMPL
+        and { (_, Us), (_, Us) }
+      in s |-> mthdPathList,
     true.
 
 
-  declareMthdName : scope * Id * RETURN * list(TYPE)
+  resolveMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
   
-  declareMthdName(s, id, R, Ts) :-
+  resolveMemberMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter /* mem mthd re */
+          EXT* IMPL*
+        and { (id', Ts') :- id' == id, superTypeList(Ts', Ts) }
+      min /* mem mthd ord */
+          $ < EXT, $ < IMPL
+        and { (_, Us), (_, Us) }
+      in s |-> mthdPathList,
+    true.
+
+
+  resolveDirectMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
+  
+  resolveDirectMemberMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter e
+        and { (id', Ts') :- id' == id, superTypeList(Ts', Ts) }
+      min /* */
+        and false
+      in s |-> mthdPathList,
+    true.
+
+
+  someMthdDecl : Id * list(TYPE) * list(MTHD_PATH) -> MTHD_DECL
+
+  someMthdDecl(id, Ts, []) = _ :-
+    false | error $[No method [id] for arguments [Ts]] @id.
+
+  someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))]) = mthdDecl :-
+    @id.ref := id',
+    true.
+
+  someMthdDecl(id, Ts, mthdDeclList) = _ :-
+    try { false } | note $[Method [id] overloaded for arguments [Ts]] @id.
+
+
+  declareMthdName : scope * Id * list(TYPE) * RETURN
+
+  declareMthdName(s, id, Ts, R) :-
   {s_mthd}
     new s_mthd,
-    // FIXME Store return type
-    !mthd[id, Ts, s_mthd] in s.
+    !mthd[id, Ts, s_mthd] in s,
+    declareReturn(s_mthd, R),
+    noOtherHomonymousMthd(s, (id, Ts, s_mthd)).
+
+    
+  noOtherHomonymousMthd: scope * MTHD_DECL
+  
+  noOtherHomonymousMthd(s, mthdDecl@(id, Ts, _)) :-
+    query mthd
+      filter e and { (id', Ts') :- id' == id, Ts' == Ts }
+      in s |-> [(_, mthdDecl)].
+
+
+rules
+
+  getReturn : scope -> RETURN
+
+  getReturn(s) = R :-
+    query return
+      filter e and true
+      in s |-> [(_, R)].
+
+
+  resolveReturn : scope -> RETURN
+
+  resolveReturn(s) = R :-
+    query return
+      filter LEX* and true
+      min $ < LEX and true
+      in s |-> [(_, R)].
+
+
+  declareReturn : scope * RETURN
+
+  declareReturn(s, R) :-
+    !return[R] in s.
+

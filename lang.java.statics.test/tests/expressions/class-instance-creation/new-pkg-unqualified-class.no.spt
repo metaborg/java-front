@@ -1,4 +1,4 @@
-module expressions/new-pkg-unqualified-class_no
+module expressions/class-instance-creation/new-pkg-unqualified-class_no
 
 language metaborg-java
 

@@ -17,7 +17,7 @@ signature
 
   sorts
     TYPE_DECL  = (Id * scope)
-    TYPE_PATH  = (path * (Id * scope))
+    TYPE_PATH  = (path * TYPE_DECL)
 
   relations
     type     : Id -> scope
@@ -91,12 +91,11 @@ rules
 
   resolveMemberTypeNames(s, id) = typePathList :-
     query type
-      filter /* lex type re */
+      filter /* mem type re */
           EXT* IMPL*
         and { id' :- id' == id }
       min /* type ord */
-          $ < LEX, $ < EXT, $ < IMPL,
-          EXT < LEX, IMPL < LEX
+          $ < EXT, $ < IMPL
         and true
       in s |-> typePathList,
     true.
@@ -157,8 +156,7 @@ rules
   {s_ty}
     s_ty == typeDeclScope(typeDecl),
     query thisType
-      filter EXT|IMPL and true
-      min EXT < IMPL and true
+      filter EXT and true
       in s_ty |-> [(_, typeDecl')].
 
 

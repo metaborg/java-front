@@ -13,29 +13,29 @@ imports
 rules // 15.27. Lambda Expressions
 
   exprOk(s, LambdaExpression(lambdaParams, expr)) = _ :-
-  {s_lambda}
+  {s_lambda Ts}
     new s_lambda, s_lambda -LEX-> s,
-    lambdaParamsOk(s, lambdaParams, s_lambda),
+    Ts == lambdaParamsOk(s, lambdaParams, s_lambda),
     _ == exprOk(s_lambda, expr),
     true.
 
   exprOk(s, LambdaExpressionWithBlock(lambdaParams, blk)) = _ :-
-  {s_lambda}
+  {s_lambda Ts}
     new s_lambda, s_lambda -LEX-> s,
-    lambdaParamsOk(s, lambdaParams, s_lambda),
+    Ts == lambdaParamsOk(s, lambdaParams, s_lambda),
     blkOk(s_lambda, blk),
     true.
 
 
-  lambdaParamsOk : scope * LambdaParameters * scope
+  lambdaParamsOk : scope * LambdaParameters * scope -> list(TYPE)
 
-  lambdaParamsOk(s, SingleInferredParam(id), s_def) :-
+  lambdaParamsOk(s, SingleInferredParam(id), s_def) = [_] :-
     true.
 
-  lambdaParamsOk(s, Params(formalParams), s_def) :-
-    formalParamsOk(s, formalParams, s_def),
+  lambdaParamsOk(s, Params(formalParams), s_def) = Ts :-
+    Ts == formalParamsOk(s, formalParams, s_def),
     true.
 
-  lambdaParamsOk(s, InferredParams(idList), s_def) :-
+  lambdaParamsOk(s, InferredParams(idList), s_def) = _ :-
     true.
 

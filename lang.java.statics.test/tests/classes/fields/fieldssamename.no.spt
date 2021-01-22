@@ -1,0 +1,17 @@
+module classes/fields/fieldssamename_no
+
+language metaborg-java
+
+test fieldssamename_no [[
+
+STATIX ok
+JAVAC ok
+
+[Test]
+public class Test {
+    public int f;
+    public boolean f;
+}
+
+
+]] analysis fails

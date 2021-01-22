@@ -1,0 +1,21 @@
+module expressions/class-instance-creation/new-overloaded-constructor_yes
+
+language metaborg-java
+
+test new-overloaded-constructor_yes [[
+
+STATIX ok
+JAVAC  ok
+
+[Test]
+public class Test {
+  A f = new A(1);
+}
+
+[A]
+public class A {
+  public A(boolean b) {}
+  public A(int i) {}
+}
+
+]] analysis succeeds

@@ -1,0 +1,40 @@
+module java/JRE
+
+imports
+
+  java/names/Main
+  java/names/PackageNames
+  java/names/TypeNames
+  java/packages/PackageDeclarations
+  java/types/Main
+  java/types/ReferenceTypes
+
+rules
+
+  objectOk : scope -> TYPE
+
+  objectOk(s) = typeDeclType(resolveObject(s)).
+
+
+  resolveObject : scope -> TYPE_DECL
+
+  resolveObject(s) = resolveJavaLangType(s, Id("Object")).
+
+
+rules
+
+  resolveJavaLangType : scope * Id -> TYPE_DECL
+
+  resolveJavaLangType(s, id) = singleTypeDecl(id, resolveMemberTypeNames(pkgDeclScope(resolveJavaLang(s)), id)).
+
+
+  importJavaLang : scope * scope
+
+  importJavaLang(s, s_pkg) :-
+    s_pkg -IMP_OD-> pkgDeclScope(resolveJavaLang(s)).
+  
+
+  resolveJavaLang : scope -> PKG_DECL
+
+  resolveJavaLang(s) = resolvePkgName(s, QID(ID(Id("java")), Id("lang"))).
+  

@@ -8,6 +8,7 @@ imports
   java/expressions/Main
   java/interfaces/Annotations
   java/names/Main
+  java/names/MethodNames
   java/names/TypeNames
   java/names/PackageOrTypeNames
   java/types/ParameterizedTypes
@@ -29,26 +30,29 @@ rules // 15.9. Class Instance Creation Expressions
   unqualInstOk : scope * UnqualifiedInstance -> TYPE
 
   unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
-  {qid}
+  {qid Ts}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     qid == qualIdListOk(s, id, qualIdList),
     typeDecl == resolveTypeName(s, qid),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
-    _ == exprListOk(s, exprList),
+    Ts == exprListOk(s, exprList),
+    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
     true.
 
   unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
-  {qid typeDecl}
+  {qid typeDecl Ts}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     qid == qualIdListOk(s, id, qualIdList),
     typeDecl == resolveTypeName(s, qid),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
-    _ == exprListOk(s, exprList),
+    Ts == exprListOk(s, exprList),
+    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
 
     new s_cls, s_cls -LEX-> s,
-    // FIXME make s_cls a subtype of typeDecl
+
+    setSuperClsOrImplementIntf(s_cls, typeDeclType(typeDecl)),
 
     clsBodyDeclListOk(s_cls, clsBodyDeclList).
 
@@ -56,25 +60,29 @@ rules // 15.9. Class Instance Creation Expressions
   qualInstOk : scope * TYPE * UnqualifiedInstance -> TYPE
 
   qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
-  {s_ty}
+  {s_ty Ts}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     s_ty == typeScope(T),
     typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
-    _ == exprListOk(s, exprList).
+    Ts == exprListOk(s, exprList),
+    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
+    true.
 
   qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
-  {s_ty typeDecl}
+  {s_ty typeDecl Ts}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     s_ty == typeScope(T),
     typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
-    _ == exprListOk(s, exprList),
+    Ts == exprListOk(s, exprList),
+    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
 
     new s_cls, s_cls -LEX-> s,
-    // FIXME make s_cls a subtype of typeDecl
+
+    setSuperClsOrImplementIntf(s_cls, typeDeclType(typeDecl)),
 
     clsBodyDeclListOk(s_cls, clsBodyDeclList).
 

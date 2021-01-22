@@ -1,0 +1,20 @@
+module expressions/class-instance-creation/new-nullary-constructor_yes
+
+language metaborg-java
+
+test new-nullary-constructor_yes [[
+
+STATIX ok
+JAVAC  ok
+
+[Test]
+public class Test {
+  A f = new A();
+}
+
+[A]
+public class A {
+  public A() {}
+}
+
+]] analysis succeeds
