@@ -5,7 +5,10 @@ imports
   signatures/java/expressions/BinaryOperators-sig
 
   java/expressions/Main
+  java/types/Main
+  java/types/PrimitiveTypes
   java/types/ReferenceTypes
+  java/JRE
 
 
 rules // 15.17. Multiplicative Operators
@@ -32,10 +35,15 @@ rules // 15.17. Multiplicative Operators
     _ == exprOk(s, expr2),
     true.
 
-  exprOk(s, Add(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Add(expr1, expr2)) = addOk(stringOk(s), S, T) :-
+    S == exprOk(s, expr1),
+    T == exprOk(s, expr2).
+
+    addOk : TYPE * TYPE * TYPE -> TYPE
+
+    addOk(S, S, _) = S.
+    addOk(S, _, S) = S.
+    addOk(S, _, _) = _.
 
   exprOk(s, Sub(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
