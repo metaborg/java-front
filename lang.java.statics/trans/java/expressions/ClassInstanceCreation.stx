@@ -59,7 +59,7 @@ rules // 15.9. Class Instance Creation Expressions
 
   qualInstOk : scope * TYPE * UnqualifiedInstance -> TYPE
 
-  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
+  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
   {s_ty Ts}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
@@ -70,7 +70,7 @@ rules // 15.9. Class Instance Creation Expressions
     _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
     true.
 
-  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, [], typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
+  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
   {s_ty typeDecl Ts}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
@@ -88,19 +88,14 @@ rules // 15.9. Class Instance Creation Expressions
 
 
   qualIdListOk : scope * Id * list(QualifiedId) -> QID
-  qualIdListOk1 : scope * Id * list(QualifiedId) * list(Id) -> QID
-  qualIdListOk2 : QID * list(Id) -> QID
+    qualIdListOk1 : scope * QID * list(QualifiedId) -> QID
 
-  qualIdListOk(s, id, qualIdList) = qualIdListOk1(s, id, qualIdList, []).
+  qualIdListOk(s, id, qualIdList) = qualIdListOk1(s, ID(id), qualIdList).
 
-  qualIdListOk1(s, id, [], ids) = qualIdListOk2(ID(id), ids).
+    qualIdListOk1(s, qid, []) = qid.
 
-  qualIdListOk1(s, id, [QualifiedId(annoList, id')|qids], ids) = qualIdListOk1(s, id, qids, [id'|ids]) :-
-    annoListOk(s, annoList).
-
-  qualIdListOk2(qid, []) = qid.
-
-  qualIdListOk2(qid, [id|ids]) = qualIdListOk2(QID(qid, id), ids).
+    qualIdListOk1(s, qid, [QualifiedId(annoList, id)|qualIdList]) = qualIdListOk1(s, QID(qid, id), qualIdList) :-
+      annoListOk(s, annoList).
 
 
   typeArgsOrDiamondOk : scope * TypeArgumentsOrDiamond
