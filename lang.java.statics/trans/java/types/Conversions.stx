@@ -1,0 +1,119 @@
+module java/types/Conversions
+
+imports
+
+  java/types/Main
+  java/types/Subtyping
+  
+// 5. Conversions and Contexts  
+  
+rules // 5.1.2 Widening Primitive Conversion
+
+  primWidiningConv : TYPE * TYPE
+  
+  primWidiningConv(BYTE(), SHORT()).
+  primWidiningConv(BYTE(), INT()).
+  primWidiningConv(BYTE(), LONG()).
+  primWidiningConv(BYTE(), FLOAT()).
+  primWidiningConv(BYTE(), DOUBLE()).
+
+  primWidiningConv(SHORT(), INT()).
+  primWidiningConv(SHORT(), LONG()).
+  primWidiningConv(SHORT(), FLOAT()).
+  primWidiningConv(SHORT(), DOUBLE()).
+
+  primWidiningConv(CHAR(), INT()).
+  primWidiningConv(CHAR(), LONG()).
+  primWidiningConv(CHAR(), FLOAT()).
+  primWidiningConv(CHAR(), DOUBLE()).
+
+  primWidiningConv(INT(), LONG()).
+  primWidiningConv(INT(), FLOAT()).
+  primWidiningConv(INT(), DOUBLE()).
+
+  primWidiningConv(LONG(), FLOAT()).
+  primWidiningConv(LONG(), DOUBLE()).
+
+  primWidiningConv(FLOAT(), DOUBLE()).
+
+rules // 5.1.3 Narrowing Primitive Conversion
+
+  primNarrowingConv : TYPE * TYPE
+
+  primNarrowingConv(SHORT(), BYTE()).
+  primNarrowingConv(SHORT(), SHORT()).
+
+  primNarrowingConv(CHAR(), BYTE()).
+  primNarrowingConv(CHAR(), SHORT()).
+
+  primNarrowingConv(INT(), BYTE()).
+  primNarrowingConv(INT(), SHORT()).
+  primNarrowingConv(INT(), CHAR()).
+
+  primNarrowingConv(LONG(), BYTE()).
+  primNarrowingConv(LONG(), SHORT()).
+  primNarrowingConv(LONG(), CHAR()).
+  primNarrowingConv(LONG(), INT()).
+
+  primNarrowingConv(FLOAT(), BYTE()).
+  primNarrowingConv(FLOAT(), SHORT()).
+  primNarrowingConv(FLOAT(), CHAR()).
+  primNarrowingConv(FLOAT(), INT()).
+  primNarrowingConv(FLOAT(), LONG()).
+
+  primNarrowingConv(DOUBLE(), BYTE()).
+  primNarrowingConv(DOUBLE(), SHORT()).
+  primNarrowingConv(DOUBLE(), CHAR()).
+  primNarrowingConv(DOUBLE(), INT()).
+  primNarrowingConv(DOUBLE(), LONG()).
+  primNarrowingConv(DOUBLE(), FLOAT()).
+
+rules // 5.1.4 Widening and Narrowing Primitive Conversion
+
+  primWideningAndNarrowingConv : TYPE * TYPE
+
+  primWideningAndNarrowingConv(BYTE(), CHAR()).
+  
+rules // 5.1.5 Widening Reference Conversion
+
+  refWideningConv : TYPE * TYPE
+  
+  refWideningConv(S@REF(_), T@REF(_)) :-
+    subType(S, T).
+  
+rules // 5.1.6 Narrowing Reference Conversion
+
+  refNarrowingConv : TYPE * TYPE
+
+rules // 5.1.7 Boxing Conversion 
+  
+  boxingConv : scope * TYPE * TYPE
+  
+  boxingConv(s, BOOLEAN(), booleanOk(s)).
+  boxingConv(s, BYTE()   , byteOk(s)).
+  boxingConv(s, SHORT()  , shortOk(s)).
+  boxingConv(s, CHAR()   , characterOk(s)).
+  boxingConv(s, INT()    , integerOk(s)).
+  boxingConv(s, LONG()   , longOk(s)).
+  boxingConv(s, FLOAT()  , floatOk(s)).
+  boxingConv(s, DOUBLE() , doubleOk(s)).
+  
+  
+rules // 5.1.8 Unboxing Conversion 
+  
+  unboxingConv : scope * TYPE * TYPE
+  
+  unboxingConv(s, booleanOk(s)  , BOOLEAN()).
+  unboxingConv(s, byteOk(s)     , BYTE()).
+  unboxingConv(s, shortOk(s)    , SHORT()).
+  unboxingConv(s, characterOk(s), CHAR()).
+  unboxingConv(s, integerOk(s)  , INT()).
+  unboxingConv(s, longOk(s)     , LONG()).
+  unboxingConv(s, floatOk(s)    , FLOAT()).
+  unboxingConv(s, doubleOk(s)   , DOUBLE()).
+  
+rules // 5.1.11 String Conversion
+
+  stringConv : TYPE  
+
+  stringConv(T).

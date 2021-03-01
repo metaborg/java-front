@@ -13,27 +13,60 @@ rules
 
   objectOk : scope -> TYPE
 
-  objectOk(s) = typeDeclType(resolveObject(s)).
+  objectOk(s) = javaLangTypeOk(s, Id("Object")).
 
-
-  resolveObject : scope -> TYPE_DECL
-
-  resolveObject(s) = resolveJavaLangType(s, Id("Object")).
-
-
-rules
 
   stringOk : scope -> TYPE
 
-  stringOk(s) = typeDeclType(resolveString(s)).
+  stringOk(s) = javaLangTypeOk(s, Id("String")).
 
 
-  resolveString : scope -> TYPE_DECL
+  booleanOk : scope -> TYPE
 
-  resolveString(s) = resolveJavaLangType(s, Id("String")).
+  booleanOk(s) = javaLangTypeOk(s, Id("Boolean")).
+
+
+  byteOk : scope -> TYPE
+
+  byteOk(s) = javaLangTypeOk(s, Id("Byte")).
+
+
+  shortOk : scope -> TYPE
+
+  shortOk(s) = javaLangTypeOk(s, Id("Short")).
+
+
+  characterOk : scope -> TYPE
+
+  characterOk(s) = javaLangTypeOk(s, Id("Character")).
+
+
+  integerOk : scope -> TYPE
+
+  integerOk(s) = javaLangTypeOk(s, Id("Integer")).
+
+
+  longOk : scope -> TYPE
+
+  longOk(s) = javaLangTypeOk(s, Id("Long")).
+
+
+  floatOk : scope -> TYPE
+
+  floatOk(s) = javaLangTypeOk(s, Id("Float")).
+
+
+  doubleOk : scope -> TYPE
+
+  doubleOk(s) = javaLangTypeOk(s, Id("Double")).
 
 
 rules
+
+  javaLangTypeOk : scope * Id -> TYPE
+
+  javaLangTypeOk(s, id) = typeDeclType(resolveJavaLangType(s, id)).
+
 
   resolveJavaLangType : scope * Id -> TYPE_DECL
 
