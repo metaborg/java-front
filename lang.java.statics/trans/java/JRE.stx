@@ -23,6 +23,18 @@ rules
 
 rules
 
+  stringOk : scope -> TYPE
+
+  stringOk(s) = typeDeclType(resolveString(s)).
+
+
+  resolveString : scope -> TYPE_DECL
+
+  resolveString(s) = resolveJavaLangType(s, Id("String")).
+
+
+rules
+
   resolveJavaLangType : scope * Id -> TYPE_DECL
 
   resolveJavaLangType(s, id) = singleTypeDecl(id, resolveMemberTypeNames(pkgDeclScope(resolveJavaLang(s)), id)).

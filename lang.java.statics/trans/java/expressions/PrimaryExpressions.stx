@@ -13,7 +13,7 @@ imports
 rules // 15.8. Primary Expressions
 
   exprOk(s, Literal2Expression(lit)) = T :-
-    T == litOk(lit).
+    T == litOk(s, lit).
 
   exprOk(s, ClassLiteral2Expression(clsLit)) = _ :-
     clsLitOk(s, clsLit),

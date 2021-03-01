@@ -4,13 +4,14 @@ imports
 
   signatures/java/literals/StringLiterals-sig
 
+  java/JRE
   java/literals/Main
   java/types/Main
 
 
 rules // 3.10.5. String Literals
 
-  stringLitOk : StringLiteral -> TYPE
+  stringLitOk : scope * StringLiteral -> TYPE
 
-  stringLitOk(StringLiteral(_)) = _.
+  stringLitOk(s, StringLiteral(_)) = stringOk(s).
 

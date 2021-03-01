@@ -9,6 +9,7 @@ imports
   java/expressions/Main
   java/interfaces/Annotations
   java/names/Main
+  java/names/ExpressionNames
   java/names/TypeNames
 
 
@@ -27,7 +28,7 @@ rules // 8.9. Enum Types
 
     s_enum -LEX-> s,
 
-    enumConstListOk(s_enum, enumConstList),
+    enumConstListOk(s_enum, enumConstList, s_enum),
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
     true.
 
@@ -42,17 +43,19 @@ rules // 8.9. Enum Types
 
     s_enum -LEX-> s,
 
-    enumConstListOk(s_enum, enumConstList),
+    enumConstListOk(s_enum, enumConstList, s_enum),
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
     true.
 
 
-  enumConstOk : scope * EnumConstant
-  enumConstListOk maps enumConstOk(*, list(*))
+  enumConstOk : scope * EnumConstant * scope
+  enumConstListOk maps enumConstOk(*, list(*), *)
 
-  enumConstOk(s, EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList)) :-
+  enumConstOk(s, EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList), s_def) :-
   {s_const}
     annoListOk(s, annoList),
+
+    declareExprName(s_def, id, typeDeclType(this(s))),
 
     new s_const, s_const -LEX-> s,
 
@@ -60,9 +63,11 @@ rules // 8.9. Enum Types
     clsBodyDeclListOk(s_const, clsBodyDeclList),
     true.
 
-  enumConstOk(s, EnumConstNoBody(annoList, id, enumConstArgsOpt)) :-
+  enumConstOk(s, EnumConstNoBody(annoList, id, enumConstArgsOpt), s_def) :-
   {s_const}
     annoListOk(s, annoList),
+
+    declareExprName(s_def, id, typeDeclType(this(s))),
 
     new s_const, s_const -LEX-> s,
 
