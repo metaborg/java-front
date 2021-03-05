@@ -89,28 +89,28 @@ rules // 5.1.7 Boxing Conversion
   
   boxingConv : scope * TYPE * TYPE
   
-  boxingConv(s, BOOLEAN(), booleanOk(s)).
-  boxingConv(s, BYTE()   , byteOk(s)).
-  boxingConv(s, SHORT()  , shortOk(s)).
-  boxingConv(s, CHAR()   , characterOk(s)).
-  boxingConv(s, INT()    , integerOk(s)).
-  boxingConv(s, LONG()   , longOk(s)).
-  boxingConv(s, FLOAT()  , floatOk(s)).
-  boxingConv(s, DOUBLE() , doubleOk(s)).
+//boxingConv(s, BOOLEAN(), booleanOk(s)).
+//boxingConv(s, BYTE()   , byteOk(s)).
+//boxingConv(s, SHORT()  , shortOk(s)).
+//boxingConv(s, CHAR()   , characterOk(s)).
+//boxingConv(s, INT()    , integerOk(s)).
+//boxingConv(s, LONG()   , longOk(s)).
+//boxingConv(s, FLOAT()  , floatOk(s)).
+//boxingConv(s, DOUBLE() , doubleOk(s)).
   
   
 rules // 5.1.8 Unboxing Conversion 
   
   unboxingConv : scope * TYPE * TYPE
   
-  unboxingConv(s, booleanOk(s)  , BOOLEAN()).
-  unboxingConv(s, byteOk(s)     , BYTE()).
-  unboxingConv(s, shortOk(s)    , SHORT()).
-  unboxingConv(s, characterOk(s), CHAR()).
-  unboxingConv(s, integerOk(s)  , INT()).
-  unboxingConv(s, longOk(s)     , LONG()).
-  unboxingConv(s, floatOk(s)    , FLOAT()).
-  unboxingConv(s, doubleOk(s)   , DOUBLE()).
+//unboxingConv(s, booleanOk(s)  , BOOLEAN()).
+//unboxingConv(s, byteOk(s)     , BYTE()).
+//unboxingConv(s, shortOk(s)    , SHORT()).
+//unboxingConv(s, characterOk(s), CHAR()).
+//unboxingConv(s, integerOk(s)  , INT()).
+//unboxingConv(s, longOk(s)     , LONG()).
+//unboxingConv(s, floatOk(s)    , FLOAT()).
+//unboxingConv(s, doubleOk(s)   , DOUBLE()).
   
 rules // 5.1.11 String Conversion
 

@@ -1,0 +1,23 @@
+module expressions/method-invocation/invoke-unary-method-with-primitive-argument_no
+
+language metaborg-java
+
+test invoke-unary-method-with-primitive-argument_no [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public int f = this.m("yes");
+        public int m(boolean b) {
+            return 1;
+        }
+    }
+
+}
+
+]] analysis fails

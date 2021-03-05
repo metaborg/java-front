@@ -135,16 +135,18 @@ rules // 8.3. Field Declarations
 
   unannArrayTypeOk : scope * UnannArrayType -> TYPE
 
-  unannArrayTypeOk(s, UnannArrayTypePrimitive(unannPrimType, annDimList)) = _ :-
-  {T}
-    T == unannPrimTypeOk(unannPrimType),
+  unannArrayTypeOk(s, UnannArrayTypePrimitive(unannPrimType, annDimList)) = T :-
+  {S}
+    S == unannPrimTypeOk(unannPrimType),
     annDimListOk(s, annDimList),
+    T == makeArrayType(s, S),
     true.
 
-  unannArrayTypeOk(s, UnannArrayTypeClassType(unannClsType, annDimList)) = _ :-
-  {T}
-    T == unannClsTypeOk(s, unannClsType),
+  unannArrayTypeOk(s, UnannArrayTypeClassType(unannClsType, annDimList)) = T :-
+  {S}
+    S == unannClsTypeOk(s, unannClsType),
     annDimListOk(s, annDimList),
+    T == makeArrayType(s, S),
     true.
 
 

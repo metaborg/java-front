@@ -1,0 +1,26 @@
+module expressions/method-invocation/invoke-unary-method-with-reference-argument_yes
+
+language metaborg-java
+
+test invoke-unary-method-with-reference-argument_yes [[
+
+STATIX ok
+JAVAC  ok
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public int f = this.m(new A());
+        public int m(A a) {
+            return 1;
+        }
+        public int m() {
+          return 42;
+        }
+    }
+
+}
+
+]] analysis succeeds

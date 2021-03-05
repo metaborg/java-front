@@ -43,7 +43,7 @@ rules // 8.4. Method Declarations
   mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_mthd) :-
   {s_typeParams R Ts}
     s_typeParams == typeParamsOk(s, typeParams),
-    s -LEX-> s_typeParams,
+    s_mthd -LEX-> s_typeParams,
     annoListOk(s_typeParams, annoList),
     R == resultOk(s_typeParams, result),
     declareReturn(s_mthd, R),
@@ -155,7 +155,7 @@ rules // 8.4. Method Declarations
     varModListOk(s, varModList),
     T' == unannTypeOk(s, unannType),
     annoListOk(s, annoList),
-    // FIXME T == Array[T']
+    T == makeArrayType(s, T'),
     varDeclIdOk(s, T, varDeclId, s_def),
     true.
 
