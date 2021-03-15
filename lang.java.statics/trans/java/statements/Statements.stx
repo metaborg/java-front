@@ -52,7 +52,7 @@ rules // 14.5. Statements
   {s_for T}
     new s_for, s_for -LEX-> s,
     forInitOk(s_for, forInit),
-    T == exprOptOk(s, exprOpt),
+    T == exprOptOk(s_for, exprOpt),
     subType(T, BOOLEAN()),
     forUpdateOk(s_for, forUpdate),
     stmtOk(s_for, stmt),
