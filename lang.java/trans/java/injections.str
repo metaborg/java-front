@@ -8,7 +8,7 @@ imports
 rules
 
   java-explicate-injections =
-    explicate-injections-metaborg-java
+    origin-track-forced(explicate-injections-metaborg-java)
 
   java-implicate-injections =
-    implicate-injections-metaborg-java
+    origin-track-forced(implicate-injections-metaborg-java)
