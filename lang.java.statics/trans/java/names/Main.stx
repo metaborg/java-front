@@ -30,3 +30,9 @@ signature
       LEX     // lexical parent
       PARENT  // parent package
       ROOT    // root scope
+
+rules
+
+  qidId : QID -> Id
+  qidId(ID(id)) = id.
+  qidId(QID(_, id)) = id.

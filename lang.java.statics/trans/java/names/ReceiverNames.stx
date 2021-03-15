@@ -1,0 +1,53 @@
+module java/names/ReceiverNames
+
+imports
+
+  signatures/java/names/Names-sig
+
+  java/names/Main
+  java/names/ExpressionNames
+  java/names/TypeNames
+
+  java/types/Main
+  java/types/ReferenceTypes
+
+
+// method receiver names
+
+signature
+
+  sorts RECV_DECL constructors
+    TYPE_RECV_DECL : TYPE_DECL -> RECV_DECL
+    VAR_RECV_DECL : VAR_DECL -> RECV_DECL
+
+rules
+
+  recvDeclScope : RECV_DECL -> scope
+
+  recvDeclScope(TYPE_RECV_DECL(typeDecl)) = typeDeclScope(typeDecl).
+
+  recvDeclScope(VAR_RECV_DECL(varDecl)) = typeScope(varDeclType(varDecl)).
+  
+
+rules
+
+  recvNameOk : scope * ExpressionName -> RECV_DECL
+
+  recvNameOk(s, exprName) = resolveRecvName(s, exprNameOk1(exprName)).
+  
+  
+  resolveRecvName : scope * QID -> RECV_DECL
+  
+  resolveRecvName(s, qid) = resolveRecvName1(s, qid, resolveExprNames(s, qid)).
+  
+    resolveRecvName1 : scope * QID * list(VAR_PATH) -> RECV_DECL
+    
+    resolveRecvName1(s, qid, []) = resolveRecvName2(s, qid, resolveTypeNames(s, qid)).
+
+    resolveRecvName1(s, qid, varPathList) = VAR_RECV_DECL(singleVarDecl(qidId(qid), varPathList)).
+
+    resolveRecvName2 : scope * QID * list(TYPE_PATH) -> RECV_DECL
+
+    resolveRecvName2(s, qid, []) = _ :- {id} id == qidId(qid), false | error $[Expression or type [id] not found].
+
+    resolveRecvName2(s, qid, typePathList) = TYPE_RECV_DECL(singleTypeDecl(qidId(id), typePathList)).

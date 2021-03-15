@@ -44,13 +44,18 @@ rules
 
   resolveExprName : scope * QID -> VAR_DECL
 
-  resolveExprName(s, ID(id)) = varDecl :-
-    varDecl == singleVarDecl(id, resolveLexicalExprNames(s, id)).
+  resolveExprName(s, qid) =  singleVarDecl(qidId(qid), resolveExprNames(s, qid)).
 
-  resolveExprName(s, QID(qid, id)) = varDecl :-
+
+  resolveExprNames : scope * QID -> list(VAR_PATH)
+
+  resolveExprNames(s, ID(id)) = varPathList :-
+    varPathList == resolveLexicalExprNames(s, id).
+
+  resolveExprNames(s, QID(qid, id)) = varPathList :-
   {s_amb}
     s_amb == ambDeclScope(resolveAmbName(s, qid)),
-    varDecl == singleVarDecl(id, resolveMemberExprNames(s_amb, id)).
+    varPathList == resolveMemberExprNames(s_amb, id).
 
 
   resolveLexicalExprNames : scope * Id -> list(VAR_PATH)

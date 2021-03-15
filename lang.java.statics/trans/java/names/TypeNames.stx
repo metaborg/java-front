@@ -61,13 +61,18 @@ rules
 
   resolveTypeName : scope * QID -> TYPE_DECL
 
-  resolveTypeName(s, ID(id)) = typeDecl :-
-    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)).
+  resolveTypeName(s, qid) = singleTypeDecl(qidId(qid), resolveTypeNames(s, qid)).
 
-  resolveTypeName(s, QID(qid, id)) = typeDecl :-
+
+  resolveTypeNames : scope * QID -> list(TYPE_PATH)
+
+  resolveTypeNames(s, ID(id)) = typePathList :-
+    typePathList == resolveLexicalTypeNames(s, id).
+
+  resolveTypeNames(s, QID(qid, id)) = typePathList :-
   {s_pkgOrType}
     s_pkgOrType == pkgOrTypeDeclScope(resolvePkgOrTypeName(s, qid)),
-    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrType, id)).
+    typePathList == resolveMemberTypeNames(s_pkgOrType, id).
 
 
   resolveLexicalTypeNames : scope * Id -> list(TYPE_PATH)
