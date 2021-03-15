@@ -7,7 +7,7 @@ imports
   java/JRE
   java/classes/ClassDeclarations
   java/interfaces/Annotations
-  java/names/ExpressionName
+  java/names/ExpressionNames
   java/names/TypeNames
   java/names/PackageOrTypeNames
   java/types/Main
@@ -110,7 +110,7 @@ rules
     setKind(s_ty, ARRAY()),
     !elementType[S] in s_ty,
     setSuperCls(s_ty, objectOk(s)),
-    declareExprName(s_ty, "length", INT()).
+    declareExprName(s_ty, Id("length"), INT()).
 
 
   annDimsOk : scope * AnnotatedDims
