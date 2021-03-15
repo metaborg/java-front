@@ -19,36 +19,42 @@ rules
     true.
 
 
-  groupOk : scope * scope * string * scope
+  groupOk : scope * string * scope
 
-  groupOk(s_proj, s_parentPkg, id, s_thisPkg) :-
-    s_thisPkg -PARENT-> s_parentPkg,
-    declarePkg(s_parentPkg, Id(id), s_thisPkg),
+  groupOk(s_parent, id, s_pkg) :-
+    s_pkg -PARENT-> s_parent,
+    declarePkg(s_parent, Id(id), s_pkg),
     true.
 
   
-  fileOk : scope * scope * CompilationUnit
+  fileOk : scope * CompilationUnit
   
-  fileOk(s_proj, s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
-    compilationUnitOk(s_proj, s_pkg, compilationUnit).
+  fileOk(s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
+    compilationUnitOk(rootScope(s_pkg), s_pkg, compilationUnit).
 
-  fileOk(s_proj, _, Test(expectationList, testUnitList)) :-
+  fileOk(s_pkg, Test(expectationList, testUnitList)) :-
   {s_test s_anonPkg}
     // isolate tests from the regular global scope
-    new s_test, s_test -LEX-> s_proj,
+    new s_test, s_test -LEX-> rootScope(s_pkg),
 
-    new s_anonPkg, groupOk(s_test, s_test, "", s_anonPkg),
+    new s_anonPkg, groupOk(s_test, "", s_anonPkg),
 
-    testUnitListOk(s_test, s_test, s_anonPkg, testUnitList).
+    testUnitListOk(s_test, s_anonPkg, testUnitList).
 
 
-  testUnitOk : scope * scope * scope * TestUnit
-  testUnitListOk maps testUnitOk(*, *, *, list(*))
+  testUnitOk : scope * scope * TestUnit
+  testUnitListOk maps testUnitOk(*, *, list(*))
 
-  testUnitOk(s_proj, s_parentPkg, s_thisPkg, TestPkg(id, testUnitList)) :-
+  testUnitOk(s_parent, s_pkg, TestPkg(id, testUnitList)) :-
   {s_subPkg}
-    new s_subPkg, groupOk(s_proj, s_parentPkg, id, s_subPkg),
-    testUnitListOk(s_proj, s_subPkg, s_subPkg, testUnitList).
+    new s_subPkg, groupOk(s_parent, id, s_subPkg),
+    testUnitListOk(s_subPkg, s_subPkg, testUnitList).
 
-  testUnitOk(s_proj, s_parentPkg, s_thisPkg, TestFile(_, compilationUnit)) :-
-    fileOk(s_proj, s_thisPkg, compilationUnit).
+  testUnitOk(s_parent, s_pkg, TestFile(_, compilationUnit)) :-
+    fileOk(s_pkg, compilationUnit).
+
+    
+  rootScope : scope -> scope
+  
+  rootScope(s) = s_root :-
+    query () filter PARENT* min PARENT < $ and true in s |-> [(_, s_root)].
