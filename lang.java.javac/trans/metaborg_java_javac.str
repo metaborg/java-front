@@ -1,0 +1,39 @@
+module metaborg_java_javac
+
+imports
+
+  libstratego-lib
+
+  libstratego-gpp
+  libspoofax/sdf/pp
+  pp/metaborg-java-parenthesize
+  pp/metaborg-java-pp
+  
+  java/injections
+
+rules
+
+  external javac(pp|)
+
+  external javac(pp|expect)
+
+  editor-compile:
+    (_, _, ast, path, project-path) -> result
+    with
+      out := <java-implicate-injections;javac(pp-java-string)> ast
+    ; if Some(txt) := out then
+        filename := <guarantee-extension(|"out")> path
+      ; result := (filename, txt)
+      else
+        result := None()
+      end
+
+  pp-java-string =
+    parenthesize-metaborg-java
+    ; prettyprint-metaborg-java-start-symbols
+    ; !V([], <id>)
+    ; box2text-string(|120)
+
+  javacSucceeds = java-implicate-injections;javac(pp-java-string|"")
+
+  javacFails(|expect) = java-implicate-injections;javac(pp-java-string|expect)

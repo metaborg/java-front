@@ -16,3 +16,4 @@ JAVAC  ok
 }
 
 ]] analysis succeeds
+   run javacSucceeds
