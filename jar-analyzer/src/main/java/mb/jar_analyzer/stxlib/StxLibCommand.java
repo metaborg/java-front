@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,6 +33,7 @@ import org.spoofax.terms.io.SimpleTextTermWriter;
 import org.spoofax.terms.io.TermWriter;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Streams;
 
 import mb.jar_analyzer.jar.JarUtils;
@@ -63,6 +63,8 @@ public class StxLibCommand implements Runnable {
     private static final ITerm ARRAY_KIND = B.newAppl("ARRAY");
     private static final ITerm CLASS_KIND = B.newAppl("CLASS");
     private static final ITerm INTERFACE_KIND = B.newAppl("INTF");
+
+    private static final String INIT = "<init>";
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -113,6 +115,8 @@ public class StxLibCommand implements Runnable {
             throw new RuntimeException(e);
         }
 
+        System.out.println("Found " + classes.size() + " classes");
+
         for(ClassNode classNode : classes.values()) {
             registerInnerClasses(classNode);
         }
@@ -127,12 +131,11 @@ public class StxLibCommand implements Runnable {
             processClass(worklist.pop());
         }
 
+        System.out.println("Included " + types.size() + " classes");
+
         for(String className : types.keySet()) {
             finalizeClass(className);
         }
-
-        System.out.println("Found " + classes.size() + " classes");
-        System.out.println("Included " + types.size() + " classes");
 
         if(output != null) {
             final IStatixLibrary library = StatixLibrary.of(ImmutableList.of(s_root), allScopes, scopeGraph.freeze());
@@ -260,25 +263,25 @@ public class StxLibCommand implements Runnable {
                 }
 
                 @Override public SignatureVisitor visitClassBound() {
-                    return sigType(typeVars, (type, typeScope) -> {
+                    return SignatureType(typeVars, (type, typeScope) -> {
                         scopeGraph.addEdge(s_tvar, StxLibCommand.EXTENDS_EDGE, typeScope);
                     });
                 }
 
                 @Override public SignatureVisitor visitInterfaceBound() {
-                    return sigType(typeVars, (type, typeScope) -> {
+                    return SignatureType(typeVars, (type, typeScope) -> {
                         scopeGraph.addEdge(s_tvar, IMPLEMENTS_EDGE, typeScope);
                     });
                 }
 
                 @Override public SignatureVisitor visitSuperclass() {
-                    return sigType(typeVars, (type, typeScope) -> {
+                    return SignatureType(typeVars, (type, typeScope) -> {
                         scopeGraph.addEdge(s_ty, StxLibCommand.EXTENDS_EDGE, typeScope);
                     });
                 }
 
                 @Override public SignatureVisitor visitInterface() {
-                    return sigType(typeVars, (type, typeScope) -> {
+                    return SignatureType(typeVars, (type, typeScope) -> {
                         scopeGraph.addEdge(s_ty, IMPLEMENTS_EDGE, typeScope);
                     });
                 }
@@ -334,16 +337,62 @@ public class StxLibCommand implements Runnable {
                 continue; // package or private method // FIXME is this safe with overload resolution?
             }
 
+            final Map<String, ITerm> mthdTypeVars = Maps.newHashMap(typeVars);
+
+            final Ref<ITerm> retType = new Ref<>();
+            final List<ITerm> paramTypes = new ArrayList<>();
             if(method.signature != null) {
-                // MethodSignature = ( visitFormalTypeParameter visitClassBound? visitInterfaceBound* )* (visitParameterType* visitReturnType visitExceptionType* )
-                new SignatureReader(method.signature).accept(new SignatureVisitor(Opcodes.ASM9) {});
+                // MethodSignature = ( visitFormalTypeParameter visitClassBound? visitInterfaceBound* )* (visitParameterType* visitReturnType visitExceptionType*)
+                new SignatureReader(method.signature).accept(new SignatureVisitor(Opcodes.ASM9) {
+
+                    private Scope s_tvar;
+
+                    @Override public void visitFormalTypeParameter(String name) {
+                        s_tvar = newTypeScope();
+                        mthdTypeVars.put(name, makeREF(s_tvar));
+                    }
+
+                    @Override public SignatureVisitor visitClassBound() {
+                        return SignatureType(mthdTypeVars, (type, typeScope) -> {
+                            scopeGraph.addEdge(s_tvar, StxLibCommand.EXTENDS_EDGE, typeScope);
+                        });
+                    }
+
+                    @Override public SignatureVisitor visitInterfaceBound() {
+                        return SignatureType(mthdTypeVars, (type, typeScope) -> {
+                            scopeGraph.addEdge(s_tvar, IMPLEMENTS_EDGE, typeScope);
+                        });
+                    }
+
+                    @Override public SignatureVisitor visitParameterType() {
+                        return new SigType(mthdTypeVars) {
+                            @Override public void setType(ITerm type, Scope typeScope) {
+                                paramTypes.add(type);
+                            }
+                        };
+                    }
+
+                    @Override public SignatureVisitor visitReturnType() {
+                        return new ReturnType(mthdTypeVars) {
+                            @Override public void setReturnType(ITerm type, Scope typeScope) {
+                                retType.set(type);
+                            }
+                        };
+                    }
+
+                });
             } else {
-                Type methodType = Type.getMethodType(method.desc);
-                ITerm retType = returnType(methodType.getReturnType());
-                Iterable<ITerm> paramTypes = Arrays.asList(methodType.getArgumentTypes()).stream().map(this::descType)
-                        .collect(Collectors.toList());
-                declareMethod(s_ty, method.name, paramTypes, retType);
+                final Type methodType = Type.getMethodType(method.desc);
+                if(method.name.equals(INIT)) {
+                    retType.set(makeREF(s_ty));
+                } else {
+                    retType.set(returnType(methodType.getReturnType()));
+                }
+                for(Type argType : methodType.getArgumentTypes()) {
+                    paramTypes.add(descType(argType));
+                }
             }
+            declareMethod(s_ty, method.name, paramTypes, retType.get());
 
         }
 
@@ -390,6 +439,7 @@ public class StxLibCommand implements Runnable {
 
     private Scope newTypeScope() {
         final Scope s_ty = Scope.of("", "s_ty-" + typeScopeCounter++);
+        scopeGraph.setDatum(s_ty, s_ty);
         allScopes.add(s_ty);
         return s_ty;
     }
@@ -556,13 +606,57 @@ public class StxLibCommand implements Runnable {
 
     }
 
+    private abstract class ReturnType extends SigType {
+
+        private ReturnType(Map<String, ITerm> typeVars) {
+            super(typeVars);
+        }
+
+        public abstract void setReturnType(ITerm type, Scope typeScope);
+
+        @Override public void setType(ITerm type, Scope typeScope) {
+            setReturnType(B.newAppl("TYPED", type), typeScope);
+        }
+
+        @Override public void visitBaseType(char descriptor) {
+            switch(descriptor) {
+                case 'V':
+                    setReturnType(B.newAppl("VOID"), null);
+                    break;
+                default:
+                    super.visitBaseType(descriptor);
+            }
+        }
+
+        @Override public void visitTypeVariable(String name) {
+            super.visitTypeVariable(name);
+        }
+
+        @Override public SignatureVisitor visitArrayType() {
+            return super.visitArrayType();
+        }
+
+        @Override public void visitClassType(String name) {
+            super.visitClassType(name);
+        }
+
+        @Override public void visitInnerClassType(String name) {
+            super.visitInnerClassType(name);
+        }
+
+        @Override public void visitEnd() {
+            super.visitEnd();
+        }
+
+    }
+
     private ITerm sigType(Map<String, ITerm> typeVars, String signature) {
         Ref<ITerm> type = new Ref<>();
-        new SignatureReader(signature).acceptType(sigType(typeVars, (ty, s_ty) -> type.set(ty)));
+        new SignatureReader(signature).acceptType(SignatureType(typeVars, (ty, s_ty) -> type.set(ty)));
         return type.get();
     }
 
-    private SignatureVisitor sigType(Map<String, ITerm> typeVars, Action2<ITerm, Scope> setType) {
+    private SignatureVisitor SignatureType(Map<String, ITerm> typeVars, Action2<ITerm, Scope> setType) {
         return new SigType(typeVars) {
             @Override public void setType(ITerm type, Scope typeScope) {
                 setType.apply(type, typeScope);

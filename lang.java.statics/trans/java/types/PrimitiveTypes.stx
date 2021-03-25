@@ -46,4 +46,27 @@ rules
   numTypeOk(Float()) = FLOAT().
   numTypeOk(Double()) = DOUBLE().
 
+rules
 
+  isNumeric : TYPE
+
+  isNumeric(BYTE()).
+  isNumeric(SHORT()).
+  isNumeric(INT()).
+  isNumeric(LONG()).
+  isNumeric(FLOAT()).
+  isNumeric(DOUBLE()).
+  
+
+  isIntegral : TYPE
+
+  isIntegral(BYTE()).
+  isIntegral(SHORT()).
+  isIntegral(INT()).
+  isIntegral(LONG()).
+  
+
+  isFloatingPoint : TYPE
+
+  isFloatingPoint(FLOAT()).
+  isFloatingPoint(DOUBLE()).

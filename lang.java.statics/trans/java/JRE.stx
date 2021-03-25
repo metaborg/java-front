@@ -61,6 +61,11 @@ rules
   doubleOk(s) = javaLangTypeOk(s, Id("Double")).
 
 
+  classOk : scope -> TYPE
+
+  classOk(s) = javaLangTypeOk(s, Id("Class")).
+
+
 rules
 
   javaLangTypeOk : scope * Id -> TYPE

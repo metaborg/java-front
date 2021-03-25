@@ -4,7 +4,9 @@ imports
 
   signatures/java/expressions/UnaryOperators-sig
 
+  java/classes/ClassDeclarations
   java/expressions/Main
+  java/types/Main
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
   java/types/Subtyping
@@ -12,29 +14,29 @@ imports
 
 rules // 15.15. Unary Operators
 
-  exprOk(s, Plus(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, Plus(expr)) = T :-
+    T == exprOk(s, expr),
+    isNumeric(T). // FIXME allows converions
 
-  exprOk(s, Minus(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, Minus(expr)) = T :-
+    T == exprOk(s, expr),
+    isNumeric(T). // FIXME allows converions
 
-  exprOk(s, PreIncr(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, PreIncr(expr)) = T :-
+    T == exprOk(s, expr),
+    isNumeric(T). // FIXME allows converions
 
-  exprOk(s, PreDecr(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, PreDecr(expr)) = T :-
+    T == exprOk(s, expr),
+    isNumeric(T). // FIXME allows converions
 
-  exprOk(s, Complement(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, Complement(expr)) = T :-
+    T == exprOk(s, expr),
+    isNumeric(T). // FIXME allows converions
 
-  exprOk(s, Not(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, Not(expr)) = T :-
+    T == exprOk(s, expr),
+    subType(T, BOOLEAN()). // FIXME allows converions
 
   exprOk(s, CastPrimitive(primType, expr)) = T :-
   {T'}
@@ -42,10 +44,17 @@ rules // 15.15. Unary Operators
     T' == exprOk(s, expr),
     subType(T', T).
 
-  exprOk(s, CastReference(refType, additionalBoundList, expr)) = T :-
-  {T'}
+  exprOk(s, CastReference(refType, additionalBoundList, expr)) = S@REF(s_ty) :-
+  {T Ts T'}
     T == refTypeOk(s, refType),
-    _ == additionalBoundListOk(s, additionalBoundList),
+    Ts == additionalBoundListOk(s, additionalBoundList),
+    
+    new s_ty,
+    setType(s_ty, S),
+    setKind(s_ty, CLASS()),
+    setSuperClsOrImplementIntf (s_ty, T),
+    addSuperIntfList(s_ty, Ts),
+
     T' == exprOk(s, expr),
     subType(T', T).
 

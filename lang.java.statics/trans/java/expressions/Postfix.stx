@@ -6,17 +6,18 @@ imports
 
   java/expressions/Main
   java/names/ExpressionNames
+  java/types/PrimitiveTypes
 
 
 rules // 15.14. Postfix Expressions
 
-  exprOk(s, PostIncr(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, PostIncr(expr)) = T :-
+    T == exprOk(s, expr),
+    isNumeric(T). // FIXME allow conversion
 
-  exprOk(s, PostDecr(expr)) = _ :-
-    _ == exprOk(s, expr),
-    true.
+  exprOk(s, PostDecr(expr)) = T :-
+    T == exprOk(s, expr),
+    isNumeric(T). // FIXME allow conversion
 
   exprOk(s, ExpressionName2Expression(exprName)) = varDeclType(exprNameOk(s, exprName)).
 

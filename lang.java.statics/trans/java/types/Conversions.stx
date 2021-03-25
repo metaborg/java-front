@@ -2,39 +2,42 @@ module java/types/Conversions
 
 imports
 
+  java/JRE
   java/types/Main
+  java/types/PrimitiveTypes
+  java/types/ReferenceTypes
   java/types/Subtyping
   
 // 5. Conversions and Contexts  
   
 rules // 5.1.2 Widening Primitive Conversion
 
-  primWidiningConv : TYPE * TYPE
+  primWideningConv : TYPE * TYPE
   
-  primWidiningConv(BYTE(), SHORT()).
-  primWidiningConv(BYTE(), INT()).
-  primWidiningConv(BYTE(), LONG()).
-  primWidiningConv(BYTE(), FLOAT()).
-  primWidiningConv(BYTE(), DOUBLE()).
+  primWideningConv(BYTE(), SHORT()).
+  primWideningConv(BYTE(), INT()).
+  primWideningConv(BYTE(), LONG()).
+  primWideningConv(BYTE(), FLOAT()).
+  primWideningConv(BYTE(), DOUBLE()).
 
-  primWidiningConv(SHORT(), INT()).
-  primWidiningConv(SHORT(), LONG()).
-  primWidiningConv(SHORT(), FLOAT()).
-  primWidiningConv(SHORT(), DOUBLE()).
+  primWideningConv(SHORT(), INT()).
+  primWideningConv(SHORT(), LONG()).
+  primWideningConv(SHORT(), FLOAT()).
+  primWideningConv(SHORT(), DOUBLE()).
 
-  primWidiningConv(CHAR(), INT()).
-  primWidiningConv(CHAR(), LONG()).
-  primWidiningConv(CHAR(), FLOAT()).
-  primWidiningConv(CHAR(), DOUBLE()).
+  primWideningConv(CHAR(), INT()).
+  primWideningConv(CHAR(), LONG()).
+  primWideningConv(CHAR(), FLOAT()).
+  primWideningConv(CHAR(), DOUBLE()).
 
-  primWidiningConv(INT(), LONG()).
-  primWidiningConv(INT(), FLOAT()).
-  primWidiningConv(INT(), DOUBLE()).
+  primWideningConv(INT(), LONG()).
+  primWideningConv(INT(), FLOAT()).
+  primWideningConv(INT(), DOUBLE()).
 
-  primWidiningConv(LONG(), FLOAT()).
-  primWidiningConv(LONG(), DOUBLE()).
+  primWideningConv(LONG(), FLOAT()).
+  primWideningConv(LONG(), DOUBLE()).
 
-  primWidiningConv(FLOAT(), DOUBLE()).
+  primWideningConv(FLOAT(), DOUBLE()).
 
 rules // 5.1.3 Narrowing Primitive Conversion
 
@@ -112,8 +115,24 @@ rules // 5.1.8 Unboxing Conversion
 //unboxingConv(s, floatOk(s)    , FLOAT()).
 //unboxingConv(s, doubleOk(s)   , DOUBLE()).
   
+
 rules // 5.1.11 String Conversion
 
-  stringConv : TYPE  
+  stringConv : scope * TYPE -> TYPE
 
-  stringConv(T).
+  stringConv(s, T) = stringOk(s).
+
+rules // 5.6.1 Unary Numeric Promotion
+
+  promoteNumericUnary : TYPE -> TYPE
+
+  promoteNumericUnary(T) = T :-
+    isNumeric(T).
+
+
+rules // 5.6.2 Unary Numeric Promotion
+
+  promoteNumericBinary : TYPE * TYPE -> TYPE
+
+  promoteNumericBinary(T, T) =  T :-
+    isNumeric(T).

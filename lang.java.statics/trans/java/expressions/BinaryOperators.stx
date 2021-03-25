@@ -5,9 +5,11 @@ imports
   signatures/java/expressions/BinaryOperators-sig
 
   java/expressions/Main
+  java/types/Conversions
   java/types/Main
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
+  java/types/Subtyping
   java/JRE
 
 
@@ -20,20 +22,23 @@ rules // 15.17. Multiplicative Operators
       // 15.23. Conditional-And Operator &&
       // 15.24. Conditional-Or Operator ||
 
-  exprOk(s, Mul(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Mul(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
-  exprOk(s, Div(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Div(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
-  exprOk(s, Mod(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Mod(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
   exprOk(s, Add(expr1, expr2)) = addOk(stringOk(s), S, T) :-
     S == exprOk(s, expr1),
@@ -43,91 +48,109 @@ rules // 15.17. Multiplicative Operators
 
     addOk(S, S, _) = S.
     addOk(S, _, S) = S.
-    addOk(S, _, _) = _.
+    addOk(_, T, U) = promoteNumericBinary(T, U).
 
   exprOk(s, Sub(expr1, expr2)) = _ :-
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
     true.
 
-  exprOk(s, LeftShift(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, LeftShift(expr1, expr2)) = S :-
+  {T}
+    S == promoteNumericUnary(exprOk(s, expr1)),
+    T == promoteNumericUnary(exprOk(s, expr2)),
+    isIntegral(S),
+    isIntegral(T).
 
-  exprOk(s, RightShift(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, RightShift(expr1, expr2)) = S :-
+  {T}
+    S == promoteNumericUnary(exprOk(s, expr1)),
+    T == promoteNumericUnary(exprOk(s, expr2)),
+    isIntegral(T),
+    isIntegral(S).
 
-  exprOk(s, URightShift(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, URightShift(expr1, expr2)) = S :-
+  {T S'}
+    S == promoteNumericUnary(exprOk(s, expr1)),
+    T == promoteNumericUnary(exprOk(s, expr2)),
+    isIntegral(T),
+    isIntegral(S).
 
-  exprOk(s, Lt(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Lt(expr1, expr2)) = BOOLEAN() :-
+  {S T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
-  exprOk(s, Gt(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Gt(expr1, expr2)) = BOOLEAN() :-
+  {S T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
-  exprOk(s, LtEq(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, LtEq(expr1, expr2)) = BOOLEAN() :-
+  {S T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
-  exprOk(s, GtEq(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, GtEq(expr1, expr2)) = BOOLEAN() :-
+  {S T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
   exprOk(s, InstanceOf(expr, refType)) = _ :-
     _ == exprOk(s, expr),
     _ == refTypeOk(s, refType),
     true.
 
-  exprOk(s, Eq(expr1, expr2)) = _ :-
+  exprOk(s, Eq(expr1, expr2)) = BOOLEAN() :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    true. // both numeric, both boolean, or both ref/null
+
+  exprOk(s, NotEq(expr1, expr2)) = BOOLEAN() :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    true. // both numeric, both boolean, or both ref/null
+
+  exprOk(s, And(expr1, expr2)) = _ :- // both for numeric and boolean
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
     true.
 
-  exprOk(s, NotEq(expr1, expr2)) = _ :-
+  exprOk(s, Xor(expr1, expr2)) = _ :- // both for numeric and boolean
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
     true.
 
-  exprOk(s, And(expr1, expr2)) = _ :-
+  exprOk(s, Or(expr1, expr2)) = _ :- // both for numeric and boolean
     _ == exprOk(s, expr1),
     _ == exprOk(s, expr2),
     true.
 
-  exprOk(s, Xor(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, LazyAnd(expr1, expr2)) = BOOLEAN() :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    subType(T, BOOLEAN()),
+    subType(U, BOOLEAN()).
 
-  exprOk(s, Or(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
-
-  exprOk(s, LazyAnd(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
-
-  exprOk(s, LazyOr(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, LazyOr(expr1, expr2)) = BOOLEAN() :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    subType(T, BOOLEAN()),
+    subType(U, BOOLEAN()).
 
   exprOk(s, Cond(expr_cond, expr_then, expr_else)) = _ :-
-    _ == exprOk(s, expr_cond),
-    _ == exprOk(s, expr_then),
-    _ == exprOk(s, expr_else),
-    true.
+  {T U S}
+    T == exprOk(s, expr_cond),
+    U == exprOk(s, expr_then),
+    S == exprOk(s, expr_else),
+    subType(T, BOOLEAN()),
+    true. // both are numeric, both are boolean, or both are references, big table in spec!
 
