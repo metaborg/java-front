@@ -380,6 +380,13 @@ public class StxLibCommand implements Runnable {
                         };
                     }
 
+                    @Override public SignatureVisitor visitExceptionType() {
+                        return new ReturnType(mthdTypeVars) {
+                            @Override public void setReturnType(ITerm type, Scope typeScope) {
+                            }
+                        };
+                    }
+
                 });
             } else {
                 final Type methodType = Type.getMethodType(method.desc);
@@ -538,6 +545,9 @@ public class StxLibCommand implements Runnable {
             this.typeVars = typeVars;
         }
 
+        ITerm type;
+        Scope typeScope;
+
         public abstract void setType(ITerm type, Scope typeScope);
 
         @Override public void visitBaseType(char descriptor) {
@@ -588,9 +598,6 @@ public class StxLibCommand implements Runnable {
             };
         }
 
-        ITerm type;
-        Scope typeScope;
-
         @Override public void visitClassType(String name) {
             this.typeScope = getOrInitClass(name);
             this.type = makeREF(this.typeScope);
@@ -598,6 +605,16 @@ public class StxLibCommand implements Runnable {
 
         @Override public void visitInnerClassType(String name) {
             throw new UnsupportedOperationException("Inner class unsupported: " + name);
+        }
+
+        @Override public SignatureVisitor visitTypeArgument(char wildcard) {
+            return new SigType(typeVars) {
+                @Override public void setType(ITerm type, Scope typeScope) {
+                }
+            };
+        }
+
+        @Override public void visitTypeArgument() {
         }
 
         @Override public void visitEnd() {
