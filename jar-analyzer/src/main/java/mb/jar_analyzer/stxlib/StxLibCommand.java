@@ -39,11 +39,11 @@ import com.google.common.collect.Streams;
 import mb.jar_analyzer.jar.JarUtils;
 import mb.nabl2.terms.ITerm;
 import mb.nabl2.terms.stratego.StrategoTerms;
-import mb.statix.concurrent.solver.IStatixLibrary;
-import mb.statix.concurrent.solver.StatixLibrary;
-import mb.statix.scopegraph.IScopeGraph;
-import mb.statix.scopegraph.reference.ScopeGraph;
-import mb.statix.scopegraph.terms.Scope;
+import mb.scopegraph.oopsla20.IScopeGraph;
+import mb.scopegraph.oopsla20.reference.ScopeGraph;
+import mb.statix.concurrent.IStatixLibrary;
+import mb.statix.concurrent.StatixLibrary;
+import mb.statix.scopegraph.Scope;
 
 public class StxLibCommand implements Runnable {
 
@@ -138,7 +138,7 @@ public class StxLibCommand implements Runnable {
         }
 
         if(output != null) {
-            final IStatixLibrary library = StatixLibrary.of(ImmutableList.of(s_root), allScopes, scopeGraph.freeze());
+            final IStatixLibrary library = new StatixLibrary(ImmutableList.of(s_root), allScopes, scopeGraph.freeze());
             final ITerm libraryTerm = IStatixLibrary.toTerm(library);
 
             final StrategoTerms st = new StrategoTerms(new TermFactory());
