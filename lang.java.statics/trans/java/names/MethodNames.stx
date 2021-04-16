@@ -6,6 +6,7 @@ imports
 
   java/names/Main
   java/types/Main
+  java/types/Conversions
   java/types/Subtyping
 
 
@@ -69,7 +70,7 @@ rules
     query mthd
       filter /* lex mthd re */
           LEX* EXT* IMPL*
-        and { (id', Ts') :- id' == id, superTypeList(Ts', Ts) }
+        and { (id', Ts') :- id' == id, invokeCompatibleLooseList(s, Ts', Ts) }
       min /* lex mthd ord */
           $ < LEX, $ < EXT, $ < IMPL
         and { (_, Us), (_, Us) }
@@ -83,7 +84,7 @@ rules
     query mthd
       filter /* mem mthd re */
           EXT* IMPL*
-        and { (id', Ts') :- id' == id, superTypeList(Ts', Ts) }
+        and { (id', Ts') :- id' == id, invokeCompatibleLooseList(s, Ts', Ts) }
       min /* mem mthd ord */
           $ < EXT, $ < IMPL
         and { (_, Us), (_, Us) }
@@ -96,7 +97,7 @@ rules
   resolveDirectMemberMthdNames(s, id, Ts) = mthdPathList :-
     query mthd
       filter e
-        and { (id', Ts') :- id' == id, superTypeList(Ts', Ts) }
+        and { (id', Ts') :- id' == id, invokeCompatibleLooseList(s, Ts', Ts) }
       min /* */
         and false
       in s |-> mthdPathList,

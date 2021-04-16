@@ -4,6 +4,7 @@ imports
 
   signatures/java/statements/Statements-sig
 
+  java/JRE
   java/classes/FieldDeclarations
   java/classes/MethodDeclarations
   java/expressions/Main
@@ -11,8 +12,10 @@ imports
   java/names/MethodNames
   java/statements/Blocks
   java/statements/Main
+  java/types/Conversions
   java/types/ReferenceTypes
   java/types/Subtyping
+  java/util/Boolean
 
 
 rules // 14.5. Statements
@@ -27,14 +30,14 @@ rules // 14.5. Statements
   stmtOk(s, If(expr_cond, stmt_then)) :-
   {T}
     T == exprOk(s, expr_cond),
-    subType(T, BOOLEAN()),
+    conditionCompatible(T),
     stmtOk(s, stmt_then),
     true.
 
   stmtOk(s, IfElse(expr_cond, stmt_then, stmt_else)) :-
   {T}
     T == exprOk(s, expr_cond),
-    subType(T, BOOLEAN()),
+    conditionCompatible(T),
     stmtOk(s, stmt_then),
     stmtOk(s, stmt_else),
     true.
@@ -43,7 +46,7 @@ rules // 14.5. Statements
   stmtOk(s, While(expr_cond, stmt)) :-
   {T}
     T == exprOk(s, expr_cond),
-    subType(T, BOOLEAN()),
+    conditionCompatible(T),
     stmtOk(s, stmt),
     true.
 
@@ -53,7 +56,7 @@ rules // 14.5. Statements
     new s_for, s_for -LEX-> s,
     forInitOk(s_for, forInit),
     T == exprOptOk(s_for, exprOpt),
-    subType(T, BOOLEAN()),
+    conditionCompatible(T),
     forUpdateOk(s_for, forUpdate),
     stmtOk(s_for, stmt),
     true.
@@ -65,7 +68,7 @@ rules // 14.5. Statements
     T == unannTypeOk(s, unannType),
     varDeclIdOk(s, T, varDeclId, s_foreach),
     T' == exprOk(s, expr),
-    subType(T', T),
+    assignCompatible(s, T, T'),
     stmtOk(s_foreach, stmt),
     true.
 
@@ -118,7 +121,7 @@ rules // 14.5. Statements
   stmtOk(s, Switch(expr, switchGroupList, switchLabelList)) :-
   {T s_blk}
     T == exprOk(s, expr),
-    // FIXME T is char/Character, byte/Byte, short/Short, int/Integer, String, or enum
+    switchCompatible(T),
     new s_blk, s_blk -LEX-> s,
     switchGroupListOk(s_blk, T, switchGroupList),
     switchLabelListOk(s_blk, T, switchLabelList),
@@ -136,7 +139,9 @@ rules // 14.5. Statements
   switchLabelListOk maps switchLabelOk(*, *, list(*))
 
   switchLabelOk(s, T, CaseExpr(expr)) :-
-    _ == exprOk(s, expr),
+  {T'}
+    T' == exprOk(s, expr),
+    switchCaseCompatible(T, T'),
     true.
 
   switchLabelOk(s, T, DefaultCase()) :-
@@ -147,7 +152,7 @@ rules // 14.5. Statements
   {T}
     stmtOk(s, stmt),
     T == exprOk(s, expr),
-    subType(T, BOOLEAN()),
+    conditionCompatible(T),
     true.
 
 
@@ -172,7 +177,7 @@ rules // 14.5. Statements
   {T T'}
     TYPED(T) == resolveReturn(s),
     T' == exprOk(s, expr),
-    subType(T', T).
+    assignCompatible(s, T, T').
 
 
   stmtOk(s, Synchronized(expr, blk)) :-
@@ -182,7 +187,8 @@ rules // 14.5. Statements
 
 
   stmtOk(s, Throw(expr)) :-
-    _ == exprOk(s, expr),
+    T == exprOk(s, expr),
+    isThrowable(T) == T(),
     true.
 
 
@@ -214,6 +220,7 @@ rules // 14.5. Statements
 
   catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) = T :-
     T == unannClsTypeOk(s, unannClsType),
+    isThrowable(T) == T(),
     _ == catchTypeRestListOk(s, catchTypeRestList), // FIXME include in T
     true.
 
@@ -222,6 +229,7 @@ rules // 14.5. Statements
 
   catchTypeRestOk(s, CatchTypeElem(clsType)) = T :-
     T == clsTypeOk(s, clsType),
+    isThrowable(T) == T(),
     true.
 
 
@@ -268,6 +276,6 @@ rules // 14.5. Statements
     T == unannTypeOk(s, unannType),
     varDeclIdOk(s, T, varDeclId, s_def),
     T' == exprOk(s, expr),
-    subType(T', T),
+    assignCompatible(s, T, T'),
     true.
 

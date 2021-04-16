@@ -8,6 +8,12 @@ imports
   java/packages/PackageDeclarations
   java/types/Main
   java/types/ReferenceTypes
+  java/util/Boolean
+
+signature
+
+  relations
+    typeName : string
 
 rules
 
@@ -65,6 +71,26 @@ rules
 
   classOk(s) = javaLangTypeOk(s, Id("Class")).
 
+
+rules
+
+  isThrowable : TYPE -> B
+  isThrowable(T) = isJREClass(T, "java/lang/Throwable").
+
+  isString : TYPE -> B
+  isString(T) = isJREClass(T, "java/lang/String").
+
+
+  isJREClass : TYPE * string -> B
+
+  isJREClass(REF(s_ty), x) = isJREClass1(ps) :-
+    query typeName filter (EXT|IMPL)* and { x' :- x' == x } in s_ty |-> ps.
+
+      isJREClass1 : list((path * string)) -> B
+      isJREClass1([]) = F().
+      isJREClass1(_)  = T().
+
+  isJREClass(_, _) = F().
 
 rules
 

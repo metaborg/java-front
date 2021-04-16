@@ -12,10 +12,11 @@ imports
   java/names/TypeNames
   java/names/PackageOrTypeNames
   java/types/Main
-  java/types/Subtyping
+  java/types/Conversions
   java/types/ParameterizedTypes
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
+  java/types/Subtyping
 
 
 rules // 8.3. Field Declarations
@@ -56,7 +57,7 @@ rules // 8.3. Field Declarations
   varInitOk(s, T, Expression2VariableInitializer(expr)) :-
   {T'}
     T' == exprOk(s, expr),
-    subType(T', T).
+    assignCompatible(s, T, T').
 
   varInitOk(s, T, ArrayInitializer2VariableInitializer(arrayInit)) :-
     arrayInitOk(s, T, arrayInit).

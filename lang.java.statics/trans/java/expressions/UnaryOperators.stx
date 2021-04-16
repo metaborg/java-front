@@ -6,6 +6,7 @@ imports
 
   java/classes/ClassDeclarations
   java/expressions/Main
+  java/types/Conversions
   java/types/Main
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
@@ -15,34 +16,40 @@ imports
 rules // 15.15. Unary Operators
 
   exprOk(s, Plus(expr)) = T :-
-    T == exprOk(s, expr),
-    isNumeric(T). // FIXME allows converions
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
 
   exprOk(s, Minus(expr)) = T :-
-    T == exprOk(s, expr),
-    isNumeric(T). // FIXME allows converions
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
 
   exprOk(s, PreIncr(expr)) = T :-
-    T == exprOk(s, expr),
-    isNumeric(T). // FIXME allows converions
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
 
   exprOk(s, PreDecr(expr)) = T :-
-    T == exprOk(s, expr),
-    isNumeric(T). // FIXME allows converions
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
 
   exprOk(s, Complement(expr)) = T :-
-    T == exprOk(s, expr),
-    isNumeric(T). // FIXME allows converions
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
 
-  exprOk(s, Not(expr)) = T :-
-    T == exprOk(s, expr),
-    subType(T, BOOLEAN()). // FIXME allows converions
+  exprOk(s, Not(expr)) = BOOLEAN() :-
+  {T'}
+    T' == exprOk(s, expr),
+    conditionCompatible(T').
 
   exprOk(s, CastPrimitive(primType, expr)) = T :-
   {T'}
     T == primTypeOk(s, primType),
     T' == exprOk(s, expr),
-    subType(T', T).
+    castCompatible(T, T').
 
   exprOk(s, CastReference(refType, additionalBoundList, expr)) = S@REF(s_ty) :-
   {T Ts T'}
@@ -56,7 +63,8 @@ rules // 15.15. Unary Operators
     addSuperIntfList(s_ty, Ts),
 
     T' == exprOk(s, expr),
-    subType(T', T).
+
+    castCompatible(T, T').
 
   additionalBoundOk : scope * AdditionalBound -> TYPE
   additionalBoundListOk maps additionalBoundOk(*, list(*)) = list(*)

@@ -87,3 +87,4 @@ rules // 15.12. Method Invocation Expressions
   invokeReturn(TYPED(T)) = T.
 
   invokeReturn(VOID()) = _. // FIXME void methods are ignored; how to integrate void & expression types?
+

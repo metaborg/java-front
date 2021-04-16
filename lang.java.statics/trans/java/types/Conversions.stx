@@ -7,132 +7,530 @@ imports
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
   java/types/Subtyping
+  java/util/Boolean
   
 // 5. Conversions and Contexts  
-  
-rules // 5.1.2 Widening Primitive Conversion
 
-  primWideningConv : TYPE * TYPE
-  
-  primWideningConv(BYTE(), SHORT()).
-  primWideningConv(BYTE(), INT()).
-  primWideningConv(BYTE(), LONG()).
-  primWideningConv(BYTE(), FLOAT()).
-  primWideningConv(BYTE(), DOUBLE()).
+signature
 
-  primWideningConv(SHORT(), INT()).
-  primWideningConv(SHORT(), LONG()).
-  primWideningConv(SHORT(), FLOAT()).
-  primWideningConv(SHORT(), DOUBLE()).
-
-  primWideningConv(CHAR(), INT()).
-  primWideningConv(CHAR(), LONG()).
-  primWideningConv(CHAR(), FLOAT()).
-  primWideningConv(CHAR(), DOUBLE()).
-
-  primWideningConv(INT(), LONG()).
-  primWideningConv(INT(), FLOAT()).
-  primWideningConv(INT(), DOUBLE()).
-
-  primWideningConv(LONG(), FLOAT()).
-  primWideningConv(LONG(), DOUBLE()).
-
-  primWideningConv(FLOAT(), DOUBLE()).
-
-rules // 5.1.3 Narrowing Primitive Conversion
-
-  primNarrowingConv : TYPE * TYPE
-
-  primNarrowingConv(SHORT(), BYTE()).
-  primNarrowingConv(SHORT(), SHORT()).
-
-  primNarrowingConv(CHAR(), BYTE()).
-  primNarrowingConv(CHAR(), SHORT()).
-
-  primNarrowingConv(INT(), BYTE()).
-  primNarrowingConv(INT(), SHORT()).
-  primNarrowingConv(INT(), CHAR()).
-
-  primNarrowingConv(LONG(), BYTE()).
-  primNarrowingConv(LONG(), SHORT()).
-  primNarrowingConv(LONG(), CHAR()).
-  primNarrowingConv(LONG(), INT()).
-
-  primNarrowingConv(FLOAT(), BYTE()).
-  primNarrowingConv(FLOAT(), SHORT()).
-  primNarrowingConv(FLOAT(), CHAR()).
-  primNarrowingConv(FLOAT(), INT()).
-  primNarrowingConv(FLOAT(), LONG()).
-
-  primNarrowingConv(DOUBLE(), BYTE()).
-  primNarrowingConv(DOUBLE(), SHORT()).
-  primNarrowingConv(DOUBLE(), CHAR()).
-  primNarrowingConv(DOUBLE(), INT()).
-  primNarrowingConv(DOUBLE(), LONG()).
-  primNarrowingConv(DOUBLE(), FLOAT()).
-
-rules // 5.1.4 Widening and Narrowing Primitive Conversion
-
-  primWideningAndNarrowingConv : TYPE * TYPE
-
-  primWideningAndNarrowingConv(BYTE(), CHAR()).
-  
-rules // 5.1.5 Widening Reference Conversion
-
-  refWideningConv : TYPE * TYPE
-  
-  refWideningConv(S@REF(_), T@REF(_)) :-
-    subType(S, T).
-  
-rules // 5.1.6 Narrowing Reference Conversion
-
-  refNarrowingConv : TYPE * TYPE
+  relations
+    box : -> TYPE
 
 rules // 5.1.7 Boxing Conversion 
-  
-  boxingConv : scope * TYPE * TYPE
-  
-//boxingConv(s, BOOLEAN(), booleanOk(s)).
-//boxingConv(s, BYTE()   , byteOk(s)).
-//boxingConv(s, SHORT()  , shortOk(s)).
-//boxingConv(s, CHAR()   , characterOk(s)).
-//boxingConv(s, INT()    , integerOk(s)).
-//boxingConv(s, LONG()   , longOk(s)).
-//boxingConv(s, FLOAT()  , floatOk(s)).
-//boxingConv(s, DOUBLE() , doubleOk(s)).
-  
-  
+
+  box : scope * TYPE -> TYPE
+
+  box(s, BOOLEAN()) = booleanOk(s).
+  box(s, BYTE()   ) = byteOk(s).
+  box(s, SHORT()  ) = shortOk(s).
+  box(s, CHAR()   ) = characterOk(s).
+  box(s, INT()    ) = integerOk(s).
+  box(s, LONG()   ) = longOk(s).
+  box(s, FLOAT()  ) = floatOk(s).
+  box(s, DOUBLE() ) = doubleOk(s).
+
+
 rules // 5.1.8 Unboxing Conversion 
-  
-  unboxingConv : scope * TYPE * TYPE
-  
-//unboxingConv(s, booleanOk(s)  , BOOLEAN()).
-//unboxingConv(s, byteOk(s)     , BYTE()).
-//unboxingConv(s, shortOk(s)    , SHORT()).
-//unboxingConv(s, characterOk(s), CHAR()).
-//unboxingConv(s, integerOk(s)  , INT()).
-//unboxingConv(s, longOk(s)     , LONG()).
-//unboxingConv(s, floatOk(s)    , FLOAT()).
-//unboxingConv(s, doubleOk(s)   , DOUBLE()).
-  
 
-rules // 5.1.11 String Conversion
+  unbox : TYPE -> TYPE
 
-  stringConv : scope * TYPE -> TYPE
+  unbox(REF(s_T)) = T :-
+  {ps}
+    query box filter e and true in s_T |-> [(_, T)].
 
-  stringConv(s, T) = stringOk(s).
+
+rules // 5.2 Assignment Contexts
+
+  assignCompatible : scope * TYPE * TYPE
+  assignCompatibleList maps assignCompatible(*, list(*), list(*))
+
+  assignCompatible(_, BOOLEAN(), U) :- assignCompatibleBOOLEAN(U).
+    assignCompatibleBOOLEAN : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleBOOLEAN(BOOLEAN()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleBOOLEAN(U@REF(_)) :- assignCompatibleBOOLEAN(unbox(U)).
+
+
+  assignCompatible(_, CHAR(), U) :- assignCompatibleCHAR(U).
+    assignCompatibleCHAR : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleCHAR(CHAR()).
+
+    // 5.1.3 Narrowing Primitive Conversion
+    // FIXME Only for const expressions
+    assignCompatibleCHAR(BYTE()).
+    assignCompatibleCHAR(SHORT()).
+    assignCompatibleCHAR(INT()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleCHAR(U@REF(_)) :- assignCompatibleCHAR(unbox(U)).
+
+
+  assignCompatible(_, BYTE(), U) :- assignCompatibleBYTE(U).
+    assignCompatibleBYTE : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleBYTE(BYTE()).
+
+    // 5.1.3 Narrowing Primitive Conversion
+    // FIXME Only for const expressions
+    assignCompatibleBYTE(CHAR()).
+    assignCompatibleBYTE(SHORT()).
+    assignCompatibleBYTE(INT()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleBYTE(U@REF(_)) :- assignCompatibleBYTE(unbox(U)).
+
+
+  assignCompatible(_, SHORT(), U) :- assignCompatibleSHORT(U).
+    assignCompatibleSHORT : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleSHORT(SHORT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    assignCompatibleSHORT(BYTE()).
+
+    // 5.1.3 Narrowing Primitive Conversion
+    // FIXME Only for const expressions
+    assignCompatibleSHORT(CHAR()).
+    assignCompatibleSHORT(INT()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleSHORT(U@REF(_)) :- assignCompatibleSHORT(unbox(U)).
+
+
+  assignCompatible(_, INT(), U) :- assignCompatibleINT(U).
+    assignCompatibleINT : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleINT(INT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    assignCompatibleINT(CHAR()).
+    assignCompatibleINT(SHORT()).
+    assignCompatibleINT(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleINT(U@REF(_)) :- assignCompatibleINT(unbox(U)).
+
+
+  assignCompatible(_, LONG(), U) :- assignCompatibleLONG(U).
+    assignCompatibleLONG : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleLONG(LONG()).
+
+    // 5.1.2 Widening Primitive Conversion
+    assignCompatibleLONG(INT()).
+    assignCompatibleLONG(CHAR()).
+    assignCompatibleLONG(SHORT()).
+    assignCompatibleLONG(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleLONG(U@REF(_)) :- assignCompatibleLONG(unbox(U)).
+
+
+  assignCompatible(_, FLOAT(), U) :- assignCompatibleFLOAT(U).
+    assignCompatibleFLOAT : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleFLOAT(FLOAT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    assignCompatibleFLOAT(LONG()).
+    assignCompatibleFLOAT(INT()).
+    assignCompatibleFLOAT(CHAR()).
+    assignCompatibleFLOAT(SHORT()).
+    assignCompatibleFLOAT(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleFLOAT(U@REF(_)) :- assignCompatibleFLOAT(unbox(U)).
+
+
+  assignCompatible(_, DOUBLE(), U) :- assignCompatibleDOUBLE(U).
+    assignCompatibleDOUBLE : TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleDOUBLE(DOUBLE()).
+
+    // 5.1.2 Widening Primitive Conversion
+    assignCompatibleDOUBLE(FLOAT()).
+    assignCompatibleDOUBLE(LONG()).
+    assignCompatibleDOUBLE(INT()).
+    assignCompatibleDOUBLE(CHAR()).
+    assignCompatibleDOUBLE(SHORT()).
+    assignCompatibleDOUBLE(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    assignCompatibleDOUBLE(U@REF(_)) :- assignCompatibleDOUBLE(unbox(U)).
+
+
+  assignCompatible(s, REF(s_T), U) :- assignCompatibleREF(s, s_T, U).
+    assignCompatibleREF : scope * scope * TYPE
+
+    // 5.1.1 Identity Conversion
+    assignCompatibleREF(_, s_T, REF(s_T)).
+
+    // 5.1.5 Widening Reference Conversion
+    assignCompatibleREF(_, s_T, REF(s_U)) :- superTypeScope(s_T, s_U).
+    assignCompatibleREF(_, s_T, NULL()).
+
+    // 5.1.7 Boxing Conversion
+    assignCompatibleREF(s, s_T, T) :- assignCompatibleREF(s, s_T, box(s, T)).
+
+
+rules // 5.3 Invocation Contexts (strict)
+
+  invokeCompatibleStrict : TYPE * TYPE
+  invokeCompatibleStrictList maps invokeCompatibleStrict(list(*), list(*))
+
+  invokeCompatibleStrict(BOOLEAN(), U) :- invokeCompatibleStrictBOOLEAN(U).
+    invokeCompatibleStrictBOOLEAN : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictBOOLEAN(BOOLEAN()).
+
+
+  invokeCompatibleStrict(CHAR(), U) :- invokeCompatibleStrictCHAR(U).
+    invokeCompatibleStrictCHAR : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictCHAR(CHAR()).
+
+
+  invokeCompatibleStrict(BYTE(), U) :- invokeCompatibleStrictBYTE(U).
+    invokeCompatibleStrictBYTE : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictBYTE(BYTE()).
+
+
+  invokeCompatibleStrict(SHORT(), U) :- invokeCompatibleStrictSHORT(U).
+    invokeCompatibleStrictSHORT : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictSHORT(SHORT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleStrictSHORT(BYTE()).
+
+
+  invokeCompatibleStrict(INT(), U) :- invokeCompatibleStrictINT(U).
+    invokeCompatibleStrictINT : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictINT(INT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleStrictINT(CHAR()).
+    invokeCompatibleStrictINT(SHORT()).
+    invokeCompatibleStrictINT(BYTE()).
+
+
+  invokeCompatibleStrict(LONG(), U) :- invokeCompatibleStrictLONG(U).
+    invokeCompatibleStrictLONG : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictLONG(LONG()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleStrictLONG(INT()).
+    invokeCompatibleStrictLONG(CHAR()).
+    invokeCompatibleStrictLONG(SHORT()).
+    invokeCompatibleStrictLONG(BYTE()).
+
+
+  invokeCompatibleStrict(FLOAT(), U) :- invokeCompatibleStrictFLOAT(U).
+    invokeCompatibleStrictFLOAT : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictFLOAT(FLOAT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleStrictFLOAT(LONG()).
+    invokeCompatibleStrictFLOAT(INT()).
+    invokeCompatibleStrictFLOAT(CHAR()).
+    invokeCompatibleStrictFLOAT(SHORT()).
+    invokeCompatibleStrictFLOAT(BYTE()).
+
+
+  invokeCompatibleStrict(DOUBLE(), U) :- invokeCompatibleStrictDOUBLE(U).
+    invokeCompatibleStrictDOUBLE : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictDOUBLE(DOUBLE()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleStrictDOUBLE(FLOAT()).
+    invokeCompatibleStrictDOUBLE(LONG()).
+    invokeCompatibleStrictDOUBLE(INT()).
+    invokeCompatibleStrictDOUBLE(CHAR()).
+    invokeCompatibleStrictDOUBLE(SHORT()).
+    invokeCompatibleStrictDOUBLE(BYTE()).
+
+
+  invokeCompatibleStrict(REF(s_T), U) :- invokeCompatibleStrictREF(s_T, U).
+    invokeCompatibleStrictREF : scope * TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleStrictREF(s_T, REF(s_T)).
+
+    // 5.1.5 Widening Reference Conversion
+    invokeCompatibleStrictREF(s_T, REF(s_U)) :- superTypeScope(s_T, s_U).
+    invokeCompatibleStrictREF(s_T, NULL()).
+
+
+rules // 5.3 Invocation Contexts (loose)
+
+  invokeCompatibleLoose : scope * TYPE * TYPE
+  invokeCompatibleLooseList maps invokeCompatibleLoose(*, list(*), list(*))
+
+  invokeCompatibleLoose(_, BOOLEAN(), U) :- invokeCompatibleLooseBOOLEAN(U).
+    invokeCompatibleLooseBOOLEAN : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseBOOLEAN(BOOLEAN()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseBOOLEAN(U@REF(_)) :- invokeCompatibleLooseBOOLEAN(unbox(U)).
+
+
+  invokeCompatibleLoose(_, CHAR(), U) :- invokeCompatibleLooseCHAR(U).
+    invokeCompatibleLooseCHAR : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseCHAR(CHAR()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseCHAR(U@REF(_)) :- invokeCompatibleLooseCHAR(unbox(U)).
+
+
+  invokeCompatibleLoose(_, BYTE(), U) :- invokeCompatibleLooseBYTE(U).
+    invokeCompatibleLooseBYTE : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseBYTE(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseBYTE(U@REF(_)) :- invokeCompatibleLooseBYTE(unbox(U)).
+
+
+  invokeCompatibleLoose(_, SHORT(), U) :- invokeCompatibleLooseSHORT(U).
+    invokeCompatibleLooseSHORT : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseSHORT(SHORT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleLooseSHORT(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseSHORT(U@REF(_)) :- invokeCompatibleLooseSHORT(unbox(U)).
+
+
+  invokeCompatibleLoose(_, INT(), U) :- invokeCompatibleLooseINT(U).
+    invokeCompatibleLooseINT : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseINT(INT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleLooseINT(CHAR()).
+    invokeCompatibleLooseINT(SHORT()).
+    invokeCompatibleLooseINT(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseINT(U@REF(_)) :- invokeCompatibleLooseINT(unbox(U)).
+
+
+  invokeCompatibleLoose(_, LONG(), U) :- invokeCompatibleLooseLONG(U).
+    invokeCompatibleLooseLONG : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseLONG(LONG()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleLooseLONG(INT()).
+    invokeCompatibleLooseLONG(CHAR()).
+    invokeCompatibleLooseLONG(SHORT()).
+    invokeCompatibleLooseLONG(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseLONG(U@REF(_)) :- invokeCompatibleLooseLONG(unbox(U)).
+
+
+  invokeCompatibleLoose(_, FLOAT(), U) :- invokeCompatibleLooseFLOAT(U).
+    invokeCompatibleLooseFLOAT : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseFLOAT(FLOAT()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleLooseFLOAT(LONG()).
+    invokeCompatibleLooseFLOAT(INT()).
+    invokeCompatibleLooseFLOAT(CHAR()).
+    invokeCompatibleLooseFLOAT(SHORT()).
+    invokeCompatibleLooseFLOAT(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseFLOAT(U@REF(_)) :- invokeCompatibleLooseFLOAT(unbox(U)).
+
+
+  invokeCompatibleLoose(_, DOUBLE(), U) :- invokeCompatibleLooseDOUBLE(U).
+    invokeCompatibleLooseDOUBLE : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseDOUBLE(DOUBLE()).
+
+    // 5.1.2 Widening Primitive Conversion
+    invokeCompatibleLooseDOUBLE(FLOAT()).
+    invokeCompatibleLooseDOUBLE(LONG()).
+    invokeCompatibleLooseDOUBLE(INT()).
+    invokeCompatibleLooseDOUBLE(CHAR()).
+    invokeCompatibleLooseDOUBLE(SHORT()).
+    invokeCompatibleLooseDOUBLE(BYTE()).
+
+    // 5.1.8 Unboxing Conversion
+    invokeCompatibleLooseDOUBLE(U@REF(_)) :- invokeCompatibleLooseDOUBLE(unbox(U)).
+
+
+  invokeCompatibleLoose(s, REF(s_T), U) :- invokeCompatibleLooseREF(s, s_T, U).
+    invokeCompatibleLooseREF : scope * scope * TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleLooseREF(_, s_T, REF(s_T)).
+
+    // 5.1.5 Widening Reference Conversion
+    invokeCompatibleLooseREF(_, s_T, REF(s_U)) :- superTypeScope(s_T, s_U).
+    invokeCompatibleLooseREF(_, s_T, NULL()).
+
+    // 5.1.7 Boxing Conversion
+    invokeCompatibleLooseREF(s, s_T, T) :- invokeCompatibleLooseREF(s, s_T, box(s, T)).
+
+
+rules // 5.4 String Contexts
+
+  stringCompatible : TYPE
+
+  stringCompatible(_).
+
+
+rules // 5.5 Casting Contexts
+
+  castCompatible : TYPE * TYPE
+
+  castCompatible(_, _).
+
+    // FIXME
+    // 5.1.1 Identity Conversion
+    // 5.1.2 Widening Primitive Conversion
+    // 5.1.3 Narrowing Primitive Conversion
+    // 5.1.4 Widening and Narrowing Primitive Conversion
+    // 5.1.5 Widening Reference Conversion
+    // 5.1.6 Narrowing Reference Conversion
+    // 5.1.7 Boxing Conversion
+    // 5.1.8 Unboxing Conversion
+
 
 rules // 5.6.1 Unary Numeric Promotion
 
   promoteNumericUnary : TYPE -> TYPE
 
-  promoteNumericUnary(T) = T :-
-    isNumeric(T).
+  promoteNumericUnary(T@REF(_)) = promoteNumericUnary(unbox(T)).
+  promoteNumericUnary(CHAR()  ) = INT().
+  promoteNumericUnary(BYTE()  ) = INT().
+  promoteNumericUnary(SHORT() ) = INT().
+  promoteNumericUnary(INT()   ) = INT().
+  promoteNumericUnary(LONG()  ) = LONG().
+  promoteNumericUnary(FLOAT() ) = FLOAT().
+  promoteNumericUnary(DOUBLE()) = DOUBLE().
 
 
-rules // 5.6.2 Unary Numeric Promotion
+rules // 5.6.2 Binary Numeric Promotion
 
   promoteNumericBinary : TYPE * TYPE -> TYPE
 
-  promoteNumericBinary(T, T) =  T :-
-    isNumeric(T).
+  promoteNumericBinary(T@REF(_), U@REF(_)) = promoteNumericBinary(unbox(T), unbox(U)).
+  promoteNumericBinary(T@REF(_), U       ) = promoteNumericBinary(unbox(T), U).
+  promoteNumericBinary(T,        U@REF(_)) = promoteNumericBinary(T, unbox(U)).
+
+  promoteNumericBinary(DOUBLE(), U       ) = DOUBLE() :- isNumeric(U).
+  promoteNumericBinary(T,        DOUBLE()) = DOUBLE() :- isNumeric(T).
+
+  promoteNumericBinary(FLOAT(),  U       ) = FLOAT() :- isNumeric(U).
+  promoteNumericBinary(T,        FLOAT() ) = FLOAT() :- isNumeric(T).
+
+  promoteNumericBinary(LONG(),   U       ) = LONG() :- isNumeric(U).
+  promoteNumericBinary(T,        LONG()  ) = LONG() :- isNumeric(T).
+
+  promoteNumericBinary(T,        U       ) = INT() :- isNumeric(T), isNumeric(U).
+
+
+rules
+
+  conditionCompatible : TYPE
+
+  conditionCompatible(BOOLEAN()).
+  conditionCompatible(T@REF(_)) :- conditionCompatible(unbox(T)).
+
+
+rules
+
+  switchCompatible : TYPE
+
+  switchCompatible(CHAR()).
+  switchCompatible(BYTE()).
+  switchCompatible(SHORT()).
+  switchCompatible(INT()).
+  switchCompatible(T@REF(_)). // FIXME conditionCompatible(unbox(T)) _or_ String _or_ Enum.
+
+
+  switchCaseCompatible : TYPE * TYPE
+
+  switchCaseCompatible(_, _). // FIXME
+
+
+rules
+
+  equalsCompatible : TYPE * TYPE
+
+  equalsCompatible(T@REF(_),  U@REF(_) ) :- equalsCompatible(unbox(T), unbox(U)).
+  equalsCompatible(T@REF(_),  U        ) :- equalsCompatible(unbox(T), U).
+  equalsCompatible(T,         U@REF(_) ) :- equalsCompatible(T, unbox(U)).
+
+  equalsCompatible(REF(_),    NULL()   ).
+  equalsCompatible(NULL(),    REF(_)   ).
+
+  equalsCompatible(BOOLEAN(), BOOLEAN()).
+
+  equalsCompatible(T,         U        ) :- isNumeric(T), isNumeric(U).
+
+
+rules
+
+  promoteBooleanOrNumericBinary : TYPE * TYPE -> TYPE
+
+  promoteBooleanOrNumericBinary(T@REF(_),  U@REF(_) ) = promoteBooleanOrNumericBinary(unbox(T), unbox(U)).
+  promoteBooleanOrNumericBinary(T@REF(_),  U        ) = promoteBooleanOrNumericBinary(unbox(T), U).
+  promoteBooleanOrNumericBinary(T,         U@REF(_) ) = promoteBooleanOrNumericBinary(T, unbox(U)).
+
+  promoteBooleanOrNumericBinary(BOOLEAN(), BOOLEAN()) = BOOLEAN().
+
+  promoteBooleanOrNumericBinary(T,         U        ) = promoteNumericBinary(T, U).
+
+rules
+
+  promoteAddition : scope * TYPE * TYPE -> TYPE
+
+  promoteAddition(s, T, U) = promoteAddition1(isString(T), isString(U), T, U).
+
+    promoteAddition1 : B * B * TYPE * TYPE -> TYPE
+    promoteAddition1(T(), _, S, _) = S.
+    promoteAddition1(_, T(), _, S) = S.
+    promoteAddition1(_, _, T, U) = promoteNumericBinary(T, U).
+

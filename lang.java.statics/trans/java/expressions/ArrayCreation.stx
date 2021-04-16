@@ -7,6 +7,7 @@ imports
   java/arrays/ArrayInitializers
   java/expressions/Main
   java/interfaces/Annotations
+  java/types/Conversions
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
 
@@ -46,8 +47,10 @@ rules // 15.10.1. Array Creation Expressions
   dimExprListOk maps dimExprOk(*, list(*))
 
   dimExprOk(s, Dim(annoList, expr)) :-
+  {U}
     annoListOk(s, annoList),
-    _ == exprOk(s, expr),
+    U == exprOk(s, expr),
+    _ == promoteNumericUnary(U),
     true.
 
 

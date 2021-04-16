@@ -113,6 +113,13 @@ rules
     declareExprName(s_ty, Id("length"), INT()).
 
 
+  arrayElementType : TYPE -> TYPE
+
+  arrayElementType(REF(s_ty)) = T :-
+    toKind(s_ty) == ARRAY(),
+    query elementType filter e and true in s_ty |-> [(_, T)].
+
+
   annDimsOk : scope * AnnotatedDims
 
   annDimsOk(s, AnnotatedDims2AnnotatedDims(annDimList)) :-

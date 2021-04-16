@@ -4,6 +4,7 @@ imports
 
   signatures/java/classes/MethodDeclarations-sig
 
+  java/JRE
   java/classes/Main
   java/classes/ClassDeclarations
   java/classes/FieldDeclarations
@@ -12,6 +13,7 @@ imports
   java/names/MethodNames
   java/statements/Blocks
   java/types/ReferenceTypes
+  java/util/Boolean
 
 
 rules // 8.4. Method Declarations
@@ -73,7 +75,9 @@ rules // 8.4. Method Declarations
   exceptTypeListOk maps exceptTypeOk(*, list(*))
 
   exceptTypeOk(s, ClassType2ExceptionType(clsType)) :-
-    _ == clsTypeOk(s, clsType),
+  {T}
+    T == clsTypeOk(s, clsType),
+    isThrowable(T) == T(),
     true.
 
 

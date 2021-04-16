@@ -40,20 +40,17 @@ rules // 15.17. Multiplicative Operators
     U == exprOk(s, expr2),
     S == promoteNumericBinary(T, U).
 
-  exprOk(s, Add(expr1, expr2)) = addOk(stringOk(s), S, T) :-
-    S == exprOk(s, expr1),
-    T == exprOk(s, expr2).
+  exprOk(s, Add(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteAddition(s, T, U).
 
-    addOk : TYPE * TYPE * TYPE -> TYPE
-
-    addOk(S, S, _) = S.
-    addOk(S, _, S) = S.
-    addOk(_, T, U) = promoteNumericBinary(T, U).
-
-  exprOk(s, Sub(expr1, expr2)) = _ :-
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Sub(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteNumericBinary(T, U).
 
   exprOk(s, LeftShift(expr1, expr2)) = S :-
   {T}
@@ -100,57 +97,61 @@ rules // 15.17. Multiplicative Operators
     U == exprOk(s, expr2),
     S == promoteNumericBinary(T, U).
 
-  exprOk(s, InstanceOf(expr, refType)) = _ :-
-    _ == exprOk(s, expr),
-    _ == refTypeOk(s, refType),
-    true.
+  exprOk(s, InstanceOf(expr, refType)) = BOOLEAN() :-
+  {T U}
+    T == exprOk(s, expr),
+    U == refTypeOk(s, refType),
+    referenceSuperType(U, T).
 
   exprOk(s, Eq(expr1, expr2)) = BOOLEAN() :-
   {T U}
     T == exprOk(s, expr1),
     U == exprOk(s, expr2),
-    true. // both numeric, both boolean, or both ref/null
+    equalsCompatible(T, U).
 
   exprOk(s, NotEq(expr1, expr2)) = BOOLEAN() :-
   {T U}
     T == exprOk(s, expr1),
     U == exprOk(s, expr2),
-    true. // both numeric, both boolean, or both ref/null
+    equalsCompatible(T, U).
 
-  exprOk(s, And(expr1, expr2)) = _ :- // both for numeric and boolean
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, And(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteBooleanOrNumericBinary(T, U).
 
-  exprOk(s, Xor(expr1, expr2)) = _ :- // both for numeric and boolean
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Xor(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteBooleanOrNumericBinary(T, U).
 
-  exprOk(s, Or(expr1, expr2)) = _ :- // both for numeric and boolean
-    _ == exprOk(s, expr1),
-    _ == exprOk(s, expr2),
-    true.
+  exprOk(s, Or(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    S == promoteBooleanOrNumericBinary(T, U).
 
   exprOk(s, LazyAnd(expr1, expr2)) = BOOLEAN() :-
   {T U}
     T == exprOk(s, expr1),
     U == exprOk(s, expr2),
-    subType(T, BOOLEAN()),
-    subType(U, BOOLEAN()).
+    conditionCompatible(T),
+    conditionCompatible(U).
 
   exprOk(s, LazyOr(expr1, expr2)) = BOOLEAN() :-
   {T U}
     T == exprOk(s, expr1),
     U == exprOk(s, expr2),
-    subType(T, BOOLEAN()),
-    subType(U, BOOLEAN()).
+    conditionCompatible(T),
+    conditionCompatible(U).
 
-  exprOk(s, Cond(expr_cond, expr_then, expr_else)) = _ :-
-  {T U S}
+  exprOk(s, Cond(expr_cond, expr_then, expr_else)) = S :-
+  {T U1 U2}
     T == exprOk(s, expr_cond),
-    U == exprOk(s, expr_then),
-    S == exprOk(s, expr_else),
-    subType(T, BOOLEAN()),
-    true. // both are numeric, both are boolean, or both are references, big table in spec!
+    U1 == exprOk(s, expr_then),
+    U2 == exprOk(s, expr_else),
+    conditionCompatible(T),
+    true. // FIXME both are numeric, both are boolean, or both are references, big table in spec!
 

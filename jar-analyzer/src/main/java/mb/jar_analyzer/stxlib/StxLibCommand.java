@@ -33,6 +33,8 @@ import org.spoofax.terms.io.SimpleTextTermWriter;
 import org.spoofax.terms.io.TermWriter;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Streams;
 
@@ -56,6 +58,8 @@ public class StxLibCommand implements Runnable {
     private static final ITerm ELEMENT_TYPE_REL = makeLabel("java/types/ReferenceTypes!elementType");
     private static final ITerm WITH_KIND_REL = makeLabel("java/types/Main!withKind");
     private static final ITerm WITH_TYPE_REL = makeLabel("java/types/Main!withType");
+    private static final ITerm BOX_REL = makeLabel("java/types/Conversions!box");
+    private static final ITerm TYPENAME_REL = makeLabel("java/JRE!typeName");
 
     private static final ITerm EXTENDS_EDGE = makeLabel("java/names/Main!EXT");
     private static final ITerm IMPLEMENTS_EDGE = makeLabel("java/names/Main!IMPL");
@@ -65,6 +69,26 @@ public class StxLibCommand implements Runnable {
     private static final ITerm INTERFACE_KIND = B.newAppl("INTF");
 
     private static final String INIT = "<init>";
+
+    // @formatter:off
+    private static final Map<String, ITerm> boxedTypes = ImmutableMap.<String, ITerm>builder()
+        .put("java/lang/Boolean",   B.newAppl("BOOLEAN"))
+        .put("java/lang/Character", B.newAppl("CHAR"))
+        .put("java/lang/Byte",      B.newAppl("BYTE"))
+        .put("java/lang/Short",     B.newAppl("SHORT"))
+        .put("java/lang/Integer",   B.newAppl("INT"))
+        .put("java/lang/Long",      B.newAppl("LONG"))
+        .put("java/lang/Float",     B.newAppl("FLOAT"))
+        .put("java/lang/Double",    B.newAppl("DOUBLE"))
+        .build();
+    // @formatter:on
+
+    // @formatter:off
+    private static final Set<String> jreTypes = ImmutableSet.<String>builder()
+        .add("java/lang/String")
+        .add("java/lang/Throwable")
+        .build();
+    // @formatter:on
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -247,6 +271,13 @@ public class StxLibCommand implements Runnable {
         addDecl(s_ty, WITH_TYPE_REL, makeREF(s_ty));
         addDecl(s_ty, WITH_KIND_REL, kind);
         addDecl(s_ty, THIS_TYPE_REL, B.newTuple(makeId("<this>"), s_ty)); // FIXME how to get the simple name of this class?
+
+        if(jreTypes.contains(className)) {
+            addDecl(s_ty, TYPENAME_REL, B.newString(className));
+        }
+        if(boxedTypes.containsKey(className)) {
+            addDecl(s_ty, BOX_REL, boxedTypes.get(className));
+        }
 
         final Map<String, ITerm> typeVars = new HashMap<>();
 
