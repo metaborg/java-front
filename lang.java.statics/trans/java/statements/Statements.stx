@@ -187,6 +187,7 @@ rules // 14.5. Statements
 
 
   stmtOk(s, Throw(expr)) :-
+  {T}
     T == exprOk(s, expr),
     isThrowable(T) == T(),
     true.
