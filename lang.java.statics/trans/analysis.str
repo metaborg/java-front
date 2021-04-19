@@ -24,7 +24,7 @@ rules // Analysis
 
   group-key: (resource, ast) -> key
     with rel-path := <current-language-relative-source-or-include-path> resource
-       ; key := <string-tokenize;if ?[] then ![""] end> (['/','\'], rel-path)
+       ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\'], rel-path)
 
   post-analyze = java-implicate-injections
 

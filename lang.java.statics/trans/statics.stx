@@ -37,7 +37,7 @@ rules
     // isolate tests from the regular global scope
     new s_test, s_test -LEX-> rootScope(s_pkg),
 
-    new s_anonPkg, groupOk(s_test, "", s_anonPkg),
+    new s_anonPkg, groupOk(s_test, "(unnamed)", s_anonPkg),
 
     testUnitListOk(s_test, s_anonPkg, testUnitList).
 
