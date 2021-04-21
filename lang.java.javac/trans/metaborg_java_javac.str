@@ -34,6 +34,11 @@ rules
     ; !V([], <id>)
     ; box2text-string(|120)
 
-  javacSucceeds = java-implicate-injections;javac(pp-java-string|"")
-
-  javacFails(|expect) = java-implicate-injections;javac(pp-java-string|expect)
+  /** Test expectations that invoke javac and test the compiler output. Use as follows:
+   *    run javaSucceeds to ""
+   *    run javaFails to ""
+   *    run javaFails(|"(partial) expected message") to ""
+   */
+  javacSucceeds       = java-implicate-injections;javac(pp-java-string|"")
+  javacFails          = java-implicate-injections;javac(pp-java-string|".+")
+  javacFails(|expect) = java-implicate-injections;javac(pp-java-string|$[.*[expect].*])

@@ -1,13 +1,18 @@
 package lang.java.javac.strategies;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
+import org.metaborg.util.log.ILogger;
+import org.metaborg.util.log.LoggerUtils;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 import org.spoofax.terms.util.TermUtils;
 import org.strategoxt.lang.Context;
 import org.strategoxt.lang.Strategy;
 
 public class javac_1_1 extends JavaCStrategy {
+
+    private static final ILogger logger = LoggerUtils.logger(javac_1_1.class);
 
     public static final javac_1_1 instance = new javac_1_1();
 
@@ -16,19 +21,19 @@ public class javac_1_1 extends JavaCStrategy {
         final Optional<String> out = compileTest(context, current, pp);
         if(regex.isEmpty()) {
             if(out.isPresent()) {
-                // ("Expected success, but got " + out.get());
-                return null;
+                final String msg = "Expected success, but got " + out.get();
+                return context.getFactory().makeString(msg);
             }
         } else {
             if(!out.isPresent()) {
-                // ("Expected failure, but got success.");
-                return null;
-            } else if(!out.get().matches(regex)) {
-                // ("Failure does not match expectation.");
-                return null;
+                final String msg = "Expected failure, but got success.";
+                return context.getFactory().makeString(msg);
+            } else if(!Pattern.compile(regex, Pattern.DOTALL).matcher(out.get()).matches()) {
+                final String msg = "Expected message '" + regex + "', but got " + out.get();
+                return context.getFactory().makeString(msg);
             }
         }
-        return current;
+        return context.getFactory().makeString("");
     }
 
 }
