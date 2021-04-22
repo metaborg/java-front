@@ -242,3 +242,17 @@ public class A {
 }
 ]] // analysis fails
    run javacFails to ""
+
+test generic non-static field [[
+STATIX 
+JAVAC
+  
+[p] {
+  [A]
+  package p;
+  public class A<X> {
+    statix X x;
+  }
+}
+]] // analysis fails
+   run javacFails to ""
