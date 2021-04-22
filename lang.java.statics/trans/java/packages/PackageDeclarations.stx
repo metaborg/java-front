@@ -16,7 +16,7 @@ rules
 
   pkgDeclOptOk : scope * list(PackageDeclaration)
 
-  pkgDeclOptOk(s, []) :- checkPkgIds(thisPkg(s), [Id("")]).
+  pkgDeclOptOk(s, []) :- checkPkgIds(thisPkg(s), [Id("(unnamed)")]).
 
   pkgDeclOptOk(s, [pkgDecl]) :- pkgDeclOk(s, pkgDecl).
 
