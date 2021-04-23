@@ -165,3 +165,45 @@ JAVAC
 }  
 ]] // analysis fails
    run javacFails to ""
+
+test static enclosed type accesses local non-static and enclosed static field [[
+STATIX 
+JAVAC
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    static int i;
+    public static class B {
+      int j;
+      int k = i + j;
+    }
+  }  
+}  
+]] // analysis succeeds
+   run javacSucceeds to ""
+
+test non-static field from enclosed type shadows imported static field [[
+STATIX 
+JAVAC
+  
+[p] {
+  [A]
+  package p;
+  import static p.C.i;
+  public class A {
+    boolean i;
+    public static class B {
+      int j;
+      int k = i;
+    }
+  }  
+  [C]
+  package p;
+  public class C {
+    static int i;
+  }
+}  
+]] // analysis fails
+   run javacFails to ""

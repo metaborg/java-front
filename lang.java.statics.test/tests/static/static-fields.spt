@@ -251,7 +251,7 @@ JAVAC
   [A]
   package p;
   public class A<X> {
-    statix X x;
+    static X x;
   }
 }
 ]] // analysis fails
