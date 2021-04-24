@@ -8,5 +8,9 @@ dependencies:
 sources:
 - language: metaborg-java
   directory: src
+runtime:
+  statix:
+    message-trace-length: 0
+    message-term-depth: -1
 build:
   useBuildSystemSpec: true

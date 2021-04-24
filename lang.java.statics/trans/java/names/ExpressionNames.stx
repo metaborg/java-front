@@ -63,11 +63,17 @@ rules
   resolveLexicalExprNames(s, id) = varPathList :-
     query var
       filter /* lex expr re */
-          LEX* EXT* IMPL*
+          LEX*                              EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
+        | LEX* STATIC_LEX (LEX|STATIC_LEX)* EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        |                 (LEX|STATIC_LEX)* ( SINGLE_STATIC_IMPORT
+                                            | STATIC_IMPORT_ONDEMAND EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+                                            )
         and { id' :- id' == id }
       min /* expr ord */
-          $ < LEX, $ < EXT, $ < IMPL,
-          EXT < LEX, IMPL < LEX
+          $ < LEX, $ < STATIC_LEX, $ < EXTENDS, $ < IMPLEMENTS, $ < SINGLE_STATIC_IMPORT, $ < STATIC_IMPORT_ONDEMAND,
+          EXTENDS < LEX       , IMPLEMENTS < LEX       , SINGLE_STATIC_IMPORT < LEX       , STATIC_IMPORT_ONDEMAND < LEX       ,
+          EXTENDS < STATIC_LEX, IMPLEMENTS < STATIC_LEX, SINGLE_STATIC_IMPORT < STATIC_LEX, STATIC_IMPORT_ONDEMAND < STATIC_LEX,
+          SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND
         and true
       in s |-> varPathList.
 
@@ -77,11 +83,23 @@ rules
   resolveMemberExprNames(s, id) = varPathList :-
     query var
       filter /* mem expr re */
-          EXT* IMPL*
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
         and { id' :- id' == id }
       min /* expr ord */
-          $ < LEX, $ < EXT, $ < IMPL,
-          EXT < LEX, IMPL < LEX
+          $ < EXTENDS, $ < IMPLEMENTS
+        and true
+      in s |-> varPathList.
+
+
+  resolveStaticMemberExprNames : scope * Id -> list(VAR_PATH)
+
+  resolveStaticMemberExprNames(s, id) = varPathList :-
+    query var
+      filter /* mem expr re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        and { id' :- id' == id }
+      min /* expr ord */
+          $ < EXTENDS, $ < IMPLEMENTS
         and true
       in s |-> varPathList.
 
@@ -93,6 +111,13 @@ rules
     new s_var, setType(s_var, T),
     !var[id, s_var] in s,
     noOtherHomonymousExpr(s, (id, s_var)).
+
+
+  aliasExprNames maps aliasExprName(*, list(*))
+  aliasExprName : scope * VAR_DECL
+
+  aliasExprName(s, (id, s_var)) :-
+    !var[id, s_var] in s.
 
 
   singleVarDecl : Id * list(VAR_PATH) -> VAR_DECL
@@ -111,7 +136,7 @@ rules
   
   noOtherHomonymousExpr(s, varDecl@(id, _)) :-
     query var
-      filter e and { id' :- id' == id }
+      filter STATIC_MEMBERS? and { id' :- id' == id }
       in s |-> [(_, varDecl)].
 
 

@@ -84,7 +84,7 @@ rules
   isJREClass : TYPE * string -> B
 
   isJREClass(REF(s_ty), x) = isJREClass1(ps) :-
-    query typeName filter (EXT|IMPL)* and { x' :- x' == x } in s_ty |-> ps.
+    query typeName filter (EXTENDS|IMPLEMENTS)* and { x' :- x' == x } in s_ty |-> ps.
 
       isJREClass1 : list((path * string)) -> B
       isJREClass1([]) = F().
@@ -107,7 +107,7 @@ rules
   importJavaLang : scope * scope
 
   importJavaLang(s, s_pkg) :-
-    s_pkg -IMP_OD-> pkgDeclScope(resolveJavaLang(s)).
+    s_pkg -TYPE_IMPORT_ONDEMAND-> pkgDeclScope(resolveJavaLang(s)).
   
 
   resolveJavaLang : scope -> PKG_DECL

@@ -9,6 +9,7 @@ imports
   java/expressions/Main
   java/interfaces/Annotations
   java/names/ExpressionNames
+  java/names/Main
   java/names/TypeNames
   java/names/PackageOrTypeNames
   java/types/Main
@@ -17,6 +18,7 @@ imports
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
   java/types/Subtyping
+  java/util/Boolean
 
 
 rules // 8.3. Field Declarations
@@ -24,10 +26,14 @@ rules // 8.3. Field Declarations
   fldDeclOk : scope * FieldDeclaration
 
   fldDeclOk(s, FieldDecl(fldModList, unannType, varDeclList)) :-
-  {T}
+  {s' T}
     fldModListOk(s, fldModList),
+
+    new s',
+    addLexical(s', hasStaticFldMod(fldModList), s),
+
     T == unannTypeOk(s, unannType),
-    varDeclListOk(s, T, varDeclList).
+    varDeclListOk(s', T, varDeclList, s). // FIXME check annotations on varDeclList in s
 
 
   varDeclIdOk : scope * TYPE * VarDeclId * scope
@@ -40,15 +46,15 @@ rules // 8.3. Field Declarations
     declareExprName(s_def, id, _). // FIXME Make array type
 
 
-  varDeclOk : scope * TYPE * VarDecl
-  varDeclListOk maps varDeclOk(*, *, list(*))
+  varDeclOk : scope * TYPE * VarDecl * scope
+  varDeclListOk maps varDeclOk(*, *, list(*), *)
 
-  varDeclOk(s, T, VariableDeclInit(varDeclId, varInit)) :-
-    varDeclIdOk(s, T, varDeclId, s),
+  varDeclOk(s, T, VariableDeclInit(varDeclId, varInit), s_def) :-
+    varDeclIdOk(s, T, varDeclId, s_def),
     varInitOk(s, T, varInit).
 
-  varDeclOk(s, T, VarDeclId2VarDecl(varDeclId)) :-
-    varDeclIdOk(s, T, varDeclId, s).
+  varDeclOk(s, T, VarDeclId2VarDecl(varDeclId), s_def) :-
+    varDeclIdOk(s, T, varDeclId, s_def).
 
 
   varInitOk : scope * TYPE * VariableInitializer
@@ -76,6 +82,13 @@ rules // 8.3. Field Declarations
   fldModOk(s, Final2FieldModifier(_)) :- true.
   fldModOk(s, Transient2FieldModifier(_)) :- true.
   fldModOk(s, Volatile2FieldModifier(_)) :- true.
+
+
+  hasStaticFldMod : list(FieldModifier) -> B
+
+  hasStaticFldMod([Static2FieldModifier(_)|_]) = T().
+  hasStaticFldMod([_|fldModList]) = hasStaticFldMod(fldModList).
+  hasStaticFldMod([]) = F().
 
 
   unannTypeOk : scope * UnannType -> TYPE

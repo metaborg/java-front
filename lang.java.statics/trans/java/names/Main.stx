@@ -9,6 +9,7 @@ imports
   java/names/PackageNames
   java/names/PackageOrTypeNames
   java/names/TypeNames
+  java/util/Boolean
 
 
 // 6.5. Determining the Meaning of a Name
@@ -22,17 +23,30 @@ signature
 
   name-resolution
     labels
-      EXT     // extends
-      IMPL    // implements
-      IMP_ST  // single-type import
-      IMP_OD  // on-demand import
-      IMP_PKG // (own) package import
-      LEX     // lexical parent
-      PARENT  // parent package
-      ROOT    // root scope
+      EXTENDS                // extends
+      IMPLEMENTS             // implements
+      SINGLE_TYPE_IMPORT     // single-type import
+      TYPE_IMPORT_ONDEMAND   // on-demand import
+      IMPORT_PKG             // (own) package import
+      LEX                    // lexical parent
+      STATIC_IMPORT_ONDEMAND // static on-demand import
+      SINGLE_STATIC_IMPORT   // static import
+      STATIC_LEX             // static lexical parent
+      STATIC_MEMBERS         // static definition scope
+      PARENT_PKG             // parent package
 
 rules
 
   qidId : QID -> Id
+
   qidId(ID(id)) = id.
   qidId(QID(_, id)) = id.
+
+
+rules
+
+  addLexical : scope * B * scope
+
+  addLexical(s, F(), s') :- s -LEX-> s'.
+  addLexical(s, T(), s') :- s -STATIC_LEX-> s'.
+

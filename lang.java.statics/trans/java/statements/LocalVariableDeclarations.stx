@@ -25,6 +25,6 @@ rules // 14.4. Local Variable Declaration Statements
   {T}
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclListOk(s, T, varDeclList),
+    varDeclListOk(s, T, varDeclList, s),
     true.
 

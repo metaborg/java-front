@@ -69,10 +69,17 @@ rules
   resolveLexicalMthdNames(s, id, Ts) = mthdPathList :-
     query mthd
       filter /* lex mthd re */
-          LEX* EXT* IMPL*
+          LEX*                              EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
+        | LEX* STATIC_LEX (LEX|STATIC_LEX)* EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        |                 (LEX|STATIC_LEX)* ( SINGLE_STATIC_IMPORT
+                                            | STATIC_IMPORT_ONDEMAND EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+                                            )
         and { (id', Ts') :- id' == id, invokeCompatibleLooseList(s, Ts', Ts) }
       min /* lex mthd ord */
-          $ < LEX, $ < EXT, $ < IMPL
+          $ < LEX, $ < STATIC_LEX, $ < EXTENDS, $ < IMPLEMENTS, $ < SINGLE_STATIC_IMPORT, $ < STATIC_IMPORT_ONDEMAND,
+          EXTENDS < LEX       , IMPLEMENTS < LEX       , SINGLE_STATIC_IMPORT < LEX       , STATIC_IMPORT_ONDEMAND < LEX       ,
+          EXTENDS < STATIC_LEX, IMPLEMENTS < STATIC_LEX, SINGLE_STATIC_IMPORT < STATIC_LEX, STATIC_IMPORT_ONDEMAND < STATIC_LEX,
+          SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND
         and { (_, Us), (_, Us) }
       in s |-> mthdPathList,
     true.
@@ -83,10 +90,24 @@ rules
   resolveMemberMthdNames(s, id, Ts) = mthdPathList :-
     query mthd
       filter /* mem mthd re */
-          EXT* IMPL*
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
         and { (id', Ts') :- id' == id, invokeCompatibleLooseList(s, Ts', Ts) }
       min /* mem mthd ord */
-          $ < EXT, $ < IMPL
+          $ < EXTENDS, $ < IMPLEMENTS
+        and { (_, Us), (_, Us) }
+      in s |-> mthdPathList,
+    true.
+
+
+  resolveStaticMemberMthdNames : scope * Id -> list(MTHD_PATH)
+  
+  resolveStaticMemberMthdNames(s, id) = mthdPathList :-
+    query mthd
+      filter /* mem mthd re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        and { (id', _) :- id' == id }
+      min /* mem mthd ord */
+          $ < EXTENDS, $ < IMPLEMENTS
         and { (_, Us), (_, Us) }
       in s |-> mthdPathList,
     true.
@@ -127,11 +148,18 @@ rules
     noOtherHomonymousMthd(s, (id, Ts, s_mthd)).
 
     
+  aliasMthdNames maps aliasMthdName(*, list(*))
+  aliasMthdName : scope * MTHD_DECL
+
+  aliasMthdName(s, (id, Ts, s_mthd)) :-
+    !mthd[id, Ts, s_mthd] in s.
+
+
   noOtherHomonymousMthd: scope * MTHD_DECL
   
   noOtherHomonymousMthd(s, mthdDecl@(id, Ts, _)) :-
     query mthd
-      filter e and { (id', Ts') :- id' == id, Ts' == Ts }
+      filter STATIC_MEMBERS? and { (id', Ts') :- id' == id, Ts' == Ts }
       in s |-> [(_, mthdDecl)].
 
 

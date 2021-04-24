@@ -82,7 +82,7 @@ rules // 14.5. Statements
   {T}
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclListOk(s, T, varDeclList),
+    varDeclListOk(s, T, varDeclList, s),
     true.
 
   forUpdateOk : scope * ForUpdate

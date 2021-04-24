@@ -18,15 +18,18 @@ rules // 8.9. Enum Types
   enumDeclOk : scope * EnumDeclaration * scope
 
   enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_def) :-
-  {s_enum}
+  {s_enum s_enumStatic}
     clsModListOk(s, clsModList),
 
     new s_enum,
     declareType(s_def, id, s_enum, CLASS()),
 
+    new s_enumStatic,
+    s_enum -STATIC_MEMBERS-> s_enumStatic,
+
     superIntfsOptOk(s_enum, superIntfsOpt, s_enum),
 
-    s_enum -LEX-> s,
+    s_enum -STATIC_LEX-> s,
 
     enumConstListOk(s_enum, enumConstList, s_enum),
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
@@ -41,7 +44,7 @@ rules // 8.9. Enum Types
 
     superIntfsOptOk(s, superIntfsOpt, s_enum),
 
-    s_enum -LEX-> s,
+    s_enum -STATIC_LEX-> s,
 
     enumConstListOk(s_enum, enumConstList, s_enum),
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),

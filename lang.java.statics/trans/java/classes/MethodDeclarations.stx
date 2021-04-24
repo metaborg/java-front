@@ -33,7 +33,7 @@ rules // 8.4. Method Declarations
 
   mthdHeaderOk(s, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt), s_mthd) :-
   {R Ts}
-    s_mthd -LEX-> s,
+    s_mthd -LEX-> s, // FIXME static
     R == resultOk(s, result),
     declareReturn(s_mthd, R),
     Ts == formalParamsOk(s, formalParams, s_mthd),
@@ -45,7 +45,7 @@ rules // 8.4. Method Declarations
   mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_mthd) :-
   {s_typeParams R Ts}
     s_typeParams == typeParamsOk(s, typeParams),
-    s_mthd -LEX-> s_typeParams,
+    s_mthd -LEX-> s_typeParams, // FIXME static
     annoListOk(s_typeParams, annoList),
     R == resultOk(s_typeParams, result),
     declareReturn(s_mthd, R),
@@ -96,6 +96,13 @@ rules // 8.4. Method Declarations
   mthdModOk(s, Synchronized2MethodModifier(_)) :- true.
   mthdModOk(s, Native2MethodModifier(_)) :- true.
   mthdModOk(s, Strictfp2MethodModifier(_)) :- true.
+
+
+  hasStaticMthdMod : list(MethodModifier) -> B
+
+  hasStaticMthdMod([Static2MethodModifier(_)|_]) = T().
+  hasStaticMthdMod([_|mthdModList]) = hasStaticMthdMod(mthdModList).
+  hasStaticMthdMod([]) = F().
 
 
   mthdBodyOk : scope * MethodBody

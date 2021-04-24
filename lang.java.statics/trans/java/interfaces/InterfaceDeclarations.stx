@@ -14,6 +14,7 @@ imports
   java/names/Main
   java/names/TypeNames
   java/types/ReferenceTypes
+  java/util/Boolean
 
 
 rules // 9.1. Interface Declarations
@@ -21,7 +22,7 @@ rules // 9.1. Interface Declarations
   intfDeclOk : scope * InterfaceDeclaration * scope
 
   intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList), s_def) :-
-  {s_intf s_typeParams}
+  {s_intf s_intfStatic s_typeParams}
     intfModListOk(s, intfModList),
 
     new s_intf,
@@ -30,11 +31,11 @@ rules // 9.1. Interface Declarations
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
 
-    s_typeParams == typeParamsOptOk(s, typeParamsOpt),
-    s_intf -LEX-> s_typeParams,
+    new s_intfStatic,
+    s_intf -STATIC_MEMBERS-> s_intfStatic,
 
-    // FIXME declare self (?)
-    // s_intf -LEX-> s, // FIXME causes ambiguity with the LEX edge to s_typeParams
+    s_typeParams == typeParamsOptOk(s, typeParamsOpt),
+    addLexical(s_intf, hasStaticIntfMod(intfModList), s_typeParams),
 
     extendsIntfsOptOk(s_typeParams, extendsIntfsOpt, s_intf),
 
@@ -58,6 +59,13 @@ rules // 9.1. Interface Declarations
   intfModOk(s, Abstract2InterfaceModifier(_)) :- true.
   intfModOk(s, Static2InterfaceModifier(_)) :- true.
   intfModOk(s, Strictfp2InterfaceModifier(_)) :- true.
+
+
+  hasStaticIntfMod : list(InterfaceModifier) -> B
+
+  hasStaticIntfMod([Static2InterfaceModifier(_)|_]) = T().
+  hasStaticIntfMod([_|intfModList]) = hasStaticIntfMod(intfModList).
+  hasStaticIntfMod([]) = F().
 
 
   extendsIntfsOptOk : scope * list(ExtendsInterfaces) * scope

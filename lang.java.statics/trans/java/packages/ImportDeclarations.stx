@@ -4,7 +4,9 @@ imports
 
   signatures/java/packages/ImportDeclarations-sig
 
+  java/names/ExpressionNames
   java/names/Main
+  java/names/MethodNames
   java/names/PackageOrTypeNames
   java/names/TypeNames
   java/packages/Main
@@ -21,7 +23,7 @@ rules // 7.5. Import Declarations
   {typeDecl s_imp'}
     typeDecl == typeNameOk(s, typeName),
     new s_imp',
-    s_imp -IMP_ST-> s_imp',
+    s_imp -SINGLE_TYPE_IMPORT-> s_imp',
     aliasType(s_imp', typeDecl).
 
 
@@ -29,15 +31,34 @@ rules // 7.5. Import Declarations
   {pkgOrTypeDecl s_pkgOrType}
     pkgOrTypeDecl == pkgOrTypeNameOk(s, pkgOrTypeName),
     s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeDecl),
-    s_imp -IMP_OD-> s_pkgOrType.
+    s_imp -TYPE_IMPORT_ONDEMAND-> s_pkgOrType.
 
 
   importDeclOk(s, SingleStaticImport(typeName, id), s_imp) :-
-    typeNameOk(s, typeName) == _,
+  {s_ty s_imp'}
+    s_ty == typeDeclScope(typeNameOk(s, typeName)),
+    new s_imp',
+    s_imp -SINGLE_STATIC_IMPORT-> s_imp',
+    importStaticTypeList(resolveStaticMemberTypeNames(s_ty, id), s_imp'),
+    importStaticMthdList(resolveStaticMemberMthdNames(s_ty, id), s_imp'),
+    importStaticExprList(resolveStaticMemberExprNames(s_ty, id), s_imp'),
     true.
+
+      importStaticType : TYPE_PATH * scope
+      importStaticTypeList maps importStaticType(list(*), *)
+      importStaticType((_, typeDecl), s_imp) :- aliasType(s_imp, typeDecl).
+
+      importStaticMthd : MTHD_PATH * scope
+      importStaticMthdList maps importStaticMthd(list(*), *)
+      importStaticMthd((_, mthdDecl), s_imp) :- aliasMthdName(s_imp, mthdDecl).
+
+      importStaticExpr : VAR_PATH * scope
+      importStaticExprList maps importStaticExpr(list(*), *)
+      importStaticExpr((_, varDecl), s_imp) :- aliasExprName(s_imp, varDecl).
 
 
   importDeclOk(s, StaticImportOnDemand(typeName), s_imp) :-
-    typeNameOk(s, typeName) == _,
-    true.
+  {s_ty}
+    s_ty == typeDeclScope(typeNameOk(s, typeName)),
+    s_imp -STATIC_IMPORT_ONDEMAND-> s_ty.
 

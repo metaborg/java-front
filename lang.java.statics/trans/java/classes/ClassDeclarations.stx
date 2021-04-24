@@ -19,6 +19,7 @@ imports
   java/types/Main
   java/types/ReferenceTypes
   java/types/TypeVariable
+  java/util/Boolean
 
 
 rules // 8.1. Class Declarations
@@ -37,7 +38,7 @@ rules // 8.1. Class Declarations
   normalClsDeclOk : scope * NormalClassDeclaration * scope
 
   normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList), s_def) :-
-  {s_cls s_typeParams}
+  {s_cls s_clsStatic s_typeParams}
     clsModListOk(s, clsModList),
 
     new s_cls,
@@ -46,8 +47,11 @@ rules // 8.1. Class Declarations
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
 
+    new s_clsStatic,
+    s_cls -STATIC_MEMBERS-> s_clsStatic,
+
     s_typeParams == typeParamsOptOk(s, typeParamsOpt),
-    s_cls -LEX-> s_typeParams,
+    addLexical(s_cls, hasStaticClsMod(clsModList), s_typeParams),
 
     superClsOptOk(s_typeParams, superClsOpt, s_cls),
     superIntfsOptOk(s_typeParams, superIntfsOpt, s_cls),
@@ -71,6 +75,13 @@ rules // 8.1. Class Declarations
   clsModOk(s, Static2ClassModifier(_)) :- true.
   clsModOk(s, Final2ClassModifier(_)) :- true.
   clsModOk(s, Strictfp2ClassModifier(_)) :- true.
+
+
+  hasStaticClsMod : list(ClassModifier) -> B
+
+  hasStaticClsMod([Static2ClassModifier(_)|_]) = T().
+  hasStaticClsMod([_|clsModList]) = hasStaticClsMod(clsModList).
+  hasStaticClsMod([]) = F().
 
 
   typeParamsOptOk : scope * list(TypeParameters) -> scope
@@ -99,11 +110,12 @@ rules // 8.1. Class Declarations
     T == clsTypeOk(s, clsType),
     setSuperCls(s_cls, T).
 
+
   setSuperCls : scope * TYPE
 
   setSuperCls(s_cls, T) :-
     isClsType(T),
-    s_cls -EXT-> typeScope(T).
+    s_cls -EXTENDS-> typeScope(T).
 
 
   superIntfsOk : scope * SuperInterfaces * scope
@@ -119,7 +131,7 @@ rules // 8.1. Class Declarations
 
   addSuperIntf(s_cls, T) :-
     isIntfType(T),
-    s_cls -IMPL-> typeScope(T).
+    s_cls -IMPLEMENTS-> typeScope(T).
 
 
   setSuperClsOrImplementIntf : scope * TYPE

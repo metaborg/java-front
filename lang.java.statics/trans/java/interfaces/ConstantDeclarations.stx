@@ -17,7 +17,7 @@ rules // 9.3. Field (Constant) Declarations
   {T}
     constModListOk(s, constModList),
     T == unannTypeOk(s, unannType),
-    varDeclListOk(s, T, varDeclList),
+    varDeclListOk(s, T, varDeclList, s),
     true.
 
 

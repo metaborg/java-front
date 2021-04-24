@@ -24,7 +24,7 @@ rules // 7.3. Compilation Units
     new s_cu, s_cu -LEX-> s_proj,
     pkgDeclOptOk(s_cu, pkgDeclOpt),
     importJavaLang(s_proj, s_cu),
-    s_cu -IMP_PKG-> s_pkg,
+    s_cu -IMPORT_PKG-> s_pkg,
     importDeclListOk(s_proj, importDeclList, s_cu),
     typeDeclListOk(s_cu, typeDeclList, s_pkg),
     true.

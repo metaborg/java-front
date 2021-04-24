@@ -61,8 +61,9 @@ public class StxLibCommand implements Runnable {
     private static final ITerm BOX_REL = makeLabel("java/types/Conversions!box");
     private static final ITerm TYPENAME_REL = makeLabel("java/JRE!typeName");
 
-    private static final ITerm EXTENDS_EDGE = makeLabel("java/names/Main!EXT");
-    private static final ITerm IMPLEMENTS_EDGE = makeLabel("java/names/Main!IMPL");
+    private static final ITerm EXTENDS_EDGE = makeLabel("java/names/Main!EXTENDS");
+    private static final ITerm IMPLEMENTS_EDGE = makeLabel("java/names/Main!IMPLEMENTS");
+    private static final ITerm STATIC_MEMBERS_EDGE = makeLabel("java/names/Main!STATIC_MEMBERS");
 
     private static final ITerm ARRAY_KIND = B.newAppl("ARRAY");
     private static final ITerm CLASS_KIND = B.newAppl("CLASS");
@@ -260,6 +261,8 @@ public class StxLibCommand implements Runnable {
     private void processClass(ClassNode classNode) {
         final String className = classNode.name;
         final Scope s_ty = types.get(className);
+        final Scope s_static = newTypeScope();
+        scopeGraph.addEdge(s_ty, STATIC_MEMBERS_EDGE, s_static);
 
         final ITerm kind;
         if((classNode.access & Opcodes.ACC_INTERFACE) != 0) {
@@ -346,7 +349,8 @@ public class StxLibCommand implements Runnable {
             }
 
             final Scope s_inner = getOrInitClass(innerClass.name);
-            aliasType(s_ty, innerClass.innerName, s_inner);
+            final Scope s_def = (innerClass.access & Opcodes.ACC_STATIC) == 0 ? s_ty : s_static;
+            aliasType(s_def, innerClass.innerName, s_inner);
         }
 
         for(FieldNode field : classNode.fields) {
@@ -360,7 +364,8 @@ public class StxLibCommand implements Runnable {
             } else {
                 fieldType = descType(Type.getType(field.desc));
             }
-            declareVar(s_ty, field.name, fieldType);
+            final Scope s_def = (field.access & Opcodes.ACC_STATIC) == 0 ? s_ty : s_static;
+            declareVar(s_def, field.name, fieldType);
         }
 
         for(MethodNode method : classNode.methods) {
@@ -430,8 +435,8 @@ public class StxLibCommand implements Runnable {
                     paramTypes.add(descType(argType));
                 }
             }
-            declareMethod(s_ty, method.name, paramTypes, retType.get());
-
+            final Scope s_def = (method.access & Opcodes.ACC_STATIC) == 0 ? s_ty : s_static;
+            declareMethod(s_def, method.name, paramTypes, retType.get());
         }
 
     }

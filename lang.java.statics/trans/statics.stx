@@ -22,7 +22,7 @@ rules
   groupOk : scope * string * scope
 
   groupOk(s_parent, id, s_pkg) :-
-    s_pkg -PARENT-> s_parent,
+    s_pkg -PARENT_PKG-> s_parent,
     declarePkg(s_parent, Id(id), s_pkg),
     true.
 
@@ -57,4 +57,4 @@ rules
   rootScope : scope -> scope
   
   rootScope(s) = s_root :-
-    query () filter PARENT* min PARENT < $ and true in s |-> [(_, s_root)].
+    query () filter PARENT_PKG* min PARENT_PKG < $ and true in s |-> [(_, s_root)].

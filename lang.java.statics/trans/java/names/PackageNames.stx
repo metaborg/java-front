@@ -60,10 +60,10 @@ rules
   resolveLexicalPkgNames(s, id) = pkgPathList :-
     query pkg
       filter /* lex pkg re */
-          LEX*
+          (LEX|STATIC_LEX)*
         and { id' :- id' == id }
       min /* pkg ord */
-          $ < LEX // FIXME This will allow relative package names :(
+          $ < LEX, $ < STATIC_LEX
         and true
       in s |-> pkgPathList,
     true.
@@ -121,8 +121,10 @@ rules
 
   thisPkg(s) = pkgDecl :-
     query thisPkg
-      filter LEX* IMP_PKG and true
-      min $ < LEX and true
+      filter (LEX|STATIC_LEX)* IMPORT_PKG
+        and true
+      min $ < LEX, $ < STATIC_LEX
+        and true
       in s |-> [(_, pkgDecl)].
 
 
@@ -132,7 +134,7 @@ rules
   {s_pkg}
     s_pkg == pkgDeclScope(pkgDecl),
     query thisPkg
-      filter PARENT and true
+      filter PARENT_PKG and true
       min /* */ and true
       in s_pkg |-> [(_, pkgDecl')].
 
