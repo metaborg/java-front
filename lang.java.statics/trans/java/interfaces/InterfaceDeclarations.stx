@@ -22,20 +22,25 @@ rules // 9.1. Interface Declarations
   intfDeclOk : scope * InterfaceDeclaration * scope
 
   intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList), s_def) :-
-  {s_intf s_intfStatic s_typeParams}
+  {isStatic s_intf s_typeParams s_intfStatic}
     intfModListOk(s, intfModList),
+    isStatic == hasStaticIntfMod(intfModList),
 
     new s_intf,
+    addLexical(s_intf, isStatic, s),
+
     declareType(s_def, id, s_intf, INTF()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noExtendsCycle
 
+    new s_typeParams,
+    addLexical(s_typeParams, isStatic, s),
+    s_intf -TYPE_PARAMS-> s_typeParams,
+    typeParamsOptOk(s_typeParams, typeParamsOpt),
+
     new s_intfStatic,
     s_intf -STATIC_MEMBERS-> s_intfStatic,
-
-    s_typeParams == typeParamsOptOk(s, typeParamsOpt),
-    addLexical(s_intf, hasStaticIntfMod(intfModList), s_typeParams),
 
     extendsIntfsOptOk(s_typeParams, extendsIntfsOpt, s_intf),
 

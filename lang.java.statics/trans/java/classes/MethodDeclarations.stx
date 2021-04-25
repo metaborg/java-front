@@ -21,38 +21,39 @@ rules // 8.4. Method Declarations
   mthdDeclOk : scope * MethodDeclaration
 
   mthdDeclOk(s, MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
-  {s_mthd}
+  {isStatic s_mthdHead s_mthdBody}
     mthdModListOk(s, mthdModList),
-    new s_mthd,
-    mthdHeaderOk(s, mthdHeader, s_mthd), // connects `s_mthd` to `s`
-    mthdBodyOk(s_mthd, mthdBody),
-    true.
+    isStatic == hasStaticMthdMod(mthdModList),
+
+    new s_mthdHead,
+    addLexical(s_mthdHead, isStatic, s),
+    mthdHeaderOk(s_mthdHead, mthdHeader, s),
+
+    new s_mthdBody,
+    s_mthdBody -LEX-> s_mthdHead,
+    mthdBodyOk(s_mthdBody, mthdBody).
 
 
   mthdHeaderOk : scope * MethodHeader * scope
 
-  mthdHeaderOk(s, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt), s_mthd) :-
+  mthdHeaderOk(s_mthdHead, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt), s_def) :-
   {R Ts}
-    s_mthd -LEX-> s, // FIXME static
-    R == resultOk(s, result),
-    declareReturn(s_mthd, R),
-    Ts == formalParamsOk(s, formalParams, s_mthd),
-    declareMthdName(s, id, Ts, R),
-    annDimsEmptyOk(s, annDimsEmpty),
-    throwsOptOk(s, throwsOpt),
-    true.
+    R == resultOk(s_mthdHead, result),
+    declareReturn(s_mthdHead, R),
+    Ts == formalParamsOk(s_mthdHead, formalParams, s_mthdHead),
+    declareMthdName(s_def, id, Ts, R),
+    annDimsEmptyOk(s_mthdHead, annDimsEmpty),
+    throwsOptOk(s_mthdHead, throwsOpt).
 
-  mthdHeaderOk(s, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_mthd) :-
-  {s_typeParams R Ts}
-    s_typeParams == typeParamsOk(s, typeParams),
-    s_mthd -LEX-> s_typeParams, // FIXME static
-    annoListOk(s_typeParams, annoList),
-    R == resultOk(s_typeParams, result),
-    declareReturn(s_mthd, R),
-    Ts == formalParamsOk(s_typeParams, formalParams, s_mthd),
-    declareMthdName(s, id, Ts, R),
-    throwsOptOk(s_typeParams, throwsOpt),
-    true.
+  mthdHeaderOk(s_mthdHead, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_def) :-
+  {R Ts}
+    typeParamsOk(s_mthdHead, typeParams),
+    annoListOk(s_mthdHead, annoList),
+    R == resultOk(s_mthdHead, result),
+    declareReturn(s_mthdHead, R),
+    Ts == formalParamsOk(s_mthdHead, formalParams, s_mthdHead),
+    declareMthdName(s_def, id, Ts, R),
+    throwsOptOk(s_mthdHead, throwsOpt).
 
 
   resultOk : scope * Result -> RETURN

@@ -38,20 +38,25 @@ rules // 8.1. Class Declarations
   normalClsDeclOk : scope * NormalClassDeclaration * scope
 
   normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList), s_def) :-
-  {s_cls s_clsStatic s_typeParams}
+  {isStatic s_cls s_typeParams s_clsStatic}
     clsModListOk(s, clsModList),
+    isStatic == hasStaticClsMod(clsModList),
 
     new s_cls,
+    addLexical(s_cls, isStatic, s),
+
     declareType(s_def, id, s_cls, CLASS()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
 
+    new s_typeParams,
+    addLexical(s_typeParams, isStatic, s),
+    s_cls -TYPE_PARAMS-> s_typeParams,
+    typeParamsOptOk(s_typeParams, typeParamsOpt),
+
     new s_clsStatic,
     s_cls -STATIC_MEMBERS-> s_clsStatic,
-
-    s_typeParams == typeParamsOptOk(s, typeParamsOpt),
-    addLexical(s_cls, hasStaticClsMod(clsModList), s_typeParams),
 
     superClsOptOk(s_typeParams, superClsOpt, s_cls),
     superIntfsOptOk(s_typeParams, superIntfsOpt, s_cls),
@@ -84,19 +89,17 @@ rules // 8.1. Class Declarations
   hasStaticClsMod([]) = F().
 
 
-  typeParamsOptOk : scope * list(TypeParameters) -> scope
+  typeParamsOptOk : scope * list(TypeParameters)
   
-  typeParamsOptOk(s, []) = s.
+  typeParamsOptOk(s, []).
 
-  typeParamsOptOk(s, [typeParams]) = typeParamsOk(s, typeParams).
+  typeParamsOptOk(s, [typeParams]) :- typeParamsOk(s, typeParams).
 
 
-  typeParamsOk : scope * TypeParameters -> scope
+  typeParamsOk : scope * TypeParameters
 
-  typeParamsOk(s, TypeParameters(typeParamList)) = s_typeParams :-
-    new s_typeParams,
-    s_typeParams -LEX-> s,
-    typeParamListOk(s_typeParams, typeParamList).
+  typeParamsOk(s, TypeParameters(typeParamList)) :-
+    typeParamListOk(s, typeParamList).
 
 
   superClsOptOk : scope * list(SuperClass) * scope

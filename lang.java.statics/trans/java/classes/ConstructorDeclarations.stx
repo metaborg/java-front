@@ -15,6 +15,7 @@ imports
   java/statements/Blocks
   java/types/ParameterizedTypes
   java/types/TypeVariable
+  java/util/Boolean
 
 
 rules // 8.8. Constructor Declarations
@@ -22,27 +23,22 @@ rules // 8.8. Constructor Declarations
   ctorDeclOk : scope * ConstructorDeclaration
 
   ctorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
-  {s_ctor s_typeParams Ts R}
+  {s_ctorHead s_ctorBody Ts R}
     ctorModListOk(s, ctorModList),
 
+    new s_ctorHead,
+    s_ctorHead -LEX-> s,
+    typeParamsOptOk(s_ctorHead, typeParamsOpt),
     ctorIdOk(s, id),
-
-    new s_ctor,
-    
-    s_typeParams == typeParamsOptOk(s, typeParamsOpt),
-    s_ctor -LEX-> s_typeParams,
-
-    Ts == formalParamsOk(s_typeParams, formalParams, s_ctor),
+    Ts == formalParamsOk(s_ctorHead, formalParams, s_ctorHead),
     R == TYPED(typeDeclType(this(s))),
     declareMthdName(s, Id("<init>"), Ts, R),
+    throwsOptOk(s_ctorHead, throwsOpt),
 
-    throwsOptOk(s_typeParams, throwsOpt),
-
-    ctorInvOptOk(s_ctor, ctorInvOpt),
-
-    blkStmtListOk(s_ctor, blkStmtList),
-
-    true.
+    new s_ctorBody,
+    s_ctorBody -LEX-> s_ctorHead,
+    ctorInvOptOk(s_ctorBody, ctorInvOpt),
+    blkStmtListOk(s_ctorBody, blkStmtList).
 
 
   ctorModOk : scope * ConstructorModifier

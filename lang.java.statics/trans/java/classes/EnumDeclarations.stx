@@ -24,12 +24,12 @@ rules // 8.9. Enum Types
     new s_enum,
     declareType(s_def, id, s_enum, CLASS()),
 
+    s_enum -STATIC_LEX-> s,
+
     new s_enumStatic,
     s_enum -STATIC_MEMBERS-> s_enumStatic,
 
     superIntfsOptOk(s_enum, superIntfsOpt, s_enum),
-
-    s_enum -STATIC_LEX-> s,
 
     enumConstListOk(s_enum, enumConstList, s_enum),
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
