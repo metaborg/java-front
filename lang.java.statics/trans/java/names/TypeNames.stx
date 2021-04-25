@@ -21,7 +21,7 @@ signature
 
   relations
     type     : Id -> scope
-    thisType : TYPE_DECL
+    thisType : TYPE_DECL // FIXME should be `TYPE` and move to types/ReferenceTypes with related predicates
 
 
 rules
@@ -148,14 +148,11 @@ rules
   declareType : scope * Id * scope * KIND
 
   declareType(s, id, s_ty, K) :-
-    setType(s_ty, REF(s_ty)),
-    setKind(s_ty, K),
+    initTypeScope(s_ty, id, K),
     !type[id, s_ty] in s,
-    !thisType[(id, s_ty)] in s_ty,
     noOtherHomonymousType(s, (id, s_ty)),
     noEnclosingHomonymousType(s, id),
-    noHomonymousPkg(s, id),
-    true.
+    noHomonymousPkg(s, id).
 
 
   aliasTypes maps aliasType(*, list(*))

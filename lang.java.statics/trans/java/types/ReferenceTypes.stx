@@ -102,6 +102,14 @@ rules
     true.
 
 
+  initTypeScope : scope * Id * KIND
+
+  initTypeScope(s_ty, id, K) :-
+    setType(s_ty, REF(s_ty)),
+    setKind(s_ty, K),
+    !thisType[(id, s_ty)] in s_ty.
+
+
   makeArrayType : scope * TYPE -> TYPE
   
   makeArrayType(s, S) = T@REF(s_ty) :-

@@ -7,18 +7,21 @@ imports
   java/classes/FieldDeclarations
   java/interfaces/Annotations
   java/interfaces/Main
+  java/names/Main
 
 
 rules // 9.3. Field (Constant) Declarations
 
-  constDeclOk : scope * ConstantDeclaration
+  constDeclOk : scope * ConstantDeclaration * scope
 
-  constDeclOk(s, ConstantDecl(constModList, unannType, varDeclList)) :-
-  {T}
-    constModListOk(s, constModList),
+  constDeclOk(s, ConstantDecl(constModList, unannType, varDeclList), s_staticDef) :-
+  {s' T}
+    constModListOk(s, constModList), // FIXME implicitly `public static final`
+
+    new s',
+    s' -STATIC_LEX-> s,
     T == unannTypeOk(s, unannType),
-    varDeclListOk(s, T, varDeclList, s),
-    true.
+    varDeclListOk(s', T, varDeclList, s_staticDef).
 
 
   constModOk : scope * ConstantModifier

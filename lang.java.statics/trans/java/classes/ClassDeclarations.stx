@@ -24,20 +24,20 @@ imports
 
 rules // 8.1. Class Declarations
 
-  clsDeclOk : scope * ClassDeclaration * scope
+  clsDeclOk : scope * ClassDeclaration * scope * scope
 
-  clsDeclOk(s, NormalClassDeclaration2ClassDeclaration(normalClsDecl), s_def) :-
-    normalClsDeclOk(s, normalClsDecl, s_def),
+  clsDeclOk(s, NormalClassDeclaration2ClassDeclaration(normalClsDecl), s_def, s_staticDef) :-
+    normalClsDeclOk(s, normalClsDecl, s_def, s_staticDef),
     true.
 
-  clsDeclOk(s, EnumDeclaration2ClassDeclaration(enumDecl), s_def) :-
-    enumDeclOk(s, enumDecl, s_def),
+  clsDeclOk(s, EnumDeclaration2ClassDeclaration(enumDecl), s_def, s_staticDef) :-
+    enumDeclOk(s, enumDecl, s_staticDef),
     true.
 
 
-  normalClsDeclOk : scope * NormalClassDeclaration * scope
+  normalClsDeclOk : scope * NormalClassDeclaration * scope * scope
 
-  normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList), s_def) :-
+  normalClsDeclOk(s, ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList), s_def, s_staticDef) :-
   {isStatic s_cls s_typeParams s_clsStatic}
     clsModListOk(s, clsModList),
     isStatic == hasStaticClsMod(clsModList),
@@ -45,7 +45,7 @@ rules // 8.1. Class Declarations
     new s_cls,
     addLexical(s_cls, isStatic, s),
 
-    declareType(s_def, id, s_cls, CLASS()),
+    declareType2(s_def, s_staticDef, isStatic, id, s_cls, CLASS()),
     // FIXME noDuplicateType
     // FIXME noEnclosingTypeSameName
     // FIXME noClassCycle
@@ -55,16 +55,22 @@ rules // 8.1. Class Declarations
     s_cls -TYPE_PARAMS-> s_typeParams,
     typeParamsOptOk(s_typeParams, typeParamsOpt),
 
-    new s_clsStatic,
-    s_cls -STATIC_MEMBERS-> s_clsStatic,
-
     superClsOptOk(s_typeParams, superClsOpt, s_cls),
     superIntfsOptOk(s_typeParams, superIntfsOpt, s_cls),
 
+    new s_clsStatic,
+    s_cls -STATIC_MEMBERS-> s_clsStatic,
+
     declareImplicitCtorIfMissing(s_cls, clsBodyDeclList),
 
-    clsBodyDeclListOk(s_cls, clsBodyDeclList),
+    clsBodyDeclListOk(s_cls, clsBodyDeclList, s_cls, s_clsStatic),
     true.
+
+
+  declareType2 : scope * scope * B * Id * scope * KIND
+
+  declareType2(s_def, s_staticDef, F(), id, s_ty, K) :- declareType(s_def, id, s_ty, K).
+  declareType2(s_def, s_staticDef, T(), id, s_ty, K) :- declareType(s_staticDef, id, s_ty, K).
 
 
   clsModOk : scope * ClassModifier
@@ -163,45 +169,45 @@ rules // 8.1. Class Declarations
     declareImplicitCtor(s).
 
 
-  clsBodyDeclOk : scope * ClassBodyDeclaration
-  clsBodyDeclListOk maps clsBodyDeclOk(*, list(*))
+  clsBodyDeclOk : scope * ClassBodyDeclaration * scope * scope
+  clsBodyDeclListOk maps clsBodyDeclOk(*, list(*), *, *)
 
-  clsBodyDeclOk(s, ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl)) :-
-    clsMemDeclOk(s, clsMemDecl),
+  clsBodyDeclOk(s, ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl), s_def, s_staticDef) :-
+    clsMemDeclOk(s, clsMemDecl, s_def, s_staticDef),
     true.
 
-  clsBodyDeclOk(s, InstanceInitializer2ClassBodyDeclaration(instInit)) :-
+  clsBodyDeclOk(s, InstanceInitializer2ClassBodyDeclaration(instInit), s_def, s_staticDef) :-
     instInitOk(s, instInit),
     true.
 
-  clsBodyDeclOk(s, StaticInitializer2ClassBodyDeclaration(staticInit)) :-
+  clsBodyDeclOk(s, StaticInitializer2ClassBodyDeclaration(staticInit), s_def, s_staticDef) :-
     staticInitOk(s, staticInit),
     true.
 
-  clsBodyDeclOk(s, ConstructorDeclaration2ClassBodyDeclaration(ctorDecl)) :-
-    ctorDeclOk(s, ctorDecl),
+  clsBodyDeclOk(s, ConstructorDeclaration2ClassBodyDeclaration(ctorDecl), s_def, s_staticDef) :-
+    ctorDeclOk(s, ctorDecl, s_def),
     true.
 
 
-  clsMemDeclOk : scope * ClassMemberDeclaration
+  clsMemDeclOk : scope * ClassMemberDeclaration * scope * scope
 
-  clsMemDeclOk(s, FieldDeclaration2ClassMemberDeclaration(fldDecl)) :-
-    fldDeclOk(s, fldDecl),
+  clsMemDeclOk(s, FieldDeclaration2ClassMemberDeclaration(fldDecl), s_def, s_staticDef) :-
+    fldDeclOk(s, fldDecl, s_def, s_staticDef),
     true.
 
-  clsMemDeclOk(s, MethodDeclaration2ClassMemberDeclaration(mthdDecl)) :-
-    mthdDeclOk(s, mthdDecl),
+  clsMemDeclOk(s, MethodDeclaration2ClassMemberDeclaration(mthdDecl), s_def, s_staticDef) :-
+    mthdDeclOk(s, mthdDecl, s_def, s_staticDef),
     true.
 
-  clsMemDeclOk(s, ClassDeclaration2ClassMemberDeclaration(clsDecl)) :-
-    clsDeclOk(s, clsDecl, s),
+  clsMemDeclOk(s, ClassDeclaration2ClassMemberDeclaration(clsDecl), s_def, s_staticDef) :-
+    clsDeclOk(s, clsDecl, s_def, s_staticDef),
     true.
 
-  clsMemDeclOk(s, InterfaceDeclaration2ClassMemberDeclaration(intfDecl)) :-
-    intfDeclOk(s, intfDecl, s),
+  clsMemDeclOk(s, InterfaceDeclaration2ClassMemberDeclaration(intfDecl), s_def, s_staticDef) :-
+    intfDeclOk(s, intfDecl, s_def, s_staticDef),
     true.
 
-  clsMemDeclOk(s, SemiColon2ClassMemberDeclaration(semiColon)) :-
+  clsMemDeclOk(s, SemiColon2ClassMemberDeclaration(semiColon), s_def, s_staticDef) :-
     true.
 
 

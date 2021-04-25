@@ -41,7 +41,7 @@ rules // 15.9. Class Instance Creation Expressions
     true.
 
   unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
-  {qid typeDecl Ts}
+  {qid typeDecl Ts s_clsStatic}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     qid == qualIdListOk(s, id, qualIdList),
@@ -52,9 +52,14 @@ rules // 15.9. Class Instance Creation Expressions
 
     new s_cls, s_cls -LEX-> s,
 
+    initTypeScope(s_cls, Id("$local$"), CLASS()),
+
     setSuperClsOrImplementIntf(s_cls, typeDeclType(typeDecl)),
 
-    clsBodyDeclListOk(s_cls, clsBodyDeclList).
+    new s_clsStatic,
+    s_cls -STATIC_MEMBERS-> s_clsStatic,
+
+    clsBodyDeclListOk(s_cls, clsBodyDeclList, s_cls, s_clsStatic).
 
 
   qualInstOk : scope * TYPE * UnqualifiedInstance -> TYPE
@@ -71,7 +76,7 @@ rules // 15.9. Class Instance Creation Expressions
     true.
 
   qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
-  {s_ty typeDecl Ts}
+  {s_ty typeDecl Ts s_clsStatic}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     s_ty == typeScope(T),
@@ -82,9 +87,14 @@ rules // 15.9. Class Instance Creation Expressions
 
     new s_cls, s_cls -LEX-> s,
 
+    initTypeScope(s_cls, Id("$local$"), CLASS()),
+
     setSuperClsOrImplementIntf(s_cls, typeDeclType(typeDecl)),
 
-    clsBodyDeclListOk(s_cls, clsBodyDeclList).
+    new s_clsStatic,
+    s_cls -STATIC_MEMBERS-> s_clsStatic,
+
+    clsBodyDeclListOk(s_cls, clsBodyDeclList, s_cls, s_clsStatic).
 
 
   qualIdListOk : scope * Id * list(QualifiedId) -> QID

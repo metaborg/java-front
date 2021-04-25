@@ -23,17 +23,18 @@ imports
 
 rules // 8.3. Field Declarations
 
-  fldDeclOk : scope * FieldDeclaration
+  fldDeclOk : scope * FieldDeclaration * scope * scope
 
-  fldDeclOk(s, FieldDecl(fldModList, unannType, varDeclList)) :-
-  {s' T}
+  fldDeclOk(s, FieldDecl(fldModList, unannType, varDeclList), s_def, s_staticDef) :-
+  {isStatic s' T}
     fldModListOk(s, fldModList),
+    isStatic == hasStaticFldMod(fldModList),
 
     new s',
-    addLexical(s', hasStaticFldMod(fldModList), s),
+    addLexical(s', isStatic, s),
 
     T == unannTypeOk(s, unannType),
-    varDeclListOk(s', T, varDeclList, s). // FIXME check annotations on varDeclList in s
+    varDeclListOk2(s', T, varDeclList, s_def, s_staticDef, isStatic).
 
 
   varDeclIdOk : scope * TYPE * VarDeclId * scope
@@ -44,6 +45,15 @@ rules // 8.3. Field Declarations
   varDeclIdOk(s, T, VariableDeclArray(id, annDimList), s_def) :-
     annDimListOk(s, annDimList),
     declareExprName(s_def, id, _). // FIXME Make array type
+
+
+  varDeclListOk2 : scope * TYPE * list(VarDecl) * scope * scope * B
+
+  varDeclListOk2(s, T, varDeclList, s_def, s_staticDef, F()) :-
+    varDeclListOk(s, T, varDeclList, s_def).
+
+  varDeclListOk2(s, T, varDeclList, s_def, s_staticDef, T()) :-
+    varDeclListOk(s, T, varDeclList, s_staticDef).
 
 
   varDeclOk : scope * TYPE * VarDecl * scope

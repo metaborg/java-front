@@ -22,6 +22,11 @@ rules
   objectOk(s) = javaLangTypeOk(s, Id("Object")).
 
 
+  enumOk : scope -> TYPE
+
+  enumOk(s) = javaLangTypeOk(s, Id("Enum")).
+
+
   stringOk : scope -> TYPE
 
   stringOk(s) = javaLangTypeOk(s, Id("String")).

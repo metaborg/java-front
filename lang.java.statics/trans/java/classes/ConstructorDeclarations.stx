@@ -20,23 +20,25 @@ imports
 
 rules // 8.8. Constructor Declarations
 
-  ctorDeclOk : scope * ConstructorDeclaration
+  ctorDeclOk : scope * ConstructorDeclaration * scope
 
-  ctorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList)) :-
+  ctorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList), s_def) :-
   {s_ctorHead s_ctorBody Ts R}
     ctorModListOk(s, ctorModList),
 
     new s_ctorHead,
     s_ctorHead -LEX-> s,
+
     typeParamsOptOk(s_ctorHead, typeParamsOpt),
     ctorIdOk(s, id),
     Ts == formalParamsOk(s_ctorHead, formalParams, s_ctorHead),
     R == TYPED(typeDeclType(this(s))),
-    declareMthdName(s, Id("<init>"), Ts, R),
+    declareMthdName(s_def, Id("<init>"), Ts, R),
     throwsOptOk(s_ctorHead, throwsOpt),
 
     new s_ctorBody,
     s_ctorBody -LEX-> s_ctorHead,
+
     ctorInvOptOk(s_ctorBody, ctorInvOpt),
     blkStmtListOk(s_ctorBody, blkStmtList).
 

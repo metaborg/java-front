@@ -4,92 +4,86 @@ imports
 
   signatures/java/classes/EnumDeclarations-sig
 
+  java/JRE
   java/classes/ClassDeclarations
   java/classes/Main
   java/expressions/Main
   java/interfaces/Annotations
   java/names/Main
   java/names/ExpressionNames
+  java/names/MethodNames
   java/names/TypeNames
+  java/types/ReferenceTypes
 
 
 rules // 8.9. Enum Types
 
   enumDeclOk : scope * EnumDeclaration * scope
 
-  enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_def) :-
+  enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef) :-
+    enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef).
+
+  enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef) :-
   {s_enum s_enumStatic}
     clsModListOk(s, clsModList),
 
     new s_enum,
-    declareType(s_def, id, s_enum, CLASS()),
-
     s_enum -STATIC_LEX-> s,
+
+    declareType(s_staticDef, id, s_enum, CLASS()),
+
+    setSuperCls(s_enum, enumOk(s)),
+    superIntfsOptOk(s, superIntfsOpt, s_enum),
 
     new s_enumStatic,
     s_enum -STATIC_MEMBERS-> s_enumStatic,
 
-    superIntfsOptOk(s_enum, superIntfsOpt, s_enum),
+    enumConstListOk(s_enum, REF(s_enum), enumConstList, s_enumStatic),
 
-    enumConstListOk(s_enum, enumConstList, s_enum),
-    enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
-    true.
-
-  enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_def) :-
-  {s_enum}
-    clsModListOk(s, clsModList),
-
-    new s_enum,
-    declareType(s_def, id, s_enum, CLASS()),
-
-    superIntfsOptOk(s, superIntfsOpt, s_enum),
-
-    s_enum -STATIC_LEX-> s,
-
-    enumConstListOk(s_enum, enumConstList, s_enum),
-    enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt),
-    true.
+    enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt, s_enum, s_enumStatic).
 
 
-  enumConstOk : scope * EnumConstant * scope
-  enumConstListOk maps enumConstOk(*, list(*), *)
+  enumConstOk : scope * TYPE * EnumConstant * scope
+  enumConstListOk maps enumConstOk(*, *, list(*), *)
 
-  enumConstOk(s, EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList), s_def) :-
-  {s_const}
+  enumConstOk(s, T, EnumConst(annoList, id, enumConstArgsOpt, clsBodyDeclList), s_staticDef) :-
+  {s_const s_constStatic}
     annoListOk(s, annoList),
 
-    declareExprName(s_def, id, typeDeclType(this(s))),
+    declareExprName(s_staticDef, id, REF(s_const)),
 
-    new s_const, s_const -LEX-> s,
+    new s_const,
+    s_const -STATIC_LEX-> s,
 
-    enumConstArgsOptOk(s, enumConstArgsOpt),
-    clsBodyDeclListOk(s_const, clsBodyDeclList),
-    true.
+    initTypeScope(s_const, id, CLASS()),
 
-  enumConstOk(s, EnumConstNoBody(annoList, id, enumConstArgsOpt), s_def) :-
-  {s_const}
-    annoListOk(s, annoList),
+    setSuperCls(s_const, T),
 
-    declareExprName(s_def, id, typeDeclType(this(s))),
-
-    new s_const, s_const -LEX-> s,
+    new s_constStatic,
+    s_const -STATIC_MEMBERS-> s_constStatic,
 
     enumConstArgsOptOk(s, enumConstArgsOpt),
-    true.
+
+    clsBodyDeclListOk(s_const, clsBodyDeclList, s_const, s_constStatic).
+
+  enumConstOk(s, T, EnumConstNoBody(annoList, id, enumConstArgsOpt), s_staticDef) :-
+    enumConstOk(s, T, EnumConst(annoList, id, enumConstArgsOpt, []), s_staticDef).
 
 
-  enumConstArgsOk : scope * EnumConstantArgs
-  enumConstArgsOptOk maps enumConstArgsOk(*, list(*))
+  enumConstArgsOptOk : scope * list(EnumConstantArgs)
 
-  enumConstArgsOk(s, EnumConstArgs(exprList)) :-
-    _ == exprListOk(s, exprList),
-    true.
+  enumConstArgsOptOk(s, []) :-
+    _ == resolveDirectMemberMthdName(s, Id("<init>"), []).
+
+  enumConstArgsOptOk(s, [EnumConstArgs(exprList)]) :-
+  {Ts}
+    Ts == exprListOk(s, exprList),
+    _ == resolveDirectMemberMthdName(s, Id("<init>"), Ts).
 
 
-  enumBodyDeclsOk : scope * EnumBodyDeclarations
-  enumBodyDeclsOptOk maps enumBodyDeclsOk(*, list(*))
+  enumBodyDeclsOk : scope * EnumBodyDeclarations * scope * scope
+  enumBodyDeclsOptOk maps enumBodyDeclsOk(*, list(*), *, *)
 
-  enumBodyDeclsOk(s, EnumBodyDecs(clsBodyDeclList)) :-
-    clsBodyDeclListOk(s, clsBodyDeclList),
-    true.
+  enumBodyDeclsOk(s, EnumBodyDecs(clsBodyDeclList), s_def, s_staticDef) :-
+    clsBodyDeclListOk(s, clsBodyDeclList, s_def, s_staticDef).
 

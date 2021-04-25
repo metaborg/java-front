@@ -18,20 +18,29 @@ imports
 
 rules // 8.4. Method Declarations
 
-  mthdDeclOk : scope * MethodDeclaration
+  mthdDeclOk : scope * MethodDeclaration * scope * scope
 
-  mthdDeclOk(s, MethodDecl(mthdModList, mthdHeader, mthdBody)) :-
+  mthdDeclOk(s, MethodDecl(mthdModList, mthdHeader, mthdBody), s_def, s_staticDef) :-
   {isStatic s_mthdHead s_mthdBody}
     mthdModListOk(s, mthdModList),
     isStatic == hasStaticMthdMod(mthdModList),
 
     new s_mthdHead,
     addLexical(s_mthdHead, isStatic, s),
-    mthdHeaderOk(s_mthdHead, mthdHeader, s),
+    mthdHeaderOk2(s_mthdHead, mthdHeader, s_def, s_staticDef, isStatic),
 
     new s_mthdBody,
     s_mthdBody -LEX-> s_mthdHead,
     mthdBodyOk(s_mthdBody, mthdBody).
+
+
+  mthdHeaderOk2 : scope * MethodHeader * scope * scope * B
+
+  mthdHeaderOk2(s, mthdHead, s_def, s_staticDef, F()) :-
+    mthdHeaderOk(s, mthdHead, s_def).
+
+  mthdHeaderOk2(s, mthdHead, s_def, s_staticDef, T()) :-
+    mthdHeaderOk(s, mthdHead, s_staticDef).
 
 
   mthdHeaderOk : scope * MethodHeader * scope
