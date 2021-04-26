@@ -444,7 +444,7 @@ public class StxLibCommand implements Runnable {
     private void finalizeClass(String className) {
         final Scope s_ty = types.get(className);
 
-        if(!innerTypes.contains(className)) {
+        if(!innerTypes.contains(className) && include.test(className)) {
             final String simpleName = className.substring(className.lastIndexOf('/') + 1);
             final String pkgName = className.substring(0, className.lastIndexOf('/'));
             // create the package
