@@ -50,6 +50,7 @@ rules
 
   isNumeric : TYPE
 
+  isNumeric(CHAR()).
   isNumeric(BYTE()).
   isNumeric(SHORT()).
   isNumeric(INT()).
@@ -60,6 +61,7 @@ rules
 
   isIntegral : TYPE
 
+  isIntegral(CHAR()).
   isIntegral(BYTE()).
   isIntegral(SHORT()).
   isIntegral(INT()).
@@ -70,3 +72,4 @@ rules
 
   isFloatingPoint(FLOAT()).
   isFloatingPoint(DOUBLE()).
+
