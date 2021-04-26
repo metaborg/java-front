@@ -16,6 +16,18 @@ signature
   relations
     box : -> TYPE
 
+rules
+
+  isBox : TYPE -> B
+
+  isBox(REF(s_T)) = isBox1(ps) :-
+    query box filter e and true in s_T |-> ps.
+
+      isBox1 : list((path * TYPE)) -> B
+      isBox1([]) = F().
+      isBox1(_)  = T().
+
+
 rules // 5.1.7 Boxing Conversion 
 
   box : scope * TYPE -> TYPE
@@ -35,7 +47,6 @@ rules // 5.1.8 Unboxing Conversion
   unbox : TYPE -> TYPE
 
   unbox(REF(s_T)) = T :-
-  {ps}
     query box filter e and true in s_T |-> [(_, T)].
 
 
@@ -514,12 +525,18 @@ rules
 
   equalsCompatible : TYPE * TYPE
 
-  equalsCompatible(T@REF(_),  U@REF(_) ) :- equalsCompatible(unbox(T), unbox(U)).
-  equalsCompatible(T@REF(_),  U        ) :- equalsCompatible(unbox(T), U).
-  equalsCompatible(T,         U@REF(_) ) :- equalsCompatible(T, unbox(U)).
+
+  equalsCompatible(T@REF(_),  U@REF(_) ) :- equalsCompatibleREFREF(isBox(T), T, isBox(U), U).
+
+    equalsCompatibleREFREF : B * TYPE * B * TYPE
+    equalsCompatibleREFREF(T(), T, T(), U) :- equalsCompatible(unbox(T), unbox(U)).
+    equalsCompatibleREFREF(_  , _, _  , _).
 
   equalsCompatible(REF(_),    NULL()   ).
   equalsCompatible(NULL(),    REF(_)   ).
+
+  equalsCompatible(T@REF(_),  U        ) :- equalsCompatible(unbox(T), U).
+  equalsCompatible(T,         U@REF(_) ) :- equalsCompatible(T, unbox(U)).
 
   equalsCompatible(BOOLEAN(), BOOLEAN()).
 
