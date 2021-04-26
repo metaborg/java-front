@@ -33,7 +33,7 @@ rules // 8.3. Field Declarations
     new s',
     addLexical(s', isStatic, s),
 
-    T == unannTypeOk(s, unannType),
+    T == unannTypeOk(s', unannType),
     varDeclListOk2(s', T, varDeclList, s_def, s_staticDef, isStatic).
 
 

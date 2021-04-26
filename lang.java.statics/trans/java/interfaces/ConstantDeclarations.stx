@@ -20,7 +20,8 @@ rules // 9.3. Field (Constant) Declarations
 
     new s',
     s' -STATIC_LEX-> s,
-    T == unannTypeOk(s, unannType),
+
+    T == unannTypeOk(s', unannType),
     varDeclListOk(s', T, varDeclList, s_staticDef).
 
 

@@ -6,6 +6,7 @@ imports
 
   java/JRE
   java/classes/ClassDeclarations
+  java/classes/ConstructorDeclarations
   java/classes/Main
   java/expressions/Main
   java/interfaces/Annotations
@@ -52,6 +53,8 @@ rules // 8.9. Enum Types
 
     declareExprName(s_staticDef, id, REF(s_const)),
 
+    enumConstArgsOptOk(s, enumConstArgsOpt),
+
     new s_const,
     s_const -STATIC_LEX-> s,
 
@@ -61,8 +64,6 @@ rules // 8.9. Enum Types
 
     new s_constStatic,
     s_const -STATIC_MEMBERS-> s_constStatic,
-
-    enumConstArgsOptOk(s, enumConstArgsOpt),
 
     clsBodyDeclListOk(s_const, clsBodyDeclList, s_const, s_constStatic).
 
@@ -81,9 +82,20 @@ rules // 8.9. Enum Types
     _ == resolveDirectMemberMthdName(s, Id("<init>"), Ts).
 
 
+  enumBodyDeclsOptOk : scope * list(EnumBodyDeclarations) * scope * scope
+
+  enumBodyDeclsOptOk(s, [], s_def, s_staticDef) :-
+    // NOTE inlined version of declareImplicitCtor(s_def) without checking the super constructor
+    //      because java.lang.Enum does not have a nullary constructor.
+    declareMthdName(s, Id("<init>"), [], TYPED(typeDeclType(this(s_def)))).
+
+  enumBodyDeclsOptOk(s, [enumBodyDecls], s_def, s_staticDef) :-
+    enumBodyDeclsOk(s, enumBodyDecls, s_def, s_staticDef).
+
+
   enumBodyDeclsOk : scope * EnumBodyDeclarations * scope * scope
-  enumBodyDeclsOptOk maps enumBodyDeclsOk(*, list(*), *, *)
 
   enumBodyDeclsOk(s, EnumBodyDecs(clsBodyDeclList), s_def, s_staticDef) :-
+    declareImplicitCtorIfMissing(s_def, clsBodyDeclList),
     clsBodyDeclListOk(s, clsBodyDeclList, s_def, s_staticDef).
 

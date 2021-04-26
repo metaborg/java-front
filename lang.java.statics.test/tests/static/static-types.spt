@@ -26,7 +26,7 @@ JAVAC
     B b;
   }  
 }  
-]] // analysis succeeds
+]] analysis succeeds
    run javacSucceeds to ""
 
 test named static import of non-static nested type [[
@@ -48,7 +48,7 @@ JAVAC
     B b;
   }  
 }  
-]] // analysis fails
+]] analysis fails
    run javacFails to ""
 
 test named non-static import of static nested type [[
@@ -70,7 +70,7 @@ JAVAC
     B b;
   }  
 }  
-]] // analysis succeeds
+]] analysis succeeds
    run javacSucceeds to ""
 
 test on-demand static import of static nested type [[
@@ -92,7 +92,7 @@ JAVAC
     B b;
   }  
 }  
-]] // analysis succeeds
+]] analysis succeeds
    run javacSucceeds to ""
 
 test on-demand static import of package [[
@@ -111,7 +111,7 @@ import static p.*;
 public class Test {
   A a;
 }
-]] // analysis fails
+]] analysis fails
    run javacFails to ""
 
 
@@ -133,7 +133,7 @@ JAVAC
     }
   }  
 }  
-]] // analysis succeeds
+]] analysis succeeds
    run javacSucceeds to ""
 
 test non-static enclosed type's field access from nested static nested type [[
@@ -150,7 +150,7 @@ JAVAC
     }
   }  
 }  
-]] // analysis fails
+]] analysis fails
    run javacFails to ""
 
 test top-level static type [[
@@ -163,7 +163,7 @@ JAVAC
   public static class A {
   }  
 }  
-]] // analysis fails
+]] analysis fails
    run javacFails to ""
 
 test static enclosed type accesses local non-static and enclosed static field [[
@@ -181,7 +181,7 @@ JAVAC
     }
   }  
 }  
-]] // analysis succeeds
+]] analysis succeeds
    run javacSucceeds to ""
 
 test non-static field from enclosed type shadows imported static field [[

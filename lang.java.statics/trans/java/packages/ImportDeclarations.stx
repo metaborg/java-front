@@ -35,14 +35,21 @@ rules // 7.5. Import Declarations
 
 
   importDeclOk(s, SingleStaticImport(typeName, id), s_imp) :-
-  {s_ty s_imp'}
+  {s_ty s_imp' types mthds vars}
     s_ty == typeDeclScope(typeNameOk(s, typeName)),
     new s_imp',
     s_imp -SINGLE_STATIC_IMPORT-> s_imp',
-    importStaticTypeList(resolveStaticMemberTypeNames(s_ty, id), s_imp'),
-    importStaticMthdList(resolveStaticMemberMthdNames(s_ty, id), s_imp'),
-    importStaticExprList(resolveStaticMemberExprNames(s_ty, id), s_imp'),
-    true.
+
+    types == resolveStaticMemberTypeNames(s_ty, id),
+    importStaticTypeList(types, s_imp'),
+
+    mthds == resolveStaticMemberMthdNames(s_ty, id),
+    importStaticMthdList(mthds, s_imp'),
+
+    vars == resolveStaticMemberExprNames(s_ty, id),
+    importStaticExprList(vars, s_imp'),
+
+    importStaticNotEmpty(id, types, mthds, vars).
 
       importStaticType : TYPE_PATH * scope
       importStaticTypeList maps importStaticType(list(*), *)
@@ -56,6 +63,9 @@ rules // 7.5. Import Declarations
       importStaticExprList maps importStaticExpr(list(*), *)
       importStaticExpr((_, varDecl), s_imp) :- aliasExprName(s_imp, varDecl).
 
+      importStaticNotEmpty : Id * list(TYPE_PATH) * list(MTHD_PATH) * list(VAR_PATH)
+      importStaticNotEmpty(id, [], [], []) :- false | error $[Cannot resolve static type/method/expression [id].].
+      importStaticNotEmpty(_, _, _, _).
 
   importDeclOk(s, StaticImportOnDemand(typeName), s_imp) :-
   {s_ty}

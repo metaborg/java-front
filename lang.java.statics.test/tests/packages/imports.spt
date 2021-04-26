@@ -13,7 +13,7 @@ JAVAC
   public class A {}
 }
 ]] analysis succeeds
-   run javac
+   run javacSucceeds to ""
 
 test single-type-import of class with same name as a type defined in the unit [[
 STATIX
