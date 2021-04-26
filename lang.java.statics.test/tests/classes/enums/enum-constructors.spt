@@ -1,0 +1,107 @@
+module classes/enums/enum-constructors
+
+language metaborg-java
+
+test enum with implicit nullary constructor [[
+STATIX ok
+JAVAC  ok
+
+[p] {
+  [E]
+  package p;
+  public enum E {
+    C1(), C2()
+  }
+}
+
+]] // analysis succeeds
+   run javacSucceeds to ""
+
+test enum with explicit constructor has no implicit constructor [[
+STATIX ok
+JAVAC  ok
+
+[p] {
+  [E]
+  package p;
+  public enum E {
+    C1(), C2();
+    E(int i) {
+    }
+  }
+}
+
+]] // analysis fails
+   run javacFails to ""
+
+test enum with explicit constructor cannot call super constructor [[
+STATIX ok
+JAVAC  ok
+
+[p] {
+  [E]
+  package p;
+  public enum E {
+    C1(1), C2(1);
+    E(int i) {
+      super("E", 2);
+    }
+  }
+}
+
+]] analysis fails
+   run javacFails to ""
+
+test enum with explicit constructor can call this constructor [[
+STATIX ok
+JAVAC  ok
+
+[p] {
+  [E]
+  package p;
+  public enum E {
+    C1(1), C2(1);
+    E(int i) {
+      this(i, true);
+    }
+    E(int i, boolean b) {
+    }
+  }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test enum with explicit constructor [[
+STATIX ok
+JAVAC  ok
+
+[p] {
+  [E]
+  package p;
+  public enum E {
+    C1(1), C2(1);
+    E(int i) {
+    }
+  }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test enum with explicit public constructor [[
+STATIX ok
+JAVAC  ok
+
+[p] {
+  [E]
+  package p;
+  public enum E {
+    C1, C2;
+    public E(int i) {
+    }
+  }
+}
+
+]] analysis fails
+   run javacFails to ""

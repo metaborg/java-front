@@ -7,13 +7,17 @@ imports
   java/JRE
   java/classes/ClassDeclarations
   java/classes/ConstructorDeclarations
+  java/classes/InstanceInitializers
   java/classes/Main
+  java/classes/MethodDeclarations
+  java/classes/StaticInitializers
   java/expressions/Main
   java/interfaces/Annotations
   java/names/Main
   java/names/ExpressionNames
   java/names/MethodNames
   java/names/TypeNames
+  java/statements/Blocks
   java/types/ReferenceTypes
 
 
@@ -41,7 +45,7 @@ rules // 8.9. Enum Types
 
     enumConstListOk(s_enum, REF(s_enum), enumConstList, s_enumStatic),
 
-    enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt, s_enum, s_enumStatic).
+    enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt, s_enum, s_enumStatic). // FIXME what is allowed here in enums?
 
 
   enumConstOk : scope * TYPE * EnumConstant * scope
@@ -51,7 +55,7 @@ rules // 8.9. Enum Types
   {s_const s_constStatic}
     annoListOk(s, annoList),
 
-    declareExprName(s_staticDef, id, REF(s_const)),
+    declareExprName(s_staticDef, id, T),
 
     enumConstArgsOptOk(s, enumConstArgsOpt),
 
@@ -65,7 +69,7 @@ rules // 8.9. Enum Types
     new s_constStatic,
     s_const -STATIC_MEMBERS-> s_constStatic,
 
-    clsBodyDeclListOk(s_const, clsBodyDeclList, s_const, s_constStatic).
+    clsBodyDeclListOk(s_const, clsBodyDeclList, s_const, s_constStatic). // FIXME what is allowed here in enums?
 
   enumConstOk(s, T, EnumConstNoBody(annoList, id, enumConstArgsOpt), s_staticDef) :-
     enumConstOk(s, T, EnumConst(annoList, id, enumConstArgsOpt, []), s_staticDef).
@@ -85,9 +89,7 @@ rules // 8.9. Enum Types
   enumBodyDeclsOptOk : scope * list(EnumBodyDeclarations) * scope * scope
 
   enumBodyDeclsOptOk(s, [], s_def, s_staticDef) :-
-    // NOTE inlined version of declareImplicitCtor(s_def) without checking the super constructor
-    //      because java.lang.Enum does not have a nullary constructor.
-    declareMthdName(s, Id("<init>"), [], TYPED(typeDeclType(this(s_def)))).
+    declareImplicitEnumCtor(s).
 
   enumBodyDeclsOptOk(s, [enumBodyDecls], s_def, s_staticDef) :-
     enumBodyDeclsOk(s, enumBodyDecls, s_def, s_staticDef).
@@ -96,6 +98,86 @@ rules // 8.9. Enum Types
   enumBodyDeclsOk : scope * EnumBodyDeclarations * scope * scope
 
   enumBodyDeclsOk(s, EnumBodyDecs(clsBodyDeclList), s_def, s_staticDef) :-
-    declareImplicitCtorIfMissing(s_def, clsBodyDeclList),
-    clsBodyDeclListOk(s, clsBodyDeclList, s_def, s_staticDef).
+    declareImplicitEnumCtorIfMissing(s_def, clsBodyDeclList),
+    enumBodyDeclListOk(s, clsBodyDeclList, s_def, s_staticDef).
+
+
+  enumBodyDeclOk : scope * ClassBodyDeclaration * scope * scope
+  enumBodyDeclListOk maps enumBodyDeclOk(*, list(*), *, *)
+
+  enumBodyDeclOk(s, ClassMemberDeclaration2ClassBodyDeclaration(clsMemDecl), s_def, s_staticDef) :-
+    clsMemDeclOk(s, clsMemDecl, s_def, s_staticDef),
+    true.
+
+  enumBodyDeclOk(s, InstanceInitializer2ClassBodyDeclaration(instInit), s_def, s_staticDef) :-
+    instInitOk(s, instInit),
+    true.
+
+  enumBodyDeclOk(s, StaticInitializer2ClassBodyDeclaration(staticInit), s_def, s_staticDef) :-
+    staticInitOk(s, staticInit),
+    true.
+
+  enumBodyDeclOk(s, ConstructorDeclaration2ClassBodyDeclaration(ctorDecl), s_def, s_staticDef) :-
+    enumCtorDeclOk(s, ctorDecl, s_def),
+    true.
+
+
+  declareImplicitEnumCtorIfMissing : scope * list(ClassBodyDeclaration)
+
+  declareImplicitEnumCtorIfMissing(s, [ConstructorDeclaration2ClassBodyDeclaration(_)|_]).
+
+  declareImplicitEnumCtorIfMissing(s, [_|clsBodyDecls]) :-
+    declareImplicitEnumCtorIfMissing(s, clsBodyDecls).
+
+  declareImplicitEnumCtorIfMissing(s, []) :-
+    declareImplicitEnumCtor(s).
+
+
+  // copy of declareImplicitCtor without super constructor lookup (which is not nullary for java.lang.Enum)
+  declareImplicitEnumCtor : scope
+
+  declareImplicitEnumCtor(s) :-
+    declareMthdName(s, Id("<init>"), [], TYPED(typeDeclType(this(s)))).
+
+
+  // copy of ctorDeclOk with different logic for super constructor invocation
+  enumCtorDeclOk : scope * ConstructorDeclaration * scope
+
+  enumCtorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList), s_def) :-
+  {s_ctorHead s_ctorBody Ts R}
+    ctorModListOk(s, ctorModList),
+
+    new s_ctorHead,
+    s_ctorHead -LEX-> s,
+
+    typeParamsOptOk(s_ctorHead, typeParamsOpt),
+    ctorIdOk(s, id),
+    Ts == formalParamsOk(s_ctorHead, formalParams, s_ctorHead),
+    R == TYPED(typeDeclType(this(s))),
+    declareMthdName(s_def, Id("<init>"), Ts, R),
+    throwsOptOk(s_ctorHead, throwsOpt),
+
+    new s_ctorBody,
+    s_ctorBody -LEX-> s_ctorHead,
+
+    enumCtorInvOptOk(s_ctorBody, ctorInvOpt),
+    blkStmtListOk(s_ctorBody, blkStmtList).
+
+
+  enumCtorInvOptOk : scope * list(ConstructorInvocation)
+
+  enumCtorInvOptOk(s, []).
+  enumCtorInvOptOk(s, [ctorInv]) :- enumCtorInvOk(s, ctorInv).
+  
+
+  enumCtorInvOk : scope * ConstructorInvocation
+
+  enumCtorInvOk(s, ctorInv@AltConstrInv(_, _)) :-
+    ctorInvOk(s, ctorInv).
+
+  enumCtorInvOk(s, SuperConstrInv(typeArgsOpt, exprList)) :-
+    false | error "Super constructor invocation not allowed in enum constructor.".
+
+  enumCtorInvOk(s, ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
+    false | error "Expression constructor invocation not allowed in enum constructor.".
 
