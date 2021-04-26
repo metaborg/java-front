@@ -61,11 +61,11 @@ rules // 9.6. Annotation Types
   annoTypeElemDeclOk : scope * AnnotationTypeElementDeclaration
 
   annoTypeElemDeclOk(s, AnnotationTypeElementDecl(annoTypeElemModList, unannType, id, annDimsEmpty, defaultValOpt)) :-
+  {T U}
     annoTypeElemModListOk(s, annoTypeElemModList),
-    _ == unannTypeOk(s, unannType),
-    annDimsEmptyOk(s, annDimsEmpty),
-    defaultValOptOk(s, defaultValOpt),
-    true.
+    T == unannTypeOk(s, unannType),
+    U == annDimsEmptyOk(s, T, annDimsEmpty),
+    defaultValOptOk(s, defaultValOpt).
 
 
   annoTypeElemModOk : scope * AnnotationTypeElementModifier

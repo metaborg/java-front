@@ -43,8 +43,9 @@ rules // 8.3. Field Declarations
     declareExprName(s_def, id, T).
 
   varDeclIdOk(s, T, VariableDeclArray(id, annDimList), s_def) :-
-    annDimListOk(s, annDimList),
-    declareExprName(s_def, id, _). // FIXME Make array type
+  {U}
+    U == annDimListOk(s, T, annDimList),
+    declareExprName(s_def, id, U).
 
 
   varDeclListOk2 : scope * TYPE * list(VarDecl) * scope * scope * B
@@ -162,15 +163,11 @@ rules // 8.3. Field Declarations
   unannArrayTypeOk(s, UnannArrayTypePrimitive(unannPrimType, annDimList)) = T :-
   {S}
     S == unannPrimTypeOk(unannPrimType),
-    annDimListOk(s, annDimList),
-    T == makeArrayType(s, S),
-    true.
+    T == annDimListOk(s, S, annDimList).
 
   unannArrayTypeOk(s, UnannArrayTypeClassType(unannClsType, annDimList)) = T :-
   {S}
     S == unannClsTypeOk(s, unannClsType),
-    annDimListOk(s, annDimList),
-    T == makeArrayType(s, S),
-    true.
+    T == annDimListOk(s, S, annDimList).
 
 

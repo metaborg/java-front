@@ -47,11 +47,10 @@ rules // 8.4. Method Declarations
 
   mthdHeaderOk(s_mthdHead, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt), s_def) :-
   {R Ts}
-    R == resultOk(s_mthdHead, result),
+    R == resultWithDimsOk(s_mthdHead, result, annDimsEmpty),
     declareReturn(s_mthdHead, R),
     Ts == formalParamsOk(s_mthdHead, formalParams, s_mthdHead),
     declareMthdName(s_def, id, Ts, R),
-    annDimsEmptyOk(s_mthdHead, annDimsEmpty),
     throwsOptOk(s_mthdHead, throwsOpt).
 
   mthdHeaderOk(s_mthdHead, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_def) :-
@@ -71,6 +70,15 @@ rules // 8.4. Method Declarations
     T == unannTypeOk(s, unannType).
 
   resultOk(s, Void()) = VOID().
+
+
+  resultWithDimsOk : scope * Result * AnnotatedDimsEmpty -> RETURN
+
+  resultWithDimsOk(s, UnannType2Result(unannType), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = TYPED(T) :-
+    T == annDimListOk(s, unannTypeOk(s, unannType), annDimList).
+
+  resultWithDimsOk(s, Void(), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = VOID() :-
+    annDimList == [].
 
 
   throwsOk : scope * Throws

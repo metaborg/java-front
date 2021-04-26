@@ -14,24 +14,22 @@ imports
 
 rules // 15.10.1. Array Creation Expressions
 
-  exprOk(s, ArrayCreationExpression2Expression(arrayCreationExpr)) = _ :-
-    arrayCreationExprOk(s, arrayCreationExpr),
+  exprOk(s, ArrayCreationExpression2Expression(arrayCreationExpr)) = arrayCreationExprOk(s, arrayCreationExpr).
+
+
+  arrayCreationExprOk : scope * ArrayCreationExpression -> TYPE
+
+  arrayCreationExprOk(s, NewArray(arrayBaseType, dimExprList, annDimsEmpty)) = S :-
+  {T U}
+    T == arrayBaseTypeOk(s, arrayBaseType),
+    U == dimExprListOk(s, T, dimExprList),
+    S == annDimsEmptyOk(s, U, annDimsEmpty),
     true.
 
-
-  arrayCreationExprOk : scope * ArrayCreationExpression
-
-  arrayCreationExprOk(s, NewArray(arrayBaseType, dimExprList, annDimsEmpty)) :-
+  arrayCreationExprOk(s, NewArrayInit(arrayBaseType, annDims, arrayInit)) = U :-
   {T}
     T == arrayBaseTypeOk(s, arrayBaseType),
-    dimExprListOk(s, dimExprList),
-    annDimsEmptyOk(s, annDimsEmpty),
-    true.
-
-  arrayCreationExprOk(s, NewArrayInit(arrayBaseType, annDims, arrayInit)) :-
-  {T}
-    T == arrayBaseTypeOk(s, arrayBaseType),
-    annDimsOk(s, annDims),
+    U == annDimsOk(s, T, annDims),
     arrayInitOk(s, T, arrayInit),
     true.
 
@@ -43,14 +41,13 @@ rules // 15.10.1. Array Creation Expressions
   arrayBaseTypeOk(s, PrimitiveType2ArrayBaseType(primType)) = primTypeOk(s, primType).
 
 
-  dimExprOk : scope * DimExpr
-  dimExprListOk maps dimExprOk(*, list(*))
+  dimExprListOk : scope * TYPE * list(DimExpr) -> TYPE
 
-  dimExprOk(s, Dim(annoList, expr)) :-
-  {U}
+  dimExprListOk(s, T, []) = T.
+
+  dimExprListOk(s, T, [Dim(annoList, expr)|dimExprList]) = U :-
     annoListOk(s, annoList),
-    U == exprOk(s, expr),
-    _ == promoteNumericUnary(U),
-    true.
+    _ == promoteNumericUnary(exprOk(s, expr)),
+    U == dimExprListOk(s, makeArrayType(s, T), dimExprList).
 
 

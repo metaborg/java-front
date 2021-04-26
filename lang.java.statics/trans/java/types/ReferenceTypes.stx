@@ -90,16 +90,12 @@ rules
   arrayTypeOk(s, ArrayTypePrimitive(primType, annDims)) = T :-
   {S}
     S == primTypeOk(s, primType),
-    annDimsOk(s, annDims),
-    T == makeArrayType(s, S),
-    true.
+    T == annDimsOk(s, S, annDims).
 
   arrayTypeOk(s, ArrayTypeClassType(clsType, annDims)) = T :-
   {S}
     S == clsTypeOk(s, clsType),
-    annDimsOk(s, annDims),
-    T == makeArrayType(s, S),
-    true.
+    T == annDimsOk(s, S, annDims).
 
 
   initTypeScope : scope * Id * KIND
@@ -128,26 +124,23 @@ rules
     query elementType filter e and true in s_ty |-> [(_, T)].
 
 
-  annDimsOk : scope * AnnotatedDims
+  annDimsOk : scope * TYPE * AnnotatedDims -> TYPE
 
-  annDimsOk(s, AnnotatedDims2AnnotatedDims(annDimList)) :-
-    annDimListOk(s, annDimList),
-    true.
+  annDimsOk(s, T, AnnotatedDims2AnnotatedDims(annDimList)) = annDimListOk(s, T, annDimList).
 
 
-  annDimsEmptyOk : scope * AnnotatedDimsEmpty
+  annDimsEmptyOk : scope * TYPE * AnnotatedDimsEmpty -> TYPE
 
-  annDimsEmptyOk(s, AnnotatedDims2AnnotatedDimsEmpty(annDimList)) :-
-    annDimListOk(s, annDimList),
-    true.
+  annDimsEmptyOk(s, T, AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = annDimListOk(s, T, annDimList).
 
 
-  annDimOk : scope * AnnotatedDim
-  annDimListOk maps annDimOk(*, list(*))
+  annDimListOk : scope * TYPE * list(AnnotatedDim) -> TYPE
 
-  annDimOk(s, AnnotateDim(annoList)) :-
+  annDimListOk(s, T, []) = T.
+
+  annDimListOk(s, T, [AnnotateDim(annoList)|annDimList]) = U :-
     annoListOk(s, annoList),
-    true.
+    U == annDimListOk(s, makeArrayType(s, T), annDimList).
 
 
 rules
