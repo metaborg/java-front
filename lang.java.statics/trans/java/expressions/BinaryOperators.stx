@@ -155,8 +155,3 @@ rules // 15.17. Multiplicative Operators
     conditionCompatible(T),
     S == condType(U1, U2).
 
-
-  condType : TYPE * TYPE -> TYPE
-
-  condType(T, U) = NULL() :- try { false } | warning "Unchecked least-upper-bound". // FIXME implement based on rules in JLS 15.25
-

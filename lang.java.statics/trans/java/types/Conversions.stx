@@ -566,3 +566,29 @@ rules
     promoteAddition1(_, T(), _, S) = S.
     promoteAddition1(_, _, T, U) = promoteNumericBinary(T, U).
 
+rules // 15.25 Conditional Operator ? :
+
+  condType : TYPE * TYPE -> TYPE
+
+  condType(T, T) = T.
+
+  condType(T@REF(_) , U@REF(_) ) = condTypeREFREF(isBox(T), T, isBox(U), U).
+
+    condTypeREFREF : B * TYPE * B * TYPE -> TYPE
+    condTypeREFREF(T(), T, T(), U) = condType(unbox(T), unbox(U)).
+    condTypeREFREF(_  , T, _  , U) = NULL() :- try { false } | warning "Unchecked least-upper-bound type.". // FIXME lub(T, U)
+
+  condType(T@REF(_) , NULL()   ) = T.
+  condType(NULL()   , U@REF(_) ) = U.
+
+  condType(T@REF(_) , U        ) = condType(unbox(T), U).
+  condType(T        , U@REF(_) ) = condType(T, unbox(U)).
+
+  condType(BOOLEAN(), BOOLEAN()) = BOOLEAN().
+
+  // cases that are more specific than binary numeric promotion
+  condType(BYTE()   , SHORT()  ) = SHORT().
+  condType(SHORT()  , BYTE()   ) = SHORT().
+
+  condType(T        , U        ) = promoteNumericBinary(T, U).
+
