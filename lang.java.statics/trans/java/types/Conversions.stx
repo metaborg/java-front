@@ -170,18 +170,23 @@ rules // 5.2 Assignment Contexts
     assignCompatibleDOUBLE(U@REF(_)) :- assignCompatibleDOUBLE(unbox(U)).
 
 
-  assignCompatible(s, REF(s_T), U) :- assignCompatibleREF(s, s_T, U).
-    assignCompatibleREF : scope * scope * TYPE
+  assignCompatible(s, T@REF(_), U) :- assignCompatibleREF(s, T, U).
+    assignCompatibleREF : scope * TYPE * TYPE
 
     // 5.1.1 Identity Conversion
-    assignCompatibleREF(_, s_T, REF(s_T)).
+    assignCompatibleREF(_, T, T).
 
     // 5.1.5 Widening Reference Conversion
-    assignCompatibleREF(_, s_T, REF(s_U)) :- superTypeScope(s_T, s_U).
-    assignCompatibleREF(_, s_T, NULL()).
+    assignCompatibleREF(s, T, U@REF(_)) :- assignCompatibleREFREF(s, typeKind(T), T, typeKind(U), U).
+
+        assignCompatibleREFREF : scope * KIND * TYPE * KIND * TYPE
+        assignCompatibleREFREF(s, ARRAY(), T, ARRAY(), U) :- assignCompatible(s, arrayElementType(T), arrayElementType(U)).
+        assignCompatibleREFREF(s, _, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
+
+    assignCompatibleREF(_, T, NULL()).
 
     // 5.1.7 Boxing Conversion
-    assignCompatibleREF(s, s_T, T) :- assignCompatibleREF(s, s_T, box(s, T)).
+    assignCompatibleREF(s, T, U) :- assignCompatibleREF(s, T, box(s, U)).
 
 
 rules // 5.3 Invocation Contexts (strict)
@@ -274,15 +279,20 @@ rules // 5.3 Invocation Contexts (strict)
     invokeCompatibleStrictDOUBLE(BYTE()).
 
 
-  invokeCompatibleStrict(REF(s_T), U) :- invokeCompatibleStrictREF(s_T, U).
-    invokeCompatibleStrictREF : scope * TYPE
+  invokeCompatibleStrict(T@REF(_), U) :- invokeCompatibleStrictREF(T, U).
+    invokeCompatibleStrictREF : TYPE * TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleStrictREF(s_T, REF(s_T)).
+    invokeCompatibleStrictREF(T, T).
 
     // 5.1.5 Widening Reference Conversion
-    invokeCompatibleStrictREF(s_T, REF(s_U)) :- superTypeScope(s_T, s_U).
-    invokeCompatibleStrictREF(s_T, NULL()).
+    invokeCompatibleStrictREF(T, U@REF(_)) :- invokeCompatibleStrictREFREF(typeKind(T), T, typeKind(U), U).
+
+        invokeCompatibleStrictREFREF : KIND * TYPE * KIND * TYPE
+        invokeCompatibleStrictREFREF(ARRAY(), T, ARRAY(), U) :- invokeCompatibleStrict(arrayElementType(T), arrayElementType(U)).
+        invokeCompatibleStrictREFREF(_, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
+
+    invokeCompatibleStrictREF(T, NULL()).
 
 
 rules // 5.3 Invocation Contexts (loose)
@@ -399,18 +409,23 @@ rules // 5.3 Invocation Contexts (loose)
     invokeCompatibleLooseDOUBLE(U@REF(_)) :- invokeCompatibleLooseDOUBLE(unbox(U)).
 
 
-  invokeCompatibleLoose(s, REF(s_T), U) :- invokeCompatibleLooseREF(s, s_T, U).
-    invokeCompatibleLooseREF : scope * scope * TYPE
+  invokeCompatibleLoose(s, T@REF(_), U) :- invokeCompatibleLooseREF(s, T, U).
+    invokeCompatibleLooseREF : scope * TYPE * TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseREF(_, s_T, REF(s_T)).
+    invokeCompatibleLooseREF(_, T, T).
 
     // 5.1.5 Widening Reference Conversion
-    invokeCompatibleLooseREF(_, s_T, REF(s_U)) :- superTypeScope(s_T, s_U).
-    invokeCompatibleLooseREF(_, s_T, NULL()).
+    invokeCompatibleLooseREF(s, T, U@REF(_)) :- invokeCompatibleLooseREFREF(s, typeKind(T), T, typeKind(U), U).
+
+        invokeCompatibleLooseREFREF : scope * KIND * TYPE * KIND * TYPE
+        invokeCompatibleLooseREFREF(s, ARRAY(), T, ARRAY(), U) :- invokeCompatibleLoose(s, arrayElementType(T), arrayElementType(U)).
+        invokeCompatibleLooseREFREF(s, _, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
+
+    invokeCompatibleLooseREF(_, T, NULL()).
 
     // 5.1.7 Boxing Conversion
-    invokeCompatibleLooseREF(s, s_T, T) :- invokeCompatibleLooseREF(s, s_T, box(s, T)).
+    invokeCompatibleLooseREF(s, T, U) :- invokeCompatibleLooseREF(s, T, box(s, U)).
 
 
 rules // 5.4 String Contexts

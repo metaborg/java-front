@@ -4,13 +4,13 @@ imports
 
   java/names/Main
   java/types/Main
+  java/types/ReferenceTypes
 
 rules
 
   referenceSuperType : TYPE * TYPE
 
-  referenceSuperType(REF(s_T), REF(s_U)) :-
-    superTypeScope(s_T, s_U).
+  referenceSuperType(REF(s_T), REF(s_U)) :- superTypeScope(s_T, s_U).
 
 
   superTypeScope : scope * scope
