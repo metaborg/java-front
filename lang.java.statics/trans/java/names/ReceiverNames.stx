@@ -50,4 +50,4 @@ rules
 
     resolveRecvName2(s, qid, []) = _ :- {id} id == qidId(qid), false | error $[Expression or type [id] not found].
 
-    resolveRecvName2(s, qid, typePathList) = TYPE_RECV_DECL(singleTypeDecl(qidId(id), typePathList)).
+    resolveRecvName2(s, qid, typePathList) = TYPE_RECV_DECL(singleTypeDecl(qidId(qid), typePathList)).
