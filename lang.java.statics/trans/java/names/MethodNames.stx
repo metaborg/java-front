@@ -131,11 +131,11 @@ rules
     false | error $[No method [id] for arguments [Ts]] @id.
 
   someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))]) = mthdDecl :-
-    @id.ref := id',
-    true.
+    @id.ref := id'.
 
-  someMthdDecl(id, Ts, mthdDeclList) = _ :-
-    try { false } | note $[Method [id] overloaded for arguments [Ts]] @id.
+  someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))|mthdDeclList]) = mthdDecl :-
+    @id.ref := id',
+    try { false } | warning $[Method [id] overloaded for arguments [Ts]] @id.
 
 
   declareMthdName : scope * Id * list(TYPE) * RETURN
