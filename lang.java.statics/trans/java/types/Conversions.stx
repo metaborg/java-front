@@ -450,7 +450,7 @@ rules // 5.5 Casting Contexts
 
   castCompatible : TYPE * TYPE
 
-  castCompatible(_, _).
+  castCompatible(_, _) :- try { false } | warning "Unchecked cast".
 
     // FIXME
     // 5.1.1 Identity Conversion

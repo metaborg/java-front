@@ -101,7 +101,7 @@ rules // 15.17. Multiplicative Operators
   {T U}
     T == exprOk(s, expr),
     U == refTypeOk(s, refType),
-    referenceSuperType(U, T).
+    castCompatible(U, T).
 
   exprOk(s, Eq(expr1, expr2)) = BOOLEAN() :-
   {T U}
