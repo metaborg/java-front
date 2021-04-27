@@ -51,26 +51,18 @@ rules // 15.15. Unary Operators
     T' == exprOk(s, expr),
     castCompatible(T, T').
 
-  exprOk(s, CastReference(refType, additionalBoundList, expr)) = S@REF(s_ty) :-
-  {T Ts T'}
+  exprOk(s, CastReference(refType, additionalBoundList, expr)) = T :-
+  {Ts T'}
     T == refTypeOk(s, refType),
     Ts == additionalBoundListOk(s, additionalBoundList),
-    
-    new s_ty,
-    setType(s_ty, S),
-    setKind(s_ty, CLASS()),
-    setSuperClsOrImplementIntf (s_ty, T),
-    addSuperIntfList(s_ty, Ts),
-
+    try { Ts == [] } | warning "Extra bounds ignored.",
     T' == exprOk(s, expr),
-
     castCompatible(T, T').
 
   additionalBoundOk : scope * AdditionalBound -> TYPE
   additionalBoundListOk maps additionalBoundOk(*, list(*)) = list(*)
 
   additionalBoundOk(s, AdditionalBound(clsType)) = T :-
-    T == clsTypeOk(s, clsType),
-    true.
+    T == clsTypeOk(s, clsType).
 
 
