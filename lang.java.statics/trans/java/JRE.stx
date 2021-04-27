@@ -85,6 +85,9 @@ rules
   isString : TYPE -> B
   isString(T) = isJREClass(T, "java/lang/String").
 
+  isEnum : TYPE -> B
+  isEnum(T) = isJREClass(T, "java/lang/Enum").
+
 
   isJREClass : TYPE * string -> B
 

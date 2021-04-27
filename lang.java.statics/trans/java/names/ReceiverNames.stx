@@ -6,6 +6,7 @@ imports
 
   java/names/Main
   java/names/ExpressionNames
+  java/names/MethodNames
   java/names/TypeNames
 
   java/types/Main
@@ -22,20 +23,11 @@ signature
 
 rules
 
-  recvDeclScope : RECV_DECL -> scope
-
-  recvDeclScope(TYPE_RECV_DECL(typeDecl)) = typeDeclScope(typeDecl).
-
-  recvDeclScope(VAR_RECV_DECL(varDecl)) = typeScope(varDeclType(varDecl)).
-  
-
-rules
-
   recvNameOk : scope * ExpressionName -> RECV_DECL
 
   recvNameOk(s, exprName) = resolveRecvName(s, exprNameOk1(exprName)).
-  
-  
+
+
   resolveRecvName : scope * QID -> RECV_DECL
   
   resolveRecvName(s, qid) = resolveRecvName1(s, qid, resolveExprNames(s, qid)).
@@ -51,3 +43,16 @@ rules
     resolveRecvName2(s, qid, []) = _ :- {id} id == qidId(qid), false | error $[Expression or type [id] not found].
 
     resolveRecvName2(s, qid, typePathList) = TYPE_RECV_DECL(singleTypeDecl(qidId(qid), typePathList)).
+
+
+  resolveRecvMemberMthdName : RECV_DECL * Id * list(TYPE) -> MTHD_DECL
+
+  resolveRecvMemberMthdName(recvDecl, id, Ts) = someMthdDecl(id, Ts, resolveRecvMemberMthdNames(recvDecl, id, Ts)).
+
+
+  resolveRecvMemberMthdNames : RECV_DECL * Id * list(TYPE) -> list(MTHD_PATH)
+
+  resolveRecvMemberMthdNames(TYPE_RECV_DECL(typeDecl), id, Ts) = resolveStaticMemberMthdNames(typeDeclScope(typeDecl), id, Ts).
+
+  resolveRecvMemberMthdNames(VAR_RECV_DECL(varDecl), id, Ts) = resolveMemberMthdNames(typeScope(varDeclType(varDecl)), id, Ts).
+

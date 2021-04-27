@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import org.metaborg.util.Ref;
 import org.metaborg.util.functions.Action2;
 import org.metaborg.util.functions.Predicate1;
+import org.metaborg.util.tuple.Tuple2;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.signature.SignatureReader;
@@ -88,6 +89,7 @@ public class StxLibCommand implements Runnable {
     private static final Set<String> jreTypes = ImmutableSet.<String>builder()
         .add("java/lang/String")
         .add("java/lang/Throwable")
+        .add("java/lang/Enum")
         .build();
     // @formatter:on
 
@@ -289,22 +291,34 @@ public class StxLibCommand implements Runnable {
             // ClassSignature = ( visitFormalTypeParameter visitClassBound? visitInterfaceBound* )* ( visitSuperclass visitInterface* )
             new SignatureReader(classNode.signature).accept(new SignatureVisitor(Opcodes.ASM9) {
 
-                private Scope s_tvar;
+                private String tvarName;
+                private boolean tvarBound;
 
                 @Override public void visitFormalTypeParameter(String name) {
-                    s_tvar = newTypeScope();
-                    typeVars.put(name, makeREF(s_tvar));
+                    tvarName = name;
+                    tvarBound = false;
+                    typeVars.put(tvarName, objectType()._1());
                 }
 
                 @Override public SignatureVisitor visitClassBound() {
                     return SignatureType(typeVars, (type, typeScope) -> {
-                        scopeGraph.addEdge(s_tvar, StxLibCommand.EXTENDS_EDGE, typeScope);
+                        if(!tvarBound) {
+                            tvarBound = true;
+                            typeVars.put(tvarName, type);
+                        } else {
+                            System.out.println(className + "<" + tvarName + "> ignored class bound " + type);
+                        }
                     });
                 }
 
                 @Override public SignatureVisitor visitInterfaceBound() {
                     return SignatureType(typeVars, (type, typeScope) -> {
-                        scopeGraph.addEdge(s_tvar, IMPLEMENTS_EDGE, typeScope);
+                        if(!tvarBound) {
+                            tvarBound = true;
+                            typeVars.put(tvarName, type);
+                        } else {
+                            System.out.println(className + "<" + tvarName + "> ignored interface bound " + type);
+                        }
                     });
                 }
 
@@ -381,22 +395,36 @@ public class StxLibCommand implements Runnable {
                 // MethodSignature = ( visitFormalTypeParameter visitClassBound? visitInterfaceBound* )* (visitParameterType* visitReturnType visitExceptionType*)
                 new SignatureReader(method.signature).accept(new SignatureVisitor(Opcodes.ASM9) {
 
-                    private Scope s_tvar;
+                    private String tvarName;
+                    private boolean tvarBound;
 
                     @Override public void visitFormalTypeParameter(String name) {
-                        s_tvar = newTypeScope();
-                        mthdTypeVars.put(name, makeREF(s_tvar));
+                        tvarName = name;
+                        tvarBound = false;
+                        mthdTypeVars.put(name, objectType()._1());
                     }
 
                     @Override public SignatureVisitor visitClassBound() {
                         return SignatureType(mthdTypeVars, (type, typeScope) -> {
-                            scopeGraph.addEdge(s_tvar, StxLibCommand.EXTENDS_EDGE, typeScope);
+                            if(!tvarBound) {
+                                tvarBound = true;
+                                typeVars.put(tvarName, type);
+                            } else {
+                                System.out.println(className + "#" + method.name + "<" + tvarName + ">"
+                                        + " ignored interface bound " + type);
+                            }
                         });
                     }
 
                     @Override public SignatureVisitor visitInterfaceBound() {
                         return SignatureType(mthdTypeVars, (type, typeScope) -> {
-                            scopeGraph.addEdge(s_tvar, IMPLEMENTS_EDGE, typeScope);
+                            if(!tvarBound) {
+                                tvarBound = true;
+                                typeVars.put(tvarName, type);
+                            } else {
+                                System.out.println(className + "#" + method.name + "<" + tvarName + ">"
+                                        + " ignored interface bound " + type);
+                            }
                         });
                     }
 
@@ -751,8 +779,7 @@ public class StxLibCommand implements Runnable {
         addDecl(s_ty, WITH_TYPE_REL, makeREF(s_ty));
         addDecl(s_ty, WITH_KIND_REL, ARRAY_KIND);
 
-        final Scope s_super = getOrInitClass("java/lang/Object");
-        scopeGraph.addEdge(s_ty, EXTENDS_EDGE, s_super); // FIXME Also if classNode is an interface?
+        scopeGraph.addEdge(s_ty, EXTENDS_EDGE, objectType()._2()); // FIXME Also if classNode is an interface?
 
         addDecl(s_ty, ELEMENT_TYPE_REL, elementType);
 
@@ -769,6 +796,12 @@ public class StxLibCommand implements Runnable {
 
     private static ITerm makeLabel(String name) {
         return B.newAppl("Label", B.newString(name));
+    }
+
+    private Tuple2<ITerm, Scope> objectType() {
+        final Scope scope = getOrInitClass("java/lang/Object");
+        ITerm type = makeREF(scope);
+        return Tuple2.of(type, scope);
     }
 
 }

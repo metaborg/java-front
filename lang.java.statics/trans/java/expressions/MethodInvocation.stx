@@ -25,17 +25,17 @@ rules // 15.12. Method Invocation Expressions
     true.
 
   exprOk(s, InvokeQExp(ExpressionName2Expression(exprName), typeArgsOpt, id, exprList)) = T :-
-  {s_ty Ts mthdDecl R}
-    s_ty == recvDeclScope(recvNameOk(s, exprName)),
+  {recvDecl Ts mthdDecl R}
+    recvDecl == recvNameOk(s, exprName),
     
     _ == typeArgsOptOk(s, typeArgsOpt),
 
     Ts == exprListOk(s, exprList),
 
-    mthdDecl == resolveMemberMthdName(s_ty, id, Ts),
+    mthdDecl == resolveRecvMemberMthdName(recvDecl, id, Ts),
     R == mthdDeclReturn(mthdDecl),
     T == invokeReturn(R),
-    
+
     true.
   
   exprOk(s, InvokeQExp(expr, typeArgsOpt, id, exprList)) = T :-

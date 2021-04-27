@@ -91,9 +91,9 @@ rules
       in s |-> varPathList.
 
 
-  resolveStaticMemberExprNames : scope * Id -> list(VAR_PATH)
+  resolveAllStaticMemberExprNames : scope * Id -> list(VAR_PATH)
 
-  resolveStaticMemberExprNames(s, id) = varPathList :-
+  resolveAllStaticMemberExprNames(s, id) = varPathList :-
     query var
       filter /* mem expr re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS

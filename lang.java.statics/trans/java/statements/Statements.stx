@@ -119,21 +119,25 @@ rules // 14.5. Statements
 
 
   stmtOk(s, Switch(expr, switchGroupList, switchLabelList)) :-
-  {T s_blk}
+  {T s_lbl s_blk}
     T == exprOk(s, expr),
     switchCompatible(T),
     new s_blk, s_blk -LEX-> s,
-    switchGroupListOk(s_blk, T, switchGroupList),
-    switchLabelListOk(s_blk, T, switchLabelList),
-    true.
+    new s_lbl, s_lbl -LEX-> s,
+    switchLabelImport(s_lbl, T),
+    switchGroupListOk(s_blk, s_lbl, T, switchGroupList),
+    switchLabelListOk(s_lbl, T, switchLabelList).
 
-  switchGroupOk : scope * TYPE * SwitchGroup
-  switchGroupListOk maps switchGroupOk(*, *, list(*))
+  switchLabelImport : scope * TYPE
+  switchLabelImport(s_lbl, REF(s_ty)) :- s_lbl -STATIC_IMPORT_ONDEMAND-> s_ty.
+  switchLabelImport(_, _).
 
-  switchGroupOk(s, T, SwitchGroup(switchLabelList, blkStmtList)) :-
-    switchLabelListOk(s, T, switchLabelList),
-    blkStmtListOk(s, blkStmtList),
-    true.
+  switchGroupOk : scope * scope * TYPE * SwitchGroup
+  switchGroupListOk maps switchGroupOk(*, *, *, list(*))
+
+  switchGroupOk(s, s_lbl, T, SwitchGroup(switchLabelList, blkStmtList)) :-
+    switchLabelListOk(s_lbl, T, switchLabelList),
+    blkStmtListOk(s, blkStmtList).
 
   switchLabelOk : scope * TYPE * SwitchLabel
   switchLabelListOk maps switchLabelOk(*, *, list(*))
@@ -141,8 +145,7 @@ rules // 14.5. Statements
   switchLabelOk(s, T, CaseExpr(expr)) :-
   {T'}
     T' == exprOk(s, expr),
-    switchCaseCompatible(T, T'),
-    true.
+    switchCaseCompatible(T, T').
 
   switchLabelOk(s, T, DefaultCase()) :-
     true.

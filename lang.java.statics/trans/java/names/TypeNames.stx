@@ -119,9 +119,9 @@ rules
     true.
 
 
-  resolveStaticMemberTypeNames : scope * Id -> list(TYPE_PATH)
+  resolveAllStaticMemberTypeNames : scope * Id -> list(TYPE_PATH)
 
-  resolveStaticMemberTypeNames(s, id) = typePathList :-
+  resolveAllStaticMemberTypeNames(s, id) = typePathList :-
     query type
       filter /* mem type re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS

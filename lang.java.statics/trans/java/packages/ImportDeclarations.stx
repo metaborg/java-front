@@ -40,13 +40,13 @@ rules // 7.5. Import Declarations
     new s_imp',
     s_imp -SINGLE_STATIC_IMPORT-> s_imp',
 
-    types == resolveStaticMemberTypeNames(s_ty, id),
+    types == resolveAllStaticMemberTypeNames(s_ty, id),
     importStaticTypeList(types, s_imp'),
 
-    mthds == resolveStaticMemberMthdNames(s_ty, id),
+    mthds == resolveAllStaticMemberMthdNames(s_ty, id),
     importStaticMthdList(mthds, s_imp'),
 
-    vars == resolveStaticMemberExprNames(s_ty, id),
+    vars == resolveAllStaticMemberExprNames(s_ty, id),
     importStaticExprList(vars, s_imp'),
 
     importStaticNotEmpty(id, types, mthds, vars).

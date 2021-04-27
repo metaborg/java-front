@@ -99,9 +99,23 @@ rules
     true.
 
 
-  resolveStaticMemberMthdNames : scope * Id -> list(MTHD_PATH)
+  resolveStaticMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
   
-  resolveStaticMemberMthdNames(s, id) = mthdPathList :-
+  resolveStaticMemberMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter /* mem mthd re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        and { (id', Ts') :- id' == id, invokeCompatibleLooseList(s, Ts', Ts) }
+      min /* mem mthd ord */
+          $ < EXTENDS, $ < IMPLEMENTS
+        and { (_, Us), (_, Us) }
+      in s |-> mthdPathList,
+    true.
+
+
+  resolveAllStaticMemberMthdNames : scope * Id -> list(MTHD_PATH)
+  
+  resolveAllStaticMemberMthdNames(s, id) = mthdPathList :-
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS

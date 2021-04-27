@@ -21,6 +21,6 @@ rules
     superTypeScope1(ps).
 
       superTypeScope1 : list((path * scope))
-      superTypeScope1([]) :- false.
+      superTypeScope1([]) :- false | error $[Provided type not a subtype of expected type.].
       superTypeScope1(ps) :- true.
 

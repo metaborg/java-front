@@ -513,12 +513,15 @@ rules
   switchCompatible(BYTE()).
   switchCompatible(SHORT()).
   switchCompatible(INT()).
-  switchCompatible(T@REF(_)). // FIXME conditionCompatible(unbox(T)) _or_ String _or_ Enum.
+  switchCompatible(T@REF(_)) :- switchCompatibleREF(isString(T), isEnum(T)).
 
+      switchCompatibleREF : B * B
+      switchCompatibleREF(T(), _).
+      switchCompatibleREF(_, T()).
 
   switchCaseCompatible : TYPE * TYPE
 
-  switchCaseCompatible(_, _). // FIXME
+  switchCaseCompatible(T, U) :- equalsCompatible(T, U). // FIXME is this correct?
 
 
 rules

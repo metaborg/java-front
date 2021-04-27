@@ -15,8 +15,11 @@ imports
 
 rules // 4.4. Type Variables
 
-  /**
-   * Type parameters are treated as local CLASS declarations.
+  /** FIXME
+   * Type parameters get the type of the first bound. Other bounds are ignored.
+   * Type parameters used to be modeled as local CLASS declarations, which would extend/implement
+   * the bounds. This works somewhat in the class body, but causes problems when type parameters
+   * appear as method parameter types: arguments inherit the bound, not the local subtype of the bound.
    */
 
   typeParamOk : scope * TypeParameter
@@ -25,22 +28,13 @@ rules // 4.4. Type Variables
   typeParamOk(s, TypeParameter(annoList, id)) :-
   {s_var}
     annoListOk(s, annoList),
-
-    new s_var, s_var -LEX-> s,
-    declareType(s, id, s_var, CLASS()),
-
-    setSuperCls(s_var, objectOk(s)),
-
-    true.
+    aliasType(s, (id, typeScope(objectOk(s)))).
 
   typeParamOk(s, TypeParameterExtends(annoList, id, clsTypeList)) :-
   {s_var T Ts}
     annoListOk(s, annoList),
-
-    new s_var, s_var -LEX-> s,
-    declareType(s, id, s_var, CLASS()),
-
     [T|Ts] == clsTypeListOk(s, clsTypeList),
-    setSuperClsOrImplementIntf(s_var, T),
-    addSuperIntfList(s_var, Ts).
+    isClsType(T),
+    try { false } | warning "Extra bounds ignored.",
+    aliasType(s, (id, typeScope(T))).
 
