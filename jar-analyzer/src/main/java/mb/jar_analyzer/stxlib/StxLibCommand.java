@@ -408,7 +408,7 @@ public class StxLibCommand implements Runnable {
                         return SignatureType(mthdTypeVars, (type, typeScope) -> {
                             if(!tvarBound) {
                                 tvarBound = true;
-                                typeVars.put(tvarName, type);
+                                mthdTypeVars.put(tvarName, type);
                             } else {
                                 System.out.println(className + "#" + method.name + "<" + tvarName + ">"
                                         + " ignored interface bound " + type);
@@ -420,7 +420,7 @@ public class StxLibCommand implements Runnable {
                         return SignatureType(mthdTypeVars, (type, typeScope) -> {
                             if(!tvarBound) {
                                 tvarBound = true;
-                                typeVars.put(tvarName, type);
+                                mthdTypeVars.put(tvarName, type);
                             } else {
                                 System.out.println(className + "#" + method.name + "<" + tvarName + ">"
                                         + " ignored interface bound " + type);
@@ -656,8 +656,8 @@ public class StxLibCommand implements Runnable {
             final SigType outer = this;
             return new SigType(typeVars) {
                 @Override public void setType(ITerm elementType, Scope elementTypeScope) {
-                    Scope typeScope = makeArrayType(elementType);
-                    outer.setType(makeREF(typeScope), typeScope);
+                    Tuple2<ITerm, Scope> type = makeArrayType(elementType);
+                    outer.setType(type._1(), type._2());
                 }
             };
         }
@@ -749,7 +749,7 @@ public class StxLibCommand implements Runnable {
     private ITerm descType(Type desc) {
         switch(desc.getSort()) {
             case Type.ARRAY:
-                return makeArrayType(descType(desc.getElementType()));
+                return makeArrayType(descType(desc.getElementType()))._1();
             case Type.BOOLEAN:
                 return B.newAppl("BOOLEAN");
             case Type.BYTE:
@@ -773,7 +773,7 @@ public class StxLibCommand implements Runnable {
         }
     }
 
-    private Scope makeArrayType(ITerm elementType) {
+    private Tuple2<ITerm, Scope> makeArrayType(ITerm elementType) {
         final Scope s_ty = newTypeScope();
 
         addDecl(s_ty, WITH_TYPE_REL, makeREF(s_ty));
@@ -783,7 +783,7 @@ public class StxLibCommand implements Runnable {
 
         addDecl(s_ty, ELEMENT_TYPE_REL, elementType);
 
-        return s_ty;
+        return Tuple2.of(makeREF(s_ty), s_ty);
     }
 
     private static ITerm makeId(String name) {
