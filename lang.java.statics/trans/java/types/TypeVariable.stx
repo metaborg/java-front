@@ -35,6 +35,6 @@ rules // 4.4. Type Variables
     annoListOk(s, annoList),
     [T|Ts] == clsTypeListOk(s, clsTypeList),
     isClsType(T),
-    try { false } | warning "Extra bounds ignored.",
+    try { Ts == [] } | warning "Extra bounds ignored.",
     aliasType(s, (id, typeScope(T))).
 
