@@ -34,7 +34,7 @@ rules // 4.4. Type Variables
   {s_var T Ts}
     annoListOk(s, annoList),
     [T|Ts] == clsTypeListOk(s, clsTypeList),
-    isClsType(T),
+    isClsOrIntfType(T),
     try { Ts == [] } | warning "Extra bounds ignored.",
     aliasType(s, (id, typeScope(T))).
 
