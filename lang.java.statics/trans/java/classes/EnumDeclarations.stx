@@ -42,10 +42,18 @@ rules // 8.9. Enum Types
 
     new s_enumStatic,
     s_enum -STATIC_MEMBERS-> s_enumStatic,
+    enumPredefinedMethods(s, REF(s_enum), s_enumStatic),
 
     enumConstListOk(s_enum, REF(s_enum), enumConstList, s_enumStatic),
 
     enumBodyDeclsOptOk(s_enum, enumBodyDeclsOpt, s_enum, s_enumStatic). // FIXME what is allowed here in enums?
+
+
+  enumPredefinedMethods : scope * TYPE * scope
+
+  enumPredefinedMethods(s, T, s_staticDef) :-
+    declareMthdName(s_staticDef, Id("values"), ARGS([]), TYPED(makeArrayType(s, T))),
+    declareMthdName(s_staticDef, Id("valueOf"), ARGS([stringOk(s)]), TYPED(T)).
 
 
   enumConstOk : scope * TYPE * EnumConstant * scope
