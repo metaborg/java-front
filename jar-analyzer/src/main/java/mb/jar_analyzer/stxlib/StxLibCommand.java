@@ -70,6 +70,9 @@ public class StxLibCommand implements Runnable {
     private static final ITerm CLASS_KIND = B.newAppl("CLASS");
     private static final ITerm INTERFACE_KIND = B.newAppl("INTF");
 
+    private static final String ARGS = "ARGS";
+    private static final String VARARGS = "VARARGS";
+
     private static final String INIT = "<init>";
 
     // @formatter:off
@@ -464,7 +467,14 @@ public class StxLibCommand implements Runnable {
                 }
             }
             final Scope s_def = (method.access & Opcodes.ACC_STATIC) == 0 ? s_ty : s_static;
-            declareMethod(s_def, method.name, paramTypes, retType.get());
+            final ITerm params;
+            if((method.access & Opcodes.ACC_VARARGS) == 0) {
+                params = B.newAppl(ARGS, B.newList(paramTypes));
+            } else {
+                params = B.newAppl(VARARGS, B.newList(paramTypes.subList(0, paramTypes.size() - 1)),
+                        paramTypes.get(paramTypes.size() - 1));
+            }
+            declareMethod(s_def, method.name, params, retType.get());
         }
 
     }
@@ -562,10 +572,10 @@ public class StxLibCommand implements Runnable {
         return s_mthd;
     }
 
-    private void declareMethod(Scope s, String name, Iterable<ITerm> paramTypes, ITerm retType) {
+    private void declareMethod(Scope s, String name, ITerm params, ITerm retType) {
         final Scope s_mthd = newMthdScope();
         addDecl(s_mthd, RETURN_REL, retType);
-        addDecl(s, METHOD_REL, B.newTuple(makeId(name), B.newList(paramTypes), s_mthd));
+        addDecl(s, METHOD_REL, B.newTuple(makeId(name), params, s_mthd));
     }
 
     ////////////////////////////////////////////////////////////////////////////

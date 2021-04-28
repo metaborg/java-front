@@ -23,7 +23,7 @@ rules // 8.8. Constructor Declarations
   ctorDeclOk : scope * ConstructorDeclaration * scope
 
   ctorDeclOk(s, ConstrDecl(ctorModList, typeParamsOpt, id, formalParams, throwsOpt, ctorInvOpt, blkStmtList), s_def) :-
-  {s_ctorHead s_ctorBody Ts R}
+  {s_ctorHead s_ctorBody params R}
     ctorModListOk(s, ctorModList),
 
     new s_ctorHead,
@@ -31,9 +31,9 @@ rules // 8.8. Constructor Declarations
 
     typeParamsOptOk(s_ctorHead, typeParamsOpt),
     ctorIdOk(s, id),
-    Ts == formalParamsOk(s_ctorHead, formalParams, s_ctorHead),
+    params == formalParamsOk(s_ctorHead, formalParams, s_ctorHead),
     R == TYPED(typeDeclType(this(s))),
-    declareMthdName(s_def, Id("<init>"), Ts, R),
+    declareMthdName(s_def, Id("<init>"), params, R),
     throwsOptOk(s_ctorHead, throwsOpt),
 
     new s_ctorBody,
@@ -101,6 +101,6 @@ rules // 8.8. Constructor Declarations
   {id}
     id == Id("<init>"),
     // FIXME Require super class
-    declareMthdName(s, id, [], TYPED(typeDeclType(this(s)))),
+    declareMthdName(s, id, ARGS([]), TYPED(typeDeclType(this(s)))),
     _ == someMthdDecl(id, [], resolveDirectMemberMthdNames(typeDeclScope(super(this(s))), id, [])),
     true.

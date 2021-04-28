@@ -7,33 +7,34 @@ imports
   java/classes/MethodDeclarations
   java/expressions/Main
   java/names/Main
+  java/names/MethodNames
   java/statements/Blocks
 
 
 rules // 15.27. Lambda Expressions
 
   exprOk(s, LambdaExpression(lambdaParams, expr)) = _ :-
-  {s_lambda Ts}
+  {s_lambda}
     new s_lambda, s_lambda -LEX-> s,
-    Ts == lambdaParamsOk(s, lambdaParams, s_lambda),
+    _ == lambdaParamsOk(s, lambdaParams, s_lambda),
     _ == exprOk(s_lambda, expr),
     true.
 
   exprOk(s, LambdaExpressionWithBlock(lambdaParams, blk)) = _ :-
-  {s_lambda Ts}
+  {s_lambda}
     new s_lambda, s_lambda -LEX-> s,
-    Ts == lambdaParamsOk(s, lambdaParams, s_lambda),
+    _ == lambdaParamsOk(s, lambdaParams, s_lambda),
     blkOk(s_lambda, blk),
     true.
 
 
-  lambdaParamsOk : scope * LambdaParameters * scope -> list(TYPE)
+  lambdaParamsOk : scope * LambdaParameters * scope -> PARAMS
 
-  lambdaParamsOk(s, SingleInferredParam(id), s_def) = [_] :-
+  lambdaParamsOk(s, SingleInferredParam(id), s_def) = ARGS([_]) :-
     true.
 
-  lambdaParamsOk(s, Params(formalParams), s_def) = Ts :-
-    Ts == formalParamsOk(s, formalParams, s_def),
+  lambdaParamsOk(s, Params(formalParams), s_def) = params :-
+    params == formalParamsOk(s, formalParams, s_def),
     true.
 
   lambdaParamsOk(s, InferredParams(idList), s_def) = _ :-

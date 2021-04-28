@@ -202,241 +202,275 @@ rules // 5.2 Assignment Contexts
 
 rules // 5.3 Invocation Contexts (strict)
 
-  invokeCompatibleStrict : TYPE * TYPE
-  invokeCompatibleStrictList maps invokeCompatibleStrict(list(*), list(*))
+  invokeCompatibleStrict : PARAMS * list(TYPE)
 
-  invokeCompatibleStrict(BOOLEAN(), U) :- invokeCompatibleStrictBOOLEAN(U).
-    invokeCompatibleStrictBOOLEAN : TYPE
+  invokeCompatibleStrict(ARGS(Ts), Us) :- invokeCompatibleTypesStrictList(Ts, Us).
+  invokeCompatibleStrict(VARARGS(Ts, T), Us) :- invokeCompatibleStrict1(Ts, T, Us).
 
-    // 5.1.1 Identity Conversion
-    invokeCompatibleStrictBOOLEAN(BOOLEAN()).
+    invokeCompatibleStrict1 : list(TYPE) * TYPE * list(TYPE)
 
+    invokeCompatibleStrict1([T|Ts], S, [U|Us]) :-
+      invokeCompatibleTypesStrict(T, U),
+      invokeCompatibleStrict1(Ts, S, Us).
 
-  invokeCompatibleStrict(CHAR(), U) :- invokeCompatibleStrictCHAR(U).
-    invokeCompatibleStrictCHAR : TYPE
-
-    // 5.1.1 Identity Conversion
-    invokeCompatibleStrictCHAR(CHAR()).
-
-
-  invokeCompatibleStrict(BYTE(), U) :- invokeCompatibleStrictBYTE(U).
-    invokeCompatibleStrictBYTE : TYPE
-
-    // 5.1.1 Identity Conversion
-    invokeCompatibleStrictBYTE(BYTE()).
+    invokeCompatibleStrict1([], S, Us) :-
+      // FIXME if Us == [U] and U is an array type: invokeCompatibleStrict(S, U)
+      invokeCompatibleTypesStrictTail(S, Us).
 
 
-  invokeCompatibleStrict(SHORT(), U) :- invokeCompatibleStrictSHORT(U).
-    invokeCompatibleStrictSHORT : TYPE
+  invokeCompatibleTypesStrict : TYPE * TYPE
+  invokeCompatibleTypesStrictList maps invokeCompatibleTypesStrict(list(*), list(*))
+  invokeCompatibleTypesStrictTail maps invokeCompatibleTypesStrict(*, list(*))
+
+  invokeCompatibleTypesStrict(BOOLEAN(), U) :- invokeCompatibleTypesStrictBOOLEAN(U).
+    invokeCompatibleTypesStrictBOOLEAN : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleStrictSHORT(SHORT()).
+    invokeCompatibleTypesStrictBOOLEAN(BOOLEAN()).
+
+
+  invokeCompatibleTypesStrict(CHAR(), U) :- invokeCompatibleTypesStrictCHAR(U).
+    invokeCompatibleTypesStrictCHAR : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleTypesStrictCHAR(CHAR()).
+
+
+  invokeCompatibleTypesStrict(BYTE(), U) :- invokeCompatibleTypesStrictBYTE(U).
+    invokeCompatibleTypesStrictBYTE : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleTypesStrictBYTE(BYTE()).
+
+
+  invokeCompatibleTypesStrict(SHORT(), U) :- invokeCompatibleTypesStrictSHORT(U).
+    invokeCompatibleTypesStrictSHORT : TYPE
+
+    // 5.1.1 Identity Conversion
+    invokeCompatibleTypesStrictSHORT(SHORT()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleStrictSHORT(BYTE()).
+    invokeCompatibleTypesStrictSHORT(BYTE()).
 
 
-  invokeCompatibleStrict(INT(), U) :- invokeCompatibleStrictINT(U).
-    invokeCompatibleStrictINT : TYPE
+  invokeCompatibleTypesStrict(INT(), U) :- invokeCompatibleTypesStrictINT(U).
+    invokeCompatibleTypesStrictINT : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleStrictINT(INT()).
+    invokeCompatibleTypesStrictINT(INT()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleStrictINT(CHAR()).
-    invokeCompatibleStrictINT(SHORT()).
-    invokeCompatibleStrictINT(BYTE()).
+    invokeCompatibleTypesStrictINT(CHAR()).
+    invokeCompatibleTypesStrictINT(SHORT()).
+    invokeCompatibleTypesStrictINT(BYTE()).
 
 
-  invokeCompatibleStrict(LONG(), U) :- invokeCompatibleStrictLONG(U).
-    invokeCompatibleStrictLONG : TYPE
+  invokeCompatibleTypesStrict(LONG(), U) :- invokeCompatibleTypesStrictLONG(U).
+    invokeCompatibleTypesStrictLONG : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleStrictLONG(LONG()).
+    invokeCompatibleTypesStrictLONG(LONG()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleStrictLONG(INT()).
-    invokeCompatibleStrictLONG(CHAR()).
-    invokeCompatibleStrictLONG(SHORT()).
-    invokeCompatibleStrictLONG(BYTE()).
+    invokeCompatibleTypesStrictLONG(INT()).
+    invokeCompatibleTypesStrictLONG(CHAR()).
+    invokeCompatibleTypesStrictLONG(SHORT()).
+    invokeCompatibleTypesStrictLONG(BYTE()).
 
 
-  invokeCompatibleStrict(FLOAT(), U) :- invokeCompatibleStrictFLOAT(U).
-    invokeCompatibleStrictFLOAT : TYPE
+  invokeCompatibleTypesStrict(FLOAT(), U) :- invokeCompatibleTypesStrictFLOAT(U).
+    invokeCompatibleTypesStrictFLOAT : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleStrictFLOAT(FLOAT()).
+    invokeCompatibleTypesStrictFLOAT(FLOAT()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleStrictFLOAT(LONG()).
-    invokeCompatibleStrictFLOAT(INT()).
-    invokeCompatibleStrictFLOAT(CHAR()).
-    invokeCompatibleStrictFLOAT(SHORT()).
-    invokeCompatibleStrictFLOAT(BYTE()).
+    invokeCompatibleTypesStrictFLOAT(LONG()).
+    invokeCompatibleTypesStrictFLOAT(INT()).
+    invokeCompatibleTypesStrictFLOAT(CHAR()).
+    invokeCompatibleTypesStrictFLOAT(SHORT()).
+    invokeCompatibleTypesStrictFLOAT(BYTE()).
 
 
-  invokeCompatibleStrict(DOUBLE(), U) :- invokeCompatibleStrictDOUBLE(U).
-    invokeCompatibleStrictDOUBLE : TYPE
+  invokeCompatibleTypesStrict(DOUBLE(), U) :- invokeCompatibleTypesStrictDOUBLE(U).
+    invokeCompatibleTypesStrictDOUBLE : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleStrictDOUBLE(DOUBLE()).
+    invokeCompatibleTypesStrictDOUBLE(DOUBLE()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleStrictDOUBLE(FLOAT()).
-    invokeCompatibleStrictDOUBLE(LONG()).
-    invokeCompatibleStrictDOUBLE(INT()).
-    invokeCompatibleStrictDOUBLE(CHAR()).
-    invokeCompatibleStrictDOUBLE(SHORT()).
-    invokeCompatibleStrictDOUBLE(BYTE()).
+    invokeCompatibleTypesStrictDOUBLE(FLOAT()).
+    invokeCompatibleTypesStrictDOUBLE(LONG()).
+    invokeCompatibleTypesStrictDOUBLE(INT()).
+    invokeCompatibleTypesStrictDOUBLE(CHAR()).
+    invokeCompatibleTypesStrictDOUBLE(SHORT()).
+    invokeCompatibleTypesStrictDOUBLE(BYTE()).
 
 
-  invokeCompatibleStrict(T@REF(_), U) :- invokeCompatibleStrictREF(T, U).
-    invokeCompatibleStrictREF : TYPE * TYPE
+  invokeCompatibleTypesStrict(T@REF(_), U) :- invokeCompatibleTypesStrictREF(T, U).
+    invokeCompatibleTypesStrictREF : TYPE * TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleStrictREF(T, T).
+    invokeCompatibleTypesStrictREF(T, T).
 
     // 5.1.5 Widening Reference Conversion
-    invokeCompatibleStrictREF(T, U@REF(_)) :- invokeCompatibleStrictREFREF(typeKind(T), T, typeKind(U), U).
+    invokeCompatibleTypesStrictREF(T, U@REF(_)) :- invokeCompatibleTypesStrictREFREF(typeKind(T), T, typeKind(U), U).
 
-        invokeCompatibleStrictREFREF : KIND * TYPE * KIND * TYPE
-        invokeCompatibleStrictREFREF(ARRAY(), T, ARRAY(), U) :- invokeCompatibleStrict(arrayElementType(T), arrayElementType(U)).
-        invokeCompatibleStrictREFREF(_, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
+        invokeCompatibleTypesStrictREFREF : KIND * TYPE * KIND * TYPE
+        invokeCompatibleTypesStrictREFREF(ARRAY(), T, ARRAY(), U) :- invokeCompatibleTypesStrict(arrayElementType(T), arrayElementType(U)).
+        invokeCompatibleTypesStrictREFREF(_, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
 
-    invokeCompatibleStrictREF(T, NULL()).
+    invokeCompatibleTypesStrictREF(T, NULL()).
 
 
 rules // 5.3 Invocation Contexts (loose)
 
-  invokeCompatibleLoose : scope * TYPE * TYPE
-  invokeCompatibleLooseList maps invokeCompatibleLoose(*, list(*), list(*))
+  invokeCompatibleLoose : scope * PARAMS * list(TYPE)
 
-  invokeCompatibleLoose(_, BOOLEAN(), U) :- invokeCompatibleLooseBOOLEAN(U).
-    invokeCompatibleLooseBOOLEAN : TYPE
+  invokeCompatibleLoose(s, ARGS(Ts), Us) :- invokeCompatibleTypesLooseList(s, Ts, Us).
+  invokeCompatibleLoose(s, VARARGS(Ts, T), Us) :- invokeCompatibleLoose1(s, Ts, T, Us).
+
+    invokeCompatibleLoose1 : scope * list(TYPE) * TYPE * list(TYPE)
+
+    invokeCompatibleLoose1(s, [T|Ts], S, [U|Us]) :-
+      invokeCompatibleTypesLoose(s, T, U),
+      invokeCompatibleLoose1(s, Ts, S, Us).
+
+    invokeCompatibleLoose1(s, [], S, Us) :-
+      // FIXME if Us == [U] and U is an array type: invokeCompatibleLoose(S, U)
+      invokeCompatibleTypesLooseTail(s, S, Us).
+
+
+  invokeCompatibleTypesLoose : scope * TYPE * TYPE
+  invokeCompatibleTypesLooseList maps invokeCompatibleTypesLoose(*, list(*), list(*))
+  invokeCompatibleTypesLooseTail maps invokeCompatibleTypesLoose(*, *, list(*))
+
+  invokeCompatibleTypesLoose(_, BOOLEAN(), U) :- invokeCompatibleTypesLooseBOOLEAN(U).
+    invokeCompatibleTypesLooseBOOLEAN : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseBOOLEAN(BOOLEAN()).
+    invokeCompatibleTypesLooseBOOLEAN(BOOLEAN()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseBOOLEAN(U@REF(_)) :- invokeCompatibleLooseBOOLEAN(unbox(U)).
+    invokeCompatibleTypesLooseBOOLEAN(U@REF(_)) :- invokeCompatibleTypesLooseBOOLEAN(unbox(U)).
 
 
-  invokeCompatibleLoose(_, CHAR(), U) :- invokeCompatibleLooseCHAR(U).
-    invokeCompatibleLooseCHAR : TYPE
+  invokeCompatibleTypesLoose(_, CHAR(), U) :- invokeCompatibleTypesLooseCHAR(U).
+    invokeCompatibleTypesLooseCHAR : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseCHAR(CHAR()).
+    invokeCompatibleTypesLooseCHAR(CHAR()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseCHAR(U@REF(_)) :- invokeCompatibleLooseCHAR(unbox(U)).
+    invokeCompatibleTypesLooseCHAR(U@REF(_)) :- invokeCompatibleTypesLooseCHAR(unbox(U)).
 
 
-  invokeCompatibleLoose(_, BYTE(), U) :- invokeCompatibleLooseBYTE(U).
-    invokeCompatibleLooseBYTE : TYPE
+  invokeCompatibleTypesLoose(_, BYTE(), U) :- invokeCompatibleTypesLooseBYTE(U).
+    invokeCompatibleTypesLooseBYTE : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseBYTE(BYTE()).
+    invokeCompatibleTypesLooseBYTE(BYTE()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseBYTE(U@REF(_)) :- invokeCompatibleLooseBYTE(unbox(U)).
+    invokeCompatibleTypesLooseBYTE(U@REF(_)) :- invokeCompatibleTypesLooseBYTE(unbox(U)).
 
 
-  invokeCompatibleLoose(_, SHORT(), U) :- invokeCompatibleLooseSHORT(U).
-    invokeCompatibleLooseSHORT : TYPE
+  invokeCompatibleTypesLoose(_, SHORT(), U) :- invokeCompatibleTypesLooseSHORT(U).
+    invokeCompatibleTypesLooseSHORT : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseSHORT(SHORT()).
+    invokeCompatibleTypesLooseSHORT(SHORT()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleLooseSHORT(BYTE()).
+    invokeCompatibleTypesLooseSHORT(BYTE()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseSHORT(U@REF(_)) :- invokeCompatibleLooseSHORT(unbox(U)).
+    invokeCompatibleTypesLooseSHORT(U@REF(_)) :- invokeCompatibleTypesLooseSHORT(unbox(U)).
 
 
-  invokeCompatibleLoose(_, INT(), U) :- invokeCompatibleLooseINT(U).
-    invokeCompatibleLooseINT : TYPE
+  invokeCompatibleTypesLoose(_, INT(), U) :- invokeCompatibleTypesLooseINT(U).
+    invokeCompatibleTypesLooseINT : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseINT(INT()).
+    invokeCompatibleTypesLooseINT(INT()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleLooseINT(CHAR()).
-    invokeCompatibleLooseINT(SHORT()).
-    invokeCompatibleLooseINT(BYTE()).
+    invokeCompatibleTypesLooseINT(CHAR()).
+    invokeCompatibleTypesLooseINT(SHORT()).
+    invokeCompatibleTypesLooseINT(BYTE()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseINT(U@REF(_)) :- invokeCompatibleLooseINT(unbox(U)).
+    invokeCompatibleTypesLooseINT(U@REF(_)) :- invokeCompatibleTypesLooseINT(unbox(U)).
 
 
-  invokeCompatibleLoose(_, LONG(), U) :- invokeCompatibleLooseLONG(U).
-    invokeCompatibleLooseLONG : TYPE
+  invokeCompatibleTypesLoose(_, LONG(), U) :- invokeCompatibleTypesLooseLONG(U).
+    invokeCompatibleTypesLooseLONG : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseLONG(LONG()).
+    invokeCompatibleTypesLooseLONG(LONG()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleLooseLONG(INT()).
-    invokeCompatibleLooseLONG(CHAR()).
-    invokeCompatibleLooseLONG(SHORT()).
-    invokeCompatibleLooseLONG(BYTE()).
+    invokeCompatibleTypesLooseLONG(INT()).
+    invokeCompatibleTypesLooseLONG(CHAR()).
+    invokeCompatibleTypesLooseLONG(SHORT()).
+    invokeCompatibleTypesLooseLONG(BYTE()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseLONG(U@REF(_)) :- invokeCompatibleLooseLONG(unbox(U)).
+    invokeCompatibleTypesLooseLONG(U@REF(_)) :- invokeCompatibleTypesLooseLONG(unbox(U)).
 
 
-  invokeCompatibleLoose(_, FLOAT(), U) :- invokeCompatibleLooseFLOAT(U).
-    invokeCompatibleLooseFLOAT : TYPE
+  invokeCompatibleTypesLoose(_, FLOAT(), U) :- invokeCompatibleTypesLooseFLOAT(U).
+    invokeCompatibleTypesLooseFLOAT : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseFLOAT(FLOAT()).
+    invokeCompatibleTypesLooseFLOAT(FLOAT()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleLooseFLOAT(LONG()).
-    invokeCompatibleLooseFLOAT(INT()).
-    invokeCompatibleLooseFLOAT(CHAR()).
-    invokeCompatibleLooseFLOAT(SHORT()).
-    invokeCompatibleLooseFLOAT(BYTE()).
+    invokeCompatibleTypesLooseFLOAT(LONG()).
+    invokeCompatibleTypesLooseFLOAT(INT()).
+    invokeCompatibleTypesLooseFLOAT(CHAR()).
+    invokeCompatibleTypesLooseFLOAT(SHORT()).
+    invokeCompatibleTypesLooseFLOAT(BYTE()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseFLOAT(U@REF(_)) :- invokeCompatibleLooseFLOAT(unbox(U)).
+    invokeCompatibleTypesLooseFLOAT(U@REF(_)) :- invokeCompatibleTypesLooseFLOAT(unbox(U)).
 
 
-  invokeCompatibleLoose(_, DOUBLE(), U) :- invokeCompatibleLooseDOUBLE(U).
-    invokeCompatibleLooseDOUBLE : TYPE
+  invokeCompatibleTypesLoose(_, DOUBLE(), U) :- invokeCompatibleTypesLooseDOUBLE(U).
+    invokeCompatibleTypesLooseDOUBLE : TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseDOUBLE(DOUBLE()).
+    invokeCompatibleTypesLooseDOUBLE(DOUBLE()).
 
     // 5.1.2 Widening Primitive Conversion
-    invokeCompatibleLooseDOUBLE(FLOAT()).
-    invokeCompatibleLooseDOUBLE(LONG()).
-    invokeCompatibleLooseDOUBLE(INT()).
-    invokeCompatibleLooseDOUBLE(CHAR()).
-    invokeCompatibleLooseDOUBLE(SHORT()).
-    invokeCompatibleLooseDOUBLE(BYTE()).
+    invokeCompatibleTypesLooseDOUBLE(FLOAT()).
+    invokeCompatibleTypesLooseDOUBLE(LONG()).
+    invokeCompatibleTypesLooseDOUBLE(INT()).
+    invokeCompatibleTypesLooseDOUBLE(CHAR()).
+    invokeCompatibleTypesLooseDOUBLE(SHORT()).
+    invokeCompatibleTypesLooseDOUBLE(BYTE()).
 
     // 5.1.8 Unboxing Conversion
-    invokeCompatibleLooseDOUBLE(U@REF(_)) :- invokeCompatibleLooseDOUBLE(unbox(U)).
+    invokeCompatibleTypesLooseDOUBLE(U@REF(_)) :- invokeCompatibleTypesLooseDOUBLE(unbox(U)).
 
 
-  invokeCompatibleLoose(s, T@REF(_), U) :- invokeCompatibleLooseREF(s, T, U).
-    invokeCompatibleLooseREF : scope * TYPE * TYPE
+  invokeCompatibleTypesLoose(s, T@REF(_), U) :- invokeCompatibleTypesLooseREF(s, T, U).
+    invokeCompatibleTypesLooseREF : scope * TYPE * TYPE
 
     // 5.1.1 Identity Conversion
-    invokeCompatibleLooseREF(_, T, T).
+    invokeCompatibleTypesLooseREF(_, T, T).
 
     // 5.1.5 Widening Reference Conversion
-    invokeCompatibleLooseREF(s, T, U@REF(_)) :- invokeCompatibleLooseREFREF(s, typeKind(T), T, typeKind(U), U).
+    invokeCompatibleTypesLooseREF(s, T, U@REF(_)) :- invokeCompatibleTypesLooseREFREF(s, typeKind(T), T, typeKind(U), U).
 
-        invokeCompatibleLooseREFREF : scope * KIND * TYPE * KIND * TYPE
-        invokeCompatibleLooseREFREF(s, ARRAY(), T, ARRAY(), U) :- invokeCompatibleLoose(s, arrayElementType(T), arrayElementType(U)).
-        invokeCompatibleLooseREFREF(s, _, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
+        invokeCompatibleTypesLooseREFREF : scope * KIND * TYPE * KIND * TYPE
+        invokeCompatibleTypesLooseREFREF(s, ARRAY(), T, ARRAY(), U) :- invokeCompatibleTypesLoose(s, arrayElementType(T), arrayElementType(U)).
+        invokeCompatibleTypesLooseREFREF(s, _, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
 
-    invokeCompatibleLooseREF(_, T, NULL()).
+    invokeCompatibleTypesLooseREF(_, T, NULL()).
 
     // 5.1.7 Boxing Conversion
-    invokeCompatibleLooseREF(s, T, U) :- invokeCompatibleLooseREF(s, T, box(s, U)).
+    invokeCompatibleTypesLooseREF(s, T, U) :- invokeCompatibleTypesLooseREF(s, T, box(s, U)).
 
 
 rules // 5.4 String Contexts

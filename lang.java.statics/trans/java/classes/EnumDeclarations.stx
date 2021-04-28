@@ -137,7 +137,7 @@ rules // 8.9. Enum Types
   declareImplicitEnumCtor : scope
 
   declareImplicitEnumCtor(s) :-
-    declareMthdName(s, Id("<init>"), [], TYPED(typeDeclType(this(s)))).
+    declareMthdName(s, Id("<init>"), ARGS([]), TYPED(typeDeclType(this(s)))).
 
 
   // copy of ctorDeclOk with different logic for super constructor invocation
