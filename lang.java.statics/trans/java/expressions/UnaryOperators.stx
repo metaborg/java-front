@@ -54,10 +54,13 @@ rules // 15.15. Unary Operators
   exprOk(s, CastReference(refType, additionalBoundList, expr)) = T :-
   {Ts T'}
     T == refTypeOk(s, refType),
+
     Ts == additionalBoundListOk(s, additionalBoundList),
-    try { Ts == [] } | warning "Extra bounds ignored.",
+    try { Ts == [] } | warning "Unchecked extra bounds" @additionalBoundList,
+
     T' == exprOk(s, expr),
-    castCompatible(T, T').
+    // castCompatible(T, T'),
+    try { false } | warning "Unchecked cast" @refType.
 
   additionalBoundOk : scope * AdditionalBound -> TYPE
   additionalBoundListOk maps additionalBoundOk(*, list(*)) = list(*)

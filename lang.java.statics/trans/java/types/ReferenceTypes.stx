@@ -13,6 +13,7 @@ imports
   java/types/Main
   java/types/ParameterizedTypes
   java/types/PrimitiveTypes
+  java/util/Boolean
 
 
 // 4.3. Reference Types and Values
@@ -114,6 +115,7 @@ rules
     setKind(s_ty, ARRAY()),
     !elementType[S] in s_ty,
     setSuperCls(s_ty, objectOk(s)),
+    addSuperIntf(s_ty, iterableOk(s)),
     declareExprName(s_ty, Id("length"), INT()).
 
 
@@ -172,3 +174,15 @@ rules
     isClsOrIntfKind : KIND
     isClsOrIntfKind(CLASS()).
     isClsOrIntfKind(INTF()).
+
+
+  isArrayType : TYPE -> B
+
+  isArrayType(T@REF(_)) = isArrayType1(typeKind(T)).
+
+    isArrayType1 : KIND -> B
+    isArrayType1(ARRAY()) = T().
+    isArrayType1(_      ) = F().
+
+  isArrayType(_) = F().
+

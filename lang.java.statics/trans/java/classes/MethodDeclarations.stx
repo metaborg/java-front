@@ -179,11 +179,10 @@ rules // 8.4. Method Declarations
   lastFormalParamOk(s, Ts, VarArityParam(varModList, unannType, annoList, varDeclId), s_def) = VARARGS(Ts, T) :-
   {T'}
     varModListOk(s, varModList),
-    T == unannTypeOk(s, unannType),
+    T' == unannTypeOk(s, unannType),
     annoListOk(s, annoList),
-    T' == makeArrayType(s, T),
-    varDeclIdOk(s, T', varDeclId, s_def),
-    true.
+    T == makeArrayType(s, T'),
+    varDeclIdOk(s, T, varDeclId, s_def).
 
 
   formalParamOk : scope * FormalParam * scope -> TYPE
@@ -192,8 +191,7 @@ rules // 8.4. Method Declarations
   formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) = T :-
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclIdOk(s, T, varDeclId, s_def),
-    true.
+    varDeclIdOk(s, T, varDeclId, s_def).
 
 
   varModOk : scope * VariableModifier

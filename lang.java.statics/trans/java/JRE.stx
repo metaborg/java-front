@@ -77,6 +77,11 @@ rules
   classOk(s) = javaLangTypeOk(s, Id("Class")).
 
 
+  iterableOk : scope -> TYPE
+
+  iterableOk(s) = javaLangTypeOk(s, Id("Iterable")).
+
+
 rules
 
   isThrowable : TYPE -> B
@@ -87,6 +92,9 @@ rules
 
   isEnum : TYPE -> B
   isEnum(T) = isJREClass(T, "java/lang/Enum").
+
+  isIterable : TYPE -> B
+  isIterable(T) = isJREClass(T, "java/lang/Iterable").
 
 
   isJREClass : TYPE * string -> B

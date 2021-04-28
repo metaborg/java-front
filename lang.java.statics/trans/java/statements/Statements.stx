@@ -58,8 +58,7 @@ rules // 14.5. Statements
     T == exprOptOk(s_for, exprOpt),
     conditionCompatible(T),
     forUpdateOk(s_for, forUpdate),
-    stmtOk(s_for, stmt),
-    true.
+    stmtOk(s_for, stmt).
 
   stmtOk(s, ForEach(varModList, unannType, varDeclId, expr, stmt)) :-
   {s_foreach T T'}
@@ -68,22 +67,20 @@ rules // 14.5. Statements
     T == unannTypeOk(s, unannType),
     varDeclIdOk(s, T, varDeclId, s_foreach),
     T' == exprOk(s, expr),
-    assignCompatible(s, T, T'),
-    stmtOk(s_foreach, stmt),
-    true.
+    isIterable(T') == T(),
+    try { false } | warning "Unchecked element type of Iterable" @expr,
+    stmtOk(s_foreach, stmt).
 
   forInitOk : scope * ForInit
 
   forInitOk(s, Exprs2ForInit(exprs)) :-
-    exprsOk(s, exprs),
-    true.
+    exprsOk(s, exprs).
 
   forInitOk(s, VarDecls(varModList, unannType, varDeclList)) :-
   {T}
     varModListOk(s, varModList),
     T == unannTypeOk(s, unannType),
-    varDeclListOk(s, T, varDeclList, s),
-    true.
+    varDeclListOk(s, T, varDeclList, s).
 
   forUpdateOk : scope * ForUpdate
 

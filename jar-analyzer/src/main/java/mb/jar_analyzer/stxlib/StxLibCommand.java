@@ -93,6 +93,7 @@ public class StxLibCommand implements Runnable {
         .add("java/lang/String")
         .add("java/lang/Throwable")
         .add("java/lang/Enum")
+        .add("java/lang/Iterable")
         .build();
     // @formatter:on
 
@@ -789,7 +790,8 @@ public class StxLibCommand implements Runnable {
         addDecl(s_ty, WITH_TYPE_REL, makeREF(s_ty));
         addDecl(s_ty, WITH_KIND_REL, ARRAY_KIND);
 
-        scopeGraph.addEdge(s_ty, EXTENDS_EDGE, objectType()._2()); // FIXME Also if classNode is an interface?
+        scopeGraph.addEdge(s_ty, EXTENDS_EDGE, objectType()._2());
+        scopeGraph.addEdge(s_ty, IMPLEMENTS_EDGE, iterableType()._2());
 
         addDecl(s_ty, ELEMENT_TYPE_REL, elementType);
 
@@ -810,6 +812,12 @@ public class StxLibCommand implements Runnable {
 
     private Tuple2<ITerm, Scope> objectType() {
         final Scope scope = getOrInitClass("java/lang/Object");
+        ITerm type = makeREF(scope);
+        return Tuple2.of(type, scope);
+    }
+
+    private Tuple2<ITerm, Scope> iterableType() {
+        final Scope scope = getOrInitClass("java/lang/Iterable");
         ITerm type = makeREF(scope);
         return Tuple2.of(type, scope);
     }

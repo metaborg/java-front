@@ -205,17 +205,23 @@ rules // 5.3 Invocation Contexts (strict)
   invokeCompatibleStrict : PARAMS * list(TYPE)
 
   invokeCompatibleStrict(ARGS(Ts), Us) :- invokeCompatibleTypesStrictList(Ts, Us).
-  invokeCompatibleStrict(VARARGS(Ts, T), Us) :- invokeCompatibleStrict1(Ts, T, Us).
+  invokeCompatibleStrict(VARARGS(Ts, S), Us) :- invokeCompatibleStrict1(Ts, S, Us).
 
-    invokeCompatibleStrict1 : list(TYPE) * TYPE * list(TYPE)
+      invokeCompatibleStrict1 : list(TYPE) * TYPE * list(TYPE)
 
-    invokeCompatibleStrict1([T|Ts], S, [U|Us]) :-
-      invokeCompatibleTypesStrict(T, U),
-      invokeCompatibleStrict1(Ts, S, Us).
+      invokeCompatibleStrict1([T|Ts], S, [U|Us]) :-
+        invokeCompatibleTypesStrict(T, U),
+        invokeCompatibleStrict1(Ts, S, Us).
 
-    invokeCompatibleStrict1([], S, Us) :-
-      // FIXME if Us == [U] and U is an array type: invokeCompatibleStrict(S, U)
-      invokeCompatibleTypesStrictTail(S, Us).
+      invokeCompatibleStrict1([], S, [U]) :-
+        invokeCompatibleStrict2(S, isArrayType(U), U).
+
+      invokeCompatibleStrict1([], S, Us) :-
+        invokeCompatibleTypesStrictTail(arrayElementType(S), Us).
+
+      invokeCompatibleStrict2 : TYPE * B * TYPE
+      invokeCompatibleStrict2(S, T(), U) :- invokeCompatibleTypesStrict(arrayElementType(S), arrayElementType(U)).
+      invokeCompatibleStrict2(S, F(), U) :- invokeCompatibleTypesStrict(arrayElementType(S), U).
 
 
   invokeCompatibleTypesStrict : TYPE * TYPE
@@ -328,17 +334,23 @@ rules // 5.3 Invocation Contexts (loose)
   invokeCompatibleLoose : scope * PARAMS * list(TYPE)
 
   invokeCompatibleLoose(s, ARGS(Ts), Us) :- invokeCompatibleTypesLooseList(s, Ts, Us).
-  invokeCompatibleLoose(s, VARARGS(Ts, T), Us) :- invokeCompatibleLoose1(s, Ts, T, Us).
+  invokeCompatibleLoose(s, VARARGS(Ts, S), Us) :- invokeCompatibleLoose1(s, Ts, S, Us).
 
-    invokeCompatibleLoose1 : scope * list(TYPE) * TYPE * list(TYPE)
+      invokeCompatibleLoose1 : scope * list(TYPE) * TYPE * list(TYPE)
 
-    invokeCompatibleLoose1(s, [T|Ts], S, [U|Us]) :-
-      invokeCompatibleTypesLoose(s, T, U),
-      invokeCompatibleLoose1(s, Ts, S, Us).
+      invokeCompatibleLoose1(s, [T|Ts], S, [U|Us]) :-
+        invokeCompatibleTypesLoose(s, T, U),
+        invokeCompatibleLoose1(s, Ts, S, Us).
 
-    invokeCompatibleLoose1(s, [], S, Us) :-
-      // FIXME if Us == [U] and U is an array type: invokeCompatibleLoose(S, U)
-      invokeCompatibleTypesLooseTail(s, S, Us).
+      invokeCompatibleLoose1(s, [], S, [U]) :-
+        invokeCompatibleLoose2(s, S, isArrayType(U), U).
+
+      invokeCompatibleLoose1(s, [], S, Us) :-
+        invokeCompatibleTypesLooseTail(s, arrayElementType(S), Us).
+
+      invokeCompatibleLoose2 : scope * TYPE * B * TYPE
+      invokeCompatibleLoose2(s, S, T(), U) :- invokeCompatibleTypesLoose(s, arrayElementType(S), arrayElementType(U)).
+      invokeCompatibleLoose2(s, S, F(), U) :- invokeCompatibleTypesLoose(s, arrayElementType(S), U).
 
 
   invokeCompatibleTypesLoose : scope * TYPE * TYPE
@@ -484,7 +496,7 @@ rules // 5.5 Casting Contexts
 
   castCompatible : TYPE * TYPE
 
-  castCompatible(_, _) :- try { false } | warning "Unchecked cast".
+  castCompatible(_, _).
 
     // FIXME
     // 5.1.1 Identity Conversion
