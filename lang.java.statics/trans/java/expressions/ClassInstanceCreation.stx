@@ -4,6 +4,7 @@ imports
 
   signatures/java/expressions/ClassInstanceCreation-sig
 
+  java/JRE
   java/classes/ClassDeclarations
   java/expressions/Main
   java/interfaces/Annotations
@@ -29,72 +30,54 @@ rules // 15.9. Class Instance Creation Expressions
 
   unqualInstOk : scope * UnqualifiedInstance -> TYPE
 
-  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
-  {qid Ts}
+  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) =
+    unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, [])).
+
+  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_inst) :-
+  {qid U Ts s_instStatic S}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     qid == qualIdListOk(s, id, qualIdList),
-    typeDecl == resolveTypeName(s, qid),
+    U == typeDeclType(resolveTypeName(s, qid)),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     Ts == exprListOk(s, exprList),
-    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
-    true.
 
-  unqualInstOk(s, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
-  {qid typeDecl Ts s_clsStatic}
-    _ == typeArgsOptOk(s, typeArgsOpt),
-    annoListOk(s, annoList),
-    qid == qualIdListOk(s, id, qualIdList),
-    typeDecl == resolveTypeName(s, qid),
-    typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
-    Ts == exprListOk(s, exprList),
-    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
+    new s_inst, s_inst -LEX-> s,
+    initTypeScope(s_inst, Id("$local$"), CLASS()),
 
-    new s_cls, s_cls -LEX-> s,
+    S == setSuperClsOrImplementIntf(s_inst, U),
+    _ == resolveDirectMemberMthdName(typeScope(S), Id("<init>"), Ts),
 
-    initTypeScope(s_cls, Id("$local$"), CLASS()),
+    new s_instStatic,
+    s_inst -STATIC_MEMBERS-> s_instStatic,
 
-    setSuperClsOrImplementIntf(s_cls, typeDeclType(typeDecl)),
-
-    new s_clsStatic,
-    s_cls -STATIC_MEMBERS-> s_clsStatic,
-
-    clsBodyDeclListOk(s_cls, clsBodyDeclList, s_cls, s_clsStatic).
+    clsBodyDeclListOk(s_inst, clsBodyDeclList, s_inst, s_instStatic).
 
 
   qualInstOk : scope * TYPE * UnqualifiedInstance -> TYPE
 
-  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) = typeDeclType(typeDecl) :-
-  {s_ty Ts}
+  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList)) =
+    qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, [])).
+
+  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_inst) :-
+  {s_ty U Ts s_instStatic S}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     s_ty == typeScope(T),
-    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
+    U == typeDeclType(singleTypeDecl(id, resolveMemberTypeNames(s_ty, id))),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     Ts == exprListOk(s, exprList),
-    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
-    true.
 
-  qualInstOk(s, T, NewInstance(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_cls) :-
-  {s_ty typeDecl Ts s_clsStatic}
-    _ == typeArgsOptOk(s, typeArgsOpt),
-    annoListOk(s, annoList),
-    s_ty == typeScope(T),
-    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_ty, id)),
-    typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
-    Ts == exprListOk(s, exprList),
-    _ == resolveDirectMemberMthdName(typeDeclScope(typeDecl), Id("<init>"), Ts),
+    new s_inst, s_inst -LEX-> s,
+    initTypeScope(s_inst, Id("$local$"), CLASS()),
 
-    new s_cls, s_cls -LEX-> s,
+    S == setSuperClsOrImplementIntf(s_inst, U),
+    _ == resolveDirectMemberMthdName(typeScope(S), Id("<init>"), Ts),
 
-    initTypeScope(s_cls, Id("$local$"), CLASS()),
+    new s_instStatic,
+    s_inst -STATIC_MEMBERS-> s_instStatic,
 
-    setSuperClsOrImplementIntf(s_cls, typeDeclType(typeDecl)),
-
-    new s_clsStatic,
-    s_cls -STATIC_MEMBERS-> s_clsStatic,
-
-    clsBodyDeclListOk(s_cls, clsBodyDeclList, s_cls, s_clsStatic).
+    clsBodyDeclListOk(s_inst, clsBodyDeclList, s_inst, s_instStatic).
 
 
   qualIdListOk : scope * Id * list(QualifiedId) -> QID
@@ -116,5 +99,21 @@ rules // 15.9. Class Instance Creation Expressions
 
   typeArgsOrDiamondOk(s, Diamond()) :-
     true.
+
+
+  setSuperClsOrImplementIntf : scope * TYPE -> TYPE // return super type for constructor resolution
+
+  setSuperClsOrImplementIntf(s_cls, T) = U :-
+    U == setSuperClsOrImplementIntf1(s_cls, typeKind(T), T).
+
+      setSuperClsOrImplementIntf1 : scope * KIND * TYPE -> TYPE
+
+      setSuperClsOrImplementIntf1(s_cls, CLASS(), T) = T :-
+        setSuperCls(s_cls, T).
+
+      setSuperClsOrImplementIntf1(s_cls, INTF(), T) = S :-
+        S == objectOk(s_cls),
+        setSuperCls(s_cls, S),
+        addSuperIntf(s_cls, T).
 
 

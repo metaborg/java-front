@@ -143,21 +143,6 @@ rules // 8.1. Class Declarations
     s_cls -IMPLEMENTS-> typeScope(T).
 
 
-  setSuperClsOrImplementIntf : scope * TYPE
-
-  setSuperClsOrImplementIntf(s_cls, T) :-
-    setSuperClsOrImplementIntf1(s_cls, typeKind(T), T).
-
-      setSuperClsOrImplementIntf1 : scope * KIND * TYPE
-
-      setSuperClsOrImplementIntf1(s_cls, CLASS(), T) :-
-        setSuperCls(s_cls, T).
-
-      setSuperClsOrImplementIntf1(s_cls, INTF(), T) :-
-        setSuperCls(s_cls, objectOk(s_cls)),
-        addSuperIntf(s_cls, T).
-
-
   declareImplicitCtorIfMissing : scope * list(ClassBodyDeclaration)
 
   declareImplicitCtorIfMissing(s, [ConstructorDeclaration2ClassBodyDeclaration(_)|_]).

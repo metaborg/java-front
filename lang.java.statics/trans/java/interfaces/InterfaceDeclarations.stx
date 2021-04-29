@@ -71,16 +71,8 @@ rules // 9.1. Interface Declarations
   hasStaticIntfMod([]) = F().
 
 
-  extendsIntfsOptOk : scope * list(ExtendsInterfaces) * scope
-
-  extendsIntfsOptOk(s, [], s_intf) :-
-    setSuperCls(s_intf, objectOk(s)),
-    true.
-
-  extendsIntfsOptOk(s, [extendsIntfs], s_intf) :-
-    extendsIntfsOk(s, extendsIntfs, s_intf).
-
   extendsIntfsOk : scope * ExtendsInterfaces * scope
+  extendsIntfsOptOk maps extendsIntfsOk(*, list(*), *)
 
   extendsIntfsOk(s, ExtendsInterfaces(clsTypeList), s_intf) :-
   {Ts}
