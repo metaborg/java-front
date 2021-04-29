@@ -4,8 +4,10 @@ imports
 
   signatures/java/expressions/LambdaExpressions-sig
 
+  java/JRE
   java/classes/MethodDeclarations
   java/expressions/Main
+  java/names/ExpressionNames
   java/names/Main
   java/names/MethodNames
   java/statements/Blocks
@@ -13,30 +15,38 @@ imports
 
 rules // 15.27. Lambda Expressions
 
-  exprOk(s, LambdaExpression(lambdaParams, expr)) = _ :-
-  {s_lambda}
+  exprOk(s, LambdaExpression(lambdaParams, expr)) = NULL() :-
+  {s_lambda params}
     new s_lambda, s_lambda -LEX-> s,
-    _ == lambdaParamsOk(s, lambdaParams, s_lambda),
+    params == lambdaParamsOk(s, lambdaParams, s_lambda),
     _ == exprOk(s_lambda, expr),
-    true.
+    try { false } | warning "Unchecked lambda expression" @lambdaParams.
 
-  exprOk(s, LambdaExpressionWithBlock(lambdaParams, blk)) = _ :-
-  {s_lambda}
+  exprOk(s, LambdaExpressionWithBlock(lambdaParams, blk)) = NULL() :-
+  {s_lambda params}
     new s_lambda, s_lambda -LEX-> s,
-    _ == lambdaParamsOk(s, lambdaParams, s_lambda),
+    params == lambdaParamsOk(s, lambdaParams, s_lambda),
     blkOk(s_lambda, blk),
-    true.
+    try { false } | warning "Unchecked lambda expression" @lambdaParams.
 
 
   lambdaParamsOk : scope * LambdaParameters * scope -> PARAMS
 
-  lambdaParamsOk(s, SingleInferredParam(id), s_def) = ARGS([_]) :-
-    true.
+  lambdaParamsOk(s, SingleInferredParam(id), s_def) = ARGS([T]) :-
+    T == inferredParamOk(s, id, s_def).
 
   lambdaParamsOk(s, Params(formalParams), s_def) = params :-
-    params == formalParamsOk(s, formalParams, s_def),
-    true.
+    params == formalParamsOk(s, formalParams, s_def).
 
-  lambdaParamsOk(s, InferredParams(idList), s_def) = _ :-
-    true.
+  lambdaParamsOk(s, InferredParams(idList), s_def) = ARGS(Ts) :-
+    Ts == inferredParamListOk(s, idList, s_def).
+
+
+  inferredParamOk : scope * Id * scope -> TYPE
+  inferredParamListOk maps inferredParamOk(*, list(*), *) = list(*)
+
+  inferredParamOk(s, id, s_def) = T :-
+    T == objectOk(s),
+    declareExprName(s_def, id, NULL()),
+    try { false } | warning "Unchecked inferred parameter" @id.
 
