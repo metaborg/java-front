@@ -44,6 +44,8 @@ rules // 9.1. Interface Declarations
     new s_intfStatic,
     s_intf -STATIC_MEMBERS-> s_intfStatic,
 
+    setSuperCls(s_intf, objectOk(s)), // ensure that interface types are recognized as subtypes of Object
+
     intfMemDeclListOk(s_intf, intfMemDeclList, s_intf, s_intfStatic).
 
   intfDeclOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl), s_def, s_staticDef) :-
