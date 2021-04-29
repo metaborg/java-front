@@ -189,14 +189,17 @@ rules // 14.5. Statements
   stmtOk(s, Throw(expr)) :-
   {T}
     T == exprOk(s, expr),
-    isThrowable(T) == T(),
-    true.
+    isThrowable(T) == T().
 
 
   stmtOk(s, Try(blk, catchClauseList)) :-
     blkOk(s, blk),
+    catchClauseListOk(s, catchClauseList).
+
+  stmtOk(s, TryFinally(blk, catchClauseList, finallyBlk)) :-
+    blkOk(s, blk),
     catchClauseListOk(s, catchClauseList),
-    true.
+    blkOk(s, finallyBlk).
 
   catchClauseOk : scope * CatchClause
   catchClauseListOk maps catchClauseOk(*, list(*))
@@ -205,8 +208,7 @@ rules // 14.5. Statements
   {s_catch}
     new s_catch, s_catch -LEX-> s,
     catchFormalParamOk(s, catchFormalParam, s_catch),
-    blkOk(s_catch, blk),
-    true.
+    blkOk(s_catch, blk).
 
   catchFormalParamOk : scope * CatchFormalParameter * scope
 
@@ -214,24 +216,21 @@ rules // 14.5. Statements
   {T}
     varModListOk(s, varModList),
     T == catchTypeOk(s, catchType),
-    varDeclIdOk(s, T, varDeclId, s_def),
-    true.
+    varDeclIdOk(s, T, varDeclId, s_def).
 
   catchTypeOk : scope * CatchType -> TYPE
 
   catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) = T :-
     T == unannClsTypeOk(s, unannClsType),
     isThrowable(T) == T(),
-    _ == catchTypeRestListOk(s, catchTypeRestList), // FIXME include in T
-    true.
+    _ == catchTypeRestListOk(s, catchTypeRestList). // FIXME include in T
 
   catchTypeRestOk : scope * CatchTypeRest -> TYPE
   catchTypeRestListOk maps catchTypeRestOk(*, list(*)) = list(*)
 
   catchTypeRestOk(s, CatchTypeElem(clsType)) = T :-
     T == clsTypeOk(s, clsType),
-    isThrowable(T) == T(),
-    true.
+    isThrowable(T) == T().
 
 
   stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList)) :-
