@@ -11,13 +11,7 @@ dependencies:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
 exports:
 - language: Stratego-Sugar
-  directory: trans
-  includes:
-  - java/**/*.str
-- language: Stratego-Sugar
   directory: src-gen
-- language: SDF
-  directory: syntax
   includes:
   - injections/metaborg-java-injections.str
   - injections/java/**/*.str
@@ -26,6 +20,8 @@ exports:
   - pp/java/**/*.str
   - signatures/metaborg-java-sig.str
   - signatures/java/**/*.str
+- language: SDF
+  directory: syntax
 - language: SDF
   directory: src-gen/syntax
 - language: StatixLang
