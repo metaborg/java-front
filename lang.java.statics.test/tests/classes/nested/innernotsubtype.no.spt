@@ -4,8 +4,11 @@ language metaborg-java
 
 test innernotsubtype [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail incompatible types\: C\.D cannot be converted to A\.B
+test;
+
+
+
+// error: incompatible types\: C\.D cannot be converted to A\.B
 
 [A]
 class A {
@@ -25,3 +28,4 @@ class Test {
 }
 
 ]] analysis fails
+   run javacFails to ""

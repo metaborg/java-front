@@ -4,8 +4,7 @@ language metaborg-java
 
 test call-super-super-constructor_no [[
 
-STATIX fail
-JAVAC  fail
+test;
 
 [p] {
 
@@ -34,3 +33,4 @@ JAVAC  fail
 }
 
 ]] analysis fails
+   run javacFails to ""

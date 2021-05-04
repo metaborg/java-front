@@ -4,9 +4,10 @@ language metaborg-java
 
 test unqualified-reference-to-explicit-java-lang-Object [[
 
-STATIX ok 
-JAVAC  ok 
+test;
 
 [Test]
 public class Test extends Object {}
+
 ]] analysis succeeds
+   run javacSucceeds to ""

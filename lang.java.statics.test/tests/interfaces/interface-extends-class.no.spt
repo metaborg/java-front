@@ -4,8 +4,11 @@ language metaborg-java
 
 test interface-extends-class [[
 
-STATIX fail java\.interfaces\.extends-interface
-JAVAC  fail interface expected here
+test;
+
+
+
+// error: interface expected here
 
 [I]
 interface I extends A {}
@@ -14,3 +17,4 @@ interface I extends A {}
 class A {}
 
 ]] analysis fails
+   run javacFails to ""

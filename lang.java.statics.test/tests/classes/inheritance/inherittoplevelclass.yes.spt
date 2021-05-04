@@ -4,8 +4,11 @@ language metaborg-java
 
 test inherittoplevelclass [[
 
-STATIX ok
-JAVAC ok
+test;
+
+
+
+
 
 [A]
 public class A {}
@@ -15,3 +18,4 @@ public class B extends A {}
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test class-implements-class [[
 
-STATIX fail java\.interfaces\.implement-interface
-JAVAC  fail interface expected here
+test;
+
+
+
+// error: interface expected here
 
 [B]
 class B {}
@@ -14,3 +17,4 @@ class B {}
 class A implements B {}
 
 ]] analysis fails
+   run javacFails to ""

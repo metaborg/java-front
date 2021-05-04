@@ -4,8 +4,11 @@ language metaborg-java
 
 test pathdependentsupertypeinnerclassrefcast [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A1]
 public class A1 {
@@ -27,3 +30,4 @@ public class C {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

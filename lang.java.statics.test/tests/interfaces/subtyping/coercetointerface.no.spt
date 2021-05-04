@@ -4,8 +4,11 @@ language metaborg-java
 
 test coercetointerface [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail C cannot be converted to I
+test;
+
+
+
+// error: C cannot be converted to I
 
 [A]
 public class A implements I {}
@@ -27,3 +30,4 @@ public interface I {}
 
 
 ]] analysis fails
+   run javacFails to ""

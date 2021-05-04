@@ -4,8 +4,7 @@ language metaborg-java
 
 test type-parameters-are-recursive_yes [[
 
-STATIX success
-JAVAC  success
+test;
 
 [Test]
 import p.A;
@@ -26,3 +25,4 @@ public class Test<A> {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

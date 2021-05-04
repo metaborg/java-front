@@ -4,8 +4,11 @@ language metaborg-java
 
 test classes-with-same-name-in-unnamed-package [[
 
-STATIX fail java\.duplicates\.no-duplicate-type
-JAVAC  fail duplicate class
+test;
+
+
+
+// error: duplicate class
 
 [A]
 public class A {}
@@ -14,3 +17,4 @@ public class A {}
 public class A {}
 
 ]] analysis fails
+   run javacFails to ""

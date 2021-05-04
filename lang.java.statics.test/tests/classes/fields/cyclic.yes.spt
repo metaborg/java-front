@@ -4,8 +4,11 @@ language metaborg-java
 
 test cyclic [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {
@@ -14,3 +17,4 @@ public class A {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test qualifiedtypequalifiedthis [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [p] {
 
@@ -22,3 +25,4 @@ JAVAC  ok
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

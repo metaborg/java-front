@@ -4,8 +4,11 @@ language metaborg-java
 
 test innersubtype [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 class A {
@@ -25,3 +28,4 @@ class Test {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

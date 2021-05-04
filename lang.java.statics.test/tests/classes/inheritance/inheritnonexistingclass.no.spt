@@ -4,8 +4,11 @@ language metaborg-java
 
 test inheritnonexistingclass [[
 
-STATIX fail java\.names\.lexical-type-name.*Id\(\"C\"\).*
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [A]
 public class A {}
@@ -15,3 +18,4 @@ public class B extends C {}
 
 
 ]] analysis fails
+   run javacFails to ""

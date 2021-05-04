@@ -4,8 +4,11 @@ language metaborg-java
 
 test toplevelandimportclasssamename [[
 
-STATIX fail java\.duplicates\.no-duplicate-type.*Id\(\"List\"\)
-JAVAC  fail List is already defined in this compilation unit
+test;
+
+
+
+// error: List is already defined in this compilation unit
 
 [javas] {
     [util] {
@@ -21,3 +24,4 @@ public class List {}
 
 
 ]] analysis fails
+   run javacFails to ""

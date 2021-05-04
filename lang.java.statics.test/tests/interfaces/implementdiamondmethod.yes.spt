@@ -4,8 +4,11 @@ language metaborg-java
 
 test implementdiamondmethod [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A implements J, K {
@@ -27,3 +30,4 @@ public interface K extends I {}
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

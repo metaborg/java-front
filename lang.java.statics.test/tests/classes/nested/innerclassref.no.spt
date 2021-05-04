@@ -4,8 +4,11 @@ language metaborg-java
 
 test innerclassref [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail incompatible types\: A\.C cannot be converted to A\.B
+test;
+
+
+
+// error: incompatible types\: A\.C cannot be converted to A\.B
 
 [A]
 public class A {
@@ -26,3 +29,4 @@ public class C {
 
 
 ]] analysis fails
+   run javacFails to ""

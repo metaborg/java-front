@@ -4,8 +4,11 @@ language metaborg-java
 
 test classes-visible-in-compilation-units-of-unnamed-package [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {
@@ -18,3 +21,4 @@ public class B {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -8,8 +8,8 @@ language metaborg-java
 ///////////////////////////////////////////////////////////////////
 
 test named static import of static nested type [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -30,8 +30,8 @@ JAVAC
    run javacSucceeds to ""
 
 test named static import of non-static nested type [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -52,8 +52,8 @@ JAVAC
    run javacFails to ""
 
 test named non-static import of static nested type [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -74,8 +74,8 @@ JAVAC
    run javacSucceeds to ""
 
 test on-demand static import of static nested type [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -96,8 +96,8 @@ JAVAC
    run javacSucceeds to ""
 
 test on-demand static import of package [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -120,8 +120,8 @@ public class Test {
 ///////////////////////////////////////////////////////////////////
 
 test static enclosed type's field access from nested static nested type [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -137,8 +137,8 @@ JAVAC
    run javacSucceeds to ""
 
 test non-static enclosed type's field access from nested static nested type [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -154,8 +154,8 @@ JAVAC
    run javacFails to ""
 
 test top-level static type [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -167,8 +167,8 @@ JAVAC
    run javacFails to ""
 
 test static enclosed type accesses local non-static and enclosed static field [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]
@@ -185,8 +185,8 @@ JAVAC
    run javacSucceeds to ""
 
 test non-static field from enclosed type shadows imported static field [[
-STATIX 
-JAVAC
+
+test;
   
 [p] {
   [A]

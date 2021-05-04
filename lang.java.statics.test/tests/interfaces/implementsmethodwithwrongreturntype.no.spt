@@ -4,8 +4,11 @@ language metaborg-java
 
 test implementsmethodwithwrongreturntype [[
 
-STATIX fail java\.interfaces\.cls-implements-sig
-JAVAC  fail m\(\) in A cannot implement m\(\) in I
+test;
+
+
+
+// error: m\(\) in A cannot implement m\(\) in I
 
 [I]
 interface I {
@@ -18,3 +21,4 @@ class A implements I {
 }
 
 ]] analysis fails
+   run javacFails to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test simple-nested-type-name [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [Test]
 public class Test {
@@ -15,3 +18,4 @@ public class Test {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -4,9 +4,13 @@ language metaborg-java
 
 test implicit-reference-to-explicit-java-lang-Object [[
 
-STATIX ok 
-JAVAC  ok 
+test;
+
+
+
+
 
 [Test]
 public class Test {}
 ]] analysis succeeds
+   run javacSucceeds to ""

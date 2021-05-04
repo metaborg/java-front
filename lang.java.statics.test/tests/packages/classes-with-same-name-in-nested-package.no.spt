@@ -4,8 +4,11 @@ language metaborg-java
 
 test classes-with-same-name-in-nested-package [[
 
-STATIX fail java\.duplicates\.no-duplicate-type.*\"A\"
-JAVAC  fail duplicate class\: p\.q\.A
+test;
+
+
+
+// error: duplicate class\: p\.q\.A
 
 [p] {
     [q] {
@@ -22,3 +25,4 @@ JAVAC  fail duplicate class\: p\.q\.A
 }
 
 ]] analysis fails
+   run javacFails to ""

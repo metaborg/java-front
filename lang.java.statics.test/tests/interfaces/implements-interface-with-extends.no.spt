@@ -4,8 +4,11 @@ language metaborg-java
 
 test implements-interface-with-extends [[
 
-STATIX fail java\.interfaces\.cls-implements-sig
-JAVAC  fail A is not abstract and does not override abstract method .* in K
+test;
+
+
+
+// error: A is not abstract and does not override abstract method .* in K
 
 [I]
 interface J {
@@ -24,3 +27,4 @@ class A implements I {
 }
 
 ]] analysis fails
+   run javacFails to ""

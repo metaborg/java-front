@@ -4,8 +4,11 @@ language metaborg-java
 
 test circular [[
 
-STATIX fail java\.interfaces\.no-extends-cycle
-JAVAC  fail cyclic inheritance involving I
+test;
+
+
+
+// error: cyclic inheritance involving I
 
 [I]
 public interface I extends J {}
@@ -15,3 +18,4 @@ public interface J extends I {}
 
 
 ]] analysis fails
+   run javacFails to ""

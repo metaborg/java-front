@@ -4,8 +4,11 @@ language metaborg-java
 
 test unit-with-partial-package [[
 
-STATIX fail 
-JAVAC  fail 
+test;
+
+
+
+// error: 
 
 [p] {
 
@@ -19,3 +22,4 @@ JAVAC  fail
 }
 
 ]] analysis fails
+   run javacFails to ""

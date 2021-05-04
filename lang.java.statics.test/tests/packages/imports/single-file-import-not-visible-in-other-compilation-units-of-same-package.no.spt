@@ -4,8 +4,11 @@ language metaborg-java
 
 test single-file-import-not-visible-in-other-compilation-units-of-same-package [[
 
-STATIX fail java\.names\.lexical-type-name.*\"C\"
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [p] {
 
@@ -31,3 +34,4 @@ JAVAC  fail cannot find symbol
 }
 
 ]] analysis fails
+   run javacFails to ""

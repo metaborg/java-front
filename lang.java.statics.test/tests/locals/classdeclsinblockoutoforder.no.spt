@@ -4,8 +4,11 @@ language metaborg-java
 
 test classdeclsinblockoutoforder [[
 
-STATIX fail java\.names\.lexical-type-name.*\"B\"
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [Test]
 class A {
@@ -17,3 +20,4 @@ class A {
 
 
 ]] analysis fails
+   run javacFails to ""

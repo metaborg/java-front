@@ -4,8 +4,11 @@ language metaborg-java
 
 test qualifiedthis [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail A\.B cannot be converted to A
+test;
+
+
+
+// error: A\.B cannot be converted to A
 
 [A]
 public class A {
@@ -17,3 +20,4 @@ public class A {
 }
 
 ]] analysis fails
+   run javacFails to ""

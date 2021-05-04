@@ -4,8 +4,11 @@ language metaborg-java
 
 test pathequality2 [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 class A {
@@ -22,3 +25,4 @@ class C extends A {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

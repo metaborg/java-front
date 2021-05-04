@@ -4,8 +4,11 @@ language metaborg-java
 
 test import-missing-inner-class [[
 
-STATIX fail java\.names\.member-type-name.*\"B\"
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [C]
 import p.A.B;
@@ -22,3 +25,4 @@ public class C {}
 }
 
 ]] analysis fails
+   run javacFails to ""

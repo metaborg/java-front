@@ -4,20 +4,9 @@ module java/Test
 // Java SE 8 Edition
 
 imports
-  java/arrays/Main
-  java/classes/Main
-  java/interfaces/Main
-  java/lexical/Identifiers
-  java/lexical/Main
-  java/literals/Main
-  java/names/Main
-  java/packages/Main
-  java/statements/Main
-  java/types/Main  
-  java/expressions/Main
-  java/expressions/Disambiguation
-
+  java/Main
   java/lexical/Comments
+  java/lexical/Identifiers
   java/lexical/LineTerminators
   java/packages/CompilationUnits
 
@@ -28,12 +17,9 @@ context-free sorts
 context-free syntax
 
   CompilationUnit.Test = <
-    <{Expectation "\n"}+>
+    test;
     <{TestUnit "\n"}*>
   >
-
-  Expectation.StatixExpect = <STATIX <ExpectationText>>
-  Expectation.JavaCExpect = <JAVAC <ExpectationText>>
 
   TestUnit.TestPkg = <
     [<ID>] {
@@ -46,11 +32,3 @@ context-free syntax
     <CompilationUnit>
   >
 
-lexical sorts
-
-  TestUnitId ExpectationText
-
-lexical syntax
-
-  TestUnitId = (~[\]])*
-  ExpectationText = EOLCommentChars LineTerminator

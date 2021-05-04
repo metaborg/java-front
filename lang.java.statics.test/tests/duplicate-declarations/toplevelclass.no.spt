@@ -4,8 +4,11 @@ language metaborg-java
 
 test toplevelclass [[
 
-STATIX fail java\.duplicates\.no-duplicate-type.*\"A\"
-JAVAC  fail duplicate class\: A
+test;
+
+
+
+// error: duplicate class\: A
 
 [A]
 public class A {}
@@ -13,3 +16,4 @@ public class A {}
 
 
 ]] analysis fails
+   run javacFails to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test unqualified-field-access-in-super-class_yes [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [p] {
 
@@ -24,3 +27,4 @@ JAVAC  ok
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test single-type-import-from-nested-package [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [p] {
 
@@ -33,3 +36,4 @@ JAVAC  ok
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

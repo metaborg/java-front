@@ -4,8 +4,11 @@ language metaborg-java
 
 test inheritedshadowself [[
 
-STATIX fail java\.subtype\.child
-JAVAC  fail incompatible types\: B cannot be converted to A\.B
+test;
+
+
+
+// error: incompatible types\: B cannot be converted to A\.B
 
 [A]
 public class A {
@@ -21,3 +24,4 @@ public class B extends A {
 
 
 ]] analysis fails
+   run javacFails to ""

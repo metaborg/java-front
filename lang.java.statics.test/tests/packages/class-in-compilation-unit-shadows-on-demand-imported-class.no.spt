@@ -4,8 +4,11 @@ language metaborg-java
 
 test class-in-compilation-unit-shadows-on-demand-imported-class [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail incompatible types\: q\.A cannot be converted to p\.A
+test;
+
+
+
+// error: incompatible types\: q\.A cannot be converted to p\.A
 
 [p] {
 
@@ -28,3 +31,4 @@ JAVAC  fail incompatible types\: q\.A cannot be converted to p\.A
 }
 
 ]] analysis fails
+   run javacFails to ""

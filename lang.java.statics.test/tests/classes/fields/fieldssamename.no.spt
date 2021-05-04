@@ -4,8 +4,11 @@ language metaborg-java
 
 test fieldssamename_no [[
 
-STATIX ok
-JAVAC ok
+test;
+
+
+
+
 
 [Test]
 public class Test {
@@ -15,3 +18,4 @@ public class Test {
 
 
 ]] analysis fails
+   run javacFails to ""

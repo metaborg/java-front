@@ -4,8 +4,7 @@ language metaborg-java
 
 test classdeclsinblockinorder [[
 
-STATIX fail
-JAVAC  fail
+test;
 
 [A]
 public class A {
@@ -17,3 +16,4 @@ public class A {
 
 
 ]] analysis fails
+   run javacFails to ""

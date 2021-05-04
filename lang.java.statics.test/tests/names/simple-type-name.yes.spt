@@ -4,8 +4,11 @@ language metaborg-java
 
 test simple-type-name [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {}
@@ -17,3 +20,4 @@ public class Test {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

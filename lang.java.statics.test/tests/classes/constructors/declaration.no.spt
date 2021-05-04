@@ -4,8 +4,11 @@ language metaborg-java
 
 test declaration [[
 
-STATIX fail java\.classes\.constructors\.enclosing-type
-JAVAC fail invalid method declaration
+test;
+
+
+
+// error: invalid method declaration
 
 [Point]
 class Point {
@@ -18,3 +21,4 @@ class Point {
 
 
 ]] analysis fails
+   run javacFails to ""

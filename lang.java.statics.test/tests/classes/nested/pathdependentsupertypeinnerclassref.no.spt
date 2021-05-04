@@ -4,8 +4,11 @@ language metaborg-java
 
 test pathdependentsupertypeinnerclassref [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail A2\.B cannot be converted to A1\.B
+test;
+
+
+
+// error: A2\.B cannot be converted to A1\.B
 
 [A1]
 public class A1 {
@@ -27,3 +30,4 @@ public class C {
 
 
 ]] analysis fails
+   run javacFails to ""

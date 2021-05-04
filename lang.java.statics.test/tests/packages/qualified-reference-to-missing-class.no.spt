@@ -4,7 +4,10 @@ language metaborg-java
 
 test qualified-reference-to-missing-class [[
 
-STATIX fail java\.names\.member-type-name.*\"C\" JAVAC  fail cannot find symbol
+test;
+
+
+
 
 [p] {
 
@@ -27,3 +30,4 @@ STATIX fail java\.names\.member-type-name.*\"C\" JAVAC  fail cannot find symbol
 }
 
 ]] analysis fails
+   run javacFails to ""

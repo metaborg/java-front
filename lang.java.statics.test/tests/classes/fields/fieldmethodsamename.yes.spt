@@ -4,8 +4,11 @@ language metaborg-java
 
 test fieldmethodsamename [[
 
-STATIX ok
-JAVAC ok
+test;
+
+
+
+
 
 [Point]
 /* pg 223: overlap naming over fields and methods */
@@ -16,3 +19,4 @@ public class Point {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

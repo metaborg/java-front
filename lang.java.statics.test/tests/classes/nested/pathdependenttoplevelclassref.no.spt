@@ -4,8 +4,11 @@ language metaborg-java
 
 test pathdependenttoplevelclassref [[
 
-STATIX fail java\.expressions\.member-instance-type-ok.*Id\(\"B\"\)
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [A]
 public class A {}
@@ -23,3 +26,4 @@ public class T {
 
 
 ]] analysis fails
+   run javacFails to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test implementsempty [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [B]
 public class B implements I {}
@@ -15,3 +18,4 @@ public interface I {}
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

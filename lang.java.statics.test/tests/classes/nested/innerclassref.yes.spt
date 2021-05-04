@@ -4,8 +4,11 @@ language metaborg-java
 
 test innerclassref [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {
@@ -25,3 +28,4 @@ public class C {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

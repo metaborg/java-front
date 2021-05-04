@@ -4,8 +4,7 @@ language metaborg-java
 
 test type-parameters-are-recursive_yes [[
 
-STATIX success
-JAVAC  success
+test;
 
 [Test]
 public class Test<A extends B, B> {
@@ -15,3 +14,4 @@ public class Test<A extends B, B> {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test implementsinherited [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [I]
 interface I {
@@ -26,3 +29,4 @@ class B {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

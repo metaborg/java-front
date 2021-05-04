@@ -4,8 +4,11 @@ language metaborg-java
 
 test innerandimportedclasssamename [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [jav] {
     [util] {
@@ -25,3 +28,4 @@ public class Test {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

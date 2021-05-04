@@ -4,8 +4,11 @@ language metaborg-java
 
 test inner-class-instantiation-unqualified-in-nested-class-of-enclosing-class [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {
@@ -16,3 +19,4 @@ public class A {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

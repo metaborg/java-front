@@ -4,8 +4,11 @@ language metaborg-java
 
 test pkg-qual-import-inner-class [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [C]
 import p.A.B;
@@ -22,3 +25,4 @@ public class C {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

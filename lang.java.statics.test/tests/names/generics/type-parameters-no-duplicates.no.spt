@@ -4,8 +4,7 @@ language metaborg-java
 
 test type-parameters-no-duplicates_yes [[
 
-STATIX fails
-JAVAC  fails
+test;
 
 [Test]
 public class Test<A, A> {
@@ -13,3 +12,4 @@ public class Test<A, A> {
 }
 
 ]] analysis fails
+   run javacFails to ""

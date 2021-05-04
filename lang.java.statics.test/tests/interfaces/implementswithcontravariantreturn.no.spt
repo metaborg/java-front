@@ -4,8 +4,11 @@ language metaborg-java
 
 test implementswithcontravariantreturn [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail m.* in A cannot implement m.* in I
+test;
+
+
+
+// error: m.* in A cannot implement m.* in I
 
 [I]
 interface I {
@@ -23,3 +26,4 @@ class A implements I {
 class B extends A {}
 
 ]] analysis fails
+   run javacFails to ""

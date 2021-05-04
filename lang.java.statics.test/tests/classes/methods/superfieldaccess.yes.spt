@@ -4,8 +4,11 @@ language metaborg-java
 
 test superfieldaccess [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {
@@ -21,3 +24,4 @@ public class B extends A {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -4,8 +4,11 @@ language metaborg-java
 
 test implementwithcovariantparam [[
 
-STATIX fail unification error
-JAVAC  fail A is not abstract and does not override abstract method m\(A\) in I
+test;
+
+
+
+// error: A is not abstract and does not override abstract method m\(A\) in I
 
 [I]
 interface I {
@@ -21,3 +24,4 @@ class A extends B implements I {
 class B {}
 
 ]] analysis fails
+   run javacFails to ""

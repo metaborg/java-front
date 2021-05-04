@@ -4,8 +4,11 @@ language metaborg-java
 
 test inner-class-instantiation-in-subclass-of-enclosing-class [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {
@@ -18,3 +21,4 @@ public class C extends A {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

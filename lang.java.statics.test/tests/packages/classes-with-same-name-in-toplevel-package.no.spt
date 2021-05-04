@@ -4,8 +4,11 @@ language metaborg-java
 
 test classes-with-same-name-in-toplevel-package [[
 
-STATIX fail java\.duplicates\.no-duplicate-type
-JAVAC  fail duplicate class
+test;
+
+
+
+// error: duplicate class
 
 [p] {
 
@@ -20,3 +23,4 @@ JAVAC  fail duplicate class
 }
 
 ]] analysis fails
+   run javacFails to ""

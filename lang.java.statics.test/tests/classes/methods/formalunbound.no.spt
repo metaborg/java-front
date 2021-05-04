@@ -4,8 +4,11 @@ language metaborg-java
 
 test formalunbound [[
 
-STATIX fail java\.names\.lexical-type-name.*Id\(\"A\"\)
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [B]
 public class B {
@@ -14,3 +17,4 @@ public class B {
 
 
 ]] analysis fails
+   run javacFails to ""

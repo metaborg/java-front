@@ -4,8 +4,11 @@ language metaborg-java
 
 test qualified-super-field-access-in-enclosing-class_yes [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [p] {
 
@@ -27,3 +30,4 @@ JAVAC  ok
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

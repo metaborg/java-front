@@ -4,9 +4,13 @@ language metaborg-java
 
 test unit-in-anonymous-package [[
 
-STATIX ok 
-JAVAC  ok 
+test;
+
+
+
+
 
 [package_info]
 
 ]] analysis succeeds
+   run javacSucceeds to ""

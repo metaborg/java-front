@@ -4,8 +4,11 @@ language metaborg-java
 
 test innerinnerclasssamename [[
 
-STATIX fail java\.duplicates\.no-enclosing-type-same-name.*Id\(\"C\"\)
-JAVAC  fail class C is already defined in package unnamed package
+test;
+
+
+
+// error: class C is already defined in package unnamed package
 
 [C]
 public class C {
@@ -15,3 +18,4 @@ public class C {
 }
 
 ]] analysis fails
+   run javacFails to ""

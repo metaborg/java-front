@@ -32,7 +32,7 @@ rules
   fileOk(s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
     compilationUnitOk(rootScope(s_pkg), s_pkg, compilationUnit).
 
-  fileOk(s_pkg, Test(expectationList, testUnitList)) :-
+  fileOk(s_pkg, Test(testUnitList)) :-
   {s_test s_anonPkg}
     // isolate tests from the regular global scope
     new s_test, s_test -LEX-> rootScope(s_pkg),

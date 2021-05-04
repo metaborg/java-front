@@ -4,8 +4,11 @@ language metaborg-java
 
 test single-type-import-with-same-name-as-class-in-compilation-unit-not-allowed [[
 
-STATIX fail java\.duplicates\.no-duplicate-type.*\"A\"
-JAVAC  fail A is already defined in this compilation unit
+test;
+
+
+
+// error: A is already defined in this compilation unit
 
 [p] {
 
@@ -27,3 +30,4 @@ JAVAC  fail A is already defined in this compilation unit
 }
 
 ]] analysis fails
+   run javacFails to ""

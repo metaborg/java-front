@@ -4,8 +4,11 @@ language metaborg-java
 
 test class-extends-interface [[
 
-STATIX fail unification error.*CLASS.*INTF
-JAVAC  fail no interface expected here
+test;
+
+
+
+// error: no interface expected here
 
 [I]
 interface I {}
@@ -14,3 +17,4 @@ interface I {}
 class A extends I {}
 
 ]] analysis fails
+   run javacFails to ""

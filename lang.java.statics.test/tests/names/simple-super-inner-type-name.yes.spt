@@ -4,8 +4,11 @@ language metaborg-java
 
 test simple-super-inner-type-name [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A {
@@ -19,3 +22,4 @@ public class C extends A {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

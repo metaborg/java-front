@@ -4,8 +4,11 @@ language metaborg-java
 
 test class-and-nested-package-with-same-name [[
 
-STATIX fail java\.duplicates\.no-duplicate-type.*\"r\"
-JAVAC  fail class r clashes with package of same name
+test;
+
+
+
+// error: class r clashes with package of same name
 
 [p] {
 
@@ -23,3 +26,4 @@ JAVAC  fail class r clashes with package of same name
 }
 
 ]] analysis fails
+   run javacFails to ""

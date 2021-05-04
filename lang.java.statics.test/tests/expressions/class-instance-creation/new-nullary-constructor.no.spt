@@ -4,8 +4,11 @@ language metaborg-java
 
 test new-nullary-constructor_no [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [Test]
 public class Test {
@@ -18,3 +21,4 @@ public class A {
 }
 
 ]] analysis fails
+   run javacFails to ""

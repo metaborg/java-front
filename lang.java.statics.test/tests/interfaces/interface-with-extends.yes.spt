@@ -4,8 +4,11 @@ language metaborg-java
 
 test interface-with-extends [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [I]
 interface J {
@@ -19,3 +22,4 @@ interface K {
 interface I extends J, K {}
 
 ]] analysis succeeds
+   run javacSucceeds to ""

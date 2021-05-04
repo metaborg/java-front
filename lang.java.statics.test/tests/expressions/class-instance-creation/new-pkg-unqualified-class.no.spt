@@ -4,8 +4,11 @@ language metaborg-java
 
 test new-pkg-unqualified-class [[
 
-STATIX fail java\.names\.lexical-type-name.*\"A\"
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [q] {
 
@@ -26,3 +29,4 @@ JAVAC  fail cannot find symbol
 }
 
 ]] analysis fails
+   run javacFails to ""

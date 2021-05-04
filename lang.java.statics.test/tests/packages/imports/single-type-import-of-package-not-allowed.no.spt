@@ -4,8 +4,11 @@ language metaborg-java
 
 test single-type-import-of-package-not-allowed [[
 
-STATIX fail java\.names\.member-type-name.*\"r\"
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [p] {
 
@@ -27,3 +30,4 @@ JAVAC  fail cannot find symbol
 }
 
 ]] analysis fails
+   run javacFails to ""

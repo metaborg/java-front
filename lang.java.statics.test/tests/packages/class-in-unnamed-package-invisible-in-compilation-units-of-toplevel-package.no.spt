@@ -4,8 +4,11 @@ language metaborg-java
 
 test class-in-unnamed-package-invisible-in-compilation-units-of-toplevel-package [[
 
-STATIX fail java\.names\.lexical-type-name.*\"A\"
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [A]
 public class A {
@@ -22,3 +25,4 @@ public class A {
 }
 
 ]] analysis fails
+   run javacFails to ""

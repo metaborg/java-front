@@ -4,8 +4,11 @@ language metaborg-java
 
 test inner-class-instantiation-requires-qualified-new [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [p] {
 
@@ -25,3 +28,4 @@ public class T {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

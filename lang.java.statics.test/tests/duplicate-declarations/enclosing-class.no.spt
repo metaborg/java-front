@@ -4,8 +4,7 @@ language metaborg-java
 
 test enclosing-class_no [[
 
-STATIX fail
-JAVAC  fail
+test;
 
 [A]
 public class A {
@@ -13,3 +12,4 @@ public class A {
 }
 
 ]] analysis fails
+   run javacFails to ""

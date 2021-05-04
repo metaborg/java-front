@@ -3,8 +3,11 @@ module classes/enums/enum-constants
 language metaborg-java
 
 test refer to constant of imported enum [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [Test]
 import p.E;
@@ -23,10 +26,14 @@ public class Test {
 
 ]] analysis fails
    run javacFails to ""
+   run javacFails to ""
 
 test refer to constant of imported enum [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [Test]
 import p.E;
@@ -45,10 +52,14 @@ public class Test {
 
 ]] analysis succeeds
    run javacSucceeds to ""
+   run javacSucceeds to ""
 
 test refer to single-static-imported constant [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [Test]
 import p.E;
@@ -68,10 +79,14 @@ public class Test {
 
 ]] analysis succeeds
    run javacSucceeds to ""
+   run javacSucceeds to ""
 
 test refer to static-ondemand-imported constant [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [Test]
 import p.E;
@@ -91,10 +106,14 @@ public class Test {
 
 ]] analysis succeeds
    run javacSucceeds to ""
+   run javacSucceeds to ""
 
 test enum constant local field [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [p] {
   [E]
@@ -110,10 +129,14 @@ JAVAC  ok
 
 ]] analysis succeeds
    run javacSucceeds to ""
+   run javacSucceeds to ""
    
 test cannot refer to enum constant field [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [Test]
 import p.E;
@@ -134,4 +157,5 @@ public class Test {
 }
 
 ]] analysis fails
+   run javacFails to ""
    run javacFails to ""

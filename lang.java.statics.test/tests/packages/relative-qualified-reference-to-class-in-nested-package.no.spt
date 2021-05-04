@@ -4,8 +4,11 @@ language metaborg-java
 
 test relative-qualified-reference-to-class-in-nested-package [[
 
-STATIX fail java\.names\.lexical-package-or-type-name.*\"q\"
-JAVAC  fail package q does not exist
+test;
+
+
+
+// error: package q does not exist
 
 [p] {
 
@@ -26,3 +29,4 @@ JAVAC  fail package q does not exist
 }
 
 ]] analysis fails
+   run javacFails to ""

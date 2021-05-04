@@ -4,8 +4,11 @@ language metaborg-java
 
 test inner-class-instantiation-requires-qualified-new [[
 
-STATIX fail java\.expressions\.ensure-enclosing-instance
-JAVAC  fail an enclosing instance that contains A\.B is required
+test;
+
+
+
+// error: an enclosing instance that contains A\.B is required
 
 [p] {
 
@@ -24,3 +27,4 @@ public class T {
 }
 
 ]] analysis fails
+   run javacFails to ""

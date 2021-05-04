@@ -4,8 +4,11 @@ language metaborg-java
 
 test unboundqualifiedthis [[
 
-STATIX fail java\.expressions\.expression-ok.*QThis.*Id\(\"Out\"\)
-JAVAC  fail not an enclosing class\: A\.B\.Out
+test;
+
+
+
+// error: not an enclosing class\: A\.B\.Out
 
 [p] {
 
@@ -28,3 +31,4 @@ JAVAC  fail not an enclosing class\: A\.B\.Out
 }
 
 ]] analysis fails
+   run javacFails to ""

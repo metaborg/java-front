@@ -4,8 +4,11 @@ language metaborg-java
 
 test class-in-compilation-unit-shadows-on-demand-imported-class [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [p] {
 
@@ -28,3 +31,4 @@ JAVAC  ok
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

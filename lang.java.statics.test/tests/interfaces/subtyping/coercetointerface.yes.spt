@@ -4,8 +4,11 @@ language metaborg-java
 
 test coercetointerface [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [A]
 public class A implements I {}
@@ -23,3 +26,4 @@ public interface I {}
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

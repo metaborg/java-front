@@ -4,8 +4,11 @@ language metaborg-java
 
 test constructor-with-reference-argument_yes [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [Test]
 import p.*;
@@ -25,3 +28,4 @@ public class Test {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

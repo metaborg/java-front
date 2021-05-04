@@ -4,8 +4,11 @@ language metaborg-java
 
 test implements-interface-with-extends [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [I]
 interface J {
@@ -25,3 +28,4 @@ class A implements I {
 } 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

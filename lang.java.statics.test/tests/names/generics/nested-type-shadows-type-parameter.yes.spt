@@ -4,8 +4,7 @@ language metaborg-java
 
 test nested type shadows type parameter (yes) [[
 
-STATIX success
-JAVAC  success
+test;
 
 [Test]
 public class Test<X extends q.B> {
@@ -31,3 +30,4 @@ public class Test<X extends q.B> {
 
 
 ]] analysis succeeds
+   run javacSucceeds to ""

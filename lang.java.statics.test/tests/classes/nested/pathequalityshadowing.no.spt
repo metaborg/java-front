@@ -4,8 +4,11 @@ language metaborg-java
 
 test pathequalityshadowing [[
 
-STATIX fail java\.subtype\.sub-type
-JAVAC  fail incompatible types\: A\.I cannot be converted to C\.I
+test;
+
+
+
+// error: incompatible types\: A\.I cannot be converted to C\.I
 
 [A]
 public class A {
@@ -29,3 +32,4 @@ public class Test {
 
 
 ]] analysis fails
+   run javacFails to ""

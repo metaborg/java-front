@@ -4,8 +4,11 @@ language metaborg-java
 
 test declaration [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [Point]
 class Point {
@@ -17,3 +20,4 @@ class Point {
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

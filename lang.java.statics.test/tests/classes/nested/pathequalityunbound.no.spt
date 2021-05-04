@@ -4,8 +4,11 @@ language metaborg-java
 
 test pathequalityunbound [[
 
-STATIX fail java\.names\.member-type-name.*Id\(\"I\"\)
-JAVAC  fail cannot find symbol
+test;
+
+
+
+// error: cannot find symbol
 
 [A]
 public class A {
@@ -27,3 +30,4 @@ class Test {
 
 
 ]] analysis fails
+   run javacFails to ""

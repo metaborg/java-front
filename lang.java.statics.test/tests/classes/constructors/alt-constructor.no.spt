@@ -4,8 +4,7 @@ language metaborg-java
 
 test alt-constructor_no [[
 
-STATIX fails
-JAVAC  fails
+test;
 
 [p] {
 
@@ -22,3 +21,4 @@ JAVAC  fails
 }
 
 ]] analysis fails
+   run javacFails to ""

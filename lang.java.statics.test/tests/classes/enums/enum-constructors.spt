@@ -3,8 +3,11 @@ module classes/enums/enum-constructors
 language metaborg-java
 
 test enum with implicit nullary constructor [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [p] {
   [E]
@@ -18,8 +21,11 @@ JAVAC  ok
    run javacSucceeds to ""
 
 test enum with explicit constructor has no implicit constructor [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [p] {
   [E]
@@ -35,8 +41,11 @@ JAVAC  ok
    run javacFails to ""
 
 test enum with explicit constructor cannot call super constructor [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [p] {
   [E]
@@ -51,10 +60,14 @@ JAVAC  ok
 
 ]] analysis fails
    run javacFails to ""
+   run javacFails to ""
 
 test enum with explicit constructor can call this constructor [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [p] {
   [E]
@@ -71,10 +84,14 @@ JAVAC  ok
 
 ]] analysis succeeds
    run javacSucceeds to ""
+   run javacSucceeds to ""
 
 test enum with explicit constructor [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [p] {
   [E]
@@ -88,10 +105,14 @@ JAVAC  ok
 
 ]] analysis succeeds
    run javacSucceeds to ""
+   run javacSucceeds to ""
 
 test enum with explicit public constructor [[
-STATIX ok
-JAVAC  ok
+
+test;
+
+
+
 
 [p] {
   [E]
@@ -104,4 +125,5 @@ JAVAC  ok
 }
 
 ]] analysis fails
+   run javacFails to ""
    run javacFails to ""

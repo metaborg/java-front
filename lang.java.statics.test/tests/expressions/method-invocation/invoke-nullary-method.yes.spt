@@ -4,8 +4,11 @@ language metaborg-java
 
 test invoke-nullary-method_yes [[
 
-STATIX ok
-JAVAC  ok
+test;
+
+
+
+
 
 [p] {
 
@@ -21,3 +24,4 @@ JAVAC  ok
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

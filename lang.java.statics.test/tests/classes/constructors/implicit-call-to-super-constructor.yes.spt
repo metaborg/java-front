@@ -4,8 +4,7 @@ language metaborg-java
 
 test implicit-call-to-super-constructor_yes [[
 
-STATIX fail
-JAVAC  fail
+test;
 
 [p] {
 
@@ -24,3 +23,4 @@ JAVAC  fail
 }
 
 ]] analysis succeeds
+   run javacSucceeds to ""

@@ -4,11 +4,15 @@ language metaborg-java
 
 test unit-in-toplevel-package [[
 
-STATIX ok 
-JAVAC  ok 
+test;
+
+
+
+
 
 [p] {
   [package_info]
   package p;
 }
 ]] analysis succeeds
+   run javacSucceeds to ""
