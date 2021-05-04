@@ -19,8 +19,12 @@ exports:
 - language: SDF
   directory: syntax
   includes:
+  - injections/metaborg-java-injections.str
   - injections/java/**/*.str
+  - pp/metaborg-java-pp.str
+  - pp/metaborg-java-parenthesize.str
   - pp/java/**/*.str
+  - signatures/metaborg-java-sig.str
   - signatures/java/**/*.str
 - language: SDF
   directory: src-gen/syntax

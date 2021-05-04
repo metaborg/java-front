@@ -17,19 +17,13 @@
 
   <modules>
     <module>lang.java</module>
-    <!--
     <module>lang.java.test</module>
-    -->
     <module>lang.java.statics</module>
-    <!--
     <module>lang.java.javac</module>
-    <module>lang.java.statics.test</module>
-    -->
-    <!--
+    <!--module>lang.java.statics.test</module-->
     <module>lang.java.eclipse</module>
     <module>lang.java.eclipse.feature</module>
     <module>lang.java.eclipse.site</module>
-    -->
   </modules>
 
   <build>

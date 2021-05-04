@@ -9,7 +9,7 @@ imports
   pp/metaborg-java-parenthesize
   pp/metaborg-java-pp
   
-  java/injections
+  injections/metaborg-java-injections
 
 rules
 
@@ -20,7 +20,7 @@ rules
   editor-compile:
     (_, _, ast, path, project-path) -> result
     with
-      out := <java-implicate-injections;javac(pp-java-string)> ast
+      out := <implicate-injections-metaborg-java;javac(pp-java-string)> ast
     ; if Some(txt) := out then
         filename := <guarantee-extension(|"out")> path
       ; result := (filename, txt)
@@ -39,6 +39,7 @@ rules
    *    run javaFails to ""
    *    run javaFails(|"(partial) expected message") to ""
    */
-  javacSucceeds       = java-implicate-injections;javac(pp-java-string|"")
-  javacFails          = java-implicate-injections;javac(pp-java-string|".+")
-  javacFails(|expect) = java-implicate-injections;javac(pp-java-string|$[.*[expect].*])
+  javacSucceeds       = implicate-injections-metaborg-java;javac(pp-java-string|"")
+  javacFails          = implicate-injections-metaborg-java;javac(pp-java-string|".+")
+  javacFails(|expect) = implicate-injections-metaborg-java;javac(pp-java-string|$[.*[expect].*])
+

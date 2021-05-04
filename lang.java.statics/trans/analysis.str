@@ -10,7 +10,7 @@ imports
   statix/api
   statixruntime
 
-  java/injections
+  injections/metaborg-java-injections
 
   signatures/-
   signatures/java/packages/-
@@ -20,13 +20,13 @@ rules // Analysis
 
   editor-analyze = stx-editor-analyze(pre-analyze,group-key,post-analyze|"statics", "projectOk", "groupOk", "fileOk")
 
-  pre-analyze = java-explicate-injections
+  pre-analyze = explicate-injections-metaborg-java
 
   group-key: (resource, ast) -> key
     with rel-path := <current-language-relative-source-or-include-path> resource
        ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\'], rel-path)
 
-  post-analyze = java-implicate-injections
+  post-analyze = implicate-injections-metaborg-java
 
 rules // Editor services
   
