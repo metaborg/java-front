@@ -69,11 +69,11 @@ public abstract class JavaCStrategy extends Strategy {
     }
 
     private void processTest(IStrategoTerm test, Function1<IStrategoTerm, String> pp, Path srcDir) throws IOException {
-        if(!(TermUtils.isAppl(test, "Test", 2))) {
-            logger.error("Expected Test/2, got {}", test);
+        if(!(TermUtils.isAppl(test, "Test", 1))) {
+            logger.error("Expected Test/1, got {}", test);
             throw new IllegalArgumentException();
         }
-        processPkgOrFileList(test.getSubterm(1), pp, srcDir);
+        processPkgOrFileList(test.getSubterm(0), pp, srcDir);
     }
 
     private void processPkgOrFileList(IStrategoTerm pkgOrFileList, Function1<IStrategoTerm, String> pp, Path srcDir)
