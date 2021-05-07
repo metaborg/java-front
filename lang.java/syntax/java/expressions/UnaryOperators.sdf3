@@ -7,6 +7,10 @@ imports
   java/types/ReferenceTypes
   java/expressions/LambdaExpressions 
 
+context-free sorts
+
+  AdditionalBound
+
 context-free syntax
   
   Expression.Plus  = <+<Expression>>

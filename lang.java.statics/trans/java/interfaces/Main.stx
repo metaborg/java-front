@@ -1,0 +1,14 @@
+module java/interfaces/Main
+
+imports
+
+  signatures/java/interfaces/Main-sig
+
+  java/interfaces/AnnotationTypes
+  java/interfaces/Annotations
+  java/interfaces/ConstantDeclarations
+  java/interfaces/InterfaceDeclarations
+  java/interfaces/InterfaceMethodDeclarations
+
+
+rules // Chapter 9. Interfaces

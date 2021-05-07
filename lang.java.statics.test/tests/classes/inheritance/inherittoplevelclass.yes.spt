@@ -1,0 +1,21 @@
+module classes/inheritance/inherittoplevelclass_yes
+
+language metaborg-java
+
+test inherittoplevelclass [[
+
+test;
+
+
+
+
+
+[A]
+public class A {}
+
+[B]
+public class B extends A {}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

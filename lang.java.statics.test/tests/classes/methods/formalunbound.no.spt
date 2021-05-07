@@ -1,0 +1,20 @@
+module classes/methods/formalunbound_no
+
+language metaborg-java
+
+test formalunbound [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[B]
+public class B {
+    public void b(A a, B b) {}
+}
+
+
+]] analysis fails
+   run javacFails to ""

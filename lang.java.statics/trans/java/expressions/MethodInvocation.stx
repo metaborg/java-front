@@ -1,0 +1,90 @@
+module java/expressions/MethodInvocation
+
+imports
+
+  signatures/java/expressions/MethodInvocation-sig
+
+  java/expressions/Main
+  java/names/MethodNames
+  java/names/ReceiverNames
+  java/names/TypeNames
+  java/types/ParameterizedTypes
+  java/types/ReferenceTypes
+
+
+rules // 15.12. Method Invocation Expressions
+
+  exprOk(s, Invoke(mthdName, exprList)) = T :-
+  {Ts mthdDecl R}
+    Ts == exprListOk(s, exprList),
+
+    mthdDecl == mthdNameOk(s, mthdName, Ts),
+    R == mthdDeclReturn(mthdDecl),
+    T == invokeReturn(R),
+
+    true.
+
+  exprOk(s, InvokeQExp(ExpressionName2Expression(exprName), typeArgsOpt, id, exprList)) = T :-
+  {recvDecl Ts mthdDecl R}
+    recvDecl == recvNameOk(s, exprName),
+    
+    _ == typeArgsOptOk(s, typeArgsOpt),
+
+    Ts == exprListOk(s, exprList),
+
+    mthdDecl == resolveRecvMemberMthdName(recvDecl, id, Ts),
+    R == mthdDeclReturn(mthdDecl),
+    T == invokeReturn(R),
+
+    true.
+  
+  exprOk(s, InvokeQExp(expr, typeArgsOpt, id, exprList)) = T :-
+  {s_ty Ts mthdDecl R}
+    s_ty == typeScope(exprOk(s, expr)),
+
+    _ == typeArgsOptOk(s, typeArgsOpt),
+
+    Ts == exprListOk(s, exprList),
+
+    mthdDecl == resolveMemberMthdName(s_ty, id, Ts),
+    R == mthdDeclReturn(mthdDecl),
+    T == invokeReturn(R),
+
+    true.
+
+  exprOk(s, InvokeSuper(typeArgsOpt, id, exprList)) = T :-
+  {s_ty Ts mthdDecl R}
+    s_ty == typeDeclScope(super(this(s))),
+
+    _ == typeArgsOptOk(s, typeArgsOpt),
+
+    Ts == exprListOk(s, exprList),
+
+    mthdDecl == resolveMemberMthdName(s_ty, id, Ts),
+    R == mthdDeclReturn(mthdDecl),
+    T == invokeReturn(R),
+
+    true.
+
+  exprOk(s, InvokeQSuper(typeName, typeArgsOpt, id, exprList)) = T :-
+  {typeDecl s_ty Ts mthdDecl R}
+    typeDecl == typeNameOk(s, typeName),
+    s_ty == typeDeclScope(super(qualThis(typeDecl, s))),
+
+    _ == typeArgsOptOk(s, typeArgsOpt),
+
+    Ts == exprListOk(s, exprList),
+
+    mthdDecl == resolveMemberMthdName(s_ty, id, Ts),
+    R == mthdDeclReturn(mthdDecl),
+    T == invokeReturn(R),
+
+    true.
+
+
+  invokeReturn : RETURN -> TYPE
+  
+  invokeReturn(TYPED(T)) = T.
+
+  invokeReturn(VOID()) = _. // FIXME void methods are ignored; how to integrate void & expression types?
+

@@ -8,6 +8,12 @@ imports
   java/interfaces/Annotations
   java/arrays/ArrayInitializers
 
+context-free sorts
+
+  ArrayCreationExpression
+  ArrayBaseType
+  DimExpr
+
 context-free syntax
   
   Expression = ArrayCreationExpression

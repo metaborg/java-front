@@ -6,11 +6,17 @@ imports
   java/types/ReferenceTypes
   java/interfaces/Annotations 
 
+context-free sorts
+
+  TypeArguments
+  TypeArgument
+  WildCard
+
 context-free syntax
 
   TypeArguments.TypeArguments = [<[{TypeArgument ", "}+]>]
   TypeArgument = ReferenceType
-  TypeArgument.WildCard = WildCard
+  TypeArgument = WildCard
   WildCard.WildCard = <<{Annotation " "}*> ?>
   WildCard.WildCardExtends = <<{Annotation " "}*> ? extends <ReferenceType>>
   WildCard.WildCardSuper = <<{Annotation " "}*> ? super <ReferenceType>>

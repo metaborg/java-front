@@ -1,0 +1,41 @@
+---
+id: org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
+name: metaborg-java-statics
+dependencies:
+  compile:
+  - org.metaborg:org.metaborg.meta.lang.esv:${metaborgVersion}
+  - org.metaborg:statix.lang:${metaborgVersion}
+  source:
+  - org.metaborg:meta.lib.spoofax:${metaborgVersion}
+  - org.metaborg:statix.runtime:${metaborgVersion}
+  - org.metaborg:lang.java:1.1.0-SNAPSHOT
+contributions:
+- name: metaborg-java
+  id: org.metaborg:lang.java:1.1.0-SNAPSHOT
+exports:
+- directory: src-gen/statix
+  includes: "**/*.aterm"
+language:
+  sdf:
+    enabled: false
+  statix:
+    concurrent: true
+  stratego:
+    format: ctree
+    args:
+    - -la
+    - stratego-lib
+    - -la
+    - stratego-sglr
+    - -la
+    - stratego-gpp
+    - -la
+    - stratego-xtc
+    - -la
+    - stratego-aterm
+    - -la
+    - stratego-sdf
+    - -la
+    - strc
+build:
+  useBuildSystemSpec: true

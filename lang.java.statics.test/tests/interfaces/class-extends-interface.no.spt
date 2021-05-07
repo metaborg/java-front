@@ -1,0 +1,20 @@
+module interfaces/class-extends-interface_no
+
+language metaborg-java
+
+test class-extends-interface [[
+
+test;
+
+
+
+// error: no interface expected here
+
+[I]
+interface I {}
+
+[A]
+class A extends I {}
+
+]] analysis fails
+   run javacFails to ""

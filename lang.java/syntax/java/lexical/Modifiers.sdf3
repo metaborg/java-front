@@ -1,0 +1,34 @@
+module java/lexical/Modifiers
+
+//  modifier keywards get their own productions,
+//  to prevent duplicate constructors
+
+context-free sorts
+
+  Abstract
+  Default
+  Final
+  Native
+  Private
+  Protected
+  Public
+  Static
+  Strictfp
+  Synchronized
+  Transient
+  Volatile
+
+context-free syntax
+
+  Abstract    .Abstract     = "abstract"
+  Default     .Default      = "default"
+  Final       .Final        = "final"
+  Native      .Native       = "native"
+  Private     .Private      = "private"
+  Protected   .Protected    = "protected"
+  Public      .Public       = "public"
+  Static      .Static       = "static"
+  Strictfp    .Strictfp     = "strictfp"
+  Transient   .Transient    = "transient"
+  Volatile    .Volatile     = "volatile"
+  Synchronized.Synchronized = "synchronized"

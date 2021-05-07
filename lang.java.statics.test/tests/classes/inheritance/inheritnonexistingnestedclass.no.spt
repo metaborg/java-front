@@ -1,0 +1,23 @@
+module classes/inheritance/inheritnonexistingnestedclass_no
+
+language metaborg-java
+
+test inheritnonexistingnestedclass [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[A]
+public class A {
+    public class B {}
+}
+
+[C]
+public class C extends A.D {}
+
+
+]] analysis fails
+   run javacFails to ""

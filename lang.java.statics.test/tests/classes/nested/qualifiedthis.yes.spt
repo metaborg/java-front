@@ -1,0 +1,23 @@
+module classes/nested/qualifiedthis_yes
+
+language metaborg-java
+
+test qualifiedthis [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class B {
+        public void m() {
+             A a = A.this;
+        }
+    }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

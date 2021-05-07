@@ -1,0 +1,31 @@
+module classes/constructors/constructor-with-reference-argument_yes
+
+language metaborg-java
+
+test constructor-with-reference-argument_yes [[
+
+test;
+
+
+
+
+
+[Test]
+import p.*;
+public class Test {
+  B b = new B(new A());
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {}
+  [B]
+  package p;
+  public class B {
+    public B(A a) {}
+  }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

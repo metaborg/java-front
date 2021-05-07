@@ -4,14 +4,16 @@ module java/statements/LocalVariableDeclarations
 
 imports
   java/classes/FieldDeclarations
+  java/classes/MethodDeclarations
   java/interfaces/Annotations
+
+context-free sorts
+
+  LocalVariableDeclarationStatement
+  LocalVariableDeclaration
 
 context-free syntax
 
   LocalVariableDeclarationStatement.LocVarDeclStm = <<LocalVariableDeclaration>;> //{prefer}
   LocalVariableDeclaration.LocalVarDecl = <
   <{VariableModifier " "}*> <UnannType> <{VarDecl ", "}+>> {prefer}
-  
-  VariableModifier       = Annotation
-  VariableModifier.Final = "final"
-  

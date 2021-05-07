@@ -10,6 +10,14 @@ lexical start-symbols
   
   ID
 
+context-free sorts
+
+  Id
+
+lexical sorts
+  
+  ID
+
 context-free syntax
 
   Id.Id = ID

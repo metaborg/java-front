@@ -6,6 +6,10 @@ context-free start-symbols
   
   BoolLiteral
 
+context-free sorts
+  
+  BoolLiteral
+
 context-free syntax
 
   BoolLiteral.True = <true>

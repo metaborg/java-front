@@ -1,0 +1,38 @@
+module java/interfaces/ConstantDeclarations
+
+imports
+
+  signatures/java/interfaces/ConstantDeclarations-sig
+
+  java/classes/FieldDeclarations
+  java/interfaces/Annotations
+  java/interfaces/Main
+  java/names/Main
+
+
+rules // 9.3. Field (Constant) Declarations
+
+  constDeclOk : scope * ConstantDeclaration * scope
+
+  constDeclOk(s, ConstantDecl(constModList, unannType, varDeclList), s_staticDef) :-
+  {s' T}
+    constModListOk(s, constModList), // FIXME implicitly `public static final`
+
+    new s',
+    s' -STATIC_LEX-> s,
+
+    T == unannTypeOk(s', unannType),
+    varDeclListOk(s', T, varDeclList, s_staticDef).
+
+
+  constModOk : scope * ConstantModifier
+  constModListOk maps constModOk(*, list(*))
+
+  constModOk(s, Annotation2ConstantModifier(anno)) :-
+    annoOk(s, anno),
+    true.
+  constModOk(s, Public2ConstantModifier(_)) :- true.
+  constModOk(s, Static2ConstantModifier(_)) :- true.
+  constModOk(s, Final2ConstantModifier(_)) :- true.
+
+

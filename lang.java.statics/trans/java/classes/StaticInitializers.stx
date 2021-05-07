@@ -1,0 +1,21 @@
+module java/classes/StaticInitializers
+
+imports
+
+  signatures/java/classes/StaticInitializers-sig
+
+  java/classes/Main
+  java/names/Main
+  java/statements/Blocks
+
+
+rules // 8.7. Static Initializers
+
+  staticInitOk : scope * StaticInitializer
+
+  staticInitOk(s, StaticInit(blk)) :-
+  {s_init}
+    new s_init,
+    s_init -STATIC_LEX-> s,
+    blkOk(s_init, blk).
+

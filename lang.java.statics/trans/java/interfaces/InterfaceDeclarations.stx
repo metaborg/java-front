@@ -1,0 +1,155 @@
+module java/interfaces/InterfaceDeclarations
+
+imports
+
+  signatures/java/interfaces/InterfaceDeclarations-sig
+
+  java/JRE
+  java/classes/ClassDeclarations
+  java/interfaces/Annotations
+  java/interfaces/AnnotationTypes
+  java/interfaces/ConstantDeclarations
+  java/interfaces/Main
+  java/interfaces/InterfaceMethodDeclarations
+  java/names/Main
+  java/names/TypeNames
+  java/types/ReferenceTypes
+  java/util/Boolean
+
+
+rules // 9.1. Interface Declarations
+
+  intfDeclOk : scope * InterfaceDeclaration * scope * scope
+
+  intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList), s_def, s_staticDef) :-
+  {isStatic s_intf s_typeParams s_intfStatic}
+    intfModListOk(s, intfModList),
+    isStatic == hasStaticIntfMod(intfModList),
+
+    new s_intf,
+    addLexical(s_intf, isStatic, s),
+
+    declareType2(s_def, s_staticDef, isStatic, id, s_intf, INTF()),
+    // FIXME noDuplicateType
+    // FIXME noEnclosingTypeSameName
+    // FIXME noExtendsCycle
+
+    new s_typeParams,
+    addLexical(s_typeParams, isStatic, s),
+    s_intf -TYPE_PARAMS-> s_typeParams,
+    typeParamsOptOk(s_typeParams, typeParamsOpt),
+
+    extendsIntfsOptOk(s_typeParams, extendsIntfsOpt, s_intf),
+
+    new s_intfStatic,
+    s_intf -STATIC_MEMBERS-> s_intfStatic,
+
+    setSuperCls(s_intf, objectOk(s)), // ensure that interface types are recognized as subtypes of Object
+
+    intfMemDeclListOk(s_intf, intfMemDeclList, s_intf, s_intfStatic).
+
+  intfDeclOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl), s_def, s_staticDef) :-
+    annoTypeDeclOk(s, annoTypeDecl, s_def, s_staticDef).
+
+
+  intfModOk : scope * InterfaceModifier
+  intfModListOk maps intfModOk(*, list(*))
+
+  intfModOk(s, Annotation2InterfaceModifier(anno)) :-
+    annoOk(s, anno),
+    true.
+  intfModOk(s, Public2InterfaceModifier(_)) :- true.
+  intfModOk(s, Protected2InterfaceModifier(_)) :- true.
+  intfModOk(s, Private2InterfaceModifier(_)) :- true.
+  intfModOk(s, Abstract2InterfaceModifier(_)) :- true.
+  intfModOk(s, Static2InterfaceModifier(_)) :- true.
+  intfModOk(s, Strictfp2InterfaceModifier(_)) :- true.
+
+
+  hasStaticIntfMod : list(InterfaceModifier) -> B
+
+  hasStaticIntfMod([Static2InterfaceModifier(_)|_]) = T().
+  hasStaticIntfMod([_|intfModList]) = hasStaticIntfMod(intfModList).
+  hasStaticIntfMod([]) = F().
+
+
+  extendsIntfsOk : scope * ExtendsInterfaces * scope
+  extendsIntfsOptOk maps extendsIntfsOk(*, list(*), *)
+
+  extendsIntfsOk(s, ExtendsInterfaces(clsTypeList), s_intf) :-
+  {Ts}
+    Ts == clsTypeListOk(s, clsTypeList),
+    addSuperIntfList(s_intf, Ts).
+
+
+  intfMemDeclOk : scope * InterfaceMemberDeclaration * scope * scope
+  intfMemDeclListOk maps intfMemDeclOk(*, list(*), *, *)
+
+  intfMemDeclOk(s, ConstantDeclaration2InterfaceMemberDeclaration(constDecl), s_def, s_staticDef) :-
+    constDeclOk(s, constDecl, s_staticDef).
+
+  intfMemDeclOk(s, InterfaceMethodDeclaration2InterfaceMemberDeclaration(intfMthdDecl), s_def, s_staticDef) :-
+    intfMthdDeclOk(s, intfMthdDecl, s_def, s_staticDef).
+
+  intfMemDeclOk(s, ClassDeclaration2InterfaceMemberDeclaration(clsDecl), s_def, s_staticDef) :-
+    clsDeclOk(s, addImplicitClassMemMods(clsDecl), s_def, s_staticDef).
+
+  intfMemDeclOk(s, InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl), s_def, s_staticDef) :-
+    intfDeclOk(s, addImplicitIntfMemMods(intfDecl), s_def, s_staticDef).
+
+  intfMemDeclOk(s, SemiColon2InterfaceMemberDeclaration(_), s_def, s_staticDef) :-
+    true.
+
+
+
+
+  addImplicitClassMemMods : ClassDeclaration -> ClassDeclaration
+
+  addImplicitClassMemMods(NormalClassDeclaration2ClassDeclaration(ClassDeclaration(clsModList, id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList))) = NormalClassDeclaration2ClassDeclaration(ClassDeclaration(clsModList', id, typeParamsOpt, superClsOpt, superIntfsOpt, clsBodyDeclList)) :-
+    clsModList' == addImplicitClassMemMods1(clsModList).
+
+  addImplicitClassMemMods(EnumDeclaration2ClassDeclaration(EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt))) = EnumDeclaration2ClassDeclaration(EnumDeclComma(clsModList', id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+    clsModList' == addImplicitClassMemMods1(clsModList).
+
+  addImplicitClassMemMods(EnumDeclaration2ClassDeclaration(EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt))) = EnumDeclaration2ClassDeclaration(EnumDecl(clsModList', id, superIntfsOpt, enumConstList, enumBodyDeclsOpt)) :-
+    clsModList' == addImplicitClassMemMods1(clsModList).
+
+
+  addImplicitClassMemMods1 : list(ClassModifier) -> list(ClassModifier)
+
+  addImplicitClassMemMods1(clsModList) = addImplicitClassMemMods2(clsModList, F(), F()).
+
+
+  addImplicitClassMemMods2 : list(ClassModifier) * B * B -> list(ClassModifier)
+
+  addImplicitClassMemMods2([clsMod@Public2ClassModifier(_)|clsModList], isPublic, isStatic) = [clsMod                        |addImplicitClassMemMods2(clsModList, T()     , isStatic)].
+  addImplicitClassMemMods2([clsMod@Static2ClassModifier(_)|clsModList], isPublic, isStatic) = [clsMod                        |addImplicitClassMemMods2(clsModList, isPublic, T()     )].
+  addImplicitClassMemMods2([clsMod                        |clsModList], isPublic, isStatic) = [clsMod                        |addImplicitClassMemMods2(clsModList, isPublic, isStatic)].
+  addImplicitClassMemMods2([]                                         , F()     , isStatic) = [Public2ClassModifier(Public())|addImplicitClassMemMods2([]        , T()     , isStatic)].
+  addImplicitClassMemMods2([]                                         , T()     , F()     ) = [Static2ClassModifier(Static())|addImplicitClassMemMods2([]        , T()     , T()     )].
+  addImplicitClassMemMods2([]                                         , T()     , T()     ) = [].
+
+
+  addImplicitIntfMemMods : InterfaceDeclaration -> InterfaceDeclaration
+
+  addImplicitIntfMemMods(NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList)) = NormalInterface(intfModList', id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList) :-
+    intfModList' == addImplicitIntfMemMods1(intfModList).
+
+  addImplicitIntfMemMods(AnnotationTypeDeclaration2InterfaceDeclaration(AnnoDec(intfModList, id, annoTypeMemDeclList))) = AnnotationTypeDeclaration2InterfaceDeclaration(AnnoDec(intfModList', id, annoTypeMemDeclList)) :-
+    intfModList' == addImplicitIntfMemMods1(intfModList).
+
+
+  addImplicitIntfMemMods1 : list(InterfaceModifier) -> list(InterfaceModifier)
+
+  addImplicitIntfMemMods1(intfModList) = addImplicitIntfMemMods2(intfModList, F(), F()).
+
+
+  addImplicitIntfMemMods2 : list(InterfaceModifier) * B * B -> list(InterfaceModifier)
+
+  addImplicitIntfMemMods2([intfMod@Public2InterfaceModifier(_)|intfModList], isPublic, isStatic) = [intfMod                           |addImplicitIntfMemMods2(intfModList, T()     , isStatic)].
+  addImplicitIntfMemMods2([intfMod@Static2InterfaceModifier(_)|intfModList], isPublic, isStatic) = [intfMod                           |addImplicitIntfMemMods2(intfModList, isPublic, T()     )].
+  addImplicitIntfMemMods2([intfMod                            |intfModList], isPublic, isStatic) = [intfMod                           |addImplicitIntfMemMods2(intfModList, isPublic, isStatic)].
+  addImplicitIntfMemMods2([]                                               , F()     , isStatic) = [Public2InterfaceModifier(Public())|addImplicitIntfMemMods2([]        , T()     , isStatic)].
+  addImplicitIntfMemMods2([]                                               , T()     , F()     ) = [Static2InterfaceModifier(Static())|addImplicitIntfMemMods2([]        , T()     , T()     )].
+  addImplicitIntfMemMods2([]                                               , T()     , T()     ) = [].
+

@@ -5,12 +5,19 @@ module java/classes/ConstructorDeclarations
 imports
   java/classes/ClassDeclarations
   java/lexical/Identifiers
+  java/lexical/Modifiers
   java/classes/MethodDeclarations
   java/types/ParameterizedTypes
   java/names/Names
   java/interfaces/Annotations
   java/expressions/Main
   java/statements/Blocks
+
+context-free sorts
+
+  ConstructorDeclaration
+  ConstructorModifier
+  ConstructorInvocation
 
 context-free syntax
   
@@ -20,10 +27,10 @@ context-free syntax
     <{BlockStatement "\n"}*>
   }>
   
-  ConstructorModifier           = Annotation
-  ConstructorModifier.Public    = "public"
-  ConstructorModifier.Private   = "private"
-  ConstructorModifier.Protected = "protected"
+  ConstructorModifier = Annotation
+  ConstructorModifier = Public
+  ConstructorModifier = Private
+  ConstructorModifier = Protected
   
   ConstructorInvocation.AltConstrInv      = <<TypeArguments?>this(<{Expression ", "}*>);>
   ConstructorInvocation.SuperConstrInv    = <<TypeArguments?>super(<{Expression ", "}*>);>

@@ -1,0 +1,23 @@
+module classes/fields/bound_yes
+
+language metaborg-java
+
+test bound [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public B f;
+}
+
+[B]
+public class B {}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

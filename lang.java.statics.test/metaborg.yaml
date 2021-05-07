@@ -1,0 +1,18 @@
+---
+id: org.metaborg:lang.java.statics.test:1.1.0-SNAPSHOT
+name: metaborg-java-statics-test
+dependencies:
+  compile:
+  - org.metaborg:lang.java:1.1.0-SNAPSHOT
+  - org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
+  - org.metaborg:lang.java.javac:1.1.0-SNAPSHOT
+  - org.metaborg:org.metaborg.meta.lang.spt:${metaborgVersion}
+sources:
+- language: metaborg-java
+  directory: tests
+runtime:
+  statix:
+    concurrent:
+      metaborg-java
+build:
+  useBuildSystemSpec: true

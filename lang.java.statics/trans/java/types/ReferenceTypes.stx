@@ -1,0 +1,188 @@
+module java/types/ReferenceTypes
+
+imports
+
+  signatures/java/types/ReferenceTypes-sig
+
+  java/JRE
+  java/classes/ClassDeclarations
+  java/interfaces/Annotations
+  java/names/ExpressionNames
+  java/names/TypeNames
+  java/names/PackageOrTypeNames
+  java/types/Main
+  java/types/ParameterizedTypes
+  java/types/PrimitiveTypes
+  java/util/Boolean
+
+
+// 4.3. Reference Types and Values
+
+signature
+
+  constructors
+    ARRAY : KIND
+    CLASS : KIND
+    INTF  : KIND
+
+  constructors
+    REF : scope -> TYPE
+    
+  relations
+    elementType : -> TYPE
+
+rules
+
+  refTypeOk : scope * ReferenceType -> TYPE
+
+  refTypeOk(s, ClassType2ReferenceType(clsType)) = clsTypeOk(s, clsType).
+
+  refTypeOk(s, ArrayType2ReferenceType(arrayType)) = arrayTypeOk(s, arrayType).
+
+
+  clsTypeOk : scope * ClassType -> TYPE
+
+  clsTypeListOk maps clsTypeOk(*, list(*)) = list(*)
+
+  clsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = typeDeclType(typeDecl) :-
+    annoListOk(s, annoList),
+    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    true.
+
+  clsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) = typeDeclType(typeDecl) :-
+  {s_pkgOrCls}
+    s_pkgOrCls == pkgOrClsTypeOk(s, clsType),
+    annoListOk(s, annoList),
+    typeDecl == singleTypeDecl(id, resolveMemberTypeNames(s_pkgOrCls, id)),
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    true.
+
+
+  pkgOrClsTypeOk : scope * ClassType -> scope
+
+  pkgOrClsTypeOk(s, ClassType(annoList, id, typeArgsOpt)) = s_pkgOrCls :-
+  {pkgOrTypeDecl}
+    annoListOk(s, annoList),
+    pkgOrTypeDecl == resolveLexicalPkgOrTypeName(s, id),
+    s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    true.
+
+  pkgOrClsTypeOk(s, ClassOrInterfaceTypeMember(clsType, annoList, id, typeArgsOpt)) = s_pkgOrCls :-
+  {pkgOrTypeDecl s_pkgOrCls'}
+    s_pkgOrCls' == pkgOrClsTypeOk(s, clsType),
+    annoListOk(s, annoList),
+    pkgOrTypeDecl == resolveMemberPkgOrTypeName(s_pkgOrCls', id),
+    s_pkgOrCls == pkgOrTypeDeclScope(pkgOrTypeDecl),
+    _ == typeArgsOptOk(s, typeArgsOpt),
+    true.
+
+
+  typeVarOk : scope * TypeVariable
+
+  typeVarOk(s, TypeVar(annoList, id)) :-
+    annoListOk(s, annoList),
+    true.
+
+
+  arrayTypeOk : scope * ArrayType -> TYPE
+
+  arrayTypeOk(s, ArrayTypePrimitive(primType, annDims)) = T :-
+  {S}
+    S == primTypeOk(s, primType),
+    T == annDimsOk(s, S, annDims).
+
+  arrayTypeOk(s, ArrayTypeClassType(clsType, annDims)) = T :-
+  {S}
+    S == clsTypeOk(s, clsType),
+    T == annDimsOk(s, S, annDims).
+
+
+  initTypeScope : scope * Id * KIND
+
+  initTypeScope(s_ty, id, K) :-
+    setType(s_ty, REF(s_ty)),
+    setKind(s_ty, K),
+    !thisType[(id, s_ty)] in s_ty.
+
+
+  makeArrayType : scope * TYPE -> TYPE
+  
+  makeArrayType(s, S) = T@REF(s_ty) :-
+    new s_ty,
+    setType(s_ty, T),
+    setKind(s_ty, ARRAY()),
+    !elementType[S] in s_ty,
+    setSuperCls(s_ty, objectOk(s)),
+    addSuperIntf(s_ty, iterableOk(s)),
+    declareExprName(s_ty, Id("length"), INT()).
+
+
+  arrayElementType : TYPE -> TYPE
+
+  arrayElementType(REF(s_ty)) = T :-
+    toKind(s_ty) == ARRAY(),
+    query elementType filter e and true in s_ty |-> [(_, T)].
+
+
+  annDimsOk : scope * TYPE * AnnotatedDims -> TYPE
+
+  annDimsOk(s, T, AnnotatedDims2AnnotatedDims(annDimList)) = annDimListOk(s, T, annDimList).
+
+
+  annDimsEmptyOk : scope * TYPE * AnnotatedDimsEmpty -> TYPE
+
+  annDimsEmptyOk(s, T, AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = annDimListOk(s, T, annDimList).
+
+
+  annDimListOk : scope * TYPE * list(AnnotatedDim) -> TYPE
+
+  annDimListOk(s, T, []) = T.
+
+  annDimListOk(s, T, [AnnotateDim(annoList)|annDimList]) = U :-
+    annoListOk(s, annoList),
+    U == annDimListOk(s, makeArrayType(s, T), annDimList).
+
+
+rules
+
+  typeScope : TYPE -> scope
+
+  typeScope(REF(s_ty)) = s_ty.
+
+
+  typeKind : TYPE -> KIND
+
+  typeKind(REF(s_ty)) = toKind(s_ty).
+
+
+  isClsType : TYPE
+
+  isClsType(T) :- typeKind(T) == CLASS().
+
+
+  isIntfType : TYPE
+
+  isIntfType(T) :- typeKind(T) == INTF().
+
+
+  isClsOrIntfType : TYPE
+
+  isClsOrIntfType(T) :- isClsOrIntfKind(typeKind(T)).
+
+    isClsOrIntfKind : KIND
+    isClsOrIntfKind(CLASS()).
+    isClsOrIntfKind(INTF()).
+
+
+  isArrayType : TYPE -> B
+
+  isArrayType(T@REF(_)) = isArrayType1(typeKind(T)).
+
+    isArrayType1 : KIND -> B
+    isArrayType1(ARRAY()) = T().
+    isArrayType1(_      ) = F().
+
+  isArrayType(_) = F().
+

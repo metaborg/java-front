@@ -1,0 +1,32 @@
+module interfaces/diamondinheritance_yes
+
+language metaborg-java
+
+test diamondinheritance [[
+
+test;
+
+
+
+
+
+[A]
+public class A implements J, K {}
+
+[B]
+public class B {
+    public I f = new A();
+}
+
+[I]
+public interface I {}
+
+[J]
+public interface J extends I {}
+
+[K]
+public interface K extends I {}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

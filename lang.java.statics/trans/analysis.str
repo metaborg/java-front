@@ -1,0 +1,50 @@
+module analysis
+
+imports
+
+  libspoofax/core/language
+  libspoofax/resource/path
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+
+  statix/api
+  statixruntime
+
+  injections/metaborg-java-injections
+
+  signatures/-
+  signatures/java/packages/-
+  pp/-
+
+rules // Analysis
+
+  editor-analyze = stx-editor-analyze(pre-analyze,group-key,post-analyze|"statics", "projectOk", "groupOk", "fileOk")
+
+  pre-analyze = explicate-injections-metaborg-java
+
+  group-key: (resource, ast) -> key
+    with rel-path := <current-language-relative-source-or-include-path> resource
+       ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\'], rel-path)
+
+  post-analyze = implicate-injections-metaborg-java
+
+rules // Editor services
+  
+  editor-resolve = stx-editor-resolve
+
+  editor-hover = stx-editor-hover
+
+rules // Debugging
+
+  debug-show-pre-analysis:
+    (_, _, ast, path, _) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"pre-analysis.aterm")> path;
+      result   := (filename, <pre-analyze> ast)
+
+  debug-show-analyzed:
+    (_, _, ast, path, _) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"analyzed.aterm")> path;
+      result   := ast
+

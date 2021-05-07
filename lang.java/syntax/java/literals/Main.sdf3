@@ -10,6 +10,10 @@ imports
   java/literals/StringLiterals
   java/literals/NullLiteral
   
+context-free sorts
+
+  Literal
+
 context-free syntax
   
   Literal = IntLiteral

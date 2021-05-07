@@ -7,8 +7,11 @@ imports
   java/lexical/Identifiers
   java/interfaces/Annotations
 
+context-free sorts
+
+  TypeParameter
+
 context-free syntax
 
-  TypeParameter.TypeParameter = <<{Annotation " "}*> <Id> <TypeBound?>>
-  TypeBound.TypeBound = <extends <{ClassType "& "}+>>
-  
+  TypeParameter.TypeParameter        = <<{Annotation " "}*> <Id>>
+  TypeParameter.TypeParameterExtends = <<{Annotation " "}*> <Id> extends <{ClassType "& "}+>>

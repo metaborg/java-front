@@ -1,0 +1,31 @@
+module classes/constructors/call-implicit-super-constructor_yes
+
+language metaborg-java
+
+test call-implicit-super-constructor_yes [[
+
+test;
+
+
+
+
+
+[p] {
+
+  [A]
+  package p;
+  public class A {
+  }
+  
+  [B]
+  package p;
+  public class B extends A {
+    public B() {
+      super();
+    }
+  }
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

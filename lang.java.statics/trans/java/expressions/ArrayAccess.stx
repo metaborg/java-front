@@ -1,0 +1,27 @@
+module java/expressions/ArrayAccess
+
+imports
+
+  signatures/java/expressions/ArrayAccess-sig
+
+  java/expressions/Main
+  java/types/Conversions
+  java/types/ReferenceTypes
+
+
+rules // 15.10.3. Array Access Expressions
+
+  exprOk(s, ArrayAccess2Expression(arrayAccess)) = T :-
+    T == arrayAccessOk(s, arrayAccess).
+
+
+  arrayAccessOk : scope * ArrayAccess -> TYPE
+
+  arrayAccessOk(s, ArrayAccess(expr1, expr2)) = S :-
+  {T U}
+    T == exprOk(s, expr1),
+    U == exprOk(s, expr2),
+    _ == promoteNumericUnary(U),
+    S == arrayElementType(T).
+
+

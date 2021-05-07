@@ -7,6 +7,11 @@ imports
   java/types/ReferenceTypes
 
 context-free start-symbols
+
+  Type
+  
+context-free sorts
+
   Type
   
 context-free syntax

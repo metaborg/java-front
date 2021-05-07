@@ -8,9 +8,19 @@ imports
   java/types/ParameterizedTypes
   java/interfaces/Annotations
 
+context-free sorts
+
+  ReferenceType
+  ClassType
+  TypeVariable
+  ArrayType
+  AnnotatedDims
+  AnnotatedDimsEmpty
+  AnnotatedDim
+
 context-free syntax
 
-  ReferenceType = ClassType  
+  ReferenceType = ClassType
   ReferenceType = ArrayType
 
   ClassType.ClassType                  = <<{Annotation " "}*> <Id><TypeArguments?>>

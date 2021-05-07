@@ -5,6 +5,11 @@ module java/types/PrimitiveTypes
 imports
   java/interfaces/Annotations
 
+context-free sorts
+
+  PrimitiveType
+  NumericType
+
 context-free syntax
   
   PrimitiveType.NumericType = <<{Annotation " "}*> <NumericType>>

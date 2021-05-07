@@ -5,15 +5,29 @@ dependencies:
   compile:
   - org.metaborg:org.metaborg.meta.lang.esv:${metaborgVersion}
   - org.metaborg:org.metaborg.meta.lang.template:${metaborgVersion}
+  - org.metaborg:statix.lang:${metaborgVersion}
+  - org.metaborg:sdf3.ext.statix:${metaborgVersion}
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
 exports:
 - language: Stratego-Sugar
   directory: src-gen
+  includes:
+  - injections/metaborg-java-injections.str
+  - injections/java/**/*.str
+  - pp/metaborg-java-pp.str
+  - pp/metaborg-java-parenthesize.str
+  - pp/java/**/*.str
+  - signatures/metaborg-java-sig.str
+  - signatures/java/**/*.str
 - language: SDF
   directory: syntax
 - language: SDF
   directory: src-gen/syntax
+- language: StatixLang
+  directory: src-gen/statix
+  includes:
+  - signatures/java/**/*.stx
 language:
   sdf:
     sdf2table: java

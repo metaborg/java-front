@@ -1,0 +1,132 @@
+module java/JRE
+
+imports
+
+  java/names/Main
+  java/names/PackageNames
+  java/names/TypeNames
+  java/packages/PackageDeclarations
+  java/types/Main
+  java/types/ReferenceTypes
+  java/util/Boolean
+
+signature
+
+  relations
+    typeName : string
+
+rules
+
+  objectOk : scope -> TYPE
+
+  objectOk(s) = javaLangTypeOk(s, Id("Object")).
+
+
+  enumOk : scope -> TYPE
+
+  enumOk(s) = javaLangTypeOk(s, Id("Enum")).
+
+
+  stringOk : scope -> TYPE
+
+  stringOk(s) = javaLangTypeOk(s, Id("String")).
+
+
+  booleanOk : scope -> TYPE
+
+  booleanOk(s) = javaLangTypeOk(s, Id("Boolean")).
+
+
+  byteOk : scope -> TYPE
+
+  byteOk(s) = javaLangTypeOk(s, Id("Byte")).
+
+
+  shortOk : scope -> TYPE
+
+  shortOk(s) = javaLangTypeOk(s, Id("Short")).
+
+
+  characterOk : scope -> TYPE
+
+  characterOk(s) = javaLangTypeOk(s, Id("Character")).
+
+
+  integerOk : scope -> TYPE
+
+  integerOk(s) = javaLangTypeOk(s, Id("Integer")).
+
+
+  longOk : scope -> TYPE
+
+  longOk(s) = javaLangTypeOk(s, Id("Long")).
+
+
+  floatOk : scope -> TYPE
+
+  floatOk(s) = javaLangTypeOk(s, Id("Float")).
+
+
+  doubleOk : scope -> TYPE
+
+  doubleOk(s) = javaLangTypeOk(s, Id("Double")).
+
+
+  classOk : scope -> TYPE
+
+  classOk(s) = javaLangTypeOk(s, Id("Class")).
+
+
+  iterableOk : scope -> TYPE
+
+  iterableOk(s) = javaLangTypeOk(s, Id("Iterable")).
+
+
+rules
+
+  isThrowable : TYPE -> B
+  isThrowable(T) = isJREClass(T, "java/lang/Throwable").
+
+  isString : TYPE -> B
+  isString(T) = isJREClass(T, "java/lang/String").
+
+  isEnum : TYPE -> B
+  isEnum(T) = isJREClass(T, "java/lang/Enum").
+
+  isIterable : TYPE -> B
+  isIterable(T) = isJREClass(T, "java/lang/Iterable").
+
+
+  isJREClass : TYPE * string -> B
+
+  isJREClass(REF(s_ty), x) = isJREClass1(ps) :-
+    query typeName filter (EXTENDS|IMPLEMENTS)* and { x' :- x' == x } in s_ty |-> ps.
+
+      isJREClass1 : list((path * string)) -> B
+      isJREClass1([]) = F().
+      isJREClass1(_)  = T().
+
+  isJREClass(_, _) = F().
+
+rules
+
+  javaLangTypeOk : scope * Id -> TYPE
+
+  javaLangTypeOk(s, id) = typeDeclType(resolveJavaLangType(s, id)).
+
+
+  resolveJavaLangType : scope * Id -> TYPE_DECL
+
+  resolveJavaLangType(s, id) = singleTypeDecl(id, resolveMemberTypeNames(pkgDeclScope(resolveJavaLang(s)), id)).
+
+
+  importJavaLang : scope * scope
+
+  importJavaLang(s, s_pkg) :-
+    s_pkg -TYPE_IMPORT_ONDEMAND-> pkgDeclScope(resolveJavaLang(s)).
+  
+
+  resolveJavaLang : scope -> PKG_DECL
+
+  resolveJavaLang(s) = resolvePkgName(s, QID(ID(Id("java")), Id("lang"))).
+  

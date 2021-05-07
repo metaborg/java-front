@@ -1,0 +1,21 @@
+module interfaces/circular_no
+
+language metaborg-java
+
+test circular [[
+
+test;
+
+
+
+// error: cyclic inheritance involving I
+
+[I]
+public interface I extends J {}
+
+[J]
+public interface J extends I {}
+
+
+]] analysis fails
+   run javacFails to ""

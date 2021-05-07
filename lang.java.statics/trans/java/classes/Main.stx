@@ -1,0 +1,16 @@
+module java/classes/Main
+
+imports
+
+  signatures/java/classes/Main-sig
+
+  java/classes/ClassDeclarations
+  java/classes/ConstructorDeclarations
+  java/classes/EnumDeclarations
+  java/classes/FieldDeclarations
+  java/classes/InstanceInitializers
+  java/classes/MethodDeclarations
+  java/classes/StaticInitializers
+
+
+rules // Chapter 8. Classes

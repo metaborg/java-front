@@ -1,0 +1,27 @@
+module classes/methods/superfieldaccess_yes
+
+language metaborg-java
+
+test superfieldaccess [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public A f;
+}
+
+[B]
+public class B extends A {
+    public A m() {
+        return super.f;
+    }
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

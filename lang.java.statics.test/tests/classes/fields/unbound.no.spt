@@ -1,0 +1,20 @@
+module classes/fields/unbound_no
+
+language metaborg-java
+
+test unbound [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[A]
+public class A {
+    public B f;
+}
+
+
+]] analysis fails
+   run javacFails to ""

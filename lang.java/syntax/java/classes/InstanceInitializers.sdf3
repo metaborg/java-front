@@ -5,6 +5,10 @@ module java/classes/InstanceInitializers
 imports
   java/statements/Blocks
 
+context-free sorts
+
+  InstanceInitializer
+
 context-free syntax
 
   InstanceInitializer.InstanceInit = Block

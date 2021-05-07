@@ -1,0 +1,29 @@
+module packages/class-and-nested-package-with-same-name_no
+
+language metaborg-java
+
+test class-and-nested-package-with-same-name [[
+
+test;
+
+
+
+// error: class r clashes with package of same name
+
+[p] {
+
+    [r]
+    package p;
+    public class r {}
+
+    [r] {
+
+        [q]
+        package p.r;
+        public class q {}
+
+    }
+}
+
+]] analysis fails
+   run javacFails to ""

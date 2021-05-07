@@ -1,0 +1,34 @@
+---
+id: org.metaborg:lang.java.javac:1.1.0-SNAPSHOT
+name: metaborg-java-javac
+dependencies:
+  compile:
+  - org.metaborg:org.metaborg.meta.lang.esv:${metaborgVersion}
+  source:
+  - org.metaborg:meta.lib.spoofax:${metaborgVersion}
+  - org.metaborg:lang.java:1.1.0-SNAPSHOT
+contributions:
+- name: metaborg-java
+  id: org.metaborg:lang.java:1.1.0-SNAPSHOT
+language:
+  sdf:
+    enabled: false
+  stratego:
+    format: jar
+    args:
+    - -la
+    - stratego-lib
+    - -la
+    - stratego-sglr
+    - -la
+    - stratego-gpp
+    - -la
+    - stratego-xtc
+    - -la
+    - stratego-aterm
+    - -la
+    - stratego-sdf
+    - -la
+    - strc
+build:
+  useBuildSystemSpec: true

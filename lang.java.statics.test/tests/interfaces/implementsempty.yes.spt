@@ -1,0 +1,21 @@
+module interfaces/implementsempty_yes
+
+language metaborg-java
+
+test implementsempty [[
+
+test;
+
+
+
+
+
+[B]
+public class B implements I {}
+
+[I]
+public interface I {}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

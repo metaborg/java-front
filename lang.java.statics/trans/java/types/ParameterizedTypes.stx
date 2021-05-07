@@ -1,0 +1,42 @@
+module java/types/ParameterizedTypes
+
+imports
+
+  signatures/java/types/ParameterizedTypes-sig
+
+  java/interfaces/Annotations
+  java/types/Main
+  java/types/ReferenceTypes
+
+
+rules // 4.5. Parameterized Types
+
+  typeArgsOk : scope * TypeArguments -> list(TYPE)
+  typeArgsOptOk maps typeArgsOk(*, list(*)) = list(*)
+
+  typeArgsOk(s, TypeArguments(typeArgList)) = typeArgListOk(s, typeArgList).
+
+
+  typeArgOk : scope * TypeArgument -> TYPE
+  typeArgListOk maps typeArgOk(*, list(*)) = list(*)
+
+  typeArgOk(s, ReferenceType2TypeArgument(refType)) = refTypeOk(s, refType).
+
+  typeArgOk(s, WildCard2TypeArgument(wildCard)) = wildCardOk(s, wildCard).
+
+
+  wildCardOk : scope * WildCard -> TYPE
+
+  wildCardOk(s, WildCard(annoList)) = _ :-
+    annoListOk(s, annoList),
+    true.
+
+  wildCardOk(s, WildCardExtends(annoList, refType)) = T :-
+    annoListOk(s, annoList),
+    T == refTypeOk(s, refType),
+    true.
+
+  wildCardOk(s, WildCardSuper(annoList, refType)) = T :-
+    annoListOk(s, annoList),
+    T == refTypeOk(s, refType),
+    true.

@@ -5,6 +5,10 @@ module java/classes/StaticInitializers
 imports
   java/statements/Blocks
   
+context-free sorts
+
+  StaticInitializer
+
 context-free syntax
   
   StaticInitializer.StaticInit = <static <Block>>

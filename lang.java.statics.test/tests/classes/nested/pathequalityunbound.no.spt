@@ -1,0 +1,33 @@
+module classes/nested/pathequalityunbound_no
+
+language metaborg-java
+
+test pathequalityunbound [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[A]
+public class A {
+    public class I {}
+}
+
+[B]
+public class B extends A {}
+
+[C]
+public class C {}
+
+[Test]
+class Test {
+    public void m() {
+        C.I i = new B().new I();
+    }
+}
+
+
+]] analysis fails
+   run javacFails to ""

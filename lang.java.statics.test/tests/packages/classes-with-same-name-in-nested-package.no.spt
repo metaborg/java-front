@@ -1,0 +1,28 @@
+module packages/classes-with-same-name-in-nested-package_no
+
+language metaborg-java
+
+test classes-with-same-name-in-nested-package [[
+
+test;
+
+
+
+// error: duplicate class\: p\.q\.A
+
+[p] {
+    [q] {
+
+        [A]
+        package p.q;
+        public class A {}
+
+        [A]
+        package p.q;
+        public class A {}
+
+    }
+}
+
+]] analysis fails
+   run javacFails to ""

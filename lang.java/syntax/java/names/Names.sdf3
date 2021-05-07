@@ -1,11 +1,19 @@
 module java/names/Names
 
-// Chapter 6. Names
 // 6.5. Determining the Meaning of a Name
 
 imports 
   java/lexical/Identifiers
   
+context-free sorts
+  
+  PackageName
+  TypeName
+  PackageOrTypeName
+  ExpressionName
+  AmbiguousName
+  MethodName
+
 context-free syntax
   
   PackageName.PackageName             = Id

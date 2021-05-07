@@ -1,0 +1,25 @@
+module names/simple-super-inner-type-name_yes
+
+language metaborg-java
+
+test simple-super-inner-type-name [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class B {}
+}
+
+[C]
+public class C extends A {
+    public B f;
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

@@ -1,0 +1,20 @@
+module classes/innerclasssamename_no
+
+language metaborg-java
+
+test innerclasssamename [[
+
+test;
+
+
+
+// error: class C is already defined in package unnamed package
+
+[C]
+public class C {
+    public class C {}
+}
+
+
+]] analysis fails
+   run javacFails to ""

@@ -1,0 +1,19 @@
+module classes/local/classdeclsinblockinorder_no
+
+language metaborg-java
+
+test classdeclsinblockinorder [[
+
+test;
+
+[A]
+public class A {
+    public void m() {
+        class C extends B {}
+        class B {}
+    }
+}
+
+
+]] analysis fails
+   run javacFails to ""

@@ -1,0 +1,8 @@
+## NOTE: .gitignore of repository root also applies
+
+/.classpath
+/.project
+/.settings/
+/META-INF/
+/target/
+

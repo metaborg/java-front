@@ -1,0 +1,75 @@
+module java/types/PrimitiveTypes
+
+imports
+
+  signatures/java/types/PrimitiveTypes-sig
+
+  java/types/Main
+  java/interfaces/Annotations
+
+
+// 4.2. Primitive Types and Values
+
+signature
+
+  constructors
+    BOOLEAN : TYPE
+    BYTE    : TYPE
+    SHORT   : TYPE
+    INT     : TYPE
+    LONG    : TYPE
+    CHAR    : TYPE
+    FLOAT   : TYPE
+    DOUBLE   : TYPE
+
+rules
+
+  primTypeOk : scope * PrimitiveType -> TYPE
+
+  primTypeOk(s, NumericType(annoList, numType)) = T :-
+    annoListOk(s, annoList),
+    T == numTypeOk(numType),
+    true.
+
+  primTypeOk(s, BooleanType(annoList)) = BOOLEAN() :-
+    annoListOk(s, annoList),
+    true.
+
+
+  numTypeOk : NumericType -> TYPE
+
+  numTypeOk(Byte()) = BYTE().
+  numTypeOk(Short()) = SHORT().
+  numTypeOk(Int()) = INT().
+  numTypeOk(Long()) = LONG().
+  numTypeOk(Char()) = CHAR().
+  numTypeOk(Float()) = FLOAT().
+  numTypeOk(Double()) = DOUBLE().
+
+rules
+
+  isNumeric : TYPE
+
+  isNumeric(CHAR()).
+  isNumeric(BYTE()).
+  isNumeric(SHORT()).
+  isNumeric(INT()).
+  isNumeric(LONG()).
+  isNumeric(FLOAT()).
+  isNumeric(DOUBLE()).
+  
+
+  isIntegral : TYPE
+
+  isIntegral(CHAR()).
+  isIntegral(BYTE()).
+  isIntegral(SHORT()).
+  isIntegral(INT()).
+  isIntegral(LONG()).
+  
+
+  isFloatingPoint : TYPE
+
+  isFloatingPoint(FLOAT()).
+  isFloatingPoint(DOUBLE()).
+

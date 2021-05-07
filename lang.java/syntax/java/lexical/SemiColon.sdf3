@@ -1,0 +1,12 @@
+module java/lexical/SemiColon
+
+//  semi colon get its own productions,
+//  to prevent duplicate constructors
+
+context-free sorts
+
+  SemiColon
+
+context-free syntax
+
+  SemiColon.SemiColon = <;>

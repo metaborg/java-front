@@ -6,8 +6,24 @@ imports
   java/types/ReferenceTypes
   java/classes/ClassDeclarations
   java/lexical/Identifiers
+  java/lexical/Modifiers
   java/interfaces/Annotations
   java/statements/Blocks
+
+context-free sorts
+
+  MethodDeclaration
+  MethodHeader
+  Result
+  Throws
+  ExceptionType
+  MethodModifier
+  MethodBody
+  ReceiverParam
+  FormalParams
+  LastFormalParam
+  FormalParam
+  VariableModifier
 
 context-free syntax
   
@@ -20,41 +36,41 @@ context-free syntax
   MethodHeader.MethodHeaderTypeParameters = <
   <TypeParameters> <{Annotation " "}*> <Result> <Id>(<FormalParams>) <Throws?>>
   
-  Result      = UnannType
+  Result = UnannType
   Result.Void = "void"
   
   Throws.ThrowsDec = <throws <{ExceptionType ", "}+>>
   ExceptionType    = ClassType
   
-  MethodModifier              = Annotation
-  MethodModifier.Public       = "public"
-  MethodModifier.Protected    = "protected"
-  MethodModifier.Private      = "private"
-  MethodModifier.Abstract     = "abstract"
-  MethodModifier.Static       = "static"
-  MethodModifier.Final        = "final"
-  MethodModifier.Synchronized = "synchronized"
-  MethodModifier.Native       = "native"
-  MethodModifier.Strictfp     = "strictfp"
+  MethodModifier = Annotation
+  MethodModifier = Public
+  MethodModifier = Protected
+  MethodModifier = Private
+  MethodModifier = Abstract
+  MethodModifier = Static
+  MethodModifier = Final
+  MethodModifier = Synchronized
+  MethodModifier = Native
+  MethodModifier = Strictfp
   
-  MethodBody              = Block
+  MethodBody         = Block
   MethodBody.NoMethodBody = ";"
   
   ReceiverParam.ReceiverParamQual = <<{Annotation " "}*> <UnannType> <Id>.this>
   ReceiverParam.ReceiverParam     = <<{Annotation " "}*> <UnannType> this>
-  
+
   FormalParams.NoParams          = 
   FormalParams                   = ReceiverParam
   FormalParams.SingleParam       = LastFormalParam
   FormalParams.ParamList         = <<{FormalParam ","}+>, <LastFormalParam>>
   FormalParams.ReceiverParamList = <<ReceiverParam>, <{FormalParam ","}*>, <LastFormalParam>>
   
-  LastFormalParam               = FormalParam
+  LastFormalParam        = FormalParam
   LastFormalParam.VarArityParam = <<{VariableModifier " "}*> <UnannType> <{Annotation " "}*> ... <VarDeclId>>
     
   FormalParam.FormalParam = <<{VariableModifier " "}*> <UnannType> <VarDeclId>>
   
-  VariableModifier       = Annotation
-  VariableModifier.Final = "final"
+  VariableModifier = Annotation
+  VariableModifier = Final
   
   

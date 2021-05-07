@@ -1,0 +1,19 @@
+module Analysis
+
+language
+
+  observer : editor-analyze (constraint) (multifile)
+
+references
+
+  reference _ : editor-resolve
+  hover _     : editor-hover
+
+menus
+
+  menu: "Analysis" (openeditor)
+
+    action: "Show pre-analysis AST" = debug-show-pre-analysis (source)
+
+    action: "Show analyzed AST" = debug-show-analyzed
+

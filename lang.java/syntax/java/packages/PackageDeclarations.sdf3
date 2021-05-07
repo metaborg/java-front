@@ -6,6 +6,10 @@ imports
   java/lexical/Identifiers
   java/interfaces/Annotations
   
+context-free sorts
+
+  PackageDeclaration
+
 context-free syntax
   
   PackageDeclaration.PackageDeclaration = <<{Annotation " "}*> package <{Id "."}+>;>

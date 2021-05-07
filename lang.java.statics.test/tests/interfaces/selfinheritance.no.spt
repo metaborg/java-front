@@ -1,0 +1,18 @@
+module interfaces/selfinheritance_no
+
+language metaborg-java
+
+test selfinheritance [[
+
+test;
+
+
+
+// error: cyclic inheritance involving I
+
+[I]
+public interface I extends I {}
+
+
+]] analysis fails
+   run javacFails to ""

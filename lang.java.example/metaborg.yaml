@@ -4,7 +4,13 @@ name: metaborg-java
 dependencies:
   compile:
   - org.metaborg:lang.java:1.1.0-SNAPSHOT
-debug:
-  typesmart: false
+  - org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
+sources:
+- language: metaborg-java
+  directory: src
+runtime:
+  statix:
+    message-trace-length: 0
+    message-term-depth: -1
 build:
   useBuildSystemSpec: true

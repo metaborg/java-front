@@ -1,0 +1,26 @@
+module java/expressions/Main
+
+imports
+
+  signatures/java/expressions/Main-sig
+
+  java/expressions/ArrayAccess
+  java/expressions/ArrayCreation
+  java/expressions/AssignmentOperators
+  java/expressions/BinaryOperators
+  java/expressions/ClassInstanceCreation
+  java/expressions/FieldAccess
+  java/expressions/LambdaExpressions
+  java/expressions/MethodInvocation
+  java/expressions/MethodReference
+  java/expressions/Postfix
+  java/expressions/PrimaryExpressions
+  java/expressions/UnaryOperators
+
+  java/types/Main
+
+rules // Chapter 15. Expressions
+
+  exprOk : scope * Expression -> TYPE
+  exprOptOk maps exprOk(*, list(*)) = *
+  exprListOk maps exprOk(*, list(*)) = list(*)

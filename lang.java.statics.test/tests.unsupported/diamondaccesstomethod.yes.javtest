@@ -1,0 +1,23 @@
+
+
+
+[A.java]
+public class A {
+  public int m(L l) {
+    return l.m();
+  }
+}
+
+[I.java]
+public interface I {
+  public int m();
+}
+
+[J.java]
+public interface J extends I {}
+
+[K.java]
+public interface K extends I {}
+
+[L.java]
+public interface L extends J, K {}

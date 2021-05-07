@@ -1,0 +1,32 @@
+module packages/relative-qualified-reference-to-class-in-nested-package_no
+
+language metaborg-java
+
+test relative-qualified-reference-to-class-in-nested-package [[
+
+test;
+
+
+
+// error: package q does not exist
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public q.B b;
+    }
+
+    [q] {
+
+        [B]
+        package p.q;
+        public class B {}
+
+    }
+
+}
+
+]] analysis fails
+   run javacFails to ""

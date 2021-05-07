@@ -1,0 +1,83 @@
+Test(
+  [StatixExpect("ok\n"), JavaCExpect("ok\n")]
+, [ TestUnit(
+      "A.java"
+    , CompilationUnit(
+        None()
+      , []
+      , [ ClassDeclaration(
+            [Public()]
+          , Id("A")
+          , None()
+          , None()
+          , None()
+          , [ClassDeclaration(
+               [Public()]
+             , Id("B")
+             , None()
+             , None()
+             , None()
+             , []
+             )]
+          )
+        ]
+      )
+    )
+  , TestUnit(
+      "C.java"
+    , CompilationUnit(
+        None()
+      , []
+      , [ ClassDeclaration(
+            [Public()]
+          , Id("C")
+          , None()
+          , Some(SuperClass(ClassType([], Id("A"), None())))
+          , None()
+          , []
+          )
+        ]
+      )
+    )
+  , TestUnit(
+      "T.java"
+    , CompilationUnit(
+        None()
+      , []
+      , [ ClassDeclaration(
+            [Public()]
+          , Id("T")
+          , None()
+          , None()
+          , None()
+          , [ MethodDecl(
+                [Public()]
+              , MethodHeader(Void(), Id("m"), NoParams(), [], None())
+              , Block(
+                  [ LocVarDeclStm(
+                      LocalVarDecl(
+                        []
+                      , ClassType(Id("C"), None())
+                      , [ VariableDeclInit(
+                            VariableDecl(Id("c"))
+                          , NewInstance(None(), [], Id("C"), [], None(), [])
+                          )
+                        ]
+                      )
+                    )
+                  , ExpressionStatement(
+                      QualifiedInstance(
+                        ExpressionName(Id("c"))
+                      , NewInstance(None(), [], Id("B"), [], None(), [])
+                      )
+                    )
+                  ]
+                )
+              )
+            ]
+          )
+        ]
+      )
+    )
+  ]
+)

@@ -1,0 +1,53 @@
+module java/names/Main
+
+imports
+
+  signatures/java/names/Main-sig
+
+  java/names/ExpressionNames
+  java/names/MethodNames
+  java/names/PackageNames
+  java/names/PackageOrTypeNames
+  java/names/TypeNames
+  java/util/Boolean
+
+
+// 6.5. Determining the Meaning of a Name
+
+signature
+
+  // helper sort to define uniform resolution predicates over
+  sorts QID constructors
+    ID  : Id -> QID
+    QID : QID * Id -> QID
+
+  name-resolution
+    labels
+      EXTENDS                // extends
+      IMPLEMENTS             // implements
+      SINGLE_TYPE_IMPORT     // single-type import
+      TYPE_IMPORT_ONDEMAND   // on-demand import
+      IMPORT_PKG             // (own) package import
+      LEX                    // lexical parent
+      STATIC_IMPORT_ONDEMAND // static on-demand import
+      SINGLE_STATIC_IMPORT   // static import
+      STATIC_LEX             // static lexical parent
+      STATIC_MEMBERS         // static definition scope
+      TYPE_PARAMS            // type parameters scope
+      PARENT_PKG             // parent package
+
+rules
+
+  qidId : QID -> Id
+
+  qidId(ID(id)) = id.
+  qidId(QID(_, id)) = id.
+
+
+rules
+
+  addLexical : scope * B * scope
+
+  addLexical(s, F(), s') :- s -LEX-> s'.
+  addLexical(s, T(), s') :- s -STATIC_LEX-> s'.
+

@@ -1,0 +1,27 @@
+module classes/inheritance/inheritedshadowself_no
+
+language metaborg-java
+
+test inheritedshadowself [[
+
+test;
+
+
+
+// error: incompatible types\: B cannot be converted to A\.B
+
+[A]
+public class A {
+    public class B {}
+}
+
+[B]
+public class B extends A {
+    public B m() {
+        return this; // error
+    }
+}
+
+
+]] analysis fails
+   run javacFails to ""
