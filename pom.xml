@@ -25,6 +25,7 @@
     <module>lang.java.eclipse</module>
     <module>lang.java.eclipse.feature</module>
     <module>lang.java.eclipse.site</module>
+    <module>jar-analyzer</module>
   </modules>
 
   <build>

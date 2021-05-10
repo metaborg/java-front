@@ -16,16 +16,16 @@ SPOOFAX_VERSION="$3-SNAPSHOT"
 PROJECTS="lang.java lang.java.test lang.java.javac lang.java.statics lang.java.statics.test lang.java.example"
 
 for project in $PROJECTS; do
-  sed -i '' "s/$OLD_VERSION-SNAPSHOT/$NEW_VERSION/g" $project/metaborg.yaml
+  sed -i'' -e "s/$OLD_VERSION-SNAPSHOT/$NEW_VERSION/g" $project/metaborg.yaml
 done
 
 for project in . $PROJECTS; do
-  sed -i '' "s|<version>.*</version>|<version>$SPOOFAX_VERSION</version>|g" $project/.mvn/extensions.xml
+  sed -i'' -e "s|<version>.*</version>|<version>$SPOOFAX_VERSION</version>|g" $project/.mvn/extensions.xml
 done
 
-sed -i '' "s/$OLD_VERSION.qualifier/$NEW_VERSION.qualifier/g" lang.java.eclipse.site/site.xml
-sed -i '' "s/$OLD_VERSION.qualifier/$NEW_VERSION.qualifier/g" lang.java.eclipse.feature/feature.xml
-sed -i '' "s/$OLD_VERSION.qualifier/$NEW_VERSION.qualifier/g" lang.java.eclipse/META-INF/MANIFEST.MF
+sed -i'' -e "s/$OLD_VERSION.qualifier/$NEW_VERSION.qualifier/g" lang.java.eclipse.site/site.xml
+sed -i'' -e "s/$OLD_VERSION.qualifier/$NEW_VERSION.qualifier/g" lang.java.eclipse.feature/feature.xml
+sed -i'' -e "s/$OLD_VERSION.qualifier/$NEW_VERSION.qualifier/g" lang.java.eclipse/META-INF/MANIFEST.MF
 
 # Update Spoofax to newest released version
 for project in . $PROJECTS; do
