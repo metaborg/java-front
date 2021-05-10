@@ -28,6 +28,8 @@ exports:
   directory: src-gen/statix
   includes:
   - signatures/java/**/*.stx
+- directory: src-gen/statix
+  includes: "**/*.aterm"
 language:
   sdf:
     sdf2table: java
