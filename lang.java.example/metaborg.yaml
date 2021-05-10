@@ -1,10 +1,10 @@
 ---
-id: org.metaborg:lang.java.example:1.1.0-SNAPSHOT
+id: org.metaborg:lang.java.example:1.0.1
 name: metaborg-java
 dependencies:
   compile:
-  - org.metaborg:lang.java:1.1.0-SNAPSHOT
-  - org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
+  - org.metaborg:lang.java:1.0.1
+  - org.metaborg:lang.java.statics:1.0.1
 sources:
 - language: metaborg-java
   directory: src
