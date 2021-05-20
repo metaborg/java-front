@@ -4,4 +4,4 @@ imports
    
 exports
   context-free syntax
-  	{ ID "#" }+ -> ID {cons("ConcatIds")}
+  	ID "#" { ID "#" }+ -> ID {ast("ConcatIds(<conc([<1>], <2>)>)")}
