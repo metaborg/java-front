@@ -2,7 +2,7 @@ module metaborg_java
 
 imports
 
-  completion/completion
+  completion
   pp
   outline
 

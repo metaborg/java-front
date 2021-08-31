@@ -9,6 +9,7 @@ dependencies:
   - org.metaborg:sdf3.ext.statix:${metaborgVersion}
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
+  - org.metaborg:stratego.lang:${metaborgVersion}
 exports:
 - language: Stratego-Sugar
   directory: src-gen
@@ -32,9 +33,12 @@ exports:
   includes: "**/*.aterm"
 language:
   sdf:
+    version: sdf3
     sdf2table: java
+    sdf-meta:
+      - Stratego-metaborg-java
   stratego:
-    format: ctree
+    format: jar
     args:
     - -la
     - stratego-lib

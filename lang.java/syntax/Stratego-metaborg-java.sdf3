@@ -1,0 +1,661 @@
+module Stratego-metaborg-java
+
+imports
+  java/packages/CompilationUnits
+
+  StrategoLang/import-namespaced
+  StrategoLang/sugar/terms-namespaced
+  StrategoLang/core/identifiers-namespaced
+
+context-free start-symbols
+
+  StrategoLang-Module
+
+///
+// Quotations for CompilationUnit
+///
+context-free syntax
+  E.ToMetaExpr = "java:compilation-unit" "|[" CompilationUnit "]|"
+  E.ToMetaExpr =      "compilation-unit" "|[" CompilationUnit "]|"
+  E.ToMetaExpr = "java"                  "|[" CompilationUnit "]|"
+  E.ToMetaExpr =                         "|[" CompilationUnit "]|"
+
+///
+// Variables for Formal Parameters
+///
+variables
+  FormalParam  = "param"         [0-9]*     {prefer}
+  FormalParam  = "param_"  [a-zA-Z0-9]*     {prefer}
+  FormalParams = "params"        [0-9]*     {prefer}
+  FormalParams = "params_" [a-zA-Z0-9]*     {prefer}
+  FormalParams = "param"         [0-9]* "*" {prefer}
+  FormalParams = "param_"  [a-zA-Z0-9]* "*" {prefer}
+
+///
+// Quotations for Formal Parameters
+///
+context-free syntax
+  E.ToMetaExpr =             "param"  "|[" FormalParam "]|"
+  E.ToMetaExpr =        "java:param"  "|[" FormalParam "]|"
+
+  E.ToMetaExpr =             "param*" "|[" {FormalParam ","}* "]|"
+  E.ToMetaExpr =        "java:param*" "|[" {FormalParam ","}* "]|"
+
+  E.ToMetaExpr =  "java:formal-param" "|[" FormalParam "]|"
+  E.ToMetaExpr =       "formal-param" "|[" FormalParam "]|"
+  E.ToMetaExpr =  "java"              "|[" FormalParam "]|"
+  E.ToMetaExpr =                      "|[" FormalParam "]|"
+
+  E.ToMetaExpr = "java:formal-param*" "|[" {FormalParam ","}* "]|"
+  E.ToMetaExpr =      "formal-param*" "|[" {FormalParam ","}* "]|"
+  E.ToMetaExpr = "java"               "|[" {FormalParam ","}* "]|"
+  E.ToMetaExpr =                      "|[" {FormalParam ","}* "]|"
+
+///
+// Anti Quotations for Formal Parameters
+///
+context-free syntax
+   FormalParam.FromMetaExpr       = "~"  E
+  {FormalParam ","}*.FromMetaExpr = "~*" E
+
+///
+// Anti-Quotation for Types
+///
+context-free syntax
+  E.ToMetaExpr =         "t" "|[" UnannType "]|"
+  E.ToMetaExpr =        "ty" "|[" UnannType "]|"
+
+  E.ToMetaExpr = "java:type" "|[" UnannType "]|"
+  E.ToMetaExpr =      "type" "|[" UnannType "]|"
+  E.ToMetaExpr = "java"      "|[" UnannType "]|"
+  E.ToMetaExpr =             "|[" UnannType "]|"
+  E.ToMetaExpr =     "rtype" "|[" ReferenceType "]|"
+
+///
+// Anti-Quotation for Types
+///
+context-free syntax
+  UnannType.FromMetaExpr     = "~"        E
+  UnannType.FromMetaExpr     = "~type:"   E
+
+  ReferenceType.FromMetaExpr = "~refType" E
+  ReferenceType.FromMetaExpr = "~rtype:"  E
+
+///
+// Variables for Types
+///
+variables
+  UnannType     = MetaTypeVar {prefer}
+  PrimitiveType = MetaPrimTypeVar {prefer}
+  ReferenceType = MetaReferenceTypeVar {prefer}
+
+lexical syntax
+  MetaTypeVar          = "t"         [0-9\']*
+  MetaTypeVar          = "t_"  [a-zA-Z0-9\']*
+  MetaTypeVar          = "ty"        [0-9\']*
+  MetaTypeVar          = "ty_" [a-zA-Z0-9\']*
+
+  MetaPrimTypeVar      = "primt"         [0-9\']*
+  MetaPrimTypeVar      = "primt_"  [a-zA-Z0-9\']*
+  MetaPrimTypeVar      = "primty"        [0-9\']*
+  MetaPrimTypeVar      = "primty_" [a-zA-Z0-9\']*
+
+  MetaReferenceTypeVar = "rt"         [0-9\']*
+  MetaReferenceTypeVar = "rt_"  [a-zA-Z0-9\']*
+  MetaReferenceTypeVar = "rty"        [0-9\']*
+  MetaReferenceTypeVar = "rty_" [a-zA-Z0-9\']*
+
+  ID = "t"         [0-9\']* {reject}
+  ID = "t_"  [a-zA-Z0-9\']* {reject}
+  ID = "ty"        [0-9\']* {reject}
+  ID = "ty_" [a-zA-Z0-9\']* {reject}
+
+  ID = "primt"         [0-9\']* {reject}
+  ID = "primt_"  [a-zA-Z0-9\']* {reject}
+  ID = "primty"        [0-9\']* {reject}
+  ID = "primty_" [a-zA-Z0-9\']* {reject}
+
+  ID = "rt"         [0-9\']* {reject}
+  ID = "rt_"  [a-zA-Z0-9\']* {reject}
+  ID = "rty"        [0-9\']* {reject}
+  ID = "rty_" [a-zA-Z0-9\']* {reject}
+
+lexical restrictions
+  MetaTypeVar          -/- [a-zA-Z0-9\_\$\']
+  MetaPrimTypeVar      -/- [a-zA-Z0-9\_\$\']
+  MetaReferenceTypeVar -/- [a-zA-Z0-9\_\$\']
+
+///
+// Quotations for Statements
+///
+context-free syntax
+  E.ToMetaExpr     =        "java:bstm"  "|[" BlockStatement "]|"
+  E.ToMetaExpr     =             "bstm"  "|[" BlockStatement "]|"
+  E.ToMetaExpr     =        "java"       "|[" BlockStatement "]|"
+  E.ToMetaExpr     =                     "|[" BlockStatement "]|"
+
+  E.ToMetaListExpr =        "java:bstm*" "|[" BlockStatement* "]|"
+  E.ToMetaListExpr =             "bstm*" "|[" BlockStatement* "]|"
+
+  E.ToMetaExpr     =   "java:block-stm"  "|[" BlockStatement "]|"
+  E.ToMetaExpr     =        "block-stm"  "|[" BlockStatement "]|"
+  E.ToMetaExpr     =   "java"            "|[" BlockStatement "]|"
+  E.ToMetaExpr     =                     "|[" BlockStatement "]|"
+
+  E.ToMetaListExpr =   "java:block-stm*" "|[" BlockStatement* "]|"
+  E.ToMetaListExpr =        "block-stm*" "|[" BlockStatement* "]|"
+
+
+  E.ToMetaExpr     =         "java:stm"  "|[" Statement "]|"
+  E.ToMetaExpr     =              "stm"  "|[" Statement "]|"
+
+  E.ToMetaListExpr =      "switch-group" "|[" SwitchGroup "]|"
+  E.ToMetaListExpr = "java:switch-group" "|[" SwitchGroup "]|"
+
+///
+// Anti Quotations for Statements
+///
+context-free syntax
+  BlockStatement.FromMetaExpr  = "~"       E
+  BlockStatement.FromMetaExpr  = "~bstm:"  E
+  BlockStatement*.FromMetaExpr = "~*"      E
+  BlockStatement*.FromMetaExpr = "~bstm*:" E
+
+  Statement.FromMetaExpr       = "~stm:"   E {prefer}
+  Statement.FromMetaExpr       = "~"       E
+
+  SwitchGroup*.FromMetaExpr    =   "~*"              E
+  SwitchGroup*.FromMetaExpr    =   "~switch-group*:" E
+
+
+  SwitchGroup.FromMetaExpr     = "~"               E
+  SwitchGroup.FromMetaExpr     = "~switch-group:"  E
+
+///
+// Variables for Statements
+///
+variables
+
+  Statement       = "stm"         [0-9\']*     {prefer}
+  Statement       = "stm_"  [a-zA-Z0-9\']*     {prefer}
+  BlockStatement  = "bstm"        [0-9\']*     {prefer}
+  BlockStatement  = "bstm_" [a-zA-Z0-9\']*     {prefer}
+  BlockStatement* = "bstm"        [0-9\']* "*" {prefer}
+  BlockStatement* = "bstm_" [a-zA-Z0-9\']* "*" {prefer}
+
+///
+// Quotations for Expressions
+///
+context-free syntax
+  E.ToMetaExpr =         "e" "|[" Expression "]|"
+  E.ToMetaExpr = "java:expr" "|[" Expression "]|"
+  E.ToMetaExpr =      "expr" "|[" Expression "]|"
+  E.ToMetaExpr = "java"      "|[" Expression "]|"
+  E.ToMetaExpr =             "|[" Expression "]|"
+
+///
+// Anti Quotations for Expressions
+///
+context-free syntax
+  Expression.FromMetaExpr = "~"      E
+  Expression.FromMetaExpr = "~e:"    E {prefer}
+  Expression.FromMetaExpr = "~expr:" E {prefer}
+
+///
+// Variables for Expressions
+///
+variables
+  Expression        = "e"        [0-9\']*     {prefer}
+  Expression        = "e_" [a-zA-Z0-9\']*     {prefer}
+  {Expression ","}* = "e"        [0-9\']* "*" {prefer}
+  {Expression ","}* = "e_" [a-zA-Z0-9\']* "*" {prefer}
+
+lexical syntax
+  ID = "e"  [0-9\']*       {reject}
+  ID = "e_" [a-zA-Z0-9\']* {reject}
+
+///
+// Anti Quotations for LeftHandSide of Assignment
+///
+context-free syntax
+  LHS.FromMetaExpr = "~"     E
+  LHS.FromMetaExpr = "~lhs:"  E
+
+///
+// Quotations for Id
+///
+context-free syntax
+  E.ToMetaExpr    = "ident" "|[" Id "]|"
+
+///
+// Anti Quotations for ID
+///
+  ID.FromMetaExpr = "~"     E
+  ID.FromMetaExpr = "~id:"  E
+  ID.FromMetaExpr = "~idd:" E ":"
+
+///
+// Variables for ID
+///
+variables
+  ID = [xyz]            [0-9\']* {prefer}
+  ID = [xyz] [\_] [a-zA-Z0-9\']* {prefer}
+
+context-free restrictions
+  ID -/- [\_a-zA-Z0-9\']
+
+///
+// Anti Quotations for Literal
+///
+context-free syntax
+  StringLit.FromMetaExpr = "~"        E
+  StringLit.FromMetaExpr = "~strlit:" E
+
+//  SingleChar.FromMetaExpr =     "~" <E-CF> <LAYOUT?-CF>  {prefer}
+
+//exports
+//  variables
+//  DeciLiteral =     [ij]  [0-9\']* {prefer}
+//  DeciLiteral =     [ij]  [\_] [a-zA-Z0-9\']* {prefer}
+
+//
+//  E.ToMetaExpr =     "var-init" "|[" VariableInitializer "]|"
+//
+/////
+// // Statements
+// ///
+//exports
+//
+//  ///
+//   // Variables for Statements
+//   ///
+//  variables
+//  Statement =     "stm"  [0-9\']*         {prefer}
+//  Statement =     "stm_" [a-zA-Z0-9\']*         {prefer}
+//  BlockStatement =     "bstm" [0-9\']*    {prefer}
+//  BlockStatement =     "bstm_" [a-zA-Z0-9\']*    {prefer}
+//  BlockStatement* =     "bstm" [0-9\']* "*"   {prefer}
+//  BlockStatement* =     "bstm_" [a-zA-Z0-9\']* "*"   {prefer}
+//
+//  ///
+//   // Quotations for Statements
+//   ///
+//  context-free syntax
+//  E.ToMetaExpr =     "java:bstm"  "|[" BlockStatement "]|"
+//  E.ToMetaExpr =          "bstm"  "|[" BlockStatement "]|"
+//  E.ToMetaExpr =     "java"       "|[" BlockStatement "]|"
+//  E.ToMetaExpr =                  "|[" BlockStatement "]|"
+//
+//  E.ToMetaListExpr =     "java:bstm*" "|[" BlockStatement* "]|"
+//  E.ToMetaListExpr =          "bstm*" "|[" BlockStatement* "]|"
+//
+//  E.ToMetaExpr =     "java:block-stm"  "|[" BlockStatement "]|"
+//  E.ToMetaExpr =          "block-stm"  "|[" BlockStatement "]|"
+//  E.ToMetaExpr =     "java"            "|[" BlockStatement "]|"
+//  E.ToMetaExpr =                       "|[" BlockStatement "]|"
+//
+//  E.ToMetaListExpr =     "java:block-stm*" "|[" BlockStatement* "]|"
+//  E.ToMetaListExpr =          "block-stm*" "|[" BlockStatement* "]|"
+//
+//
+//  E.ToMetaExpr =     "java:stm"  "|[" Statement "]|"
+//  E.ToMetaExpr =          "stm"  "|[" Statement "]|"
+//
+//  E.ToMetaListExpr =          "switch-group" "|[" SwitchGroup "]|"
+//  E.ToMetaListExpr =     "java:switch-group" "|[" SwitchGroup "]|"
+//
+//  ///
+//   // Anti Quotations for Statements
+//   ///
+//  context-free syntax
+//  BlockStatement.FromMetaExpr =     "~"       E
+//  BlockStatement.FromMetaExpr =     "~bstm:"  E
+//  BlockStatement*.FromMetaExpr =     "~*"      E
+//  BlockStatement*.FromMetaExpr =     "~bstm*:" E
+//
+//  Statement.FromMetaExpr =     "~stm:"   E {prefer}
+//  Statement.FromMetaExpr =     "~"       E
+//
+//  SwitchGroup*.FromMetaExpr =     "~*"              E
+//  SwitchGroup*.FromMetaExpr =     "~switch-group*:" E
+//
+//  SwitchGroup.FromMetaExpr =     "~"               E
+//  SwitchGroup.FromMetaExpr =     "~switch-group:"  E
+//
+/////
+// // Variable Declarations
+// ///
+//
+//  ///
+//   // Variables for Variable Declarations
+//   ///
+//  variables
+//  LocalVariableDeclaration =     "lvdec" [0-9]*    {prefer}
+//  LocalVariableDeclaration =     "lvdec_" [a-zA-Z0-9]*    {prefer}
+//  VarDecl =      "vdec" [0-9]*         {prefer}
+//  VarDecl =      "vdec_" [a-zA-Z0-9]*         {prefer}
+//     "vdec"  [0-9]* "*"       -> {VarDecl ","}+  {prefer}
+//     "vdec_" [a-zA-Z0-9]* "*" -> {VarDecl ","}+  {prefer}
+//
+//  lexical syntax
+//  ID =     "lvdec" {reject}
+//  ID =     "lvdec_" [a-zA-Z0-9]* {reject}
+//  ID =      "vdec" {reject}
+//  ID =      "vdec_" [a-zA-Z0-9]* {reject}
+//
+//  ///
+//   // Quotations for Local Variable Declarations
+//   ///
+//  context-free syntax
+//  E.ToMetaExpr =     "java:lvdec"  "|[" LocalVariableDeclaration "]|"
+//  E.ToMetaExpr =          "lvdec"  "|[" LocalVariableDeclaration "]|"
+//
+//  E.ToMetaExpr =     "java:vdec" "|[" VarDecl "]|"
+//  E.ToMetaExpr =          "vdec" "|[" VarDecl "]|"
+//
+//  ///
+//   // Anti Quotations for Local Variable Declarations
+//   ///
+//  context-free syntax
+//
+/////
+// // LeftHandSide of Assignment
+// ///
+//exports
+//
+//  ///
+//   // Variables for LeftHandSide of Assignment
+//   ///
+//  variables
+//  LHS =     "lhs" [0-9\']* {prefer}
+//  LHS =     "e"   [0-9\']* {prefer}
+//
+//  lexical syntax
+//  ID =     "lhs" [0-9\']* {reject}
+//
+/////
+// // Types
+// ///
+//exports
+//
+//  ///
+//   // Variables for Types
+//   ///
+//  variables
+//  Type =     MetaTypeVar     {prefer}
+//  PrimType =     MetaPrimTypeVar {prefer}
+//  RefType =     MetaRefTypeVar  {prefer}
+//
+//  lexical syntax
+//  MetaTypeVar =     "t"  [0-9\']*
+//  MetaTypeVar =     "t_" [a-zA-Z0-9\']*
+//  MetaTypeVar =     "ty" [0-9]*
+//  MetaTypeVar =     "ty_" [a-zA-Z0-9\']*
+//
+//  MetaPrimTypeVar =     "primt"  [0-9]*
+//  MetaPrimTypeVar =     "primt_" [a-zA-Z0-9]*
+//  MetaPrimTypeVar =     "primty" [0-9]*
+//  MetaPrimTypeVar =     "primty_" [a-zA-Z0-9]*
+//  MetaRefTypeVar =     "reft"   [0-9]*
+//  MetaRefTypeVar =     "reft_" [a-zA-Z0-9]*
+//  MetaRefTypeVar =     "refty"  [0-9]*
+//  MetaRefTypeVar =     "refty_" [a-zA-Z0-9]*
+//
+//  ID =     "t"  [0-9\']* {reject}
+//  ID =     "t_" [a-zA-Z0-9]* {reject}
+//  ID =     "ty" [0-9]* {reject}
+//  ID =     "ty_" [a-zA-Z0-9]* {reject}
+//  ID =     "primt"  [0-9]* {reject}
+//  ID =     "primt_" [a-zA-Z0-9]*  {reject}
+//  ID =     "primty" [0-9]* {reject}
+//  ID =     "primty_" [a-zA-Z0-9]* {reject}
+//  ID =     "reft"   [0-9]* {reject}
+//  ID =     "reft_" [a-zA-Z0-9]* {reject}
+//  ID =     "refty"  [0-9]* {reject}
+//  ID =     "refty_" [a-zA-Z0-9]* {reject}
+//
+//  lexical restrictions
+//    MetaTypeVar -/- [a-zA-Z0-9\_\$\']
+//
+//  ///
+//   // Quotation for Types
+//   ///
+//  context-free syntax
+//  E.ToMetaExpr =             "t" "|[" Type "]|"
+//  E.ToMetaExpr =            "ty" "|[" Type "]|"
+//
+//  E.ToMetaExpr =     "java:type" "|[" Type "]|"
+//  E.ToMetaExpr =          "type" "|[" Type "]|"
+//  E.ToMetaExpr =     "java"      "|[" Type "]|"
+//  E.ToMetaExpr =                 "|[" Type "]|"
+//
+//  ///
+//   // Anti-Quotation for Types
+//   ///
+//  context-free syntax
+//  Type.FromMetaExpr =     "~"       E
+//  Type.FromMetaExpr =     "~type:"  E
+//
+/////
+// // Names
+// ///
+//exports
+//
+//  ///
+//   // Variables for Names
+//   ///
+//  variables
+//  AmbName =     "ambname"  [0-9]*    {prefer}
+//  AmbName =     "ambname_" [a-zA-Z0-9]*    {prefer}
+//  ExprName =     "ename"    [0-9]*   {prefer}
+//  ExprName =     "ename_" [a-zA-Z0-9]*   {prefer}
+//  MethodName =     "fname"    [0-9]* {prefer}
+//  MethodName =     "fname_" [a-zA-Z0-9]* {prefer}
+//  TypeName =     "tname"    [0-9]*   {prefer}
+//  TypeName =     "tname_" [a-zA-Z0-9]*   {prefer}
+//  PackageOrTypeName =     "pkgtname" [0-9]*  {prefer}
+//  PackageOrTypeName =     "pkgtname_" [a-zA-Z0-9]*  {prefer}
+//  PackageName =     "pkgname" [0-9]*  {prefer}
+//  PackageName =     "pkgname_" [a-zA-Z0-9]*  {prefer}
+//
+//  ///
+//   // Quotations for Names
+//   ///
+//  context-free syntax
+//  E.ToMetaExpr =     "ambname"  "|[" AmbName    "]|"
+//  E.ToMetaExpr =     "ename"    "|[" ExprName   "]|"
+//  E.ToMetaExpr =     "fname"    "|[" MethodName "]|"
+//  E.ToMetaExpr =     "tname"    "|[" TypeName   "]|"
+//  E.ToMetaExpr =     "pkgtname" "|[" PackageOrTypeName "]|"
+//
+/////
+// // Modifiers
+// ///
+//exports
+//
+//  ///
+//   // Variables for Modifiers
+//   ///
+//  variables
+//  MethodMod =      "mod" [0-9]*  {prefer}
+//  MethodMod =      "mod_" [a-zA-Z0-9]*  {prefer}
+//  (Annotation =      "mod" [0-9]* "*" | MethodMod)* {prefer}
+//  (Annotation =      "mod_" [a-zA-Z0-9]* "*" | MethodMod)* {prefer}
+//
+//  ClassMod =      "mod" [0-9]*  {prefer}
+//  ClassMod =      "mod_" [a-zA-Z0-9]*  {prefer}
+//  (Annotation | ClassMod)* {prefer} =      "mod" [0-9]* "*"
+//  (Annotation | ClassMod)* {prefer} =      "mod_" [a-zA-Z0-9]* "*"
+//
+//  ConstrMod =      "mod" [0-9]*  {prefer}
+//  ConstrMod =      "mod_" [a-zA-Z0-9]*  {prefer}
+//  (Annotation | ConstrMod)* =      "mod" [0-9]* "*" {prefer}
+//  (Annotation | ConstrMod)* =      "mod_" [a-zA-Z0-9]* "*" {prefer}
+//
+//  VarMod =      "mod" [0-9]*  {prefer}
+//  VarMod =      "mod_" [a-zA-Z0-9]*  {prefer}
+//  (Annotation | VarMod)* =      "mod" [0-9]* "*" {prefer}
+//  (Annotation | VarMod)* =      "mod_" [a-zA-Z0-9]* "*" {prefer}
+//
+//  FieldMod =      "mod" [0-9]*  {prefer}
+//  FieldMod =      "mod_" [a-zA-Z0-9]*  {prefer}
+//  (Annotation | FieldMod)* =      "mod" [0-9]* "*" {prefer}
+//  (Annotation | FieldMod)* =      "mod_" [a-zA-Z0-9]* "*" {prefer}
+//
+//  ///
+//   // Quotations for Modifiers
+//   ///
+//  context-free syntax
+//  E.ToMetaExpr =            "|[" FieldModifier "]|"
+//  E.ToMetaExpr =     "mod"  "|[" FieldModifier "]|"
+//
+//  E.ToMetaExpr =     "anno" "|[" Annotation "]|"
+//
+//
+/////
+// // Package Declarations
+// ///
+//exports
+//
+//  ///
+//   // Quotations
+//   ///
+//  context-free syntax
+//  E.ToMetaExpr =     "java:package-dec" "|[" PackageDec  "]|"
+//  E.ToMetaExpr =          "package-dec" "|[" PackageDec  "]|"
+//  E.ToMetaExpr =                        "|[" PackageDec  "]|"
+//
+//  E.ToMetaExpr =     "java:package-dec?" "|[" PackageDec? "]|"
+//  E.ToMetaExpr =          "package-dec?" "|[" PackageDec? "]|"
+//
+//  ///
+//   // Anti Quotations
+//   ///
+//  context-free syntax
+//  PackageDec.FromMetaExpr =     "~package-dec:"  E
+//  PackageDec?.FromMetaExpr =     "~package-dec?:" E
+//
+/////
+// // Import Declarations
+// ///
+//exports
+//
+//  ///
+//   // Quotations for Import Declarations
+//   ///
+//  context-free syntax
+//
+//  E.ToMetaExpr =     "java:import-dec"  "|[" ImportDec  "]|"
+//  E.ToMetaExpr =          "import-dec"  "|[" ImportDec  "]|"
+//  E.ToMetaExpr =                        "|[" ImportDec  "]|"
+//
+//  E.ToMetaListExpr =     "java:import-dec*" "|[" ImportDec* "]|"
+//  E.ToMetaListExpr =          "import-dec*" "|[" ImportDec* "]|"
+//
+//  ///
+//   // Anti Quotations for Import Declarations
+//   ///
+//  context-free syntax
+//
+//  ImportDec.FromMetaExpr =     "~import-dec:"  E
+//  ImportDec*.FromMetaExpr =     "~import-dec*:" E
+//
+/////
+// // Must be cleaned up
+// ///
+//exports
+//  context-free syntax
+//  E.ToMetaExpr =             "e" "|[" Expr "]|"
+//  E.ToMetaExpr =     "java:expr" "|[" Expr "]|"
+//  E.ToMetaExpr =          "expr" "|[" Expr "]|"
+//  E.ToMetaExpr =     "java"      "|[" Expr "]|"
+//  E.ToMetaExpr =                 "|[" Expr "]|"
+//
+//  E.ToMetaExpr =     "java:compilation-unit" "|[" CompilationUnit "]|"
+//  E.ToMetaExpr =          "compilation-unit" "|[" CompilationUnit "]|"
+//  E.ToMetaExpr =     "java"                  "|[" CompilationUnit "]|"
+//  E.ToMetaExpr =                             "|[" CompilationUnit "]|"
+//
+//  E.ToMetaExpr =     "java:importdecl" "|[" ImportDec "]|"
+//  E.ToMetaExpr =          "importdecl" "|[" ImportDec "]|"
+//  E.ToMetaExpr =     "java"            "|[" ImportDec "]|"
+//
+//  E.ToMetaExpr =     "java:type-dec" "|[" TypeDec "]|"
+//  E.ToMetaExpr =          "type-dec" "|[" TypeDec "]|"
+//  E.ToMetaExpr =     "java"          "|[" TypeDec "]|"
+//  E.ToMetaExpr =                     "|[" TypeDec "]|"
+//
+//  E.ToMetaExpr =     "java:class-body-dec" "|["  ClassBodyDec  "]|"
+//  E.ToMetaExpr =          "class-body-dec" "|["  ClassBodyDec  "]|"
+//  E.ToMetaExpr =     "java"                "|["  ClassBodyDec  "]|"
+//  E.ToMetaExpr =                           "|["  ClassBodyDec  "]|"
+//
+//  E.ToMetaExpr =     "java:interface-member-dec" "|[" InterfaceMemberDec  "]|"
+//  E.ToMetaExpr =          "interface-member-dec" "|[" InterfaceMemberDec  "]|"
+//
+//  E.ToMetaExpr =     "java:constant-dec" "|[" ConstantDec  "]|"
+//  E.ToMetaExpr =          "constant-dec" "|[" ConstantDec  "]|"
+//
+//  E.ToMetaExpr =     "java:class-body-dec*" "|[" ClassBodyDec* "]|"
+//  E.ToMetaExpr =          "class-body-dec*" "|[" ClassBodyDec* "]|"
+//  E.ToMetaExpr =     "java"                 "|[" ClassBodyDec* "]|"
+//  E.ToMetaListExpr =                            "|[" ClassBodyDec* "]|"
+//
+//  E.ToMetaExpr =     "java:stm" "|["  Stm "]|"
+//  E.ToMetaExpr =          "stm" "|["  Stm "]|"
+//
+//  E.ToMetaExpr =     "java:imember-dec" "|["  AbstractMethodDec  "]|"
+//  E.ToMetaExpr =          "imember-dec" "|["  AbstractMethodDec  "]|"
+//  E.ToMetaExpr =     "java"             "|["  AbstractMethodDec  "]|"
+//  E.ToMetaExpr =                        "|["  AbstractMethodDec  "]|"
+//
+//  E.ToMetaExpr =     "java:imember-dec*" "|["  AbstractMethodDec*  "]|"
+//  E.ToMetaExpr =          "imember-dec*" "|["  AbstractMethodDec*  "]|"
+//  E.ToMetaExpr =     "java"              "|["  AbstractMethodDec*  "]|"
+//  E.ToMetaExpr =                         "|["  AbstractMethodDec*  "]|"
+//
+//  // Anti-quotation
+//  context-free syntax
+//
+//  Name.FromMetaExpr =     "~"      E
+//  Name.FromMetaExpr =     "~name:" E
+//  Name.FromMetaExpr =     "~*:"    E
+//
+//  Id.FromMetaExpr =     "~"     E
+//  Id.FromMetaExpr =     "~id:"  E
+//  Id.FromMetaExpr =     "~idd:" E ":"
+//
+//  ID.FromMetaExpr =     "~x:" E
+//
+//  TypeParam.FromMetaExpr =     "~"  E
+//  {TypeParam ","}+.FromMetaExpr =     "~*" E
+//
+//  {ExceptionType ","}*.FromMetaExpr =     "~*" E
+//
+//  Expr.FromMetaExpr =     "~"      E
+//  Expr.FromMetaExpr =     "~e:"    E {prefer}
+//  Expr.FromMetaExpr =     "~expr:" E {prefer}
+//
+//  {Expr ","}*.FromMetaExpr =     "~*" E
+//  {VarInit ","}*.FromMetaExpr =     "~*" E
+//
+//  TypeDec.FromMetaExpr =     "~"  E
+//  TypeDec*.FromMetaExpr =     "~*" E
+//
+//  ClassBodyDec.FromMetaExpr =     "~"  E
+//  ClassBodyDec*.FromMetaExpr =     "~*" E
+//
+//  InterfaceMemberDec.FromMetaExpr =     "~"  E
+//  InterfaceMemberDec*.FromMetaExpr =     "~*" E
+//
+//  DeciLiteral.FromMetaExpr =     "~i:"      E
+//  DeciLiteral.FromMetaExpr =     "~deci:"   E
+//  HexaLiteral.FromMetaExpr =     "~hexa:"   E
+//  OctaLiteral.FromMetaExpr =     "~octa:"   E
+//  FloatLiteral.FromMetaExpr =     "~float:"  E
+//  StringLiteral.FromMetaExpr =     "~string:" E
+//  CharLiteral.FromMetaExpr =     "~char:"   E
+//
+//  syntax
+//  StringChars.FromMetaExpr =     "~" <E-CF> {prefer}
+//  SingleChar.FromMetaExpr =     "~" <E-CF> <LAYOUT?-CF>  {prefer}
