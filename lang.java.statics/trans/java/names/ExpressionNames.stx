@@ -99,7 +99,7 @@ rules
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
         and { id' :- id' == id }
       min /* expr ord */
-          $ < EXTENDS, $ < IMPLEMENTS
+          STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
         and true
       in s |-> varPathList.
 
@@ -133,7 +133,7 @@ rules
 
 
   noOtherHomonymousExpr: scope * VAR_DECL
-  
+
   noOtherHomonymousExpr(s, varDecl@(id, _)) :-
     query var
       filter STATIC_MEMBERS? and { id' :- id' == id }
