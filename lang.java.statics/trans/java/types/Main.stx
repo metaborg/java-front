@@ -30,7 +30,7 @@ rules
 
   toType : scope -> TYPE
 
-  toType(s) = T :-
+  toType(s) = resolveExtRef(T) :-
     query withType
       filter e and true
       min /* */ and true

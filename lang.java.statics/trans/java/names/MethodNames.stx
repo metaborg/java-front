@@ -8,6 +8,7 @@ imports
   java/types/Main
   java/types/Conversions
   java/types/Subtyping
+  java/types/ReferenceTypes
 
 
 // 6.5.7 Meaning of Method Names
@@ -70,7 +71,7 @@ rules
 
   resolveLexicalMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
-  resolveLexicalMthdNames(s, id, Ts) = mthdPathList :-
+  resolveLexicalMthdNames(s, id, Ts) = normalizeMthdPaths(mthdPathList) :-
     query mthd
       filter /* lex mthd re */
           LEX*                              EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
@@ -84,56 +85,56 @@ rules
           EXTENDS < LEX       , IMPLEMENTS < LEX       , SINGLE_STATIC_IMPORT < LEX       , STATIC_IMPORT_ONDEMAND < LEX       ,
           EXTENDS < STATIC_LEX, IMPLEMENTS < STATIC_LEX, SINGLE_STATIC_IMPORT < STATIC_LEX, STATIC_IMPORT_ONDEMAND < STATIC_LEX,
           SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND
-        and { (_, params), (_, params) }
+        and { (_, params), (_, params') :- paramsEq(params, params') }
       in s |-> mthdPathList,
     true.
 
 
   resolveMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
-  resolveMemberMthdNames(s, id, Ts) = mthdPathList :-
+  resolveMemberMthdNames(s, id, Ts) = normalizeMthdPaths(mthdPathList) :-
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
         and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
       min /* mem mthd ord */
           $ < EXTENDS, $ < IMPLEMENTS
-        and { (_, params), (_, params) }
+        and { (_, params), (_, params') :- paramsEq(params, params') }
       in s |-> mthdPathList,
     true.
 
 
   resolveStaticMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
-  resolveStaticMemberMthdNames(s, id, Ts) = mthdPathList :-
+  resolveStaticMemberMthdNames(s, id, Ts) = normalizeMthdPaths(mthdPathList) :-
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
         and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
       min /* mem mthd ord */
           $ < EXTENDS, $ < IMPLEMENTS
-        and { (_, params), (_, params) }
+        and { (_, params), (_, params') :- paramsEq(params, params') }
       in s |-> mthdPathList,
     true.
 
 
   resolveAllStaticMemberMthdNames : scope * Id -> list(MTHD_PATH)
 
-  resolveAllStaticMemberMthdNames(s, id) = mthdPathList :-
+  resolveAllStaticMemberMthdNames(s, id) = normalizeMthdPaths(mthdPathList) :-
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
         and { (id', _) :- id' == id }
       min /* mem mthd ord */
           STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
-        and { (_, params), (_, params) }
+        and { (_, params), (_, params') :- paramsEq(params, params') }
       in s |-> mthdPathList,
     true.
 
 
   resolveDirectMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
-  resolveDirectMemberMthdNames(s, id, Ts) = mthdPathList :-
+  resolveDirectMemberMthdNames(s, id, Ts) = normalizeMthdPaths(mthdPathList) :-
     query mthd
       filter e
         and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
@@ -177,9 +178,24 @@ rules
 
   noOtherHomonymousMthd(s, mthdDecl@(id, params, _)) :-
     query mthd
-      filter STATIC_MEMBERS? and { (id', params') :- id' == id, params' == params }
+      filter STATIC_MEMBERS? and { (id', params') :- id' == id, paramsEq(params', params) }
       in s |-> [(_, mthdDecl)].
 
+rules
+
+  paramsEq: PARAMS * PARAMS
+
+  paramsEq(ARGS(Ts), ARGS(Ts')) :-
+    paramTypesEq(Ts, Ts').
+
+  paramsEq(VARARGS(Ts, Tl), VARARGS(Ts', Tl')) :-
+    paramTypesEq(Ts, Ts'),
+    paramTypeEq(Tl, Tl').
+
+  paramTypeEq: TYPE * TYPE
+  paramTypesEq maps paramTypeEq(list(*), list(*))
+
+  paramTypeEq(T, T') :- resolveExtRef(T) == resolveExtRef(T').
 
 rules
 
@@ -205,3 +221,24 @@ rules
   declareReturn(s, R) :-
     !return[R] in s.
 
+rules
+
+  normalizeMthdPath: MTHD_PATH -> MTHD_PATH
+  normalizeMthdPaths maps normalizeMthdPath(list(*)) = list(*)
+
+  normalizeMthdPath((p, d)) = (p, normalizeMthdDecl(d)).
+
+  normalizeMthdDecl: MTHD_DECL -> MTHD_DECL
+  normalizeMthdDecls maps normalizeMthdDecl(list(*)) = list(*)
+
+  normalizeMthdDecl((id, params, s_mthd)) = (id, normalizeParams(params), s_mthd).
+
+  normalizeParams: PARAMS -> PARAMS
+  normalizeParams(ARGS(Ts)) = ARGS(normalizeTypes(Ts)).
+  normalizeParams(VARARGS(Ts, Tv)) = VARARGS(normalizeTypes(Ts), normalizeType(Tv)).
+
+  normalizeType: TYPE -> TYPE
+  normalizeTypes maps normalizeType(list(*)) = list(*)
+
+  normalizeType(T) = resolveExtRef(T).
+  // TODO handling of (varargs) arrays needed?

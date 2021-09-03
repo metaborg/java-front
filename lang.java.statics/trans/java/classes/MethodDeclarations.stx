@@ -190,7 +190,7 @@ rules // 8.4. Method Declarations
 
   formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) = T :-
     varModListOk(s, varModList),
-    T == unannTypeOk(s, unannType),
+    T == formalParamTypeOk(s, unannType),
     varDeclIdOk(s, T, varDeclId, s_def).
 
 
@@ -203,6 +203,15 @@ rules // 8.4. Method Declarations
   varModOk(s, Final2VariableModifier(_)) :- true.
 
 
+  formalParamTypeOk: scope * UnannType -> TYPE
+
+  formalParamTypeOk(s, T@UnannPrimitiveType2UnannType(_)) = unannTypeOk(s, T).
+
+  formalParamTypeOk(s, T) = EXTREF(T, s_ext) :-
+  {s_t}
+    new s_ext, s_ext -EXTENDS-> s_t,
+    REF(s_t) == unannTypeOk(s, T).
+
 rules
 
   append1 : list(TYPE) * TYPE -> list(TYPE)
@@ -214,4 +223,4 @@ rules
     append([], Us) = Us.
 
     append([T|Ts], Us) = [T|append(Ts, Us)].
-  
+

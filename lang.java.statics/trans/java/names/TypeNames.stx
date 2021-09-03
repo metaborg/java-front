@@ -204,4 +204,3 @@ rules
     query thisType
       filter (LEX|STATIC_LEX)* and { (id', _) :- id' == id }
       in s |-> [].
-

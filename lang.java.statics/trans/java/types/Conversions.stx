@@ -8,8 +8,8 @@ imports
   java/types/ReferenceTypes
   java/types/Subtyping
   java/util/Boolean
-  
-// 5. Conversions and Contexts  
+
+// 5. Conversions and Contexts
 
 signature
 
@@ -27,8 +27,7 @@ rules
       isBox1([]) = F().
       isBox1(_)  = T().
 
-
-rules // 5.1.7 Boxing Conversion 
+rules // 5.1.7 Boxing Conversion
 
   box : scope * TYPE -> TYPE
 
@@ -42,7 +41,7 @@ rules // 5.1.7 Boxing Conversion
   box(s, DOUBLE() ) = doubleOk(s).
 
 
-rules // 5.1.8 Unboxing Conversion 
+rules // 5.1.8 Unboxing Conversion
 
   unbox : TYPE -> TYPE
 
@@ -182,6 +181,8 @@ rules // 5.2 Assignment Contexts
 
 
   assignCompatible(s, T@REF(_), U) :- assignCompatibleREF(s, T, U).
+  assignCompatible(s, T@EXTREF(_, _), U) :- assignCompatibleREF(s, resolveExtRef(T), U).
+
     assignCompatibleREF : scope * TYPE * TYPE
 
     // 5.1.1 Identity Conversion
@@ -193,6 +194,7 @@ rules // 5.2 Assignment Contexts
         assignCompatibleREFREF : scope * KIND * TYPE * KIND * TYPE
         assignCompatibleREFREF(s, ARRAY(), T, ARRAY(), U) :- assignCompatible(s, arrayElementType(T), arrayElementType(U)).
         assignCompatibleREFREF(s, _, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
+        assignCompatibleREFREF(s, _, REF(s_T), _, EXTREF(_, s_U)) :- superTypeScope(s_T, s_U).
 
     assignCompatibleREF(_, T, NULL()).
 
@@ -314,6 +316,8 @@ rules // 5.3 Invocation Contexts (strict)
 
 
   invokeCompatibleTypesStrict(T@REF(_), U) :- invokeCompatibleTypesStrictREF(T, U).
+  invokeCompatibleTypesStrict(T@EXTREF(_, _), U) :- invokeCompatibleTypesStrictREF(resolveExtRef(T), U).
+
     invokeCompatibleTypesStrictREF : TYPE * TYPE
 
     // 5.1.1 Identity Conversion
@@ -467,6 +471,8 @@ rules // 5.3 Invocation Contexts (loose)
 
 
   invokeCompatibleTypesLoose(s, T@REF(_), U) :- invokeCompatibleTypesLooseREF(s, T, U).
+  invokeCompatibleTypesLoose(s, T@EXTREF(_, _), U) :- invokeCompatibleTypesLooseREF(s, resolveExtRef(T), U).
+
     invokeCompatibleTypesLooseREF : scope * TYPE * TYPE
 
     // 5.1.1 Identity Conversion
@@ -478,6 +484,7 @@ rules // 5.3 Invocation Contexts (loose)
         invokeCompatibleTypesLooseREFREF : scope * KIND * TYPE * KIND * TYPE
         invokeCompatibleTypesLooseREFREF(s, ARRAY(), T, ARRAY(), U) :- invokeCompatibleTypesLoose(s, arrayElementType(T), arrayElementType(U)).
         invokeCompatibleTypesLooseREFREF(s, _, REF(s_T), _, REF(s_U)) :- superTypeScope(s_T, s_U).
+        invokeCompatibleTypesLooseREFREF(s, _, REF(s_T), _, EXTREF(_, s_U)) :- superTypeScope(s_T, s_U).
 
     invokeCompatibleTypesLooseREF(_, T, NULL()).
 
@@ -514,6 +521,7 @@ rules // 5.6.1 Unary Numeric Promotion
   promoteNumericUnary : TYPE -> TYPE
 
   promoteNumericUnary(T@REF(_)) = promoteNumericUnary(unbox(T)).
+  promoteNumericUnary(T@EXTREF(_, _)) = promoteNumericUnary(unbox(resolveExtRef(T))).
   promoteNumericUnary(CHAR()  ) = INT().
   promoteNumericUnary(BYTE()  ) = INT().
   promoteNumericUnary(SHORT() ) = INT().
@@ -527,20 +535,23 @@ rules // 5.6.2 Binary Numeric Promotion
 
   promoteNumericBinary : TYPE * TYPE -> TYPE
 
-  promoteNumericBinary(T@REF(_), U@REF(_)) = promoteNumericBinary(unbox(T), unbox(U)).
-  promoteNumericBinary(T@REF(_), U       ) = promoteNumericBinary(unbox(T), U).
-  promoteNumericBinary(T,        U@REF(_)) = promoteNumericBinary(T, unbox(U)).
+  promoteNumericBinary(T@REF(_),       U@REF(_)      ) = promoteNumericBinary(unbox(T), unbox(U)).
+  promoteNumericBinary(T@REF(_),       U             ) = promoteNumericBinary(unbox(T), U).
+  promoteNumericBinary(T,              U@REF(_)      ) = promoteNumericBinary(T, unbox(U)).
 
-  promoteNumericBinary(DOUBLE(), U       ) = DOUBLE() :- isNumeric(U).
-  promoteNumericBinary(T,        DOUBLE()) = DOUBLE() :- isNumeric(T).
+  promoteNumericBinary(T@EXTREF(_, _), U             ) = promoteNumericBinary(resolveExtRef(T), U).
+  promoteNumericBinary(T,              U@EXTREF(_, _)) = promoteNumericBinary(T, resolveExtRef(U)).
 
-  promoteNumericBinary(FLOAT(),  U       ) = FLOAT() :- isNumeric(U).
-  promoteNumericBinary(T,        FLOAT() ) = FLOAT() :- isNumeric(T).
+  promoteNumericBinary(DOUBLE(),       U             ) = DOUBLE() :- isNumeric(U).
+  promoteNumericBinary(T,              DOUBLE()      ) = DOUBLE() :- isNumeric(T).
 
-  promoteNumericBinary(LONG(),   U       ) = LONG() :- isNumeric(U).
-  promoteNumericBinary(T,        LONG()  ) = LONG() :- isNumeric(T).
+  promoteNumericBinary(FLOAT(),        U             ) = FLOAT() :- isNumeric(U).
+  promoteNumericBinary(T,              FLOAT()       ) = FLOAT() :- isNumeric(T).
 
-  promoteNumericBinary(T,        U       ) = INT() :- isNumeric(T), isNumeric(U).
+  promoteNumericBinary(LONG(),         U             ) = LONG() :- isNumeric(U).
+  promoteNumericBinary(T,              LONG()        ) = LONG() :- isNumeric(T).
+
+  promoteNumericBinary(T,              U             ) = INT() :- isNumeric(T), isNumeric(U).
 
 
 rules
@@ -549,6 +560,7 @@ rules
 
   conditionCompatible(BOOLEAN()).
   conditionCompatible(T@REF(_)) :- conditionCompatible(unbox(T)).
+  conditionCompatible(T@EXTREF(_, _)) :- conditionCompatible(resolveExtRef(T)).
 
 
 rules
@@ -560,6 +572,7 @@ rules
   switchCompatible(SHORT()).
   switchCompatible(INT()).
   switchCompatible(T@REF(_)) :- switchCompatibleREF(isString(T), isEnum(T)).
+  switchCompatible(T@EXTREF(_, _)) :- switchCompatible(resolveExtRef(T)).
 
       switchCompatibleREF : B * B
       switchCompatibleREF(T(), _).

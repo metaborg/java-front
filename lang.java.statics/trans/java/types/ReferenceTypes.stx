@@ -7,6 +7,7 @@ imports
   java/JRE
   java/classes/ClassDeclarations
   java/interfaces/Annotations
+  java/names/Main
   java/names/ExpressionNames
   java/names/TypeNames
   java/names/PackageOrTypeNames
@@ -27,7 +28,8 @@ signature
 
   constructors
     REF : scope -> TYPE
-    
+    EXTREF: UnannType * scope -> TYPE // To be used in method signatures
+
   relations
     elementType : -> TYPE
 
@@ -108,7 +110,7 @@ rules
 
 
   makeArrayType : scope * TYPE -> TYPE
-  
+
   makeArrayType(s, S) = T@REF(s_ty) :-
     new s_ty,
     setType(s_ty, T),
@@ -150,12 +152,11 @@ rules
   typeScope : TYPE -> scope
 
   typeScope(REF(s_ty)) = s_ty.
-
+  typeScope(EXTREF(_, s_ext)) = parentTypeScope(s_ext).
 
   typeKind : TYPE -> KIND
 
-  typeKind(REF(s_ty)) = toKind(s_ty).
-
+  typeKind(T) = toKind(typeScope(T)).
 
   isClsType : TYPE
 
@@ -179,6 +180,7 @@ rules
   isArrayType : TYPE -> B
 
   isArrayType(T@REF(_)) = isArrayType1(typeKind(T)).
+  isArrayType(T@EXTREF(_, _)) = isArrayType1(typeKind(T)).
 
     isArrayType1 : KIND -> B
     isArrayType1(ARRAY()) = T().
@@ -186,3 +188,14 @@ rules
 
   isArrayType(_) = F().
 
+rules
+
+  resolveExtRef : TYPE -> TYPE
+  resolveExtRef(EXTREF(_, s)) = REF(parentTypeScope(s)).
+
+  resolveExtRef(T) = T.
+
+  parentTypeScope: scope -> scope
+
+  parentTypeScope(s_ty) = s_parent :-
+    query () filter EXTENDS in s_ty |-> [(_, s_parent)].
