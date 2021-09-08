@@ -75,7 +75,7 @@ rules // 8.4. Method Declarations
   resultWithDimsOk : scope * Result * AnnotatedDimsEmpty -> RETURN
 
   resultWithDimsOk(s, UnannType2Result(unannType), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = TYPED(T) :-
-    T == annDimListOk(s, unannTypeOk(s, unannType), annDimList).
+    T == annDimListOk(s, formalParamTypeOk(s, unannType), annDimList).
 
   resultWithDimsOk(s, Void(), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = VOID() :-
     annDimList == [].

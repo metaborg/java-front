@@ -209,7 +209,7 @@ rules
 
   resolveReturn : scope -> RETURN
 
-  resolveReturn(s) = R :-
+  resolveReturn(s) = normalizeReturn(R) :-
     query return
       filter LEX* and true
       min $ < LEX and true
@@ -220,6 +220,12 @@ rules
 
   declareReturn(s, R) :-
     !return[R] in s.
+
+
+  normalizeReturn: RETURN -> RETURN
+
+  normalizeReturn(TYPED(T)) = TYPED(resolveExtRef(T)).
+  normalizeReturn(R) = R.
 
 rules
 
