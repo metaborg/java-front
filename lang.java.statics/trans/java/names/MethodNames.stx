@@ -7,6 +7,7 @@ imports
   java/names/Main
   java/types/Main
   java/types/Conversions
+  java/types/Indirection
   java/types/Subtyping
   java/types/ReferenceTypes
 

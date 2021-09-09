@@ -8,6 +8,7 @@ imports
   java/names/MethodNames
   java/names/ReceiverNames
   java/names/TypeNames
+  java/types/Indirection
   java/types/ParameterizedTypes
   java/types/ReferenceTypes
 
@@ -27,7 +28,7 @@ rules // 15.12. Method Invocation Expressions
   exprOk(s, InvokeQExp(ExpressionName2Expression(exprName), typeArgsOpt, id, exprList)) = T :-
   {recvDecl Ts mthdDecl R}
     recvDecl == recvNameOk(s, exprName),
-    
+
     _ == typeArgsOptOk(s, typeArgsOpt),
 
     Ts == exprListOk(s, exprList),
@@ -37,7 +38,7 @@ rules // 15.12. Method Invocation Expressions
     T == invokeReturn(R),
 
     true.
-  
+
   exprOk(s, InvokeQExp(expr, typeArgsOpt, id, exprList)) = T :-
   {s_ty Ts mthdDecl R}
     s_ty == typeScope(exprOk(s, expr)),
@@ -83,8 +84,8 @@ rules // 15.12. Method Invocation Expressions
 
 
   invokeReturn : RETURN -> TYPE
-  
-  invokeReturn(TYPED(T)) = T.
+
+  invokeReturn(TYPED(T)) = resolveExtRef(T).
 
   invokeReturn(VOID()) = _. // FIXME void methods are ignored; how to integrate void & expression types?
 

@@ -12,6 +12,7 @@ imports
   java/names/Main
   java/names/MethodNames
   java/statements/Blocks
+  java/types/Indirection
   java/types/ReferenceTypes
   java/util/Boolean
 
@@ -74,8 +75,9 @@ rules // 8.4. Method Declarations
 
   resultWithDimsOk : scope * Result * AnnotatedDimsEmpty -> RETURN
 
-  resultWithDimsOk(s, UnannType2Result(unannType), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = TYPED(T) :-
-    T == annDimListOk(s, formalParamTypeOk(s, unannType), annDimList).
+  resultWithDimsOk(s, UnannType2Result(unannType), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = TYPED(T) :- {T_ext}
+    (_, T_ext) == formalParamTypeOk(s, unannType),
+    T == annDimListOk(s, T_ext, annDimList).
 
   resultWithDimsOk(s, Void(), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = VOID() :-
     annDimList == [].
@@ -188,9 +190,9 @@ rules // 8.4. Method Declarations
   formalParamOk : scope * FormalParam * scope -> TYPE
   formalParamListOk maps formalParamOk(*, list(*), *) = list(*)
 
-  formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) = T :-
+  formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) = T_ext :- {T}
     varModListOk(s, varModList),
-    T == formalParamTypeOk(s, unannType),
+    (T, T_ext) == formalParamTypeOk(s, unannType),
     varDeclIdOk(s, T, varDeclId, s_def).
 
 
@@ -203,14 +205,15 @@ rules // 8.4. Method Declarations
   varModOk(s, Final2VariableModifier(_)) :- true.
 
 
-  formalParamTypeOk: scope * UnannType -> TYPE
+  formalParamTypeOk: scope * UnannType -> (TYPE * TYPE)
 
-  formalParamTypeOk(s, T@UnannPrimitiveType2UnannType(_)) = unannTypeOk(s, T).
+  formalParamTypeOk(s, type@UnannPrimitiveType2UnannType(_)) = (T, T) :-
+    T == unannTypeOk(s, type).
 
-  formalParamTypeOk(s, T) = EXTREF(T, s_ext) :-
+  formalParamTypeOk(s, type) = (T, EXTREF(type, s_ext)) :-
   {s_t}
     new s_ext, s_ext -EXTENDS-> s_t,
-    REF(s_t) == unannTypeOk(s, T).
+    T@REF(s_t) == unannTypeOk(s, type).
 
 rules
 

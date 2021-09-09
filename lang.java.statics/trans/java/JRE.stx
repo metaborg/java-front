@@ -117,16 +117,16 @@ rules
 
   resolveJavaLangType : scope * Id -> TYPE_DECL
 
-  resolveJavaLangType(s, id) = singleTypeDecl(id, resolveMemberTypeNames(pkgDeclScope(resolveJavaLang(s)), id)).
+  resolveJavaLangType(s, id) = singleTypeDeclNoNorm(id, resolveMemberTypeNames(pkgDeclScope(resolveJavaLang(s)), id)).
 
 
   importJavaLang : scope * scope
 
   importJavaLang(s, s_pkg) :-
     s_pkg -TYPE_IMPORT_ONDEMAND-> pkgDeclScope(resolveJavaLang(s)).
-  
+
 
   resolveJavaLang : scope -> PKG_DECL
 
   resolveJavaLang(s) = resolvePkgName(s, QID(ID(Id("java")), Id("lang"))).
-  
+

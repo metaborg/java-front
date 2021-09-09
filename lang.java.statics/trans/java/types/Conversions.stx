@@ -4,6 +4,7 @@ imports
 
   java/JRE
   java/types/Main
+  java/types/Indirection
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
   java/types/Subtyping

@@ -10,6 +10,7 @@ imports
   java/names/PackageOrTypeNames
   java/names/TypeNames
   java/packages/Main
+  java/types/Indirection
   java/types/Main
   java/types/ReferenceTypes
 
@@ -41,7 +42,7 @@ rules // 7.5. Import Declarations
     s_imp -SINGLE_STATIC_IMPORT-> s_imp',
 
     types == resolveAllStaticMemberTypeNames(s_ty, id),
-    importStaticTypeList(types, s_imp'),
+    importStaticTypeList(id, types, s_imp'),
 
     mthds == resolveAllStaticMemberMthdNames(s_ty, id),
     importStaticMthdList(mthds, s_imp'),
@@ -51,9 +52,11 @@ rules // 7.5. Import Declarations
 
     importStaticNotEmpty(id, types, mthds, vars).
 
-      importStaticType : TYPE_PATH * scope
-      importStaticTypeList maps importStaticType(list(*), *)
-      importStaticType((_, typeDecl), s_imp) :- aliasType(s_imp, typeDecl).
+      importStaticTypeList : Id * list(TYPE_PATH) * scope
+      importStaticTypeList(id, typePaths, s_imp) :- {typeDecls types}
+        typeDecls == typePathDecls(typePaths),
+        types == typeDeclTypes(typeDecls),
+        aliasType(s_imp, (id, fromType(AMBTYPE(types)))).
 
       importStaticMthd : MTHD_PATH * scope
       importStaticMthdList maps importStaticMthd(list(*), *)

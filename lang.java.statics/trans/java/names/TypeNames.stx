@@ -37,6 +37,7 @@ rules
 
 
   typeDeclType : TYPE_DECL -> TYPE
+  typeDeclTypes maps typeDeclType(list(*)) = list(*)
 
   typeDeclType((_, s_ty)) = toType(s_ty).
 
@@ -44,6 +45,12 @@ rules
   typeDeclKind : TYPE_DECL -> KIND
 
   typeDeclKind((_, s_ty)) = toKind(s_ty).
+
+
+  typePathDecl : TYPE_PATH -> TYPE_DECL
+  typePathDecls maps typePathDecl(list(*)) = list(*)
+
+  typePathDecl((_, d)) = d.
 
 
 rules
@@ -132,18 +139,32 @@ rules
       in s |-> typePathList,
     true.
 
-
   singleTypeDecl : Id * list(TYPE_PATH) -> TYPE_DECL
 
   singleTypeDecl(id, []) = _ :-
     false | error $[Type [id] not found] @id.
 
-  singleTypeDecl(id, [(_, typeDecl@(id', _))]) = typeDecl :-
-    @id.ref := id'.
+  singleTypeDecl(id, typeDeclList) = (id, fromType(T)) :- {types}
+    typeDeclTypes(typePathDecls(typeDeclList)) == types,
+    singleTypeDecl1(id, flattenTypes(types)) == T.
 
-  singleTypeDecl(id, typeDeclList) = _ :-
-    false | error $[Type [id] is ambiguous] @id.
+    singleTypeDecl1: Id * list(TYPE) -> TYPE
+    singleTypeDecl1(_, [T]) = T.
+    singleTypeDecl1(id, _) = _ :- false | error $[Type [id] is ambiguous] @id.
 
+  flattenTypes: list(TYPE) -> list(TYPE)
+  flattenTypes([]) = [].
+  flattenTypes([AMBTYPE(Ts)| T]) = concatTypes(flattenTypes(Ts), flattenTypes(T)).
+  flattenTypes([T | Tl]) = [T | flattenTypes(Tl)].
+
+  concatTypes: list(TYPE) * list(TYPE) -> list(TYPE)
+  concatTypes([], Ts) = Ts.
+  concatTypes([T | Tl], Ts) = [T | concatTypes(Tl, Ts)].
+
+  singleTypeDeclNoNorm : Id * list(TYPE_PATH) -> TYPE_DECL
+
+  singleTypeDeclNoNorm(_, [(_, T)]) = T.
+  singleTypeDeclNoNorm(id, _) = _ :- false | error $[Type [id] is ambiguous] @id.
 
   declareType : scope * Id * scope * KIND
 
@@ -173,9 +194,10 @@ rules
 
   qualThis : TYPE_DECL * scope -> TYPE_DECL
 
-  qualThis(typeDecl, s) = typeDecl' :-
+  qualThis((id, s_ref), s) = typeDecl' :- {s_ty}
+    REF(s_ty) == toType(s_ref),
     query thisType
-      filter LEX* and { typeDecl' :- typeDecl' == typeDecl }
+      filter LEX* and { typeDecl' :- typeDecl' == (id, s_ty) }
       min $ < LEX and true
       in s |-> [(_, typeDecl')].
 
@@ -192,10 +214,10 @@ rules
 
   noOtherHomonymousType: scope * TYPE_DECL
 
-  noOtherHomonymousType(s, typeDecl@(id, _)) :-
+  noOtherHomonymousType(s, typeDecl@(id, _)) :- {typeDecls}
     query type
       filter STATIC_MEMBERS? and { id' :- id' == id }
-      in s |-> [(_, typeDecl)].
+      in s |-> [(_, typeDecl)]. // FIXME: can this never resolve to AMBTYPEs?
 
 
   noEnclosingHomonymousType : scope * Id

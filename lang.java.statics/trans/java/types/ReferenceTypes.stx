@@ -12,6 +12,7 @@ imports
   java/names/TypeNames
   java/names/PackageOrTypeNames
   java/types/Main
+  java/types/Indirection
   java/types/ParameterizedTypes
   java/types/PrimitiveTypes
   java/util/Boolean
@@ -28,7 +29,6 @@ signature
 
   constructors
     REF : scope -> TYPE
-    EXTREF: UnannType * scope -> TYPE // To be used in method signatures
 
   relations
     elementType : -> TYPE
@@ -188,14 +188,3 @@ rules
 
   isArrayType(_) = F().
 
-rules
-
-  resolveExtRef : TYPE -> TYPE
-  resolveExtRef(EXTREF(_, s)) = REF(parentTypeScope(s)).
-
-  resolveExtRef(T) = T.
-
-  parentTypeScope: scope -> scope
-
-  parentTypeScope(s_ty) = s_parent :-
-    query () filter EXTENDS in s_ty |-> [(_, s_parent)].

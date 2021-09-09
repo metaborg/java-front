@@ -1,0 +1,28 @@
+module java/types/Indirection
+
+// In order to provide precise incrementality, indirection at declaration time,
+// and normalization at resolution time is required (at least in method declarations and imports).
+
+imports
+
+  java/names/Main
+  java/types/Main
+  java/types/ReferenceTypes
+
+signature
+
+  constructors
+    EXTREF: UnannType * scope -> TYPE // To be used in method signatures
+    AMBTYPE: list(TYPE) -> TYPE       // To be used for imported types.
+
+rules
+
+  resolveExtRef : TYPE -> TYPE
+  resolveExtRef(EXTREF(_, s)) = REF(parentTypeScope(s)).
+
+  resolveExtRef(T) = T.
+
+  parentTypeScope: scope -> scope
+
+  parentTypeScope(s_ty) = s_parent :-
+    query () filter EXTENDS in s_ty |-> [(_, s_parent)].

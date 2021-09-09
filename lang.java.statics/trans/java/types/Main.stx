@@ -4,6 +4,7 @@ imports
 
   signatures/java/types/Main-sig
 
+  java/types/Indirection
   java/types/ParameterizedTypes
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
