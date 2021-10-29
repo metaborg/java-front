@@ -210,10 +210,16 @@ rules // 8.4. Method Declarations
   formalParamTypeOk(s, type@UnannPrimitiveType2UnannType(_)) = (T, T) :-
     T == unannTypeOk(s, type).
 
-  formalParamTypeOk(s, type) = (T, EXTREF(type, s_ext)) :-
-  {s_t}
-    new s_ext, s_ext -EXTENDS-> s_t,
-    T@REF(s_t) == unannTypeOk(s, type).
+  formalParamTypeOk(s, type) = (T, T_ext) :-
+    T == unannTypeOk(s, type),
+    T_ext == formalParamTypeOk1(type, T).
+
+    formalParamTypeOk1: UnannType * TYPE -> TYPE
+
+    formalParamTypeOk1(type, REF(s_t)) = EXTREF(type, s_ext) :-
+      new s_ext, s_ext -EXTENDS-> s_t.
+
+    formalParamTypeOk1(_, T) = T.
 
 rules
 
