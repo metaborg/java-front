@@ -23,16 +23,14 @@ imports
 
 rules // 8.9. Enum Types
 
-  enumDeclOk : scope * EnumDeclaration * scope
+  enumDeclOk : scope * scope * scope * EnumDeclaration * scope
 
-  enumDeclOk(s, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef) :-
-    enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef).
+  enumDeclOk(s, s_enum, s_enumStatic, EnumDeclComma(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef) :-
+    enumDeclOk(s, s_enum, s_enumStatic, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef).
 
-  enumDeclOk(s, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef) :-
-  {s_enum s_enumStatic}
+  enumDeclOk(s, s_enum, s_enumStatic, EnumDecl(clsModList, id, superIntfsOpt, enumConstList, enumBodyDeclsOpt), s_staticDef) :-
     clsModListOk(s, clsModList),
 
-    new s_enum,
     s_enum -STATIC_LEX-> s,
 
     declareType(s_staticDef, id, s_enum, CLASS()),
@@ -40,7 +38,6 @@ rules // 8.9. Enum Types
     setSuperCls(s_enum, enumOk(s)),
     superIntfsOptOk(s, superIntfsOpt, s_enum),
 
-    new s_enumStatic,
     s_enum -STATIC_MEMBERS-> s_enumStatic,
     enumPredefinedMethods(s, REF(s_enum), s_enumStatic),
 
@@ -176,7 +173,7 @@ rules // 8.9. Enum Types
 
   enumCtorInvOptOk(s, []).
   enumCtorInvOptOk(s, [ctorInv]) :- enumCtorInvOk(s, ctorInv).
-  
+
 
   enumCtorInvOk : scope * ConstructorInvocation
 

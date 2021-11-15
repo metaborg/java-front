@@ -126,7 +126,9 @@ rules // 8.3. Field Declarations
   unannClsTypeOk : scope * UnannClassType -> TYPE
 
   unannClsTypeOk(s, ClassType(id, typeArgsOpt)) = typeDeclType(typeDecl) :-
-    typeDecl == singleTypeDecl(id, resolveLexicalTypeNames(s, id)),
+  {typeNames}
+    typeNames == resolveLexicalTypeNames(s, id),
+    typeDecl == singleTypeDecl(id, typeNames),
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 

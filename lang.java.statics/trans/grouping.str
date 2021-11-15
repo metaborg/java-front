@@ -1,0 +1,63 @@
+module grouping
+
+imports
+
+  libspoofax/resource/path
+
+  signatures/-
+  signatures/java/packages/-
+
+  injections/java/packages/-
+
+  statix/runtime/analysis
+
+signature
+
+  // Duplicate from trans/statics.stx
+  sorts PkgGroup CUGroup TypeGroup MembersUnit
+
+  constructors
+    PkgGroup    : String -> PkgGroup
+    CUGroup     : CompilationUnit -> CUGroup
+    ClsGroup    : TypeDeclaration -> TypeGroup
+    MembersUnit : List(ClassBodyDeclaration) -> SubFileUnit
+
+rules
+
+  group-key: (resource, ast) -> key
+    with rel-path := <current-language-relative-source-or-include-path> resource
+       ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\'], rel-path)
+
+  subunit-group-key: (resource, ast) -> Key(pkg-key, name, unit*)
+    with rel-path    := <current-language-relative-source-or-include-path> resource
+       ; (dir, name) := <string-tokenize; if ?[file-name] then !["(unnamed)", file-name] end; split-init-last> (['/','\'], rel-path)
+       ; pkg-key     := <map({ pkg: \ pkg -> GroupKey(pkg, PkgGroup(pkg)) \ })> dir
+       ; unit*       := <cu-to-unit> ast
+
+  cu-to-unit: CompilationUnit(pkg-decl, imports, type-decls{a1*}){a*} -> CompositeUnit(CUGroup(cu), "cuGroupOk", ["s_cu", "s_cuDef"], type-decl-units*)
+    with (sub-decl*, own-decl*) := <partition(sub-type-decl)> type-decls
+       ; cu := CompilationUnit(pkg-decl, imports, own-decl*{a1*}){a*}
+         // TODO: deal with duplicate names in sub-decls
+       ; type-decl-units* := <map(type-decl-to-unit)> sub-decl*
+
+  sub-type-decl = ?ClassDeclaration2TypeDeclaration(NormalClassDeclaration2ClassDeclaration(_)){a*}
+
+  type-decl-to-unit: ClassDeclaration2TypeDeclaration(NormalClassDeclaration2ClassDeclaration(ClassDeclaration(mods, name@Id(name'), tp, p, pi, member-decls{a2*})){a1}){a0*} -> (name', unit)
+    with (sub-decl*, own-decl*) := <partition(sub-member-decl)> member-decls
+       ; member-decl-units* := <member-decls-units> sub-decl*
+       ; class-decl := ClassDeclaration2TypeDeclaration(NormalClassDeclaration2ClassDeclaration(ClassDeclaration(mods, name, tp, p, pi, own-decl*{a2*})){a1}){a0*}
+       ; unit := CompositeUnit(ClsGroup(class-decl), "typeGroupOk", ["s_type", "s_typeStatic"], member-decl-units*)
+
+  sub-member-decl = ?ClassMemberDeclaration2ClassBodyDeclaration(MethodDeclaration2ClassMemberDeclaration(MethodDecl(_, _, _)))
+
+  member-decls-units: mthd-decl* -> mthd-unit*
+    with names      := <map(method-name); make-set> mthd-decl*
+       ; mthd-unit* := <map({name, members: \ name -> (name, Unit(MembersUnit(members)))
+           with members := <filter(where(method-name; equal(|name)))> mthd-decl*
+         \ })> names
+
+  method-name: ClassMemberDeclaration2ClassBodyDeclaration(MethodDeclaration2ClassMemberDeclaration(MethodDecl(_, header, _))) -> name
+    with name := <method-header-name; strip-annos> header
+
+  method-header-name: MethodHeader(_, Id(name), _, _, _) -> name
+  method-header-name: MethodHeaderTypeParameters(_, _, _, Id(name), _, _) -> name

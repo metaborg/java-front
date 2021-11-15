@@ -17,21 +17,19 @@ imports
 
 rules // 9.6. Annotation Types
 
-  annoTypeDeclOk : scope * AnnotationTypeDeclaration * scope * scope
+  annoTypeDeclOk : scope * scope * scope * AnnotationTypeDeclaration * scope * scope
 
-  annoTypeDeclOk(s, AnnoDec(intfModList, id, annoTypeMemDeclList), s_def, s_staticDef) :-
-  {isStatic s_anno s_annoStatic}
+  annoTypeDeclOk(s, s_anno, s_annoStatic, AnnoDec(intfModList, id, annoTypeMemDeclList), s_def, s_staticDef) :-
+  {isStatic}
     intfModListOk(s, intfModList),
     isStatic == hasStaticIntfMod(intfModList),
 
-    new s_anno,
     addLexical(s_anno, isStatic, s),
 
     declareType2(s_def, s_staticDef, isStatic, id, s_anno, INTF()),
 
     // FIXME Object as supertype?
 
-    new s_annoStatic,
     s_anno -STATIC_MEMBERS-> s_annoStatic,
 
     annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList, s_anno, s_annoStatic).
@@ -49,10 +47,14 @@ rules // 9.6. Annotation Types
     true.
 
   annoTypeMemDeclOk(s, ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl), s_def, s_staticDef) :-
-    clsDeclOk(s, addImplicitClassMemMods(clsDecl), s_def, s_staticDef).
+  {s_cls s_clsStatic}
+    new s_cls s_clsStatic,
+    clsDeclOk(s, s_cls, s_clsStatic, addImplicitClassMemMods(clsDecl), s_def, s_staticDef).
 
   annoTypeMemDeclOk(s, InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl), s_def, s_staticDef) :-
-    intfDeclOk(s, addImplicitIntfMemMods(intfDecl), s_def, s_staticDef).
+  {s_intf s_intfStatic}
+    new s_intf s_intfStatic,
+    intfDeclOk(s, s_intf, s_intfStatic, addImplicitIntfMemMods(intfDecl), s_def, s_staticDef).
 
   annoTypeMemDeclOk(s, SemiColon2AnnotationTypeMemberDeclaration(_), s_def, s_staticDef) :-
     true.

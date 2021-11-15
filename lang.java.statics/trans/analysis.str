@@ -16,20 +16,22 @@ imports
   signatures/java/packages/-
   pp/-
 
+  grouping
+
 rules // Analysis
 
-  editor-analyze = stx-editor-analyze(pre-analyze,group-key,post-analyze|"statics", "projectOk", "groupOk", "fileOk")
+  // regular (class granularity)
+  // editor-analyze = stx-editor-analyze(pre-analyze,group-key,post-analyze|"statics", "projectOk", "groupOk", "fileOk")
+
+  // sub-file units (method granularity)
+  editor-analyze = stx-editor-analyze(pre-analyze,subunit-group-key,post-analyze|"statics", "projectOk", "pkgGroupOk", "memberUnitOk")
 
   pre-analyze = explicate-injections-metaborg-java
-
-  group-key: (resource, ast) -> key
-    with rel-path := <current-language-relative-source-or-include-path> resource
-       ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\'], rel-path)
 
   post-analyze = implicate-injections-metaborg-java
 
 rules // Editor services
-  
+
   editor-resolve = stx-editor-resolve
 
   editor-hover = stx-editor-hover
@@ -41,6 +43,12 @@ rules // Debugging
     with
       filename := <guarantee-extension(|"pre-analysis.aterm")> path;
       result   := (filename, <pre-analyze> ast)
+
+  debug-show-subunit-decomposition:
+    (_, _, ast, path, _) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"pre-analysis.aterm")> path;
+      result   := (filename, <subunit-group-key;strip-annos> (path, <pre-analyze; topdown({n: \n -> n{()} \})> ast))
 
   debug-show-analyzed:
     (_, _, ast, path, _) -> (filename, result)

@@ -39,9 +39,10 @@ rules // 14.2. Blocks
     localVarDeclStmtOk(s', localVarDeclStmt).
 
   blkStmtOk(s, ClassDeclaration2BlockStatement(clsDecl)) = s' :-
-    new s', s' -LEX-> s,
+  {s_cls s_clsStatic}
+    new s_cls s_clsStatic s', s' -LEX-> s,
     // FIXME clsDecl cannot be public, protected, private, or static
-    clsDeclOk(s', clsDecl, s', s').
+    clsDeclOk(s', s_cls, s_clsStatic, clsDecl, s', s').
 
   blkStmtOk(s, Statement2BlockStatement(stmt)) = s :-
     stmtOk(s, stmt).

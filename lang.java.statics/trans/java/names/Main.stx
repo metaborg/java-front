@@ -28,6 +28,7 @@ signature
       SINGLE_TYPE_IMPORT     // single-type import
       TYPE_IMPORT_ONDEMAND   // on-demand import
       IMPORT_PKG             // (own) package import
+      IMPORT_CU              // (own) compilation unit import
       LEX                    // lexical parent
       STATIC_IMPORT_ONDEMAND // static on-demand import
       SINGLE_STATIC_IMPORT   // static import

@@ -17,14 +17,18 @@ imports
 
 rules // 7.3. Compilation Units
 
-  compilationUnitOk : scope * scope * CompilationUnit
+  compilationUnitOk : scope * scope * scope * scope * CompilationUnit
 
-  compilationUnitOk(s_proj, s_pkg, CompilationUnit(pkgDeclOpt, importDeclList, typeDeclList)) :-
-  {s_cu}
-    new s_cu, s_cu -LEX-> s_proj,
-    pkgDeclOptOk(s_cu, pkgDeclOpt),
-    importJavaLang(s_proj, s_cu),
-    s_cu -IMPORT_PKG-> s_pkg,
+  compilationUnitOk(s_proj, s_pkg, s_cu, s_cuDef, CompilationUnit(pkgDeclOpt, importDeclList, typeDeclList)) :-
+  {s_type s_typeStatic s_cu'}
+    new s_type s_cu',
+    s_cu' -LEX-> s_proj,
+    s_cu -LEX-> s_cu',
+    s_cuDef -LEX-> s_cu',
+    pkgDeclOptOk(s_cu', pkgDeclOpt),
+    importJavaLang(s_proj, s_cu'),
+    s_cu' -IMPORT_PKG-> s_pkg,
+    s_pkg -IMPORT_CU-> s_cuDef,
     importDeclListOk(s_proj, importDeclList, s_cu),
     typeDeclListOk(s_cu, typeDeclList, s_pkg),
     true.

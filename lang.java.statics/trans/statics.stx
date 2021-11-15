@@ -3,11 +3,13 @@ module statics
 imports
 
   java/Main
+  java/classes/ClassDeclarations
   java/names/Main
   java/names/PackageNames
   java/names/TypeNames
   java/packages/CompilationUnits
   java/packages/PackageDeclarations
+  java/packages/TypeDeclarations
 
   signatures/java/Test-sig
 
@@ -26,11 +28,12 @@ rules
     declarePkg(s_parent, Id(id), s_pkg),
     true.
 
-  
+
   fileOk : scope * CompilationUnit
-  
+
   fileOk(s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
-    compilationUnitOk(rootScope(s_pkg), s_pkg, compilationUnit).
+  {s_cu s_cuDef}
+    new s_cu s_cuDef, compilationUnitOk(rootScope(s_pkg), s_pkg, s_cu, s_cuDef, compilationUnit).
 
   fileOk(s_pkg, Test(testUnitList)) :-
   {s_test s_anonPkg}
@@ -53,8 +56,49 @@ rules
   testUnitOk(s_parent, s_pkg, TestFile(_, compilationUnit)) :-
     fileOk(s_pkg, compilationUnit).
 
-    
+
   rootScope : scope -> scope
-  
+
   rootScope(s) = s_root :-
     query () filter PARENT_PKG* min PARENT_PKG < $ and true in s |-> [(_, s_root)].
+
+// ****************************
+// * Method-level granularity *
+// ****************************
+
+signature
+
+  // Duplicate from trans/grouping.str
+  sorts PkgGroup constructors
+    PkgGroup    : string -> PkgGroup
+
+  sorts CUGroup constructors
+    CUGroup     : CompilationUnit -> CUGroup
+
+  sorts TypeGroup constructors
+    ClsGroup    : TypeDeclaration -> TypeGroup
+
+  sorts MembersUnit constructors
+    MembersUnit : list(ClassBodyDeclaration) -> MembersUnit
+
+rules
+
+  pkgGroupOk: scope * PkgGroup * scope
+
+  pkgGroupOk(s_parent, PkgGroup(id), s_pkg) :-
+    groupOk(s_parent, id, s_pkg).
+
+  cuGroupOk: scope * CUGroup * scope * scope
+
+  cuGroupOk(s_pkg, CUGroup(compilationUnit), s_cu, s_cuDef) :-
+    compilationUnitOk(rootScope(s_pkg), s_pkg, s_cu, s_cuDef, compilationUnit).
+
+  typeGroupOk: scope * scope * TypeGroup * scope * scope
+
+  typeGroupOk(s_cu, s_cuDef, ClsGroup(typeDecl), s_cls, s_clsStatic) :-
+    typeDeclOk(s_cu, s_cls, s_clsStatic, typeDecl, s_cuDef).
+
+  memberUnitOk: scope * scope * MembersUnit
+
+  memberUnitOk(s_cls, s_clsStatic, MembersUnit(clsBodyDeclList)) :-
+    clsBodyDeclListOk(s_cls, clsBodyDeclList, s_cls, s_clsStatic).

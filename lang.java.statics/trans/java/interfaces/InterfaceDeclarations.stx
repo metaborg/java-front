@@ -19,14 +19,13 @@ imports
 
 rules // 9.1. Interface Declarations
 
-  intfDeclOk : scope * InterfaceDeclaration * scope * scope
+  intfDeclOk : scope * scope * scope * InterfaceDeclaration * scope * scope
 
-  intfDeclOk(s, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList), s_def, s_staticDef) :-
-  {isStatic s_intf s_typeParams s_intfStatic}
+  intfDeclOk(s, s_intf, s_intfStatic, NormalInterface(intfModList, id, typeParamsOpt, extendsIntfsOpt, intfMemDeclList), s_def, s_staticDef) :-
+  {isStatic s_typeParams}
     intfModListOk(s, intfModList),
     isStatic == hasStaticIntfMod(intfModList),
 
-    new s_intf,
     addLexical(s_intf, isStatic, s),
 
     declareType2(s_def, s_staticDef, isStatic, id, s_intf, INTF()),
@@ -41,15 +40,14 @@ rules // 9.1. Interface Declarations
 
     extendsIntfsOptOk(s_typeParams, extendsIntfsOpt, s_intf),
 
-    new s_intfStatic,
     s_intf -STATIC_MEMBERS-> s_intfStatic,
 
     setSuperCls(s_intf, objectOk(s)), // ensure that interface types are recognized as subtypes of Object
 
     intfMemDeclListOk(s_intf, intfMemDeclList, s_intf, s_intfStatic).
 
-  intfDeclOk(s, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl), s_def, s_staticDef) :-
-    annoTypeDeclOk(s, annoTypeDecl, s_def, s_staticDef).
+  intfDeclOk(s, s_anno, s_annoStatic, AnnotationTypeDeclaration2InterfaceDeclaration(annoTypeDecl), s_def, s_staticDef) :-
+    annoTypeDeclOk(s, s_anno, s_annoStatic, annoTypeDecl, s_def, s_staticDef).
 
 
   intfModOk : scope * InterfaceModifier
@@ -92,10 +90,14 @@ rules // 9.1. Interface Declarations
     intfMthdDeclOk(s, intfMthdDecl, s_def, s_staticDef).
 
   intfMemDeclOk(s, ClassDeclaration2InterfaceMemberDeclaration(clsDecl), s_def, s_staticDef) :-
-    clsDeclOk(s, addImplicitClassMemMods(clsDecl), s_def, s_staticDef).
+  {s_cls s_clsStatic}
+    new s_cls s_clsStatic,
+    clsDeclOk(s, s_cls, s_clsStatic, addImplicitClassMemMods(clsDecl), s_def, s_staticDef).
 
   intfMemDeclOk(s, InterfaceDeclaration2InterfaceMemberDeclaration(intfDecl), s_def, s_staticDef) :-
-    intfDeclOk(s, addImplicitIntfMemMods(intfDecl), s_def, s_staticDef).
+  {s_intf s_intfStatic}
+    new s_intf s_intfStatic,
+    intfDeclOk(s, s_intf, s_intfStatic, addImplicitIntfMemMods(intfDecl), s_def, s_staticDef).
 
   intfMemDeclOk(s, SemiColon2InterfaceMemberDeclaration(_), s_def, s_staticDef) :-
     true.
