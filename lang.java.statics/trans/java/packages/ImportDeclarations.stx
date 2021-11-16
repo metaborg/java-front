@@ -17,38 +17,43 @@ imports
 
 rules // 7.5. Import Declarations
 
-  importDeclOk : scope * ImportDeclaration * scope
-  importDeclListOk maps importDeclOk(*, list(*), *)
+  importDeclOk : scope * ImportDeclaration * scope * scope * scope
+  importDeclsOk maps importDeclOk(*, list(*), *, *, *)
 
-  importDeclOk(s, SingleTypeImport(typeName), s_imp) :-
-  {typeDecl s_imp'}
+  importDeclListOk: scope * list(ImportDeclaration) * scope
+
+  importDeclListOk(s, importDecls, s_imp) :-
+  {s_sType s_sStatic}
+    new s_sType s_sStatic,
+    s_imp -SINGLE_TYPE_IMPORT-> s_sType,
+    s_imp -SINGLE_STATIC_IMPORT-> s_sStatic,
+    importDeclsOk(s, importDecls, s_imp, s_sType, s_sStatic).
+
+  importDeclOk(s, SingleTypeImport(typeName), s_imp, s_sType, s_sStatic) :-
+  {typeDecl}
     typeDecl == typeNameOk(s, typeName),
-    new s_imp',
-    s_imp -SINGLE_TYPE_IMPORT-> s_imp',
-    aliasType(s_imp', typeDecl).
+    aliasType(s_sType, typeDecl).
 
 
-  importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_imp) :-
+  importDeclOk(s, TypeImportOnDemand(pkgOrTypeName), s_imp, s_sType, s_sStatic) :-
   {pkgOrTypeDecl s_pkgOrType}
     pkgOrTypeDecl == pkgOrTypeNameOk(s, pkgOrTypeName),
     s_pkgOrType == pkgOrTypeDeclScope(pkgOrTypeDecl),
     s_imp -TYPE_IMPORT_ONDEMAND-> s_pkgOrType.
 
 
-  importDeclOk(s, SingleStaticImport(typeName, id), s_imp) :-
-  {s_ty s_imp' types mthds vars}
+  importDeclOk(s, SingleStaticImport(typeName, id), s_imp, s_sType, s_sStatic) :-
+  {s_ty types mthds vars}
     s_ty == typeDeclScope(typeNameOk(s, typeName)),
-    new s_imp',
-    s_imp -SINGLE_STATIC_IMPORT-> s_imp',
 
     types == resolveAllStaticMemberTypeNames(s_ty, id),
-    importStaticTypeList(id, types, s_imp'),
+    importStaticTypeList(id, types, s_sStatic),
 
     mthds == resolveAllStaticMemberMthdNames(s_ty, id),
-    importStaticMthdList(mthds, s_imp'),
+    importStaticMthdList(mthds, s_sStatic),
 
     vars == resolveAllStaticMemberExprNames(s_ty, id),
-    importStaticExprList(vars, s_imp'),
+    importStaticExprList(vars, s_sStatic),
 
     importStaticNotEmpty(id, types, mthds, vars).
 
@@ -70,7 +75,7 @@ rules // 7.5. Import Declarations
       importStaticNotEmpty(id, [], [], []) :- false | error $[Cannot resolve static type/method/expression [id].].
       importStaticNotEmpty(_, _, _, _).
 
-  importDeclOk(s, StaticImportOnDemand(typeName), s_imp) :-
+  importDeclOk(s, StaticImportOnDemand(typeName), s_imp, s_sType, s_sStatic) :-
   {s_ty}
     s_ty == typeDeclScope(typeNameOk(s, typeName)),
     s_imp -STATIC_IMPORT_ONDEMAND-> s_ty.
