@@ -26,6 +26,7 @@ done
 for project in . $PROJECTS; do
   sed -i'' -e "s|<version>.*</version>|<version>$SPOOFAX_VERSION</version>|g" $project/.mvn/extensions.xml
 done
+sed -i'' -e "s|<metaborg-version>.*</metaborg-version>|<metaborg-version>$SPOOFAX_VERSION</metaborg-version>|g" jar-analyzer/pom.xml
 
 sed -i'' -e "s/$OLD_VERSION.qualifier/$NEW_VERSION/g" lang.java.eclipse.site/site.xml
 sed -i'' -e "s/$OLD_VERSION.qualifier/$NEW_VERSION/g" lang.java.eclipse.feature/feature.xml
