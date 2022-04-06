@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/lang.java.eclipse.feature_1.1.0.qualifier.jar" id="lang.java.eclipse.feature" version="1.1.0.qualifier">
+   <feature url="features/lang.java.eclipse.feature_1.0.1.jar" id="lang.java.eclipse.feature" version="1.0.1">
       <category name="metaborg-java"/>
    </feature>
    <category-def name="metaborg-java" label="metaborg-java language Eclipse plugin">

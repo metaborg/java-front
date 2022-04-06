@@ -5,13 +5,13 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lang.java.javac</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>spoofax-language</packaging>
 
   <parent>
     <groupId>org.metaborg</groupId>
     <artifactId>parent.language</artifactId>
-    <version>2.6.0-SNAPSHOT</version>
+    <version>2.5.16</version>
     <relativePath />
   </parent>
 

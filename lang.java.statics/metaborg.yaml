@@ -1,5 +1,5 @@
 ---
-id: org.metaborg:lang.java.statics:1.1.0-SNAPSHOT
+id: org.metaborg:lang.java.statics:1.0.1
 name: metaborg-java-statics
 dependencies:
   compile:
@@ -8,10 +8,10 @@ dependencies:
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
   - org.metaborg:statix.runtime:${metaborgVersion}
-  - org.metaborg:lang.java:1.1.0-SNAPSHOT
+  - org.metaborg:lang.java:1.0.1
 contributions:
 - name: metaborg-java
-  id: org.metaborg:lang.java:1.1.0-SNAPSHOT
+  id: org.metaborg:lang.java:1.0.1
 exports:
 - directory: src-gen/statix
   includes: "**/*.aterm"
