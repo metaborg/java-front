@@ -1,4 +1,4 @@
-module Stratego-metaborg-java
+module Java_StrategoMix
 
 imports
   java/packages/CompilationUnits

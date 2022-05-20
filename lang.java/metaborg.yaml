@@ -36,7 +36,7 @@ language:
     version: sdf3
     sdf2table: java
     sdf-meta:
-      - Stratego-metaborg-java
+      - Java_StrategoMix
   stratego:
     format: jar
     args:

@@ -2,7 +2,11 @@
 /bin
 /src-gen
 /target
+/*.polyglot.metaborg.yaml
 
 /.classpath
 /.project
 /.settings
+
+/trans/Java_StrategoMix.tbl
+/trans/table-Java_StrategoMix.bin
