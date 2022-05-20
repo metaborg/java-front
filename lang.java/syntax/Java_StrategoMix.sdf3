@@ -9,16 +9,20 @@ imports
 
 context-free start-symbols
 
-  StrategoLang-Module
+  Module
+
+context-free syntax
+
+  Module = StrategoLang-Module
 
 ///
 // Quotations for CompilationUnit
 ///
 context-free syntax
-  E.ToMetaExpr = "java:compilation-unit" "|[" CompilationUnit "]|"
-  E.ToMetaExpr =      "compilation-unit" "|[" CompilationUnit "]|"
-  E.ToMetaExpr = "java"                  "|[" CompilationUnit "]|"
-  E.ToMetaExpr =                         "|[" CompilationUnit "]|"
+  StrategoLang-Term.ToMetaExpr = "java:compilation-unit" "|[" CompilationUnit "]|"
+  StrategoLang-Term.ToMetaExpr =      "compilation-unit" "|[" CompilationUnit "]|"
+  StrategoLang-Term.ToMetaExpr = "java"                  "|[" CompilationUnit "]|"
+  StrategoLang-Term.ToMetaExpr =                         "|[" CompilationUnit "]|"
 
 ///
 // Variables for Formal Parameters
@@ -35,51 +39,51 @@ variables
 // Quotations for Formal Parameters
 ///
 context-free syntax
-  E.ToMetaExpr =             "param"  "|[" FormalParam "]|"
-  E.ToMetaExpr =        "java:param"  "|[" FormalParam "]|"
+  StrategoLang-Term.ToMetaExpr =             "param"  "|[" FormalParam "]|"
+  StrategoLang-Term.ToMetaExpr =        "java:param"  "|[" FormalParam "]|"
 
-  E.ToMetaExpr =             "param*" "|[" {FormalParam ","}* "]|"
-  E.ToMetaExpr =        "java:param*" "|[" {FormalParam ","}* "]|"
+  StrategoLang-Term.ToMetaExpr =             "param*" "|[" {FormalParam ","}* "]|"
+  StrategoLang-Term.ToMetaExpr =        "java:param*" "|[" {FormalParam ","}* "]|"
 
-  E.ToMetaExpr =  "java:formal-param" "|[" FormalParam "]|"
-  E.ToMetaExpr =       "formal-param" "|[" FormalParam "]|"
-  E.ToMetaExpr =  "java"              "|[" FormalParam "]|"
-  E.ToMetaExpr =                      "|[" FormalParam "]|"
+  StrategoLang-Term.ToMetaExpr =  "java:formal-param" "|[" FormalParam "]|"
+  StrategoLang-Term.ToMetaExpr =       "formal-param" "|[" FormalParam "]|"
+  StrategoLang-Term.ToMetaExpr =  "java"              "|[" FormalParam "]|"
+  StrategoLang-Term.ToMetaExpr =                      "|[" FormalParam "]|"
 
-  E.ToMetaExpr = "java:formal-param*" "|[" {FormalParam ","}* "]|"
-  E.ToMetaExpr =      "formal-param*" "|[" {FormalParam ","}* "]|"
-  E.ToMetaExpr = "java"               "|[" {FormalParam ","}* "]|"
-  E.ToMetaExpr =                      "|[" {FormalParam ","}* "]|"
+  StrategoLang-Term.ToMetaExpr = "java:formal-param*" "|[" {FormalParam ","}* "]|"
+  StrategoLang-Term.ToMetaExpr =      "formal-param*" "|[" {FormalParam ","}* "]|"
+  StrategoLang-Term.ToMetaExpr = "java"               "|[" {FormalParam ","}* "]|"
+  StrategoLang-Term.ToMetaExpr =                      "|[" {FormalParam ","}* "]|"
 
 ///
 // Anti Quotations for Formal Parameters
 ///
 context-free syntax
-   FormalParam.FromMetaExpr       = "~"  E
-  {FormalParam ","}*.FromMetaExpr = "~*" E
+   FormalParam.FromMetaExpr       = "~"  StrategoLang-Term
+  {FormalParam ","}*.FromMetaExpr = "~*" StrategoLang-Term
 
 ///
 // Anti-Quotation for Types
 ///
 context-free syntax
-  E.ToMetaExpr =         "t" "|[" UnannType "]|"
-  E.ToMetaExpr =        "ty" "|[" UnannType "]|"
+  StrategoLang-Term.ToMetaExpr =         "t" "|[" UnannType "]|"
+  StrategoLang-Term.ToMetaExpr =        "ty" "|[" UnannType "]|"
 
-  E.ToMetaExpr = "java:type" "|[" UnannType "]|"
-  E.ToMetaExpr =      "type" "|[" UnannType "]|"
-  E.ToMetaExpr = "java"      "|[" UnannType "]|"
-  E.ToMetaExpr =             "|[" UnannType "]|"
-  E.ToMetaExpr =     "rtype" "|[" ReferenceType "]|"
+  StrategoLang-Term.ToMetaExpr = "java:type" "|[" UnannType "]|"
+  StrategoLang-Term.ToMetaExpr =      "type" "|[" UnannType "]|"
+  StrategoLang-Term.ToMetaExpr = "java"      "|[" UnannType "]|"
+  StrategoLang-Term.ToMetaExpr =             "|[" UnannType "]|"
+  StrategoLang-Term.ToMetaExpr =     "rtype" "|[" ReferenceType "]|"
 
 ///
 // Anti-Quotation for Types
 ///
 context-free syntax
-  UnannType.FromMetaExpr     = "~"        E
-  UnannType.FromMetaExpr     = "~type:"   E
+  UnannType.FromMetaExpr     = "~"        StrategoLang-Term
+  UnannType.FromMetaExpr     = "~type:"   StrategoLang-Term
 
-  ReferenceType.FromMetaExpr = "~refType" E
-  ReferenceType.FromMetaExpr = "~rtype:"  E
+  ReferenceType.FromMetaExpr = "~refType" StrategoLang-Term
+  ReferenceType.FromMetaExpr = "~rtype:"  StrategoLang-Term
 
 ///
 // Variables for Types
@@ -129,47 +133,47 @@ lexical restrictions
 // Quotations for Statements
 ///
 context-free syntax
-  E.ToMetaExpr     =        "java:bstm"  "|[" BlockStatement "]|"
-  E.ToMetaExpr     =             "bstm"  "|[" BlockStatement "]|"
-  E.ToMetaExpr     =        "java"       "|[" BlockStatement "]|"
-  E.ToMetaExpr     =                     "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =        "java:bstm"  "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =             "bstm"  "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =        "java"       "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =                     "|[" BlockStatement "]|"
 
-  E.ToMetaListExpr =        "java:bstm*" "|[" BlockStatement* "]|"
-  E.ToMetaListExpr =             "bstm*" "|[" BlockStatement* "]|"
+  StrategoLang-Term.ToMetaListExpr =        "java:bstm*" "|[" BlockStatement* "]|"
+  StrategoLang-Term.ToMetaListExpr =             "bstm*" "|[" BlockStatement* "]|"
 
-  E.ToMetaExpr     =   "java:block-stm"  "|[" BlockStatement "]|"
-  E.ToMetaExpr     =        "block-stm"  "|[" BlockStatement "]|"
-  E.ToMetaExpr     =   "java"            "|[" BlockStatement "]|"
-  E.ToMetaExpr     =                     "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =   "java:block-stm"  "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =        "block-stm"  "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =   "java"            "|[" BlockStatement "]|"
+  StrategoLang-Term.ToMetaExpr     =                     "|[" BlockStatement "]|"
 
-  E.ToMetaListExpr =   "java:block-stm*" "|[" BlockStatement* "]|"
-  E.ToMetaListExpr =        "block-stm*" "|[" BlockStatement* "]|"
+  StrategoLang-Term.ToMetaListExpr =   "java:block-stm*" "|[" BlockStatement* "]|"
+  StrategoLang-Term.ToMetaListExpr =        "block-stm*" "|[" BlockStatement* "]|"
 
 
-  E.ToMetaExpr     =         "java:stm"  "|[" Statement "]|"
-  E.ToMetaExpr     =              "stm"  "|[" Statement "]|"
+  StrategoLang-Term.ToMetaExpr     =         "java:stm"  "|[" Statement "]|"
+  StrategoLang-Term.ToMetaExpr     =              "stm"  "|[" Statement "]|"
 
-  E.ToMetaListExpr =      "switch-group" "|[" SwitchGroup "]|"
-  E.ToMetaListExpr = "java:switch-group" "|[" SwitchGroup "]|"
+  StrategoLang-Term.ToMetaListExpr =      "switch-group" "|[" SwitchGroup "]|"
+  StrategoLang-Term.ToMetaListExpr = "java:switch-group" "|[" SwitchGroup "]|"
 
 ///
 // Anti Quotations for Statements
 ///
 context-free syntax
-  BlockStatement.FromMetaExpr  = "~"       E
-  BlockStatement.FromMetaExpr  = "~bstm:"  E
-  BlockStatement*.FromMetaExpr = "~*"      E
-  BlockStatement*.FromMetaExpr = "~bstm*:" E
+  BlockStatement.FromMetaExpr  = "~"       StrategoLang-Term
+  BlockStatement.FromMetaExpr  = "~bstm:"  StrategoLang-Term
+  BlockStatement*.FromMetaExpr = "~*"      StrategoLang-Term
+  BlockStatement*.FromMetaExpr = "~bstm*:" StrategoLang-Term
 
-  Statement.FromMetaExpr       = "~stm:"   E {prefer}
-  Statement.FromMetaExpr       = "~"       E
+  Statement.FromMetaExpr       = "~stm:"   StrategoLang-Term {prefer}
+  Statement.FromMetaExpr       = "~"       StrategoLang-Term
 
-  SwitchGroup*.FromMetaExpr    =   "~*"              E
-  SwitchGroup*.FromMetaExpr    =   "~switch-group*:" E
+  SwitchGroup*.FromMetaExpr    =   "~*"              StrategoLang-Term
+  SwitchGroup*.FromMetaExpr    =   "~switch-group*:" StrategoLang-Term
 
 
-  SwitchGroup.FromMetaExpr     = "~"               E
-  SwitchGroup.FromMetaExpr     = "~switch-group:"  E
+  SwitchGroup.FromMetaExpr     = "~"               StrategoLang-Term
+  SwitchGroup.FromMetaExpr     = "~switch-group:"  StrategoLang-Term
 
 ///
 // Variables for Statements
@@ -187,19 +191,19 @@ variables
 // Quotations for Expressions
 ///
 context-free syntax
-  E.ToMetaExpr =         "e" "|[" Expression "]|"
-  E.ToMetaExpr = "java:expr" "|[" Expression "]|"
-  E.ToMetaExpr =      "expr" "|[" Expression "]|"
-  E.ToMetaExpr = "java"      "|[" Expression "]|"
-  E.ToMetaExpr =             "|[" Expression "]|"
+  StrategoLang-Term.ToMetaExpr =         "e" "|[" Expression "]|"
+  StrategoLang-Term.ToMetaExpr = "java:expr" "|[" Expression "]|"
+  StrategoLang-Term.ToMetaExpr =      "expr" "|[" Expression "]|"
+  StrategoLang-Term.ToMetaExpr = "java"      "|[" Expression "]|"
+  StrategoLang-Term.ToMetaExpr =             "|[" Expression "]|"
 
 ///
 // Anti Quotations for Expressions
 ///
 context-free syntax
-  Expression.FromMetaExpr = "~"      E
-  Expression.FromMetaExpr = "~e:"    E {prefer}
-  Expression.FromMetaExpr = "~expr:" E {prefer}
+  Expression.FromMetaExpr = "~"      StrategoLang-Term
+  Expression.FromMetaExpr = "~e:"    StrategoLang-Term {prefer}
+  Expression.FromMetaExpr = "~expr:" StrategoLang-Term {prefer}
 
 ///
 // Variables for Expressions
@@ -218,21 +222,21 @@ lexical syntax
 // Anti Quotations for LeftHandSide of Assignment
 ///
 context-free syntax
-  LHS.FromMetaExpr = "~"     E
-  LHS.FromMetaExpr = "~lhs:"  E
+  LHS.FromMetaExpr = "~"     StrategoLang-Term
+  LHS.FromMetaExpr = "~lhs:"  StrategoLang-Term
 
 ///
 // Quotations for Id
 ///
 context-free syntax
-  E.ToMetaExpr    = "ident" "|[" Id "]|"
+  StrategoLang-Term.ToMetaExpr    = "ident" "|[" Id "]|"
 
 ///
 // Anti Quotations for ID
 ///
-  ID.FromMetaExpr = "~"     E
-  ID.FromMetaExpr = "~id:"  E
-  ID.FromMetaExpr = "~idd:" E ":"
+  ID.FromMetaExpr = "~"     StrategoLang-Term
+  ID.FromMetaExpr = "~id:"  StrategoLang-Term
+  ID.FromMetaExpr = "~idd:" StrategoLang-Term ":"
 
 ///
 // Variables for ID
@@ -248,10 +252,10 @@ context-free restrictions
 // Anti Quotations for Literal
 ///
 context-free syntax
-  StringLit.FromMetaExpr = "~"        E
-  StringLit.FromMetaExpr = "~strlit:" E
+  StringLit.FromMetaExpr = "~"        StrategoLang-Term
+  StringLit.FromMetaExpr = "~strlit:" StrategoLang-Term
 
-//  SingleChar.FromMetaExpr =     "~" <E-CF> <LAYOUT?-CF>  {prefer}
+//  SingleChar.FromMetaExpr =     "~" <StrategoLang-Term-CF> <LAYOUT?-CF>  {prefer}
 
 //exports
 //  variables
@@ -259,7 +263,7 @@ context-free syntax
 //  DeciLiteral =     [ij]  [\_] [a-zA-Z0-9\']* {prefer}
 
 //
-//  E.ToMetaExpr =     "var-init" "|[" VariableInitializer "]|"
+//  StrategoLang-Term.ToMetaExpr =     "var-init" "|[" VariableInitializer "]|"
 //
 /////
 // // Statements
@@ -281,46 +285,46 @@ context-free syntax
 //   // Quotations for Statements
 //   ///
 //  context-free syntax
-//  E.ToMetaExpr =     "java:bstm"  "|[" BlockStatement "]|"
-//  E.ToMetaExpr =          "bstm"  "|[" BlockStatement "]|"
-//  E.ToMetaExpr =     "java"       "|[" BlockStatement "]|"
-//  E.ToMetaExpr =                  "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:bstm"  "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =          "bstm"  "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"       "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =                  "|[" BlockStatement "]|"
 //
-//  E.ToMetaListExpr =     "java:bstm*" "|[" BlockStatement* "]|"
-//  E.ToMetaListExpr =          "bstm*" "|[" BlockStatement* "]|"
+//  StrategoLang-Term.ToMetaListExpr =     "java:bstm*" "|[" BlockStatement* "]|"
+//  StrategoLang-Term.ToMetaListExpr =          "bstm*" "|[" BlockStatement* "]|"
 //
-//  E.ToMetaExpr =     "java:block-stm"  "|[" BlockStatement "]|"
-//  E.ToMetaExpr =          "block-stm"  "|[" BlockStatement "]|"
-//  E.ToMetaExpr =     "java"            "|[" BlockStatement "]|"
-//  E.ToMetaExpr =                       "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:block-stm"  "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =          "block-stm"  "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"            "|[" BlockStatement "]|"
+//  StrategoLang-Term.ToMetaExpr =                       "|[" BlockStatement "]|"
 //
-//  E.ToMetaListExpr =     "java:block-stm*" "|[" BlockStatement* "]|"
-//  E.ToMetaListExpr =          "block-stm*" "|[" BlockStatement* "]|"
+//  StrategoLang-Term.ToMetaListExpr =     "java:block-stm*" "|[" BlockStatement* "]|"
+//  StrategoLang-Term.ToMetaListExpr =          "block-stm*" "|[" BlockStatement* "]|"
 //
 //
-//  E.ToMetaExpr =     "java:stm"  "|[" Statement "]|"
-//  E.ToMetaExpr =          "stm"  "|[" Statement "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:stm"  "|[" Statement "]|"
+//  StrategoLang-Term.ToMetaExpr =          "stm"  "|[" Statement "]|"
 //
-//  E.ToMetaListExpr =          "switch-group" "|[" SwitchGroup "]|"
-//  E.ToMetaListExpr =     "java:switch-group" "|[" SwitchGroup "]|"
+//  StrategoLang-Term.ToMetaListExpr =          "switch-group" "|[" SwitchGroup "]|"
+//  StrategoLang-Term.ToMetaListExpr =     "java:switch-group" "|[" SwitchGroup "]|"
 //
 //  ///
 //   // Anti Quotations for Statements
 //   ///
 //  context-free syntax
-//  BlockStatement.FromMetaExpr =     "~"       E
-//  BlockStatement.FromMetaExpr =     "~bstm:"  E
-//  BlockStatement*.FromMetaExpr =     "~*"      E
-//  BlockStatement*.FromMetaExpr =     "~bstm*:" E
+//  BlockStatement.FromMetaExpr =     "~"       StrategoLang-Term
+//  BlockStatement.FromMetaExpr =     "~bstm:"  StrategoLang-Term
+//  BlockStatement*.FromMetaExpr =     "~*"      StrategoLang-Term
+//  BlockStatement*.FromMetaExpr =     "~bstm*:" StrategoLang-Term
 //
-//  Statement.FromMetaExpr =     "~stm:"   E {prefer}
-//  Statement.FromMetaExpr =     "~"       E
+//  Statement.FromMetaExpr =     "~stm:"   StrategoLang-Term {prefer}
+//  Statement.FromMetaExpr =     "~"       StrategoLang-Term
 //
-//  SwitchGroup*.FromMetaExpr =     "~*"              E
-//  SwitchGroup*.FromMetaExpr =     "~switch-group*:" E
+//  SwitchGroup*.FromMetaExpr =     "~*"              StrategoLang-Term
+//  SwitchGroup*.FromMetaExpr =     "~switch-group*:" StrategoLang-Term
 //
-//  SwitchGroup.FromMetaExpr =     "~"               E
-//  SwitchGroup.FromMetaExpr =     "~switch-group:"  E
+//  SwitchGroup.FromMetaExpr =     "~"               StrategoLang-Term
+//  SwitchGroup.FromMetaExpr =     "~switch-group:"  StrategoLang-Term
 //
 /////
 // // Variable Declarations
@@ -347,11 +351,11 @@ context-free syntax
 //   // Quotations for Local Variable Declarations
 //   ///
 //  context-free syntax
-//  E.ToMetaExpr =     "java:lvdec"  "|[" LocalVariableDeclaration "]|"
-//  E.ToMetaExpr =          "lvdec"  "|[" LocalVariableDeclaration "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:lvdec"  "|[" LocalVariableDeclaration "]|"
+//  StrategoLang-Term.ToMetaExpr =          "lvdec"  "|[" LocalVariableDeclaration "]|"
 //
-//  E.ToMetaExpr =     "java:vdec" "|[" VarDecl "]|"
-//  E.ToMetaExpr =          "vdec" "|[" VarDecl "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:vdec" "|[" VarDecl "]|"
+//  StrategoLang-Term.ToMetaExpr =          "vdec" "|[" VarDecl "]|"
 //
 //  ///
 //   // Anti Quotations for Local Variable Declarations
@@ -421,20 +425,20 @@ context-free syntax
 //   // Quotation for Types
 //   ///
 //  context-free syntax
-//  E.ToMetaExpr =             "t" "|[" Type "]|"
-//  E.ToMetaExpr =            "ty" "|[" Type "]|"
+//  StrategoLang-Term.ToMetaExpr =             "t" "|[" Type "]|"
+//  StrategoLang-Term.ToMetaExpr =            "ty" "|[" Type "]|"
 //
-//  E.ToMetaExpr =     "java:type" "|[" Type "]|"
-//  E.ToMetaExpr =          "type" "|[" Type "]|"
-//  E.ToMetaExpr =     "java"      "|[" Type "]|"
-//  E.ToMetaExpr =                 "|[" Type "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:type" "|[" Type "]|"
+//  StrategoLang-Term.ToMetaExpr =          "type" "|[" Type "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"      "|[" Type "]|"
+//  StrategoLang-Term.ToMetaExpr =                 "|[" Type "]|"
 //
 //  ///
 //   // Anti-Quotation for Types
 //   ///
 //  context-free syntax
-//  Type.FromMetaExpr =     "~"       E
-//  Type.FromMetaExpr =     "~type:"  E
+//  Type.FromMetaExpr =     "~"       StrategoLang-Term
+//  Type.FromMetaExpr =     "~type:"  StrategoLang-Term
 //
 /////
 // // Names
@@ -462,11 +466,11 @@ context-free syntax
 //   // Quotations for Names
 //   ///
 //  context-free syntax
-//  E.ToMetaExpr =     "ambname"  "|[" AmbName    "]|"
-//  E.ToMetaExpr =     "ename"    "|[" ExprName   "]|"
-//  E.ToMetaExpr =     "fname"    "|[" MethodName "]|"
-//  E.ToMetaExpr =     "tname"    "|[" TypeName   "]|"
-//  E.ToMetaExpr =     "pkgtname" "|[" PackageOrTypeName "]|"
+//  StrategoLang-Term.ToMetaExpr =     "ambname"  "|[" AmbName    "]|"
+//  StrategoLang-Term.ToMetaExpr =     "ename"    "|[" ExprName   "]|"
+//  StrategoLang-Term.ToMetaExpr =     "fname"    "|[" MethodName "]|"
+//  StrategoLang-Term.ToMetaExpr =     "tname"    "|[" TypeName   "]|"
+//  StrategoLang-Term.ToMetaExpr =     "pkgtname" "|[" PackageOrTypeName "]|"
 //
 /////
 // // Modifiers
@@ -506,10 +510,10 @@ context-free syntax
 //   // Quotations for Modifiers
 //   ///
 //  context-free syntax
-//  E.ToMetaExpr =            "|[" FieldModifier "]|"
-//  E.ToMetaExpr =     "mod"  "|[" FieldModifier "]|"
+//  StrategoLang-Term.ToMetaExpr =            "|[" FieldModifier "]|"
+//  StrategoLang-Term.ToMetaExpr =     "mod"  "|[" FieldModifier "]|"
 //
-//  E.ToMetaExpr =     "anno" "|[" Annotation "]|"
+//  StrategoLang-Term.ToMetaExpr =     "anno" "|[" Annotation "]|"
 //
 //
 /////
@@ -521,19 +525,19 @@ context-free syntax
 //   // Quotations
 //   ///
 //  context-free syntax
-//  E.ToMetaExpr =     "java:package-dec" "|[" PackageDec  "]|"
-//  E.ToMetaExpr =          "package-dec" "|[" PackageDec  "]|"
-//  E.ToMetaExpr =                        "|[" PackageDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:package-dec" "|[" PackageDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =          "package-dec" "|[" PackageDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =                        "|[" PackageDec  "]|"
 //
-//  E.ToMetaExpr =     "java:package-dec?" "|[" PackageDec? "]|"
-//  E.ToMetaExpr =          "package-dec?" "|[" PackageDec? "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:package-dec?" "|[" PackageDec? "]|"
+//  StrategoLang-Term.ToMetaExpr =          "package-dec?" "|[" PackageDec? "]|"
 //
 //  ///
 //   // Anti Quotations
 //   ///
 //  context-free syntax
-//  PackageDec.FromMetaExpr =     "~package-dec:"  E
-//  PackageDec?.FromMetaExpr =     "~package-dec?:" E
+//  PackageDec.FromMetaExpr =     "~package-dec:"  StrategoLang-Term
+//  PackageDec?.FromMetaExpr =     "~package-dec?:" StrategoLang-Term
 //
 /////
 // // Import Declarations
@@ -545,117 +549,117 @@ context-free syntax
 //   ///
 //  context-free syntax
 //
-//  E.ToMetaExpr =     "java:import-dec"  "|[" ImportDec  "]|"
-//  E.ToMetaExpr =          "import-dec"  "|[" ImportDec  "]|"
-//  E.ToMetaExpr =                        "|[" ImportDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:import-dec"  "|[" ImportDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =          "import-dec"  "|[" ImportDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =                        "|[" ImportDec  "]|"
 //
-//  E.ToMetaListExpr =     "java:import-dec*" "|[" ImportDec* "]|"
-//  E.ToMetaListExpr =          "import-dec*" "|[" ImportDec* "]|"
+//  StrategoLang-Term.ToMetaListExpr =     "java:import-dec*" "|[" ImportDec* "]|"
+//  StrategoLang-Term.ToMetaListExpr =          "import-dec*" "|[" ImportDec* "]|"
 //
 //  ///
 //   // Anti Quotations for Import Declarations
 //   ///
 //  context-free syntax
 //
-//  ImportDec.FromMetaExpr =     "~import-dec:"  E
-//  ImportDec*.FromMetaExpr =     "~import-dec*:" E
+//  ImportDec.FromMetaExpr =     "~import-dec:"  StrategoLang-Term
+//  ImportDec*.FromMetaExpr =     "~import-dec*:" StrategoLang-Term
 //
 /////
 // // Must be cleaned up
 // ///
 //exports
 //  context-free syntax
-//  E.ToMetaExpr =             "e" "|[" Expr "]|"
-//  E.ToMetaExpr =     "java:expr" "|[" Expr "]|"
-//  E.ToMetaExpr =          "expr" "|[" Expr "]|"
-//  E.ToMetaExpr =     "java"      "|[" Expr "]|"
-//  E.ToMetaExpr =                 "|[" Expr "]|"
+//  StrategoLang-Term.ToMetaExpr =             "e" "|[" Expr "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:expr" "|[" Expr "]|"
+//  StrategoLang-Term.ToMetaExpr =          "expr" "|[" Expr "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"      "|[" Expr "]|"
+//  StrategoLang-Term.ToMetaExpr =                 "|[" Expr "]|"
 //
-//  E.ToMetaExpr =     "java:compilation-unit" "|[" CompilationUnit "]|"
-//  E.ToMetaExpr =          "compilation-unit" "|[" CompilationUnit "]|"
-//  E.ToMetaExpr =     "java"                  "|[" CompilationUnit "]|"
-//  E.ToMetaExpr =                             "|[" CompilationUnit "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:compilation-unit" "|[" CompilationUnit "]|"
+//  StrategoLang-Term.ToMetaExpr =          "compilation-unit" "|[" CompilationUnit "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"                  "|[" CompilationUnit "]|"
+//  StrategoLang-Term.ToMetaExpr =                             "|[" CompilationUnit "]|"
 //
-//  E.ToMetaExpr =     "java:importdecl" "|[" ImportDec "]|"
-//  E.ToMetaExpr =          "importdecl" "|[" ImportDec "]|"
-//  E.ToMetaExpr =     "java"            "|[" ImportDec "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:importdecl" "|[" ImportDec "]|"
+//  StrategoLang-Term.ToMetaExpr =          "importdecl" "|[" ImportDec "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"            "|[" ImportDec "]|"
 //
-//  E.ToMetaExpr =     "java:type-dec" "|[" TypeDec "]|"
-//  E.ToMetaExpr =          "type-dec" "|[" TypeDec "]|"
-//  E.ToMetaExpr =     "java"          "|[" TypeDec "]|"
-//  E.ToMetaExpr =                     "|[" TypeDec "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:type-dec" "|[" TypeDec "]|"
+//  StrategoLang-Term.ToMetaExpr =          "type-dec" "|[" TypeDec "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"          "|[" TypeDec "]|"
+//  StrategoLang-Term.ToMetaExpr =                     "|[" TypeDec "]|"
 //
-//  E.ToMetaExpr =     "java:class-body-dec" "|["  ClassBodyDec  "]|"
-//  E.ToMetaExpr =          "class-body-dec" "|["  ClassBodyDec  "]|"
-//  E.ToMetaExpr =     "java"                "|["  ClassBodyDec  "]|"
-//  E.ToMetaExpr =                           "|["  ClassBodyDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:class-body-dec" "|["  ClassBodyDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =          "class-body-dec" "|["  ClassBodyDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"                "|["  ClassBodyDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =                           "|["  ClassBodyDec  "]|"
 //
-//  E.ToMetaExpr =     "java:interface-member-dec" "|[" InterfaceMemberDec  "]|"
-//  E.ToMetaExpr =          "interface-member-dec" "|[" InterfaceMemberDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:interface-member-dec" "|[" InterfaceMemberDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =          "interface-member-dec" "|[" InterfaceMemberDec  "]|"
 //
-//  E.ToMetaExpr =     "java:constant-dec" "|[" ConstantDec  "]|"
-//  E.ToMetaExpr =          "constant-dec" "|[" ConstantDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:constant-dec" "|[" ConstantDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =          "constant-dec" "|[" ConstantDec  "]|"
 //
-//  E.ToMetaExpr =     "java:class-body-dec*" "|[" ClassBodyDec* "]|"
-//  E.ToMetaExpr =          "class-body-dec*" "|[" ClassBodyDec* "]|"
-//  E.ToMetaExpr =     "java"                 "|[" ClassBodyDec* "]|"
-//  E.ToMetaListExpr =                            "|[" ClassBodyDec* "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:class-body-dec*" "|[" ClassBodyDec* "]|"
+//  StrategoLang-Term.ToMetaExpr =          "class-body-dec*" "|[" ClassBodyDec* "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"                 "|[" ClassBodyDec* "]|"
+//  StrategoLang-Term.ToMetaListExpr =                            "|[" ClassBodyDec* "]|"
 //
-//  E.ToMetaExpr =     "java:stm" "|["  Stm "]|"
-//  E.ToMetaExpr =          "stm" "|["  Stm "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:stm" "|["  Stm "]|"
+//  StrategoLang-Term.ToMetaExpr =          "stm" "|["  Stm "]|"
 //
-//  E.ToMetaExpr =     "java:imember-dec" "|["  AbstractMethodDec  "]|"
-//  E.ToMetaExpr =          "imember-dec" "|["  AbstractMethodDec  "]|"
-//  E.ToMetaExpr =     "java"             "|["  AbstractMethodDec  "]|"
-//  E.ToMetaExpr =                        "|["  AbstractMethodDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:imember-dec" "|["  AbstractMethodDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =          "imember-dec" "|["  AbstractMethodDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"             "|["  AbstractMethodDec  "]|"
+//  StrategoLang-Term.ToMetaExpr =                        "|["  AbstractMethodDec  "]|"
 //
-//  E.ToMetaExpr =     "java:imember-dec*" "|["  AbstractMethodDec*  "]|"
-//  E.ToMetaExpr =          "imember-dec*" "|["  AbstractMethodDec*  "]|"
-//  E.ToMetaExpr =     "java"              "|["  AbstractMethodDec*  "]|"
-//  E.ToMetaExpr =                         "|["  AbstractMethodDec*  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java:imember-dec*" "|["  AbstractMethodDec*  "]|"
+//  StrategoLang-Term.ToMetaExpr =          "imember-dec*" "|["  AbstractMethodDec*  "]|"
+//  StrategoLang-Term.ToMetaExpr =     "java"              "|["  AbstractMethodDec*  "]|"
+//  StrategoLang-Term.ToMetaExpr =                         "|["  AbstractMethodDec*  "]|"
 //
 //  // Anti-quotation
 //  context-free syntax
 //
-//  Name.FromMetaExpr =     "~"      E
-//  Name.FromMetaExpr =     "~name:" E
-//  Name.FromMetaExpr =     "~*:"    E
+//  Name.FromMetaExpr =     "~"      StrategoLang-Term
+//  Name.FromMetaExpr =     "~name:" StrategoLang-Term
+//  Name.FromMetaExpr =     "~*:"    StrategoLang-Term
 //
-//  Id.FromMetaExpr =     "~"     E
-//  Id.FromMetaExpr =     "~id:"  E
-//  Id.FromMetaExpr =     "~idd:" E ":"
+//  Id.FromMetaExpr =     "~"     StrategoLang-Term
+//  Id.FromMetaExpr =     "~id:"  StrategoLang-Term
+//  Id.FromMetaExpr =     "~idd:" StrategoLang-Term ":"
 //
-//  ID.FromMetaExpr =     "~x:" E
+//  ID.FromMetaExpr =     "~x:" StrategoLang-Term
 //
-//  TypeParam.FromMetaExpr =     "~"  E
-//  {TypeParam ","}+.FromMetaExpr =     "~*" E
+//  TypeParam.FromMetaExpr =     "~"  StrategoLang-Term
+//  {TypeParam ","}+.FromMetaExpr =     "~*" StrategoLang-Term
 //
-//  {ExceptionType ","}*.FromMetaExpr =     "~*" E
+//  {ExceptionType ","}*.FromMetaExpr =     "~*" StrategoLang-Term
 //
-//  Expr.FromMetaExpr =     "~"      E
-//  Expr.FromMetaExpr =     "~e:"    E {prefer}
-//  Expr.FromMetaExpr =     "~expr:" E {prefer}
+//  Expr.FromMetaExpr =     "~"      StrategoLang-Term
+//  Expr.FromMetaExpr =     "~e:"    StrategoLang-Term {prefer}
+//  Expr.FromMetaExpr =     "~expr:" StrategoLang-Term {prefer}
 //
-//  {Expr ","}*.FromMetaExpr =     "~*" E
-//  {VarInit ","}*.FromMetaExpr =     "~*" E
+//  {Expr ","}*.FromMetaExpr =     "~*" StrategoLang-Term
+//  {VarInit ","}*.FromMetaExpr =     "~*" StrategoLang-Term
 //
-//  TypeDec.FromMetaExpr =     "~"  E
-//  TypeDec*.FromMetaExpr =     "~*" E
+//  TypeDec.FromMetaExpr =     "~"  StrategoLang-Term
+//  TypeDec*.FromMetaExpr =     "~*" StrategoLang-Term
 //
-//  ClassBodyDec.FromMetaExpr =     "~"  E
-//  ClassBodyDec*.FromMetaExpr =     "~*" E
+//  ClassBodyDec.FromMetaExpr =     "~"  StrategoLang-Term
+//  ClassBodyDec*.FromMetaExpr =     "~*" StrategoLang-Term
 //
-//  InterfaceMemberDec.FromMetaExpr =     "~"  E
-//  InterfaceMemberDec*.FromMetaExpr =     "~*" E
+//  InterfaceMemberDec.FromMetaExpr =     "~"  StrategoLang-Term
+//  InterfaceMemberDec*.FromMetaExpr =     "~*" StrategoLang-Term
 //
-//  DeciLiteral.FromMetaExpr =     "~i:"      E
-//  DeciLiteral.FromMetaExpr =     "~deci:"   E
-//  HexaLiteral.FromMetaExpr =     "~hexa:"   E
-//  OctaLiteral.FromMetaExpr =     "~octa:"   E
-//  FloatLiteral.FromMetaExpr =     "~float:"  E
-//  StringLiteral.FromMetaExpr =     "~string:" E
-//  CharLiteral.FromMetaExpr =     "~char:"   E
+//  DeciLiteral.FromMetaExpr =     "~i:"      StrategoLang-Term
+//  DeciLiteral.FromMetaExpr =     "~deci:"   StrategoLang-Term
+//  HexaLiteral.FromMetaExpr =     "~hexa:"   StrategoLang-Term
+//  OctaLiteral.FromMetaExpr =     "~octa:"   StrategoLang-Term
+//  FloatLiteral.FromMetaExpr =     "~float:"  StrategoLang-Term
+//  StringLiteral.FromMetaExpr =     "~string:" StrategoLang-Term
+//  CharLiteral.FromMetaExpr =     "~char:"   StrategoLang-Term
 //
 //  syntax
-//  StringChars.FromMetaExpr =     "~" <E-CF> {prefer}
-//  SingleChar.FromMetaExpr =     "~" <E-CF> <LAYOUT?-CF>  {prefer}
+//  StringChars.FromMetaExpr =     "~" <StrategoLang-Term-CF> {prefer}
+//  SingleChar.FromMetaExpr =     "~" <StrategoLang-Term-CF> <LAYOUT?-CF>  {prefer}
