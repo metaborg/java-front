@@ -33,6 +33,7 @@ This is an adaptation of `lang.java` for Spoofax 3, with the following changes:
     - Added `TypeArgumentsOrDiamond-OPT` sort and constructors `NoTypeArgumentsOrDiamond` and `SomeTypeArgumentsOrDiamond`.
     - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
     - Replaced `TypeArgumentsOrDiamond?` with `TypeArgumentsOrDiamond-OPT`.
+    - Renamed `UnqualifiedInstance.NewInstance` constructor to `NewInstanceWithInitializer`.
 - `MethodInvocation.sdf3`
     - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
 - `MethodReference.sdf3`
@@ -48,9 +49,21 @@ This is an adaptation of `lang.java` for Spoofax 3, with the following changes:
     - Replaced `PackageDeclaration?` with `PackageDeclaration-OPT` from `PackageDeclarations.sdf3`.
 - `Statements.sdf3`
     - Replaced `Expression?` with `Expression-OPT` from `Main.sdf3`.
+    - Renamed one `Statement.Assert` constructor to `Statement.AssertWithMessage`.
+    - Renamed one `Statement.Break` constructor to `BreakWithLabel`.
+    - Renamed one `Statement.Continue` constructor to `ContinueWithLabel`.
+    - Renamed one `Statement.Return` constructor to `ReturnVoid`.
+    - Renamed one `Statement.TryWithResources` constructor to `TryFinallyWithResources`.
+    - Renamed one `Statement.TryWithResourcesSemiColon` constructor to `TryFinallyWithResourcesSemiColon`.
 - `ReferenceTypes.sdf3`
     - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
 - `ParameterizedTypes.sdf3`
     - Added `TypeArguments-OPT` sort and constructors `NoTypeArguments` and `SomeTypeArguments`.
 - `Main.sdf3`
     - Added `Expression-OPT` sort and constructors `NoExpression` and `SomeExpression`.
+- `Names.sdf3`
+    - Renamed one `PackageName.PackageName` constructor to `QPackageName`.
+    - Renamed one `TypeName.TypeName` constructor to `QTypeName`.
+    - Renamed one `PackageOrTypeName.PackageOrTypeName` constructor to `QPackageOrTypeName`.
+    - Renamed one `ExpressionName.ExpressionName` constructor to `QExpressionName`.
+    - Renamed one `AmbiguousName.AmbiguousName` constructor to `QAmbiguousName`.

@@ -58,8 +58,8 @@ context-free syntax
   Statement = ExpressionName "<" ExpressionName "<" ExpressionName ">>" Expression ";" {reject}
   Statement = ExpressionName "<" ExpressionName "<" ExpressionName "<" ExpressionName ">>>" Expression ";" {reject}
 
-  Statement.Assert = <assert <Expression>;>
-  Statement.Assert = <assert <Expression> : <Expression>;>
+  Statement.Assert            = <assert <Expression>;>
+  Statement.AssertWithMessage = <assert <Expression> : <Expression>;>
 
   Statement.Switch = <
   switch(<Expression>) {
@@ -80,14 +80,14 @@ context-free syntax
   do <Statement>
   while(<Expression>);>
 
-  Statement.Break = <break;>
-  Statement.Break = <break <Id>;>
+  Statement.Break          = <break;>
+  Statement.BreakWithLabel = <break <Id>;>
 
-  Statement.Continue = <continue;>
-  Statement.Continue = <continue <Id>;>
+  Statement.Continue          = <continue;>
+  Statement.ContinueWithLabel = <continue <Id>;>
 
-  Statement.Return = <return;>
-  Statement.Return = <return <Expression>;>
+  Statement.ReturnVoid = <return;>
+  Statement.Return     = <return <Expression>;>
 
   Statement.Synchronized = <synchronized(<Expression>) <Block>>
 
@@ -115,12 +115,12 @@ context-free syntax
   try (<{Resource "; "}*>;) <Block>
   <{CatchClause "\n"}*>>
 
-  Statement.TryWithResources = <
+  Statement.TryFinallyWithResources = <
   try (<{Resource "; "}*>) <Block>
   <{CatchClause "\n"}*>
   finally <Block>>
 
-  Statement.TryWithResourcesSemiColon = <
+  Statement.TryFinallyWithResourcesSemiColon = <
   try (<{Resource "; "}*>;) <Block>
   <{CatchClause "\n"}*>
   finally <Block>>

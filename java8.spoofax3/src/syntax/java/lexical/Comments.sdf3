@@ -11,6 +11,7 @@ lexical start-symbols
   Comment
   
 lexical sorts
+
   Comment
   CommentPart
   EOLCommentChars
