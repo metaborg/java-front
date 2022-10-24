@@ -1,0 +1,15 @@
+module SpoofaxBuilderFactory
+
+language java8
+
+start symbol Start
+
+test SpoofaxBuilderFactory [[ package org.metaborg.spoofax.meta.core.pluto;
+
+import build.pluto.builder.Builder;
+import build.pluto.builder.factory.BuilderFactory;
+import build.pluto.output.Output;
+
+public interface SpoofaxBuilderFactory<In extends SpoofaxInput, Out extends Output, B extends Builder<In, Out>>
+    extends BuilderFactory<In, Out, B> {
+} ]] parse succeeds

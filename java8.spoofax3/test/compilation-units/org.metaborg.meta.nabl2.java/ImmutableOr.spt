@@ -1,0 +1,201 @@
+module ImmutableOr
+
+language java8
+
+start symbol Start
+
+test ImmutableOr [[ package org.metaborg.meta.nabl2.regexp;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link Or}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableOr.<S>of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Or<S>"})
+@Immutable
+final class ImmutableOr<S> extends Or<S> implements Serializable {
+  private final IRegExp<S> left;
+  private final IRegExp<S> right;
+  private final IRegExpBuilder<S> builder;
+  private final int hashCode;
+
+  private ImmutableOr(
+      IRegExp<S> left,
+      IRegExp<S> right,
+      IRegExpBuilder<S> builder) {
+    this.left = Objects.requireNonNull(left, "left");
+    this.right = Objects.requireNonNull(right, "right");
+    this.builder = Objects.requireNonNull(builder, "builder");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableOr(
+      ImmutableOr original,
+      IRegExp<S> left,
+      IRegExp<S> right,
+      IRegExpBuilder<S> builder) {
+    this.left = left;
+    this.right = right;
+    this.builder = builder;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code left} attribute
+   */
+  @Override
+  public IRegExp<S> getLeft() {
+    return left;
+  }
+
+  /**
+   * @return The value of the {@code right} attribute
+   */
+  @Override
+  public IRegExp<S> getRight() {
+    return right;
+  }
+
+  /**
+   * @return The value of the {@code builder} attribute
+   */
+  @Override
+  public IRegExpBuilder<S> getBuilder() {
+    return builder;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Or#getLeft() left} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for left
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableOr<S> setLeft(IRegExp<S> value) {
+    if (this.left == value) return this;
+    IRegExp<S> newValue = Objects.requireNonNull(value, "left");
+    return new ImmutableOr<S>(this, newValue, this.right, this.builder);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Or#getRight() right} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for right
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableOr<S> setRight(IRegExp<S> value) {
+    if (this.right == value) return this;
+    IRegExp<S> newValue = Objects.requireNonNull(value, "right");
+    return new ImmutableOr<S>(this, this.left, newValue, this.builder);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Or#getBuilder() builder} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for builder
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableOr<S> setBuilder(IRegExpBuilder<S> value) {
+    if (this.builder == value) return this;
+    IRegExpBuilder<S> newValue = Objects.requireNonNull(value, "builder");
+    return new ImmutableOr<S>(this, this.left, this.right, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableOr} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableOr<?>
+        && equalTo((ImmutableOr<S>) another);
+  }
+
+  private boolean equalTo(ImmutableOr<S> another) {
+    return left.equals(another.left)
+        && right.equals(another.right)
+        && builder.equals(another.builder);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code left}, {@code right}, {@code builder}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + left.hashCode();
+    h = h * 17 + right.hashCode();
+    h = h * 17 + builder.hashCode();
+    return h;
+  }
+
+  private transient volatile long lazyInitBitmap;
+
+  private static final long NULLABLE_LAZY_INIT_BIT = 0x1L;
+
+  private transient boolean nullable;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link Or#isNullable() nullable} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public boolean isNullable() {
+    if ((lazyInitBitmap & NULLABLE_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & NULLABLE_LAZY_INIT_BIT) == 0) {
+          this.nullable = super.isNullable();
+          lazyInitBitmap |= NULLABLE_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return nullable;
+  }
+
+  /**
+   * Construct a new immutable {@code Or} instance.
+   * @param left The value for the {@code left} attribute
+   * @param right The value for the {@code right} attribute
+   * @param builder The value for the {@code builder} attribute
+   * @return An immutable Or instance
+   */
+  public static <S> ImmutableOr<S> of(IRegExp<S> left, IRegExp<S> right, IRegExpBuilder<S> builder) {
+    return new ImmutableOr<S>(left, right, builder);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Or} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param <S> generic parameter S
+   * @param instance The instance to copy
+   * @return A copied immutable Or instance
+   */
+  public static <S> ImmutableOr<S> copyOf(Or<S> instance) {
+    if (instance instanceof ImmutableOr<?>) {
+      return (ImmutableOr<S>) instance;
+    }
+    return ImmutableOr.<S>of(instance.getLeft(), instance.getRight(), instance.getBuilder());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

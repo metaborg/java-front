@@ -1,0 +1,7 @@
+module literals/null-literal
+
+language java8
+
+start symbol NullLiteral
+
+test null literal [[null]] parse succeeds

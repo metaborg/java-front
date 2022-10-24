@@ -1,0 +1,204 @@
+module ImmutableUnitResult
+
+language java8
+
+start symbol Start
+
+test ImmutableUnitResult [[ package org.metaborg.meta.nabl2.spoofax.analysis;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.IConstraint;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link UnitResult}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableUnitResult.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "UnitResult"})
+@Immutable
+public final class ImmutableUnitResult
+    extends UnitResult
+    implements Serializable {
+  private final ITerm aST;
+  private final Iterable<IConstraint> constraints;
+  private final @Nullable ITerm customResult;
+  private final int hashCode;
+
+  private ImmutableUnitResult(
+      ITerm aST,
+      Iterable<IConstraint> constraints) {
+    this.aST = Objects.requireNonNull(aST, "aST");
+    this.constraints = Objects.requireNonNull(constraints, "constraints");
+    this.customResult = null;
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableUnitResult(
+      ITerm aST,
+      Iterable<IConstraint> constraints,
+      @Nullable ITerm customResult) {
+    this.aST = aST;
+    this.constraints = constraints;
+    this.customResult = customResult;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code aST} attribute
+   */
+  @Override
+  public ITerm getAST() {
+    return aST;
+  }
+
+  /**
+   * @return The value of the {@code constraints} attribute
+   */
+  @Override
+  public Iterable<IConstraint> getConstraints() {
+    return constraints;
+  }
+
+  /**
+   * @return The value of the {@code customResult} attribute
+   */
+  @Override
+  public Optional<ITerm> getCustomResult() {
+    return Optional.ofNullable(customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link UnitResult#getAST() aST} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for aST
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableUnitResult setAST(ITerm value) {
+    if (this.aST == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "aST");
+    return new ImmutableUnitResult(newValue, this.constraints, this.customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link UnitResult#getConstraints() constraints} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for constraints
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableUnitResult setConstraints(Iterable<IConstraint> value) {
+    if (this.constraints == value) return this;
+    Iterable<IConstraint> newValue = Objects.requireNonNull(value, "constraints");
+    return new ImmutableUnitResult(this.aST, newValue, this.customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a <i>present</i> value for the optional {@link UnitResult#getCustomResult() customResult} attribute.
+   * @param value The value for customResult
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableUnitResult setCustomResult(ITerm value) {
+    @Nullable ITerm newValue = Objects.requireNonNull(value, "customResult");
+    if (this.customResult == newValue) return this;
+    return new ImmutableUnitResult(this.aST, this.constraints, newValue);
+  }
+
+  /**
+   * Copy the current immutable object by setting an optional value for the {@link UnitResult#getCustomResult() customResult} attribute.
+   * A shallow reference equality check is used on unboxed optional value to prevent copying of the same value by returning {@code this}.
+   * @param optional A value for customResult
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableUnitResult setCustomResult(Optional<ITerm> optional) {
+    @Nullable ITerm value = optional.orElse(null);
+    if (this.customResult == value) return this;
+    return new ImmutableUnitResult(this.aST, this.constraints, value);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableUnitResult} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableUnitResult
+        && equalTo((ImmutableUnitResult) another);
+  }
+
+  private boolean equalTo(ImmutableUnitResult another) {
+    return aST.equals(another.aST)
+        && constraints.equals(another.constraints)
+        && Objects.equals(customResult, another.customResult);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code aST}, {@code constraints}, {@code customResult}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + aST.hashCode();
+    h = h * 17 + constraints.hashCode();
+    h = h * 17 + Objects.hashCode(customResult);
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code UnitResult} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder("UnitResult{");
+    builder.append("aST=").append(aST);
+    builder.append(", ");
+    builder.append("constraints=").append(constraints);
+    if (customResult != null) {
+      builder.append(", ");
+      builder.append("customResult=").append(customResult);
+    }
+    return builder.append("}").toString();
+  }
+
+  /**
+   * Construct a new immutable {@code UnitResult} instance.
+   * @param aST The value for the {@code aST} attribute
+   * @param constraints The value for the {@code constraints} attribute
+   * @return An immutable UnitResult instance
+   */
+  public static ImmutableUnitResult of(ITerm aST, Iterable<IConstraint> constraints) {
+    return new ImmutableUnitResult(aST, constraints);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link UnitResult} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable UnitResult instance
+   */
+  public static ImmutableUnitResult copyOf(UnitResult instance) {
+    if (instance instanceof ImmutableUnitResult) {
+      return (ImmutableUnitResult) instance;
+    }
+    return ImmutableUnitResult.of(instance.getAST(), instance.getConstraints())
+        .setCustomResult(instance.getCustomResult());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

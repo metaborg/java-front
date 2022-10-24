@@ -1,0 +1,156 @@
+module ImmutableArg
+
+language java8
+
+start symbol Start
+
+test ImmutableArg [[ package org.metaborg.meta.nabl2.relations.terms;
+
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.relations.IVariance;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link VariantMatchers.Arg}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableArg.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "VariantMatchers.Arg"})
+@Immutable
+final class ImmutableArg extends VariantMatchers.Arg {
+  private final IVariance variance;
+  private final ITerm value;
+  private final int hashCode;
+
+  private ImmutableArg(IVariance variance, ITerm value) {
+    this.variance = Objects.requireNonNull(variance, "variance");
+    this.value = Objects.requireNonNull(value, "value");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableArg(
+      ImmutableArg original,
+      IVariance variance,
+      ITerm value) {
+    this.variance = variance;
+    this.value = value;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code variance} attribute
+   */
+  @Override
+  public IVariance getVariance() {
+    return variance;
+  }
+
+  /**
+   * @return The value of the {@code value} attribute
+   */
+  @Override
+  public ITerm getValue() {
+    return value;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link VariantMatchers.Arg#getVariance() variance} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for variance
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableArg setVariance(IVariance value) {
+    if (this.variance == value) return this;
+    IVariance newValue = Objects.requireNonNull(value, "variance");
+    return new ImmutableArg(this, newValue, this.value);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link VariantMatchers.Arg#getValue() value} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for value
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableArg setValue(ITerm value) {
+    if (this.value == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "value");
+    return new ImmutableArg(this, this.variance, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableArg} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableArg
+        && equalTo((ImmutableArg) another);
+  }
+
+  private boolean equalTo(ImmutableArg another) {
+    return variance.equals(another.variance)
+        && value.equals(another.value);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code variance}, {@code value}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + variance.hashCode();
+    h = h * 17 + value.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code Arg} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "Arg{"
+        + "variance=" + variance
+        + ", value=" + value
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code Arg} instance.
+   * @param variance The value for the {@code variance} attribute
+   * @param value The value for the {@code value} attribute
+   * @return An immutable Arg instance
+   */
+  public static ImmutableArg of(IVariance variance, ITerm value) {
+    return new ImmutableArg(variance, value);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link VariantMatchers.Arg} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable Arg instance
+   */
+  public static ImmutableArg copyOf(VariantMatchers.Arg instance) {
+    if (instance instanceof ImmutableArg) {
+      return (ImmutableArg) instance;
+    }
+    return ImmutableArg.of(instance.getVariance(), instance.getValue());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

@@ -1,0 +1,14 @@
+module Function0
+
+language java8
+
+start symbol Start
+
+test Function0 [[ package org.metaborg.meta.nabl2.util.functions;
+
+@FunctionalInterface
+public interface Function0<R> {
+
+    R apply();
+
+} ]] parse succeeds

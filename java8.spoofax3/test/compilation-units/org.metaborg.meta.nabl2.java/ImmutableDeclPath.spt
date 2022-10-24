@@ -1,0 +1,161 @@
+module ImmutableDeclPath
+
+language java8
+
+start symbol Start
+
+test ImmutableDeclPath [[ package org.metaborg.meta.nabl2.scopegraph.terms;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.scopegraph.ILabel;
+import org.metaborg.meta.nabl2.scopegraph.IOccurrence;
+import org.metaborg.meta.nabl2.scopegraph.IScope;
+
+/**
+ * Immutable implementation of {@link Paths.DeclPath}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableDeclPath.<S, L, O>of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Paths.DeclPath<S, L, O>"})
+@Immutable
+final class ImmutableDeclPath<S extends IScope, L extends ILabel, O extends IOccurrence>
+    extends Paths.DeclPath<S, L, O>
+    implements Serializable {
+  private final S scope;
+  private final O declaration;
+  private final int hashCode;
+
+  private ImmutableDeclPath(S scope, O declaration) {
+    this.scope = Objects.requireNonNull(scope, "scope");
+    this.declaration = Objects.requireNonNull(declaration, "declaration");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableDeclPath(ImmutableDeclPath original, S scope, O declaration) {
+    this.scope = scope;
+    this.declaration = declaration;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code scope} attribute
+   */
+  @Override
+  public S getScope() {
+    return scope;
+  }
+
+  /**
+   * @return The value of the {@code declaration} attribute
+   */
+  @Override
+  public O getDeclaration() {
+    return declaration;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Paths.DeclPath#getScope() scope} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for scope
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableDeclPath<S, L, O> setScope(S value) {
+    if (this.scope == value) return this;
+    S newValue = Objects.requireNonNull(value, "scope");
+    return new ImmutableDeclPath<S, L, O>(this, newValue, this.declaration);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Paths.DeclPath#getDeclaration() declaration} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for declaration
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableDeclPath<S, L, O> setDeclaration(O value) {
+    if (this.declaration == value) return this;
+    O newValue = Objects.requireNonNull(value, "declaration");
+    return new ImmutableDeclPath<S, L, O>(this, this.scope, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableDeclPath} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableDeclPath<?, ?, ?>
+        && equalTo((ImmutableDeclPath<S, L, O>) another);
+  }
+
+  private boolean equalTo(ImmutableDeclPath<S, L, O> another) {
+    return scope.equals(another.scope)
+        && declaration.equals(another.declaration);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code scope}, {@code declaration}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + scope.hashCode();
+    h = h * 17 + declaration.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code DeclPath} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "DeclPath{"
+        + "scope=" + scope
+        + ", declaration=" + declaration
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code DeclPath} instance.
+   * @param scope The value for the {@code scope} attribute
+   * @param declaration The value for the {@code declaration} attribute
+   * @return An immutable DeclPath instance
+   */
+  public static <S extends IScope, L extends ILabel, O extends IOccurrence> ImmutableDeclPath<S, L, O> of(S scope, O declaration) {
+    return new ImmutableDeclPath<S, L, O>(scope, declaration);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Paths.DeclPath} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param <S> generic parameter S
+   * @param <L> generic parameter L
+   * @param <O> generic parameter O
+   * @param instance The instance to copy
+   * @return A copied immutable DeclPath instance
+   */
+  public static <S extends IScope, L extends ILabel, O extends IOccurrence> ImmutableDeclPath<S, L, O> copyOf(Paths.DeclPath<S, L, O> instance) {
+    if (instance instanceof ImmutableDeclPath<?, ?, ?>) {
+      return (ImmutableDeclPath<S, L, O>) instance;
+    }
+    return ImmutableDeclPath.<S, L, O>of(instance.getScope(), instance.getDeclaration());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

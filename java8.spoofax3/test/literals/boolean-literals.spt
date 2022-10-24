@@ -1,0 +1,8 @@
+module literals/integer-literals
+
+language java8
+
+start symbol BoolLiteral
+
+test true literal [[true]] parse succeeds
+test false literal [[false]] parse succeeds

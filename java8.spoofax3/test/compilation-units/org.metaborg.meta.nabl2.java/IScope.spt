@@ -1,0 +1,15 @@
+module IScope
+
+language java8
+
+start symbol Start
+
+test IScope [[ package org.metaborg.meta.nabl2.scopegraph;
+
+public interface IScope {
+
+    String getResource();
+
+    String getName();
+
+} ]] parse succeeds

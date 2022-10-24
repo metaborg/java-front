@@ -1,0 +1,14 @@
+module literals/character-literals
+
+language java8
+
+start symbol CharacterLiteral
+
+test example 1 [['a']] parse succeeds
+test example 2 [['%']] parse succeeds
+test example 3 [['\t']] parse succeeds
+test example 4 [['\\']] parse succeeds
+test example 5 [['\'']] parse succeeds
+test example 6 [['\u03a9']] parse succeeds
+test example 7 [['\uFFFF']] parse succeeds
+test example 8 [['\177']] parse succeeds

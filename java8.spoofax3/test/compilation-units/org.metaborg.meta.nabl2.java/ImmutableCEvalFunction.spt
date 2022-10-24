@@ -1,0 +1,205 @@
+module ImmutableCEvalFunction
+
+language java8
+
+start symbol Start
+
+test ImmutableCEvalFunction [[ package org.metaborg.meta.nabl2.constraints.relations;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.MessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CEvalFunction}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCEvalFunction.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CEvalFunction"})
+@Immutable
+public final class ImmutableCEvalFunction
+    extends CEvalFunction
+    implements Serializable {
+  private final ITerm result;
+  private final String function;
+  private final ITerm term;
+  private final MessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCEvalFunction(
+      ITerm result,
+      String function,
+      ITerm term,
+      MessageInfo messageInfo) {
+    this.result = Objects.requireNonNull(result, "result");
+    this.function = Objects.requireNonNull(function, "function");
+    this.term = Objects.requireNonNull(term, "term");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCEvalFunction(
+      ImmutableCEvalFunction original,
+      ITerm result,
+      String function,
+      ITerm term,
+      MessageInfo messageInfo) {
+    this.result = result;
+    this.function = function;
+    this.term = term;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code result} attribute
+   */
+  @Override
+  public ITerm getResult() {
+    return result;
+  }
+
+  /**
+   * @return The value of the {@code function} attribute
+   */
+  @Override
+  public String getFunction() {
+    return function;
+  }
+
+  /**
+   * @return The value of the {@code term} attribute
+   */
+  @Override
+  public ITerm getTerm() {
+    return term;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public MessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CEvalFunction#getResult() result} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for result
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCEvalFunction setResult(ITerm value) {
+    if (this.result == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "result");
+    return new ImmutableCEvalFunction(this, newValue, this.function, this.term, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CEvalFunction#getFunction() function} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for function
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCEvalFunction setFunction(String value) {
+    if (this.function.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "function");
+    return new ImmutableCEvalFunction(this, this.result, newValue, this.term, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CEvalFunction#getTerm() term} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for term
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCEvalFunction setTerm(ITerm value) {
+    if (this.term == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "term");
+    return new ImmutableCEvalFunction(this, this.result, this.function, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CEvalFunction#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCEvalFunction setMessageInfo(MessageInfo value) {
+    if (this.messageInfo == value) return this;
+    MessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCEvalFunction(this, this.result, this.function, this.term, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCEvalFunction} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCEvalFunction
+        && equalTo((ImmutableCEvalFunction) another);
+  }
+
+  private boolean equalTo(ImmutableCEvalFunction another) {
+    return result.equals(another.result)
+        && function.equals(another.function)
+        && term.equals(another.term)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code result}, {@code function}, {@code term}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + result.hashCode();
+    h = h * 17 + function.hashCode();
+    h = h * 17 + term.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CEvalFunction} instance.
+   * @param result The value for the {@code result} attribute
+   * @param function The value for the {@code function} attribute
+   * @param term The value for the {@code term} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CEvalFunction instance
+   */
+  public static ImmutableCEvalFunction of(ITerm result, String function, ITerm term, MessageInfo messageInfo) {
+    return new ImmutableCEvalFunction(result, function, term, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CEvalFunction} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CEvalFunction instance
+   */
+  public static ImmutableCEvalFunction copyOf(CEvalFunction instance) {
+    if (instance instanceof ImmutableCEvalFunction) {
+      return (ImmutableCEvalFunction) instance;
+    }
+    return ImmutableCEvalFunction.of(instance.getResult(), instance.getFunction(), instance.getTerm(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

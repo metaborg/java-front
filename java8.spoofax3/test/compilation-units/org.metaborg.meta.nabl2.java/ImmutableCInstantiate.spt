@@ -1,0 +1,177 @@
+module ImmutableCInstantiate
+
+language java8
+
+start symbol Start
+
+test ImmutableCInstantiate [[ package org.metaborg.meta.nabl2.constraints.poly;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.MessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CInstantiate}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCInstantiate.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CInstantiate"})
+@Immutable
+public final class ImmutableCInstantiate
+    extends CInstantiate
+    implements Serializable {
+  private final ITerm type;
+  private final ITerm scheme;
+  private final MessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCInstantiate(
+      ITerm type,
+      ITerm scheme,
+      MessageInfo messageInfo) {
+    this.type = Objects.requireNonNull(type, "type");
+    this.scheme = Objects.requireNonNull(scheme, "scheme");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCInstantiate(
+      ImmutableCInstantiate original,
+      ITerm type,
+      ITerm scheme,
+      MessageInfo messageInfo) {
+    this.type = type;
+    this.scheme = scheme;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code type} attribute
+   */
+  @Override
+  public ITerm getType() {
+    return type;
+  }
+
+  /**
+   * @return The value of the {@code scheme} attribute
+   */
+  @Override
+  public ITerm getScheme() {
+    return scheme;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public MessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CInstantiate#getType() type} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for type
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCInstantiate setType(ITerm value) {
+    if (this.type == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "type");
+    return new ImmutableCInstantiate(this, newValue, this.scheme, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CInstantiate#getScheme() scheme} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for scheme
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCInstantiate setScheme(ITerm value) {
+    if (this.scheme == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "scheme");
+    return new ImmutableCInstantiate(this, this.type, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CInstantiate#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCInstantiate setMessageInfo(MessageInfo value) {
+    if (this.messageInfo == value) return this;
+    MessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCInstantiate(this, this.type, this.scheme, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCInstantiate} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCInstantiate
+        && equalTo((ImmutableCInstantiate) another);
+  }
+
+  private boolean equalTo(ImmutableCInstantiate another) {
+    return type.equals(another.type)
+        && scheme.equals(another.scheme)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code type}, {@code scheme}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + type.hashCode();
+    h = h * 17 + scheme.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CInstantiate} instance.
+   * @param type The value for the {@code type} attribute
+   * @param scheme The value for the {@code scheme} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CInstantiate instance
+   */
+  public static ImmutableCInstantiate of(ITerm type, ITerm scheme, MessageInfo messageInfo) {
+    return new ImmutableCInstantiate(type, scheme, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CInstantiate} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CInstantiate instance
+   */
+  public static ImmutableCInstantiate copyOf(CInstantiate instance) {
+    if (instance instanceof ImmutableCInstantiate) {
+      return (ImmutableCInstantiate) instance;
+    }
+    return ImmutableCInstantiate.of(instance.getType(), instance.getScheme(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

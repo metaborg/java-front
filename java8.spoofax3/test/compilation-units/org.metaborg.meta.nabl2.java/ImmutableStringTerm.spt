@@ -1,0 +1,171 @@
+module ImmutableStringTerm
+
+language java8
+
+start symbol Start
+
+test ImmutableStringTerm [[ package org.metaborg.meta.nabl2.terms.generic;
+
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITermVar;
+import org.pcollections.PSet;
+
+/**
+ * Immutable implementation of {@link StringTerm}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableStringTerm.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "StringTerm"})
+@Immutable
+final class ImmutableStringTerm
+    extends StringTerm
+    implements Serializable {
+  private final String value;
+  private final ImmutableClassToInstanceMap<Object> attachments;
+  private final int hashCode;
+
+  private ImmutableStringTerm(String value) {
+    this.value = Objects.requireNonNull(value, "value");
+    this.attachments = Objects.requireNonNull(super.getAttachments(), "attachments");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableStringTerm(
+      String value,
+      ImmutableClassToInstanceMap<Object> attachments) {
+    this.value = value;
+    this.attachments = attachments;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code value} attribute
+   */
+  @Override
+  public String getValue() {
+    return value;
+  }
+
+  /**
+   * @return The value of the {@code attachments} attribute
+   */
+  @Override
+  public ImmutableClassToInstanceMap<Object> getAttachments() {
+    return attachments;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link StringTerm#getValue() value} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for value
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableStringTerm setValue(String value) {
+    if (this.value.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "value");
+    return new ImmutableStringTerm(newValue, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link StringTerm#getAttachments() attachments} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for attachments
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableStringTerm setAttachments(ImmutableClassToInstanceMap<Object> value) {
+    if (this.attachments == value) return this;
+    ImmutableClassToInstanceMap<Object> newValue = Objects.requireNonNull(value, "attachments");
+    return new ImmutableStringTerm(this.value, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableStringTerm} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableStringTerm
+        && equalTo((ImmutableStringTerm) another);
+  }
+
+  private boolean equalTo(ImmutableStringTerm another) {
+    return value.equals(another.value);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code value}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + value.hashCode();
+    return h;
+  }
+
+  private transient volatile long lazyInitBitmap;
+
+  private static final long VARS_LAZY_INIT_BIT = 0x1L;
+
+  private transient PSet<ITermVar> vars;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link StringTerm#getVars() vars} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public PSet<ITermVar> getVars() {
+    if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+          this.vars = Objects.requireNonNull(super.getVars(), "vars");
+          lazyInitBitmap |= VARS_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return vars;
+  }
+
+  /**
+   * Construct a new immutable {@code StringTerm} instance.
+   * @param value The value for the {@code value} attribute
+   * @return An immutable StringTerm instance
+   */
+  public static ImmutableStringTerm of(String value) {
+    return new ImmutableStringTerm(value);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link StringTerm} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable StringTerm instance
+   */
+  public static ImmutableStringTerm copyOf(StringTerm instance) {
+    if (instance instanceof ImmutableStringTerm) {
+      return (ImmutableStringTerm) instance;
+    }
+    return ImmutableStringTerm.of(instance.getValue())
+        .setAttachments(instance.getAttachments());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

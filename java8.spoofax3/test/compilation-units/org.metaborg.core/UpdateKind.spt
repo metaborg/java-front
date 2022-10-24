@@ -1,0 +1,11 @@
+module UpdateKind
+
+language java8
+
+start symbol Start
+
+test UpdateKind [[ package org.metaborg.core.build;
+
+public enum UpdateKind {
+    Invalidate, Update, Error, Remove
+} ]] parse succeeds

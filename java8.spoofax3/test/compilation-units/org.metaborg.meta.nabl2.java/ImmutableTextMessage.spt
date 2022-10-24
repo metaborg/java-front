@@ -1,0 +1,116 @@
+module ImmutableTextMessage
+
+language java8
+
+start symbol Start
+
+test ImmutableTextMessage [[ package org.metaborg.meta.nabl2.constraints.messages;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link MessageContent.TextMessage}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableTextMessage.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "MessageContent.TextMessage"})
+@Immutable
+final class ImmutableTextMessage
+    extends MessageContent.TextMessage
+    implements Serializable {
+  private final String text;
+  private final int hashCode;
+
+  private ImmutableTextMessage(String text) {
+    this.text = Objects.requireNonNull(text, "text");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableTextMessage(ImmutableTextMessage original, String text) {
+    this.text = text;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code text} attribute
+   */
+  @Override
+  String getText() {
+    return text;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link MessageContent.TextMessage#getText() text} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for text
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTextMessage setText(String value) {
+    if (this.text.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "text");
+    return new ImmutableTextMessage(this, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableTextMessage} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableTextMessage
+        && equalTo((ImmutableTextMessage) another);
+  }
+
+  private boolean equalTo(ImmutableTextMessage another) {
+    return text.equals(another.text);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code text}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + text.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code TextMessage} instance.
+   * @param text The value for the {@code text} attribute
+   * @return An immutable TextMessage instance
+   */
+  public static ImmutableTextMessage of(String text) {
+    return new ImmutableTextMessage(text);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link MessageContent.TextMessage} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable TextMessage instance
+   */
+  public static ImmutableTextMessage copyOf(MessageContent.TextMessage instance) {
+    if (instance instanceof ImmutableTextMessage) {
+      return (ImmutableTextMessage) instance;
+    }
+    return ImmutableTextMessage.of(instance.getText());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

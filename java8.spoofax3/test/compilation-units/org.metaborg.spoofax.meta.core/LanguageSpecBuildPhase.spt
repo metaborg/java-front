@@ -1,0 +1,11 @@
+module LanguageSpecBuildPhase
+
+language java8
+
+start symbol Start
+
+test LanguageSpecBuildPhase [[ package org.metaborg.spoofax.meta.core.config;
+
+public enum LanguageSpecBuildPhase {
+    initialize, generateSources, compile, pkg, clean
+} ]] parse succeeds

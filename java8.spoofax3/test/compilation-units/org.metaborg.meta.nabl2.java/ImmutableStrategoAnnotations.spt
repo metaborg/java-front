@@ -1,0 +1,187 @@
+module ImmutableStrategoAnnotations
+
+language java8
+
+start symbol Start
+
+test ImmutableStrategoAnnotations [[ package org.metaborg.meta.nabl2.stratego;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.spoofax.interpreter.terms.IStrategoTerm;
+
+/**
+ * Immutable implementation of {@link StrategoAnnotations}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableStrategoAnnotations.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "StrategoAnnotations"})
+@Immutable
+final class ImmutableStrategoAnnotations
+    extends StrategoAnnotations
+    implements Serializable {
+  private final List<IStrategoTerm> annotationList;
+  private final int hashCode;
+
+  private ImmutableStrategoAnnotations(Iterable<? extends IStrategoTerm> annotationList) {
+    this.annotationList = createUnmodifiableList(false, createSafeList(annotationList, true, false));
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableStrategoAnnotations(
+      ImmutableStrategoAnnotations original,
+      List<IStrategoTerm> annotationList) {
+    this.annotationList = annotationList;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code annotationList} attribute
+   */
+  @Override
+  public List<IStrategoTerm> getAnnotationList() {
+    return annotationList;
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link StrategoAnnotations#getAnnotationList() annotationList}.
+   * @param elements The elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableStrategoAnnotations setAnnotationList(IStrategoTerm... elements) {
+    List<IStrategoTerm> newValue = createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
+    return new ImmutableStrategoAnnotations(this, newValue);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link StrategoAnnotations#getAnnotationList() annotationList}.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param elements An iterable of annotationList elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableStrategoAnnotations setAnnotationList(Iterable<? extends IStrategoTerm> elements) {
+    if (this.annotationList == elements) return this;
+    List<IStrategoTerm> newValue = createUnmodifiableList(false, createSafeList(elements, true, false));
+    return new ImmutableStrategoAnnotations(this, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableStrategoAnnotations} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableStrategoAnnotations
+        && equalTo((ImmutableStrategoAnnotations) another);
+  }
+
+  private boolean equalTo(ImmutableStrategoAnnotations another) {
+    return annotationList.equals(another.annotationList);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code annotationList}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + annotationList.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code StrategoAnnotations} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "StrategoAnnotations{"
+        + "annotationList=" + annotationList
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code StrategoAnnotations} instance.
+   * @param annotationList The value for the {@code annotationList} attribute
+   * @return An immutable StrategoAnnotations instance
+   */
+  public static ImmutableStrategoAnnotations of(List<IStrategoTerm> annotationList) {
+    return of((Iterable<? extends IStrategoTerm>) annotationList);
+  }
+
+  /**
+   * Construct a new immutable {@code StrategoAnnotations} instance.
+   * @param annotationList The value for the {@code annotationList} attribute
+   * @return An immutable StrategoAnnotations instance
+   */
+  public static ImmutableStrategoAnnotations of(Iterable<? extends IStrategoTerm> annotationList) {
+    return new ImmutableStrategoAnnotations(annotationList);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link StrategoAnnotations} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable StrategoAnnotations instance
+   */
+  public static ImmutableStrategoAnnotations copyOf(StrategoAnnotations instance) {
+    if (instance instanceof ImmutableStrategoAnnotations) {
+      return (ImmutableStrategoAnnotations) instance;
+    }
+    return ImmutableStrategoAnnotations.of(instance.getAnnotationList());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private static <T> List<T> createSafeList(Iterable<? extends T> iterable, boolean checkNulls, boolean skipNulls) {
+    ArrayList<T> list;
+    if (iterable instanceof Collection<?>) {
+      int size = ((Collection<?>) iterable).size();
+      if (size == 0) return Collections.emptyList();
+      list = new ArrayList<T>();
+    } else {
+      list = new ArrayList<T>();
+    }
+    for (T element : iterable) {
+      if (skipNulls && element == null) continue;
+      if (checkNulls) Objects.requireNonNull(element, "element");
+      list.add(element);
+    }
+    return list;
+  }
+
+  private static <T> List<T> createUnmodifiableList(boolean clone, List<T> list) {
+    switch(list.size()) {
+    case 0: return Collections.emptyList();
+    case 1: return Collections.singletonList(list.get(0));
+    default:
+      if (clone) {
+        return Collections.unmodifiableList(new ArrayList<T>(list));
+      } else {
+        if (list instanceof ArrayList<?>) {
+          ((ArrayList<?>) list).trimToSize();
+        }
+        return Collections.unmodifiableList(list);
+      }
+    }
+  }
+} ]] parse succeeds

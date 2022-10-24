@@ -1,0 +1,15 @@
+module ITermVar
+
+language java8
+
+start symbol Start
+
+test ITermVar [[ package org.metaborg.meta.nabl2.terms;
+
+public interface ITermVar extends ITerm, IListTerm {
+
+    String getResource();
+
+    String getName();
+
+} ]] parse succeeds

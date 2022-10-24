@@ -1,0 +1,23 @@
+module literals/float-literals
+
+language java8
+
+start symbol FloatLiteral
+
+test largest positive float [[3.4028235e38f]] parse succeeds
+test smallest positive float [[1.40e-45f]] parse succeeds
+test largest positive double [[1.7976931348623157e308]] parse succeeds
+test smallest positive double [[4.9e-324]] parse succeeds
+test float example 1 [[1e1f]] parse succeeds
+test float example 2 [[2.f]] parse succeeds
+test float example 3 [[.3f]] parse succeeds
+test float example 4 [[0f]] parse succeeds
+test float example 5 [[3.14f]] parse succeeds
+test float example 6 [[6.022137e+23f]] parse succeeds
+test double example 1 [[1e1]] parse succeeds
+test double example 2 [[2.]] parse succeeds
+test double example 3 [[.3]] parse succeeds
+test double example 4 [[0.0]] parse succeeds
+test double example 5 [[3.14]] parse succeeds
+test double example 6 [[1e-9d]] parse succeeds
+test double example 7 [[1e137]] parse succeeds

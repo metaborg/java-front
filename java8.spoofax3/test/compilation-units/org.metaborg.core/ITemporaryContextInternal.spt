@@ -1,0 +1,14 @@
+module ITemporaryContextInternal
+
+language java8
+
+start symbol Start
+
+test ITemporaryContextInternal [[ package org.metaborg.core.context;
+
+/**
+ * Extension of {@link ITemporaryContext} with {@link IContextInternal} that should not be exposed to clients.
+ */
+public interface ITemporaryContextInternal extends IContextInternal, ITemporaryContext {
+
+} ]] parse succeeds

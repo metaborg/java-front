@@ -1,0 +1,11 @@
+module Sdf2tableVersion
+
+language java8
+
+start symbol Start
+
+test Sdf2tableVersion [[ package org.metaborg.spoofax.meta.core.config;
+
+public enum Sdf2tableVersion {
+    c, java
+} ]] parse succeeds

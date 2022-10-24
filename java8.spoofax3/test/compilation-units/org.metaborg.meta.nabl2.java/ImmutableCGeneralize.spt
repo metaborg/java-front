@@ -1,0 +1,177 @@
+module ImmutableCGeneralize
+
+language java8
+
+start symbol Start
+
+test ImmutableCGeneralize [[ package org.metaborg.meta.nabl2.constraints.poly;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.MessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CGeneralize}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCGeneralize.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CGeneralize"})
+@Immutable
+public final class ImmutableCGeneralize
+    extends CGeneralize
+    implements Serializable {
+  private final ITerm scheme;
+  private final ITerm type;
+  private final MessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCGeneralize(
+      ITerm scheme,
+      ITerm type,
+      MessageInfo messageInfo) {
+    this.scheme = Objects.requireNonNull(scheme, "scheme");
+    this.type = Objects.requireNonNull(type, "type");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCGeneralize(
+      ImmutableCGeneralize original,
+      ITerm scheme,
+      ITerm type,
+      MessageInfo messageInfo) {
+    this.scheme = scheme;
+    this.type = type;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code scheme} attribute
+   */
+  @Override
+  public ITerm getScheme() {
+    return scheme;
+  }
+
+  /**
+   * @return The value of the {@code type} attribute
+   */
+  @Override
+  public ITerm getType() {
+    return type;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public MessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGeneralize#getScheme() scheme} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for scheme
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGeneralize setScheme(ITerm value) {
+    if (this.scheme == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "scheme");
+    return new ImmutableCGeneralize(this, newValue, this.type, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGeneralize#getType() type} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for type
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGeneralize setType(ITerm value) {
+    if (this.type == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "type");
+    return new ImmutableCGeneralize(this, this.scheme, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGeneralize#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGeneralize setMessageInfo(MessageInfo value) {
+    if (this.messageInfo == value) return this;
+    MessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCGeneralize(this, this.scheme, this.type, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCGeneralize} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCGeneralize
+        && equalTo((ImmutableCGeneralize) another);
+  }
+
+  private boolean equalTo(ImmutableCGeneralize another) {
+    return scheme.equals(another.scheme)
+        && type.equals(another.type)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code scheme}, {@code type}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + scheme.hashCode();
+    h = h * 17 + type.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CGeneralize} instance.
+   * @param scheme The value for the {@code scheme} attribute
+   * @param type The value for the {@code type} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CGeneralize instance
+   */
+  public static ImmutableCGeneralize of(ITerm scheme, ITerm type, MessageInfo messageInfo) {
+    return new ImmutableCGeneralize(scheme, type, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CGeneralize} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CGeneralize instance
+   */
+  public static ImmutableCGeneralize copyOf(CGeneralize instance) {
+    if (instance instanceof ImmutableCGeneralize) {
+      return (ImmutableCGeneralize) instance;
+    }
+    return ImmutableCGeneralize.of(instance.getScheme(), instance.getType(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

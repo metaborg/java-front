@@ -1,0 +1,201 @@
+module ImmutableResolutionParameters
+
+language java8
+
+start symbol Start
+
+test ImmutableResolutionParameters [[ package org.metaborg.meta.nabl2.scopegraph.terms;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.regexp.IAlphabet;
+import org.metaborg.meta.nabl2.regexp.IRegExp;
+import org.metaborg.meta.nabl2.relations.IRelation;
+
+/**
+ * Immutable implementation of {@link ResolutionParameters}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableResolutionParameters.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "ResolutionParameters"})
+@Immutable
+public final class ImmutableResolutionParameters
+    extends ResolutionParameters
+    implements Serializable {
+  private final IAlphabet<Label> labels;
+  private final IRegExp<Label> pathWf;
+  private final IRelation<Label> specificityOrder;
+  private final int hashCode;
+
+  private ImmutableResolutionParameters(
+      IAlphabet<Label> labels,
+      IRegExp<Label> pathWf,
+      IRelation<Label> specificityOrder) {
+    this.labels = Objects.requireNonNull(labels, "labels");
+    this.pathWf = Objects.requireNonNull(pathWf, "pathWf");
+    this.specificityOrder = Objects.requireNonNull(specificityOrder, "specificityOrder");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableResolutionParameters(
+      ImmutableResolutionParameters original,
+      IAlphabet<Label> labels,
+      IRegExp<Label> pathWf,
+      IRelation<Label> specificityOrder) {
+    this.labels = labels;
+    this.pathWf = pathWf;
+    this.specificityOrder = specificityOrder;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code labels} attribute
+   */
+  @Override
+  public IAlphabet<Label> getLabels() {
+    return labels;
+  }
+
+  /**
+   * @return The value of the {@code pathWf} attribute
+   */
+  @Override
+  public IRegExp<Label> getPathWf() {
+    return pathWf;
+  }
+
+  /**
+   * @return The value of the {@code specificityOrder} attribute
+   */
+  @Override
+  public IRelation<Label> getSpecificityOrder() {
+    return specificityOrder;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link ResolutionParameters#getLabels() labels} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for labels
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableResolutionParameters setLabels(IAlphabet<Label> value) {
+    if (this.labels == value) return this;
+    IAlphabet<Label> newValue = Objects.requireNonNull(value, "labels");
+    return validate(new ImmutableResolutionParameters(this, newValue, this.pathWf, this.specificityOrder));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link ResolutionParameters#getPathWf() pathWf} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for pathWf
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableResolutionParameters setPathWf(IRegExp<Label> value) {
+    if (this.pathWf == value) return this;
+    IRegExp<Label> newValue = Objects.requireNonNull(value, "pathWf");
+    return validate(new ImmutableResolutionParameters(this, this.labels, newValue, this.specificityOrder));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link ResolutionParameters#getSpecificityOrder() specificityOrder} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for specificityOrder
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableResolutionParameters setSpecificityOrder(IRelation<Label> value) {
+    if (this.specificityOrder == value) return this;
+    IRelation<Label> newValue = Objects.requireNonNull(value, "specificityOrder");
+    return validate(new ImmutableResolutionParameters(this, this.labels, this.pathWf, newValue));
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableResolutionParameters} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableResolutionParameters
+        && equalTo((ImmutableResolutionParameters) another);
+  }
+
+  private boolean equalTo(ImmutableResolutionParameters another) {
+    return labels.equals(another.labels)
+        && pathWf.equals(another.pathWf)
+        && specificityOrder.equals(another.specificityOrder);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code labels}, {@code pathWf}, {@code specificityOrder}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + labels.hashCode();
+    h = h * 17 + pathWf.hashCode();
+    h = h * 17 + specificityOrder.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code ResolutionParameters} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "ResolutionParameters{"
+        + "labels=" + labels
+        + ", pathWf=" + pathWf
+        + ", specificityOrder=" + specificityOrder
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code ResolutionParameters} instance.
+   * @param labels The value for the {@code labels} attribute
+   * @param pathWf The value for the {@code pathWf} attribute
+   * @param specificityOrder The value for the {@code specificityOrder} attribute
+   * @return An immutable ResolutionParameters instance
+   */
+  public static ImmutableResolutionParameters of(IAlphabet<Label> labels, IRegExp<Label> pathWf, IRelation<Label> specificityOrder) {
+    return validate(new ImmutableResolutionParameters(labels, pathWf, specificityOrder));
+  }
+
+  private static ImmutableResolutionParameters validate(ImmutableResolutionParameters instance) {
+    instance.check();
+    return instance;
+  }
+
+  /**
+   * Creates an immutable copy of a {@link ResolutionParameters} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable ResolutionParameters instance
+   */
+  public static ImmutableResolutionParameters copyOf(ResolutionParameters instance) {
+    if (instance instanceof ImmutableResolutionParameters) {
+      return (ImmutableResolutionParameters) instance;
+    }
+    return ImmutableResolutionParameters.of(instance.getLabels(), instance.getPathWf(), instance.getSpecificityOrder());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private Object readResolve() throws ObjectStreamException {
+    return validate(this);
+  }
+} ]] parse succeeds

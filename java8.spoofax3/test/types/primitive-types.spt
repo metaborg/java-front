@@ -1,0 +1,24 @@
+module types/primitive-types
+
+language java8
+
+start symbol Type
+
+test boolean [[boolean]] parse succeeds
+
+test char [[char]] parse succeeds
+
+test int [[int]] parse succeeds
+
+test float [[float]] parse succeeds
+
+test long [[long]] parse succeeds
+
+test byte [[byte]] parse succeeds
+
+test short [[short]] parse succeeds
+
+test double [[double]] parse succeeds
+
+
+

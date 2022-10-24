@@ -1,0 +1,11 @@
+module INilTerm
+
+language java8
+
+start symbol Start
+
+test INilTerm [[ package org.metaborg.meta.nabl2.terms;
+
+public interface INilTerm extends IListTerm {
+
+} ]] parse succeeds

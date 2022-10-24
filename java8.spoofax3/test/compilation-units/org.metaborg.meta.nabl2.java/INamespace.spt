@@ -1,0 +1,13 @@
+module INamespace
+
+language java8
+
+start symbol Start
+
+test INamespace [[ package org.metaborg.meta.nabl2.scopegraph;
+
+public interface INamespace {
+
+    String getName();
+
+} ]] parse succeeds

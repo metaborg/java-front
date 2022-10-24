@@ -1,0 +1,11 @@
+module IUnitContrib
+
+language java8
+
+start symbol Start
+
+test IUnitContrib [[ package org.metaborg.core.unit;
+
+public interface IUnitContrib {
+    String id();
+} ]] parse succeeds

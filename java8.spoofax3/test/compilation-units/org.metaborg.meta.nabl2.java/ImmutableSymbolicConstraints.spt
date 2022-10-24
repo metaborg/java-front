@@ -1,0 +1,226 @@
+module ImmutableSymbolicConstraints
+
+language java8
+
+start symbol Start
+
+test ImmutableSymbolicConstraints [[ package org.metaborg.meta.nabl2.solver;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link SymbolicConstraints}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableSymbolicConstraints.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "SymbolicConstraints"})
+@Immutable
+public final class ImmutableSymbolicConstraints
+    extends SymbolicConstraints
+    implements Serializable {
+  private final Set<ITerm> facts;
+  private final Set<ITerm> goals;
+  private final int hashCode;
+
+  private ImmutableSymbolicConstraints(
+      Iterable<? extends ITerm> facts,
+      Iterable<? extends ITerm> goals) {
+    this.facts = createUnmodifiableSet(createSafeList(facts, true, false));
+    this.goals = createUnmodifiableSet(createSafeList(goals, true, false));
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableSymbolicConstraints(
+      ImmutableSymbolicConstraints original,
+      Set<ITerm> facts,
+      Set<ITerm> goals) {
+    this.facts = facts;
+    this.goals = goals;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code facts} attribute
+   */
+  @Override
+  public Set<ITerm> getFacts() {
+    return facts;
+  }
+
+  /**
+   * @return The value of the {@code goals} attribute
+   */
+  @Override
+  public Set<ITerm> getGoals() {
+    return goals;
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link SymbolicConstraints#getFacts() facts}.
+   * @param elements The elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableSymbolicConstraints setFacts(ITerm... elements) {
+    Set<ITerm> newValue = createUnmodifiableSet(createSafeList(Arrays.asList(elements), true, false));
+    return new ImmutableSymbolicConstraints(this, newValue, this.goals);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link SymbolicConstraints#getFacts() facts}.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param elements An iterable of facts elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableSymbolicConstraints setFacts(Iterable<? extends ITerm> elements) {
+    if (this.facts == elements) return this;
+    Set<ITerm> newValue = createUnmodifiableSet(createSafeList(elements, true, false));
+    return new ImmutableSymbolicConstraints(this, newValue, this.goals);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link SymbolicConstraints#getGoals() goals}.
+   * @param elements The elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableSymbolicConstraints setGoals(ITerm... elements) {
+    Set<ITerm> newValue = createUnmodifiableSet(createSafeList(Arrays.asList(elements), true, false));
+    return new ImmutableSymbolicConstraints(this, this.facts, newValue);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link SymbolicConstraints#getGoals() goals}.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param elements An iterable of goals elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableSymbolicConstraints setGoals(Iterable<? extends ITerm> elements) {
+    if (this.goals == elements) return this;
+    Set<ITerm> newValue = createUnmodifiableSet(createSafeList(elements, true, false));
+    return new ImmutableSymbolicConstraints(this, this.facts, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableSymbolicConstraints} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableSymbolicConstraints
+        && equalTo((ImmutableSymbolicConstraints) another);
+  }
+
+  private boolean equalTo(ImmutableSymbolicConstraints another) {
+    return facts.equals(another.facts)
+        && goals.equals(another.goals);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code facts}, {@code goals}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + facts.hashCode();
+    h = h * 17 + goals.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code SymbolicConstraints} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "SymbolicConstraints{"
+        + "facts=" + facts
+        + ", goals=" + goals
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code SymbolicConstraints} instance.
+   * @param facts The value for the {@code facts} attribute
+   * @param goals The value for the {@code goals} attribute
+   * @return An immutable SymbolicConstraints instance
+   */
+  public static ImmutableSymbolicConstraints of(Set<ITerm> facts, Set<ITerm> goals) {
+    return of((Iterable<? extends ITerm>) facts, (Iterable<? extends ITerm>) goals);
+  }
+
+  /**
+   * Construct a new immutable {@code SymbolicConstraints} instance.
+   * @param facts The value for the {@code facts} attribute
+   * @param goals The value for the {@code goals} attribute
+   * @return An immutable SymbolicConstraints instance
+   */
+  public static ImmutableSymbolicConstraints of(Iterable<? extends ITerm> facts, Iterable<? extends ITerm> goals) {
+    return new ImmutableSymbolicConstraints(facts, goals);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link SymbolicConstraints} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable SymbolicConstraints instance
+   */
+  public static ImmutableSymbolicConstraints copyOf(SymbolicConstraints instance) {
+    if (instance instanceof ImmutableSymbolicConstraints) {
+      return (ImmutableSymbolicConstraints) instance;
+    }
+    return ImmutableSymbolicConstraints.of(instance.getFacts(), instance.getGoals());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private static <T> List<T> createSafeList(Iterable<? extends T> iterable, boolean checkNulls, boolean skipNulls) {
+    ArrayList<T> list;
+    if (iterable instanceof Collection<?>) {
+      int size = ((Collection<?>) iterable).size();
+      if (size == 0) return Collections.emptyList();
+      list = new ArrayList<T>();
+    } else {
+      list = new ArrayList<T>();
+    }
+    for (T element : iterable) {
+      if (skipNulls && element == null) continue;
+      if (checkNulls) Objects.requireNonNull(element, "element");
+      list.add(element);
+    }
+    return list;
+  }
+
+  /** Unmodifiable set constructed from list to avoid rehashing. */
+  private static <T> Set<T> createUnmodifiableSet(List<T> list) {
+    switch(list.size()) {
+    case 0: return Collections.emptySet();
+    case 1: return Collections.singleton(list.get(0));
+    default:
+      Set<T> set = new LinkedHashSet<T>(list.size());
+      set.addAll(list);
+      return Collections.unmodifiableSet(set);
+    }
+  }
+} ]] parse succeeds

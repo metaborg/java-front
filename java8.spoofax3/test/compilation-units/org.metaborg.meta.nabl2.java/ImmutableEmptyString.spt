@@ -1,0 +1,118 @@
+module ImmutableEmptyString
+
+language java8
+
+start symbol Start
+
+test ImmutableEmptyString [[ package org.metaborg.meta.nabl2.regexp;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link EmptyString}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableEmptyString.<S>of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "EmptyString<S>"})
+@Immutable
+final class ImmutableEmptyString<S>
+    extends EmptyString<S>
+    implements Serializable {
+  private final IRegExpBuilder<S> builder;
+  private final int hashCode;
+
+  private ImmutableEmptyString(IRegExpBuilder<S> builder) {
+    this.builder = Objects.requireNonNull(builder, "builder");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableEmptyString(ImmutableEmptyString original, IRegExpBuilder<S> builder) {
+    this.builder = builder;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code builder} attribute
+   */
+  @Override
+  public IRegExpBuilder<S> getBuilder() {
+    return builder;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link EmptyString#getBuilder() builder} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for builder
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableEmptyString<S> setBuilder(IRegExpBuilder<S> value) {
+    if (this.builder == value) return this;
+    IRegExpBuilder<S> newValue = Objects.requireNonNull(value, "builder");
+    return new ImmutableEmptyString<S>(this, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableEmptyString} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableEmptyString<?>
+        && equalTo((ImmutableEmptyString<S>) another);
+  }
+
+  private boolean equalTo(ImmutableEmptyString<S> another) {
+    return builder.equals(another.builder);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code builder}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + builder.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code EmptyString} instance.
+   * @param builder The value for the {@code builder} attribute
+   * @return An immutable EmptyString instance
+   */
+  public static <S> ImmutableEmptyString<S> of(IRegExpBuilder<S> builder) {
+    return new ImmutableEmptyString<S>(builder);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link EmptyString} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param <S> generic parameter S
+   * @param instance The instance to copy
+   * @return A copied immutable EmptyString instance
+   */
+  public static <S> ImmutableEmptyString<S> copyOf(EmptyString<S> instance) {
+    if (instance instanceof ImmutableEmptyString<?>) {
+      return (ImmutableEmptyString<S>) instance;
+    }
+    return ImmutableEmptyString.<S>of(instance.getBuilder());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

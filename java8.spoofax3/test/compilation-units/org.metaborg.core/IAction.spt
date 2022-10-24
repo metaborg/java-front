@@ -1,0 +1,11 @@
+module IAction
+
+language java8
+
+start symbol Start
+
+test IAction [[ package org.metaborg.core.action;
+
+public interface IAction {
+    String name();
+} ]] parse succeeds
