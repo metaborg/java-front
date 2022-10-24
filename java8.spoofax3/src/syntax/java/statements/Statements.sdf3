@@ -38,7 +38,7 @@ context-free syntax
 
   Statement.While = <while(<Expression>) <Statement>>
 
-  Statement.For     = <for(<ForInit>; <Expression?>; <ForUpdate>) <Statement>>
+  Statement.For     = <for(<ForInit>; <Expression-OPT>; <ForUpdate>) <Statement>>
   Statement.ForEach = <for(<{VariableModifier " "}*> <UnannType> <VarDeclId> : <Expression>) <Statement>>
 
   ForInit = Exprs
