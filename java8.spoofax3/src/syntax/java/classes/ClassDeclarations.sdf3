@@ -1,21 +1,21 @@
-module java/classes/ClassDeclarations
+module syntax/java/classes/ClassDeclarations
 
 // 8.1. Class Declarations
 
 imports
-  java/lexical/Identifiers
-  java/lexical/Modifiers
-  java/lexical/SemiColon
-  java/types/ReferenceTypes
-  java/classes/FieldDeclarations
-  java/classes/MethodDeclarations
-  java/classes/InstanceInitializers
-  java/classes/StaticInitializers
-  java/classes/EnumDeclarations
-  java/classes/ConstructorDeclarations
-  java/interfaces/Annotations
-  java/interfaces/InterfaceDeclarations
-  java/types/TypeVariable
+  syntax/java/lexical/Identifiers
+  syntax/java/lexical/Modifiers
+  syntax/java/lexical/SemiColon
+  syntax/java/types/ReferenceTypes
+  syntax/java/classes/FieldDeclarations
+  syntax/java/classes/MethodDeclarations
+  syntax/java/classes/InstanceInitializers
+  syntax/java/classes/StaticInitializers
+  syntax/java/classes/EnumDeclarations
+  syntax/java/classes/ConstructorDeclarations
+  syntax/java/interfaces/Annotations
+  syntax/java/interfaces/InterfaceDeclarations
+  syntax/java/types/TypeVariable
 
 context-free sorts
 
@@ -54,7 +54,7 @@ context-free syntax
   TypeParameters-OPT.SomeTypeParameters       = TypeParameters
   TypeParameters.TypeParameters               = [<[{TypeParameter ","}+]>]
 
-  // TypeParameter is already defined in 4.4 / java/types/TypeVariable
+  // TypeParameter is already defined in 4.4 / syntax/java/types/TypeVariable
 
   SuperClass-OPT.NoSuperClass   =
   SuperClass-OPT.SomeSuperClass = SuperClass
