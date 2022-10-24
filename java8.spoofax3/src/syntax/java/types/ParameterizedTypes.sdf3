@@ -9,17 +9,17 @@ imports
 context-free sorts
 
   TypeArguments
-  TypeArgument-OPT
+  TypeArguments-OPT
   TypeArgument
   WildCard
 
 context-free syntax
 
+  TypeArguments-OPT.NoTypeArguments   =
+  TypeArguments-OPT.SomeTypeArguments = TypeArguments
   TypeArguments.TypeArguments = [<[{TypeArgument ", "}+]>]
-  TypeArgument-OPT.NoTypeArgument   =
-  TypeArgument-OPT.SomeTypeArgument = TypeArgument
-  TypeArgument                      = ReferenceType
-  TypeArgument                      = WildCard
+  TypeArgument = ReferenceType
+  TypeArgument = WildCard
   WildCard.WildCard = <<{Annotation " "}*> ?>
   WildCard.WildCardExtends = <<{Annotation " "}*> ? extends <ReferenceType>>
   WildCard.WildCardSuper = <<{Annotation " "}*> ? super <ReferenceType>>
