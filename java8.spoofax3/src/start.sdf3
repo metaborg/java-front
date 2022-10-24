@@ -1,0 +1,21 @@
+module start
+
+// The Java Language Specification
+// Java SE 8 Edition
+
+imports
+  syntax/java/Main
+  syntax/java/Test
+  syntax/java/packages/CompilationUnits
+
+context-free sorts
+
+  Start
+
+context-free start-symbols
+
+  Start
+
+context-free syntax
+
+  Start = CompilationUnit

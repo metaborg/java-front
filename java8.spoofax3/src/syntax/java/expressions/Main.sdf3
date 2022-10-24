@@ -1,0 +1,21 @@
+module syntax/java/expressions/Main
+
+// Chapter 15. Expressions
+
+imports
+
+  syntax/java/expressions/PrimaryExpressions
+  syntax/java/expressions/ClassInstanceCreation
+  syntax/java/expressions/ArrayCreation
+  syntax/java/expressions/FieldAccess
+  syntax/java/expressions/ArrayAccess
+  syntax/java/expressions/MethodInvocation
+  syntax/java/expressions/MethodReference
+  syntax/java/expressions/Postfix
+  syntax/java/expressions/UnaryOperators
+  syntax/java/expressions/BinaryOperators
+  syntax/java/expressions/AssignmentOperators
+  
+
+sorts
+  Expression

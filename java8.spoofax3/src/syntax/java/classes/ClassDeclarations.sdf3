@@ -1,0 +1,67 @@
+module java/classes/ClassDeclarations
+
+// 8.1. Class Declarations
+
+imports
+  java/lexical/Identifiers
+  java/lexical/Modifiers
+  java/lexical/SemiColon
+  java/types/ReferenceTypes
+  java/classes/FieldDeclarations
+  java/classes/MethodDeclarations
+  java/classes/InstanceInitializers
+  java/classes/StaticInitializers
+  java/classes/EnumDeclarations
+  java/classes/ConstructorDeclarations
+  java/interfaces/Annotations
+  java/interfaces/InterfaceDeclarations
+  java/types/TypeVariable
+
+context-free sorts
+
+  ClassDeclaration
+  NormalClassDeclaration
+  ClassModifier
+  TypeParameters
+  SuperClass
+  SuperInterfaces
+  ClassBodyDeclaration
+  ClassMemberDeclaration
+
+context-free syntax
+  
+  ClassDeclaration = NormalClassDeclaration
+  ClassDeclaration  = EnumDeclaration
+  
+  NormalClassDeclaration.ClassDeclaration = <
+  <{ClassModifier " "}*> class <Id><TypeParameters?> <SuperClass?> <SuperInterfaces?> {
+    <{ClassBodyDeclaration "\n"}*>
+  }>
+  
+  ClassModifier = Annotation
+  ClassModifier = Public
+  ClassModifier = Protected
+  ClassModifier = Private
+  ClassModifier = Abstract
+  ClassModifier = Static
+  ClassModifier = Final
+  ClassModifier = Strictfp
+  
+  TypeParameters.TypeParameters               = [<[{TypeParameter ","}+]>]
+
+  // TypeParameter is already defined in 4.4 / java/types/TypeVariable
+
+  SuperClass.SuperClass = <extends <ClassType>>
+  
+  SuperInterfaces.SuperInterface = <implements <{ClassType ", "}+>>
+  
+  ClassBodyDeclaration = ClassMemberDeclaration
+  ClassBodyDeclaration  = InstanceInitializer
+  ClassBodyDeclaration  = StaticInitializer
+  ClassBodyDeclaration  = ConstructorDeclaration
+  
+  ClassMemberDeclaration = FieldDeclaration
+  ClassMemberDeclaration = MethodDeclaration
+  ClassMemberDeclaration = ClassDeclaration
+  ClassMemberDeclaration = InterfaceDeclaration
+  ClassMemberDeclaration = SemiColon

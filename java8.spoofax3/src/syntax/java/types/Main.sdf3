@@ -1,0 +1,20 @@
+module syntax/java/types/Main
+
+// Chapter 4. Types, Values, and Variables
+
+imports
+  syntax/java/types/PrimitiveTypes
+  syntax/java/types/ReferenceTypes
+
+context-free start-symbols
+
+  Type
+  
+context-free sorts
+
+  Type
+  
+context-free syntax
+
+  Type = PrimitiveType
+  Type = ReferenceType

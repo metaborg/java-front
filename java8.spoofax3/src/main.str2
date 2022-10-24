@@ -1,0 +1,19 @@
+module main
+
+imports
+
+  statixruntime
+  statix/api
+  injections/-
+  signatures/start-sig
+  pp
+  completion
+
+rules // Analysis
+
+  pre-analyze  = explicate-injections-java8-Start
+  post-analyze = implicate-injections-java8-Start
+
+  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"main", "projectOk", "fileOk")
+  editor-resolve = stx-editor-resolve
+  editor-hover   = stx-editor-hover

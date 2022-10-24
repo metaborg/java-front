@@ -1,0 +1,13 @@
+module main
+
+imports
+
+  signatures/start-sig
+
+rules
+
+  projectOk : scope
+  projectOk(s).
+
+  fileOk : scope * Start
+  fileOk(s, _).

@@ -1,0 +1,23 @@
+module syntax/java/statements/Blocks
+
+// 14.2. Blocks
+
+imports
+  syntax/java/classes/ClassDeclarations
+  syntax/java/statements/LocalVariableDeclarations
+  syntax/java/statements/Statements
+
+context-free sorts
+
+  Block
+  BlockStatement
+
+context-free syntax
+  
+  Block.Block = <
+  {
+    <{BlockStatement "\n"}*>
+  }>
+  BlockStatement = LocalVariableDeclarationStatement
+  BlockStatement   = ClassDeclaration
+  BlockStatement    = Statement

@@ -1,0 +1,38 @@
+module syntax/java/expressions/ClassInstanceCreation
+
+// 15.9. Class Instance Creation Expressions
+
+imports
+  syntax/java/names/Names
+  syntax/java/lexical/Identifiers
+  syntax/java/interfaces/Annotations
+  syntax/java/types/ParameterizedTypes
+  syntax/java/classes/ClassDeclarations
+
+context-free sorts
+
+  UnqualifiedInstance
+  QualifiedId
+  TypeArgumentsOrDiamond
+
+context-free syntax
+  
+  Expression              = UnqualifiedInstance
+  Expression.QualifiedInstance = <<Expression>.<UnqualifiedInstance>>
+  
+  UnqualifiedInstance.NewInstance = <
+  new <TypeArguments?> <{Annotation " "}*> <Id> <QualifiedId*> <TypeArgumentsOrDiamond?>(<{Expression ","}*>) >
+  
+  UnqualifiedInstance.NewInstance = <  
+  new <TypeArguments?> <{Annotation " "}*> <Id> <QualifiedId*> <TypeArgumentsOrDiamond?>(<{Expression ","}*>) {
+    <{ClassBodyDeclaration "\n"}*>
+  }>
+  
+  QualifiedId.QualifiedId = <.<{Annotation " "}*> <Id>>
+  
+  TypeArgumentsOrDiamond         = TypeArguments
+  TypeArgumentsOrDiamond.Diamond = [<>]
+
+template options  
+  
+  tokenize : "<" 

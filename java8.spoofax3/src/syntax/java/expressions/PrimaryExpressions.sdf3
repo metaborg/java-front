@@ -1,0 +1,36 @@
+module syntax/java/expressions/PrimaryExpressions
+
+// 15.8. Primary Expressions
+
+imports
+  syntax/java/literals/Main
+  syntax/java/names/Names
+  syntax/java/types/PrimitiveTypes
+  
+context-free sorts
+
+  ClassLiteral
+  Dims
+
+context-free syntax
+  
+  Expression = Literal
+  Expression = ClassLiteral
+  Expression.This = "this"
+  Expression.QThis = <<TypeName>.this>
+  Expression = <(<Expression>)> {bracket}
+  
+  ClassLiteral.TypeNameClassLiteral    = <<TypeName><Dims*>.class>
+  ClassLiteral.NumericTypeClassLiteral = <<NumericType><Dims*>.class>
+  ClassLiteral.BooleanClassLiteral     = <boolean<Dims*>.class>
+  ClassLiteral.VoidClassLiteral        = <void.class>
+  
+  Dims.Dimension = <[]>
+
+template options
+
+  tokenize : ".["
+  
+  
+
+  

@@ -1,0 +1,38 @@
+module syntax/java/classes/EnumDeclarations
+
+// 8.9. Enum Types
+
+imports
+  syntax/java/lexical/Identifiers
+  syntax/java/classes/ClassDeclarations
+  syntax/java/interfaces/Annotations
+  syntax/java/expressions/Main
+
+context-free sorts
+
+  EnumDeclaration
+  EnumConstant
+  EnumConstantArgs
+  EnumBodyDeclarations
+
+context-free syntax
+
+  EnumDeclaration.EnumDeclComma = <
+  <{ClassModifier " "}*> enum <Id> <SuperInterfaces?> {
+    <{EnumConstant ", "}*>,
+    <EnumBodyDeclarations?>
+  }>
+  EnumDeclaration.EnumDecl = <
+  <{ClassModifier " "}*> enum <Id> <SuperInterfaces?> {
+    <{EnumConstant ", "}*>
+    <EnumBodyDeclarations?>
+  }>
+  EnumConstant.EnumConst = <
+  <{Annotation " "}*> <Id> <EnumConstantArgs?>{
+    <{ClassBodyDeclaration "\n"}*>
+  }>
+  EnumConstant.EnumConstNoBody = <
+  <{Annotation " "}*> <Id> <EnumConstantArgs?>>
+  
+  EnumConstantArgs.EnumConstArgs    = <(<{Expression ", "}*>)>
+  EnumBodyDeclarations.EnumBodyDecs = <;  <{ClassBodyDeclaration "\n"}*>>

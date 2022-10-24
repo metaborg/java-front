@@ -1,0 +1,18 @@
+module syntax/java/packages/TypeDeclarations
+
+// 7.6. Top Level Type Declarations
+
+imports
+  syntax/java/lexical/SemiColon
+  syntax/java/classes/ClassDeclarations
+  syntax/java/interfaces/InterfaceDeclarations
+
+context-free sorts
+
+  TypeDeclaration
+
+context-free syntax
+  
+  TypeDeclaration = ClassDeclaration
+  TypeDeclaration = InterfaceDeclaration
+  TypeDeclaration = SemiColon

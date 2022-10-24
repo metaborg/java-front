@@ -1,0 +1,25 @@
+module syntax/java/interfaces/InterfaceMethodDeclarations
+
+// 9.4. Method Declarations
+
+imports
+  syntax/java/lexical/Modifiers
+  syntax/java/classes/MethodDeclarations
+  syntax/java/interfaces/Annotations
+
+context-free sorts
+
+  InterfaceMethodDeclaration
+  InterfaceMethodModifier 
+
+context-free syntax
+  
+  InterfaceMethodDeclaration.AbstractMethodDec = <
+  <{InterfaceMethodModifier " "}*> <MethodHeader> <MethodBody>>
+  
+  InterfaceMethodModifier = Annotation
+  InterfaceMethodModifier = Public
+  InterfaceMethodModifier = Abstract
+  InterfaceMethodModifier = Default
+  InterfaceMethodModifier = Static
+  InterfaceMethodModifier = Strictfp

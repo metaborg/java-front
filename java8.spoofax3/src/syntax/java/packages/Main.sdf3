@@ -1,0 +1,8 @@
+module syntax/java/packages/Main
+
+// Chapter 7. Packages
+
+imports
+  syntax/java/packages/CompilationUnits
+  syntax/java/packages/ImportDeclarations
+  syntax/java/packages/PackageDeclarations

@@ -1,0 +1,46 @@
+module syntax/java/types/ReferenceTypes
+
+// 4.3. Reference Types and Values
+
+imports
+  syntax/java/lexical/Identifiers
+  syntax/java/types/PrimitiveTypes
+  syntax/java/types/ParameterizedTypes
+  syntax/java/interfaces/Annotations
+
+context-free sorts
+
+  ReferenceType
+  ClassType
+  TypeVariable
+  ArrayType
+  AnnotatedDims
+  AnnotatedDimsEmpty
+  AnnotatedDim
+
+context-free syntax
+
+  ReferenceType = ClassType
+  ReferenceType = ArrayType
+
+  ClassType.ClassType                  = <<{Annotation " "}*> <Id><TypeArguments?>>
+  ClassType.ClassOrInterfaceTypeMember = <<ClassType>.<{Annotation " "}*> <Id><TypeArguments?>>
+  
+  // The interfaceTypeMember will be ambiguous with ClassTypeMember
+  // ClassType.InterfaceTypeMember = <<InterfaceType>.<{Annotation " "}*> <Id><TypeArguments?>>
+  // ReferenceType = InterfaceType  
+  // InterfaceType.InterfaceType   = ClassType
+  
+  // Ambiguous with ClassType.ClassType
+  TypeVariable.TypeVar = <<{Annotation " "}*> <Id>>
+  
+  ArrayType.ArrayTypePrimitive = <<PrimitiveType> <AnnotatedDims>>
+  ArrayType.ArrayTypeClassType = <<ClassType> <AnnotatedDims>>
+  AnnotatedDims      = <<{AnnotatedDim " "}+>>
+  AnnotatedDimsEmpty = <<{AnnotatedDim " "}*>>
+  AnnotatedDim.AnnotateDim = <<{Annotation " "}*> []>
+  
+template options
+
+  tokenize : "["
+  

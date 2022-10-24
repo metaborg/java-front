@@ -1,0 +1,15 @@
+module syntax/java/arrays/ArrayInitializers
+
+// 10.6. Array Initializers
+
+imports
+  syntax/java/classes/FieldDeclarations
+  
+context-free sorts
+
+  ArrayInitializer
+  
+context-free syntax
+  
+  ArrayInitializer.ArrayInit      = <{<{VariableInitializer ","}*>}>
+  ArrayInitializer.ArrayInitComma = <{<{VariableInitializer ","}*>, }>

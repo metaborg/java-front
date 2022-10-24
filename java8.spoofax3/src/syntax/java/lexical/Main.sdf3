@@ -1,0 +1,15 @@
+module syntax/java/lexical/Main
+
+// Chapter 3. Lexical Structure
+
+imports
+  syntax/java/lexical/Comments
+  syntax/java/lexical/Identifiers
+  syntax/java/lexical/Keywords
+  syntax/java/lexical/LineTerminators
+  syntax/java/lexical/Modifiers
+  syntax/java/lexical/UnicodeEscapes
+  syntax/java/lexical/WhiteSpace
+  
+  
+  

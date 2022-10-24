@@ -1,0 +1,17 @@
+module syntax/java/types/TypeVariable
+
+// 4.4. Type Variables
+
+imports
+  syntax/java/types/ReferenceTypes
+  syntax/java/lexical/Identifiers
+  syntax/java/interfaces/Annotations
+
+context-free sorts
+
+  TypeParameter
+
+context-free syntax
+
+  TypeParameter.TypeParameter        = <<{Annotation " "}*> <Id>>
+  TypeParameter.TypeParameterExtends = <<{Annotation " "}*> <Id> extends <{ClassType "& "}+>>

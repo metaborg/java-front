@@ -1,0 +1,16 @@
+module syntax/java/packages/PackageDeclarations
+
+// 7.4. Package Declarations
+
+imports
+  syntax/java/lexical/Identifiers
+  syntax/java/interfaces/Annotations
+  
+context-free sorts
+
+  PackageDeclaration
+
+context-free syntax
+  
+  PackageDeclaration.PackageDeclaration = <<{Annotation " "}*> package <{Id "."}+>;>
+  

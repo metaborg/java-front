@@ -1,0 +1,76 @@
+module syntax/java/classes/MethodDeclarations
+
+// 8.4. Method Declarations
+imports
+  syntax/java/classes/FieldDeclarations
+  syntax/java/types/ReferenceTypes
+  syntax/java/classes/ClassDeclarations
+  syntax/java/lexical/Identifiers
+  syntax/java/lexical/Modifiers
+  syntax/java/interfaces/Annotations
+  syntax/java/statements/Blocks
+
+context-free sorts
+
+  MethodDeclaration
+  MethodHeader
+  Result
+  Throws
+  ExceptionType
+  MethodModifier
+  MethodBody
+  ReceiverParam
+  FormalParams
+  LastFormalParam
+  FormalParam
+  VariableModifier
+
+context-free syntax
+  
+  MethodDeclaration.MethodDecl = <
+  <{MethodModifier " "}*> <MethodHeader> <MethodBody>>
+  
+  MethodHeader.MethodHeader = <
+  <Result> <Id>(<FormalParams>) <AnnotatedDimsEmpty> <Throws?>>
+  
+  MethodHeader.MethodHeaderTypeParameters = <
+  <TypeParameters> <{Annotation " "}*> <Result> <Id>(<FormalParams>) <Throws?>>
+  
+  Result = UnannType
+  Result.Void = "void"
+  
+  Throws.ThrowsDec = <throws <{ExceptionType ", "}+>>
+  ExceptionType    = ClassType
+  
+  MethodModifier = Annotation
+  MethodModifier = Public
+  MethodModifier = Protected
+  MethodModifier = Private
+  MethodModifier = Abstract
+  MethodModifier = Static
+  MethodModifier = Final
+  MethodModifier = Synchronized
+  MethodModifier = Native
+  MethodModifier = Strictfp
+  
+  MethodBody         = Block
+  MethodBody.NoMethodBody = ";"
+  
+  ReceiverParam.ReceiverParamQual = <<{Annotation " "}*> <UnannType> <Id>.this>
+  ReceiverParam.ReceiverParam     = <<{Annotation " "}*> <UnannType> this>
+
+  FormalParams.NoParams          = 
+  FormalParams                   = ReceiverParam
+  FormalParams.SingleParam       = LastFormalParam
+  FormalParams.ParamList         = <<{FormalParam ","}+>, <LastFormalParam>>
+  FormalParams.ReceiverParamList = <<ReceiverParam>, <{FormalParam ","}*>, <LastFormalParam>>
+  
+  LastFormalParam        = FormalParam
+  LastFormalParam.VarArityParam = <<{VariableModifier " "}*> <UnannType> <{Annotation " "}*> ... <VarDeclId>>
+    
+  FormalParam.FormalParam = <<{VariableModifier " "}*> <UnannType> <VarDeclId>>
+  
+  VariableModifier = Annotation
+  VariableModifier = Final
+  
+  

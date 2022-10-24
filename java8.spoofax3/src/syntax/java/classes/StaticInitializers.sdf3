@@ -1,0 +1,14 @@
+module syntax/java/classes/StaticInitializers
+
+// 8.7. Static Initializers
+
+imports
+  syntax/java/statements/Blocks
+  
+context-free sorts
+
+  StaticInitializer
+
+context-free syntax
+  
+  StaticInitializer.StaticInit = <static <Block>>

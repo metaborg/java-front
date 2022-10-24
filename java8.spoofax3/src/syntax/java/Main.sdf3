@@ -1,0 +1,17 @@
+module syntax/java/Main
+
+// The Java Language Specification
+// Java SE 8 Edition
+
+imports
+  syntax/java/arrays/Main
+  syntax/java/classes/Main
+  syntax/java/interfaces/Main
+  syntax/java/lexical/Main
+  syntax/java/literals/Main
+  syntax/java/names/Main
+  syntax/java/packages/Main
+  syntax/java/statements/Main
+  syntax/java/types/Main  
+  syntax/java/expressions/Main
+  syntax/java/expressions/Disambiguation
