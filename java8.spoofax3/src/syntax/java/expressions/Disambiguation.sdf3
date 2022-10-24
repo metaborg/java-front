@@ -11,6 +11,7 @@ imports
   syntax/java/expressions/MethodInvocation
   syntax/java/expressions/AssignmentOperators
   syntax/java/expressions/LambdaExpressions
+  syntax/java/interfaces/Annotations
   syntax/java/names/Names
 
 context-free priorities

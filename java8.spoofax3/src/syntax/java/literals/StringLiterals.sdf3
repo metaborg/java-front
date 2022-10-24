@@ -5,6 +5,7 @@ module syntax/java/literals/StringLiterals
 imports
   syntax/java/literals/EscapeSequences
   syntax/java/lexical/UnicodeEscapes
+  syntax/java/lexical/Comments
 
 context-free start-symbols
 

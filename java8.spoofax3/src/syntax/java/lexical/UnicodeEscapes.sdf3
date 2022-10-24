@@ -2,6 +2,9 @@ module syntax/java/lexical/UnicodeEscapes
 
 // 3.3. Unicode Escapes
 
-syntax
+imports
+  syntax/java/lexical/Comments
+
+lexical syntax
 
   UnicodeEscape.UnicodeEscape = "\\" [u]+ [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]
