@@ -23,6 +23,15 @@ lexical sorts
   HexaFloatLiteral
   DeciDoubleLiteral
   HexaDoubleLiteral
+  SignedInteger
+  Digits
+  Digit
+  DigitsAndUnderscores
+  DigitsOrUnderscore
+  Underscores
+  DeciFloatExponentPart
+  HexaSignificand
+  BinaryExponent
 
 lexical syntax
 

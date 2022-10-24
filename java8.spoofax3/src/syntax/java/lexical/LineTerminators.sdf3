@@ -2,6 +2,11 @@ module syntax/java/lexical/LineTerminators
 
 // 3.4. Line Terminators
 
+lexical sorts
+  LineTerminator
+  CarriageReturn
+  EndOfFile
+
 lexical syntax
 
   LineTerminator = [\n]

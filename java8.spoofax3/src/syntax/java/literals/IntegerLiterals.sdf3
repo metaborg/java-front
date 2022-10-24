@@ -23,6 +23,11 @@ lexical sorts
   HexaLiteral
   OctaLiteral
   BinLiteral
+  DeciNumeral
+  HexaNumeral
+  OctaNumeral
+  BinNumeral
+  BinDigits
 
 lexical syntax
 

@@ -22,6 +22,8 @@ context-free syntax
 lexical sorts
 
   StringLit
+  StringPart
+  StringChars
 
 lexical syntax
 

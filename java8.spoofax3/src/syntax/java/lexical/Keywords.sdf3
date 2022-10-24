@@ -2,6 +2,10 @@ module syntax/java/lexical/Keywords
 
 // 3.9. Keywords
 
+lexical sorts
+
+  Keyword
+  
 lexical syntax
 
   Keyword = "abstract"

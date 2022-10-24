@@ -2,6 +2,12 @@ module syntax/java/literals/EscapeSequences
 
 // 3.10.6. Escape Sequences for Character and String Literals
 
+lexical sorts
+
+  EscapeSeq
+  OctalEscape
+  LastOcta
+
 lexical syntax
 
   EscapeSeq.NamedEscape = "\\" [btnfr\"\'\\]

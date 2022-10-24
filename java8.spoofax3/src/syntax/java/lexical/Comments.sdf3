@@ -9,6 +9,16 @@ imports
 lexical start-symbols
 
   Comment
+  
+lexical sorts
+  Comment
+  CommentPart
+  EOLCommentChars
+  BlockCommentChars
+  Asterisk
+  EscChar
+  EscEscChar
+  UnicodeEscape
 
 lexical syntax
 
