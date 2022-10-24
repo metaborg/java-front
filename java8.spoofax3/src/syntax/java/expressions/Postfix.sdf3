@@ -3,8 +3,8 @@ module syntax/java/expressions/Postfix
 // 15.14. Postfix Expressions
 
 imports
-  syntax/java/names/Names
   syntax/java/expressions/Main
+  syntax/java/names/Names
 
 context-free syntax
 

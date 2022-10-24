@@ -3,6 +3,7 @@ module syntax/java/expressions/PrimaryExpressions
 // 15.8. Primary Expressions
 
 imports
+  syntax/java/expressions/Main
   syntax/java/literals/Main
   syntax/java/names/Names
   syntax/java/types/PrimitiveTypes

@@ -3,9 +3,9 @@ module syntax/java/expressions/FieldAccess
 // 15.11. Field Access Expressions
 
 imports
+  syntax/java/expressions/Main
   syntax/java/names/Names
   syntax/java/lexical/Identifiers
-  syntax/java/expressions/Main
 
 context-free sorts
 

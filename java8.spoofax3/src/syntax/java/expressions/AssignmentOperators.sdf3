@@ -3,6 +3,7 @@ module syntax/java/expressions/AssignmentOperators
 // 15.26. Assignment Operators
 
 imports
+  syntax/java/expressions/Main
   syntax/java/expressions/ArrayAccess
   syntax/java/expressions/FieldAccess
   syntax/java/names/Names

@@ -3,7 +3,6 @@ module syntax/java/expressions/Main
 // Chapter 15. Expressions
 
 imports
-
   syntax/java/expressions/PrimaryExpressions
   syntax/java/expressions/ClassInstanceCreation
   syntax/java/expressions/ArrayCreation
@@ -16,12 +15,11 @@ imports
   syntax/java/expressions/BinaryOperators
   syntax/java/expressions/AssignmentOperators
 
-
 sorts
   Expression-OPT
   Expression
 
-context-free-syntax
+context-free syntax
 
   Expression-OPT.NoExpression   =
   Expression-OPT.SomeExpression = Expression

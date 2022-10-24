@@ -23,6 +23,9 @@ This is an adaptation of `lang.java` for Spoofax 3, with the following changes:
     - Replaced `EnumConstantArgs?` with `EnumConstantArgs-OPT`.
 - `FieldDeclarations.sdf3`
     - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+    - Renamed `UnannPrimitiveType.NumericType` constructor to `UnannNumericType`.
+    - Renamed `UnannPrimitiveType.BooleanType` constructor to `UnannBooleanType`.
+    - Renamed `UnannClassType.ClassType` constructor to `UnannClassType`.
 - `MethodDeclarations.sdf3`
     - Added `Throws-OPT` sort and constructors `NoThrows` and `SomeThrows`.
     - Replaced `Throws?` with `Throws-OPT`.

@@ -10,6 +10,7 @@ module syntax/java/expressions/BinaryOperators
 // 15.24. Conditional-Or Operator ||
 
 imports
+  syntax/java/expressions/Main
   syntax/java/types/ReferenceTypes
 
 context-free syntax

@@ -3,6 +3,7 @@ module syntax/java/expressions/ClassInstanceCreation
 // 15.9. Class Instance Creation Expressions
 
 imports
+  syntax/java/expressions/Main
   syntax/java/names/Names
   syntax/java/lexical/Identifiers
   syntax/java/interfaces/Annotations

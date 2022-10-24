@@ -3,6 +3,7 @@ module syntax/java/expressions/ArrayCreation
 // 15.10.1. Array Creation Expressions
 
 imports
+  syntax/java/expressions/Main
   syntax/java/types/ReferenceTypes
   syntax/java/types/PrimitiveTypes
   syntax/java/interfaces/Annotations

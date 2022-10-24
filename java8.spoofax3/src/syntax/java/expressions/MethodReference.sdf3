@@ -3,6 +3,7 @@ module syntax/java/expressions/MethodReference
 // 15.13. Method Reference Expressions
 
 imports
+  syntax/java/expressions/Main
   syntax/java/types/ReferenceTypes
   syntax/java/types/ParameterizedTypes
   syntax/java/lexical/Identifiers

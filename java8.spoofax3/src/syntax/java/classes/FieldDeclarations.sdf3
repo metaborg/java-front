@@ -50,13 +50,13 @@ context-free syntax
   UnannType = UnannPrimitiveType
   UnannType = UnannReferenceType
 
-  UnannPrimitiveType.NumericType = NumericType
-  UnannPrimitiveType.BooleanType = "boolean"
+  UnannPrimitiveType.UnannNumericType = NumericType
+  UnannPrimitiveType.UnannBooleanType = "boolean"
 
   UnannReferenceType = UnannClassType
   UnannReferenceType = UnannArrayType
 
-  UnannClassType.ClassType                       = <<Id><TypeArguments-OPT>>
+  UnannClassType.UnannClassType                  = <<Id><TypeArguments-OPT>>
   UnannClassType.UnannClassOrInterfaceTypeMember = <<UnannClassType>.<{Annotation " "}*> <Id><TypeArguments-OPT>>
 
 //  ambiguous with UnannClassType.ClassType

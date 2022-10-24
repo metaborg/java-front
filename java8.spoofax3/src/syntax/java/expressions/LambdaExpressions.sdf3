@@ -3,6 +3,7 @@ module syntax/java/expressions/LambdaExpressions
 // 15.27. Lambda Expressions
 
 imports
+  syntax/java/expressions/Main
   syntax/java/statements/Blocks
   syntax/java/lexical/Identifiers
   syntax/java/classes/MethodDeclarations

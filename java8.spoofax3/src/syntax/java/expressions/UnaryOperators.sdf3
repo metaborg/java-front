@@ -5,6 +5,7 @@ module syntax/java/expressions/UnaryOperators
 imports
   syntax/java/types/PrimitiveTypes
   syntax/java/types/ReferenceTypes
+  syntax/java/expressions/Main
   syntax/java/expressions/LambdaExpressions
 
 context-free sorts

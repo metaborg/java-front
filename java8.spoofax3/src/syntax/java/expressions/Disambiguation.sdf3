@@ -1,6 +1,7 @@
 module syntax/java/expressions/Disambiguation
 
 imports
+  syntax/java/expressions/Main
   syntax/java/expressions/ClassInstanceCreation
   syntax/java/expressions/Postfix
   syntax/java/expressions/UnaryOperators
