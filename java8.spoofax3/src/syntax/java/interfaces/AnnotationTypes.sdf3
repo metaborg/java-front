@@ -19,26 +19,29 @@ context-free sorts
   AnnotationTypeMemberDeclaration
   AnnotationTypeElementDeclaration
   AnnotationTypeElementModifier
+  DefaultValue-OPT
   DefaultValue
 
 context-free syntax
-  
+
   AnnotationTypeDeclaration.AnnoDec = <
   <{InterfaceModifier " "}*> @interface <Id> {
     <{AnnotationTypeMemberDeclaration "\n"}*>
   }>
-  
+
   AnnotationTypeMemberDeclaration = AnnotationTypeElementDeclaration
   AnnotationTypeMemberDeclaration = ConstantDeclaration
   AnnotationTypeMemberDeclaration = ClassDeclaration
   AnnotationTypeMemberDeclaration = InterfaceDeclaration
   AnnotationTypeMemberDeclaration = SemiColon
-  
+
   AnnotationTypeElementDeclaration.AnnotationTypeElementDecl = <
-  <{AnnotationTypeElementModifier " "}*> <UnannType> <Id>() <AnnotatedDimsEmpty> <DefaultValue?>;>
-  
+  <{AnnotationTypeElementModifier " "}*> <UnannType> <Id>() <AnnotatedDimsEmpty> <DefaultValue-OPT>;>
+
   AnnotationTypeElementModifier = Annotation
   AnnotationTypeElementModifier = Public
   AnnotationTypeElementModifier = Abstract
-  
-  DefaultValue.DefaultVal = <default <ElementValue>>
+
+  DefaultValue-OPT.NoDefaultValue   =
+  DefaultValue-OPT.SomeDefaultValue = DefaultValue
+  DefaultValue.DefaultVal           = <default <ElementValue>>

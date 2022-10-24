@@ -13,11 +13,11 @@ context-free sorts
   BlockStatement
 
 context-free syntax
-  
+
   Block.Block = <
   {
     <{BlockStatement "\n"}*>
   }>
-  BlockStatement = LocalVariableDeclarationStatement
-  BlockStatement   = ClassDeclaration
+  BlockStatement    = LocalVariableDeclarationStatement
+  BlockStatement    = ClassDeclaration
   BlockStatement    = Statement

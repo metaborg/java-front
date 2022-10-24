@@ -22,22 +22,25 @@ context-free sorts
   ClassDeclaration
   NormalClassDeclaration
   ClassModifier
+  TypeParameters-OPT
   TypeParameters
+  SuperClass-OPT
   SuperClass
+  SuperInterfaces-OPT
   SuperInterfaces
   ClassBodyDeclaration
   ClassMemberDeclaration
 
 context-free syntax
-  
+
   ClassDeclaration = NormalClassDeclaration
   ClassDeclaration  = EnumDeclaration
-  
+
   NormalClassDeclaration.ClassDeclaration = <
-  <{ClassModifier " "}*> class <Id><TypeParameters?> <SuperClass?> <SuperInterfaces?> {
+  <{ClassModifier " "}*> class <Id><TypeParameters-OPT> <SuperClass-OPT> <SuperInterfaces-OPT> {
     <{ClassBodyDeclaration "\n"}*>
   }>
-  
+
   ClassModifier = Annotation
   ClassModifier = Public
   ClassModifier = Protected
@@ -46,20 +49,26 @@ context-free syntax
   ClassModifier = Static
   ClassModifier = Final
   ClassModifier = Strictfp
-  
+
+  TypeParameters-OPT.NoTypeParameters         =
+  TypeParameters-OPT.SomeTypeParameters       = TypeParameters
   TypeParameters.TypeParameters               = [<[{TypeParameter ","}+]>]
 
   // TypeParameter is already defined in 4.4 / java/types/TypeVariable
 
-  SuperClass.SuperClass = <extends <ClassType>>
-  
-  SuperInterfaces.SuperInterface = <implements <{ClassType ", "}+>>
-  
+  SuperClass-OPT.NoSuperClass   =
+  SuperClass-OPT.SomeSuperClass = SuperClass
+  SuperClass.SuperClass         = <extends <ClassType>>
+
+  SuperInterfaces-OPT.NoSuperInterfaces   =
+  SuperInterfaces-OPT.SomeSuperInterfaces = SuperInterfaces
+  SuperInterfaces.SuperInterface          = <implements <{ClassType ", "}+>>
+
   ClassBodyDeclaration = ClassMemberDeclaration
   ClassBodyDeclaration  = InstanceInitializer
   ClassBodyDeclaration  = StaticInitializer
   ClassBodyDeclaration  = ConstructorDeclaration
-  
+
   ClassMemberDeclaration = FieldDeclaration
   ClassMemberDeclaration = MethodDeclaration
   ClassMemberDeclaration = ClassDeclaration

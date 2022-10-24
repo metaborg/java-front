@@ -2,11 +2,11 @@ module syntax/java/names/Names
 
 // 6.5. Determining the Meaning of a Name
 
-imports 
+imports
   syntax/java/lexical/Identifiers
-  
+
 context-free sorts
-  
+
   PackageName
   TypeName
   PackageOrTypeName
@@ -15,7 +15,7 @@ context-free sorts
   MethodName
 
 context-free syntax
-  
+
   PackageName.PackageName             = Id
   PackageName.PackageName             = <<PackageName>.<Id>>
   TypeName.TypeName                   = Id

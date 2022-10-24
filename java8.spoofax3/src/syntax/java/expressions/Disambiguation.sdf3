@@ -11,79 +11,79 @@ imports
   syntax/java/expressions/AssignmentOperators
   syntax/java/expressions/LambdaExpressions
   syntax/java/names/Names
-  
+
 context-free priorities
 
-  FieldAccess.Field > 
+  FieldAccess.Field >
   Expression = ExpressionName,
-  
+
   ElementValue = Expression <0> >
-  Expression.Assign  
+  Expression.Assign
 
 context-free priorities
 
-  Expression.QualifiedInstance > 
-  {right: 
-    Expression.PostIncr 
+  Expression.QualifiedInstance >
+  {right:
+    Expression.PostIncr
     Expression.PostDecr } >
-  { 
-    Expression.CastPrimitive 
+  {
+    Expression.CastPrimitive
     Expression.CastReference }
 
 context-free priorities
-  
-  Expression.CastPrimitive > 
-  {left: 
-    Expression.Mul 
+
+  Expression.CastPrimitive >
+  {left:
+    Expression.Mul
     Expression.Div
     Expression.Mod }
-  
+
 context-free priorities
-  
-  Expression.CastReference > 
+
+  Expression.CastReference >
   { Expression.PreIncr
     Expression.PreDecr
     Expression.Plus
     Expression.Minus }
   ,
-  Expression.CastReference <4> .> 
+  Expression.CastReference <4> .>
   { Expression.Plus
-    Expression.Minus }   
-    
- 
+    Expression.Minus }
+
+
 context-free priorities
-  
-  { ArrayAccess.ArrayAccess 
-    FieldAccess.Field 
+
+  { ArrayAccess.ArrayAccess
+    FieldAccess.Field
     Expression.InvokeQExp } <0> >
-  {right: 
-    Expression.PostIncr 
+  {right:
+    Expression.PostIncr
     Expression.PostDecr } >
-  { Expression.PreIncr 
-    Expression.PreDecr 
-    Expression.Plus 
-    Expression.Minus 
-    Expression.Complement 
+  { Expression.PreIncr
+    Expression.PreDecr
+    Expression.Plus
+    Expression.Minus
+    Expression.Complement
     Expression.Not } >
   {left:
-     Expression.Mul 
-     Expression.Div 
+     Expression.Mul
+     Expression.Div
      Expression.Mod } >
-  {left: 
-    Expression.Add 
+  {left:
+    Expression.Add
     Expression.Sub } >
-  {left: 
-    Expression.LeftShift 
-    Expression.RightShift 
+  {left:
+    Expression.LeftShift
+    Expression.RightShift
     Expression.URightShift } >
-  {left: 
-    Expression.InstanceOf 
-    Expression.Lt 
-    Expression.Gt 
-    Expression.LtEq 
+  {left:
+    Expression.InstanceOf
+    Expression.Lt
+    Expression.Gt
+    Expression.LtEq
     Expression.GtEq } >
-  {left: 
-    Expression.Eq 
+  {left:
+    Expression.Eq
     Expression.NotEq } >
   Expression.And >
   Expression.Xor >
@@ -91,7 +91,7 @@ context-free priorities
   Expression.LazyAnd >
   Expression.LazyOr >
   Expression.Cond >
-  {right: 
+  {right:
     Expression.Assign
     Expression.AssignMul
     Expression.AssignDiv

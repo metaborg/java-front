@@ -3,11 +3,11 @@ module syntax/java/literals/IntegerLiterals
 // 3.10.1. Integer Literals
 
 context-free start-symbols
-  
+
   IntLiteral
 
 context-free sorts
-  
+
   IntLiteral
 
 context-free syntax
@@ -16,7 +16,7 @@ context-free syntax
   IntLiteral.Hexa = HexaLiteral {prefer}
   IntLiteral.Octa = OctaLiteral {prefer}
   IntLiteral.Bin  = BinLiteral  {prefer}
-  
+
 lexical sorts
 
   DeciLiteral
@@ -48,4 +48,4 @@ lexical restrictions
   DeciLiteral -/- [lL]
   HexaLiteral -/- [lL]
   OctaLiteral -/- [lL]
-  BinLiteral  -/- [lL]  
+  BinLiteral  -/- [lL]

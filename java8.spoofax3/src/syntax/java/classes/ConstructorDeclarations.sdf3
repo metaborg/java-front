@@ -17,21 +17,24 @@ context-free sorts
 
   ConstructorDeclaration
   ConstructorModifier
+  ConstructorInvocation-OPT
   ConstructorInvocation
 
 context-free syntax
-  
+
   ConstructorDeclaration.ConstrDecl = <
-  <{ConstructorModifier " "}*> <TypeParameters?> <Id>(<FormalParams>) <Throws?>{
-    <ConstructorInvocation?>
+  <{ConstructorModifier " "}*> <TypeParameters-OPT> <Id>(<FormalParams>) <Throws-OPT>{
+    <ConstructorInvocation-OPT>
     <{BlockStatement "\n"}*>
   }>
-  
+
   ConstructorModifier = Annotation
   ConstructorModifier = Public
   ConstructorModifier = Private
   ConstructorModifier = Protected
-  
-  ConstructorInvocation.AltConstrInv      = <<TypeArguments?>this(<{Expression ", "}*>);>
-  ConstructorInvocation.SuperConstrInv    = <<TypeArguments?>super(<{Expression ", "}*>);>
-  ConstructorInvocation.ExprNameConstrInv = <<Expression>.<TypeArguments?>super(<{Expression ", "}*>);>
+
+  ConstructorInvocation-OPT.NoConstructorInvocation   =
+  ConstructorInvocation-OPT.SomeConstructorInvocation = ConstructorInvocation
+  ConstructorInvocation.AltConstrInv                  = <<TypeArguments-OPT>this(<{Expression ", "}*>);>
+  ConstructorInvocation.SuperConstrInv                = <<TypeArguments-OPT>super(<{Expression ", "}*>);>
+  ConstructorInvocation.ExprNameConstrInv             = <<Expression>.<TypeArguments-OPT>super(<{Expression ", "}*>);>

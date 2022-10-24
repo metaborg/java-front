@@ -10,6 +10,3 @@ imports
   syntax/java/lexical/Modifiers
   syntax/java/lexical/UnicodeEscapes
   syntax/java/lexical/WhiteSpace
-  
-  
-  

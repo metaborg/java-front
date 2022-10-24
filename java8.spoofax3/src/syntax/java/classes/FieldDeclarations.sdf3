@@ -26,16 +26,16 @@ context-free sorts
   UnannArrayType
 
 context-free syntax
-  
+
   FieldDeclaration.FieldDecl = <<{FieldModifier " "}*> <UnannType> <{VarDecl ", "}+>;>
   VarDeclId.VariableDecl      = Id
   VarDeclId.VariableDeclArray = <<Id><AnnotatedDim+>>
   VarDecl.VariableDeclInit    = <<VarDeclId> = <VariableInitializer>>
   VarDecl                     = VarDeclId
-  
+
   VariableInitializer = Expression
   VariableInitializer = ArrayInitializer
-  
+
   FieldModifier = Annotation
   FieldModifier = Public
   FieldModifier = Protected
@@ -44,25 +44,24 @@ context-free syntax
   FieldModifier = Final
   FieldModifier = Transient
   FieldModifier = Volatile
-  
-context-free syntax  
-  
+
+context-free syntax
+
   UnannType = UnannPrimitiveType
   UnannType = UnannReferenceType
-  
+
   UnannPrimitiveType.NumericType = NumericType
   UnannPrimitiveType.BooleanType = "boolean"
-  
+
   UnannReferenceType = UnannClassType
   UnannReferenceType = UnannArrayType
-  
-  UnannClassType.ClassType                       = <<Id><TypeArguments?>>
-  UnannClassType.UnannClassOrInterfaceTypeMember = <<UnannClassType>.<{Annotation " "}*> <Id><TypeArguments?>>
-  
+
+  UnannClassType.ClassType                       = <<Id><TypeArguments-OPT>>
+  UnannClassType.UnannClassOrInterfaceTypeMember = <<UnannClassType>.<{Annotation " "}*> <Id><TypeArguments-OPT>>
+
 //  ambiguous with UnannClassType.ClassType
 //  UnannTypeVariable.TypeVar            = Id
-  
+
   UnannArrayType.UnannArrayTypePrimitive    = <<UnannPrimitiveType> <AnnotatedDim+>>
   UnannArrayType.UnannArrayTypeClassType    = <<UnannClassType> <AnnotatedDim+>>
-  
-  
+

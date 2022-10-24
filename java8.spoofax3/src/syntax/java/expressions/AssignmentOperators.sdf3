@@ -12,7 +12,7 @@ context-free sorts
   LHS
 
 context-free syntax
-  
+
   Expression.Assign            = <<LHS> = <Expression>>
   Expression.AssignMul         = <<LHS> *= <Expression>>
   Expression.AssignDiv         = <<LHS> /= <Expression>>
@@ -25,7 +25,7 @@ context-free syntax
   Expression.AssignAnd         = <<LHS> &= <Expression>>
   Expression.AssignXor         = <<LHS> ^= <Expression>>
   Expression.AssignOr          = <<LHS> |= <Expression>>
-  
+
   LHS = ExpressionName
   LHS = FieldAccess
   LHS = ArrayAccess

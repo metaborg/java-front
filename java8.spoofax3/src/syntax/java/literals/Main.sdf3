@@ -9,18 +9,16 @@ imports
   syntax/java/literals/CharacterLiterals
   syntax/java/literals/StringLiterals
   syntax/java/literals/NullLiteral
-  
+
 context-free sorts
 
   Literal
 
 context-free syntax
-  
+
   Literal = IntLiteral
   Literal = FloatLiteral
   Literal = BoolLiteral
   Literal = CharacterLiteral
   Literal = StringLiteral
   Literal = NullLiteral
-    
-  

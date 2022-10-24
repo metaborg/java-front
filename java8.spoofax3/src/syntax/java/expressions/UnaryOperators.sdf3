@@ -5,14 +5,14 @@ module syntax/java/expressions/UnaryOperators
 imports
   syntax/java/types/PrimitiveTypes
   syntax/java/types/ReferenceTypes
-  syntax/java/expressions/LambdaExpressions 
+  syntax/java/expressions/LambdaExpressions
 
 context-free sorts
 
   AdditionalBound
 
 context-free syntax
-  
+
   Expression.Plus  = <+<Expression>>
   Expression.Minus = <-<Expression>>
   Expression.PreIncr = <++<Expression>>
@@ -22,4 +22,3 @@ context-free syntax
   Expression.CastPrimitive = <(<PrimitiveType>) <Expression>>
   Expression.CastReference = <(<ReferenceType> <{AdditionalBound " "}*>) <Expression>>
   AdditionalBound.AdditionalBound = <& <ClassType>>
-  

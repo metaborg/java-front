@@ -7,7 +7,7 @@ imports
   syntax/java/lexical/LineTerminators
 
 lexical start-symbols
-  
+
   Comment
 
 lexical syntax

@@ -19,12 +19,11 @@ context-free syntax
   Annotation.Anno = <@<TypeName>(<{ElementValuePair ", "}*>)>
   Annotation.MarkerAnno = <@<TypeName>>
   Annotation.SingleElemAnno = <@<TypeName>(<ElementValue>)>
-  
+
   ElementValuePair.ElemValPair = <<Id> = <ElementValue>>
-  ElementValue = Expression  
+  ElementValue = Expression
   ElementValue = ElementValueArrayInitializer
   ElementValue = Annotation
-  
+
   ElementValueArrayInitializer.ElementValArrayInit = <{<{ElementValue ","}*>}>
   ElementValueArrayInitializer.ElementValArrayInitComma = <{<{ElementValue ","}*>, }>
-  

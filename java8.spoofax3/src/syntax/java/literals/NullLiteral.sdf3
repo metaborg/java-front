@@ -3,7 +3,7 @@ module syntax/java/literals/NullLiteral
 // 3.10.7. The Null Literal
 
 context-free start-symbols
-  
+
   NullLiteral
 
 context-free sorts

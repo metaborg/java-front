@@ -5,12 +5,14 @@ module syntax/java/packages/PackageDeclarations
 imports
   syntax/java/lexical/Identifiers
   syntax/java/interfaces/Annotations
-  
+
 context-free sorts
 
+  PackageDeclaration-OPT
   PackageDeclaration
 
 context-free syntax
-  
-  PackageDeclaration.PackageDeclaration = <<{Annotation " "}*> package <{Id "."}+>;>
-  
+
+  PackageDeclaration-OPT.NoPackageDeclaration   =
+  PackageDeclaration-OPT.SomePackageDeclaration = PackageDeclaration
+  PackageDeclaration.PackageDeclaration         = <<{Annotation " "}*> package <{Id "."}+>;>

@@ -3,11 +3,11 @@ module syntax/java/literals/BooleanLiterals
 // 3.10.3. Boolean Literals
 
 context-free start-symbols
-  
+
   BoolLiteral
 
 context-free sorts
-  
+
   BoolLiteral
 
 context-free syntax

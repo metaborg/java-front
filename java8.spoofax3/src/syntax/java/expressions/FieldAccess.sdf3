@@ -12,16 +12,14 @@ context-free sorts
   FieldAccess
 
 context-free syntax
-  
+
   Expression = FieldAccess
-  
+
   FieldAccess.Field       = <<Expression>.<Id>>
   FieldAccess.SuperField  = <super.<Id>>
   FieldAccess.QSuperField = <<TypeName>.super.<Id>>
 
 
 template options
-  
+
   tokenize : "."
-  
-  

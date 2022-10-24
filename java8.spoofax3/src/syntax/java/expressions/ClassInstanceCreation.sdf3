@@ -13,26 +13,29 @@ context-free sorts
 
   UnqualifiedInstance
   QualifiedId
+  TypeArgumentsOrDiamond-OPT
   TypeArgumentsOrDiamond
 
 context-free syntax
-  
+
   Expression              = UnqualifiedInstance
   Expression.QualifiedInstance = <<Expression>.<UnqualifiedInstance>>
-  
+
   UnqualifiedInstance.NewInstance = <
-  new <TypeArguments?> <{Annotation " "}*> <Id> <QualifiedId*> <TypeArgumentsOrDiamond?>(<{Expression ","}*>) >
-  
-  UnqualifiedInstance.NewInstance = <  
-  new <TypeArguments?> <{Annotation " "}*> <Id> <QualifiedId*> <TypeArgumentsOrDiamond?>(<{Expression ","}*>) {
+  new <TypeArguments-OPT> <{Annotation " "}*> <Id> <QualifiedId*> <TypeArgumentsOrDiamond-OPT>(<{Expression ","}*>) >
+
+  UnqualifiedInstance.NewInstance = <
+  new <TypeArguments-OPT> <{Annotation " "}*> <Id> <QualifiedId*> <TypeArgumentsOrDiamond-OPT>(<{Expression ","}*>) {
     <{ClassBodyDeclaration "\n"}*>
   }>
-  
-  QualifiedId.QualifiedId = <.<{Annotation " "}*> <Id>>
-  
-  TypeArgumentsOrDiamond         = TypeArguments
-  TypeArgumentsOrDiamond.Diamond = [<>]
 
-template options  
-  
-  tokenize : "<" 
+  QualifiedId.QualifiedId = <.<{Annotation " "}*> <Id>>
+
+  TypeArgumentsOrDiamond-OPT.NoTypeArgumentsOrDiamond   =
+  TypeArgumentsOrDiamond-OPT.SomeTypeArgumentsOrDiamond = TypeArgumentsOrDiamond
+  TypeArgumentsOrDiamond                                = TypeArguments
+  TypeArgumentsOrDiamond.Diamond                        = [<>]
+
+template options
+
+  tokenize : "<"

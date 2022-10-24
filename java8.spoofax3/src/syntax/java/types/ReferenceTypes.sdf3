@@ -23,24 +23,23 @@ context-free syntax
   ReferenceType = ClassType
   ReferenceType = ArrayType
 
-  ClassType.ClassType                  = <<{Annotation " "}*> <Id><TypeArguments?>>
-  ClassType.ClassOrInterfaceTypeMember = <<ClassType>.<{Annotation " "}*> <Id><TypeArguments?>>
-  
+  ClassType.ClassType                  = <<{Annotation " "}*> <Id><TypeArguments-OPT>>
+  ClassType.ClassOrInterfaceTypeMember = <<ClassType>.<{Annotation " "}*> <Id><TypeArguments-OPT>>
+
   // The interfaceTypeMember will be ambiguous with ClassTypeMember
-  // ClassType.InterfaceTypeMember = <<InterfaceType>.<{Annotation " "}*> <Id><TypeArguments?>>
-  // ReferenceType = InterfaceType  
+  // ClassType.InterfaceTypeMember = <<InterfaceType>.<{Annotation " "}*> <Id><TypeArguments-OPT>>
+  // ReferenceType = InterfaceType
   // InterfaceType.InterfaceType   = ClassType
-  
+
   // Ambiguous with ClassType.ClassType
   TypeVariable.TypeVar = <<{Annotation " "}*> <Id>>
-  
+
   ArrayType.ArrayTypePrimitive = <<PrimitiveType> <AnnotatedDims>>
   ArrayType.ArrayTypeClassType = <<ClassType> <AnnotatedDims>>
   AnnotatedDims      = <<{AnnotatedDim " "}+>>
   AnnotatedDimsEmpty = <<{AnnotatedDim " "}*>>
   AnnotatedDim.AnnotateDim = <<{Annotation " "}*> []>
-  
+
 template options
 
   tokenize : "["
-  

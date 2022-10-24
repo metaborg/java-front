@@ -1,2 +1,53 @@
 # Java 8 specification in Spoofax 3
-This is an adaptation of `lang.java` for Spoofax 3.
+This is an adaptation of `lang.java` for Spoofax 3, with the following changes:
+
+- Removed `Java_StrategoMix.sdf3`.
+- `ClassDeclarations.sdf3`
+    - Added `TypeParameters-OPT` sort and constructors `NoTypeParameters` and `SomeTypeParameters`.
+    - Added `SuperClass-OPT` sort and constructors `NoSuperClass` and `SomeSuperClass`.
+    - Added `SuperInterfaces-OPT` sort and constructors `NoSuperInterfaces` and `SomeSuperInterfaces`.
+    - Replaced `TypeParameters?` with `TypeParameters-OPT`.
+    - Replaced `SuperClass?` with `SuperClass-OPT`.
+    - Replaced `SuperInterfaces?` with `SuperInterfaces-OPT`.
+- `ConstructorDeclarations.sdf3`
+    - Added `ConstructorInvocation-OPT` sort and constructors `NoConstructorInvocation` and `SomeConstructorInvocation`.
+    - Replaced `ConstructorInvocation?` with `ConstructorInvocation-OPT`.
+    - Replaced `TypeParameters?` with `TypeParameters-OPT` from `ClassDeclarations.sdf3`.
+    - Replaced `Throws?` with `Throws-OPT` from `MethodDeclarations.sdf3`.
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `EnumDeclarations.sdf3`
+    - Added `EnumBodyDeclarations-OPT` sort and constructors `NoEnumBodyDeclarations` and `SomeEnumBodyDeclarations`.
+    - Added `EnumConstantArgs-OPT` sort and constructors `NoEnumConstantArgs` and `SomeEnumConstantArgs`.
+    - Replaced `SuperInterfaces?` with `SuperInterfaces-OPT` from `ClassDeclarations.sdf3`.
+    - Replaced `EnumBodyDeclarations?` with `EnumBodyDeclarations-OPT`.
+    - Replaced `EnumConstantArgs?` with `EnumConstantArgs-OPT`.
+- `FieldDeclarations.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `MethodDeclarations.sdf3`
+    - Added `Throws-OPT` sort and constructors `NoThrows` and `SomeThrows`.
+    - Replaced `Throws?` with `Throws-OPT`.
+- `ClassInstanceCreation.sdf3`
+    - Added `TypeArgumentsOrDiamond-OPT` sort and constructors `NoTypeArgumentsOrDiamond` and `SomeTypeArgumentsOrDiamond`.
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+    - Replaced `TypeArgumentsOrDiamond?` with `TypeArgumentsOrDiamond-OPT`.
+- `MethodInvocation.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `MethodReference.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `AnnotationTypes.sdf3`
+    - Added `DefaultValue-OPT` sort and constructors `NoDefaultValue` and `SomeDefaultValue`.
+    - Replaced `DefaultValue?` with `DefaultValue-OPT`.
+- `InterfaceDeclarations.sdf3`
+    - Added `ExtendsInterfaces-OPT` sort and constructors `NoExtendsInterfaces` and `SomeExtendsInterfaces`.
+    - Replaced `TypeParameters?` with `TypeParameters-OPT` from `ClassDeclarations.sdf3`.
+    - Replaced `ExtendsInterfaces?` with `ExtendsInterfaces-OPT`.
+- `CompilationUnits.sdf3`
+    - Replaced `PackageDeclaration?` with `PackageDeclaration-OPT` from `PackageDeclarations.sdf3`.
+- `Statements.sdf3`
+    - Replaced `Expression?` with `Expression-OPT` from `Main.sdf3`.
+- `ReferenceTypes.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `ParameterizedTypes.sdf3`
+    - Added `TypeArguments-OPT` sort and constructors `NoTypeArguments` and `SomeTypeArguments`.
+- `Main.sdf3`
+    - Added `Expression-OPT` sort and constructors `NoExpression` and `SomeExpression`.

@@ -4,11 +4,11 @@ module syntax/java/classes/StaticInitializers
 
 imports
   syntax/java/statements/Blocks
-  
+
 context-free sorts
 
   StaticInitializer
 
 context-free syntax
-  
+
   StaticInitializer.StaticInit = <static <Block>>

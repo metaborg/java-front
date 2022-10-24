@@ -15,7 +15,13 @@ imports
   syntax/java/expressions/UnaryOperators
   syntax/java/expressions/BinaryOperators
   syntax/java/expressions/AssignmentOperators
-  
+
 
 sorts
+  Expression-OPT
   Expression
+
+context-free-syntax
+
+  Expression-OPT.NoExpression   =
+  Expression-OPT.SomeExpression = Expression

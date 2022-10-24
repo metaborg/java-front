@@ -15,12 +15,12 @@ context-free sorts
   DimExpr
 
 context-free syntax
-  
+
   Expression = ArrayCreationExpression
   ArrayCreationExpression.NewArray = <new <ArrayBaseType><{DimExpr " "}+><AnnotatedDimsEmpty>>
   ArrayCreationExpression.NewArrayInit = <new <ArrayBaseType><AnnotatedDims><ArrayInitializer>>
-  
+
   ArrayBaseType = ClassType
   ArrayBaseType = PrimitiveType
-  
+
   DimExpr.Dim = <<{Annotation " "}*> [<Expression>]>

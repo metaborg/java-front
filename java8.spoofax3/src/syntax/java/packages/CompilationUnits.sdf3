@@ -2,7 +2,7 @@ module syntax/java/packages/CompilationUnits
 
 // 7.3. Compilation Units
 
-imports 
+imports
   syntax/java/packages/PackageDeclarations
   syntax/java/packages/ImportDeclarations
   syntax/java/packages/TypeDeclarations
@@ -15,8 +15,8 @@ context-free syntax
 
 
   CompilationUnit.CompilationUnit = <
-  <PackageDeclaration?>
-  
+  <PackageDeclaration-OPT>
+
   <{ImportDeclaration "\n"}*>
-     
-  <{TypeDeclaration "\n"}*>> 
+
+  <{TypeDeclaration "\n"}*>>

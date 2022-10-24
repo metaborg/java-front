@@ -13,10 +13,10 @@ context-free sorts
   ConstantModifier
 
 context-free syntax
-  
+
   ConstantDeclaration.ConstantDecl = <
   <{ConstantModifier " "}*> <UnannType> <{VarDecl ", "}+>>
-  
+
   ConstantModifier = Annotation
   ConstantModifier = Public
   ConstantModifier = Static

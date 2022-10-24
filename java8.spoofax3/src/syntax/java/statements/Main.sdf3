@@ -6,4 +6,3 @@ imports
   syntax/java/statements/Blocks
   syntax/java/statements/LocalVariableDeclarations
   syntax/java/statements/Statements
-  

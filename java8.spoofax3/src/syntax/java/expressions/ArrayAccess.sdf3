@@ -13,10 +13,9 @@ context-free sorts
 context-free syntax
 
   Expression = ArrayAccess
-  
+
   ArrayAccess.ArrayAccess = <<Expression>[<Expression>]>
-  
+
 context-free priorities
 
   ArrayAccess.ArrayAccess <0> . > Expression = ArrayCreationExpression
-  

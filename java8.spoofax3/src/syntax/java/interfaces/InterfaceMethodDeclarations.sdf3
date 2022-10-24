@@ -10,13 +10,13 @@ imports
 context-free sorts
 
   InterfaceMethodDeclaration
-  InterfaceMethodModifier 
+  InterfaceMethodModifier
 
 context-free syntax
-  
+
   InterfaceMethodDeclaration.AbstractMethodDec = <
   <{InterfaceMethodModifier " "}*> <MethodHeader> <MethodBody>>
-  
+
   InterfaceMethodModifier = Annotation
   InterfaceMethodModifier = Public
   InterfaceMethodModifier = Abstract

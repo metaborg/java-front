@@ -9,11 +9,11 @@ imports
 context-free start-symbols
 
   Type
-  
+
 context-free sorts
 
   Type
-  
+
 context-free syntax
 
   Type = PrimitiveType

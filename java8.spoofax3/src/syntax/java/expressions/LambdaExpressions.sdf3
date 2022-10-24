@@ -6,7 +6,7 @@ imports
   syntax/java/statements/Blocks
   syntax/java/lexical/Identifiers
   syntax/java/classes/MethodDeclarations
-  
+
 context-free sorts
 
   LambdaParameters
@@ -15,7 +15,7 @@ context-free syntax
 
   Expression.LambdaExpression          = [[LambdaParameters] -> [Expression]]
   Expression.LambdaExpressionWithBlock = [[LambdaParameters] -> [Block]]
-  
+
   LambdaParameters.SingleInferredParam = Id
   LambdaParameters.Params              = <(<FormalParams>)>
   LambdaParameters.InferredParams      = <(<{Id ", "}+>)>

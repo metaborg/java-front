@@ -12,6 +12,6 @@ imports
   syntax/java/names/Main
   syntax/java/packages/Main
   syntax/java/statements/Main
-  syntax/java/types/Main  
+  syntax/java/types/Main
   syntax/java/expressions/Main
   syntax/java/expressions/Disambiguation

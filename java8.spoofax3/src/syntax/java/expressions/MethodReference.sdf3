@@ -10,18 +10,18 @@ imports
   syntax/java/expressions/UnaryOperators
 
 context-free syntax
-  
-  Expression.MethodReferenceRType  = <<ReferenceType>::<TypeArguments?><Id>>
-  Expression.MethodReferenceExpr   = <<Expression>::<TypeArguments?><Id>>
-  Expression.MethodReferenceSuper  = <super::<TypeArguments?><Id>>
-  Expression.MethodReferenceQSuper = <<TypeName>.super::<TypeArguments?><Id>>
-  Expression.MethodReferenceCType = <<ClassType>::<TypeArguments?> new>
-  Expression.MethodReferenceAType = <<ArrayType>::<TypeArguments?> new>
-  
+
+  Expression.MethodReferenceRType  = <<ReferenceType>::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceExpr   = <<Expression>::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceSuper  = <super::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceQSuper = <<TypeName>.super::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceCType  = <<ClassType>::<TypeArguments-OPT> new>
+  Expression.MethodReferenceAType  = <<ArrayType>::<TypeArguments-OPT> new>
+
 context-free priorities
   Expression.MethodReferenceExpr > Expression = ExpressionName,
-  Expression.MethodReferenceExpr >  Expression.CastReference
-  
+  Expression.MethodReferenceExpr > Expression.CastReference
+
 template options
-  
-  tokenize : "::"  
+
+  tokenize : "::"

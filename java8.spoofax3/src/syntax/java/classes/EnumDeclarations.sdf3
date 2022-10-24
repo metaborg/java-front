@@ -12,27 +12,34 @@ context-free sorts
 
   EnumDeclaration
   EnumConstant
+  EnumConstantArgs-OPT
   EnumConstantArgs
+  EnumBodyDeclarations-OPT
   EnumBodyDeclarations
 
 context-free syntax
 
   EnumDeclaration.EnumDeclComma = <
-  <{ClassModifier " "}*> enum <Id> <SuperInterfaces?> {
+  <{ClassModifier " "}*> enum <Id> <SuperInterfaces-OPT> {
     <{EnumConstant ", "}*>,
-    <EnumBodyDeclarations?>
+    <EnumBodyDeclarations-OPT>
   }>
   EnumDeclaration.EnumDecl = <
-  <{ClassModifier " "}*> enum <Id> <SuperInterfaces?> {
+  <{ClassModifier " "}*> enum <Id> <SuperInterfaces-OPT> {
     <{EnumConstant ", "}*>
-    <EnumBodyDeclarations?>
+    <EnumBodyDeclarations-OPT>
   }>
   EnumConstant.EnumConst = <
-  <{Annotation " "}*> <Id> <EnumConstantArgs?>{
+  <{Annotation " "}*> <Id> <EnumConstantArgs-OPT>{
     <{ClassBodyDeclaration "\n"}*>
   }>
   EnumConstant.EnumConstNoBody = <
-  <{Annotation " "}*> <Id> <EnumConstantArgs?>>
-  
-  EnumConstantArgs.EnumConstArgs    = <(<{Expression ", "}*>)>
-  EnumBodyDeclarations.EnumBodyDecs = <;  <{ClassBodyDeclaration "\n"}*>>
+  <{Annotation " "}*> <Id> <EnumConstantArgs-OPT>>
+
+  EnumConstantArgs-OPT.NoEnumConstantArgs   =
+  EnumConstantArgs-OPT.SomeEnumConstantArgs = EnumConstantArgs
+  EnumConstantArgs.EnumConstArgs            = <(<{Expression ", "}*>)>
+
+  EnumBodyDeclarations-OPT.NoEnumBodyDeclarations   =
+  EnumBodyDeclarations-OPT.SomeEnumBodyDeclarations = EnumBodyDeclarations
+  EnumBodyDeclarations.EnumBodyDecs                 = <;  <{ClassBodyDeclaration "\n"}*>>

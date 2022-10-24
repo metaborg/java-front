@@ -11,7 +11,7 @@ context-free sorts
   NumericType
 
 context-free syntax
-  
+
   PrimitiveType.NumericType = <<{Annotation " "}*> <NumericType>>
   PrimitiveType.BooleanType = <<{Annotation " "}*> boolean>
   NumericType.Byte   = <byte>
@@ -21,7 +21,3 @@ context-free syntax
   NumericType.Char   = <char>
   NumericType.Float  = <float>
   NumericType.Double = <double>
-  
-  
-  
-  

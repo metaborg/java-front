@@ -5,22 +5,22 @@ module syntax/java/literals/CharacterLiterals
 imports
   syntax/java/literals/EscapeSequences
   syntax/java/lexical/UnicodeEscapes
-  
+
 context-free start-symbols
-  
-  CharacterLiteral  
-  
+
+  CharacterLiteral
+
 context-free sorts
-  
-  CharacterLiteral  
-  
+
+  CharacterLiteral
+
 context-free syntax
 
-  CharacterLiteral.CharLiteral = CharLiteral  
-  
+  CharacterLiteral.CharLiteral = CharLiteral
+
 lexical sorts
 
-  CharLiteral  
+  CharLiteral
 
 lexical syntax
 

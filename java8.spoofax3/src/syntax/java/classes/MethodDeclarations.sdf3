@@ -15,6 +15,7 @@ context-free sorts
   MethodDeclaration
   MethodHeader
   Result
+  Throws-OPT
   Throws
   ExceptionType
   MethodModifier
@@ -26,22 +27,24 @@ context-free sorts
   VariableModifier
 
 context-free syntax
-  
+
   MethodDeclaration.MethodDecl = <
   <{MethodModifier " "}*> <MethodHeader> <MethodBody>>
-  
+
   MethodHeader.MethodHeader = <
-  <Result> <Id>(<FormalParams>) <AnnotatedDimsEmpty> <Throws?>>
-  
+  <Result> <Id>(<FormalParams>) <AnnotatedDimsEmpty> <Throws-OPT>>
+
   MethodHeader.MethodHeaderTypeParameters = <
-  <TypeParameters> <{Annotation " "}*> <Result> <Id>(<FormalParams>) <Throws?>>
-  
+  <TypeParameters> <{Annotation " "}*> <Result> <Id>(<FormalParams>) <Throws-OPT>>
+
   Result = UnannType
   Result.Void = "void"
-  
-  Throws.ThrowsDec = <throws <{ExceptionType ", "}+>>
+
+  Throws-OPT.NoThrows   =
+  Throws-OPT.SomeThrows = Throws
+  Throws.ThrowsDec      = <throws <{ExceptionType ", "}+>>
   ExceptionType    = ClassType
-  
+
   MethodModifier = Annotation
   MethodModifier = Public
   MethodModifier = Protected
@@ -52,25 +55,24 @@ context-free syntax
   MethodModifier = Synchronized
   MethodModifier = Native
   MethodModifier = Strictfp
-  
+
   MethodBody         = Block
   MethodBody.NoMethodBody = ";"
-  
+
   ReceiverParam.ReceiverParamQual = <<{Annotation " "}*> <UnannType> <Id>.this>
   ReceiverParam.ReceiverParam     = <<{Annotation " "}*> <UnannType> this>
 
-  FormalParams.NoParams          = 
+  FormalParams.NoParams          =
   FormalParams                   = ReceiverParam
   FormalParams.SingleParam       = LastFormalParam
   FormalParams.ParamList         = <<{FormalParam ","}+>, <LastFormalParam>>
   FormalParams.ReceiverParamList = <<ReceiverParam>, <{FormalParam ","}*>, <LastFormalParam>>
-  
+
   LastFormalParam        = FormalParam
   LastFormalParam.VarArityParam = <<{VariableModifier " "}*> <UnannType> <{Annotation " "}*> ... <VarDeclId>>
-    
+
   FormalParam.FormalParam = <<{VariableModifier " "}*> <UnannType> <VarDeclId>>
-  
+
   VariableModifier = Annotation
   VariableModifier = Final
-  
-  
+

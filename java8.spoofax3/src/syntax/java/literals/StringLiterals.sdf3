@@ -9,15 +9,15 @@ imports
 context-free start-symbols
 
   StringLiteral
-  
+
 context-free sorts
 
   StringLiteral
 
 context-free syntax
 
-  StringLiteral.StringLiteral = StringLit  
-  
+  StringLiteral.StringLiteral = StringLit
+
 lexical sorts
 
   StringLit

@@ -2,6 +2,6 @@ module syntax/java/names/Main
 
 // Chapter 6. Names
 
-imports 
+imports
 
   syntax/java/names/Names

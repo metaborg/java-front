@@ -7,7 +7,7 @@ imports
   syntax/java/lexical/Keywords
 
 lexical start-symbols
-  
+
   ID
 
 context-free sorts
@@ -15,7 +15,7 @@ context-free sorts
   Id
 
 lexical sorts
-  
+
   ID
 
 context-free syntax
