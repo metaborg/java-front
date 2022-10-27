@@ -1,11 +1,14 @@
 # macOS
 *.DS_Store
+.DS_Store
 # Java
 *.class
 *.jar
 hs_err_pid*
 # Eclipse
 /bin
+.classpath
+.settings/
 # IntelliJ
 /out
 /.idea
