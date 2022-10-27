@@ -1,0 +1,15 @@
+module statics/java/literals/NullLiteral
+
+imports
+
+  signatures/syntax/java/literals/NullLiteral-sig
+
+  statics/java/literals/Main
+  statics/java/types/Main
+
+
+rules // 3.10.7. The Null Literal
+
+  nullLitOk : NullLiteral -> TYPE
+
+  nullLitOk(Null()) = NULL().

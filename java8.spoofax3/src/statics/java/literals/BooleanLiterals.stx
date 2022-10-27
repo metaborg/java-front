@@ -1,0 +1,19 @@
+module statics/java/literals/BooleanLiterals
+
+imports
+
+  signatures/syntax/java/literals/BooleanLiterals-sig
+
+  statics/java/literals/Main
+  statics/java/types/Main
+  statics/java/types/PrimitiveTypes
+
+
+rules // 3.10.3. Boolean Literals
+
+  boolLitOk : BoolLiteral -> TYPE
+
+  boolLitOk(True()) = BOOLEAN().
+
+  boolLitOk(False()) = BOOLEAN().
+

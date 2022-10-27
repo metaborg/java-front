@@ -1,0 +1,24 @@
+module statics/java/packages/TypeDeclarations
+
+imports
+
+  signatures/syntax/java/packages/TypeDeclarations-sig
+
+  statics/java/classes/ClassDeclarations
+  statics/java/interfaces/InterfaceDeclarations
+  statics/java/packages/Main
+
+
+rules // 7.6. Top Level Type Declarations
+
+  typeDeclOk : scope * TypeDeclaration * scope
+  typeDeclListOk maps typeDeclOk(*, list(*), *)
+
+  typeDeclOk(s, ClassDeclaration2TypeDeclaration(clsDecl), s_def) :-
+    clsDeclOk(s, clsDecl, s_def, s_def).
+
+  typeDeclOk(s, InterfaceDeclaration2TypeDeclaration(intfDecl), s_def) :-
+    intfDeclOk(s, intfDecl, s_def, s_def).
+
+  typeDeclOk(s, SemiColon2TypeDeclaration(_), s_def) :-
+    true.

@@ -1,0 +1,31 @@
+module statics/java/packages/CompilationUnits
+
+imports
+
+  signatures/syntax/java/packages/CompilationUnits-sig
+  signatures/syntax/java/Test-sig
+
+  statics/java/JRE
+  statics/java/names/Main
+  statics/java/names/PackageNames
+  statics/java/names/TypeNames
+  statics/java/packages/Main
+  statics/java/packages/ImportDeclarations
+  statics/java/packages/PackageDeclarations
+  statics/java/packages/TypeDeclarations
+
+
+rules // 7.3. Compilation Units
+
+  compilationUnitOk : scope * scope * CompilationUnit
+
+  compilationUnitOk(s_proj, s_pkg, CompilationUnit(pkgDeclOpt, importDeclList, typeDeclList)) :-
+  {s_cu}
+    new s_cu, s_cu -LEX-> s_proj,
+    pkgDeclOptOk(s_cu, pkgDeclOpt),
+    importJavaLang(s_proj, s_cu),
+    s_cu -IMPORT_PKG-> s_pkg,
+    importDeclListOk(s_proj, importDeclList, s_cu),
+    typeDeclListOk(s_cu, typeDeclList, s_pkg),
+    true.
+

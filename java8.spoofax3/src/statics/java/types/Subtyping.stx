@@ -1,0 +1,26 @@
+module statics/java/types/Subtyping
+
+imports
+
+  statics/java/names/Main
+  statics/java/types/Main
+  statics/java/types/ReferenceTypes
+
+rules
+
+  referenceSuperType : TYPE * TYPE
+
+  referenceSuperType(REF(s_T), REF(s_U)) :- superTypeScope(s_T, s_U).
+
+
+  superTypeScope : scope * scope
+
+  superTypeScope(s_T, s_U) :-
+  {ps}
+    query () filter (EXTENDS|IMPLEMENTS)* and { s_ty :- s_ty == s_T } in s_U |-> ps,
+    superTypeScope1(ps).
+
+      superTypeScope1 : list((path * scope))
+      superTypeScope1([]) :- false | error $[Provided type not a subtype of expected type.].
+      superTypeScope1(ps) :- true.
+

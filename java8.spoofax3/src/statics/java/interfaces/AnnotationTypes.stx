@@ -1,0 +1,89 @@
+module statics/java/interfaces/AnnotationTypes
+
+imports
+
+  signatures/syntax/java/interfaces/AnnotationTypes-sig
+
+  statics/java/classes/ClassDeclarations
+  statics/java/classes/FieldDeclarations
+  statics/java/interfaces/Annotations
+  statics/java/interfaces/InterfaceDeclarations
+  statics/java/interfaces/ConstantDeclarations
+  statics/java/interfaces/Main
+  statics/java/names/Main
+  statics/java/names/TypeNames
+  statics/java/types/ReferenceTypes
+
+
+rules // 9.6. Annotation Types
+
+  annoTypeDeclOk : scope * AnnotationTypeDeclaration * scope * scope
+
+  annoTypeDeclOk(s, AnnoDec(intfModList, id, annoTypeMemDeclList), s_def, s_staticDef) :-
+  {isStatic s_anno s_annoStatic}
+    intfModListOk(s, intfModList),
+    isStatic == hasStaticIntfMod(intfModList),
+
+    new s_anno,
+    addLexical(s_anno, isStatic, s),
+
+    declareType2(s_def, s_staticDef, isStatic, id, s_anno, INTF()),
+
+    // FIXME Object as supertype?
+
+    new s_annoStatic,
+    s_anno -STATIC_MEMBERS-> s_annoStatic,
+
+    annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList, s_anno, s_annoStatic).
+
+
+  annoTypeMemDeclOk : scope * AnnotationTypeMemberDeclaration * scope * scope
+  annoTypeMemDeclListOk maps annoTypeMemDeclOk(*, list(*), *, *)
+
+  annoTypeMemDeclOk(s, AnnotationTypeElementDeclaration2AnnotationTypeMemberDeclaration(annoTypeElemDecl), s_def, s_staticDef) :-
+    annoTypeElemDeclOk(s, annoTypeElemDecl),
+    true.
+
+  annoTypeMemDeclOk(s, ConstantDeclaration2AnnotationTypeMemberDeclaration(constDecl), s_def, s_staticDef) :-
+    constDeclOk(s, constDecl, s_staticDef),
+    true.
+
+  annoTypeMemDeclOk(s, ClassDeclaration2AnnotationTypeMemberDeclaration(clsDecl), s_def, s_staticDef) :-
+    clsDeclOk(s, addImplicitClassMemMods(clsDecl), s_def, s_staticDef).
+
+  annoTypeMemDeclOk(s, InterfaceDeclaration2AnnotationTypeMemberDeclaration(intfDecl), s_def, s_staticDef) :-
+    intfDeclOk(s, addImplicitIntfMemMods(intfDecl), s_def, s_staticDef).
+
+  annoTypeMemDeclOk(s, SemiColon2AnnotationTypeMemberDeclaration(_), s_def, s_staticDef) :-
+    true.
+
+
+  annoTypeElemDeclOk : scope * AnnotationTypeElementDeclaration
+
+  annoTypeElemDeclOk(s, AnnotationTypeElementDecl(annoTypeElemModList, unannType, id, annDimsEmpty, defaultValOpt)) :-
+  {T U}
+    annoTypeElemModListOk(s, annoTypeElemModList),
+    T == unannTypeOk(s, unannType),
+    U == annDimsEmptyOk(s, T, annDimsEmpty),
+    defaultValOptOk(s, defaultValOpt).
+
+
+  annoTypeElemModOk : scope * AnnotationTypeElementModifier
+  annoTypeElemModListOk maps annoTypeElemModOk(*, list(*))
+
+  annoTypeElemModOk(s, Annotation2AnnotationTypeElementModifier(anno)) :-
+    annoOk(s, anno),
+    true.
+  annoTypeElemModOk(s, Public2AnnotationTypeElementModifier(_)) :- true.
+  annoTypeElemModOk(s, Abstract2AnnotationTypeElementModifier(_)) :- true.
+
+  defaultValOptOk : scope * DefaultValue-OPT
+  defaultValOptOk(s, NoDefaultValue()).
+  defaultValOptOk(s, SomeDefaultValue(defaultValue)) :- defaultValOk(s, defaultValue).
+
+  defaultValOk : scope * DefaultValue
+  defaultValOk(s, DefaultVal(elemVal)) :-
+    elemValOk(s, elemVal),
+    true.
+
+

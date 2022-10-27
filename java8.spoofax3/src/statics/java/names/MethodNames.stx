@@ -1,0 +1,207 @@
+module statics/java/names/MethodNames
+
+imports
+
+  signatures/syntax/java/names/Names-sig
+
+  statics/java/names/Main
+  statics/java/types/Main
+  statics/java/types/Conversions
+  statics/java/types/Subtyping
+
+
+// 6.5.7 Meaning of Method Names
+
+signature
+
+  sorts RETURN constructors
+    TYPED : TYPE -> RETURN
+    VOID  : RETURN
+
+  sorts
+    MTHD_DECL = (Id * PARAMS * scope)
+    MTHD_PATH = (path * MTHD_DECL)
+
+  sorts PARAMS constructors
+    ARGS    : list(TYPE) -> PARAMS
+    VARARGS : list(TYPE) * TYPE -> PARAMS
+
+  relations
+    mthd   : Id * PARAMS -> scope
+    return : -> RETURN
+
+
+rules
+
+  mthdDeclId : MTHD_DECL -> Id
+
+  mthdDeclId((id, _, _)) = id.
+
+
+  mthdDeclParams : MTHD_DECL -> PARAMS
+
+  mthdDeclParams((_, params, _)) = params.
+
+
+  mthdDeclReturn : MTHD_DECL -> RETURN
+
+  mthdDeclReturn((_, _, s_mthd)) = getReturn(s_mthd).
+
+
+  mthdNameOk : scope * MethodName * list(TYPE) -> MTHD_DECL
+
+  mthdNameOk(s, MethodName(id), Ts) = resolveLexicalMthdName(s, id, Ts).
+
+
+  resolveLexicalMthdName : scope * Id * list(TYPE) -> MTHD_DECL
+
+  resolveLexicalMthdName(s, id, Ts) = someMthdDecl(id, Ts, resolveLexicalMthdNames(s, id, Ts)).
+
+
+  resolveMemberMthdName : scope * Id * list(TYPE) -> MTHD_DECL
+
+  resolveMemberMthdName(s, id, Ts) = someMthdDecl(id, Ts, resolveMemberMthdNames(s, id, Ts)).
+
+
+  resolveDirectMemberMthdName : scope * Id * list(TYPE) -> MTHD_DECL
+
+  resolveDirectMemberMthdName(s, id, Ts) = someMthdDecl(id, Ts, resolveDirectMemberMthdNames(s, id, Ts)).
+
+
+  resolveLexicalMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
+
+  resolveLexicalMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter /* lex mthd re */
+          LEX*                              EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
+        | LEX* STATIC_LEX (LEX|STATIC_LEX)* EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        |                 (LEX|STATIC_LEX)* ( SINGLE_STATIC_IMPORT
+                                            | STATIC_IMPORT_ONDEMAND EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+                                            )
+        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+      min /* lex mthd ord */
+          $ < LEX, $ < STATIC_LEX, $ < EXTENDS, $ < IMPLEMENTS, $ < SINGLE_STATIC_IMPORT, $ < STATIC_IMPORT_ONDEMAND,
+          EXTENDS < LEX       , IMPLEMENTS < LEX       , SINGLE_STATIC_IMPORT < LEX       , STATIC_IMPORT_ONDEMAND < LEX       ,
+          EXTENDS < STATIC_LEX, IMPLEMENTS < STATIC_LEX, SINGLE_STATIC_IMPORT < STATIC_LEX, STATIC_IMPORT_ONDEMAND < STATIC_LEX,
+          SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND
+        and { (_, params), (_, params) }
+      in s |-> mthdPathList,
+    true.
+
+
+  resolveMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
+
+  resolveMemberMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter /* mem mthd re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
+        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+      min /* mem mthd ord */
+          $ < EXTENDS, $ < IMPLEMENTS
+        and { (_, params), (_, params) }
+      in s |-> mthdPathList,
+    true.
+
+
+  resolveStaticMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
+
+  resolveStaticMemberMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter /* mem mthd re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+      min /* mem mthd ord */
+          $ < EXTENDS, $ < IMPLEMENTS
+        and { (_, params), (_, params) }
+      in s |-> mthdPathList,
+    true.
+
+
+  resolveAllStaticMemberMthdNames : scope * Id -> list(MTHD_PATH)
+
+  resolveAllStaticMemberMthdNames(s, id) = mthdPathList :-
+    query mthd
+      filter /* mem mthd re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        and { (id', _) :- id' == id }
+      min /* mem mthd ord */
+          STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
+        and { (_, params), (_, params) }
+      in s |-> mthdPathList,
+    true.
+
+
+  resolveDirectMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
+
+  resolveDirectMemberMthdNames(s, id, Ts) = mthdPathList :-
+    query mthd
+      filter e
+        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+      min /* */
+        and false
+      in s |-> mthdPathList,
+    true.
+
+
+  someMthdDecl : Id * list(TYPE) * list(MTHD_PATH) -> MTHD_DECL
+
+  someMthdDecl(id, Ts, []) = _ :-
+    false | error $[No method [id] for arguments [Ts]] @id.
+
+  someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))]) = mthdDecl :-
+    @id.ref := id'.
+
+  someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))|mthdDeclList]) = mthdDecl :-
+    @id.ref := id',
+    try { false } | warning $[Method [id] overloaded for arguments [Ts]] @id.
+
+
+  declareMthdName : scope * Id * PARAMS * RETURN
+
+  declareMthdName(s, id, params, R) :-
+  {s_mthd}
+    new s_mthd,
+    !mthd[id, params, s_mthd] in s,
+    declareReturn(s_mthd, R),
+    noOtherHomonymousMthd(s, (id, params, s_mthd)).
+
+
+  aliasMthdNames maps aliasMthdName(*, list(*))
+  aliasMthdName : scope * MTHD_DECL
+
+  aliasMthdName(s, (id, params, s_mthd)) :-
+    !mthd[id, params, s_mthd] in s.
+
+
+  noOtherHomonymousMthd: scope * MTHD_DECL
+
+  noOtherHomonymousMthd(s, mthdDecl@(id, params, _)) :-
+    query mthd
+      filter STATIC_MEMBERS? and { (id', params') :- id' == id, params' == params }
+      in s |-> [(_, mthdDecl)].
+
+
+rules
+
+  getReturn : scope -> RETURN
+
+  getReturn(s) = R :-
+    query return
+      filter e and true
+      in s |-> [(_, R)].
+
+
+  resolveReturn : scope -> RETURN
+
+  resolveReturn(s) = R :-
+    query return
+      filter LEX* and true
+      min $ < LEX and true
+      in s |-> [(_, R)].
+
+
+  declareReturn : scope * RETURN
+
+  declareReturn(s, R) :-
+    !return[R] in s.
+

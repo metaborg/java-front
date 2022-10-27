@@ -1,0 +1,10 @@
+module statics/java/arrays/Main
+
+imports
+
+  signatures/syntax/java/arrays/Main-sig
+
+  statics/java/arrays/ArrayInitializers
+
+rules // Chapter 10. Arrays
+

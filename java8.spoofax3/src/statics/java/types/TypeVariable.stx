@@ -1,0 +1,40 @@
+module statics/java/types/TypeVariable
+
+imports
+
+  signatures/syntax/java/types/TypeVariable-sig
+
+  statics/java/JRE
+  statics/java/classes/ClassDeclarations
+  statics/java/interfaces/Annotations
+  statics/java/names/Main
+  statics/java/names/TypeNames
+  statics/java/types/Main
+  statics/java/types/ReferenceTypes
+
+
+rules // 4.4. Type Variables
+
+  /** FIXME
+   * Type parameters get the type of the first bound. Other bounds are ignored.
+   * Type parameters used to be modeled as local CLASS declarations, which would extend/implement
+   * the bounds. This works somewhat in the class body, but causes problems when type parameters
+   * appear as method parameter types: arguments inherit the bound, not the local subtype of the bound.
+   */
+
+  typeParamOk : scope * TypeParameter
+  typeParamListOk maps typeParamOk(*, list(*))
+
+  typeParamOk(s, TypeParameter(annoList, id)) :-
+  {s_var}
+    annoListOk(s, annoList),
+    aliasType(s, (id, typeScope(objectOk(s)))).
+
+  typeParamOk(s, TypeParameterExtends(annoList, id, clsTypeList)) :-
+  {s_var T Ts}
+    annoListOk(s, annoList),
+    [T|Ts] == clsTypeListOk(s, clsTypeList),
+    isClsOrIntfType(T),
+    try { Ts == [] } | warning "Extra bounds ignored.",
+    aliasType(s, (id, typeScope(T))).
+

@@ -1,0 +1,50 @@
+module statics/java/interfaces/InterfaceMethodDeclarations
+
+imports
+
+  signatures/syntax/java/interfaces/InterfaceMethodDeclarations-sig
+
+  statics/java/classes/MethodDeclarations
+  statics/java/interfaces/Annotations
+  statics/java/interfaces/Main
+  statics/java/names/Main
+
+
+rules // 9.4. Method Declarations
+
+  intfMthdDeclOk : scope * InterfaceMethodDeclaration * scope * scope
+
+  intfMthdDeclOk(s, AbstractMethodDec(intfMthdModList, mthdHeader, mthdBody), s_def, s_staticDef) :-
+  {isStatic s_mthdHead s_mthdBody}
+    intfMthdModListOk(s, intfMthdModList), // FIXME implicitly `public`
+    isStatic == hasStaticIntfMthdMod(intfMthdModList),
+
+    new s_mthdHead,
+    addLexical(s_mthdHead, isStatic, s),
+    mthdHeaderOk2(s_mthdHead, mthdHeader, s_def, s_staticDef, isStatic),
+
+    new s_mthdBody,
+    s_mthdBody -LEX-> s_mthdHead,
+    mthdBodyOk(s_mthdBody, mthdBody).
+
+
+  intfMthdModOk : scope * InterfaceMethodModifier
+  intfMthdModListOk maps intfMthdModOk(*, list(*))
+
+  intfMthdModOk(s, Annotation2InterfaceMethodModifier(anno)) :-
+    annoOk(s, anno),
+    true.
+  intfMthdModOk(s, Public2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Abstract2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Default2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Static2InterfaceMethodModifier(_)) :- true.
+  intfMthdModOk(s, Strictfp2InterfaceMethodModifier(_)) :- true.
+
+
+  hasStaticIntfMthdMod : list(InterfaceMethodModifier) -> B
+
+  hasStaticIntfMthdMod([Static2InterfaceMethodModifier(_)|_]) = T().
+  hasStaticIntfMthdMod([_|intfMthdModList]) = hasStaticIntfMthdMod(intfMthdModList).
+  hasStaticIntfMthdMod([]) = F().
+
+

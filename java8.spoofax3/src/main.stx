@@ -2,12 +2,59 @@ module main
 
 imports
 
-  signatures/start-sig
+  statics/java/Main
+  statics/java/names/Main
+  statics/java/names/PackageNames
+  statics/java/names/TypeNames
+  statics/java/packages/CompilationUnits
+  statics/java/packages/PackageDeclarations
+
+  signatures/syntax/java/Test-sig
 
 rules
 
   projectOk : scope
-  projectOk(s).
 
-  fileOk : scope * Start
-  fileOk(s, _).
+  projectOk(s_proj) :-
+    true.
+
+
+  groupOk : scope * string * scope
+
+  groupOk(s_parent, id, s_pkg) :-
+    s_pkg -PARENT_PKG-> s_parent,
+    declarePkg(s_parent, Id(id), s_pkg),
+    true.
+
+
+  fileOk : scope * CompilationUnit
+
+  fileOk(s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
+    compilationUnitOk(rootScope(s_pkg), s_pkg, compilationUnit).
+
+  fileOk(s_pkg, Test(testUnitList)) :-
+  {s_test s_anonPkg}
+    // isolate tests from the regular global scope
+    new s_test, s_test -LEX-> rootScope(s_pkg),
+
+    new s_anonPkg, groupOk(s_test, "(unnamed)", s_anonPkg),
+
+    testUnitListOk(s_test, s_anonPkg, testUnitList).
+
+
+  testUnitOk : scope * scope * TestUnit
+  testUnitListOk maps testUnitOk(*, *, list(*))
+
+  testUnitOk(s_parent, s_pkg, TestPkg(id, testUnitList)) :-
+  {s_subPkg}
+    new s_subPkg, groupOk(s_parent, id, s_subPkg),
+    testUnitListOk(s_subPkg, s_subPkg, testUnitList).
+
+  testUnitOk(s_parent, s_pkg, TestFile(_, compilationUnit)) :-
+    fileOk(s_pkg, compilationUnit).
+
+
+  rootScope : scope -> scope
+
+  rootScope(s) = s_root :-
+    query () filter PARENT_PKG* min PARENT_PKG < $ and true in s |-> [(_, s_root)].

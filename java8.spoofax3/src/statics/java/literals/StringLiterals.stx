@@ -1,0 +1,17 @@
+module statics/java/literals/StringLiterals
+
+imports
+
+  signatures/syntax/java/literals/StringLiterals-sig
+
+  statics/java/JRE
+  statics/java/literals/Main
+  statics/java/types/Main
+
+
+rules // 3.10.5. String Literals
+
+  stringLitOk : scope * StringLiteral -> TYPE
+
+  stringLitOk(s, StringLiteral(_)) = stringOk(s).
+

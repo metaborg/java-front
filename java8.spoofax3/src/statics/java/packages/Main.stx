@@ -1,0 +1,13 @@
+module statics/java/packages/Main
+
+imports
+
+  signatures/syntax/java/packages/Main-sig
+
+  statics/java/packages/CompilationUnits
+  statics/java/packages/ImportDeclarations
+  statics/java/packages/PackageDeclarations
+  statics/java/packages/TypeDeclarations
+
+
+rules // Chapter 7. Packages

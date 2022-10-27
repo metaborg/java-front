@@ -1,0 +1,93 @@
+module statics/java/types/Main
+
+imports
+
+  signatures/syntax/java/types/Main-sig
+
+  statics/java/types/ParameterizedTypes
+  statics/java/types/PrimitiveTypes
+  statics/java/types/ReferenceTypes
+  statics/java/types/TypeVariable
+
+// Chapter 4. Types, Values, and Variables
+
+signature
+
+  sorts TYPE KIND
+
+  relations
+
+    withType : -> TYPE
+    withKind : -> KIND
+
+rules
+
+  matchType : TYPE -> scope
+
+  matchType(T) = s :-
+    T == toType(s).
+
+
+  toType : scope -> TYPE
+
+  toType(s) = T :-
+    query withType
+      filter e and true
+      min /* */ and true
+      in s |-> [(_, T)].
+
+
+  fromType : TYPE -> scope
+
+  fromType(T) = s :-
+    new s, !withType[T] in s.
+
+
+  setType : scope * TYPE
+
+  setType(s, T) :-
+    !withType[T] in s.
+
+rules
+
+  matchKind : KIND -> scope
+
+  matchKind(K) = s :-
+    K == toKind(s).
+
+
+  toKind : scope -> KIND
+
+  toKind(s) = K :-
+    query withKind
+      filter e and true
+      min /* */ and true
+      in s |-> [(_, K)].
+
+
+  fromKind : KIND -> scope
+
+  fromKind(K) = s :-
+    new s, !withKind[K] in s.
+
+  setKind : scope * KIND
+
+  setKind(s, K) :-
+    !withKind[K] in s.
+
+
+rules
+
+  typeOk : scope * Type -> TYPE
+
+  typeOk(s, PrimitiveType2Type(primType)) = primTypeOk(s, primType).
+
+  typeOk(s, ReferenceType2Type(refType)) = refTypeOk(s, refType).
+
+
+// 4.1 The Kinds of Types and Values
+
+signature
+
+  constructors
+    NULL : TYPE

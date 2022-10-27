@@ -1,0 +1,219 @@
+module statics/java/classes/MethodDeclarations
+
+imports
+
+  signatures/syntax/java/classes/MethodDeclarations-sig
+
+  statics/java/JRE
+  statics/java/classes/Main
+  statics/java/classes/ClassDeclarations
+  statics/java/classes/FieldDeclarations
+  statics/java/interfaces/Annotations
+  statics/java/names/Main
+  statics/java/names/MethodNames
+  statics/java/statements/Blocks
+  statics/java/types/ReferenceTypes
+  statics/java/util/Boolean
+
+
+rules // 8.4. Method Declarations
+
+  mthdDeclOk : scope * MethodDeclaration * scope * scope
+
+  mthdDeclOk(s, MethodDecl(mthdModList, mthdHeader, mthdBody), s_def, s_staticDef) :-
+  {isStatic s_mthdHead s_mthdBody}
+    mthdModListOk(s, mthdModList),
+    isStatic == hasStaticMthdMod(mthdModList),
+
+    new s_mthdHead,
+    addLexical(s_mthdHead, isStatic, s),
+    mthdHeaderOk2(s_mthdHead, mthdHeader, s_def, s_staticDef, isStatic),
+
+    new s_mthdBody,
+    s_mthdBody -LEX-> s_mthdHead,
+    mthdBodyOk(s_mthdBody, mthdBody).
+
+
+  mthdHeaderOk2 : scope * MethodHeader * scope * scope * B
+
+  mthdHeaderOk2(s, mthdHead, s_def, s_staticDef, F()) :-
+    mthdHeaderOk(s, mthdHead, s_def).
+
+  mthdHeaderOk2(s, mthdHead, s_def, s_staticDef, T()) :-
+    mthdHeaderOk(s, mthdHead, s_staticDef).
+
+
+  mthdHeaderOk : scope * MethodHeader * scope
+
+  mthdHeaderOk(s_mthdHead, MethodHeader(result, id, formalParams, annDimsEmpty, throwsOpt), s_def) :-
+  {R params}
+    R == resultWithDimsOk(s_mthdHead, result, annDimsEmpty),
+    declareReturn(s_mthdHead, R),
+    params == formalParamsOk(s_mthdHead, formalParams, s_mthdHead),
+    declareMthdName(s_def, id, params, R),
+    throwsOptOk(s_mthdHead, throwsOpt).
+
+  mthdHeaderOk(s_mthdHead, MethodHeaderTypeParameters(typeParams, annoList, result, id, formalParams, throwsOpt), s_def) :-
+  {R params}
+    typeParamsOk(s_mthdHead, typeParams),
+    annoListOk(s_mthdHead, annoList),
+    R == resultOk(s_mthdHead, result),
+    declareReturn(s_mthdHead, R),
+    params == formalParamsOk(s_mthdHead, formalParams, s_mthdHead),
+    declareMthdName(s_def, id, params, R),
+    throwsOptOk(s_mthdHead, throwsOpt).
+
+
+  resultOk : scope * Result -> RETURN
+
+  resultOk(s, UnannType2Result(unannType)) = TYPED(T) :-
+    T == unannTypeOk(s, unannType).
+
+  resultOk(s, Void()) = VOID().
+
+
+  resultWithDimsOk : scope * Result * AnnotatedDimsEmpty -> RETURN
+
+  resultWithDimsOk(s, UnannType2Result(unannType), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = TYPED(T) :-
+    T == annDimListOk(s, unannTypeOk(s, unannType), annDimList).
+
+  resultWithDimsOk(s, Void(), AnnotatedDims2AnnotatedDimsEmpty(annDimList)) = VOID() :-
+    annDimList == [].
+
+
+  throwsOptOk : scope * Throws-OPT
+  throwsOptOk(s, NoThrows()).
+  throwsOptOk(s, SomeThrows(throws)) :- throwsOk(s, throws).
+
+  throwsOk : scope * Throws
+  throwsOk(s, ThrowsDec(exceptTypeList)) :-
+    exceptTypeListOk(s, exceptTypeList),
+    true.
+
+
+  exceptTypeOk : scope * ExceptionType
+  exceptTypeListOk maps exceptTypeOk(*, list(*))
+
+  exceptTypeOk(s, ClassType2ExceptionType(clsType)) :-
+  {T}
+    T == clsTypeOk(s, clsType),
+    isThrowable(T) == T(),
+    true.
+
+
+  mthdModOk : scope * MethodModifier
+  mthdModListOk maps mthdModOk(*, list(*))
+
+  mthdModOk(s, Annotation2MethodModifier(anno)) :-
+    annoOk(s, anno),
+    true.
+  mthdModOk(s, Public2MethodModifier(_)) :- true.
+  mthdModOk(s, Protected2MethodModifier(_)) :- true.
+  mthdModOk(s, Private2MethodModifier(_)) :- true.
+  mthdModOk(s, Abstract2MethodModifier(_)) :- true.
+  mthdModOk(s, Static2MethodModifier(_)) :- true.
+  mthdModOk(s, Final2MethodModifier(_)) :- true.
+  mthdModOk(s, Synchronized2MethodModifier(_)) :- true.
+  mthdModOk(s, Native2MethodModifier(_)) :- true.
+  mthdModOk(s, Strictfp2MethodModifier(_)) :- true.
+
+
+  hasStaticMthdMod : list(MethodModifier) -> B
+
+  hasStaticMthdMod([Static2MethodModifier(_)|_]) = T().
+  hasStaticMthdMod([_|mthdModList]) = hasStaticMthdMod(mthdModList).
+  hasStaticMthdMod([]) = F().
+
+
+  mthdBodyOk : scope * MethodBody
+
+  mthdBodyOk(s, Block2MethodBody(blk)) :-
+    blkOk(s, blk),
+    true.
+
+  mthdBodyOk(s, NoMethodBody()) :-
+    true.
+
+
+  recvParamOk : scope * ReceiverParam * scope
+
+  recvParamOk(s, ReceiverParamQual(annoList, unannType, id), s_def) :-
+    annoListOk(s, annoList),
+    _ == unannTypeOk(s, unannType),
+    // FIXME Define local this and/or check correspondence with enclosing this
+    true.
+
+  recvParamOk(s, ReceiverParam(annoList, unannType), s_def) :-
+    annoListOk(s, annoList),
+    _ == unannTypeOk(s, unannType),
+    // FIXME Define local this and/or check correspondence with enclosing this
+    true.
+
+
+  formalParamsOk : scope * FormalParams * scope -> PARAMS
+
+  formalParamsOk(s, NoParams(), s_def) = ARGS([]) :-
+    true.
+
+  formalParamsOk(s, ReceiverParam2FormalParams(recvParam), s_def) = ARGS([]) :-
+    recvParamOk(s, recvParam, s_def).
+
+  formalParamsOk(s, SingleParam(lastFormalParam), s_def) = params :-
+    params == lastFormalParamOk(s, [], lastFormalParam, s_def).
+
+  formalParamsOk(s, ParamList(formalParamList, lastFormalParam), s_def) = params :-
+  {Ts}
+    Ts == formalParamListOk(s, formalParamList, s_def),
+    params == lastFormalParamOk(s, Ts, lastFormalParam, s_def).
+
+  formalParamsOk(s, ReceiverParamList(recvParam, formalParamList, lastFormalParam), s_def) = params :-
+  {Ts}
+    recvParamOk(s, recvParam, s_def),
+    Ts == formalParamListOk(s, formalParamList, s_def),
+    params == lastFormalParamOk(s, Ts, lastFormalParam, s_def).
+
+
+  lastFormalParamOk : scope * list(TYPE) * LastFormalParam * scope -> PARAMS
+
+  lastFormalParamOk(s, Ts, FormalParam2LastFormalParam(formalParam), s_def) = ARGS(append1(Ts, T)) :-
+    T == formalParamOk(s, formalParam, s_def).
+
+  lastFormalParamOk(s, Ts, VarArityParam(varModList, unannType, annoList, varDeclId), s_def) = VARARGS(Ts, T) :-
+  {T'}
+    varModListOk(s, varModList),
+    T' == unannTypeOk(s, unannType),
+    annoListOk(s, annoList),
+    T == makeArrayType(s, T'),
+    varDeclIdOk(s, T, varDeclId, s_def).
+
+
+  formalParamOk : scope * FormalParam * scope -> TYPE
+  formalParamListOk maps formalParamOk(*, list(*), *) = list(*)
+
+  formalParamOk(s, FormalParam(varModList, unannType, varDeclId), s_def) = T :-
+    varModListOk(s, varModList),
+    T == unannTypeOk(s, unannType),
+    varDeclIdOk(s, T, varDeclId, s_def).
+
+
+  varModOk : scope * VariableModifier
+  varModListOk maps varModOk(*, list(*))
+
+  varModOk(s, Annotation2VariableModifier(anno)) :-
+    annoOk(s, anno),
+    true.
+  varModOk(s, Final2VariableModifier(_)) :- true.
+
+
+rules
+
+  append1 : list(TYPE) * TYPE -> list(TYPE)
+
+  append1(Ts, T) = append(Ts, [T]).
+
+    append : list(TYPE) * list(TYPE) -> list(TYPE)
+
+    append([], Us) = Us.
+
+    append([T|Ts], Us) = [T|append(Ts, Us)].
+

@@ -1,0 +1,28 @@
+module statics/java/expressions/Main
+
+imports
+
+  signatures/syntax/java/expressions/Main-sig
+
+  statics/java/expressions/ArrayAccess
+  statics/java/expressions/ArrayCreation
+  statics/java/expressions/AssignmentOperators
+  statics/java/expressions/BinaryOperators
+  statics/java/expressions/ClassInstanceCreation
+  statics/java/expressions/FieldAccess
+  statics/java/expressions/LambdaExpressions
+  statics/java/expressions/MethodInvocation
+  statics/java/expressions/MethodReference
+  statics/java/expressions/Postfix
+  statics/java/expressions/PrimaryExpressions
+  statics/java/expressions/UnaryOperators
+
+  statics/java/types/Main
+
+rules // Chapter 15. Expressions
+
+  exprOk : scope * Expression -> TYPE
+  exprListOk maps exprOk(*, list(*)) = list(*)
+
+  exprOptOk : scope * Expression-OPT -> TYPE
+  exprOptOk(s, SomeExpression(expr)) = exprOk(s, expr).

@@ -1,0 +1,53 @@
+module statics/java/expressions/ArrayCreation
+
+imports
+
+  signatures/syntax/java/expressions/ArrayCreation-sig
+
+  statics/java/arrays/ArrayInitializers
+  statics/java/expressions/Main
+  statics/java/interfaces/Annotations
+  statics/java/types/Conversions
+  statics/java/types/PrimitiveTypes
+  statics/java/types/ReferenceTypes
+
+
+rules // 15.10.1. Array Creation Expressions
+
+  exprOk(s, ArrayCreationExpression2Expression(arrayCreationExpr)) = arrayCreationExprOk(s, arrayCreationExpr).
+
+
+  arrayCreationExprOk : scope * ArrayCreationExpression -> TYPE
+
+  arrayCreationExprOk(s, NewArray(arrayBaseType, dimExprList, annDimsEmpty)) = S :-
+  {T U}
+    T == arrayBaseTypeOk(s, arrayBaseType),
+    U == dimExprListOk(s, T, dimExprList),
+    S == annDimsEmptyOk(s, U, annDimsEmpty),
+    true.
+
+  arrayCreationExprOk(s, NewArrayInit(arrayBaseType, annDims, arrayInit)) = U :-
+  {T}
+    T == arrayBaseTypeOk(s, arrayBaseType),
+    U == annDimsOk(s, T, annDims),
+    arrayInitOk(s, T, arrayInit),
+    true.
+
+
+  arrayBaseTypeOk : scope * ArrayBaseType -> TYPE
+
+  arrayBaseTypeOk(s, ClassType2ArrayBaseType(clsType)) = clsTypeOk(s, clsType).
+
+  arrayBaseTypeOk(s, PrimitiveType2ArrayBaseType(primType)) = primTypeOk(s, primType).
+
+
+  dimExprListOk : scope * TYPE * list(DimExpr) -> TYPE
+
+  dimExprListOk(s, T, []) = T.
+
+  dimExprListOk(s, T, [Dim(annoList, expr)|dimExprList]) = U :-
+    annoListOk(s, annoList),
+    _ == promoteNumericUnary(exprOk(s, expr)),
+    U == dimExprListOk(s, makeArrayType(s, T), dimExprList).
+
+

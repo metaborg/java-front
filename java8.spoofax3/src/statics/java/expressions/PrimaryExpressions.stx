@@ -1,0 +1,54 @@
+module statics/java/expressions/PrimaryExpressions
+
+imports
+
+  signatures/syntax/java/expressions/PrimaryExpressions-sig
+
+  statics/java/JRE
+  statics/java/expressions/Main
+  statics/java/literals/Main
+  statics/java/names/TypeNames
+  statics/java/types/PrimitiveTypes
+
+
+rules // 15.8. Primary Expressions
+
+  exprOk(s, Literal2Expression(lit)) = T :-
+    T == litOk(s, lit).
+
+  exprOk(s, ClassLiteral2Expression(clsLit)) = T :-
+    T == clsLitOk(s, clsLit),
+    true.
+
+  exprOk(s, This()) = typeDeclType(this(s)).
+
+  exprOk(s, QThis(typeName)) = typeDeclType(qualThis(typeNameOk(s, typeName), s)).
+
+
+  clsLitOk : scope * ClassLiteral -> TYPE
+
+  clsLitOk(s, TypeNameClassLiteral(typeName, dimsList)) = classOk(s) :-
+    _ == typeNameOk(s, typeName),
+    dimsListOk(dimsList),
+    true.
+
+  clsLitOk(s, NumericTypeClassLiteral(numType, dimsList)) = classOk(s) :-
+    _ == numTypeOk(numType),
+    dimsListOk(dimsList),
+    true.
+
+  clsLitOk(s, BooleanClassLiteral(dimsList)) = classOk(s) :-
+    dimsListOk(dimsList),
+    true.
+
+  clsLitOk(s, VoidClassLiteral()) = classOk(s) :-
+    true.
+
+
+  dimsOk : Dims
+  dimsListOk maps dimsOk(list(*))
+
+  dimsOk(Dimension()) :-
+    true.
+
+
