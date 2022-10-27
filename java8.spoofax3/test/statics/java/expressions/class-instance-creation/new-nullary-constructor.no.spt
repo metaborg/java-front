@@ -1,0 +1,24 @@
+module expressions/class-instance-creation/new-nullary-constructor_no
+
+language metaborg-java
+
+test new-nullary-constructor_no [[
+
+test;
+
+
+
+
+
+[Test]
+public class Test {
+  A f = new A();
+}
+
+[A]
+public class A {
+  public A(boolean b) {}
+}
+
+]] analysis fails
+   run javacFails to ""

@@ -1,0 +1,24 @@
+module interfaces/implementsimpleinterface_yes
+
+language metaborg-java
+
+test implementsimpleinterface [[
+
+test;
+
+
+
+
+
+[I]
+interface I {
+  public void m();
+}
+
+[A]
+class A implements I {
+  public void m() {};
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

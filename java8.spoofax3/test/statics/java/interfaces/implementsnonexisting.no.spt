@@ -1,0 +1,21 @@
+module interfaces/implementsnonexisting_no
+
+language metaborg-java
+
+test implementsnonexisting [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[A]
+public class A {}
+
+[B]
+public class B implements I {}
+
+
+]] analysis fails
+   run javacFails to ""

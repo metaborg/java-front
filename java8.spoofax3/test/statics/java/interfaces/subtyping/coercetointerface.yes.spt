@@ -1,0 +1,29 @@
+module interfaces/subtyping/coercetointerface_yes
+
+language metaborg-java
+
+test coercetointerface [[
+
+test;
+
+
+
+
+
+[A]
+public class A implements I {}
+
+[B]
+public class B {
+    public A a;
+    public I m() {
+        return this.a;
+    }
+}
+
+[I]
+public interface I {}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

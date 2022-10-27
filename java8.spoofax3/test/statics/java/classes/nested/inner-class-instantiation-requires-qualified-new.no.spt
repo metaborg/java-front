@@ -1,0 +1,30 @@
+module classes/nested/inner-class-instantiation-requires-qualified-new_no
+
+language metaborg-java
+
+test inner-class-instantiation-requires-qualified-new [[
+
+test;
+
+
+
+// error: an enclosing instance that contains A\.B is required
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public class B {}
+    }
+
+}
+
+[T]
+import p.A.B;
+public class T {
+    public B b = new B();
+}
+
+]] analysis fails
+   run javacFails to ""

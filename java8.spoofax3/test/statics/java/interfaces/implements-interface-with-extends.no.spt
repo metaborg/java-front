@@ -1,0 +1,30 @@
+module interfaces/implements-interface-with-extends_no
+
+language metaborg-java
+
+test implements-interface-with-extends [[
+
+test;
+
+
+
+// error: A is not abstract and does not override abstract method .* in K
+
+[I]
+interface J {
+    public void m();
+}
+
+interface K {
+    public void n();
+}
+
+interface I extends J, K {}
+
+[A]
+class A implements I {
+  public void m() {}
+}
+
+]] analysis fails
+   run javacFails to ""

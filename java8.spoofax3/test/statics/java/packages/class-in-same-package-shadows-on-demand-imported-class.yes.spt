@@ -1,0 +1,37 @@
+module packages/class-in-same-package-shadows-on-demand-imported-class_yes
+
+language metaborg-java
+
+test class-in-same-package-shadows-on-demand-imported-class [[
+
+test;
+
+
+
+
+
+[p] {
+
+    [A]
+    package p;
+    import q.*;
+    public class A {
+        public B b = (p.B) null;
+    }
+
+    [B]
+    package p;
+    public class B {}
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {}
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

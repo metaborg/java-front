@@ -1,0 +1,23 @@
+module locals/classdeclsinblockinorder_yes
+
+language metaborg-java
+
+test classdeclsinblockinorder [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public void m() {
+        class B {}
+        class C extends B {}
+    }
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

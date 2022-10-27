@@ -1,0 +1,30 @@
+module expressions/field-access/unqualified-field-access-in-superclass_yes
+
+language metaborg-java
+
+test unqualified-field-access-in-super-class_yes [[
+
+test;
+
+
+
+
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+      public int i;
+    }
+
+    [B]
+    package p;
+    public class B extends A {
+      public int j = i;
+    }
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

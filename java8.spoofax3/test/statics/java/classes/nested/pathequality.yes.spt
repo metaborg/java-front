@@ -1,0 +1,33 @@
+module classes/nested/pathequality_yes
+
+language metaborg-java
+
+test pathequality [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class I {}
+}
+
+[B]
+public class B extends A {}
+
+[C]
+public class C extends A {}
+
+[D]
+public class D {
+    public void m() {
+        C.I i = new B().new I();
+    }
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

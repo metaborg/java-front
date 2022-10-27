@@ -1,0 +1,19 @@
+module duplicate-declarations/toplevelinterface_no
+
+language metaborg-java
+
+test toplevelinterface [[
+
+test;
+
+
+
+// error: duplicate class\: A
+
+[A]
+public interface A {}
+public interface A {}
+
+
+]] analysis fails
+   run javacFails to ""

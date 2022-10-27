@@ -1,0 +1,21 @@
+module classes/constructors/duplicate-constructor_no
+
+language metaborg-java
+
+test duplicate-constructor_no [[
+
+test;
+
+[p] {
+
+  [A]
+  package p;
+  public class A {
+    public A() {}
+    public A() {}
+  }
+
+}
+
+]] analysis fails
+   run javacFails to ""

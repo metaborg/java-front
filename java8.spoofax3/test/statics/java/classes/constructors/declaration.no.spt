@@ -1,0 +1,24 @@
+module classes/constructors/declaration_no
+
+language metaborg-java
+
+test declaration [[
+
+test;
+
+
+
+// error: invalid method declaration
+
+[Point]
+class Point {
+    public int x, y;
+    public Point2D(int x, int y) { // error
+        this.x = x;
+        this.y = y;
+    }
+}
+
+
+]] analysis fails
+   run javacFails to ""

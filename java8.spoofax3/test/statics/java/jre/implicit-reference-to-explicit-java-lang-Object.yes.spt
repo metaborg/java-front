@@ -1,0 +1,16 @@
+module jre/implicit-reference-to-explicit-java-lang-Object_yes
+
+language metaborg-java
+
+test implicit-reference-to-explicit-java-lang-Object [[
+
+test;
+
+
+
+
+
+[Test]
+public class Test {}
+]] analysis succeeds
+   run javacSucceeds to ""

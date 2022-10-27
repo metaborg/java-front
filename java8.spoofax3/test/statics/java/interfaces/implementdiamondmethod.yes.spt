@@ -1,0 +1,33 @@
+module interfaces/implementdiamondmethod_yes
+
+language metaborg-java
+
+test implementdiamondmethod [[
+
+test;
+
+
+
+
+
+[A]
+public class A implements J, K {
+  public int m() {
+    return 42;
+  }
+}
+
+[I]
+public interface I {
+  public int m();
+}
+
+[J]
+public interface J extends I {}
+
+[K]
+public interface K extends I {}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

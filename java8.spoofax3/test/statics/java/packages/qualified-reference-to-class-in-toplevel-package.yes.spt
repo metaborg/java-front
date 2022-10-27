@@ -1,0 +1,34 @@
+module packages/qualified-reference-to-class-in-toplevel-package_yes
+
+language metaborg-java
+
+test qualified-reference-to-class-in-toplevel-package [[
+
+test;
+
+
+
+
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public q.B b;
+    }
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {
+        public p.A a;
+    }
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

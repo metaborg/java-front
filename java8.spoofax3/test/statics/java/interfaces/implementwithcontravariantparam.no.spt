@@ -1,0 +1,23 @@
+module interfaces/implementwithcontravariantparam_no
+
+language metaborg-java
+
+test implementwithcontravariantparam [[
+
+test;
+
+[I]
+interface I {
+  public void m(A a);
+}
+
+[A]
+class A implements I {
+  public void m(B a) {}
+}
+
+[B]
+class B extends A {}
+
+]] analysis fails
+   run javacFails to ""

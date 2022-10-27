@@ -1,0 +1,31 @@
+module interfaces/implements-interface-with-extends_yes
+
+language metaborg-java
+
+test implements-interface-with-extends [[
+
+test;
+
+
+
+
+
+[I]
+interface J {
+    public void m();
+}
+
+interface K {
+    public void n();
+}
+
+interface I extends J, K {}
+
+[A]
+class A implements I {
+  public void m() {}
+  public void n() {}
+} 
+
+]] analysis succeeds
+   run javacSucceeds to ""

@@ -1,0 +1,17 @@
+module names/generics/type-parameters-are-recursive_yes
+
+language metaborg-java
+
+test type-parameters-are-recursive_yes [[
+
+test;
+
+[Test]
+public class Test<A extends B, B> {
+
+    B f = (A) null;
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

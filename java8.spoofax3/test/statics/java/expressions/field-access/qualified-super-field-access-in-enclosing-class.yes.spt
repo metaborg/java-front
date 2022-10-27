@@ -1,0 +1,33 @@
+module expressions/field-access/qualified-super-field-access-in-enclosing-class_yes
+
+language metaborg-java
+
+test qualified-super-field-access-in-enclosing-class_yes [[
+
+test;
+
+
+
+
+
+[p] {
+
+  [A]
+  package p;
+  public class A {
+    public int f;
+  }
+
+  [B]
+  package p;
+  public class B extends A {
+    public boolean f;
+    class C {
+      public int g = B.super.f;
+    }
+  }
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

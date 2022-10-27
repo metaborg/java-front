@@ -1,0 +1,28 @@
+module names/import-missing-inner-class_no
+
+language metaborg-java
+
+test import-missing-inner-class [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[C]
+import p.A.B;
+public class C {}
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public class C {}
+    }
+
+}
+
+]] analysis fails
+   run javacFails to ""

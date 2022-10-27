@@ -1,0 +1,21 @@
+module classes/fields/fieldssamename_no
+
+language metaborg-java
+
+test fieldssamename_no [[
+
+test;
+
+
+
+
+
+[Test]
+public class Test {
+    public int f;
+    public boolean f;
+}
+
+
+]] analysis fails
+   run javacFails to ""

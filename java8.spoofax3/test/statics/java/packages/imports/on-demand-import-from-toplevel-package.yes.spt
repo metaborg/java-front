@@ -1,0 +1,37 @@
+module packages/on-demand-import-from-toplevel-package_yes
+
+language metaborg-java
+
+test on-demand-import-from-toplevel-package [[
+
+test;
+
+
+
+
+
+[p] {
+
+    [A]
+    package p;
+    import q.*;
+    public class A {
+        public C c;
+    }
+
+}
+
+[q] {
+
+    [B]
+    package q;
+    public class B {}
+
+    [C]
+    package q;
+    public class C {}
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

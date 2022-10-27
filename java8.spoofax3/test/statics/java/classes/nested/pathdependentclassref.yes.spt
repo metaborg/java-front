@@ -1,0 +1,32 @@
+module classes/nested/pathdependentclassref_yes
+
+language metaborg-java
+
+test pathdependentclassref [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class B {}
+}
+
+[B]
+public class B {}
+
+[C]
+public class C {
+    public void m() {
+        A a = new A();
+        A.B ab = a.new B(); // B resolves in the type of a
+        B b = new B();      // B resolves in lexical scope
+    }
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

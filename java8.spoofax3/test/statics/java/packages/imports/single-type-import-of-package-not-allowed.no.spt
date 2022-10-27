@@ -1,0 +1,33 @@
+module packages/single-type-import-of-package-not-allowed_no
+
+language metaborg-java
+
+test single-type-import-of-package-not-allowed [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[p] {
+
+    [A]
+    package p;
+    import q.r;
+    public class A {}
+
+}
+
+[q] {
+    [r] {
+
+        [B]
+        package q.r;
+        public class B {}
+
+    }
+}
+
+]] analysis fails
+   run javacFails to ""

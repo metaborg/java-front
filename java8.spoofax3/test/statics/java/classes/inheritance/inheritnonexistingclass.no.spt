@@ -1,0 +1,21 @@
+module classes/inheritance/inheritnonexistingclass_no
+
+language metaborg-java
+
+test inheritnonexistingclass [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[A]
+public class A {}
+
+[B]
+public class B extends C {}
+
+
+]] analysis fails
+   run javacFails to ""

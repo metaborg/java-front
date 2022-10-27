@@ -1,0 +1,28 @@
+module classes/innerclass-same-name-as-toplevel-class-in-other-compilation-unit_yes
+
+language metaborg-java
+
+test innerclass-same-name-as-toplevel-class-in-other-compilation-unit [[
+
+test;
+
+
+
+
+
+[p] {
+
+    [A]
+    package p;
+    public class A {}
+
+    [B]
+    package p;
+    public class B {
+        public class A {}
+    }
+
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

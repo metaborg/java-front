@@ -1,0 +1,31 @@
+module interfaces/implementswithmultiplemethods_yes
+
+language metaborg-java
+
+test implementswithmultiplemethods [[
+
+test;
+
+
+
+
+
+[I]
+interface I {
+  public void m(A a);
+  public A n(B a);
+}
+
+[A]
+class A implements I {
+  public void m(A a) {}
+  public B n(B b) {
+    return b;
+  }
+}
+
+[B]
+class B extends A {}
+
+]] analysis succeeds
+   run javacSucceeds to ""
