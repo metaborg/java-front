@@ -9,6 +9,7 @@ imports
   statics/java/packages/CompilationUnits
   statics/java/packages/PackageDeclarations
 
+  signatures/start-sig
   signatures/syntax/java/Test-sig
 
 rules
@@ -27,12 +28,17 @@ rules
     true.
 
 
-  fileOk : scope * CompilationUnit
+  fileOk : scope * Start
+  
+  fileOk(s_pkg, CompilationUnit2Start(compilationUnit)) :-
+    startOk(s_pkg, compilationUnit).
 
-  fileOk(s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
+  startOk : scope * CompilationUnit
+
+  startOk(s_pkg, compilationUnit@CompilationUnit(_, _, _)) :-
     compilationUnitOk(rootScope(s_pkg), s_pkg, compilationUnit).
 
-  fileOk(s_pkg, Test(testUnitList)) :-
+  startOk(s_pkg, Test(testUnitList)) :-
   {s_test s_anonPkg}
     // isolate tests from the regular global scope
     new s_test, s_test -LEX-> rootScope(s_pkg),
@@ -51,7 +57,7 @@ rules
     testUnitListOk(s_subPkg, s_subPkg, testUnitList).
 
   testUnitOk(s_parent, s_pkg, TestFile(_, compilationUnit)) :-
-    fileOk(s_pkg, compilationUnit).
+    startOk(s_pkg, compilationUnit).
 
 
   rootScope : scope -> scope
