@@ -2,8 +2,6 @@ module SpoofaxInput
 
 language java8
 
-start symbol Start
-
 test SpoofaxInput [[ package org.metaborg.spoofax.meta.core.pluto;
 
 import java.io.Serializable;

@@ -2,8 +2,6 @@ module StrictMustacheFactory
 
 language java8
 
-start symbol Start
-
 test StrictMustacheFactory [[ package org.metaborg.spoofax.meta.core.generator;
 
 import java.io.Writer;

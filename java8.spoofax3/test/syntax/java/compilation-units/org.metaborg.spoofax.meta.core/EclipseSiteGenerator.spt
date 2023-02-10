@@ -2,8 +2,6 @@ module EclipseSiteGenerator
 
 language java8
 
-start symbol Start
-
 test EclipseSiteGenerator [[ package org.metaborg.spoofax.meta.core.generator.eclipse;
 
 import java.io.IOException;

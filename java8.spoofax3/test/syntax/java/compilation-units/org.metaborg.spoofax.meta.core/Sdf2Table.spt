@@ -2,8 +2,6 @@ module Sdf2Table
 
 language java8
 
-start symbol Start
-
 test Sdf2Table [[ package org.metaborg.spoofax.meta.core.pluto.build;
 
 import java.io.File;

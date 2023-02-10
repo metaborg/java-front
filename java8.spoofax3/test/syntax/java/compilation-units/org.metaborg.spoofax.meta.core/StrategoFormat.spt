@@ -2,8 +2,6 @@ module StrategoFormat
 
 language java8
 
-start symbol Start
-
 test StrategoFormat [[ package org.metaborg.spoofax.meta.core.config;
 
 public enum StrategoFormat {

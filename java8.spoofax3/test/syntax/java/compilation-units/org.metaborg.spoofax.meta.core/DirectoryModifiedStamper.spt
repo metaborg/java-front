@@ -2,8 +2,6 @@ module DirectoryModifiedStamper
 
 language java8
 
-start symbol Start
-
 test DirectoryModifiedStamper [[ package org.metaborg.spoofax.meta.core.pluto.stamp;
 
 import java.io.File;

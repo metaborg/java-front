@@ -2,8 +2,6 @@ module EclipseFeatureGenerator
 
 language java8
 
-start symbol Start
-
 test EclipseFeatureGenerator [[ package org.metaborg.spoofax.meta.core.generator.eclipse;
 
 import java.io.IOException;

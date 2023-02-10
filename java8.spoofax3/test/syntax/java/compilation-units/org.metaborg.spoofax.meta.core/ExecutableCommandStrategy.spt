@@ -2,8 +2,6 @@ module ExecutableCommandStrategy
 
 language java8
 
-start symbol Start
-
 test ExecutableCommandStrategy [[ package org.metaborg.spoofax.meta.core.pluto.util;
 
 import java.io.File;

@@ -2,8 +2,6 @@ module MustacheWriter
 
 language java8
 
-start symbol Start
-
 test MustacheWriter [[ package org.metaborg.spoofax.meta.core.generator;
 
 import java.io.PrintWriter;

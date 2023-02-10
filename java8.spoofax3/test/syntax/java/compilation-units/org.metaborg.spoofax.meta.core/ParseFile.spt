@@ -2,8 +2,6 @@ module ParseFile
 
 language java8
 
-start symbol Start
-
 test ParseFile [[ package org.metaborg.spoofax.meta.core.pluto.build.misc;
 
 import java.io.File;

@@ -2,8 +2,6 @@ module GetSortNamePrimitive
 
 language java8
 
-start symbol Start
-
 test GetSortNamePrimitive [[ package org.metaborg.spoofax.meta.core.stratego.primitive;
 
 import org.spoofax.interpreter.core.IContext;

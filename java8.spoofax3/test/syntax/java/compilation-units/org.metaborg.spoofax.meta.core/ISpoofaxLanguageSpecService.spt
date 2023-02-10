@@ -2,8 +2,6 @@ module ISpoofaxLanguageSpecService
 
 language java8
 
-start symbol Start
-
 test ISpoofaxLanguageSpecService [[ package org.metaborg.spoofax.meta.core.project;
 
 import javax.annotation.Nullable;

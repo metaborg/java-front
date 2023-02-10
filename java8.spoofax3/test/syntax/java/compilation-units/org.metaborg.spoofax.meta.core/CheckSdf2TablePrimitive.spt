@@ -2,8 +2,6 @@ module CheckSdf2TablePrimitive
 
 language java8
 
-start symbol Start
-
 test CheckSdf2TablePrimitive [[ package org.metaborg.spoofax.meta.core.stratego.primitive;
 
 import org.apache.commons.vfs2.FileObject;

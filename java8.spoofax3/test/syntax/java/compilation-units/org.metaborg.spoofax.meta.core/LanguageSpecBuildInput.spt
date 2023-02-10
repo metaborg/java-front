@@ -2,8 +2,6 @@ module LanguageSpecBuildInput
 
 language java8
 
-start symbol Start
-
 test LanguageSpecBuildInput [[ package org.metaborg.spoofax.meta.core.build;
 
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpec;

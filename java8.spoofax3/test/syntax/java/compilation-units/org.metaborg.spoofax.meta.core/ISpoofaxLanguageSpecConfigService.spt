@@ -2,8 +2,6 @@ module ISpoofaxLanguageSpecConfigService
 
 language java8
 
-start symbol Start
-
 test ISpoofaxLanguageSpecConfigService [[ package org.metaborg.spoofax.meta.core.config;
 
 import java.io.IOException;

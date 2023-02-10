@@ -2,8 +2,6 @@ module StrategoExecutor
 
 language java8
 
-start symbol Start
-
 test StrategoExecutor [[ package org.metaborg.spoofax.meta.core.pluto.util;
 
 import java.util.List;

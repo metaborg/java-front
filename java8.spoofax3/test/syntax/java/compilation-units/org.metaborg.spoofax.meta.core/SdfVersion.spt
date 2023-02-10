@@ -2,8 +2,6 @@ module SdfVersion
 
 language java8
 
-start symbol Start
-
 test SdfVersion [[ package org.metaborg.spoofax.meta.core.config;
 
 public enum SdfVersion {

@@ -2,8 +2,6 @@ module ISpoofaxLanguageSpecConfigWriter
 
 language java8
 
-start symbol Start
-
 test ISpoofaxLanguageSpecConfigWriter [[ package org.metaborg.spoofax.meta.core.config;
 
 import javax.annotation.Nullable;

@@ -2,8 +2,6 @@ module IAntRunner
 
 language java8
 
-start symbol Start
-
 test IAntRunner [[ package org.metaborg.spoofax.meta.core.ant;
 
 import javax.annotation.Nullable;

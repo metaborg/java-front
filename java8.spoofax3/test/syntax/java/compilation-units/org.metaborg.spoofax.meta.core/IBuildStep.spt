@@ -2,8 +2,6 @@ module IBuildStep
 
 language java8
 
-start symbol Start
-
 test IBuildStep [[ package org.metaborg.spoofax.meta.core.build;
 
 import org.metaborg.core.MetaborgException;

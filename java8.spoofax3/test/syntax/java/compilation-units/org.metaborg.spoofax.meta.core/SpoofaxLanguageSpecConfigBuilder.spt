@@ -2,8 +2,6 @@ module SpoofaxLanguageSpecConfigBuilder
 
 language java8
 
-start symbol Start
-
 test SpoofaxLanguageSpecConfigBuilder [[ package org.metaborg.spoofax.meta.core.config;
 
 import java.util.Collection;

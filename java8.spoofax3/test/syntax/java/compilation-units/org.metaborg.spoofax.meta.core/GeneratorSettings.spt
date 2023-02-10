@@ -2,8 +2,6 @@ module GeneratorSettings
 
 language java8
 
-start symbol Start
-
 test GeneratorSettings [[ package org.metaborg.spoofax.meta.core.generator;
 
 import javax.annotation.Nullable;

@@ -2,8 +2,6 @@ module SpoofaxExtensionModulePlugin
 
 language java8
 
-start symbol Start
-
 test SpoofaxExtensionModulePlugin [[ package org.metaborg.spoofax.meta.core;
 
 import org.metaborg.core.plugin.IServiceModulePlugin;

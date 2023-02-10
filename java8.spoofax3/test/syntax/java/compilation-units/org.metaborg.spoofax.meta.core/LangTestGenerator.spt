@@ -2,8 +2,6 @@ module LangTestGenerator
 
 language java8
 
-start symbol Start
-
 test LangTestGenerator [[ package org.metaborg.spoofax.meta.core.generator.general;
 
 import java.io.IOException;

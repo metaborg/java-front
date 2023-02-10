@@ -2,8 +2,6 @@ module AntRunnerService
 
 language java8
 
-start symbol Start
-
 test AntRunnerService [[ package org.metaborg.spoofax.meta.core.ant;
 
 import java.net.URL;

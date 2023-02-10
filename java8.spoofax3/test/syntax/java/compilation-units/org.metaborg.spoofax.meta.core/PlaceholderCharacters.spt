@@ -2,8 +2,6 @@ module PlaceholderCharacters
 
 language java8
 
-start symbol Start
-
 test PlaceholderCharacters [[ package org.metaborg.spoofax.meta.core.config;
 
 public class PlaceholderCharacters {

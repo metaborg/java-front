@@ -2,8 +2,6 @@ module IBuildStepConfig
 
 language java8
 
-start symbol Start
-
 test IBuildStepConfig [[ package org.metaborg.spoofax.meta.core.config;
 
 import java.io.Serializable;

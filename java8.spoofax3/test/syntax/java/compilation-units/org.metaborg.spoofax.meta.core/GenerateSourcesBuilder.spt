@@ -2,8 +2,6 @@ module GenerateSourcesBuilder
 
 language java8
 
-start symbol Start
-
 test GenerateSourcesBuilder [[ package org.metaborg.spoofax.meta.core.pluto.build.main;
 
 import java.io.File;

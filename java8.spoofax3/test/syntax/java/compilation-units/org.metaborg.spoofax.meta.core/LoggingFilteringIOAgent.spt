@@ -2,8 +2,6 @@ module LoggingFilteringIOAgent
 
 language java8
 
-start symbol Start
-
 test LoggingFilteringIOAgent [[ package org.metaborg.spoofax.meta.core.pluto.util;
 
 import java.io.IOException;

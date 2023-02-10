@@ -2,8 +2,6 @@ module AntBuildStepConfig
 
 language java8
 
-start symbol Start
-
 test AntBuildStepConfig [[ package org.metaborg.spoofax.meta.core.config;
 
 public class AntBuildStepConfig implements IBuildStepConfig {

@@ -2,8 +2,6 @@ module ResourceAgentTracker
 
 language java8
 
-start symbol Start
-
 test ResourceAgentTracker [[ package org.metaborg.spoofax.meta.core.pluto.util;
 
 import java.io.ByteArrayOutputStream;

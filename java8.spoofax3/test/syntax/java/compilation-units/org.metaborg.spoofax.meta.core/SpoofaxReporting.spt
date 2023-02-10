@@ -2,8 +2,6 @@ module SpoofaxReporting
 
 language java8
 
-start symbol Start
-
 test SpoofaxReporting [[ package org.metaborg.spoofax.meta.core.pluto;
 
 import java.io.File;

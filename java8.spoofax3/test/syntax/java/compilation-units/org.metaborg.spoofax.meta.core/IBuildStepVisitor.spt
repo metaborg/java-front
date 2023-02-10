@@ -2,8 +2,6 @@ module IBuildStepVisitor
 
 language java8
 
-start symbol Start
-
 test IBuildStepVisitor [[ package org.metaborg.spoofax.meta.core.config;
 
 /**

@@ -2,8 +2,6 @@ module Strj
 
 language java8
 
-start symbol Start
-
 test Strj [[ package org.metaborg.spoofax.meta.core.pluto.build;
 
 import java.io.File;

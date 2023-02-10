@@ -2,8 +2,6 @@ module CreateSpoofaxLanguageSpecWizard
 
 language java8
 
-start symbol Start
-
 test CreateSpoofaxLanguageSpecWizard [[ package org.metaborg.spoofax.meta.core.wizard;
 
 import org.metaborg.meta.core.wizard.CreateLanguageSpecWizard;

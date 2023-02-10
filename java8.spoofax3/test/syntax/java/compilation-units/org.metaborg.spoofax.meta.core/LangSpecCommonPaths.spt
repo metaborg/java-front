@@ -2,8 +2,6 @@ module LangSpecCommonPaths
 
 language java8
 
-start symbol Start
-
 test LangSpecCommonPaths [[ package org.metaborg.spoofax.meta.core.build;
 
 import java.util.Collection;

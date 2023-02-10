@@ -2,8 +2,6 @@ module PlaceholderCharsPrimitive
 
 language java8
 
-start symbol Start
-
 test PlaceholderCharsPrimitive [[ package org.metaborg.spoofax.meta.core.stratego.primitive;
 
 import org.apache.commons.vfs2.FileObject;

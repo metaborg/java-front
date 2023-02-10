@@ -2,8 +2,6 @@ module StrategoBuildStepConfig
 
 language java8
 
-start symbol Start
-
 test StrategoBuildStepConfig [[ package org.metaborg.spoofax.meta.core.config;
 
 import org.metaborg.util.cmd.Arguments;

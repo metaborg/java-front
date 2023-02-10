@@ -2,8 +2,6 @@ module Sdf2RtgStamper
 
 language java8
 
-start symbol Start
-
 test Sdf2RtgStamper [[ package org.metaborg.spoofax.meta.core.pluto.stamp;
 
 import java.io.File;

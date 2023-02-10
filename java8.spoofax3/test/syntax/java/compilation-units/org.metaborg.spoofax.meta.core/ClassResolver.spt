@@ -2,8 +2,6 @@ module ClassResolver
 
 language java8
 
-start symbol Start
-
 test ClassResolver [[ package org.metaborg.spoofax.meta.core.generator;
 
 import java.io.InputStream;

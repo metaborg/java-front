@@ -2,8 +2,6 @@ module Rtg2Sig
 
 language java8
 
-start symbol Start
-
 test Rtg2Sig [[ package org.metaborg.spoofax.meta.core.pluto.build;
 
 import java.io.File;

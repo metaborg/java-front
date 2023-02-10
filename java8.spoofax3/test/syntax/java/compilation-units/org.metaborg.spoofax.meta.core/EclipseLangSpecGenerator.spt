@@ -2,8 +2,6 @@ module EclipseLangSpecGenerator
 
 language java8
 
-start symbol Start
-
 test EclipseLangSpecGenerator [[ package org.metaborg.spoofax.meta.core.generator.eclipse;
 
 import java.io.IOException;

@@ -2,8 +2,6 @@ module EclipsePluginGenerator
 
 language java8
 
-start symbol Start
-
 test EclipsePluginGenerator [[ package org.metaborg.spoofax.meta.core.generator.eclipse;
 
 import java.io.IOException;

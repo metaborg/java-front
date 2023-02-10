@@ -2,8 +2,6 @@ module SpoofaxMeta
 
 language java8
 
-start symbol Start
-
 test SpoofaxMeta [[ package org.metaborg.spoofax.meta.core;
 
 import org.metaborg.core.MetaBorg;

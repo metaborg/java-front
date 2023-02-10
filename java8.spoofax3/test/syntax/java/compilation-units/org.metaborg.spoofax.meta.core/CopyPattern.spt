@@ -2,8 +2,6 @@ module CopyPattern
 
 language java8
 
-start symbol Start
-
 test CopyPattern [[ package org.metaborg.spoofax.meta.core.pluto.build.misc;
 
 import java.io.File;
