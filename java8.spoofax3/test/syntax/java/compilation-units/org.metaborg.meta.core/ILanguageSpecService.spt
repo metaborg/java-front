@@ -2,8 +2,6 @@ module ILanguageSpecService
 
 language java8
 
-start symbol Start
-
 test ILanguageSpecService [[ package org.metaborg.meta.core.project;
 
 import javax.annotation.Nullable;

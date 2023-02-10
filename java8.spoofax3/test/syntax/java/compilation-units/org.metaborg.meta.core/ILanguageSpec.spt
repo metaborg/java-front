@@ -2,8 +2,6 @@ module ILanguageSpec
 
 language java8
 
-start symbol Start
-
 test ILanguageSpec [[ package org.metaborg.meta.core.project;
 
 import org.metaborg.core.project.IProject;

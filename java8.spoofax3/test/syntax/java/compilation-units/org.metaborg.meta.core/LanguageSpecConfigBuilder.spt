@@ -2,8 +2,6 @@ module LanguageSpecConfigBuilder
 
 language java8
 
-start symbol Start
-
 test LanguageSpecConfigBuilder [[ package org.metaborg.meta.core.config;
 
 import java.util.Set;

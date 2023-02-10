@@ -2,8 +2,6 @@ module ILanguageSpecConfigWriter
 
 language java8
 
-start symbol Start
-
 test ILanguageSpecConfigWriter [[ package org.metaborg.meta.core.config;
 
 import javax.annotation.Nullable;

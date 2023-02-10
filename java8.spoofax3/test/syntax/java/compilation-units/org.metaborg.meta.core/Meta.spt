@@ -2,8 +2,6 @@ module Meta
 
 language java8
 
-start symbol Start
-
 test Meta [[ package org.metaborg.meta.core;
 
 import static java.lang.annotation.ElementType.*;

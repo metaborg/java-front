@@ -2,8 +2,6 @@ module UpgradeLanguageSpecWizard
 
 language java8
 
-start symbol Start
-
 test UpgradeLanguageSpecWizard [[ package org.metaborg.meta.core.wizard;
 
 import java.util.List;

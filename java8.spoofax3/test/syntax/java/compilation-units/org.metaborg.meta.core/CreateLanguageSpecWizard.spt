@@ -2,8 +2,6 @@ module CreateLanguageSpecWizard
 
 language java8
 
-start symbol Start
-
 test CreateLanguageSpecWizard [[ package org.metaborg.meta.core.wizard;
 
 import java.util.Collection;
