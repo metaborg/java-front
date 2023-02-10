@@ -2,8 +2,6 @@ module ICompletionItem
 
 language java8
 
-start symbol Start
-
 test ICompletionItem [[ package org.metaborg.core.completion;
 
 import java.io.Serializable;

@@ -2,8 +2,6 @@ module IContext
 
 language java8
 
-start symbol Start
-
 test IContext [[ package org.metaborg.core.context;
 
 import java.io.IOException;

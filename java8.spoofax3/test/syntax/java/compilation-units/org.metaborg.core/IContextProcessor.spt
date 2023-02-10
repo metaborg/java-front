@@ -2,8 +2,6 @@ module IContextProcessor
 
 language java8
 
-start symbol Start
-
 test IContextProcessor [[ package org.metaborg.core.context;
 
 import org.metaborg.core.language.LanguageImplChange;

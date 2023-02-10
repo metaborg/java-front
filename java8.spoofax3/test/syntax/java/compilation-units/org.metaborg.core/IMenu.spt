@@ -2,7 +2,6 @@ module IMenu
 
 language java8
 
-start symbol Start
 
 test IMenu [[ package org.metaborg.core.menu;
 

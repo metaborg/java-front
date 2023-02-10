@@ -2,8 +2,6 @@ module IBuilder
 
 language java8
 
-start symbol Start
-
 test IBuilder [[ package org.metaborg.core.build;
 
 import org.metaborg.core.MetaborgRuntimeException;

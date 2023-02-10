@@ -2,8 +2,6 @@ module BuildInputBuilder
 
 language java8
 
-start symbol Start
-
 test BuildInputBuilder [[ package org.metaborg.core.build;
 
 import java.util.Collection;

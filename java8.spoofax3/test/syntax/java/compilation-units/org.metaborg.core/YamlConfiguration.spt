@@ -2,7 +2,6 @@ module YamlConfiguration
 
 language java8
 
-start symbol Start
 
 test YamlConfiguration [[ package org.metaborg.core.config;
 

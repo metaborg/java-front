@@ -2,7 +2,6 @@ module SourceRegion
 
 language java8
 
-start symbol Start
 
 test SourceRegion [[ package org.metaborg.core.source;
 

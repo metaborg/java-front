@@ -2,7 +2,6 @@ module MetaborgConversionHandler
 
 language java8
 
-start symbol Start
 
 test MetaborgConversionHandler [[ package org.metaborg.core.config;
 

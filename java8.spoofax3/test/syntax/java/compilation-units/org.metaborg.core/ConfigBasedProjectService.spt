@@ -2,8 +2,6 @@ module ConfigBasedProjectService
 
 language java8
 
-start symbol Start
-
 test ConfigBasedProjectService [[ package org.metaborg.core.project;
 
 import java.util.Map;

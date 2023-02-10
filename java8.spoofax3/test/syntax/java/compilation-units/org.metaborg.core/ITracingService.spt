@@ -2,7 +2,6 @@ module ITracingService
 
 language java8
 
-start symbol Start
 
 test ITracingService [[ package org.metaborg.core.tracing;
 

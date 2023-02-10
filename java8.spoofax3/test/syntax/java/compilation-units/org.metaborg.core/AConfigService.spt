@@ -1,6 +1,6 @@
 module AConfigService
 
-language metaborg-java start symbol Start
+language metaborg-java
 
 test AConfigService [[ package org.metaborg.core.config;
 

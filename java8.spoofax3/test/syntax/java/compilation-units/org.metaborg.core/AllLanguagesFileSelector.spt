@@ -2,8 +2,6 @@ module AllLanguagesFileSelector
 
 language java8
 
-start symbol Start
-
 test AllLanguagesFileSelector [[ package org.metaborg.core.language;
 
 import org.apache.commons.vfs2.FileSelectInfo;

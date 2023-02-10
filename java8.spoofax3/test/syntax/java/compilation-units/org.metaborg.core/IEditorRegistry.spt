@@ -2,8 +2,6 @@ module IEditorRegistry
 
 language java8
 
-start symbol Start
-
 test IEditorRegistry [[ package org.metaborg.core.editor;
 
 import org.apache.commons.vfs2.FileObject;

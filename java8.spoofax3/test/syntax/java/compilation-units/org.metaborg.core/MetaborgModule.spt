@@ -2,7 +2,6 @@ module MetaborgModule
 
 language java8
 
-start symbol Start
 
 test MetaborgModule [[ package org.metaborg.core;
 

@@ -2,7 +2,6 @@ module LanguageChangeProcessor
 
 language java8
 
-start symbol Start
 
 test LanguageChangeProcessor [[ package org.metaborg.core.processing;
 

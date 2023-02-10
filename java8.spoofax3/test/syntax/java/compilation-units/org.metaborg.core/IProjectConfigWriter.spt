@@ -2,7 +2,6 @@ module IProjectConfigWriter
 
 language java8
 
-start symbol Start
 
 test IProjectConfigWriter [[ package org.metaborg.core.config;
 

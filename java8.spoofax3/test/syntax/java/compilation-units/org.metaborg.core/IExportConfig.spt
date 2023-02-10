@@ -2,8 +2,6 @@ module IExportConfig
 
 language java8
 
-start symbol Start
-
 test IExportConfig [[ package org.metaborg.core.config;
 
 import java.io.Serializable;

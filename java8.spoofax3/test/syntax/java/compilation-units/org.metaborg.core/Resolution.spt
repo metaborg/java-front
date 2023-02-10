@@ -2,7 +2,6 @@ module Resolution
 
 language java8
 
-start symbol Start
 
 test Resolution [[ package org.metaborg.core.tracing;
 

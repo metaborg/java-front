@@ -2,8 +2,6 @@ module ICompletionService
 
 language java8
 
-start symbol Start
-
 test ICompletionService [[ package org.metaborg.core.completion;
 
 import org.metaborg.core.MetaborgException;

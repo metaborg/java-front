@@ -2,8 +2,6 @@ module IGenerateConfig
 
 language java8
 
-start symbol Start
-
 test IGenerateConfig [[ package org.metaborg.core.config;
 
 /**

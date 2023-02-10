@@ -2,8 +2,6 @@ module DummyEditorRegistry
 
 language java8
 
-start symbol Start
-
 test DummyEditorRegistry [[ package org.metaborg.core.editor;
 
 import org.apache.commons.vfs2.FileObject;

@@ -2,8 +2,6 @@ module IAnalysisResultProcessor
 
 language java8
 
-start symbol Start
-
 test IAnalysisResultProcessor [[ package org.metaborg.core.processing.analyze;
 
 import org.metaborg.core.analysis.IAnalyzeUnit;

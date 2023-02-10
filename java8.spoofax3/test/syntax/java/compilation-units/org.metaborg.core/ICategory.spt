@@ -2,8 +2,6 @@ module ICategory
 
 language java8
 
-start symbol Start
-
 test ICategory [[ package org.metaborg.core.style;
 
 import java.io.Serializable;

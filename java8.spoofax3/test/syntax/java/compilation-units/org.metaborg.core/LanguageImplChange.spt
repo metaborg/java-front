@@ -2,7 +2,6 @@ module LanguageImplChange
 
 language java8
 
-start symbol Start
 
 test LanguageImplChange [[ package org.metaborg.core.language;
 

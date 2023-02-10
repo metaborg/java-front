@@ -2,8 +2,6 @@ module Builder
 
 language java8
 
-start symbol Start
-
 test Builder [[ package org.metaborg.core.build;
 
 import java.io.IOException;

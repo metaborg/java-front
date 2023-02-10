@@ -2,7 +2,6 @@ module IParser
 
 language java8
 
-start symbol Start
 
 test IParser [[ package org.metaborg.core.syntax;
 

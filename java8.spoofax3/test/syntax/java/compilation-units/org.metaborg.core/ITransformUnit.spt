@@ -2,7 +2,6 @@ module ITransformUnit
 
 language java8
 
-start symbol Start
 
 test ITransformUnit [[ package org.metaborg.core.transform;
 

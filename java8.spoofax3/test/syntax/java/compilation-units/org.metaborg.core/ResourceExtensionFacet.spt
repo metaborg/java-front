@@ -2,7 +2,6 @@ module ResourceExtensionFacet
 
 language java8
 
-start symbol Start
 
 test ResourceExtensionFacet [[ package org.metaborg.core.language;
 

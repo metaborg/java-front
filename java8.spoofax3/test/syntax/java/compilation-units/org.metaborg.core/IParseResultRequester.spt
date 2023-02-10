@@ -2,7 +2,6 @@ module IParseResultRequester
 
 language java8
 
-start symbol Start
 
 test IParseResultRequester [[ package org.metaborg.core.processing.parse;
 

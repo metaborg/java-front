@@ -2,8 +2,6 @@ module ConfigException
 
 language java8
 
-start symbol Start
-
 test ConfigException [[ package org.metaborg.core.config;
 
 import org.metaborg.core.MetaborgException;

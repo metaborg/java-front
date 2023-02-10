@@ -2,7 +2,6 @@ module IMessage
 
 language java8
 
-start symbol Start
 
 test IMessage [[ package org.metaborg.core.messages;
 

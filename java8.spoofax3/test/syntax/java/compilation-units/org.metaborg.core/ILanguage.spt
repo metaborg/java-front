@@ -2,8 +2,6 @@ module ILanguage
 
 language java8
 
-start symbol Start
-
 test ILanguage [[ package org.metaborg.core.language;
 
 import javax.annotation.Nullable;

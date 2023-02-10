@@ -2,8 +2,6 @@ module IDialectProcessor
 
 language java8
 
-start symbol Start
-
 test IDialectProcessor [[ package org.metaborg.core.language.dialect;
 
 import org.apache.commons.vfs2.FileObject;

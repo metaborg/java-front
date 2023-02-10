@@ -1,7 +1,6 @@
 module BuildOrder
 
 language java8
-  start symbol Start
 
 test BuildOrder [[ package org.metaborg.core.build;
 

@@ -2,7 +2,6 @@ module ResourceContextStrategy
 
 language java8
 
-start symbol Start
 
 test ResourceContextStrategy [[ package org.metaborg.core.context;
 

@@ -2,7 +2,6 @@ module ILanguagePathProvider
 
 language java8
 
-start symbol Start
 
 test ILanguagePathProvider [[ package org.metaborg.core.build.paths;
 

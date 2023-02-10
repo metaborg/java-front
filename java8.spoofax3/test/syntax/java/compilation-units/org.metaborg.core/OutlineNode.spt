@@ -2,7 +2,6 @@ module OutlineNode
 
 language java8
 
-start symbol Start
 
 test OutlineNode [[ package org.metaborg.core.outline;
 

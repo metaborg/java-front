@@ -2,8 +2,6 @@ module IHoverService
 
 language java8
 
-start symbol Start
-
 test IHoverService [[ package org.metaborg.core.tracing;
 
 import javax.annotation.Nullable;

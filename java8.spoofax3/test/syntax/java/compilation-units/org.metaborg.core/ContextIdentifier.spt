@@ -2,8 +2,6 @@ module ContextIdentifier
 
 language java8
 
-start symbol Start
-
 test ContextIdentifier [[ package org.metaborg.core.context;
 
 import org.apache.commons.vfs2.FileObject;

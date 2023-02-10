@@ -2,8 +2,6 @@ module DependencyPathProvider
 
 language java8
 
-start symbol Start
-
 test DependencyPathProvider [[ package org.metaborg.core.build.paths;
 
 import java.util.Collection;

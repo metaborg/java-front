@@ -2,7 +2,6 @@ module ILanguageIdentifierService
 
 language java8
 
-start symbol Start
 
 test ILanguageIdentifierService [[ package org.metaborg.core.language;
 

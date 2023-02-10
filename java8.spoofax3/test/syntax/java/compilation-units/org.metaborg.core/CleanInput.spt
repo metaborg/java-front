@@ -2,8 +2,6 @@ module CleanInput
 
 language java8
 
-start symbol Start
-
 test CleanInput [[ package org.metaborg.core.build;
 
 import javax.annotation.Nullable;

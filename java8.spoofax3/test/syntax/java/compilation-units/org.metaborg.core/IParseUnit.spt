@@ -2,7 +2,6 @@ module IParseUnit
 
 language java8
 
-start symbol Start
 
 test IParseUnit [[ package org.metaborg.core.syntax;
 

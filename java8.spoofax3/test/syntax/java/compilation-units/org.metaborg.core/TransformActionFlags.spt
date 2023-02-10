@@ -2,7 +2,6 @@ module TransformActionFlags
 
 language java8
 
-start symbol Start
 
 test TransformActionFlags [[ package org.metaborg.core.action;
 

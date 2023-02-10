@@ -2,7 +2,6 @@ module ParseException
 
 language java8
 
-start symbol Start
 
 test ParseException [[ package org.metaborg.core.syntax;
 

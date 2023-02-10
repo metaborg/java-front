@@ -2,7 +2,6 @@ module LangDirExport
 
 language java8
 
-start symbol Start
 
 test LangDirExport [[ package org.metaborg.core.config;
 

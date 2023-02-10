@@ -2,8 +2,6 @@ module AffectedSourceHelper
 
 language java8
 
-start symbol Start
-
 test AffectedSourceHelper [[ package org.metaborg.core.source;
 
 import javax.annotation.Nullable;

@@ -2,7 +2,6 @@ module IMessagePrinter
 
 language java8
 
-start symbol Start
 
 test IMessagePrinter [[ package org.metaborg.core.messages;
 

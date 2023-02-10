@@ -2,7 +2,6 @@ module ProjectContextStrategy
 
 language java8
 
-start symbol Start
 
 test ProjectContextStrategy [[ package org.metaborg.core.context;
 

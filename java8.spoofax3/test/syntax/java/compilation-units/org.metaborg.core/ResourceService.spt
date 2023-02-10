@@ -2,7 +2,6 @@ module ResourceService
 
 language java8
 
-start symbol Start
 
 test ResourceService [[ package org.metaborg.core.resource;
 

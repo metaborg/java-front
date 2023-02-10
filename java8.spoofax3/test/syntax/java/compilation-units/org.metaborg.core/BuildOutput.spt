@@ -2,8 +2,6 @@ module BuildOutput
 
 language java8
 
-start symbol Start
-
 test BuildOutput [[ package org.metaborg.core.build;
 
 import java.util.Collection;

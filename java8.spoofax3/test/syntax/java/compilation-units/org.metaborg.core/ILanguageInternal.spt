@@ -2,7 +2,6 @@ module ILanguageInternal
 
 language java8
 
-start symbol Start
 
 test ILanguageInternal [[ package org.metaborg.core.language;
 

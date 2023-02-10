@@ -2,7 +2,6 @@ module MessageCategory
 
 language java8
 
-start symbol Start
 
 test MessageCategory [[ package org.metaborg.core.messages;
 

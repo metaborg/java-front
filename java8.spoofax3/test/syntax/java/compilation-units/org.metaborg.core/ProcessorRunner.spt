@@ -2,7 +2,6 @@ module ProcessorRunner
 
 language java8
 
-start symbol Start
 
 test ProcessorRunner [[ package org.metaborg.core.processing;
 

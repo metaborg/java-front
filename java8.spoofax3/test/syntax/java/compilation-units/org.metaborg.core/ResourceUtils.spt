@@ -2,7 +2,6 @@ module ResourceUtils
 
 language java8
 
-start symbol Start
 
 test ResourceUtils [[ package org.metaborg.core.resource;
 

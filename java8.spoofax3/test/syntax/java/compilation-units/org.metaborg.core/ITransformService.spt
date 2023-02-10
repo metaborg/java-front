@@ -2,7 +2,6 @@ module ITransformService
 
 language java8
 
-start symbol Start
 
 test ITransformService [[ package org.metaborg.core.transform;
 

@@ -2,8 +2,6 @@ module DescriptionFacet
 
 language java8
 
-start symbol Start
-
 test DescriptionFacet [[ package org.metaborg.core.language;
 
 import javax.annotation.Nullable;

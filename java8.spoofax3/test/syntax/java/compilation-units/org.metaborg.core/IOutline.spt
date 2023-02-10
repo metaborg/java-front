@@ -2,7 +2,6 @@ module IOutline
 
 language java8
 
-start symbol Start
 
 test IOutline [[ package org.metaborg.core.outline;
 

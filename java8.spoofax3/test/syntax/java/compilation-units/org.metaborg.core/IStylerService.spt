@@ -2,7 +2,6 @@ module IStylerService
 
 language java8
 
-start symbol Start
 
 test IStylerService [[ package org.metaborg.core.style;
 

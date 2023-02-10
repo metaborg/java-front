@@ -2,8 +2,6 @@ module ConfigRequest
 
 language java8
 
-start symbol Start
-
 test ConfigRequest [[ package org.metaborg.core.config;
 
 import java.util.Collection;

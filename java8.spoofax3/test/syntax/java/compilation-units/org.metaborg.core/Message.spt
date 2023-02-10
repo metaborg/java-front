@@ -2,7 +2,6 @@ module Message
 
 language java8
 
-start symbol Start
 
 test Message [[ package org.metaborg.core.messages;
 

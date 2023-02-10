@@ -2,7 +2,6 @@ module IRegionCategory
 
 language java8
 
-start symbol Start
 
 test IRegionCategory [[ package org.metaborg.core.style;
 

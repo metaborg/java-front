@@ -1,6 +1,6 @@
 module AnalysisException
 
-language metaborg-java start symbol Start
+language metaborg-java
 
 test AnalysisException [[ package org.metaborg.core.analysis;
 

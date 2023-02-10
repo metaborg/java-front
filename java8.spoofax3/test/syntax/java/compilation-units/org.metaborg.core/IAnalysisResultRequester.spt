@@ -2,8 +2,6 @@ module IAnalysisResultRequester
 
 language java8
 
-start symbol Start
-
 test IAnalysisResultRequester [[ package org.metaborg.core.processing.analyze;
 
 import javax.annotation.Nullable;

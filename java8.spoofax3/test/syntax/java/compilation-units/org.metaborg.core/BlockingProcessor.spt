@@ -2,8 +2,6 @@ module BlockingProcessor
 
 language java8
 
-start symbol Start
-
 test BlockingProcessor [[ package org.metaborg.core.processing;
 
 import javax.annotation.Nullable;

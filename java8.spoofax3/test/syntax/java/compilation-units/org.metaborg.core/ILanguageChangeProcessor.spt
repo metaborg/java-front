@@ -2,8 +2,6 @@ module ILanguageChangeProcessor
 
 language java8
 
-start symbol Start
-
 test ILanguageChangeProcessor [[ package org.metaborg.core.processing;
 
 import javax.annotation.Nullable;

@@ -2,7 +2,6 @@ module IParseResultUpdater
 
 language java8
 
-start symbol Start
 
 test IParseResultUpdater [[ package org.metaborg.core.processing.parse;
 

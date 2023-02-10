@@ -2,7 +2,6 @@ module ProjectConfigBuilder
 
 language java8
 
-start symbol Start
 
 test ProjectConfigBuilder [[ package org.metaborg.core.config;
 

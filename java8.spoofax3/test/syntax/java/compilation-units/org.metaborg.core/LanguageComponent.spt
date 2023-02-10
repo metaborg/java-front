@@ -2,7 +2,6 @@ module LanguageComponent
 
 language java8
 
-start symbol Start
 
 test LanguageComponent [[ package org.metaborg.core.language;
 

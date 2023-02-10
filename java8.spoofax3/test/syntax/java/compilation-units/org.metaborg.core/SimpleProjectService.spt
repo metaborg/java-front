@@ -2,7 +2,6 @@ module SimpleProjectService
 
 language java8
 
-start symbol Start
 
 test SimpleProjectService [[ package org.metaborg.core.project;
 

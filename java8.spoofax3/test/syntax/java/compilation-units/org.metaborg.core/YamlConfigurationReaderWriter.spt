@@ -2,7 +2,6 @@ module YamlConfigurationReaderWriter
 
 language java8
 
-start symbol Start
 
 test YamlConfigurationReaderWriter [[ package org.metaborg.core.config;
 

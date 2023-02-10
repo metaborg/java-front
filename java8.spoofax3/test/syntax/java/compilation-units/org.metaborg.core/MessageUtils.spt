@@ -2,7 +2,6 @@ module MessageUtils
 
 language java8
 
-start symbol Start
 
 test MessageUtils [[ package org.metaborg.core.messages;
 

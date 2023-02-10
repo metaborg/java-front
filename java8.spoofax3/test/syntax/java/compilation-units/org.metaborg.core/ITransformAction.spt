@@ -2,7 +2,6 @@ module ITransformAction
 
 language java8
 
-start symbol Start
 
 test ITransformAction [[ package org.metaborg.core.action;
 

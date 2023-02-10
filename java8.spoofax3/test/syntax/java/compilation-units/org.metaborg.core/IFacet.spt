@@ -2,8 +2,6 @@ module IFacet
 
 language java8
 
-start symbol Start
-
 test IFacet [[ package org.metaborg.core.language;
 
 /**

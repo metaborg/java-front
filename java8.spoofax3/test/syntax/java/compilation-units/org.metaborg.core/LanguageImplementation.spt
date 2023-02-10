@@ -2,7 +2,6 @@ module LanguageImplementation
 
 language java8
 
-start symbol Start
 
 test LanguageImplementation [[ package org.metaborg.core.language;
 

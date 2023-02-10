@@ -2,7 +2,6 @@ module IResourceChangeService
 
 language java8
 
-start symbol Start
 
 test IResourceChangeService [[ package org.metaborg.core.resource;
 

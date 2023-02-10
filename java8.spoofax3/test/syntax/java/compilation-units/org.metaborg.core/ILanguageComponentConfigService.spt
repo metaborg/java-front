@@ -2,7 +2,6 @@ module ILanguageComponentConfigService
 
 language java8
 
-start symbol Start
 
 test ILanguageComponentConfigService [[ package org.metaborg.core.config;
 

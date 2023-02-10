@@ -2,7 +2,6 @@ module MetaBorgGeneric
 
 language java8
 
-start symbol Start
 
 test MetaBorgGeneric [[ package org.metaborg.core;
 

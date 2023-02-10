@@ -2,7 +2,6 @@ module LanguagePathService
 
 language java8
 
-start symbol Start
 
 test LanguagePathService [[ package org.metaborg.core.build.paths;
 

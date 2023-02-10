@@ -2,8 +2,6 @@ module ILanguageComponentConfigBuilder
 
 language java8
 
-start symbol Start
-
 test ILanguageComponentConfigBuilder [[ package org.metaborg.core.config;
 
 import javax.annotation.Nullable;

@@ -2,7 +2,6 @@ module LanguageVersionTest
 
 language java8
 
-start symbol Start
 
 test LanguageVersionTest [[ package org.metaborg.core.test.language;
 

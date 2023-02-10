@@ -2,7 +2,6 @@ module MissingDependencyException
 
 language java8
 
-start symbol Start
 
 test MissingDependencyException [[ package org.metaborg.core.build.dependency;
 

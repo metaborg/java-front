@@ -2,8 +2,6 @@ module IdentificationFacet
 
 language java8
 
-start symbol Start
-
 test IdentificationFacet [[ package org.metaborg.core.language;
 
 import org.apache.commons.vfs2.FileObject;

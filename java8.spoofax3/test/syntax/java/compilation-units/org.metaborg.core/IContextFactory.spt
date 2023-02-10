@@ -2,8 +2,6 @@ module IContextFactory
 
 language java8
 
-start symbol Start
-
 test IContextFactory [[ package org.metaborg.core.context;
 
 /**

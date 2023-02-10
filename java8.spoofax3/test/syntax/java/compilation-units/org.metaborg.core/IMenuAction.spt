@@ -2,7 +2,6 @@ module IMenuAction
 
 language java8
 
-start symbol Start
 
 test IMenuAction [[ package org.metaborg.core.menu;
 

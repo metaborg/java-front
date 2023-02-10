@@ -2,7 +2,6 @@ module IProcessor
 
 language java8
 
-start symbol Start
 
 test IProcessor [[ package org.metaborg.core.processing;
 

@@ -2,7 +2,6 @@ module Style
 
 language java8
 
-start symbol Start
 
 test Style [[ package org.metaborg.core.style;
 

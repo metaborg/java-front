@@ -2,8 +2,6 @@ module DefaultFileSystemManagerProvider
 
 language java8
 
-start symbol Start
-
 test DefaultFileSystemManagerProvider [[ package org.metaborg.core.resource;
 
 import java.io.File;

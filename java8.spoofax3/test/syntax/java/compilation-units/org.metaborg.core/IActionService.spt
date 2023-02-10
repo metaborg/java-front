@@ -2,8 +2,6 @@ module IActionService
 
 language java8
 
-start symbol Start
-
 test IActionService [[ package org.metaborg.core.action;
 
 import javax.annotation.Nullable;

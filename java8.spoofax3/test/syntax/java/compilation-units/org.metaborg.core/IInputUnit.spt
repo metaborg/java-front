@@ -2,8 +2,6 @@ module IInputUnit
 
 language java8
 
-start symbol Start
-
 test IInputUnit [[ package org.metaborg.core.syntax;
 
 import javax.annotation.Nullable;

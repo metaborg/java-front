@@ -2,8 +2,6 @@ module AConfigurationReaderWriter
 
 language java8
 
-start symbol Start
-
 test AConfigurationReaderWriter [[ package org.metaborg.core.config;
 
 import java.io.BufferedReader;

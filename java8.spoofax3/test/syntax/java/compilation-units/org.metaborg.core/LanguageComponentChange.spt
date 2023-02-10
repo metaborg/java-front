@@ -2,7 +2,6 @@ module LanguageComponentChange
 
 language java8
 
-start symbol Start
 
 test LanguageComponentChange [[ package org.metaborg.core.language;
 

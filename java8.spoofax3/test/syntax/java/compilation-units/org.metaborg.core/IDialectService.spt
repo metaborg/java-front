@@ -2,8 +2,6 @@ module IDialectService
 
 language java8
 
-start symbol Start
-
 test IDialectService [[ package org.metaborg.core.language.dialect;
 
 import javax.annotation.Nullable;

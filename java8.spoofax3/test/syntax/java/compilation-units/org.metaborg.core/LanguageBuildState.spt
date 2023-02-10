@@ -2,7 +2,6 @@ module LanguageBuildState
 
 language java8
 
-start symbol Start
 
 test LanguageBuildState [[ package org.metaborg.core.build;
 

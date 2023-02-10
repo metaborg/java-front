@@ -2,8 +2,6 @@ module DefaultDependencyService
 
 language java8
 
-start symbol Start
-
 test DefaultDependencyService [[ package org.metaborg.core.build.dependency;
 
 import java.util.Collection;

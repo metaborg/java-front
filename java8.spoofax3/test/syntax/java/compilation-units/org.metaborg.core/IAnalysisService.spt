@@ -2,8 +2,6 @@ module IAnalysisService
 
 language java8
 
-start symbol Start
-
 test IAnalysisService [[ package org.metaborg.core.analysis;
 
 import org.metaborg.core.context.IContext;

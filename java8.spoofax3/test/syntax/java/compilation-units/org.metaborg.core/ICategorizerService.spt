@@ -2,8 +2,6 @@ module ICategorizerService
 
 language java8
 
-start symbol Start
-
 test ICategorizerService [[ package org.metaborg.core.style;
 
 import org.metaborg.core.analysis.IAnalyzeUnit;

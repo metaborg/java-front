@@ -2,7 +2,6 @@ module ResourceChangeKind
 
 language java8
 
-start symbol Start
 
 test ResourceChangeKind [[ package org.metaborg.core.resource;
 

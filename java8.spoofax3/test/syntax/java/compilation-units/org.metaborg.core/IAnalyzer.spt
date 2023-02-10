@@ -2,8 +2,6 @@ module IAnalyzer
 
 language java8
 
-start symbol Start
-
 test IAnalyzer [[ package org.metaborg.core.analysis;
 
 import org.metaborg.core.context.IContext;

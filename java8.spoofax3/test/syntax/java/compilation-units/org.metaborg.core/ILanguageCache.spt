@@ -2,8 +2,6 @@ module ILanguageCache
 
 language java8
 
-start symbol Start
-
 test ILanguageCache [[ package org.metaborg.core.language;
 
 /**

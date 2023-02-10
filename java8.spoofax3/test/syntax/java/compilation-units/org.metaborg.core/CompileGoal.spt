@@ -2,8 +2,6 @@ module CompileGoal
 
 language java8
 
-start symbol Start
-
 test CompileGoal [[ package org.metaborg.core.action;
 
 public class CompileGoal implements ITransformGoal {

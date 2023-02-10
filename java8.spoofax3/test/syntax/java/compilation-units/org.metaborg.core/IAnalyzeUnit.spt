@@ -2,8 +2,6 @@ module IAnalyzeUnit
 
 language java8
 
-start symbol Start
-
 test IAnalyzeUnit [[ package org.metaborg.core.analysis;
 
 import org.metaborg.core.context.IContext;

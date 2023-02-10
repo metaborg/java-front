@@ -2,8 +2,6 @@ module CleanInputBuilder
 
 language java8
 
-start symbol Start
-
 test CleanInputBuilder [[ package org.metaborg.core.build;
 
 import java.util.Set;

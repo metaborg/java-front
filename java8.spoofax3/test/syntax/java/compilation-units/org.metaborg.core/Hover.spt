@@ -2,8 +2,6 @@ module Hover
 
 language java8
 
-start symbol Start
-
 test Hover [[ package org.metaborg.core.tracing;
 
 import org.metaborg.core.source.ISourceRegion;

@@ -2,8 +2,6 @@ module IAnalyzeUnitUpdate
 
 language java8
 
-start symbol Start
-
 test IAnalyzeUnitUpdate [[ package org.metaborg.core.analysis;
 
 import org.apache.commons.vfs2.FileObject;

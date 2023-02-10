@@ -2,8 +2,6 @@ module IdentifiedResourceChange
 
 language java8
 
-start symbol Start
-
 test IdentifiedResourceChange [[ package org.metaborg.core.resource;
 
 import javax.annotation.Nullable;

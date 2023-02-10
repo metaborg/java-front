@@ -2,7 +2,6 @@ module SyntaxService
 
 language java8
 
-start symbol Start
 
 test SyntaxService [[ package org.metaborg.core.syntax;
 

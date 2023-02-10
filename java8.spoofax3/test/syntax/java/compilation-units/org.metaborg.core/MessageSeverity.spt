@@ -2,7 +2,6 @@ module MessageSeverity
 
 language java8
 
-start symbol Start
 
 test MessageSeverity [[ package org.metaborg.core.messages;
 

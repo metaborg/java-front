@@ -2,7 +2,6 @@ module ServiceModulePluginLoader
 
 language java8
 
-start symbol Start
 
 test ServiceModulePluginLoader [[ package org.metaborg.core.plugin;
 

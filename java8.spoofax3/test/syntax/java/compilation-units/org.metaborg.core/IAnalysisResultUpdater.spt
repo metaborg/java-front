@@ -2,8 +2,6 @@ module IAnalysisResultUpdater
 
 language java8
 
-start symbol Start
-
 test IAnalysisResultUpdater [[ package org.metaborg.core.processing.analyze;
 
 import java.util.Set;

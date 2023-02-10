@@ -2,7 +2,6 @@ module LanguageImplConfig
 
 language java8
 
-start symbol Start
 
 test LanguageImplConfig [[ package org.metaborg.core.config;
 

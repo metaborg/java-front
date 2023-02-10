@@ -2,8 +2,6 @@ module IEditor
 
 language java8
 
-start symbol Start
-
 test IEditor [[ package org.metaborg.core.editor;
 
 import javax.annotation.Nullable;

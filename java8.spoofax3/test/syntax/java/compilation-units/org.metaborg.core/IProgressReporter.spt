@@ -2,7 +2,6 @@ module IProgressReporter
 
 language java8
 
-start symbol Start
 
 test IProgressReporter [[ package org.metaborg.core.processing;
 

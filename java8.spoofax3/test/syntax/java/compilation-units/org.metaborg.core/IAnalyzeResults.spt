@@ -2,8 +2,6 @@ module IAnalyzeResults
 
 language java8
 
-start symbol Start
-
 test IAnalyzeResults [[ package org.metaborg.core.analysis;
 
 import java.util.Collection;

@@ -2,7 +2,6 @@ module LanguagesFileSelector
 
 language java8
 
-start symbol Start
 
 test LanguagesFileSelector [[ package org.metaborg.core.language;
 

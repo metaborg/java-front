@@ -2,8 +2,6 @@ module BuildState
 
 language java8
 
-start symbol Start
-
 test BuildState [[ package org.metaborg.core.build;
 
 import java.util.Map;

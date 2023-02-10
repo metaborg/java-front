@@ -2,8 +2,6 @@ module IExportVisitor
 
 language java8
 
-start symbol Start
-
 test IExportVisitor [[ package org.metaborg.core.config;
 
 /**

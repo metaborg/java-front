@@ -2,7 +2,6 @@ module LanguageService
 
 language java8
 
-start symbol Start
 
 test LanguageService [[ package org.metaborg.core.language;
 

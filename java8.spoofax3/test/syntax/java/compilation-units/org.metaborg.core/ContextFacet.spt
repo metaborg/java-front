@@ -2,8 +2,6 @@ module ContextFacet
 
 language java8
 
-start symbol Start
-
 test ContextFacet [[ package org.metaborg.core.context;
 
 import org.metaborg.core.language.IFacet;

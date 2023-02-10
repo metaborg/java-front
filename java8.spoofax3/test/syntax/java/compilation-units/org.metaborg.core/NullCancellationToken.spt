@@ -2,7 +2,6 @@ module NullCancellationToken
 
 language java8
 
-start symbol Start
 
 test NullCancellationToken [[ package org.metaborg.core.processing;
 

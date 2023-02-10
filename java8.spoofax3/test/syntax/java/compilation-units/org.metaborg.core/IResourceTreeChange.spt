@@ -2,7 +2,6 @@ module IResourceTreeChange
 
 language java8
 
-start symbol Start
 
 test IResourceTreeChange [[ package org.metaborg.core.resource;
 

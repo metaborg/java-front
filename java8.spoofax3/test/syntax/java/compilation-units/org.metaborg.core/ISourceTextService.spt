@@ -2,7 +2,6 @@ module ISourceTextService
 
 language java8
 
-start symbol Start
 
 test ISourceTextService [[ package org.metaborg.core.source;
 

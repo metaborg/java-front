@@ -2,8 +2,6 @@ module ContextService
 
 language java8
 
-start symbol Start
-
 test ContextService [[ package org.metaborg.core.context;
 
 import java.io.IOException;

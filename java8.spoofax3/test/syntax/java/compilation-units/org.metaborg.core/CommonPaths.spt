@@ -2,8 +2,6 @@ module CommonPaths
 
 language java8
 
-start symbol Start
-
 test CommonPaths [[ package org.metaborg.core.build;
 
 import java.util.Collection;

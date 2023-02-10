@@ -2,8 +2,6 @@ module IDialectIdentifier
 
 language java8
 
-start symbol Start
-
 test IDialectIdentifier [[ package org.metaborg.core.language.dialect;
 
 import javax.annotation.Nullable;

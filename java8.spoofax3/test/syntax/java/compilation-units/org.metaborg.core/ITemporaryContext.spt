@@ -2,7 +2,6 @@ module ITemporaryContext
 
 language java8
 
-start symbol Start
 
 test ITemporaryContext [[ package org.metaborg.core.context;
 

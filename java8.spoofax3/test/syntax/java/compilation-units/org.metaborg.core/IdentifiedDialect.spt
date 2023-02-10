@@ -2,8 +2,6 @@ module IdentifiedDialect
 
 language java8
 
-start symbol Start
-
 test IdentifiedDialect [[ package org.metaborg.core.language.dialect;
 
 import org.metaborg.core.language.ILanguageImpl;

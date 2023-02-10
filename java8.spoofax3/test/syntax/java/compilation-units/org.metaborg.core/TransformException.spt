@@ -2,7 +2,6 @@ module TransformException
 
 language java8
 
-start symbol Start
 
 test TransformException [[ package org.metaborg.core.transform;
 

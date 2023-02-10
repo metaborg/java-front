@@ -2,8 +2,6 @@ module IdentifiedResource
 
 language java8
 
-start symbol Start
-
 test IdentifiedResource [[ package org.metaborg.core.language;
 
 import javax.annotation.Nullable;

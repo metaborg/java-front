@@ -2,8 +2,6 @@ module AnalyzerFacet
 
 language java8
 
-start symbol Start
-
 test AnalyzerFacet [[ package org.metaborg.core.analysis;
 
 import org.metaborg.core.language.IFacet;
