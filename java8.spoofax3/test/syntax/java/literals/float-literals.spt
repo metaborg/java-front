@@ -2,7 +2,13 @@ module literals/float-literals
 
 language java8
 
-start symbol FloatLiteral
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
 
 test largest positive float [[3.4028235e38f]] parse succeeds
 test smallest positive float [[1.40e-45f]] parse succeeds

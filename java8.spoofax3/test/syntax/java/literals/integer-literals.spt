@@ -2,7 +2,13 @@ module literals/integer-literals
 
 language java8
 
-start symbol IntLiteral
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
 
 test largest int [[2147483648]] parse succeeds
 test zero [[0]] parse succeeds
@@ -34,7 +40,6 @@ test long example 3 [[0x100000000L]] parse succeeds
 test long example 4 [[2_147_483_648L]] parse succeeds
 test long example 5 [[0xC0B0L]] parse succeeds
 test ending with _ [[1_]] parse fails
-test starting with _ [[_1]] parse fails
 test ending with _ [[0b1_]] parse fails
 test starting with _ [[0b_1]] parse fails
 test binary [[0b]] parse fails

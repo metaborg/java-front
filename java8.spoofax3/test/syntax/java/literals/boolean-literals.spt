@@ -2,7 +2,13 @@ module literals/integer-literals
 
 language java8
 
-start symbol BoolLiteral
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
 
 test true literal [[true]] parse succeeds
 test false literal [[false]] parse succeeds

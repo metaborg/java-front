@@ -2,56 +2,56 @@ module keywords
 
 language java8
 
-start symbol Keyword
+// Note: Normally, fixtures or start symbols would be used for tests like these. However, at the time of writing, Spoofax 3 contains bugs
+// regarding fixures and start symbols, causing incorrectly failing tests or Eclipse throwing errors.
 
-test keyword abstract [[abstract]] parse fails
-test keyword assert [[assert]] parse fails
-test keyword boolean [[boolean]] parse fails
-test keyword break [[break]] parse fails
-test keyword byte [[byte]] parse fails
-test keyword case [[case]] parse fails
-test keyword catch [[catch]] parse fails
-test keyword char [[char]] parse fails
-test keyword class [[class]] parse fails
-test keyword const [[const]] parse fails
-test keyword continue [[continue]] parse fails
-test keyword default [[default]] parse fails
-test keyword do [[do]] parse fails
-test keyword double [[double]] parse fails
-test keyword else [[else]] parse fails
-test keyword enum [[enum]] parse fails
-test keyword extends [[extends]] parse fails
-test keyword final [[final]] parse fails
-test keyword finally [[finally]] parse fails
-test keyword float [[float]] parse fails
-test keyword for [[for]] parse fails
-test keyword if [[if]] parse fails
-test keyword goto [[goto]] parse fails
-test keyword implements [[implements]] parse fails
-test keyword import [[import]] parse fails
-test keyword instanceof [[instanceof]] parse fails
-test keyword int [[int]] parse fails
-test keyword interface [[interface]] parse fails
-test keyword long [[long]] parse fails
-test keyword native [[native]] parse fails
-test keyword new [[new]] parse fails
-test keyword package [[package]] parse fails
-test keyword private [[private]] parse fails
-test keyword protected [[protected]] parse fails
-test keyword public [[public]] parse fails
-test keyword return [[return]] parse fails
-test keyword short [[short]] parse fails
-test keyword static [[static]] parse fails
-test keyword strictfp [[strictfp]] parse fails
-test keyword super [[super]] parse fails
-test keyword switch [[switch]] parse fails
-test keyword synchronized [[synchronized]] parse fails
-test keyword this [[this]] parse fails
-test keyword throw [[throw]] parse fails
-test keyword throws [[throws]] parse fails
-test keyword transient [[transient]] parse fails
-test keyword try [[try]] parse fails
-test keyword void [[void]] parse fails
-test keyword volatile [[volatile]] parse fails
-test keyword while [[while]] parse fails
-
+test keyword abstract [[class A {void b(){int abstract;}}]] parse fails
+test keyword assert [[class A {void b(){int assert;}}]] parse fails
+test keyword boolean [[class A {void b(){int boolean;}}]] parse fails
+test keyword break [[class A {void b(){int break;}}]] parse fails
+test keyword byte [[class A {void b(){int byte;}}]] parse fails
+test keyword case [[class A {void b(){int case;}}]] parse fails
+test keyword catch [[class A {void b(){int catch;}}]] parse fails
+test keyword char [[class A {void b(){int char;}}]] parse fails
+test keyword class [[class A {void b(){int class;}}]] parse fails
+test keyword const [[class A {void b(){int const;}}]] parse fails
+test keyword continue [[class A {void b(){int continue;}}]] parse fails
+test keyword default [[class A {void b(){int default;}}]] parse fails
+test keyword do [[class A {void b(){int do;}}]] parse fails
+test keyword double [[class A {void b(){int double;}}]] parse fails
+test keyword else [[class A {void b(){int else;}}]] parse fails
+test keyword enum [[class A {void b(){int enum;}}]] parse fails
+test keyword extends [[class A {void b(){int extends;}}]] parse fails
+test keyword final [[class A {void b(){int final;}}]] parse fails
+test keyword finally [[class A {void b(){int finally;}}]] parse fails
+test keyword float [[class A {void b(){int float;}}]] parse fails
+test keyword for [[class A {void b(){int for;}}]] parse fails
+test keyword if [[class A {void b(){int if;}}]] parse fails
+test keyword goto [[class A {void b(){int goto;}}]] parse fails
+test keyword implements [[class A {void b(){int implements;}}]] parse fails
+test keyword import [[class A {void b(){int import;}}]] parse fails
+test keyword instanceof [[class A {void b(){int instanceof;}}]] parse fails
+test keyword int [[class A {void b(){int int;}}]] parse fails
+test keyword interface [[class A {void b(){int interface;}}]] parse fails
+test keyword long [[class A {void b(){int long;}}]] parse fails
+test keyword native [[class A {void b(){int native;}}]] parse fails
+test keyword new [[class A {void b(){int new;}}]] parse fails
+test keyword package [[class A {void b(){int package;}}]] parse fails
+test keyword private [[class A {void b(){int private;}}]] parse fails
+test keyword protected [[class A {void b(){int protected;}}]] parse fails
+test keyword public [[class A {void b(){int public;}}]] parse fails
+test keyword return [[class A {void b(){int return;}}]] parse fails
+test keyword short [[class A {void b(){int short;}}]] parse fails
+test keyword static [[class A {void b(){int static;}}]] parse fails
+test keyword strictfp [[class A {void b(){int strictfp;}}]] parse fails
+test keyword super [[class A {void b(){int super;}}]] parse fails
+test keyword switch [[class A {void b(){int switch;}}]] parse fails
+test keyword synchronized [[class A {void b(){int synchronized;}}]] parse fails
+test keyword this [[class A {void b(){int this;}}]] parse fails
+test keyword throw [[class A {void b(){int throw;}}]] parse fails
+test keyword throws [[class A {void b(){int throws;}}]] parse fails
+test keyword transient [[class A {void b(){int transient;}}]] parse fails
+test keyword try [[class A {void b(){int try;}}]] parse fails
+test keyword void [[class A {void b(){int void;}}]] parse fails
+test keyword volatile [[class A {void b(){int volatile;}}]] parse fails
+test keyword while [[class A {void b(){int while;}}]] parse fails

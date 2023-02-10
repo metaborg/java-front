@@ -2,7 +2,14 @@ module lexical/comments
 
 language java8
 
-start symbol Comment
+fixture [[
+  class MyClass {
+    void myMethod()
+    [[...]]
+    {
+    }
+  }
+]]
 
 test single line comment [[// this is a comment]] parse succeeds
 

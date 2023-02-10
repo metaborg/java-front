@@ -2,7 +2,13 @@ module literals/character-literals
 
 language java8
 
-start symbol CharacterLiteral
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
 
 test example 1 [['a']] parse succeeds
 test example 2 [['%']] parse succeeds

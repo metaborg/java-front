@@ -2,7 +2,13 @@ module literals/string-literals
 
 language java8
 
-start symbol StringLiteral
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
 
 test example 1 [[""]] parse succeeds
 test example 2 [["\""]] parse succeeds
