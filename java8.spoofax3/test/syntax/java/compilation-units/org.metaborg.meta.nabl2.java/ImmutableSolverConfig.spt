@@ -2,8 +2,6 @@ module ImmutableSolverConfig
 
 language java8
 
-start symbol Start
-
 test ImmutableSolverConfig [[ package org.metaborg.meta.nabl2.solver;
 
 import java.io.Serializable;

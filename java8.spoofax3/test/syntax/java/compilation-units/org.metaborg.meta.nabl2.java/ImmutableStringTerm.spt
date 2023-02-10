@@ -2,8 +2,6 @@ module ImmutableStringTerm
 
 language java8
 
-start symbol Start
-
 test ImmutableStringTerm [[ package org.metaborg.meta.nabl2.terms.generic;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;

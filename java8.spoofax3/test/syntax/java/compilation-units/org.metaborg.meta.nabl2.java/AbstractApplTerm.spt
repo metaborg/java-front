@@ -2,8 +2,6 @@ module AbstractApplTerm
 
 language java8
 
-start symbol Start
-
 test AbstractApplTerm [[ package org.metaborg.meta.nabl2.terms.generic;
 
 import org.immutables.value.Value;

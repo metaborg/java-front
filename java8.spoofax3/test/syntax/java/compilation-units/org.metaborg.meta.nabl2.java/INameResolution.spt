@@ -2,8 +2,6 @@ module INameResolution
 
 language java8
 
-start symbol Start
-
 test INameResolution [[ package org.metaborg.meta.nabl2.scopegraph;
 
 import org.metaborg.util.iterators.Iterables2;

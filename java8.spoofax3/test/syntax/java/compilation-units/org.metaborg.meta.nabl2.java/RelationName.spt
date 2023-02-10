@@ -2,8 +2,6 @@ module RelationName
 
 language java8
 
-start symbol Start
-
 test RelationName [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import java.util.List;

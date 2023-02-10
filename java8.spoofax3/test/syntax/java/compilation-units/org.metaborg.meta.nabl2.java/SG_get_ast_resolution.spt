@@ -2,8 +2,6 @@ module SG_get_ast_resolution
 
 language java8
 
-start symbol Start
-
 test SG_get_ast_resolution [[ package org.metaborg.meta.nabl2.spoofax.primitives;
 
 import java.util.List;

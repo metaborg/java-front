@@ -2,8 +2,6 @@ module ImmutableAnd
 
 language java8
 
-start symbol Start
-
 test ImmutableAnd [[ package org.metaborg.meta.nabl2.regexp;
 
 import java.io.Serializable;

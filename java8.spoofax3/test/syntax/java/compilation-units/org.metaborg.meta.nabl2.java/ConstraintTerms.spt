@@ -2,8 +2,6 @@ module ConstraintTerms
 
 language java8
 
-start symbol Start
-
 test ConstraintTerms [[ package org.metaborg.meta.nabl2.constraints;
 
 import org.metaborg.meta.nabl2.constraints.ast.ImmutableCAstProperty;

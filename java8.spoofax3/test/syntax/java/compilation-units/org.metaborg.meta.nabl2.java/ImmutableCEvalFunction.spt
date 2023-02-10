@@ -2,8 +2,6 @@ module ImmutableCEvalFunction
 
 language java8
 
-start symbol Start
-
 test ImmutableCEvalFunction [[ package org.metaborg.meta.nabl2.constraints.relations;
 
 import java.io.Serializable;

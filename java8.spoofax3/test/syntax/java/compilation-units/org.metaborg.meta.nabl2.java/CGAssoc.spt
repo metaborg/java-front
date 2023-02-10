@@ -2,8 +2,6 @@ module CGAssoc
 
 language java8
 
-start symbol Start
-
 test CGAssoc [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import org.immutables.serial.Serial;

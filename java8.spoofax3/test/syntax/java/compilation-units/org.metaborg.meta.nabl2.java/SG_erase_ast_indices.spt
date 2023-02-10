@@ -2,8 +2,6 @@ module SG_erase_ast_indices
 
 language java8
 
-start symbol Start
-
 test SG_erase_ast_indices [[ package org.metaborg.meta.nabl2.spoofax.primitives;
 
 import org.metaborg.meta.nabl2.stratego.StrategoTermIndices;

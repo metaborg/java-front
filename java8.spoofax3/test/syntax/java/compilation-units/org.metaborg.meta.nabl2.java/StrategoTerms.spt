@@ -2,8 +2,6 @@ module StrategoTerms
 
 language java8
 
-start symbol Start
-
 test StrategoTerms [[ package org.metaborg.meta.nabl2.stratego;
 
 import java.util.ArrayDeque;

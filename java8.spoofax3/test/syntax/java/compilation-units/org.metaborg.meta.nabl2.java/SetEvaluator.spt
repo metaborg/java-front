@@ -2,8 +2,6 @@ module SetEvaluator
 
 language java8
 
-start symbol Start
-
 test SetEvaluator [[ package org.metaborg.meta.nabl2.sets;
 
 import java.util.Optional;

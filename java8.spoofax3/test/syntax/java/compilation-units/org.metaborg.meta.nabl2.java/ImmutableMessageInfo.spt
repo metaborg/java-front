@@ -2,8 +2,6 @@ module ImmutableMessageInfo
 
 language java8
 
-start symbol Start
-
 test ImmutableMessageInfo [[ package org.metaborg.meta.nabl2.constraints.messages;
 
 import java.io.Serializable;

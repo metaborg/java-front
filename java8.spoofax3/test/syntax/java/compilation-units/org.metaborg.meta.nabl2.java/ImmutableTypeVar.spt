@@ -2,8 +2,6 @@ module ImmutableTypeVar
 
 language java8
 
-start symbol Start
-
 test ImmutableTypeVar [[ package org.metaborg.meta.nabl2.poly;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;

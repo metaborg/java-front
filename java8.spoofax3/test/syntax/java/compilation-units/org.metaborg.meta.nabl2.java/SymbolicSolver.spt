@@ -2,8 +2,6 @@ module SymbolicSolver
 
 language java8
 
-start symbol Start
-
 test SymbolicSolver [[ package org.metaborg.meta.nabl2.solver;
 
 import static org.metaborg.meta.nabl2.util.Unit.unit;

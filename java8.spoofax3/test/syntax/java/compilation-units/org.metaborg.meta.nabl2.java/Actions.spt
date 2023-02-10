@@ -2,8 +2,6 @@ module Actions
 
 language java8
 
-start symbol Start
-
 test Actions [[ package org.metaborg.meta.nabl2.spoofax.analysis;
 
 import org.metaborg.meta.nabl2.terms.ITerm;

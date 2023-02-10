@@ -2,8 +2,6 @@ module ImmutableContravariant
 
 language java8
 
-start symbol Start
-
 test ImmutableContravariant [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import java.io.Serializable;

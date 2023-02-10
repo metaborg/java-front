@@ -2,8 +2,6 @@ module Object2ObjectPMap
 
 language java8
 
-start symbol Start
-
 test Object2ObjectPMap [[ package org.metaborg.meta.nabl2.util.fastutil;
 
 import java.util.Set;

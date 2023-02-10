@@ -2,8 +2,6 @@ module IListTerm
 
 language java8
 
-start symbol Start
-
 test IListTerm [[ package org.metaborg.meta.nabl2.terms;
 
 import org.metaborg.meta.nabl2.util.functions.CheckedFunction1;

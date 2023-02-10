@@ -2,8 +2,6 @@ module SolverConfig
 
 language java8
 
-start symbol Start
-
 test SolverConfig [[ package org.metaborg.meta.nabl2.solver;
 
 import java.util.Map;

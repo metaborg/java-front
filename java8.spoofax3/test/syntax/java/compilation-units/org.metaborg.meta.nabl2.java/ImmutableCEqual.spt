@@ -2,8 +2,6 @@ module ImmutableCEqual
 
 language java8
 
-start symbol Start
-
 test ImmutableCEqual [[ package org.metaborg.meta.nabl2.constraints.equality;
 
 import java.io.Serializable;

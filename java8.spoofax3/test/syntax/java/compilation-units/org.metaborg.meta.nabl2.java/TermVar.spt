@@ -2,8 +2,6 @@ module TermVar
 
 language java8
 
-start symbol Start
-
 test TermVar [[ package org.metaborg.meta.nabl2.terms.generic;
 
 import java.util.Iterator;

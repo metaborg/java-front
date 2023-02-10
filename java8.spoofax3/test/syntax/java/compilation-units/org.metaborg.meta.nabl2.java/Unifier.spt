@@ -2,8 +2,6 @@ module Unifier
 
 language java8
 
-start symbol Start
-
 test Unifier [[ package org.metaborg.meta.nabl2.unification;
 
 import java.io.Serializable;

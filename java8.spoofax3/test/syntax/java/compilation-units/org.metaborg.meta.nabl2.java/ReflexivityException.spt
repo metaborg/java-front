@@ -2,8 +2,6 @@ module ReflexivityException
 
 language java8
 
-start symbol Start
-
 test ReflexivityException [[ package org.metaborg.meta.nabl2.relations;
 
 public class ReflexivityException extends RelationException {

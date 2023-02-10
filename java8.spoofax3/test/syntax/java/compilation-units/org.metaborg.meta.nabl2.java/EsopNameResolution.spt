@@ -2,8 +2,6 @@ module EsopNameResolution
 
 language java8
 
-start symbol Start
-
 test EsopNameResolution [[ package org.metaborg.meta.nabl2.scopegraph.esop;
 
 import java.io.IOException;

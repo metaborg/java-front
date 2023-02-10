@@ -2,8 +2,6 @@ module ImmutableUnitResult
 
 language java8
 
-start symbol Start
-
 test ImmutableUnitResult [[ package org.metaborg.meta.nabl2.spoofax.analysis;
 
 import java.io.Serializable;

@@ -2,8 +2,6 @@ module ImmutableCustomSolution
 
 language java8
 
-start symbol Start
-
 test ImmutableCustomSolution [[ package org.metaborg.meta.nabl2.spoofax.analysis;
 
 import java.io.Serializable;

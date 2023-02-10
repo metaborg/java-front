@@ -2,8 +2,6 @@ module ImmutableResolutionParameters
 
 language java8
 
-start symbol Start
-
 test ImmutableResolutionParameters [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.io.ObjectStreamException;

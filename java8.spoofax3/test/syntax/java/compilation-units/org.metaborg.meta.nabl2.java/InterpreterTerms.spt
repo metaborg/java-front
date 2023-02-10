@@ -2,8 +2,6 @@ module InterpreterTerms
 
 language java8
 
-start symbol Start
-
 test InterpreterTerms [[ package org.metaborg.meta.nabl2.interpreter;
 
 import static org.metaborg.meta.nabl2.terms.generic.GenericTerms.newAppl;

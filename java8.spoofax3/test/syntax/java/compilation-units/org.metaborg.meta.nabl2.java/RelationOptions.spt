@@ -2,8 +2,6 @@ module RelationOptions
 
 language java8
 
-start symbol Start
-
 test RelationOptions [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import org.metaborg.meta.nabl2.relations.RelationDescription.Reflexivity;

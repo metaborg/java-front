@@ -2,8 +2,6 @@ module IConstraint
 
 language java8
 
-start symbol Start
-
 test IConstraint [[ package org.metaborg.meta.nabl2.constraints;
 
 import java.util.function.Function;

@@ -2,8 +2,6 @@ module MessageInfo
 
 language java8
 
-start symbol Start
-
 test MessageInfo [[ package org.metaborg.meta.nabl2.constraints.messages;
 
 import org.immutables.serial.Serial;

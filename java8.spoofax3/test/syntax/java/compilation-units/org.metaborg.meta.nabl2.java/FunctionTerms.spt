@@ -2,8 +2,6 @@ module FunctionTerms
 
 language java8
 
-start symbol Start
-
 test FunctionTerms [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import java.util.Map;

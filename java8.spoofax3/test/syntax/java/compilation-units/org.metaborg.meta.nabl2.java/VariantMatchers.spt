@@ -2,8 +2,6 @@ module VariantMatchers
 
 language java8
 
-start symbol Start
-
 test VariantMatchers [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import java.io.Serializable;

@@ -2,8 +2,6 @@ module Namespace
 
 language java8
 
-start symbol Start
-
 test Namespace [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.util.List;

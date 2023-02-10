@@ -2,8 +2,6 @@ module RegExpCases
 
 language java8
 
-start symbol Start
-
 test RegExpCases [[ package org.metaborg.meta.nabl2.regexp;
 
 import java.util.function.BiFunction;

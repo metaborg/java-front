@@ -2,8 +2,6 @@ module Object2IntPMap
 
 language java8
 
-start symbol Start
-
 test Object2IntPMap [[ package org.metaborg.meta.nabl2.util.fastutil;
 
 public interface Object2IntPMap<K> {

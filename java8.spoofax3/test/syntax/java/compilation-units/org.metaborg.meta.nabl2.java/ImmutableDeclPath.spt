@@ -2,8 +2,6 @@ module ImmutableDeclPath
 
 language java8
 
-start symbol Start
-
 test ImmutableDeclPath [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.io.Serializable;

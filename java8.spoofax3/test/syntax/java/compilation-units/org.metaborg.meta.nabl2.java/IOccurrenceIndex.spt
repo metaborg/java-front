@@ -2,8 +2,6 @@ module IOccurrenceIndex
 
 language java8
 
-start symbol Start
-
 test IOccurrenceIndex [[ package org.metaborg.meta.nabl2.scopegraph;
 
 public interface IOccurrenceIndex {

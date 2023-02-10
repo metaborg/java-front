@@ -2,8 +2,6 @@ module IRelationName
 
 language java8
 
-start symbol Start
-
 test IRelationName [[ package org.metaborg.meta.nabl2.relations;
 
 import java.util.Optional;

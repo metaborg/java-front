@@ -2,8 +2,6 @@ module ImmutableSpacedName
 
 language java8
 
-start symbol Start
-
 test ImmutableSpacedName [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.io.Serializable;

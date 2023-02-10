@@ -2,8 +2,6 @@ module EmptyString
 
 language java8
 
-start symbol Start
-
 test EmptyString [[ package org.metaborg.meta.nabl2.regexp;
 
 import org.immutables.serial.Serial;

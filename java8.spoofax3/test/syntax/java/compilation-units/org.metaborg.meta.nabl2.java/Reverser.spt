@@ -2,8 +2,6 @@ module Reverser
 
 language java8
 
-start symbol Start
-
 test Reverser [[ package org.metaborg.meta.nabl2.regexp;
 
 

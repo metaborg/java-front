@@ -2,8 +2,6 @@ module ImmutableLazyScope
 
 language java8
 
-start symbol Start
-
 test ImmutableLazyScope [[ package org.metaborg.meta.nabl2.solver;
 
 import java.io.Serializable;

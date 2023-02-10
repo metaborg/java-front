@@ -2,8 +2,6 @@ module CEqual
 
 language java8
 
-start symbol Start
-
 test CEqual [[ package org.metaborg.meta.nabl2.constraints.equality;
 
 import org.immutables.serial.Serial;

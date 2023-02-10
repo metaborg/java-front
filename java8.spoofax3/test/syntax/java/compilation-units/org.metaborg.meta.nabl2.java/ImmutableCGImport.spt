@@ -2,8 +2,6 @@ module ImmutableCGImport
 
 language java8
 
-start symbol Start
-
 test ImmutableCGImport [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import java.io.Serializable;

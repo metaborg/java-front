@@ -2,8 +2,6 @@ module EmptySet
 
 language java8
 
-start symbol Start
-
 test EmptySet [[ package org.metaborg.meta.nabl2.regexp;
 
 import org.immutables.serial.Serial;

@@ -2,8 +2,6 @@ module SetTerms
 
 language java8
 
-start symbol Start
-
 test SetTerms [[ package org.metaborg.meta.nabl2.sets;
 
 import java.util.Optional;

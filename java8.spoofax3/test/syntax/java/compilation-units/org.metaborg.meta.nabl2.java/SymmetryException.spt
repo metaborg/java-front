@@ -2,8 +2,6 @@ module SymmetryException
 
 language java8
 
-start symbol Start
-
 test SymmetryException [[ package org.metaborg.meta.nabl2.relations;
 
 public class SymmetryException extends RelationException {

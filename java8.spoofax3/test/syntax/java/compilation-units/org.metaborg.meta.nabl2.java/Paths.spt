@@ -2,8 +2,6 @@ module Paths
 
 language java8
 
-start symbol Start
-
 test Paths [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.util.List;

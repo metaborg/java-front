@@ -2,8 +2,6 @@ module Tuple2
 
 language java8
 
-start symbol Start
-
 test Tuple2 [[ package org.metaborg.meta.nabl2.util.tuples;
 
 import org.immutables.value.Value;

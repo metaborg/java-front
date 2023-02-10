@@ -2,8 +2,6 @@ module CGoal
 
 language java8
 
-start symbol Start
-
 test CGoal [[ package org.metaborg.meta.nabl2.constraints.sym;
 
 import org.immutables.serial.Serial;

@@ -2,8 +2,6 @@ module INamebindingConstraint
 
 language java8
 
-start symbol Start
-
 test INamebindingConstraint [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import org.metaborg.meta.nabl2.constraints.IConstraint;

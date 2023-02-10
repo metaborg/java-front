@@ -2,8 +2,6 @@ module StrategoTermIndices
 
 language java8
 
-start symbol Start
-
 test StrategoTermIndices [[ package org.metaborg.meta.nabl2.stratego;
 
 import java.util.Arrays;

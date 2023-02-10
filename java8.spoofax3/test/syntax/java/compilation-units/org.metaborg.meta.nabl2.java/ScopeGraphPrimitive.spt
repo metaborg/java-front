@@ -2,8 +2,6 @@ module ScopeGraphPrimitive
 
 language java8
 
-start symbol Start
-
 test ScopeGraphPrimitive [[ package org.metaborg.meta.nabl2.spoofax.primitives;
 
 import java.util.Arrays;

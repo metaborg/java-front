@@ -2,8 +2,6 @@ module Deriver
 
 language java8
 
-start symbol Start
-
 test Deriver [[ package org.metaborg.meta.nabl2.regexp;
 
 public class Deriver<S> implements IRegExpCases<S,IRegExp<S>> {

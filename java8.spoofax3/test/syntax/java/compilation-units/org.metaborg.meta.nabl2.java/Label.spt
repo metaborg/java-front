@@ -2,8 +2,6 @@ module Label
 
 language java8
 
-start symbol Start
-
 test Label [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.util.List;

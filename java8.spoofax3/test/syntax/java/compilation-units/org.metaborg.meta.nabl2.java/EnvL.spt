@@ -2,8 +2,6 @@ module EnvL
 
 language java8
 
-start symbol Start
-
 test EnvL [[ package org.metaborg.meta.nabl2.scopegraph.esop;
 
 import org.metaborg.meta.nabl2.regexp.IRegExpMatcher;

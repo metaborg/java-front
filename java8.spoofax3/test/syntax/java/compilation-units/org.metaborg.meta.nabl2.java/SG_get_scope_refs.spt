@@ -2,8 +2,6 @@ module SG_get_scope_refs
 
 language java8
 
-start symbol Start
-
 test SG_get_scope_refs [[ package org.metaborg.meta.nabl2.spoofax.primitives;
 
 import java.util.List;

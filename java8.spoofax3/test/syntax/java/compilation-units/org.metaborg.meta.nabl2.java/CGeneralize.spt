@@ -2,8 +2,6 @@ module CGeneralize
 
 language java8
 
-start symbol Start
-
 test CGeneralize [[ package org.metaborg.meta.nabl2.constraints.poly;
 
 import org.immutables.serial.Serial;

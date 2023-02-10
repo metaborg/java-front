@@ -2,8 +2,6 @@ module ResolutionParameters
 
 language java8
 
-start symbol Start
-
 test ResolutionParameters [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import org.immutables.serial.Serial;

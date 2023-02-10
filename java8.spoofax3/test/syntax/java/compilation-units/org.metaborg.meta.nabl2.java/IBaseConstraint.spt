@@ -2,8 +2,6 @@ module IBaseConstraint
 
 language java8
 
-start symbol Start
-
 test IBaseConstraint [[ package org.metaborg.meta.nabl2.constraints.base;
 
 import java.util.function.Function;

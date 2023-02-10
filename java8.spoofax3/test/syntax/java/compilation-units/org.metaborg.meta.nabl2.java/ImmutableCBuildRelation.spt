@@ -2,8 +2,6 @@ module ImmutableCBuildRelation
 
 language java8
 
-start symbol Start
-
 test ImmutableCBuildRelation [[ package org.metaborg.meta.nabl2.constraints.relations;
 
 import java.io.Serializable;

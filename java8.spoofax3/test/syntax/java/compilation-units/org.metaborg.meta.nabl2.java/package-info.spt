@@ -2,8 +2,6 @@ module package-info
 
 language java8
 
-start symbol Start
-
 test package-info [[ @Value.Style(
     // @formatter:off
     typeAbstract = { "*" },

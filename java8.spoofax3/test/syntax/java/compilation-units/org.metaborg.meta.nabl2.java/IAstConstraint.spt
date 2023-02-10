@@ -2,8 +2,6 @@ module IAstConstraint
 
 language java8
 
-start symbol Start
-
 test IAstConstraint [[ package org.metaborg.meta.nabl2.constraints.ast;
 
 import java.util.function.Function;

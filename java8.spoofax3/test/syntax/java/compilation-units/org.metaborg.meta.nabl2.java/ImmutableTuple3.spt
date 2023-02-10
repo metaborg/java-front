@@ -2,8 +2,6 @@ module ImmutableTuple3
 
 language java8
 
-start symbol Start
-
 test ImmutableTuple3 [[ package org.metaborg.meta.nabl2.util.tuples;
 
 import java.util.Objects;

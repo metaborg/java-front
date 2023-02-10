@@ -2,8 +2,6 @@ module CDistinct
 
 language java8
 
-start symbol Start
-
 test CDistinct [[ package org.metaborg.meta.nabl2.constraints.sets;
 
 import java.util.Optional;

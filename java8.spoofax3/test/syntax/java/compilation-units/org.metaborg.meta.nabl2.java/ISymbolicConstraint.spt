@@ -2,8 +2,6 @@ module ISymbolicConstraint
 
 language java8
 
-start symbol Start
-
 test ISymbolicConstraint [[ package org.metaborg.meta.nabl2.constraints.sym;
 
 import java.util.function.Function;

@@ -2,8 +2,6 @@ module TypeVar
 
 language java8
 
-start symbol Start
-
 test TypeVar [[ package org.metaborg.meta.nabl2.poly;
 
 import java.util.List;

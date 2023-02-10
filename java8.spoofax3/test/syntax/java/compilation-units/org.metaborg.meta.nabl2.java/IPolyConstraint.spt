@@ -2,8 +2,6 @@ module IPolyConstraint
 
 language java8
 
-start symbol Start
-
 test IPolyConstraint [[ package org.metaborg.meta.nabl2.constraints.poly;
 
 import java.util.function.Function;

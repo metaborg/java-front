@@ -2,8 +2,6 @@ module ImmutableCDistinct
 
 language java8
 
-start symbol Start
-
 test ImmutableCDistinct [[ package org.metaborg.meta.nabl2.constraints.sets;
 
 import java.io.Serializable;

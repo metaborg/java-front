@@ -2,8 +2,6 @@ module ImmutableDirectPath
 
 language java8
 
-start symbol Start
-
 test ImmutableDirectPath [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.io.Serializable;

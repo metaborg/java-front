@@ -2,8 +2,6 @@ module ImmutableNamespace
 
 language java8
 
-start symbol Start
-
 test ImmutableNamespace [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;

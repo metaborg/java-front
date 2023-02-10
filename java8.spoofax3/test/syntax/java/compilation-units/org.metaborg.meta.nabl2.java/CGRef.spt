@@ -2,8 +2,6 @@ module CGRef
 
 language java8
 
-start symbol Start
-
 test CGRef [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import org.immutables.serial.Serial;

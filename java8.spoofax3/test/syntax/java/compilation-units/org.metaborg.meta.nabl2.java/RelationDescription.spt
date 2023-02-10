@@ -2,8 +2,6 @@ module RelationDescription
 
 language java8
 
-start symbol Start
-
 test RelationDescription [[ package org.metaborg.meta.nabl2.relations;
 
 import org.immutables.serial.Serial;

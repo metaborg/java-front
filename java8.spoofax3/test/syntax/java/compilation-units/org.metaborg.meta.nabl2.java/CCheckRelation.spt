@@ -2,8 +2,6 @@ module CCheckRelation
 
 language java8
 
-start symbol Start
-
 test CCheckRelation [[ package org.metaborg.meta.nabl2.constraints.relations;
 
 import org.immutables.serial.Serial;

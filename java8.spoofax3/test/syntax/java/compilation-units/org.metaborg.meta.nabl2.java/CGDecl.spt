@@ -2,8 +2,6 @@ module CGDecl
 
 language java8
 
-start symbol Start
-
 test CGDecl [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import org.immutables.serial.Serial;

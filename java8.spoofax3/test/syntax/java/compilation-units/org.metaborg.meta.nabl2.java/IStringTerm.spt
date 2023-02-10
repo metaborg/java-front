@@ -2,8 +2,6 @@ module IStringTerm
 
 language java8
 
-start symbol Start
-
 test IStringTerm [[ package org.metaborg.meta.nabl2.terms;
 
 public interface IStringTerm extends ITerm {

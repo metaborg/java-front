@@ -2,8 +2,6 @@ module IProperties
 
 language java8
 
-start symbol Start
-
 test IProperties [[ package org.metaborg.meta.nabl2.solver;
 
 import java.util.Optional;

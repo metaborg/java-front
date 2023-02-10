@@ -2,8 +2,6 @@ module EsopEnv
 
 language java8
 
-start symbol Start
-
 test EsopEnv [[ package org.metaborg.meta.nabl2.scopegraph.esop;
 
 import java.io.Serializable;

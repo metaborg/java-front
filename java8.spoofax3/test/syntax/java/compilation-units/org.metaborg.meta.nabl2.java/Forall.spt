@@ -2,8 +2,6 @@ module Forall
 
 language java8
 
-start symbol Start
-
 test Forall [[ package org.metaborg.meta.nabl2.poly;
 
 import java.util.List;

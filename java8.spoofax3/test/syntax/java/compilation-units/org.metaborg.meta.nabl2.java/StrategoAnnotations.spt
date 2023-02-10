@@ -2,8 +2,6 @@ module StrategoAnnotations
 
 language java8
 
-start symbol Start
-
 test StrategoAnnotations [[ package org.metaborg.meta.nabl2.stratego;
 
 import java.util.List;

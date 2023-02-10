@@ -2,8 +2,6 @@ module Variances
 
 language java8
 
-start symbol Start
-
 test Variances [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import org.immutables.serial.Serial;

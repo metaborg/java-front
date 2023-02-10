@@ -2,8 +2,6 @@ module ImmutableConcat
 
 language java8
 
-start symbol Start
-
 test ImmutableConcat [[ package org.metaborg.meta.nabl2.regexp;
 
 import java.io.Serializable;

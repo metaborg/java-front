@@ -2,8 +2,6 @@ module PMultimap
 
 language java8
 
-start symbol Start
-
 test PMultimap [[ package org.metaborg.meta.nabl2.util.pcollections;
 
 import java.util.Collection;

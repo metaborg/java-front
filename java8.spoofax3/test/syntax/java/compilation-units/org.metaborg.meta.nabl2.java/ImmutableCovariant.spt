@@ -2,8 +2,6 @@ module ImmutableCovariant
 
 language java8
 
-start symbol Start
-
 test ImmutableCovariant [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import java.io.Serializable;

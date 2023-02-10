@@ -2,8 +2,6 @@ module IApplTerm
 
 language java8
 
-start symbol Start
-
 test IApplTerm [[ package org.metaborg.meta.nabl2.terms;
 
 import java.util.List;

@@ -2,8 +2,6 @@ module ImmutableLazyOccurrence
 
 language java8
 
-start symbol Start
-
 test ImmutableLazyOccurrence [[ package org.metaborg.meta.nabl2.solver;
 
 import java.io.Serializable;

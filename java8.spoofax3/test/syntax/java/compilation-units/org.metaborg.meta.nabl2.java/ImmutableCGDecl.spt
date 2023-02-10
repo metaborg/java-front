@@ -2,8 +2,6 @@ module ImmutableCGDecl
 
 language java8
 
-start symbol Start
-
 test ImmutableCGDecl [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import java.io.Serializable;

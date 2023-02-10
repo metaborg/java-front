@@ -2,8 +2,6 @@ module ImmutableRelationName
 
 language java8
 
-start symbol Start
-
 test ImmutableRelationName [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;

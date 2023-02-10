@@ -2,8 +2,6 @@ module OccurrenceIndex
 
 language java8
 
-start symbol Start
-
 test OccurrenceIndex [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.io.Serializable;

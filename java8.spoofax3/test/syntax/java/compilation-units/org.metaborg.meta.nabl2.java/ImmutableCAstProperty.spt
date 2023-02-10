@@ -2,8 +2,6 @@ module ImmutableCAstProperty
 
 language java8
 
-start symbol Start
-
 test ImmutableCAstProperty [[ package org.metaborg.meta.nabl2.constraints.ast;
 
 import java.io.ObjectStreamException;

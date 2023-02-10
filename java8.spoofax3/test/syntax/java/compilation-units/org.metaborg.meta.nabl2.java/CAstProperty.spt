@@ -2,8 +2,6 @@ module CAstProperty
 
 language java8
 
-start symbol Start
-
 test CAstProperty [[ package org.metaborg.meta.nabl2.constraints.ast;
 
 import org.immutables.serial.Serial;

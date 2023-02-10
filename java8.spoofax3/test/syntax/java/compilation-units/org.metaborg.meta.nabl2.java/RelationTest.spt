@@ -2,8 +2,6 @@ module RelationTest
 
 language java8
 
-start symbol Start
-
 test RelationTest [[ package org.metaborg.meta.nabl2.regexp;
 
 import static org.junit.Assert.assertFalse;

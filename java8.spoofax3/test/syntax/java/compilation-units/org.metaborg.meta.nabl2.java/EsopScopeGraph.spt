@@ -2,8 +2,6 @@ module EsopScopeGraph
 
 language java8
 
-start symbol Start
-
 test EsopScopeGraph [[ package org.metaborg.meta.nabl2.scopegraph.esop;
 
 import java.io.IOException;

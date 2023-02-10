@@ -2,8 +2,6 @@ module IEqualityConstraint
 
 language java8
 
-start symbol Start
-
 test IEqualityConstraint [[ package org.metaborg.meta.nabl2.constraints.equality;
 
 import java.util.function.Function;

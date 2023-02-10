@@ -2,8 +2,6 @@ module Solver
 
 language java8
 
-start symbol Start
-
 test Solver [[ package org.metaborg.meta.nabl2.solver;
 
 import java.time.Duration;

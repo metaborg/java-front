@@ -2,8 +2,6 @@ module ImmutableCSubsetEq
 
 language java8
 
-start symbol Start
-
 test ImmutableCSubsetEq [[ package org.metaborg.meta.nabl2.constraints.sets;
 
 import java.io.Serializable;

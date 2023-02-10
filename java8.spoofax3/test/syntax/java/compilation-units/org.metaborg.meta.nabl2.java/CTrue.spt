@@ -2,8 +2,6 @@ module CTrue
 
 language java8
 
-start symbol Start
-
 test CTrue [[ package org.metaborg.meta.nabl2.constraints.base;
 
 import org.immutables.serial.Serial;

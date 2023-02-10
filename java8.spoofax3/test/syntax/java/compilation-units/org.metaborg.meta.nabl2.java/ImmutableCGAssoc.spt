@@ -2,8 +2,6 @@ module ImmutableCGAssoc
 
 language java8
 
-start symbol Start
-
 test ImmutableCGAssoc [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import java.io.Serializable;

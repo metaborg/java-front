@@ -2,8 +2,6 @@ module Object2ObjectOpenHashPMultimap
 
 language java8
 
-start symbol Start
-
 test Object2ObjectOpenHashPMultimap [[ package org.metaborg.meta.nabl2.util.fastutil;
 
 import java.util.Set;

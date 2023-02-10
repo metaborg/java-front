@@ -2,8 +2,6 @@ module IScopeGraph
 
 language java8
 
-start symbol Start
-
 test IScopeGraph [[ package org.metaborg.meta.nabl2.scopegraph;
 
 import java.util.Optional;

@@ -2,8 +2,6 @@ module Symbol
 
 language java8
 
-start symbol Start
-
 test Symbol [[ package org.metaborg.meta.nabl2.regexp;
 
 import org.immutables.serial.Serial;

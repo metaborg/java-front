@@ -2,8 +2,6 @@ module Relations
 
 language java8
 
-start symbol Start
-
 test Relations [[ package org.metaborg.meta.nabl2.relations.terms;
 
 import java.io.Serializable;

@@ -2,8 +2,6 @@ module SG_fresh
 
 language java8
 
-start symbol Start
-
 test SG_fresh [[ package org.metaborg.meta.nabl2.spoofax.primitives;
 
 import java.util.List;

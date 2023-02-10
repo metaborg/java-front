@@ -2,8 +2,6 @@ module ISetConstraint
 
 language java8
 
-start symbol Start
-
 test ISetConstraint [[ package org.metaborg.meta.nabl2.constraints.sets;
 
 import java.util.function.Function;

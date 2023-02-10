@@ -2,8 +2,6 @@ module ImmutableCInstantiate
 
 language java8
 
-start symbol Start
-
 test ImmutableCInstantiate [[ package org.metaborg.meta.nabl2.constraints.poly;
 
 import java.io.Serializable;

@@ -2,8 +2,6 @@ module Unit
 
 language java8
 
-start symbol Start
-
 test Unit [[ package org.metaborg.meta.nabl2.util;
 
 import java.io.Serializable;

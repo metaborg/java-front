@@ -2,8 +2,6 @@ module Terms
 
 language java8
 
-start symbol Start
-
 test Terms [[ package org.metaborg.meta.nabl2.terms;
 
 import java.util.List;

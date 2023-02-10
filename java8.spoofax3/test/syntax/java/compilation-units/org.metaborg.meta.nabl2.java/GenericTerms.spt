@@ -2,8 +2,6 @@ module GenericTerms
 
 language java8
 
-start symbol Start
-
 test GenericTerms [[ package org.metaborg.meta.nabl2.terms.generic;
 
 import java.util.LinkedList;

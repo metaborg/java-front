@@ -2,8 +2,6 @@ module Iterables3
 
 language java8
 
-start symbol Start
-
 test Iterables3 [[ package org.metaborg.meta.nabl2.util;
 
 import java.util.Iterator;

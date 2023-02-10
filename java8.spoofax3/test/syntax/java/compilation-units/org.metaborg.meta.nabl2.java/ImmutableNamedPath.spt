@@ -2,8 +2,6 @@ module ImmutableNamedPath
 
 language java8
 
-start symbol Start
-
 test ImmutableNamedPath [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import java.io.Serializable;

@@ -2,8 +2,6 @@ module CheckedFunction2
 
 language java8
 
-start symbol Start
-
 test CheckedFunction2 [[ package org.metaborg.meta.nabl2.util.functions;
 
 @FunctionalInterface

@@ -2,8 +2,6 @@ module SG_get_all_scopes
 
 language java8
 
-start symbol Start
-
 test SG_get_all_scopes [[ package org.metaborg.meta.nabl2.spoofax.primitives;
 
 import java.util.List;

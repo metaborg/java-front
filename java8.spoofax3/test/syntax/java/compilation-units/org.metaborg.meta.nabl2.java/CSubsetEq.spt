@@ -2,8 +2,6 @@ module CSubsetEq
 
 language java8
 
-start symbol Start
-
 test CSubsetEq [[ package org.metaborg.meta.nabl2.constraints.sets;
 
 import java.util.Optional;

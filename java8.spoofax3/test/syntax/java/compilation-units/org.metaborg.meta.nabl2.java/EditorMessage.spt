@@ -2,8 +2,6 @@ module EditorMessage
 
 language java8
 
-start symbol Start
-
 test EditorMessage [[ package org.metaborg.meta.nabl2.spoofax.analysis;
 
 import org.immutables.serial.Serial;

@@ -2,8 +2,6 @@ module IRegExpBuilder
 
 language java8
 
-start symbol Start
-
 test IRegExpBuilder [[ package org.metaborg.meta.nabl2.regexp;
 
 

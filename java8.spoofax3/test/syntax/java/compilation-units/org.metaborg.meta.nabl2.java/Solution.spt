@@ -2,8 +2,6 @@ module Solution
 
 language java8
 
-start symbol Start
-
 test Solution [[ package org.metaborg.meta.nabl2.solver;
 
 import java.util.List;

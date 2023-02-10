@@ -2,8 +2,6 @@ module ImmutableScope
 
 language java8
 
-start symbol Start
-
 test ImmutableScope [[ package org.metaborg.meta.nabl2.scopegraph.terms;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;

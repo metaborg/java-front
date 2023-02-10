@@ -2,8 +2,6 @@ module Function2
 
 language java8
 
-start symbol Start
-
 test Function2 [[ package org.metaborg.meta.nabl2.util.functions;
 
 @FunctionalInterface

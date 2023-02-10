@@ -2,8 +2,6 @@ module Complement
 
 language java8
 
-start symbol Start
-
 test Complement [[ package org.metaborg.meta.nabl2.regexp;
 
 import org.immutables.serial.Serial;

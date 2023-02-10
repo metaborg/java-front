@@ -2,8 +2,6 @@ module IRegExpCases
 
 language java8
 
-start symbol Start
-
 test IRegExpCases [[ package org.metaborg.meta.nabl2.regexp;
 
 import java.util.function.Function;

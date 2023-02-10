@@ -2,8 +2,6 @@ module IPath
 
 language java8
 
-start symbol Start
-
 test IPath [[ package org.metaborg.meta.nabl2.scopegraph;
 
 public interface IPath<S extends IScope, L extends ILabel, O extends IOccurrence> {

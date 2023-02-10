@@ -2,8 +2,6 @@ module ITerm
 
 language java8
 
-start symbol Start
-
 test ITerm [[ package org.metaborg.meta.nabl2.terms;
 
 import org.pcollections.PSet;

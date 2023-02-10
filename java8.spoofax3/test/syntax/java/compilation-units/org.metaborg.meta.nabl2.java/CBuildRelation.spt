@@ -2,8 +2,6 @@ module CBuildRelation
 
 language java8
 
-start symbol Start
-
 test CBuildRelation [[ package org.metaborg.meta.nabl2.constraints.relations;
 
 import org.immutables.serial.Serial;

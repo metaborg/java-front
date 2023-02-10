@@ -2,8 +2,6 @@ module ISpacedName
 
 language java8
 
-start symbol Start
-
 test ISpacedName [[ package org.metaborg.meta.nabl2.scopegraph;
 
 import org.metaborg.meta.nabl2.terms.ITerm;

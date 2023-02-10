@@ -2,8 +2,6 @@ module Object2IntOpenHashPMap
 
 language java8
 
-start symbol Start
-
 test Object2IntOpenHashPMap [[ package org.metaborg.meta.nabl2.util.fastutil;
 
 public final class Object2IntOpenHashPMap<K> implements Object2IntPMap<K> {

@@ -2,8 +2,6 @@ module TermSimplifier
 
 language java8
 
-start symbol Start
-
 test TermSimplifier [[ package org.metaborg.meta.nabl2.spoofax;
 
 import org.metaborg.meta.nabl2.scopegraph.terms.ImmutableScope;

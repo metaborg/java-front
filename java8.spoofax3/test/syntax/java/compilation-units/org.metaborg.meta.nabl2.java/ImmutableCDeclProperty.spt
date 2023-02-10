@@ -2,8 +2,6 @@ module ImmutableCDeclProperty
 
 language java8
 
-start symbol Start
-
 test ImmutableCDeclProperty [[ package org.metaborg.meta.nabl2.constraints.namebinding;
 
 import java.io.ObjectStreamException;

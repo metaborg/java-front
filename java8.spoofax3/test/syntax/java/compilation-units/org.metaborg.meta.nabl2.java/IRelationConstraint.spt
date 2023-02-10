@@ -2,8 +2,6 @@ module IRelationConstraint
 
 language java8
 
-start symbol Start
-
 test IRelationConstraint [[ package org.metaborg.meta.nabl2.constraints.relations;
 
 import org.metaborg.meta.nabl2.constraints.IConstraint;

@@ -2,8 +2,6 @@ module ImmutableTermPair
 
 language java8
 
-start symbol Start
-
 test ImmutableTermPair [[ package org.metaborg.meta.nabl2.terms.generic;
 
 import java.io.Serializable;
