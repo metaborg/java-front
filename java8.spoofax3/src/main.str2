@@ -14,6 +14,10 @@ rules // Analysis
   pre-analyze  = explicate-injections-java8-Start
   post-analyze = implicate-injections-java8-Start
 
-  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"main", "projectOk", "fileOk")
+  editor-analyze = stx-editor-analyze(pre-analyze,group-key,post-analyze|"main", "projectOk", "groupOk", "fileOk")
   editor-resolve = stx-editor-resolve
   editor-hover   = stx-editor-hover
+
+  group-key: (resource, ast) -> key
+    with rel-path := <current-language-relative-source-or-include-path> resource
+       ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\\'], rel-path)
