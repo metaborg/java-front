@@ -2,12 +2,12 @@ module main
 
 imports
 
-  statics/java/Main
-  statics/java/names/Main
-  statics/java/names/PackageNames
-  statics/java/names/TypeNames
-  statics/java/packages/CompilationUnits
-  statics/java/packages/PackageDeclarations
+  java/Main
+  java/names/Main
+  java/names/PackageNames
+  java/names/TypeNames
+  java/packages/CompilationUnits
+  java/packages/PackageDeclarations
 
   signatures/start-sig
   signatures/syntax/java/Test-sig

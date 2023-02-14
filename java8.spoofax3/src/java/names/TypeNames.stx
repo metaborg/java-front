@@ -1,0 +1,207 @@
+module java/names/TypeNames
+
+imports
+
+  signatures/syntax/java/names/Names-sig
+
+  java/names/Main
+  java/names/PackageNames
+  java/names/PackageOrTypeNames
+  java/types/Main
+  java/types/ReferenceTypes
+
+
+// 6.5.5 Meaning of Type Names
+
+signature
+
+  sorts
+    TYPE_DECL  = (Id * scope)
+    TYPE_PATH  = (path * TYPE_DECL)
+
+  relations
+    type     : Id -> scope
+    thisType : TYPE_DECL // FIXME should be `TYPE` and move to types/ReferenceTypes with related predicates
+
+
+rules
+
+  typeDeclId : TYPE_DECL -> Id
+
+  typeDeclId((id, _)) = id.
+
+
+  typeDeclScope : TYPE_DECL -> scope
+
+  typeDeclScope((_, s_ty)) = typeScope(toType(s_ty)).
+
+
+  typeDeclType : TYPE_DECL -> TYPE
+
+  typeDeclType((_, s_ty)) = toType(s_ty).
+
+
+  typeDeclKind : TYPE_DECL -> KIND
+
+  typeDeclKind((_, s_ty)) = toKind(s_ty).
+
+
+rules
+
+  typeNameOk : scope * TypeName -> TYPE_DECL
+
+  typeNameOk(s, typeName) = resolveTypeName(s, typeNameOk1(typeName)).
+
+      typeNameOk1 : TypeName -> QID
+
+      typeNameOk1(TypeName(id)) = ID(id).
+
+      typeNameOk1(QTypeName(pkgOrTypeName, id)) = QID(pkgOrTypeNameOk1(pkgOrTypeName), id).
+
+
+  resolveTypeName : scope * QID -> TYPE_DECL
+
+  resolveTypeName(s, qid) = singleTypeDecl(qidId(qid), resolveTypeNames(s, qid)).
+
+
+  resolveTypeNames : scope * QID -> list(TYPE_PATH)
+
+  resolveTypeNames(s, ID(id)) = typePathList :-
+    typePathList == resolveLexicalTypeNames(s, id).
+
+  resolveTypeNames(s, QID(qid, id)) = typePathList :-
+  {s_pkgOrType}
+    s_pkgOrType == pkgOrTypeDeclScope(resolvePkgOrTypeName(s, qid)),
+    typePathList == resolveMemberTypeNames(s_pkgOrType, id).
+
+
+  resolveLexicalTypeNames : scope * Id -> list(TYPE_PATH)
+
+  resolveLexicalTypeNames(s, id) = typePathList :-
+    query type
+      filter /* lex type re */
+          LEX*                              ( TYPE_PARAMS?
+                                            | EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
+                                            )
+        | LEX* STATIC_LEX (LEX|STATIC_LEX)* ( EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+                                            )
+        |                 (LEX|STATIC_LEX)* ( IMPORT_PKG
+                                            | SINGLE_TYPE_IMPORT
+                                            | SINGLE_STATIC_IMPORT
+                                            | TYPE_IMPORT_ONDEMAND   EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
+                                            | STATIC_IMPORT_ONDEMAND EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+                                            )
+        and { id' :- id' == id }
+      min /* type ord */
+          $ < LEX, $ < STATIC_LEX, $ < TYPE_PARAMS, $ < STATIC_MEMBERS, $ < EXTENDS, $ < IMPLEMENTS, $ < IMPORT_PKG, $ < SINGLE_TYPE_IMPORT, $ < TYPE_IMPORT_ONDEMAND, $ < SINGLE_STATIC_IMPORT, $ < STATIC_IMPORT_ONDEMAND,
+          TYPE_PARAMS < LEX       , STATIC_MEMBERS < LEX       , EXTENDS < LEX       , IMPLEMENTS < LEX       , IMPORT_PKG < LEX       , SINGLE_TYPE_IMPORT < LEX       , TYPE_IMPORT_ONDEMAND < LEX       , SINGLE_STATIC_IMPORT < LEX       , STATIC_IMPORT_ONDEMAND < LEX       ,
+          TYPE_PARAMS < STATIC_LEX, STATIC_MEMBERS < STATIC_LEX, EXTENDS < STATIC_LEX, IMPLEMENTS < STATIC_LEX, IMPORT_PKG < STATIC_LEX, SINGLE_TYPE_IMPORT < STATIC_LEX, TYPE_IMPORT_ONDEMAND < STATIC_LEX, SINGLE_STATIC_IMPORT < STATIC_LEX, STATIC_IMPORT_ONDEMAND < STATIC_LEX,
+          STATIC_MEMBERS < TYPE_PARAMS, EXTENDS < TYPE_PARAMS, IMPLEMENTS < TYPE_PARAMS,
+          SINGLE_TYPE_IMPORT   < IMPORT_PKG, SINGLE_TYPE_IMPORT   < TYPE_IMPORT_ONDEMAND, SINGLE_TYPE_IMPORT   < STATIC_IMPORT_ONDEMAND,
+          SINGLE_STATIC_IMPORT < IMPORT_PKG, SINGLE_STATIC_IMPORT < TYPE_IMPORT_ONDEMAND, SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND,
+          IMPORT_PKG < TYPE_IMPORT_ONDEMAND, IMPORT_PKG < STATIC_IMPORT_ONDEMAND
+        and true
+      in s |-> typePathList,
+    true.
+
+
+  resolveMemberTypeNames : scope * Id -> list(TYPE_PATH)
+
+  resolveMemberTypeNames(s, id) = typePathList :-
+    query type
+      filter /* mem type re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
+        and { id' :- id' == id }
+      min /* type ord */
+          $ < EXTENDS, $ < IMPLEMENTS
+        and true
+      in s |-> typePathList,
+    true.
+
+
+  resolveAllStaticMemberTypeNames : scope * Id -> list(TYPE_PATH)
+
+  resolveAllStaticMemberTypeNames(s, id) = typePathList :-
+    query type
+      filter /* mem type re */
+          EXTENDS* IMPLEMENTS* STATIC_MEMBERS
+        and { id' :- id' == id }
+      min /* type ord */
+          STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
+        and true
+      in s |-> typePathList,
+    true.
+
+
+  singleTypeDecl : Id * list(TYPE_PATH) -> TYPE_DECL
+
+  singleTypeDecl(id, []) = _ :-
+    false | error $[Type [id] not found] @id.
+
+  singleTypeDecl(id, [(_, typeDecl@(id', _))]) = typeDecl :-
+    @id.ref := id'.
+
+  singleTypeDecl(id, typeDeclList) = _ :-
+    false | error $[Type [id] is ambiguous] @id.
+
+
+  declareType : scope * Id * scope * KIND
+
+  declareType(s, id, s_ty, K) :-
+    initTypeScope(s_ty, id, K),
+    !type[id, s_ty] in s,
+    noOtherHomonymousType(s, (id, s_ty)),
+    noEnclosingHomonymousType(s, id),
+    noHomonymousPkg(s, id).
+
+
+  aliasTypes maps aliasType(*, list(*))
+  aliasType : scope * TYPE_DECL
+
+  aliasType(s, (id, s_ty)) :-
+    !type[id, s_ty] in s.
+
+
+  this : scope -> TYPE_DECL
+
+  this(s) = typeDecl :-
+    query thisType
+      filter LEX* and true
+      min $ < LEX and true
+      in s |-> [(_, typeDecl)].
+
+
+  qualThis : TYPE_DECL * scope -> TYPE_DECL
+
+  qualThis(typeDecl, s) = typeDecl' :-
+    query thisType
+      filter LEX* and { typeDecl' :- typeDecl' == typeDecl }
+      min $ < LEX and true
+      in s |-> [(_, typeDecl')].
+
+
+  super : TYPE_DECL -> TYPE_DECL
+
+  super(typeDecl) = typeDecl' :-
+  {s_ty}
+    s_ty == typeDeclScope(typeDecl),
+    query thisType
+      filter EXTENDS and true
+      in s_ty |-> [(_, typeDecl')].
+
+
+  noOtherHomonymousType: scope * TYPE_DECL
+
+  noOtherHomonymousType(s, typeDecl@(id, _)) :-
+    query type
+      filter STATIC_MEMBERS? and { id' :- id' == id }
+      in s |-> [(_, typeDecl)].
+
+
+  noEnclosingHomonymousType : scope * Id
+
+  noEnclosingHomonymousType(s, id) :-
+    query thisType
+      filter (LEX|STATIC_LEX)* and { (id', _) :- id' == id }
+      in s |-> [].
+

@@ -1,0 +1,18 @@
+module java/util/Boolean
+
+signature
+
+  sorts B constructors
+    T : B
+    F : B
+
+rules
+
+  isT : B
+  isT(T()).
+  isT(F()) :- false.
+
+  isF : B
+  isF(T()) :- false.
+  isF(F()).
+

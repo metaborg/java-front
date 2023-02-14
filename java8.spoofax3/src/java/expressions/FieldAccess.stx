@@ -1,0 +1,39 @@
+module java/expressions/FieldAccess
+
+imports
+
+  signatures/syntax/java/expressions/FieldAccess-sig
+
+  java/expressions/Main
+  java/names/ExpressionNames
+  java/names/TypeNames
+  java/types/Main
+  java/types/ReferenceTypes
+
+
+rules // 15.11. Field Access Expressions
+
+  exprOk(s, FieldAccess2Expression(fldAccess)) = fldAccessOk(s, fldAccess).
+
+
+  fldAccessOk : scope * FieldAccess -> TYPE
+
+  fldAccessOk(s, Field(expr, id)) = T :-
+  {s_ty varDecl}
+    s_ty == typeScope(exprOk(s, expr)),
+    varDecl == singleVarDecl(id, resolveMemberExprNames(s_ty, id)),
+    T == varDeclType(varDecl).
+
+  fldAccessOk(s, SuperField(id)) = T :-
+  {s_ty varDecl}
+    s_ty == typeDeclScope(super(this(s))),
+    varDecl == singleVarDecl(id, resolveMemberExprNames(s_ty, id)),
+    T == varDeclType(varDecl).
+
+  fldAccessOk(s, QSuperField(typeName, id)) = T :-
+  {typeDecl s_ty varDecl}
+    typeDecl == typeNameOk(s, typeName),
+    s_ty == typeDeclScope(super(qualThis(typeDecl, s))),
+    varDecl == singleVarDecl(id, resolveMemberExprNames(s_ty, id)),
+    T == varDeclType(varDecl).
+

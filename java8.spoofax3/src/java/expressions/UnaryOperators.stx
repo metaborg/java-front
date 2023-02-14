@@ -1,0 +1,71 @@
+module java/expressions/UnaryOperators
+
+imports
+
+  signatures/syntax/java/expressions/UnaryOperators-sig
+
+  java/classes/ClassDeclarations
+  java/expressions/Main
+  java/types/Conversions
+  java/types/Main
+  java/types/PrimitiveTypes
+  java/types/ReferenceTypes
+  java/types/Subtyping
+
+
+rules // 15.15. Unary Operators
+
+  exprOk(s, Plus(expr)) = T :-
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
+
+  exprOk(s, Minus(expr)) = T :-
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
+
+  exprOk(s, PreIncr(expr)) = T :-
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
+
+  exprOk(s, PreDecr(expr)) = T :-
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
+
+  exprOk(s, Complement(expr)) = T :-
+  {T'}
+    T' == exprOk(s, expr),
+    T == promoteNumericUnary(T').
+
+  exprOk(s, Not(expr)) = BOOLEAN() :-
+  {T'}
+    T' == exprOk(s, expr),
+    conditionCompatible(T').
+
+  exprOk(s, CastPrimitive(primType, expr)) = T :-
+  {T'}
+    T == primTypeOk(s, primType),
+    T' == exprOk(s, expr),
+    castCompatible(T, T').
+
+  exprOk(s, CastReference(refType, additionalBoundList, expr)) = T :-
+  {Ts T'}
+    T == refTypeOk(s, refType),
+
+    Ts == additionalBoundListOk(s, additionalBoundList),
+    try { Ts == [] } | warning "Unchecked extra bounds" @additionalBoundList,
+
+    T' == exprOk(s, expr),
+    // castCompatible(T, T'),
+    try { false } | warning "Unchecked cast" @refType.
+
+  additionalBoundOk : scope * AdditionalBound -> TYPE
+  additionalBoundListOk maps additionalBoundOk(*, list(*)) = list(*)
+
+  additionalBoundOk(s, AdditionalBound(clsType)) = T :-
+    T == clsTypeOk(s, clsType).
+
+
