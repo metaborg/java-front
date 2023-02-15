@@ -1,5 +1,9 @@
 test;
 
-[hello]
-class A {
+[A]
+class A extends Object {
+}
+
+[C]
+class C extends A {
 }
