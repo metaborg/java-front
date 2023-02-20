@@ -3,11 +3,19 @@ module refret/refret
 test simple reference retention [[
 test;
 
-[A]
-class [[A]] { }
+[p] {
+  [A]
+  package p;
 
-[B]
-class B extends [[A]] { }
+  class [[A]] { }
+}
+
+[q] {
+  [B]
+  package q;
+
+  class B extends [[p.A]] { }
+}
 
 ]]
 analysis succeeds

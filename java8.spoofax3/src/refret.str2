@@ -9,6 +9,8 @@ imports
 imports
 
   signatures/syntax/java/lexical/-
+  signatures/syntax/java/names/-
+  signatures/syntax/java/types/-
   injections/-
 
 rules
@@ -19,34 +21,68 @@ rules
 
 rules
 
-  fix-reference(|ref, tgt): ast -> ast''
+  fix-reference(|ref, tgt): ast -> ast'
     // retrieve original analysis
-    with a := <stx--get-ast-analysis> ast
+    with a       := <stx--get-ast-analysis> ast
 
     // retrieve indices of reference to test
-    with ref'  := <collect-id> ref
-       ; tgt'  := <collect-id> tgt
+    with ref'    := <collect-ref; collect-id> ref
+       ; tgt'    := <collect-ref; collect-id> tgt
+       ; ref-idx := <stx--get-ast-index> ref'
 
-    // lock indicated reference
-    with ast'  := <explicate-injections-java8-Start; rr-lock-reference(|ref', tgt', a)> ast
+    // lock indicated reference, create placeholder and fix!
+    with ast'    := < explicate-injections-java8-Start
+                    ; rr-create-placeholder(|ref-idx, tgt', a)
+                    ; rr--fix-references(|a)
+                    ; where(pp-aterm; debug)
+                    ; implicate-injections-java8-Start
+                    > ast
 
-    with ast'' := <rr--fix-references(|a); where(pp-aterm; debug); implicate-injections-java8-Start> ast'
+rules // recognize references, based on syntax/java/names/Names.sdf3
 
-  collect-id = collect-all(?Id(_)); ?[<id>]
+  collect-ref = collect-one(where(strip-annos; is-name-of-sort))
+
+  is-name-of-sort: ClassType(_, _, _) -> "ClassType"
+  is-name-of-sort: ClassOrInterfaceTypeMember(_, _, _, _) -> "ClassType"
+
+  is-name-of-sort: PackageName(_) -> "PackageName"
+  is-name-of-sort: QPackageName(_, _) -> "PackageName"
+
+  is-name-of-sort: TypeName(_) -> "TypeName"
+  is-name-of-sort: QTypeName(_, _) -> "TypeName"
+
+  is-name-of-sort: PackageOrTypeName(_) -> "PackageOrTypeName"
+  is-name-of-sort: QPackageOrTypeName(_, _) -> "PackageOrTypeName"
+
+  is-name-of-sort: ExpressionName(_) -> "ExpressionName"
+  is-name-of-sort: QExpressionName(_, _) -> "ExpressionName"
+
+  is-name-of-sort: AmbiguousName(_) -> "AmbiguousName"
+  is-name-of-sort: QAmbiguousName(_, _) -> "AmbiguousName"
+
+  is-name-of-sort: MethodName(_) -> "MethodName"
+
+  is-name-of-sort: Id(_) -> "Id"
+
+  // Collect rightmost leaf if it is an `Id(_)` term
+  collect-id = ?Id(_)
+  collect-id = ?ClassType(_, <collect-id>, _)
+  collect-id = ?ClassOrInterfaceTypeMember(_, _, <collect-id>, _)
+  collect-id = where(is-name-of-sort; not(equal(|"ClassType"))); get-arguments; last; collect-id
+
 
 rules // qualifier oracle
 
-  qualify-reference(|ctxs, sortName) = debug; ![(<id>, <stx--get-ast-index>)]
+  qualify-reference(|ctxs, sortName, a) = debug(!"qualify: "); ![(<id>, <collect-id; stx--get-ast-index>)]
 
 rules
 
-  rr-lock-reference(|ref, tgt, solverResult): ast -> ast'
-    with idx  := <stx--get-ast-index> ref
-       ; ast' := <oncebu(
-		                 where(stx--get-ast-index; ?idx)
-		               ; rr--lock-reference(|tgt, solverResult, "Id")
-		               ; rr--create-placeholder(|[])
-                 )> ast
+  rr-create-placeholder(|idx, tgt, a) = oncetd({ sort: 
+		  								  where(is-name-of-sort => sort)
+		  								; where(somebu(stx--get-ast-index; ?idx))
+		  								; rr--lock-reference(|tgt, a, sort)
+		  								; rr--create-placeholder(|[])
+		  								})
 
 rules
 
