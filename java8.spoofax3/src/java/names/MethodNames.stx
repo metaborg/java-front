@@ -71,6 +71,7 @@ rules
   resolveLexicalMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
   resolveLexicalMthdNames(s, id, Ts) = mthdPathList :-
+    @id.scope := s,
     query mthd
       filter /* lex mthd re */
           LEX*                              EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
@@ -92,6 +93,7 @@ rules
   resolveMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
   resolveMemberMthdNames(s, id, Ts) = mthdPathList :-
+    @id.scope := s,
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
@@ -106,6 +108,7 @@ rules
   resolveStaticMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
   resolveStaticMemberMthdNames(s, id, Ts) = mthdPathList :-
+    @id.scope := s,
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
@@ -120,6 +123,7 @@ rules
   resolveAllStaticMemberMthdNames : scope * Id -> list(MTHD_PATH)
 
   resolveAllStaticMemberMthdNames(s, id) = mthdPathList :-
+    @id.scope := s,
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
@@ -134,6 +138,7 @@ rules
   resolveDirectMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
 
   resolveDirectMemberMthdNames(s, id, Ts) = mthdPathList :-
+    @id.scope := s,
     query mthd
       filter e
         and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
@@ -162,6 +167,7 @@ rules
   {s_mthd}
     new s_mthd,
     !mthd[id, params, s_mthd] in s,
+    @id.scope := s,
     declareReturn(s_mthd, R),
     noOtherHomonymousMthd(s, (id, params, s_mthd)).
 
@@ -170,7 +176,8 @@ rules
   aliasMthdName : scope * MTHD_DECL
 
   aliasMthdName(s, (id, params, s_mthd)) :-
-    !mthd[id, params, s_mthd] in s.
+    !mthd[id, params, s_mthd] in s,
+    @id.scope := s.
 
 
   noOtherHomonymousMthd: scope * MTHD_DECL

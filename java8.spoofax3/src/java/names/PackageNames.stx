@@ -58,6 +58,7 @@ rules
   resolveLexicalPkgNames : scope * Id -> list(PKG_PATH)
 
   resolveLexicalPkgNames(s, id) = pkgPathList :-
+    @id.scope := s,
     query pkg
       filter /* lex pkg re */
           (LEX|STATIC_LEX)*
@@ -72,6 +73,7 @@ rules
   resolveMemberPkgNames : scope * Id -> list(PKG_PATH)
 
   resolveMemberPkgNames(s, id) = pkgPathList :-
+    @id.scope := s,
     query pkg
       filter /* mem pkg re */
           e
@@ -114,7 +116,8 @@ rules
 
   declarePkg(s, id, s_pkg) :-
     !pkg[id, s_pkg] in s,
-    !thisPkg[id, s_pkg] in s_pkg.
+    !thisPkg[id, s_pkg] in s_pkg,
+    @id.scope := s.
 
 
   thisPkg : scope -> PKG_DECL

@@ -60,7 +60,8 @@ rules
 
   resolveLexicalExprNames : scope * Id -> list(VAR_PATH)
 
-  resolveLexicalExprNames(s, id) = varPathList :-
+  resolveLexicalExprNames(s, id) = varPathList :-    
+    @id.scope := s,
     query var
       filter /* lex expr re */
           LEX*                              EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
@@ -81,6 +82,7 @@ rules
   resolveMemberExprNames : scope * Id -> list(VAR_PATH)
 
   resolveMemberExprNames(s, id) = varPathList :-
+    @id.scope := s,
     query var
       filter /* mem expr re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
@@ -94,6 +96,7 @@ rules
   resolveAllStaticMemberExprNames : scope * Id -> list(VAR_PATH)
 
   resolveAllStaticMemberExprNames(s, id) = varPathList :-
+    @id.scope := s,
     query var
       filter /* mem expr re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
@@ -110,6 +113,7 @@ rules
   {s_var}
     new s_var, setType(s_var, T),
     !var[id, s_var] in s,
+    @id.scope := s,
     noOtherHomonymousExpr(s, (id, s_var)).
 
 
@@ -117,7 +121,8 @@ rules
   aliasExprName : scope * VAR_DECL
 
   aliasExprName(s, (id, s_var)) :-
-    !var[id, s_var] in s.
+    !var[id, s_var] in s,
+    @id.scope := s.
 
 
   singleVarDecl : Id * list(VAR_PATH) -> VAR_DECL
