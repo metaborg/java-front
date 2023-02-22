@@ -25,7 +25,12 @@ rules // 7.3. Compilation Units
     pkgDeclOptOk(s_cu, pkgDeclOpt),
     importJavaLang(s_proj, s_cu),
     s_cu -IMPORT_PKG-> s_pkg,
+    importUnnamed(s_proj, s_cu),
     importDeclListOk(s_proj, importDeclList, s_cu),
     typeDeclListOk(s_cu, typeDeclList, s_pkg),
     true.
 
+  importUnnamed: scope * scope
+
+  importUnnamed(s_proj, s_cu) :- 
+    s_cu -TYPE_IMPORT_ONDEMAND-> pkgDeclScope(resolvePkgName(s_proj, ID(Id("(unnamed)")))).
