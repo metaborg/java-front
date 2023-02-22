@@ -1,23 +1,2 @@
 module refret/refret
 
-test simple reference retention [[
-test;
-
-[p] {
-  [A]
-  package p;
-
-  class [[A]] { }
-}
-
-[q] {
-  [B]
-  package q;
-
-  class B extends [[p.A]] { }
-}
-
-]]
-analysis succeeds
-run test-analyze to SUCCEED()
-run fix-reference(|#2, #1)

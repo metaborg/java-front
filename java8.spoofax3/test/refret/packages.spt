@@ -1,0 +1,106 @@
+module refret/packages
+
+test reference retention - package - single package [[
+test;
+
+[p] {
+  [A]
+  package p;
+
+  class [[A]] { }
+}
+
+[q] {
+  [B]
+  package q;
+
+  class B extends [[A]] { }
+}
+
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[p] {
+  [A]
+  package p;
+
+  class A { }
+}
+
+[q] {
+  [B]
+  package q;
+
+  class B extends p.A { }
+}
+]]
+
+
+test reference retention - package - nested package [[
+test;
+
+[p] {
+  [d] {
+    [A]
+    package p.d;
+
+    class [[A]] { }
+  }
+}
+
+[q] {
+  [B]
+  package q;
+
+  class B extends [[A]] { }
+}
+
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[p] {
+  [d] {
+    [A]
+    package p.d;
+
+    class A { }
+  }
+}
+
+[q] {
+  [B]
+  package q;
+
+  class B extends p.d.A { }
+}
+]]
+
+test reference retention - package - root package [[
+test;
+
+[A]
+class [[A]] { }
+
+[q] {
+  [B]
+  package q;
+
+  class B extends [[A]] { }
+}
+
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[A]
+class A { }
+
+[q] {
+  [B]
+  package q;
+
+  class B extends A { }
+}
+]]

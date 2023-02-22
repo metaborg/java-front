@@ -25,14 +25,14 @@ rules // Analysis
 
   group-key: (resource, ast) -> key
     with rel-path := <current-language-relative-source-or-include-path> resource
-       ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\\'], rel-path)
+       ; key := <string-tokenize; debug; Tl /* drop 'examples/' */; if ?[file-name] then !["(unnamed)", file-name] end> (['/','\\'], rel-path)
 
   is-spt-input = ?AnalyzeSingle(changes, p, c)
 
 signature
   sorts AnalyzeResult constructors
     SUCCEED  : AnalyzeResult
-    FAIL     : List(EditorMessage) -> AnalyzeResult
+    FAIL     : AnalyzeResult
 
 rules // Debug test analysis
 
@@ -40,4 +40,4 @@ rules // Debug test analysis
     with action := AnalyzeSingle([("./test", Added(ast))], (), ())
        ; a      := <stx-editor-analyze(pre-analyze, post-analyze|"main", "programOk"); debug> action
        ; AnalysisResult([(_, Full(_, _, msg*, _, _))]) := a
-       ; result := <?[] < (!SUCCEED()) + (!FAIL(msg*))> msg*
+       ; result := <?[] < (!SUCCEED()) + (debug; !FAIL())> msg*

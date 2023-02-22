@@ -3,6 +3,7 @@ module refret
 imports
   strategolib
   statix/runtime/-
+  statix/api
 
   libstratego-aterm
 
@@ -73,7 +74,47 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
 
 rules // qualifier oracle
 
-  qualify-reference(|ctxs, sortName, a) = debug(!"qualify: "); ![(<id>, <collect-id; stx--get-ast-index>)]
+  qualify-reference(|ctxs, sortName, a): ref -> <debug(!"props: ")> prop*
+    with            <debug(!"qualify: ")> ref
+       ; [tgt]   := <debug(!"ctxs: ")> ctxs
+       ; ref-idx := <collect-id; stx--get-ast-index; debug(!"ref-idx: ")> ref
+       ; prop*   := <qualify-class-reference(|tgt, sortName, a); debug(!"q-cls: ") <+ ![(ref, ref-idx)]; debug(!"def: ")> ref
+
+  qualify-class-reference(|tgt, sortName, a): t@ClassType(ann*, x, tp*) -> prop*
+    with ref-idx    := <stx--get-ast-index> x
+       ; s-tgt      := <stx-get-ast-property(|a, "scope")> tgt
+       ; if <stx-get-scopegraph-data(|a, "java/names/PackageNames!thisPkg"); ?[<id>]> s-tgt => (p, s-pkg) then  // FIXME: does this work for nested classes?
+	       q-cls    := <reconstruct-package(|a); filter(not(?Id("(unnamed)"))); debug(!"q-pkg: "); mk-qualified-class-type(|ann*, x, tp*)> (p, s-pkg)
+	     ; prop*    := [(t, ref-idx), (q-cls, ref-idx)]
+         else
+           prop*    := [(t, ref-idx)]
+         end
+
+  mk-qualified-class-type(|List(Annotation), Id, TypeArguments-OPT) :: List(Id) -> ClassType
+
+  mk-qualified-class-type(|ann*, x, tp*): [] -> ClassType(ann*, x, tp*)
+
+  mk-qualified-class-type(|ann*, x, tp*) = foldl'(mk-top-level-pkg-name; debug(!"tl-pkg: "), mk-nested-pkg-name; debug(!"n-pkg: ")); !ClassOrInterfaceTypeMember(<id>, ann*, x, tp*)
+
+  mk-qualified-class-type(|ann*, x, tp*) = debug(!"cannot match id list: "); fail
+
+  mk-top-level-pkg-name = !ClassType([], <id>, NoTypeArguments())
+  mk-nested-pkg-name: (x, q) -> ClassOrInterfaceTypeMember(q, [], x, NoTypeArguments())
+
+  // reconstruct-package(|Analysis) :: Id * Term -> List(Id)
+
+  reconstruct-package(|a): (pkg-name, s-pkg) -> result
+    with(if <stx-evaluate-with-initial-state(|a, "java/names/PackageNames!superPkg")> [(pkg-name, s-pkg)] => (p', s-pkg') then
+        pkg-name*    := <reconstruct-package(|a)> (p', s-pkg')
+      ; result := [pkg-name*, pkg-name]
+    else
+        result := [pkg-name]
+    end)
+
+rules
+
+  foldl'(a -> b, a * b -> b|) :: List(a) -> b
+  foldl'(s1, s2) = ?[h| tl]; !(tl, <s1> h); foldl(s2)
 
 rules
 
@@ -81,7 +122,7 @@ rules
 		  								  where(is-name-of-sort => sort)
 		  								; where(somebu(stx--get-ast-index; ?idx))
 		  								; rr--lock-reference(|tgt, a, sort)
-		  								; rr--create-placeholder(|[])
+		  								; rr--create-placeholder(|[tgt])
 		  								})
 
 rules

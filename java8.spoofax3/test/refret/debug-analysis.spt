@@ -1,0 +1,32 @@
+module refret/debug-analysis
+
+
+test root package -- analysis fails [[
+test;
+
+[A]
+class A { }
+
+[q] {
+  [B]
+  package q;
+
+  class B extends QQQ { }
+}
+]]
+run test-analyze to FAIL()
+
+test root package -- analysis succeeds [[
+test;
+
+[A]
+class A { }
+
+[q] {
+  [B]
+  package q;
+
+  class B extends A { }
+}
+]]
+run test-analyze to SUCCEED()
