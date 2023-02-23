@@ -18,6 +18,8 @@ imports
   signatures/start-sig
   signatures/syntax/java/Test-sig
 
+  refret
+
 rules
 
   projectOk : scope

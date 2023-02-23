@@ -35,7 +35,7 @@ rules
     with ast'    := < explicate-injections-java8-Start
                     ; rr-create-placeholder(|ref-idx, tgt', a)
                     ; rr--fix-references(|a)
-                    ; where(pp-aterm; debug)
+                    // ; where(pp-aterm; dbg)
                     ; implicate-injections-java8-Start
                     > ast
 
@@ -74,47 +74,84 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
 
 rules // qualifier oracle
 
-  qualify-reference(|ctxs, sortName, a): ref -> <debug(!"props: ")> prop*
-    with            <debug(!"qualify: ")> ref
-       ; [tgt]   := <debug(!"ctxs: ")> ctxs
-       ; ref-idx := <collect-id; stx--get-ast-index; debug(!"ref-idx: ")> ref
-       ; prop*   := <qualify-class-reference(|tgt, sortName, a); debug(!"q-cls: ") <+ ![(ref, ref-idx)]; debug(!"def: ")> ref
+  qualify-reference(|ctxs, sortName, a): ref -> prop*
+    with [tgt]   := ctxs
+       ; ref-idx := <collect-id; stx--get-ast-index> ref
+       ; prop*   := <qualify-class-reference(|tgt, sortName, a) <+ ![(ref, ref-idx)]> ref
+
+signature // Qualified names (wrapper around `List(Id)`, used to prevent issues with `reverse` flattening nested lists.
+
+  sorts QName constructors
+    QName: List(Id) -> QName
+
+rules
+
+  mk-qnames :: List(Id) -> List(QName)
+  mk-qnames: l@[x]      -> [QName(l)]
+  mk-qnames: l@[h|tl]   -> [QName(l)|tl*]
+    with tl* := <mk-qnames> tl
+
+  prefix-qname :: List(Id) * QName -> QName
+  prefix-qname: (x*, QName(qn)) -> QName(<at-end(!qn)> x*)
+
+rules // classes and packages
 
   qualify-class-reference(|tgt, sortName, a): t@ClassType(ann*, x, tp*) -> prop*
     with ref-idx    := <stx--get-ast-index> x
        ; s-tgt      := <stx-get-ast-property(|a, "scope")> tgt
-       ; if <stx-get-scopegraph-data(|a, "java/names/PackageNames!thisPkg"); ?[<id>]> s-tgt => (p, s-pkg) then  // FIXME: does this work for nested classes?
-	       q-cls    := <reconstruct-package(|a); filter(not(?Id("(unnamed)"))); debug(!"q-pkg: "); mk-qualified-class-type(|ann*, x, tp*)> (p, s-pkg)
-	     ; prop*    := [(t, ref-idx), (q-cls, ref-idx)]
+       ; (cls*, s)  := <reconstruct-enclosing-classes(|a)> (x, s-tgt)
+       ; q-cls*     := <mk-qnames> cls*
+       ; (p, s-pkg) := <this-pkg(|a)> s
+	   ; pkg*       := <reconstruct-package(|a); filter(not(?Id("(unnamed)")))> (p, s-pkg)
+	   ; fq-cls     := <prefix-qname> (pkg*, <Hd> q-cls*)
+	   ; p-cls*     := <reverse> [fq-cls, q-cls*] /* Proposal order: classes in increasing order of enclosing class qualifier + FQ class + pkg */
+	   ; q-cls      := <map(mk-qualified-class-type(|ann*, tp*)); make-set> p-cls*
+	   ; prop*      := <map(!(<id>, ref-idx))> q-cls
+
+  // packages
+  reconstruct-package(|blob) :: Id * Term -> List(Id)
+  reconstruct-package(|a): p@(pkg-name, s-pkg) -> res
+    with if <super-pkg(|a)> p => (p', s-pkg') then
+           pkg-name*  := <reconstruct-package(|a)> (p', s-pkg')
+         ; res        := [pkg-name*, pkg-name]
          else
-           prop*    := [(t, ref-idx)]
+           res        := [pkg-name]
          end
 
-  mk-qualified-class-type(|List(Annotation), Id, TypeArguments-OPT) :: List(Id) -> ClassType
 
-  mk-qualified-class-type(|ann*, x, tp*): [] -> ClassType(ann*, x, tp*)
+  this-pkg(|blob) :: Term -> Id * Term
+  this-pkg(|a) = ![<id>]; stx-evaluate-with-initial-state(|a, "java/names/PackageNames!thisPkg")
+  this-pkg(|a) = stx-get-scopegraph-data(|a, "java/names/PackageNames!thisPkg"); ?[<id>]
 
-  mk-qualified-class-type(|ann*, x, tp*) = foldl'(mk-top-level-pkg-name; debug(!"tl-pkg: "), mk-nested-pkg-name; debug(!"n-pkg: ")); !ClassOrInterfaceTypeMember(<id>, ann*, x, tp*)
+  super-pkg(|blob) :: Id * Term -> Id * Term
+  super-pkg(|a) = MkSingleton; stx-evaluate-with-initial-state(|a, "java/names/PackageNames!superPkg")
 
-  mk-qualified-class-type(|ann*, x, tp*) = debug(!"cannot match id list: "); fail
+  // inner classes
+  reconstruct-enclosing-classes(|blob) :: Id * Term -> List(Id) * Term    
+  reconstruct-enclosing-classes(|a): T@(x, s) -> res
+    with if <enclosing-class(|a)> T => (x', s') then
+           (x*, s'') := <reconstruct-enclosing-classes(|a)> (x', s')
+         ; res := ([x*, x], s'')
+         else
+           res := ([x], s)
+         end
+
+  enclosing-class(|blob) :: Id * Term -> Id * Term
+  enclosing-class(|a) = Swap; TupleToList; stx-evaluate-with-initial-state(|a, "refret!enclosingClass")
+
+  // Make qualified class reference names
+
+  mk-qualified-class-type(|List(Annotation), TypeArguments-OPT) :: QName -> ClassType
+  mk-qualified-class-type(|ann*, tp*): QName([x]) -> ClassType(ann*, x, tp*)
+
+  mk-qualified-class-type(|ann*, tp*): QName(xs) -> ClassOrInterfaceTypeMember(q, ann*, x, tp*)
+    with (x*, x) := <split-init-last> xs
+       ; q       := <foldl'(mk-top-level-pkg-name, mk-nested-pkg-name)> x*
+
 
   mk-top-level-pkg-name = !ClassType([], <id>, NoTypeArguments())
   mk-nested-pkg-name: (x, q) -> ClassOrInterfaceTypeMember(q, [], x, NoTypeArguments())
 
-  // reconstruct-package(|Analysis) :: Id * Term -> List(Id)
-
-  reconstruct-package(|a): (pkg-name, s-pkg) -> result
-    with(if <stx-evaluate-with-initial-state(|a, "java/names/PackageNames!superPkg")> [(pkg-name, s-pkg)] => (p', s-pkg') then
-        pkg-name*    := <reconstruct-package(|a)> (p', s-pkg')
-      ; result := [pkg-name*, pkg-name]
-    else
-        result := [pkg-name]
-    end)
-
-rules
-
-  foldl'(a -> b, a * b -> b|) :: List(a) -> b
-  foldl'(s1, s2) = ?[h| tl]; !(tl, <s1> h); foldl(s2)
 
 rules
 
@@ -132,3 +169,17 @@ rules
   rr--create-placeholder(|ctxts) = prim("RR_create_placeholder", ctxts)
 
   rr--fix-references(|solverResult) = prim("RR_fix_references", solverResult)
+
+
+rules
+
+  foldl'(a -> b, a * b -> b|) :: List(a) -> b
+  foldl'(s1, s2) = ?[h| tl]; !(tl, <s1> h); foldl(s2)
+
+rules
+
+  dbg :: TP
+  dbg(? -> string) :: TP
+
+  dbg       = where(strip-annos; debug)
+  dbg(str)  = where(strip-annos; debug(str))

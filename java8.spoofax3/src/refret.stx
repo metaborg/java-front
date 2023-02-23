@@ -1,0 +1,20 @@
+module refret
+
+imports
+
+  java/Main
+  java/names/Main
+  java/names/TypeNames
+
+rules
+
+  enclosingClass: scope * Id -> TYPE_DECL
+
+  enclosingClass(s, x) = typeDecl :- {T}
+    query type
+      filter e and { x' :- x' == x }
+      in s |-> [(_, T)],
+    query thisType
+      filter LEX | STATIC_LEX
+         min LEX < STATIC_LEX
+          in typeDeclScope(T) |-> [(_, typeDecl)].

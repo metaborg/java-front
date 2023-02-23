@@ -11,7 +11,7 @@ class A { }
   [B]
   package q;
 
-  class B extends QQQ { }
+  class B extends Q { }
 }
 ]]
 run test-analyze to FAIL()

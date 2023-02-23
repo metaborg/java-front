@@ -1,0 +1,224 @@
+module refret/inner-classes
+
+test qualify to static inner class [[
+test;
+
+[A]
+class A {
+  static class [[I]] { }
+}
+
+[B]
+class B extends [[I]] { }
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[A]
+class A {
+  static class I { }
+}
+
+[B]
+class B extends A.I { }
+]]
+
+test qualify to instance inner class [[
+test;
+
+[A]
+class A {
+  class [[I]] { }
+}
+
+[B]
+class B extends [[I]] { }
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[A]
+class A {
+  class I { }
+}
+
+[B]
+class B extends A.I { }
+]]
+
+test qualify to instance inner class -- same enclosing class [[
+test;
+
+[A]
+class A {
+  class [[I]] { }  
+  class B extends [[I]] { }
+}
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[A]
+class A {
+  class I { }
+  class B extends I { }
+}
+]]
+
+
+test qualify to instance inner class -- different package [[
+test;
+
+[p] { 
+  [A]
+  package p;
+
+  class A {
+    class [[I]] { }  
+  }
+}
+
+[B]
+class B extends [[I]] { }
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[p] { 
+  [A]
+  package p;
+
+  class A {
+    class I { }  
+  }
+}
+
+[B]
+class B extends p.A.I { }
+]]
+
+
+test qualify to instance inner class -- import [[
+test;
+
+[p] { 
+  [A]
+  package p;
+
+  class A {
+    class [[I]] { }  
+  }
+}
+
+[B]
+import p.A;
+
+class B extends [[I]] { }
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[p] { 
+  [A]
+  package p;
+
+  class A {
+    class I { }  
+  }
+}
+
+[B]
+import p.A;
+
+class B extends A.I { }
+]]
+
+
+test qualify to instance inner class -- static import [[
+test;
+
+[p] { 
+  [A]
+  package p;
+
+  class A {
+    static class [[I]] { }  
+  }
+}
+
+[B]
+import static p.A.*;
+
+class B extends [[I]] { }
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[p] { 
+  [A]
+  package p;
+
+  class A {
+    static class I { }  
+  }
+}
+
+[B]
+import static p.A.*;
+
+class B extends I { }
+]]
+
+
+test qualify to instance inner class -- doubly nested [[
+test;
+
+[A]
+class A {
+  static class M {
+    static class [[I]] { }
+  }
+  static class C extends [[I]] { } 
+}
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[A]
+class A {
+  static class M {
+    static class I { }
+  }
+  static class C extends M.I { } 
+}
+]]
+
+
+test qualify to instance inner class -- doubly nested 2 [[
+test;
+
+[A]
+class A {
+  static class I { }
+  static class M {
+    static class [[I]] { }
+  }
+  static class D {
+    static class C extends [[I]] { } 
+  }
+}
+]]
+run fix-reference(|#2, #1) to [[
+test;
+
+[A]
+class A {
+  static class I { }
+  static class M {
+    static class I { }
+  }
+  static class D {
+    static class C extends M.I { } 
+  }
+}
+]]
