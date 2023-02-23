@@ -1,0 +1,18 @@
+module refret/util
+
+imports
+
+  strategolib
+
+rules
+
+  foldl'(a -> b, a * b -> b|) :: List(a) -> b
+  foldl'(s1, s2) = ?[h| tl]; !(tl, <s1> h); foldl(s2)
+
+rules
+
+  dbg :: TP
+  dbg(? -> string) :: TP
+
+  dbg       = where(strip-annos; debug)
+  dbg(str)  = where(strip-annos; debug(str))

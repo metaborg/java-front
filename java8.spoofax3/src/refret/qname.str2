@@ -1,0 +1,22 @@
+module refret/qname
+
+imports
+
+  strategolib
+
+  signatures/syntax/java/lexical/-
+
+signature // Qualified names (wrapper around `List(Id)`, used to prevent issues with `reverse` flattening nested lists.
+
+  sorts QName constructors
+    QName: List(Id) -> QName
+
+rules
+
+  mk-qnames :: List(Id) -> List(QName)
+  mk-qnames: l@[x]      -> [QName(l)]
+  mk-qnames: l@[h|tl]   -> [QName(l)|tl*]
+    with tl* := <mk-qnames> tl
+
+  prefix-qname :: List(Id) * QName -> QName
+  prefix-qname: (x*, QName(qn)) -> QName(<at-end(!qn)> x*)

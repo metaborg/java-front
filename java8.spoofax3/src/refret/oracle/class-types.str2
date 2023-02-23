@@ -1,0 +1,75 @@
+module refret/oracle/class-types
+
+imports
+
+  strategolib
+  statix/runtime/-
+  statix/api  
+
+imports
+
+  signatures/syntax/java/lexical/-
+  signatures/syntax/java/names/-
+  signatures/syntax/java/types/-
+  signatures/syntax/java/interfaces/-
+
+  refret/util
+  refret/qname
+
+rules // classes and packages
+
+  qualify-class-reference(|tgt, sortName, a): t@ClassType(ann*, x, tp*) -> prop*
+    with ref-idx    := <stx--get-ast-index> x
+       ; s-tgt      := <stx-get-ast-property(|a, "scope")> tgt
+       ; (cls*, s)  := <reconstruct-enclosing-classes(|a)> (x, s-tgt)
+       ; q-cls*     := <mk-qnames> cls*
+       ; (p, s-pkg) := <this-pkg(|a)> s
+	   ; pkg*       := <reconstruct-package(|a); filter(not(?Id("(unnamed)")))> (p, s-pkg)
+	   ; fq-cls     := <prefix-qname> (pkg*, <Hd> q-cls*)
+	   ; p-cls*     := <reverse> [fq-cls, q-cls*] /* Proposal order: classes in increasing order of enclosing class qualifier + FQ class + pkg */
+	   ; q-cls      := <map(mk-qualified-class-type(|ann*, tp*)); make-set> p-cls*
+	   ; prop*      := <map(!(<id>, ref-idx))> q-cls
+
+  // packages
+  reconstruct-package(|blob) :: Id * Term -> List(Id)
+  reconstruct-package(|a): p@(pkg-name, s-pkg) -> res
+    with if <super-pkg(|a)> p => (p', s-pkg') then
+           pkg-name*  := <reconstruct-package(|a)> (p', s-pkg')
+         ; res        := [pkg-name*, pkg-name]
+         else
+           res        := [pkg-name]
+         end
+
+
+  this-pkg(|blob) :: Term -> Id * Term
+  this-pkg(|a) = ![<id>]; stx-evaluate-with-initial-state(|a, "java/names/PackageNames!thisPkg")
+  this-pkg(|a) = stx-get-scopegraph-data(|a, "java/names/PackageNames!thisPkg"); ?[<id>]
+
+  super-pkg(|blob) :: Id * Term -> Id * Term
+  super-pkg(|a) = MkSingleton; stx-evaluate-with-initial-state(|a, "java/names/PackageNames!superPkg")
+
+  // inner classes
+  reconstruct-enclosing-classes(|blob) :: Id * Term -> List(Id) * Term
+  reconstruct-enclosing-classes(|a): T@(x, s) -> res
+    with if <enclosing-class(|a)> T => (x', s') then
+           (x*, s'') := <reconstruct-enclosing-classes(|a)> (x', s')
+         ; res := ([x*, x], s'')
+         else
+           res := ([x], s)
+         end
+
+  enclosing-class(|blob) :: Id * Term -> Id * Term
+  enclosing-class(|a) = Swap; TupleToList; stx-evaluate-with-initial-state(|a, "refret!enclosingClass")
+
+  // Make qualified class reference names
+
+  mk-qualified-class-type(|List(Annotation), TypeArguments-OPT) :: QName -> ClassType
+  mk-qualified-class-type(|ann*, tp*): QName([x]) -> ClassType(ann*, x, tp*)
+
+  mk-qualified-class-type(|ann*, tp*): QName(xs) -> ClassOrInterfaceTypeMember(q, ann*, x, tp*)
+    with (x*, x) := <split-init-last> xs
+       ; q       := <foldl'(mk-top-level-pkg-name, mk-nested-pkg-name)> x*
+
+
+  mk-top-level-pkg-name = !ClassType([], <id>, NoTypeArguments())
+  mk-nested-pkg-name: (x, q) -> ClassOrInterfaceTypeMember(q, [], x, NoTypeArguments())

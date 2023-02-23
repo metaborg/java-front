@@ -11,7 +11,7 @@ imports
   completion
 
   libspoofax/analysis/constraint
-  refret
+  refret/refret
 
 rules // Analysis
 

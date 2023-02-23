@@ -1,0 +1,73 @@
+module refret
+
+imports
+  strategolib
+  statix/runtime/-
+  statix/api
+
+  libstratego-aterm
+
+imports
+
+  signatures/syntax/java/lexical/-
+  signatures/syntax/java/names/-
+  signatures/syntax/java/types/-
+  injections/-
+
+  refret/references
+  refret/util
+  refret/oracle/-
+
+rules
+
+  // Names are hardcoded in current implementation
+  implicate-injections-tiger = implicate-injections-java8
+  explicate-injections-tiger = explicate-injections-java8
+
+rules
+
+  fix-reference(|ref, tgt): ast -> ast'
+    // retrieve original analysis
+    with a       := <stx--get-ast-analysis> ast
+
+    // retrieve indices of reference to test
+    with ref'    := <collect-ref; collect-id> ref
+       ; tgt'    := <collect-ref; collect-id> tgt
+       ; ref-idx := <stx--get-ast-index> ref'
+
+    // lock indicated reference, create placeholder and fix!
+    with ast'    := < explicate-injections-java8-Start
+                    ; rr-create-placeholder(|ref-idx, tgt', a)
+                    ; rr--fix-references(|a)
+                    // ; where(pp-aterm; dbg)
+                    ; implicate-injections-java8-Start
+                    > ast
+
+rules
+
+  rr-create-placeholder(|idx, tgt, a) = oncetd({ sort:
+		  								  where(is-name-of-sort => sort)
+		  								; where(somebu(stx--get-ast-index; ?idx))
+		  								; rr--lock-reference(|tgt, a, sort)
+		  								; rr--create-placeholder(|[tgt])
+		  								})
+
+rules
+
+  rr--lock-reference(|decl, solverResult, sort) = prim("RR_lock_reference", decl, solverResult, sort)
+
+  rr--create-placeholder(|ctxts) = prim("RR_create_placeholder", ctxts)
+
+  rr--fix-references(|solverResult) = prim("RR_fix_references", solverResult)
+
+
+rules // qualifier oracle
+
+  qualify-reference(|ctxs, sortName, a): ref -> prop*
+    with [tgt]   := ctxs
+       ; ref-idx := <collect-id; stx--get-ast-index> ref
+       ; prop*   := <qualify-class-reference(|tgt, sortName, a) 
+                     <+ ![(ref, ref-idx)]
+                    > ref
+
+
