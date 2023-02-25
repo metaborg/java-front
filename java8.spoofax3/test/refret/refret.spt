@@ -1,1 +1,15 @@
 module refret/refret
+
+test static access to instance outer class fails [[
+test;
+
+[A]
+public class A {
+    public int x = 1;
+    public int getX(int x) {
+        return A.x; // static access should not be allowed
+    }
+}
+]]
+analysis fails
+run test-analyze to FAILS()

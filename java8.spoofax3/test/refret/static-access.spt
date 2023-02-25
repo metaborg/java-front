@@ -1,0 +1,199 @@
+module refret/static-access
+
+test static access [[
+test;
+
+[A]
+public class A {
+  public static int [[x]];
+}
+
+[p] {
+  [B]
+  package p;
+  public class B {
+    public static int [[x]];
+  }
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {
+    public static int [[x]];
+    public class C {
+      public static int [[x]];
+    }
+  }
+  public class D {
+    public static int [[x]];
+    public static int y = [[x]];
+  }
+}
+]]
+run fix-reference(|#6, #1) to
+[[
+test;
+
+[A]
+public class A {
+  public static int x;
+}
+
+[p] {
+  [B]
+  package p;
+  public class B {
+    public static int x;
+  }
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {
+    public static int x;
+    public class C {
+      public static int x;
+    }
+  }
+  public class D {
+    public static int x;
+    public static int y = A.x;
+  }
+}
+]]
+/*
+// Disabled: Statix bug!
+run fix-reference(|#6, #2) to
+[[
+test;
+
+[A]
+public class A {
+  public static int x;
+}
+
+[p] {
+  [B]
+  package p;
+  public class B {
+    public static int x;
+  }
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {
+    public static int x;
+    public class C {
+      public static int x;
+    }
+  }
+  public class D {
+    public static int x;
+    public static int y = p.B.x;
+  }
+}
+]]
+*/
+run fix-reference(|#6, #3) to
+[[
+test;
+
+[A]
+public class A {
+  public static int x;
+}
+
+[p] {
+  [B]
+  package p;
+  public class B {
+    public static int x;
+  }
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {
+    public static int x;
+    public class C {
+      public static int x;
+    }
+  }
+  public class D {
+    public static int x;
+    public static int y = B.x;
+  }
+}
+]]
+/*
+// Disabled: Statix bug!
+run fix-reference(|#6, #4) to
+[[
+test;
+
+[A]
+public class A {
+  public static int x;
+}
+
+[p] {
+  [B]
+  package p;
+  public class B {
+    public static int x;
+  }
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {
+    public static int x;
+    public class C {
+      public static int x;
+    }
+  }
+  public class D {
+    public static int x;
+    public static int y = B.C.x;
+  }
+}
+]]
+*/
+run fix-reference(|#6, #5) to
+[[
+test;
+
+[A]
+public class A {
+  public static int x;
+}
+
+[p] {
+  [B]
+  package p;
+  public class B {
+    public static int x;
+  }
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {
+    public static int x;
+    public class C {
+      public static int x;
+    }
+  }
+  public class D {
+    public static int x;
+    public static int y = x;
+  }
+}
+]]

@@ -22,14 +22,14 @@ rules // classes and packages
   qualify-class-reference(|tgt, sortName, a): t@ClassType(ann*, x, tp*) -> prop*
     with ref-idx    := <stx--get-ast-index> x
        ; s-tgt      := <scope-prop(|a)> tgt
-       ; p-cls*     := <reconstruct-static-qualifiers(|a, x)> s-tgt
+       ; s-tgt'     := <type-scope(|a)> (x, s-tgt)
+       ; p-cls*     := <reconstruct-static-qualifiers(|a)> (x, s-tgt')
        ; q-cls      := <map(mk-qualified-class-type(|ann*, tp*)); make-set> p-cls*
 	   ; prop*      := <map(!(<id>, ref-idx))> q-cls
 
-  reconstruct-static-qualifiers(|blob, Id) :: Term -> List(QName)  
-  reconstruct-static-qualifiers(|a, x) : s-tgt -> p-cls*
-    with s-tgt'     := <type-scope(|a)> (x, s-tgt)
-       ; (cls*, s)  := <reconstruct-enclosing-classes(|a)> (x, s-tgt')
+  reconstruct-static-qualifiers(|blob) :: Id * Term -> List(QName)  
+  reconstruct-static-qualifiers(|a) : (x, s-tgt) -> p-cls*
+    with (cls*, s)  := <reconstruct-enclosing-classes(|a); dbg(!"enc: ")> (x, s-tgt)
        ; q-cls*     := <mk-qnames> cls*
        ; (p, s-pkg) := <this-pkg(|a)> s
 	   ; pkg*       := <reconstruct-package(|a); filter(not(?Id("(unnamed)")))> (p, s-pkg)

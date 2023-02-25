@@ -42,6 +42,7 @@ rules // 8.9. Enum Types
 
     new s_enumStatic,
     s_enum -STATIC_MEMBERS-> s_enumStatic,
+    s_enumStatic -INSTANCE_LEX-> s_enum,
     enumPredefinedMethods(s, REF(s_enum), s_enumStatic),
 
     enumConstListOk(s_enum, REF(s_enum), enumConstList, s_enumStatic),

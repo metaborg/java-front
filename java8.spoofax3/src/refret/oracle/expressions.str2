@@ -23,22 +23,22 @@ rules
     with               <debug> sortName
        ; ref-idx    := <stx--get-ast-index> x
        ; s-ref      := <scope-prop(|a)> x
-       ; s-tgt      := <scope-prop(|a)> tgt
-       ; s-prop*    := <reconstruct-static-names(|a, x)> s-ref
+       ; s-tgt      := <scope-prop(|a); escape-static(|a)> tgt
+       ; s-prop*    := <reconstruct-static-names(|a, x)> s-tgt
        ; q-prop*    := <reconstruct-field-access(|a, x)> s-ref
-       ; prop*      := <flatten-list> [[e,
-                        FieldAccess2Expression(Field(This(), x)),
-                        FieldAccess2Expression(SuperField(x))],
-                        s-prop*,
-                        q-prop*
+       ; prop*      := <flatten-list> 
+                       [ [ e
+                         , FieldAccess2Expression(Field(This(), x))
+                         , FieldAccess2Expression(SuperField(x))
+                         ]
+                       , q-prop*
+                       , s-prop*
                        ]
 
   // static accesses
   reconstruct-static-names(|blob, Id) :: Term -> List(Expression)
-  reconstruct-static-names(|a, x): s-ref -> prop*
-    with x'        := <this-type(|a); Fst> s-ref
-       ; s-t-decl  := <scope-prop(|a)> x'
-       ; q-name*   := <reconstruct-static-qualifiers(|a, x')> s-t-decl
+  reconstruct-static-names(|a, x): s-tgt -> prop*
+    with q-name*   := <this-type(|a); reconstruct-static-qualifiers(|a)> s-tgt
        ; prop*     := <map(mk-expr-name(|x); !ExpressionName2Expression(<id>))> q-name*
 
   mk-expr-name(|Id) :: QName -> ExpressionName
@@ -54,7 +54,9 @@ rules
        ; prop*       := <flatten-list> [this-prop*, super-prop*]
 
   this-type(|blob) :: Term -> Id * Term
-  this-type(|a) = ![<id>]; stx-evaluate-with-initial-state(|a, "java/names/TypeNames!this")
+  this-type(|a) = MkSingleton; stx-evaluate-with-initial-state(|a, "refret!thisDecl")
+  escape-static(|blob) :: Term -> Term
+  escape-static(|a) = MkSingleton; stx-evaluate-with-initial-state(|a, "refret!escapeStatic")
 
   mk-this-prop(|Id) :: Id -> Expression
   mk-this-prop(|x): q -> FieldAccess2Expression(Field(QThis(TypeName(q)), x))

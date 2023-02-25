@@ -12,13 +12,26 @@ rules
   namedTypeScope(s, x) = typeDeclScope(T) :-
     query type
       filter e and { x' :- x' == x }
-      in s |-> [(_, T)].
+          in s |-> [(_, T)].
 
+  thisDecl: scope -> TYPE_DECL
+  thisDecl(s) = typeDecl :-
+    query thisType
+      filter INSTANCE_LEX? (LEX* | STATIC_LEX*)
+         min $ < LEX, LEX < STATIC_LEX
+          in s |-> [(_, typeDecl)].
+
+  escapeStatic: scope -> scope
+  escapeStatic(s) = s' :-
+    query () 
+      filter INSTANCE_LEX?
+         min INSTANCE_LEX < $
+          in s |-> [(_, s')].
 
   enclosingClass: scope -> (Id * scope)
   enclosingClass(s) = (x, s') :- {p T}
     query thisType
-      filter LEX | STATIC_LEX
+      filter INSTANCE_LEX? (LEX | STATIC_LEX)
          min LEX < STATIC_LEX
           in s |-> [(p, T)],
     x == typeDeclId(T),

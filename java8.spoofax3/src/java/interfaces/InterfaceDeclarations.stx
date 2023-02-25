@@ -43,6 +43,7 @@ rules // 9.1. Interface Declarations
 
     new s_intfStatic,
     s_intf -STATIC_MEMBERS-> s_intfStatic,
+    s_intfStatic -INSTANCE_LEX-> s_intf,
 
     setSuperCls(s_intf, objectOk(s)), // ensure that interface types are recognized as subtypes of Object
 

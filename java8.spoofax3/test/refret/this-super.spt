@@ -74,22 +74,22 @@ test this/super -- full [[
 test;
 
 [AS]
-public static class AS {
+public class AS {
     public int [[x]] = 4;
 }
 
 [BS]
-public static class BS {
+public class BS {
     public int [[x]] = 5;
 }
 
 [CS]
-public static class CS {
+public class CS {
     public int [[x]] = 6;
 }
 
 [A]
-public static class A extends AS {
+public class A extends AS {
     public int [[x]] = 1;
 
     public class B extends BS {
@@ -110,22 +110,22 @@ run fix-reference(|#7, #1) to
 test;
 
 [AS]
-public static class AS {
+public class AS {
     public int x = 4;
 }
 
 [BS]
-public static class BS {
+public class BS {
     public int x = 5;
 }
 
 [CS]
-public static class CS {
+public class CS {
     public int x = 6;
 }
 
 [A]
-public static class A extends AS {
+public class A extends AS {
     public int x = 1;
 
     public class B extends BS {
@@ -146,22 +146,22 @@ run fix-reference(|#7, #2) to
 test;
 
 [AS]
-public static class AS {
+public class AS {
     public int x = 4;
 }
 
 [BS]
-public static class BS {
+public class BS {
     public int x = 5;
 }
 
 [CS]
-public static class CS {
+public class CS {
     public int x = 6;
 }
 
 [A]
-public static class A extends AS {
+public class A extends AS {
     public int x = 1;
 
     public class B extends BS {
@@ -182,22 +182,22 @@ run fix-reference(|#7, #3) to
 test;
 
 [AS]
-public static class AS {
+public class AS {
     public int x = 4;
 }
 
 [BS]
-public static class BS {
+public class BS {
     public int x = 5;
 }
 
 [CS]
-public static class CS {
+public class CS {
     public int x = 6;
 }
 
 [A]
-public static class A extends AS {
+public class A extends AS {
     public int x = 1;
 
     public class B extends BS {
@@ -218,22 +218,22 @@ run fix-reference(|#7, #4) to
 test;
 
 [AS]
-public static class AS {
+public class AS {
     public int x = 4;
 }
 
 [BS]
-public static class BS {
+public class BS {
     public int x = 5;
 }
 
 [CS]
-public static class CS {
+public class CS {
     public int x = 6;
 }
 
 [A]
-public static class A extends AS {
+public class A extends AS {
     public int x = 1;
 
     public class B extends BS {
@@ -254,22 +254,22 @@ run fix-reference(|#7, #5) to
 test;
 
 [AS]
-public static class AS {
+public class AS {
     public int x = 4;
 }
 
 [BS]
-public static class BS {
+public class BS {
     public int x = 5;
 }
 
 [CS]
-public static class CS {
+public class CS {
     public int x = 6;
 }
 
 [A]
-public static class A extends AS {
+public class A extends AS {
     public int x = 1;
 
     public class B extends BS {
@@ -290,22 +290,22 @@ run fix-reference(|#7, #6) to
 test;
 
 [AS]
-public static class AS {
+public  class AS {
     public int x = 4;
 }
 
 [BS]
-public static class BS {
+public class BS {
     public int x = 5;
 }
 
 [CS]
-public static class CS {
+public class CS {
     public int x = 6;
 }
 
 [A]
-public static class A extends AS {
+public class A extends AS {
     public int x = 1;
 
     public class B extends BS {

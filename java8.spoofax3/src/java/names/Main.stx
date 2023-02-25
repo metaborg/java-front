@@ -33,6 +33,7 @@ signature
       SINGLE_STATIC_IMPORT   // static import
       STATIC_LEX             // static lexical parent
       STATIC_MEMBERS         // static definition scope
+      INSTANCE_LEX           // from static definition scope to instance scope (for RR use)
       TYPE_PARAMS            // type parameters scope
       PARENT_PKG             // parent package
 
@@ -50,4 +51,3 @@ rules
 
   addLexical(s, F(), s') :- s -LEX-> s'.
   addLexical(s, T(), s') :- s -STATIC_LEX-> s'.
-

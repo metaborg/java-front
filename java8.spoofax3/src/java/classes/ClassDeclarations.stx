@@ -60,6 +60,7 @@ rules // 8.1. Class Declarations
 
     new s_clsStatic,
     s_cls -STATIC_MEMBERS-> s_clsStatic,
+    s_clsStatic -INSTANCE_LEX-> s_cls,
 
     declareImplicitCtorIfMissing(s_cls, clsBodyDeclList),
 

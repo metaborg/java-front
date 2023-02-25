@@ -33,6 +33,7 @@ rules // 9.6. Annotation Types
 
     new s_annoStatic,
     s_anno -STATIC_MEMBERS-> s_annoStatic,
+    s_annoStatic -INSTANCE_LEX-> s_anno,
 
     annoTypeMemDeclListOk(s_anno, annoTypeMemDeclList, s_anno, s_annoStatic).
 
