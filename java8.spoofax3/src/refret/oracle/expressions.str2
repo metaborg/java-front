@@ -8,7 +8,6 @@ imports
   statix/runtime/-
 
   refret/-
-  refret/oracle/-
 
   signatures/syntax/java/lexical/-
   signatures/syntax/java/names/-
@@ -52,11 +51,6 @@ rules
        ; this-prop*  := <map(mk-this-prop(|x))> e-cls*
        ; super-prop* := <map(mk-super-prop(|x))> e-cls*
        ; prop*       := <flatten-list> [this-prop*, super-prop*]
-
-  this-type(|blob) :: Term -> Id * Term
-  this-type(|a) = MkSingleton; stx-evaluate-with-initial-state(|a, "refret!thisDecl")
-  escape-static(|blob) :: Term -> Term
-  escape-static(|a) = MkSingleton; stx-evaluate-with-initial-state(|a, "refret!escapeStatic")
 
   mk-this-prop(|Id) :: Id -> Expression
   mk-this-prop(|x): q -> FieldAccess2Expression(Field(QThis(TypeName(q)), x))

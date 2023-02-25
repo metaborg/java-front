@@ -1,0 +1,80 @@
+module refret/analysis
+
+imports
+
+  strategolib
+
+  statix/api
+
+  signatures/syntax/java/lexical/-
+
+  refret/qname
+
+rules // query analysis result
+
+  evaluate-constraint(|blob, string) :: List(?) -> ?
+  evaluate-constraint(|a, c-name) = stx-evaluate-with-initial-state(|a, c-name)
+
+  // Finds type with particular name in scope, and returns type scope.
+  type-scope(|blob) :: Id * Term -> Term
+  type-scope(|a) = Swap; TupleToList; evaluate-constraint(|a, "refret!namedTypeScope")
+
+  // Finds current package
+  this-pkg(|blob) :: Term -> Id * Term
+  this-pkg(|a) = MkSingleton; evaluate-constraint(|a, "java/names/PackageNames!thisPkg")
+  this-pkg(|a) = stx-get-scopegraph-data(|a, "java/names/PackageNames!thisPkg"); ?[<id>]
+
+  // Finds super-package
+  super-pkg(|blob) :: Id * Term -> Id * Term
+  super-pkg(|a) = MkSingleton; evaluate-constraint(|a, "java/names/PackageNames!superPkg")
+
+  // Finds enclosing class: also works in static declaration scope.
+  // Returns name of enclosing class and scope in which it is declared 
+  //   (i.e., not the scope of the class).
+  enclosing-class(|blob) :: Term -> Id * Term
+  enclosing-class(|a) = MkSingleton; evaluate-constraint(|a, "refret!enclosingClass")
+
+  // Returns the closest type declaration.
+  this-type(|blob) :: Term -> Id * Term
+  this-type(|a) = MkSingleton; evaluate-constraint(|a, "refret!thisDecl")
+
+  // If required, traverses from static member scope to current scope.
+  escape-static(|blob) :: Term -> Term
+  escape-static(|a) = MkSingleton; evaluate-constraint(|a, "refret!escapeStatic")
+
+rules // reconstruct enclosing context from analysis
+
+  // packages
+  reconstruct-package(|blob) :: Id * Term -> List(Id)
+  reconstruct-package(|a): p@(pkg-name, s-pkg) -> res
+    with if <super-pkg(|a)> p => (p', s-pkg') then
+           pkg-name*  := <reconstruct-package(|a)> (p', s-pkg')
+         ; res        := [pkg-name*, pkg-name]
+         else
+           res        := [pkg-name]
+         end
+
+  // inner classes
+  reconstruct-enclosing-classes(|blob) :: Id * Term -> List(Id) * Term
+  reconstruct-enclosing-classes(|a): (x, s) -> res
+    with if <enclosing-class(|a)> s => (x', s') then
+           (x*, s'') := <reconstruct-enclosing-classes(|a)> (x', s')
+         ; res := ([x*, x], s'')
+         else
+           res := ([x], s)
+         end
+
+  reconstruct-static-qualifiers(|blob) :: Id * Term -> List(QName)
+  reconstruct-static-qualifiers(|a) : (x, s-tgt) -> p-cls*
+    with (cls*, s)  := <reconstruct-enclosing-classes(|a)> (x, s-tgt)
+       ; q-cls*     := <mk-qnames> cls*
+       ; (p, s-pkg) := <this-pkg(|a)> s
+	   ; pkg*       := <reconstruct-package(|a); filter(not(?Id("(unnamed)")))> (p, s-pkg)
+	   ; fq-cls     := <prefix-qname> (pkg*, <Hd> q-cls*)
+	   ; p-cls*     := <reverse> [fq-cls, q-cls*] /* Proposal order: classes in increasing order of enclosing class qualifier + FQ class + pkg */
+
+
+rules // access properties
+
+  scope-prop(|blob) :: Id -> Term
+  scope-prop(|a) = stx-get-ast-property(|a, "scope")
