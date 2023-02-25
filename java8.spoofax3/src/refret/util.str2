@@ -3,6 +3,16 @@ module refret/util
 imports
 
   strategolib
+  libstratego-aterm
+
+  statix/api
+
+  signatures/syntax/java/lexical/-
+
+rules
+
+  scope-prop(|blob) :: Id -> Term
+  scope-prop(|a) = stx-get-ast-property(|a, "scope")
 
 rules
 
@@ -14,5 +24,5 @@ rules
   dbg :: TP
   dbg(? -> string) :: TP
 
-  dbg       = where(strip-annos; debug)
-  dbg(str)  = where(strip-annos; debug(str))
+  dbg       = where((pp-aterm <+ strip-annos); debug)
+  dbg(str)  = where((pp-aterm <+ strip-annos); debug(str))

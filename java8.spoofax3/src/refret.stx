@@ -8,13 +8,23 @@ imports
 
 rules
 
-  enclosingClass: scope * Id -> TYPE_DECL
-
-  enclosingClass(s, x) = typeDecl :- {T}
+  namedTypeScope: scope * Id -> scope
+  namedTypeScope(s, x) = typeDeclScope(T) :-
     query type
       filter e and { x' :- x' == x }
-      in s |-> [(_, T)],
+      in s |-> [(_, T)].
+
+
+  enclosingClass: scope -> (Id * scope)
+  enclosingClass(s) = (x, s') :- {p T}
     query thisType
       filter LEX | STATIC_LEX
          min LEX < STATIC_LEX
-          in typeDeclScope(T) |-> [(_, typeDecl)].
+          in s |-> [(p, T)],
+    x == typeDeclId(T),
+    s' == dst(p).
+
+
+  dst : path -> scope
+  dst(_PathEmpty(s)) = s.
+  dst(_PathStep(_, _, s)) = s.

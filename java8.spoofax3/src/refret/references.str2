@@ -8,6 +8,8 @@ imports
   signatures/syntax/java/names/-
   signatures/syntax/java/types/-
 
+  injections/syntax/java/expressions/-
+
 rules // recognize references, based on syntax/java/names/Names.sdf3
 
   collect-ref = collect-one(where(strip-annos; is-name-of-sort))
@@ -25,7 +27,10 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
   is-name-of-sort: QPackageOrTypeName(_, _) -> "PackageOrTypeName"
 
   is-name-of-sort: ExpressionName(_) -> "ExpressionName"
-  is-name-of-sort: QExpressionName(_, _) -> "ExpressionName"
+  is-name-of-sort: QExpressionName(_, _) -> "ExpressionName" 
+
+  is-name-of-sort: ExpressionName2Expression(ExpressionName(_)) -> "Expression"
+  is-name-of-sort: ExpressionName2Expression(QExpressionName(_, _)) -> "Expression"
 
   is-name-of-sort: AmbiguousName(_) -> "AmbiguousName"
   is-name-of-sort: QAmbiguousName(_, _) -> "AmbiguousName"

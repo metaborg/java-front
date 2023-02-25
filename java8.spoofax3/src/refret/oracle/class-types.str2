@@ -4,7 +4,7 @@ imports
 
   strategolib
   statix/runtime/-
-  statix/api  
+  statix/api
 
 imports
 
@@ -18,17 +18,23 @@ imports
 
 rules // classes and packages
 
+  qualify-class-reference(|Id, string, blob) :: ? -> List(ClassType * ?)
   qualify-class-reference(|tgt, sortName, a): t@ClassType(ann*, x, tp*) -> prop*
     with ref-idx    := <stx--get-ast-index> x
-       ; s-tgt      := <stx-get-ast-property(|a, "scope")> tgt
-       ; (cls*, s)  := <reconstruct-enclosing-classes(|a)> (x, s-tgt)
+       ; s-tgt      := <scope-prop(|a)> tgt
+       ; p-cls*     := <reconstruct-static-qualifiers(|a, x)> s-tgt
+       ; q-cls      := <map(mk-qualified-class-type(|ann*, tp*)); make-set> p-cls*
+	   ; prop*      := <map(!(<id>, ref-idx))> q-cls
+
+  reconstruct-static-qualifiers(|blob, Id) :: Term -> List(QName)  
+  reconstruct-static-qualifiers(|a, x) : s-tgt -> p-cls*
+    with s-tgt'     := <type-scope(|a)> (x, s-tgt)
+       ; (cls*, s)  := <reconstruct-enclosing-classes(|a)> (x, s-tgt')
        ; q-cls*     := <mk-qnames> cls*
        ; (p, s-pkg) := <this-pkg(|a)> s
 	   ; pkg*       := <reconstruct-package(|a); filter(not(?Id("(unnamed)")))> (p, s-pkg)
 	   ; fq-cls     := <prefix-qname> (pkg*, <Hd> q-cls*)
 	   ; p-cls*     := <reverse> [fq-cls, q-cls*] /* Proposal order: classes in increasing order of enclosing class qualifier + FQ class + pkg */
-	   ; q-cls      := <map(mk-qualified-class-type(|ann*, tp*)); make-set> p-cls*
-	   ; prop*      := <map(!(<id>, ref-idx))> q-cls
 
   // packages
   reconstruct-package(|blob) :: Id * Term -> List(Id)
@@ -40,6 +46,8 @@ rules // classes and packages
            res        := [pkg-name]
          end
 
+  type-scope(|blob) :: Id * Term -> Term
+  type-scope(|a) = Swap; TupleToList; stx-evaluate-with-initial-state(|a, "refret!namedTypeScope")
 
   this-pkg(|blob) :: Term -> Id * Term
   this-pkg(|a) = ![<id>]; stx-evaluate-with-initial-state(|a, "java/names/PackageNames!thisPkg")
@@ -50,16 +58,16 @@ rules // classes and packages
 
   // inner classes
   reconstruct-enclosing-classes(|blob) :: Id * Term -> List(Id) * Term
-  reconstruct-enclosing-classes(|a): T@(x, s) -> res
-    with if <enclosing-class(|a)> T => (x', s') then
+  reconstruct-enclosing-classes(|a): (x, s) -> res
+    with if <enclosing-class(|a)> s => (x', s') then
            (x*, s'') := <reconstruct-enclosing-classes(|a)> (x', s')
          ; res := ([x*, x], s'')
          else
            res := ([x], s)
          end
 
-  enclosing-class(|blob) :: Id * Term -> Id * Term
-  enclosing-class(|a) = Swap; TupleToList; stx-evaluate-with-initial-state(|a, "refret!enclosingClass")
+  enclosing-class(|blob) :: Term -> Id * Term
+  enclosing-class(|a) = MkSingleton; stx-evaluate-with-initial-state(|a, "refret!enclosingClass")
 
   // Make qualified class reference names
 

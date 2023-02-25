@@ -1,0 +1,69 @@
+module refret/oracle/expressions
+
+imports
+
+  strategolib
+
+  statix/api
+  statix/runtime/-
+
+  refret/-
+  refret/oracle/-
+
+  signatures/syntax/java/lexical/-
+  signatures/syntax/java/names/-
+  signatures/syntax/java/expressions/-
+
+  injections/syntax/java/expressions/-
+
+rules
+
+  qualify-expression(|?, string, blob) :: ? -> List(Expression * ?)
+  qualify-expression(|tgt, sortName, a): e@ExpressionName2Expression(ExpressionName(x)) -> <map(!(<id>, ref-idx))> prop*
+    with               <debug> sortName
+       ; ref-idx    := <stx--get-ast-index> x
+       ; s-ref      := <scope-prop(|a)> x
+       ; s-tgt      := <scope-prop(|a)> tgt
+       ; s-prop*    := <reconstruct-static-names(|a, x)> s-ref
+       ; q-prop*    := <reconstruct-field-access(|a, x)> s-ref
+       ; prop*      := <flatten-list> [[e,
+                        FieldAccess2Expression(Field(This(), x)),
+                        FieldAccess2Expression(SuperField(x))],
+                        s-prop*,
+                        q-prop*
+                       ]
+
+  // static accesses
+  reconstruct-static-names(|blob, Id) :: Term -> List(Expression)
+  reconstruct-static-names(|a, x): s-ref -> prop*
+    with x'        := <this-type(|a); Fst> s-ref
+       ; s-t-decl  := <scope-prop(|a)> x'
+       ; q-name*   := <reconstruct-static-qualifiers(|a, x')> s-t-decl
+       ; prop*     := <map(mk-expr-name(|x); !ExpressionName2Expression(<id>))> q-name*
+
+  mk-expr-name(|Id) :: QName -> ExpressionName
+  mk-expr-name(|x): QName(x*) -> QExpressionName(q, x)
+    with q := <foldl'(!AmbiguousName(<id>), { n, q: ?(n, q); !QAmbiguousName(q, n) })> x*
+
+  // this/super field accesses
+  reconstruct-field-access(|blob, Id) :: Term -> List(Expression)
+  reconstruct-field-access(|a, x): s-ref -> prop*
+    with e-cls*      := <this-type(|a); reconstruct-enclosing-classes(|a); Fst; reverse; Tl> s-ref
+       ; this-prop*  := <map(mk-this-prop(|x))> e-cls*
+       ; super-prop* := <map(mk-super-prop(|x))> e-cls*
+       ; prop*       := <flatten-list> [this-prop*, super-prop*]
+
+  this-type(|blob) :: Term -> Id * Term
+  this-type(|a) = ![<id>]; stx-evaluate-with-initial-state(|a, "java/names/TypeNames!this")
+
+  mk-this-prop(|Id) :: Id -> Expression
+  mk-this-prop(|x): q -> FieldAccess2Expression(Field(QThis(TypeName(q)), x))
+
+  mk-super-prop(|Id) :: Id -> Expression
+  mk-super-prop(|x): q -> FieldAccess2Expression(QSuperField(TypeName(q), x))
+
+  mk-type-name :: QName -> TypeName
+  mk-type-name: QName([x]) -> TypeName(x)
+  mk-type-name: QName(xs) -> QTypeName(q, x)
+    with (x*, x) := <split-init-last> xs
+       ; q       := <foldl'(!PackageOrTypeName(<id>), { n, q: ?(n, q); !QPackageOrTypeName(q, n) })> x*
