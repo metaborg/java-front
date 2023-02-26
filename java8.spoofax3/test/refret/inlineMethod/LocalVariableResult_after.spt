@@ -1,0 +1,204 @@
+module refret/inlineMethod/LocalVariableResult_after
+
+test parse: LocalVariableResult_after [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] parse succeeds
+
+test analysis: LocalVariableResult_after [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: LocalVariableResult_after [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                [[result]] = new Integer(i);
+            }
+            else {
+                Integer [[result]];
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+
+test refret 1: LocalVariableResult_after [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer [[result]];
+                [[result]] = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+
+test refret 2: LocalVariableResult_after [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer [[result]];
+                result = new Integer(0);
+                [[result]] = result;
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+
+test refret 3: LocalVariableResult_after [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer [[result]];
+                result = new Integer(0);
+                result = [[result]];
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+

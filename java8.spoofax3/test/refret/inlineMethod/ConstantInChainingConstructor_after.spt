@@ -1,0 +1,68 @@
+module refret/inlineMethod/ConstantInChainingConstructor_after
+
+test parse: ConstantInChainingConstructor_after [[
+  test;
+  [Test]
+      class Test {
+        public static final int ID=0;
+  
+        public Test(int id) {
+        }
+    }
+  
+    class Rest {
+        public static void test() {
+            new Test(Test.ID);
+        }
+    }
+]] parse succeeds
+
+test analysis: ConstantInChainingConstructor_after [[
+  test;
+  [Test]
+      class Test {
+        public static final int ID=0;
+  
+        public Test(int id) {
+        }
+    }
+  
+    class Rest {
+        public static void test() {
+            new Test(Test.ID);
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: ConstantInChainingConstructor_after [[
+  test;
+  [Test]
+      class Test {
+        public static final int [[ID]]=0;
+  
+        public Test(int id) {
+        }
+    }
+  
+    class Rest {
+        public static void test() {
+            new Test([[ID]]);
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        public static final int ID=0;
+  
+        public Test(int id) {
+        }
+    }
+  
+    class Rest {
+        public static void test() {
+            new Test(Test.ID);
+        }
+    }
+]]
+

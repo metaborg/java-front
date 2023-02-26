@@ -1,0 +1,84 @@
+module refret/inlineMethod/SuperInsideHierarchy_after
+
+test parse: SuperInsideHierarchy_after [[
+  test;
+  [Test]
+      class A {
+      void foo(){
+        //do smth in A
+      }
+    }
+  
+    class B {
+  
+        void test(){
+            super.foo();
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]] parse succeeds
+
+test analysis: SuperInsideHierarchy_after [[
+  test;
+  [Test]
+      class A {
+      void foo(){
+        //do smth in A
+      }
+    }
+  
+    class B {
+  
+        void test(){
+            super.foo();
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: SuperInsideHierarchy_after [[
+  test;
+  [Test]
+      class A {
+      void [[foo]](){
+        //do smth in A
+      }
+    }
+  
+    class B {
+  
+        void test(){
+            [[foo]]();
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+      void foo(){
+        //do smth in A
+      }
+    }
+  
+    class B {
+  
+        void test(){
+            super.foo();
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]]
+

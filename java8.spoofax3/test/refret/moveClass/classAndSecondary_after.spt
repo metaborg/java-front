@@ -1,0 +1,294 @@
+module refret/moveClass/classAndSecondary_after
+
+test parse: classAndSecondary_after [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]] parse succeeds
+
+test analysis: classAndSecondary_after [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: classAndSecondary_after [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class [[Class1]] {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import [[Class1]];
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+
+test refret 1: classAndSecondary_after [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class [[Class2]] {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import [[Class2]];
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+
+test refret 2: classAndSecondary_after [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class [[Class1]] {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      [[Class1]] class1;
+      Class2 class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+
+test refret 3: classAndSecondary_after [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class [[Class2]] {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      [[Class2]] class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+

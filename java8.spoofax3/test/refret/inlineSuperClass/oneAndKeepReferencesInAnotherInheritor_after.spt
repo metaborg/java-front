@@ -1,0 +1,212 @@
+module refret/inlineSuperClass/oneAndKeepReferencesInAnotherInheritor_after
+
+test parse: oneAndKeepReferencesInAnotherInheritor_after [[
+  test;
+  [Super]
+      class Super {
+      public static final String CONST = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String CONST = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println(Test.CONST);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println(Super.CONST);
+      }
+    }
+    abstract class Test2{
+      System.out.println(Super.CONST);
+    }
+]] parse succeeds
+
+test analysis: oneAndKeepReferencesInAnotherInheritor_after [[
+  test;
+  [Super]
+      class Super {
+      public static final String CONST = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String CONST = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println(Test.CONST);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println(Super.CONST);
+      }
+    }
+    abstract class Test2{
+      System.out.println(Super.CONST);
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: oneAndKeepReferencesInAnotherInheritor_after [[
+  test;
+  [Super]
+      class Super {
+      public static final String CONST = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String [[CONST]] = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println([[Super.CONST]]);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println(Super.CONST);
+      }
+    }
+    abstract class Test2{
+      System.out.println(Super.CONST);
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Super]
+      class Super {
+      public static final String CONST = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String CONST = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println(Test.CONST);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println(Super.CONST);
+      }
+    }
+    abstract class Test2{
+      System.out.println(Super.CONST);
+    }
+]]
+
+test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
+  test;
+  [Super]
+      class Super {
+      public static final String [[CONST]] = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String CONST = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println(Test.CONST);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println([[Super.CONST]]);
+      }
+    }
+    abstract class Test2{
+      System.out.println(Super.CONST);
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Super]
+      class Super {
+      public static final String CONST = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String CONST = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println(Test.CONST);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println(Super.CONST);
+      }
+    }
+    abstract class Test2{
+      System.out.println(Super.CONST);
+    }
+]]
+
+test refret 2: oneAndKeepReferencesInAnotherInheritor_after [[
+  test;
+  [Super]
+      class Super {
+      public static final String [[CONST]] = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String CONST = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println(Test.CONST);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println(Super.CONST);
+      }
+    }
+    abstract class Test2{
+      System.out.println([[Super.CONST]]);
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Super]
+      class Super {
+      public static final String CONST = "CONST";
+    }
+  
+  [Test]
+      abstract class Test extends Sup<caret>er {
+        public static final String CONST = "CONST";
+  
+        {
+        System.out.println(CONST);
+        System.out.println(Test.CONST);   // TODO: Context
+      }
+    }
+    abstract class Test1 extends Super {
+      {
+        System.out.println(CONST);
+        System.out.println(Super.CONST);
+      }
+    }
+    abstract class Test2{
+      System.out.println(Super.CONST);
+    }
+]]
+

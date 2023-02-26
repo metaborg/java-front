@@ -1,0 +1,72 @@
+module refret/inlineMethod/SuperCallWhenUnqualifiedInline_after
+
+test parse: SuperCallWhenUnqualifiedInline_after [[
+  test;
+  [Test]
+      class A {
+      void bar() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          super.bar();
+      }
+    }
+]] parse succeeds
+
+test analysis: SuperCallWhenUnqualifiedInline_after [[
+  test;
+  [Test]
+      class A {
+      void bar() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          super.bar();
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: SuperCallWhenUnqualifiedInline_after [[
+  test;
+  [Test]
+      class A {
+      void [[bar]]() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          [[bar]]();
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+      void bar() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          super.bar();
+      }
+    }
+]]
+

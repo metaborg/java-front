@@ -1,0 +1,76 @@
+module refret/ChangeSignature/canModify/A_test2_in
+
+test parse: A_test2_in [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private void m(int i, int j){
+    		m(i, j);
+    	}
+    }
+  }
+]] parse succeeds
+
+test analysis: A_test2_in [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private void m(int i, int j){
+    		m(i, j);
+    	}
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: A_test2_in [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private void m(int [[i]], int j){
+    		m([[i]], j);
+    	}
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private void m(int i, int j){
+    		m(i, j);
+    	}
+    }
+  }
+]]
+
+test refret 1: A_test2_in [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private void m(int i, int [[j]]){
+    		m(i, [[j]]);
+    	}
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private void m(int i, int j){
+    		m(i, j);
+    	}
+    }
+  }
+]]
+

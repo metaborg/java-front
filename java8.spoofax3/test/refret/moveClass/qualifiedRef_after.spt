@@ -1,0 +1,212 @@
+module refret/moveClass/qualifiedRef_after
+
+test parse: qualifiedRef_after [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]] parse succeeds
+
+test analysis: qualifiedRef_after [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: qualifiedRef_after [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import [[StaticMethod]];
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class [[StaticMethod]] {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]]
+
+test refret 1: qualifiedRef_after [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf([[StaticMethod]].bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class [[StaticMethod]] {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]]
+
+test refret 2: qualifiedRef_after [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf([[StaticMethod]].bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class [[StaticMethod]] {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]]
+

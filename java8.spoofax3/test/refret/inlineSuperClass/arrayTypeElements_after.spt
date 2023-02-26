@@ -1,0 +1,164 @@
+module refret/inlineSuperClass/arrayTypeElements_after
+
+test parse: arrayTypeElements_after [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] parse succeeds
+
+test analysis: arrayTypeElements_after [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: arrayTypeElements_after [[
+  test;
+  [Test]
+      class [[Test]] {
+      public Test() {
+      }
+  
+        public static [[Test]][] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+
+test refret 1: arrayTypeElements_after [[
+  test;
+  [Test]
+      class Test {
+      public [[Test]]() {
+      }
+  
+        public static Test[] getArray() {
+          return new [[Test]][0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+
+test refret 2: arrayTypeElements_after [[
+  test;
+  [Test]
+      class [[Test]] {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static [[Test]][] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+
+test refret 3: arrayTypeElements_after [[
+  test;
+  [Test]
+      class Test {
+      public [[Test]]() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new [[Test]][]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+

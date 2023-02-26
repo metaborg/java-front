@@ -1,0 +1,142 @@
+module refret/AbstractField/can/A_test3_out
+
+test parse: A_test3_out [[
+  test;
+  [p] {
+  [A]
+      //abstract and make private
+    package p;
+    class A{
+    	private int f;
+    	void m(){
+    		int g= getF();
+    	}
+    	public int getF(){
+    		return f;
+    	}
+    }
+    class B{
+    	int m(){
+    		A a= new A();
+    		return a.getF();
+    	}
+    }
+  }
+]] parse succeeds
+
+test analysis: A_test3_out [[
+  test;
+  [p] {
+  [A]
+      //abstract and make private
+    package p;
+    class A{
+    	private int f;
+    	void m(){
+    		int g= getF();
+    	}
+    	public int getF(){
+    		return f;
+    	}
+    }
+    class B{
+    	int m(){
+    		A a= new A();
+    		return a.getF();
+    	}
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: A_test3_out [[
+  test;
+  [p] {
+  [A]
+      //abstract and make private
+    package p;
+    class A{
+    	private int f;
+    	void m(){
+    		int g= [[getF]]();
+    	}
+    	public int [[getF]](){
+    		return f;
+    	}
+    }
+    class B{
+    	int m(){
+    		A a= new A();
+    		return a.getF();
+    	}
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [p] {
+  [A]
+      //abstract and make private
+    package p;
+    class A{
+    	private int f;
+    	void m(){
+    		int g= getF();
+    	}
+    	public int getF(){
+    		return f;
+    	}
+    }
+    class B{
+    	int m(){
+    		A a= new A();
+    		return a.getF();
+    	}
+    }
+  }
+]]
+
+test refret 1: A_test3_out [[
+  test;
+  [p] {
+  [A]
+      //abstract and make private
+    package p;
+    class A{
+    	private int f;
+    	void m(){
+    		int g= getF();
+    	}
+    	public int [[getF]](){
+    		return f;
+    	}
+    }
+    class B{
+    	int m(){
+    		A a= new A();
+    		return [[a.getF]]();
+    	}
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [p] {
+  [A]
+      //abstract and make private
+    package p;
+    class A{
+    	private int f;
+    	void m(){
+    		int g= getF();
+    	}
+    	public int getF(){
+    		return f;
+    	}
+    }
+    class B{
+    	int m(){
+    		A a= new A();
+    		return a.getF();
+    	}
+    }
+  }
+]]
+

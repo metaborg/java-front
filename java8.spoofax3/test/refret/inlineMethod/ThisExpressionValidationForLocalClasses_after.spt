@@ -1,0 +1,92 @@
+module refret/inlineMethod/ThisExpressionValidationForLocalClasses_after
+
+test parse: ThisExpressionValidationForLocalClasses_after [[
+  test;
+  [Test]
+      class A {
+      void m() {
+        class Local {}
+        n();
+      }
+      void n() {}
+    }
+  
+    class B extends A {
+      void n() {}
+    }
+  
+    class C extends B {
+      {
+          class Local {}
+          n();
+      }
+    }
+]] parse succeeds
+
+test analysis: ThisExpressionValidationForLocalClasses_after [[
+  test;
+  [Test]
+      class A {
+      void m() {
+        class Local {}
+        n();
+      }
+      void n() {}
+    }
+  
+    class B extends A {
+      void n() {}
+    }
+  
+    class C extends B {
+      {
+          class Local {}
+          n();
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: ThisExpressionValidationForLocalClasses_after [[
+  test;
+  [Test]
+      class A {
+      void m() {
+        class Local {}
+        n();
+      }
+      void n() {}
+    }
+  
+    class B extends A {
+      void [[n]]() {}
+    }
+  
+    class C extends B {
+      {
+          class Local {}
+          [[n]]();
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+      void m() {
+        class Local {}
+        n();
+      }
+      void n() {}
+    }
+  
+    class B extends A {
+      void n() {}
+    }
+  
+    class C extends B {
+      {
+          class Local {}
+          n();
+      }
+    }
+]]
+

@@ -1,0 +1,88 @@
+module refret/inlineSuperClass/simple_after
+
+test parse: simple_after [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        s.foo();  // TODO: Context: s
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void foo() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]] parse succeeds
+
+test analysis: simple_after [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        s.foo();  // TODO: Context: s
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void foo() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: simple_after [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        [[foo]]();  // TODO: Context: s
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void [[foo]]() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        s.foo();  // TODO: Context: s
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void foo() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]]
+

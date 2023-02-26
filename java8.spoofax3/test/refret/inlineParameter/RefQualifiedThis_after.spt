@@ -1,0 +1,88 @@
+module refret/inlineParameter/RefQualifiedThis_after
+
+test parse: RefQualifiedThis_after [[
+  test;
+  [Subject]
+      class Outer {
+  
+      String toString() { return ""; }
+  
+      class User {
+        public class Subject {
+          public void withClass() {
+            System.out.println(Outer.this.toString()); // TODO: Context
+          }
+        }
+  
+        private void oper() {
+          Subject subj = new Subject();
+          subj.withClass();
+        }
+      }
+    }
+]] parse succeeds
+
+test analysis: RefQualifiedThis_after [[
+  test;
+  [Subject]
+      class Outer {
+  
+      String toString() { return ""; }
+  
+      class User {
+        public class Subject {
+          public void withClass() {
+            System.out.println(Outer.this.toString()); // TODO: Context
+          }
+        }
+  
+        private void oper() {
+          Subject subj = new Subject();
+          subj.withClass();
+        }
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: RefQualifiedThis_after [[
+  test;
+  [Subject]
+      class Outer {
+  
+      String [[toString]]() { return ""; }
+  
+      class User {
+        public class Subject {
+          public void withClass() {
+            System.out.println([[toString]]()); // TODO: Context
+          }
+        }
+  
+        private void oper() {
+          Subject subj = new Subject();
+          subj.withClass();
+        }
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Subject]
+      class Outer {
+  
+      String toString() { return ""; }
+  
+      class User {
+        public class Subject {
+          public void withClass() {
+            System.out.println(Outer.this.toString()); // TODO: Context
+          }
+        }
+  
+        private void oper() {
+          Subject subj = new Subject();
+          subj.withClass();
+        }
+      }
+    }
+]]
+

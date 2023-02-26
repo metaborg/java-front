@@ -1,0 +1,100 @@
+module refret/inlineMethod/SuperMethodInAnonymousClass_after
+
+test parse: SuperMethodInAnonymousClass_after [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void g() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                g();
+            }
+          }.run();
+        }
+      }
+]] parse succeeds
+
+test analysis: SuperMethodInAnonymousClass_after [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void g() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                g();
+            }
+          }.run();
+        }
+      }
+]] run test-analyze to SUCCEED()
+
+test refret 0: SuperMethodInAnonymousClass_after [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void [[g]]() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                [[g]]();
+            }
+          }.run();
+        }
+      }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void g() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                g();
+            }
+          }.run();
+        }
+      }
+]]
+
