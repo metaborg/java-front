@@ -138,6 +138,12 @@ rules // alternative initial constraint for reference retention
     s_java_lang_String -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("String"), s_java_lang_String, CLASS()),
     !typeName["java/lang/String"] in s_java_lang_String,
+    // char charAt(int)
+    declareMthdName(s_java_lang_String, Id("charAt"), ARGS([INT()]), TYPED(CHAR())),
+    // int length()
+    declareMthdName(s_java_lang_String, Id("length"), ARGS([]), TYPED(INT())),
+    // boolean isEmpty()
+    declareMthdName(s_java_lang_String, Id("isEmpty"), ARGS([]), TYPED(BOOLEAN())),
 
     // interface java.lang.Iterable
     new s_java_lang_Iterable s_java_lang_Iterable_static,
