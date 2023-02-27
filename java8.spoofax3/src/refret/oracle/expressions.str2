@@ -18,19 +18,16 @@ imports
 rules
 
   qualify-expression(|?, string, blob) :: ? -> List(Expression * ?)
-  qualify-expression(|tgt, sortName, a): (None(), e) -> <map(!(<id>, ref-idx))> prop*
+  qualify-expression(|tgt, sortName, a): (inst, e) -> <map(!(<id>, ref-idx))> prop*
     with               <debug> sortName
        ; x          := <collect-id> e
        ; ref-idx    := <stx--get-ast-index> x
        ; s-ref      := <scope-prop(|a)> x
        ; s-tgt      := <scope-prop(|a); escape-static(|a)> tgt
        ; s-prop*    := <reconstruct-static-names(|a, x)> s-tgt
-       ; q-prop*    := <reconstruct-field-access(|a, x)> s-ref
+       ; q-prop*    := <qualify-instance-field(|a, x)> (inst, s-ref)
        ; prop*      := <flatten-list> 
-                       [ [ e
-                         , FieldAccess2Expression(Field(This(), x))
-                         , FieldAccess2Expression(SuperField(x))
-                         ]
+                       [ [ e ]
                        , s-prop*
                        , q-prop*
                        ]
@@ -44,6 +41,16 @@ rules
   mk-expr-name(|Id) :: QName -> ExpressionName
   mk-expr-name(|x): QName(x*) -> QExpressionName(q, x)
     with q := <foldl'(!AmbiguousName(<id>), { n, q: ?(n, q); !QAmbiguousName(q, n) })> x*
+
+  // field access with given instance
+  qualify-instance-field(|blob, Id) :: Option(Expression) * Term -> List(Expression)
+  qualify-instance-field(|a, x): (Some(inst), s-ref) -> [FieldAccess2Expression(Field(inst, x))]
+  qualify-instance-field(|a, x): (None(), s-ref) -> prop*
+    with q-prop* := <reconstruct-field-access(|a, x)> s-ref
+       ; prop*   := [ FieldAccess2Expression(Field(This(), x))
+                    , FieldAccess2Expression(SuperField(x))
+                    | q-prop*
+                    ]
 
   // this/super field accesses
   reconstruct-field-access(|blob, Id) :: Term -> List(Expression)
