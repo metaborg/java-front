@@ -9,8 +9,8 @@ test parse: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this    // TODO: Context
-            bar.size(); // or inline this    // TODO: Context
+        if (bar.size() < 2) {// Inline this
+            bar.size(); // or inline this
             return null;
         }
   
@@ -29,8 +29,8 @@ test analysis: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this    // TODO: Context
-            bar.size(); // or inline this    // TODO: Context
+        if (bar.size() < 2) {// Inline this
+            bar.size(); // or inline this
             return null;
         }
   
@@ -48,9 +48,9 @@ test refret 0: UnusedParameter_after [[
         native Object [[size]]();
       }
   
-      public Object foo(Set bar) {
-        if ([[size]]() < 2) {// Inline this    // TODO: Context
-            bar.size(); // or inline this    // TODO: Context
+      public Object foo(Set [[bar]]) {
+        if ([[size]]() < 2) {// Inline this
+            bar.size(); // or inline this
             return null;
         }
   
@@ -58,7 +58,7 @@ test refret 0: UnusedParameter_after [[
       }
   
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #1, #2) to [[
   test;
   [Test]
       class Temp {
@@ -67,8 +67,8 @@ test refret 0: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this    // TODO: Context
-            bar.size(); // or inline this    // TODO: Context
+        if (bar.size() < 2) {// Inline this
+            bar.size(); // or inline this
             return null;
         }
   
@@ -86,9 +86,9 @@ test refret 1: UnusedParameter_after [[
         native Object [[size]]();
       }
   
-      public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this    // TODO: Context
-            [[size]](); // or inline this    // TODO: Context
+      public Object foo(Set [[bar]]) {
+        if (bar.size() < 2) {// Inline this
+            [[size]](); // or inline this
             return null;
         }
   
@@ -96,7 +96,7 @@ test refret 1: UnusedParameter_after [[
       }
   
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #1, #2) to [[
   test;
   [Test]
       class Temp {
@@ -105,8 +105,8 @@ test refret 1: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this    // TODO: Context
-            bar.size(); // or inline this    // TODO: Context
+        if (bar.size() < 2) {// Inline this
+            bar.size(); // or inline this
             return null;
         }
   

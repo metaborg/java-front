@@ -1,0 +1,120 @@
+module refret/intellij/moveInner/fieldAccessInSuper_after
+
+test parse: fieldAccessInSuper_after [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends S{
+        private final A a;
+  
+        public B(A a) {
+        super(a.foo());    // Context: A.this?
+            this.a = a;
+        }
+    }
+  
+  [S]
+      package p;
+  
+    class S {
+      public S(int i){}
+    }
+  [A]
+      package p;
+  
+    class A {
+        int foo(){}
+    }
+  }
+]] parse succeeds
+
+test analysis: fieldAccessInSuper_after [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends S{
+        private final A a;
+  
+        public B(A a) {
+        super(a.foo());    // Context: A.this?
+            this.a = a;
+        }
+    }
+  
+  [S]
+      package p;
+  
+    class S {
+      public S(int i){}
+    }
+  [A]
+      package p;
+  
+    class A {
+        int foo(){}
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: fieldAccessInSuper_after [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends S{
+        private final A a;
+  
+        public B(A a) {
+        super([[A.this.foo]]());    // Context: A.this?
+            this.a = a;
+        }
+    }
+  
+  [S]
+      package p;
+  
+    class S {
+      public S(int i){}
+    }
+  [A]
+      package p;
+  
+    class A {
+        int [[foo]](){}
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends S{
+        private final A a;
+  
+        public B(A a) {
+        super(a.foo());    // Context: A.this?
+            this.a = a;
+        }
+    }
+  
+  [S]
+      package p;
+  
+    class S {
+      public S(int i){}
+    }
+  [A]
+      package p;
+  
+    class A {
+        int foo(){}
+    }
+  }
+]]
+

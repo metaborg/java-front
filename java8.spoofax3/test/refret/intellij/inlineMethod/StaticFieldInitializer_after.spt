@@ -11,6 +11,8 @@ test parse: StaticFieldInitializer_after [[
             field = 1;
         }
   
+        static void doSomething() { }
+  
     }
 ]] parse succeeds
 
@@ -24,6 +26,8 @@ test analysis: StaticFieldInitializer_after [[
             doSomething();
             field = 1;
         }
+  
+        static void doSomething() { }
   
     }
 ]] run test-analyze to SUCCEED()
@@ -39,6 +43,8 @@ test refret 0: StaticFieldInitializer_after [[
             [[field]] = 1;
         }
   
+        static void doSomething() { }
+  
     }
 ]] run fix-reference(|#2, #1) to [[
   test;
@@ -50,6 +56,8 @@ test refret 0: StaticFieldInitializer_after [[
             doSomething();
             field = 1;
         }
+  
+        static void doSomething() { }
   
     }
 ]]

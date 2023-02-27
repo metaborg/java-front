@@ -7,7 +7,7 @@ test parse: simple_after [[
   
     class Usage {
       void bar(Test s) {
-        s.foo();  // TODO: Context: s
+        s.foo();
       }
     }
   [p] {
@@ -29,7 +29,7 @@ test analysis: simple_after [[
   
     class Usage {
       void bar(Test s) {
-        s.foo();  // TODO: Context: s
+        s.foo();
       }
     }
   [p] {
@@ -50,8 +50,8 @@ test refret 0: simple_after [[
       import p.Test;
   
     class Usage {
-      void bar(Test s) {
-        [[foo]]();  // TODO: Context: s
+      void bar(Test [[s]]) {
+        [[foo]]();
       }
     }
   [p] {
@@ -64,14 +64,14 @@ test refret 0: simple_after [[
         }
     }
   }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Usage]
       import p.Test;
   
     class Usage {
       void bar(Test s) {
-        s.foo();  // TODO: Context: s
+        s.foo();
       }
     }
   [p] {

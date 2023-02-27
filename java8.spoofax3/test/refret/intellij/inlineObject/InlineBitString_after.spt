@@ -6,10 +6,10 @@ test parse: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
-                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);        // TODO: Context
+                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);
             }
             assert intersection != null;
             return intersection;
@@ -38,10 +38,10 @@ test analysis: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
-                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);        // TODO: Context
+                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);
             }
             assert intersection != null;
             return intersection;
@@ -70,10 +70,10 @@ test refret 0: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString [[other]] = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
-                intersection = new BitString(result & mask | [[myBits]], mask | other.myMask);        // TODO: Context
+                intersection = new BitString(result & mask | [[myBits]], mask | other.myMask);
             }
             assert intersection != null;
             return intersection;
@@ -94,16 +94,16 @@ test refret 0: InlineBitString_after [[
             return new BitString(myBits | other.myBits, myMask | other.myMask);
         }
     }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Test]
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
-                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);        // TODO: Context
+                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);
             }
             assert intersection != null;
             return intersection;
@@ -132,10 +132,10 @@ test refret 1: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString [[other]] = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
-                intersection = new BitString(result & mask | other.myBits, mask | [[myMask]]);        // TODO: Context
+                intersection = new BitString(result & mask | other.myBits, mask | [[myMask]]);
             }
             assert intersection != null;
             return intersection;
@@ -156,16 +156,16 @@ test refret 1: InlineBitString_after [[
             return new BitString(myBits | other.myBits, myMask | other.myMask);
         }
     }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Test]
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
-                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);        // TODO: Context
+                intersection = new BitString(result & mask | other.myBits, mask | other.myMask);
             }
             assert intersection != null;
             return intersection;

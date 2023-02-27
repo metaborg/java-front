@@ -9,10 +9,10 @@ test parse: SuperInsideHierarchy_after [[
       }
     }
   
-    class B {
+    class B extends A {
   
         void test(){
-            super.foo();
+            super.foo();  // Context: super
         }
   
       void foo() {
@@ -30,10 +30,10 @@ test analysis: SuperInsideHierarchy_after [[
       }
     }
   
-    class B {
+    class B extends A {
   
         void test(){
-            super.foo();
+            super.foo();  // Context: super
         }
   
       void foo() {
@@ -51,10 +51,10 @@ test refret 0: SuperInsideHierarchy_after [[
       }
     }
   
-    class B {
+    class B extends A {
   
         void test(){
-            [[foo]]();
+            [[foo]]();  // Context: super
         }
   
       void foo() {
@@ -70,10 +70,10 @@ test refret 0: SuperInsideHierarchy_after [[
       }
     }
   
-    class B {
+    class B extends A {
   
         void test(){
-            super.foo();
+            super.foo();  // Context: super
         }
   
       void foo() {

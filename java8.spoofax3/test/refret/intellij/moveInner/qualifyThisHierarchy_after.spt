@@ -1,0 +1,128 @@
+module refret/intellij/moveInner/qualifyThisHierarchy_after
+
+test parse: qualifyThisHierarchy_after [[
+  test;
+  [pack1] {
+  [MyRunnable]
+      package pack1;
+  
+    public class MyRunnable {
+        private final DImpl d;
+  
+        public MyRunnable(DImpl d) {
+            this.d = d;
+        }
+  
+        public void run() {
+        d.iAmProtected();
+      }
+    }
+  
+  [DImpl]
+      package pack1;
+    class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    public class DImpl extends D {
+    }
+  
+  
+  }
+]] parse succeeds
+
+test analysis: qualifyThisHierarchy_after [[
+  test;
+  [pack1] {
+  [MyRunnable]
+      package pack1;
+  
+    public class MyRunnable {
+        private final DImpl d;
+  
+        public MyRunnable(DImpl d) {
+            this.d = d;
+        }
+  
+        public void run() {
+        d.iAmProtected();
+      }
+    }
+  
+  [DImpl]
+      package pack1;
+    class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    public class DImpl extends D {
+    }
+  
+  
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: qualifyThisHierarchy_after [[
+  test;
+  [pack1] {
+  [MyRunnable]
+      package pack1;
+  
+    public class MyRunnable {
+        private final DImpl [[d]];
+  
+        public MyRunnable(DImpl d) {
+            this.d = d;
+        }
+  
+        public void run() {
+        [[iAmProtected]]();
+      }
+    }
+  
+  [DImpl]
+      package pack1;
+    class D {
+      protected void [[iAmProtected]]() {
+      }
+    }
+  
+    public class DImpl extends D {
+    }
+  
+  
+  }
+]] run fix-reference(|#2, #3, #1) to [[
+  test;
+  [pack1] {
+  [MyRunnable]
+      package pack1;
+  
+    public class MyRunnable {
+        private final DImpl d;
+  
+        public MyRunnable(DImpl d) {
+            this.d = d;
+        }
+  
+        public void run() {
+        d.iAmProtected();
+      }
+    }
+  
+  [DImpl]
+      package pack1;
+    class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    public class DImpl extends D {
+    }
+  
+  
+  }
+]]
+

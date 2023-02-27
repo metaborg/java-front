@@ -13,6 +13,7 @@ imports
   java/names/MethodNames
   java/types/PrimitiveTypes
   java/types/ReferenceTypes
+  java/names/ExpressionNames
   java/JRE
 
   signatures/start-sig
@@ -71,29 +72,180 @@ rules // alternative initial constraint for reference retention
 
   programOk: Start
 
-  programOk(ast) :- {s s_pkg_java s_pkg_lang s_obj s_objStatic}
+  programOk(ast) :- {s
+      s_java
+      s_java_lang
+      s_java_lang_Object s_java_lang_Object_static
+      s_java_lang_Integer s_java_lang_Integer_static
+      s_java_lang_String s_java_lang_String_static
+      s_java_lang_Iterable s_java_lang_Iterable_static
+      s_java_lang_Runnable s_java_lang_Runnable_static
+      s_java_lang_System s_java_lang_System_static
+      s_java_lang_Override s_java_lang_Override_static
+      s_java_util
+      s_java_util_List s_java_util_List_static
+      s_java_util_Collection s_java_util_Collection_static
+      s_java_util_LinkedHashSet s_java_util_LinkedHashSet_static
+      s_java_util_ArrayList s_java_util_ArrayList_static
+      s_java_util_NoSuchElementException s_java_util_NoSuchElementException_static
+      s_java_util_stream
+      s_java_util_stream_Stream s_java_util_stream_Stream_static
+      s_java_util_function
+      s_java_util_function_Predicate s_java_util_function_Predicate_static
+      s_java_util_function_Consumer s_java_util_function_Consumer_static
+      s_java_io
+      s_java_io_PrintStream s_java_io_PrintStream_static
+      s_java_math
+      s_java_math_BigDecimal s_java_math_BigDecimal_static
+  }
     new s,
 
-    // "java" package
-    new s_pkg_java,
-    s_pkg_java -PARENT_PKG-> s,
-    declarePkg(s, Id("java"), s_pkg_java),
+    // package java
+    new s_java,
+    s_java -PARENT_PKG-> s,
+    declarePkg(s, Id("java"), s_java),
 
-    // "lang" package
-    new s_pkg_lang,
-    s_pkg_lang -PARENT_PKG-> s_pkg_java,
-    declarePkg(s_pkg_java, Id("lang"), s_pkg_lang),
 
-    // "Object" class
-    new s_obj s_objStatic,
-    s_obj -STATIC_MEMBERS-> s_objStatic,
-    declareType2(s_pkg_lang, s_pkg_lang, F(), Id("Object"), s_obj, CLASS()),
-    declareMthdName(s_obj, Id("<init>"), ARGS([]), TYPED(REF(s_obj))),
+    // package java.lang
+    new s_java_lang,
+    s_java_lang -PARENT_PKG-> s_java,
+    declarePkg(s_java, Id("lang"), s_java_lang),
 
-    // equals method
+    // class java.lang.Object
+    new s_java_lang_Object s_java_lang_Object_static,
+    s_java_lang_Object -STATIC_MEMBERS-> s_java_lang_Object_static,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Object"), s_java_lang_Object, CLASS()),
+    // constructor()
+    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Object))),
+    // boolean equals(Object)
+    declareMthdName(s_java_lang_Object, Id("equals"), ARGS([REF(s_java_lang_Object)]), TYPED(BOOLEAN())),
+    // int hashCode()
+    declareMthdName(s_java_lang_Object, Id("hashCode"), ARGS([]), TYPED(INT())),
 
-    declareMthdName(s_obj, Id("equals"), ARGS([REF(s_obj)]), TYPED(BOOLEAN())),
-    declareMthdName(s_obj, Id("hashCode"), ARGS([]), TYPED(INT())),
+    // class java.lang.Integer
+    new s_java_lang_Integer s_java_lang_Integer_static,
+    s_java_lang_Integer -STATIC_MEMBERS-> s_java_lang_Integer_static,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Integer"), s_java_lang_Integer, CLASS()),
+
+    // class java.lang.String
+    new s_java_lang_String s_java_lang_String_static,
+    s_java_lang_String -STATIC_MEMBERS-> s_java_lang_String_static,
+    declareType2(s_java_lang, s_java_lang, F(), Id("String"), s_java_lang_String, CLASS()),
+
+    // interface java.lang.Iterable
+    new s_java_lang_Iterable s_java_lang_Iterable_static,
+    s_java_lang_Iterable -STATIC_MEMBERS-> s_java_lang_Iterable_static,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Iterable"), s_java_lang_Iterable, INTF()),
+
+    // class java.lang.Runnable
+    new s_java_lang_Runnable s_java_lang_Runnable_static,
+    s_java_lang_Runnable -STATIC_MEMBERS-> s_java_lang_Runnable_static,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Runnable"), s_java_lang_Runnable, CLASS()),
+    // constructor()
+    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Runnable))),
+    // void run()
+    declareMthdName(s_java_lang_Runnable, Id("run"), ARGS([]), VOID()),
+
+    // class java.lang.System
+    new s_java_lang_System s_java_lang_System_static,
+    s_java_lang_System -STATIC_MEMBERS-> s_java_lang_System_static,
+    declareType2(s_java_lang, s_java_lang, F(), Id("System"), s_java_lang_System, CLASS()),
+    // static PrintStream out
+    declareExprName(s_java_lang_System_static, Id("out"), REF(s_java_io_PrintStream)),
+
+    // class java.lang.Override
+    new s_java_lang_Override s_java_lang_Override_static,
+    s_java_lang_Override -STATIC_MEMBERS-> s_java_lang_Override_static,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Override"), s_java_lang_Override, CLASS()),
+
+
+    // package java.io
+    new s_java_io,
+    s_java_io -PARENT_PKG-> s_java,
+    declarePkg(s_java, Id("io"), s_java_io),
+
+    // class java.io.PrintStream
+    new s_java_io_PrintStream s_java_io_PrintStream_static,
+    s_java_io_PrintStream -STATIC_MEMBERS-> s_java_io_PrintStream_static,
+    declareType2(s_java_io, s_java_io, F(), Id("PrintStream"), s_java_io_PrintStream, CLASS()),
+    // void println(Object)
+    declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([REF(s_java_lang_Object)]), VOID()),
+    // void println(String)
+    declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([REF(s_java_lang_String)]), VOID()),
+    // void println(int)
+    declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([INT()]), VOID()),
+
+
+    // package java.util
+    new s_java_util,
+    s_java_util -PARENT_PKG-> s_java,
+    declarePkg(s_java, Id("util"), s_java_util),
+
+    // class java.util.List
+    new s_java_util_List s_java_util_List_static,
+    s_java_util_List -STATIC_MEMBERS-> s_java_util_List_static,
+    declareType2(s_java_util, s_java_util, F(), Id("List"), s_java_util_List, CLASS()),
+
+    // class java.util.Collection
+    new s_java_util_Collection s_java_util_Collection_static,
+    s_java_util_Collection -STATIC_MEMBERS-> s_java_util_Collection_static,
+    declareType2(s_java_util, s_java_util, F(), Id("Collection"), s_java_util_Collection, CLASS()),
+
+    // class java.util.LinkedHashSet
+    new s_java_util_LinkedHashSet s_java_util_LinkedHashSet_static,
+    s_java_util_LinkedHashSet -STATIC_MEMBERS-> s_java_util_LinkedHashSet_static,
+    declareType2(s_java_util, s_java_util, F(), Id("LinkedHashSet"), s_java_util_LinkedHashSet, CLASS()),
+
+    // class java.util.ArrayList
+    new s_java_util_ArrayList s_java_util_ArrayList_static,
+    s_java_util_ArrayList -STATIC_MEMBERS-> s_java_util_ArrayList_static,
+    declareType2(s_java_util, s_java_util, F(), Id("ArrayList"), s_java_util_ArrayList, CLASS()),
+    declareMthdName(s_java_util_ArrayList, Id("<init>"), ARGS([REF(s_java_lang_String)]), TYPED(REF(s_java_util_ArrayList))),
+
+    // class java.util.NoSuchElementException
+    new s_java_util_NoSuchElementException s_java_util_NoSuchElementException_static,
+    s_java_util_NoSuchElementException -STATIC_MEMBERS-> s_java_util_NoSuchElementException_static,
+    declareType2(s_java_util, s_java_util, F(), Id("NoSuchElementException"), s_java_util_NoSuchElementException, CLASS()),
+    declareMthdName(s_java_util_NoSuchElementException, Id("<init>"), ARGS([REF(s_java_lang_String)]), TYPED(REF(s_java_util_NoSuchElementException))),
+
+
+    // package java.util.stream
+    new s_java_util_stream,
+    s_java_util_stream -PARENT_PKG-> s_java_util,
+    declarePkg(s_java_util, Id("stream"), s_java_util_stream),
+
+    // class java.util.stream.Stream
+    new s_java_util_stream_Stream s_java_util_stream_Stream_static,
+    s_java_util_stream_Stream -STATIC_MEMBERS-> s_java_util_stream_Stream_static,
+    declareType2(s_java_util_stream, s_java_util_stream, F(), Id("Stream"), s_java_util_stream_Stream, CLASS()),
+
+
+    // package java.util.function
+    new s_java_util_function,
+    s_java_util_function -PARENT_PKG-> s_java_util,
+    declarePkg(s_java_util, Id("stream"), s_java_util_function),
+
+    // class java.util.function.Consumer
+    new s_java_util_function_Consumer s_java_util_function_Consumer_static,
+    s_java_util_function_Consumer -STATIC_MEMBERS-> s_java_util_function_Consumer_static,
+    declareType2(s_java_util_function, s_java_util_function, F(), Id("Consumer"), s_java_util_function_Consumer, CLASS()),
+
+    // class java.util.function.Consumer
+    new s_java_util_function_Predicate s_java_util_function_Predicate_static,
+    s_java_util_function_Predicate -STATIC_MEMBERS-> s_java_util_function_Predicate_static,
+    declareType2(s_java_util_function, s_java_util_function, F(), Id("Predicate"), s_java_util_function_Predicate, CLASS()),
+
+
+    // package java.math
+    new s_java_math,
+    s_java_math -PARENT_PKG-> s_java,
+    declarePkg(s_java, Id("math"), s_java_math),
+
+    // class java.io.PrintStream
+    new s_java_math_BigDecimal s_java_math_BigDecimal_static,
+    s_java_math_BigDecimal -STATIC_MEMBERS-> s_java_math_BigDecimal_static,
+    declareType2(s_java_math, s_java_math, F(), Id("BigDecimal"), s_java_math_BigDecimal, CLASS()),
+
 
     // type-check as regular file
     fileOk(s, ast).

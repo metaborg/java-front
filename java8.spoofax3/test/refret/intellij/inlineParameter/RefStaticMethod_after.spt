@@ -16,7 +16,7 @@ test parse: RefStaticMethod_after [[
   
     class StaticRefMoveSubject {
       public void subject() {
-          int subj = StaticRefMove.init(); // TODO: Context
+          int subj = StaticRefMove.init();
           System.out.println(subj);
       }
     }
@@ -38,7 +38,7 @@ test analysis: RefStaticMethod_after [[
   
     class StaticRefMoveSubject {
       public void subject() {
-          int subj = StaticRefMove.init(); // TODO: Context
+          int subj = StaticRefMove.init();
           System.out.println(subj);
       }
     }
@@ -47,7 +47,7 @@ test analysis: RefStaticMethod_after [[
 test refret 0: RefStaticMethod_after [[
   test;
   [StaticRefMove]
-      public class StaticRefMove {
+      public class [[StaticRefMove]] {
       public static int [[init]]() {
         return 1;
       }
@@ -60,11 +60,11 @@ test refret 0: RefStaticMethod_after [[
   
     class StaticRefMoveSubject {
       public void subject() {
-          int subj = [[init]](); // TODO: Context
+          int subj = [[init]]();
           System.out.println(subj);
       }
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #2, #1) to [[
   test;
   [StaticRefMove]
       public class StaticRefMove {
@@ -80,7 +80,7 @@ test refret 0: RefStaticMethod_after [[
   
     class StaticRefMoveSubject {
       public void subject() {
-          int subj = StaticRefMove.init(); // TODO: Context
+          int subj = StaticRefMove.init();
           System.out.println(subj);
       }
     }
