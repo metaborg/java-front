@@ -216,7 +216,8 @@ rules
     s_ty == typeScope(varDeclType(varDecl)),
     varDecl' == singleVarDecl(id, resolveMemberExprNames(s_ty, id)).
 
-  resolveMemberAmbName(TYPE__DECL(typeDecl), id) = resolveMemberAmbName1(s, id, resolveMemberExprNames(s, id)).
+  resolveMemberAmbName(TYPE__DECL(typeDecl), id) = resolveMemberAmbName1(s, id, resolveMemberExprNames(s, id)) :-
+    s == typeDeclScope(typeDecl).
 
       resolveMemberAmbName1 : scope * Id * list(VAR_PATH) -> AMB_DECL
       resolveMemberAmbName2 : scope * Id * list(TYPE_PATH) -> AMB_DECL
@@ -232,7 +233,8 @@ rules
       resolveMemberAmbName2(s, id, typePathList) = TYPE__DECL(typeDecl) :-
         typeDecl == singleTypeDecl(id, typePathList).
 
-  resolveMemberAmbName(PKG__DECL(pkgDecl), id) = resolveMemberAmbName3(s, id, resolveMemberTypeNames(s, id)).
+  resolveMemberAmbName(PKG__DECL(pkgDecl), id) = resolveMemberAmbName3(s, id, resolveMemberTypeNames(s, id)) :-
+    s == pkgDeclScope(pkgDecl).
 
       resolveMemberAmbName3 : scope * Id * list(TYPE_PATH) -> AMB_DECL
       resolveMemberAmbName4 : scope * Id * list(PKG_PATH) -> AMB_DECL
