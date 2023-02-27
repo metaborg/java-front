@@ -117,7 +117,7 @@ rules // alternative initial constraint for reference retention
     s_java_lang_Object -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("Object"), s_java_lang_Object, CLASS()),
     // constructor()
-    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Object))),
+    // declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Object))),
     // boolean equals(Object)
     declareMthdName(s_java_lang_Object, Id("equals"), ARGS([REF(s_java_lang_Object)]), TYPED(BOOLEAN())),
     // int hashCode()
@@ -173,7 +173,7 @@ rules // alternative initial constraint for reference retention
     // class java.io.PrintStream
     new s_java_io_PrintStream s_java_io_PrintStream_static,
     s_java_io_PrintStream -STATIC_MEMBERS-> s_java_io_PrintStream_static,
-    s_java_io_PrintStream -IMPORT_PKG-> s_java_lang,
+    s_java_io_PrintStream -IMPORT_PKG-> s_java_io,
     declareType2(s_java_io, s_java_io, F(), Id("PrintStream"), s_java_io_PrintStream, CLASS()),
     // void println(Object)
     declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([REF(s_java_lang_Object)]), VOID()),
@@ -191,32 +191,32 @@ rules // alternative initial constraint for reference retention
     // class java.util.List
     new s_java_util_List s_java_util_List_static,
     s_java_util_List -STATIC_MEMBERS-> s_java_util_List_static,
-    s_java_util_List -IMPORT_PKG-> s_java_lang,
+    s_java_util_List -IMPORT_PKG-> s_java_util,
     declareType2(s_java_util, s_java_util, F(), Id("List"), s_java_util_List, CLASS()),
 
     // class java.util.Collection
     new s_java_util_Collection s_java_util_Collection_static,
     s_java_util_Collection -STATIC_MEMBERS-> s_java_util_Collection_static,
-    s_java_util_Collection -IMPORT_PKG-> s_java_lang,
+    s_java_util_Collection -IMPORT_PKG-> s_java_util,
     declareType2(s_java_util, s_java_util, F(), Id("Collection"), s_java_util_Collection, CLASS()),
 
     // class java.util.LinkedHashSet
     new s_java_util_LinkedHashSet s_java_util_LinkedHashSet_static,
     s_java_util_LinkedHashSet -STATIC_MEMBERS-> s_java_util_LinkedHashSet_static,
-    s_java_util_LinkedHashSet -IMPORT_PKG-> s_java_lang,
+    s_java_util_LinkedHashSet -IMPORT_PKG-> s_java_util,
     declareType2(s_java_util, s_java_util, F(), Id("LinkedHashSet"), s_java_util_LinkedHashSet, CLASS()),
 
     // class java.util.ArrayList
     new s_java_util_ArrayList s_java_util_ArrayList_static,
     s_java_util_ArrayList -STATIC_MEMBERS-> s_java_util_ArrayList_static,
-    s_java_util_ArrayList -IMPORT_PKG-> s_java_lang,
+    s_java_util_ArrayList -IMPORT_PKG-> s_java_util,
     declareType2(s_java_util, s_java_util, F(), Id("ArrayList"), s_java_util_ArrayList, CLASS()),
     declareMthdName(s_java_util_ArrayList, Id("<init>"), ARGS([REF(s_java_lang_String)]), TYPED(REF(s_java_util_ArrayList))),
 
     // class java.util.NoSuchElementException
     new s_java_util_NoSuchElementException s_java_util_NoSuchElementException_static,
     s_java_util_NoSuchElementException -STATIC_MEMBERS-> s_java_util_NoSuchElementException_static,
-    s_java_util_NoSuchElementException -IMPORT_PKG-> s_java_lang,
+    s_java_util_NoSuchElementException -IMPORT_PKG-> s_java_util,
     declareType2(s_java_util, s_java_util, F(), Id("NoSuchElementException"), s_java_util_NoSuchElementException, CLASS()),
     declareMthdName(s_java_util_NoSuchElementException, Id("<init>"), ARGS([REF(s_java_lang_String)]), TYPED(REF(s_java_util_NoSuchElementException))),
 
@@ -229,7 +229,7 @@ rules // alternative initial constraint for reference retention
     // class java.util.stream.Stream
     new s_java_util_stream_Stream s_java_util_stream_Stream_static,
     s_java_util_stream_Stream -STATIC_MEMBERS-> s_java_util_stream_Stream_static,
-    s_java_util_stream_Stream -IMPORT_PKG-> s_java_lang,
+    s_java_util_stream_Stream -IMPORT_PKG-> s_java_util_stream,
     declareType2(s_java_util_stream, s_java_util_stream, F(), Id("Stream"), s_java_util_stream_Stream, CLASS()),
 
 
@@ -241,13 +241,13 @@ rules // alternative initial constraint for reference retention
     // class java.util.function.Consumer
     new s_java_util_function_Consumer s_java_util_function_Consumer_static,
     s_java_util_function_Consumer -STATIC_MEMBERS-> s_java_util_function_Consumer_static,
-    s_java_util_function_Consumer -IMPORT_PKG-> s_java_lang,
+    s_java_util_function_Consumer -IMPORT_PKG-> s_java_util_function,
     declareType2(s_java_util_function, s_java_util_function, F(), Id("Consumer"), s_java_util_function_Consumer, CLASS()),
 
     // class java.util.function.Consumer
     new s_java_util_function_Predicate s_java_util_function_Predicate_static,
     s_java_util_function_Predicate -STATIC_MEMBERS-> s_java_util_function_Predicate_static,
-    s_java_util_function_Predicate -IMPORT_PKG-> s_java_lang,
+    s_java_util_function_Predicate -IMPORT_PKG-> s_java_util_function,
     declareType2(s_java_util_function, s_java_util_function, F(), Id("Predicate"), s_java_util_function_Predicate, CLASS()),
 
 
@@ -259,7 +259,7 @@ rules // alternative initial constraint for reference retention
     // class java.io.PrintStream
     new s_java_math_BigDecimal s_java_math_BigDecimal_static,
     s_java_math_BigDecimal -STATIC_MEMBERS-> s_java_math_BigDecimal_static,
-    s_java_math_BigDecimal -IMPORT_PKG-> s_java_lang,
+    s_java_math_BigDecimal -IMPORT_PKG-> s_java_math,
     declareType2(s_java_math, s_java_math, F(), Id("BigDecimal"), s_java_math_BigDecimal, CLASS()),
 
 
