@@ -1,0 +1,68 @@
+module refret/intellij/inlineMethod/PrivateFieldInSuperClassInSameFile_after
+
+test parse: PrivateFieldInSuperClassInSameFile_after [[
+  test;
+  [Test]
+      class Test {
+      class A {
+        private Integer i = 0;
+  
+      }
+  
+      class B extends A {
+        void bar(A a) {
+            a.i.toString();
+        }
+      }
+    }
+]] parse succeeds
+
+test analysis: PrivateFieldInSuperClassInSameFile_after [[
+  test;
+  [Test]
+      class Test {
+      class A {
+        private Integer i = 0;
+  
+      }
+  
+      class B extends A {
+        void bar(A a) {
+            a.i.toString();
+        }
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: PrivateFieldInSuperClassInSameFile_after [[
+  test;
+  [Test]
+      class Test {
+      class A {
+        private Integer [[i]] = 0;
+  
+      }
+  
+      class B extends A {
+        void bar(A a) {
+            [[i]].toString();
+        }
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      class A {
+        private Integer i = 0;
+  
+      }
+  
+      class B extends A {
+        void bar(A a) {
+            a.i.toString();
+        }
+      }
+    }
+]]
+

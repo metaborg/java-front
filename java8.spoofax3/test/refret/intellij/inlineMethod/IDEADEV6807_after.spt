@@ -1,0 +1,64 @@
+module refret/intellij/inlineMethod/IDEADEV6807_after
+
+test parse: IDEADEV6807_after [[
+  test;
+  [Test]
+      class Base {
+        protected int f;
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = f;
+        }
+    }
+]] parse succeeds
+
+test analysis: IDEADEV6807_after [[
+  test;
+  [Test]
+      class Base {
+        protected int f;
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = f;
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: IDEADEV6807_after [[
+  test;
+  [Test]
+      class Base {
+        protected int [[f]];
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = [[f]];
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Base {
+        protected int f;
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = f;
+        }
+    }
+]]
+

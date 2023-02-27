@@ -1,0 +1,76 @@
+module refret/intellij/inlineSuperClass/newArrayComplexDimensionsExpr_after
+
+test parse: newArrayComplexDimensionsExpr_after [[
+  test;
+  [Test]
+      class Test {
+        static int bar(){return 1;}
+  
+        void foo() {
+          Test s = new Test();
+          s.bar();
+        }
+    }
+  [Usage]
+      class Usage {
+      void ba() {
+        Test[][] s = new Test[ Test.bar()][];
+      }
+    }
+]] parse succeeds
+
+test analysis: newArrayComplexDimensionsExpr_after [[
+  test;
+  [Test]
+      class Test {
+        static int bar(){return 1;}
+  
+        void foo() {
+          Test s = new Test();
+          s.bar();
+        }
+    }
+  [Usage]
+      class Usage {
+      void ba() {
+        Test[][] s = new Test[ Test.bar()][];
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: newArrayComplexDimensionsExpr_after [[
+  test;
+  [Test]
+      class Test {
+        static int [[bar]](){return 1;}
+  
+        void foo() {
+          Test s = new Test();
+          s.bar();
+        }
+    }
+  [Usage]
+      class Usage {
+      void ba() {
+        Test[][] s = new Test[ [[bar]]()][];
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        static int bar(){return 1;}
+  
+        void foo() {
+          Test s = new Test();
+          s.bar();
+        }
+    }
+  [Usage]
+      class Usage {
+      void ba() {
+        Test[][] s = new Test[ Test.bar()][];
+      }
+    }
+]]
+
