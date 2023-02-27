@@ -26,7 +26,33 @@ test parse: InlineAnonymousClassWithPrivateMethodInside_after [[
     }
 ]] parse succeeds
 
-test analysis: InlineAnonymousClassWithPrivateMethodInside_after [[
+test analysis 1: InlineAnonymousClassWithPrivateMethodInside_after [[
+  test;
+  [Foo]
+      public class Foo {
+  
+        public static void bar(final Runnable runnable) {
+        runnable.run();
+      }
+    }
+  
+    class Bar {
+      public static void main(String[] args) {
+          Foo.bar(new Runnable() {
+            @Override
+            public void run() {
+              doRun();
+            }
+  
+            private void doRun() {
+              // Woo-hoo
+            }
+          });
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: InlineAnonymousClassWithPrivateMethodInside_after [[
   test;
   [Foo]
       public class Foo {

@@ -17,7 +17,24 @@ test parse: TwoParams_after [[
     }
 ]] parse succeeds
 
-test analysis: TwoParams_after [[
+test analysis 1: TwoParams_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           moveMethodTest.bar (inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar(Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: TwoParams_after [[
   test;
   [Test]
       class Foreign {

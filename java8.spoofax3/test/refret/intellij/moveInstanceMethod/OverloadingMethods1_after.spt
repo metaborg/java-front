@@ -17,7 +17,24 @@ test parse: OverloadingMethods1_after [[
     }
 ]] parse succeeds
 
-test analysis: OverloadingMethods1_after [[
+test analysis 1: OverloadingMethods1_after [[
+  test;
+  [Test]
+      class B extends A {
+    }
+  
+    class A {
+      void m(){}
+    }
+  
+    class C {
+        void n(B b){
+          b.m();
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: OverloadingMethods1_after [[
   test;
   [Test]
       class B extends A {

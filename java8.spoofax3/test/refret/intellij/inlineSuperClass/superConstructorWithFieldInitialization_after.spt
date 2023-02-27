@@ -12,7 +12,19 @@ test parse: superConstructorWithFieldInitialization_after [[
     }
 ]] parse succeeds
 
-test analysis: superConstructorWithFieldInitialization_after [[
+test analysis 1: superConstructorWithFieldInitialization_after [[
+  test;
+  [Test]
+      class Test {
+        private final String field;
+  
+        Test(){
+            Test.this.field = "text";
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: superConstructorWithFieldInitialization_after [[
   test;
   [Test]
       class Test {

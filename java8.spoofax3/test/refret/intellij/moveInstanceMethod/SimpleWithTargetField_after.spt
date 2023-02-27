@@ -19,7 +19,26 @@ test parse: SimpleWithTargetField_after [[
     }
 ]] parse succeeds
 
-test analysis: SimpleWithTargetField_after [[
+test analysis 1: SimpleWithTargetField_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo (Test1 test1) {
+            test1.field++;
+        }
+    }
+  
+    public abstract class Test1 {
+        int field;
+        Foreign myForeign;
+  
+        void bar () {
+            myForeign.foo(this);
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: SimpleWithTargetField_after [[
   test;
   [Test]
       class Foreign {

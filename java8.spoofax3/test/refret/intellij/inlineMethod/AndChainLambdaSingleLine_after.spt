@@ -13,7 +13,20 @@ test parse: AndChainLambdaSingleLine_after [[
     }
 ]] parse succeeds
 
-test analysis: AndChainLambdaSingleLine_after [[
+test analysis 1: AndChainLambdaSingleLine_after [[
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> !s.isEmpty() && s.length() + s.charAt(0) > 0;
+      }
+  
+    }
+]] analysis succeeds
+
+test analysis 2: AndChainLambdaSingleLine_after [[
   test;
   [Test]
       import java.util.function.Predicate;

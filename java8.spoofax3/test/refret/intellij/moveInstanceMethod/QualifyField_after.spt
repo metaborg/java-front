@@ -17,7 +17,24 @@ test parse: QualifyField_after [[
     }
 ]] parse succeeds
 
-test analysis: QualifyField_after [[
+test analysis 1: QualifyField_after [[
+  test;
+  [Test]
+      class Flim {
+        Flam flam = new Flam();
+  
+        public static void main(String[] args) {
+            Flim flim = new Flim();
+            flim.flam.beep();
+        }
+    }
+  
+    class Flam {
+        void beep() {}
+    }
+]] analysis succeeds
+
+test analysis 2: QualifyField_after [[
   test;
   [Test]
       class Flim {

@@ -21,7 +21,28 @@ test parse: innerClassInheritance_after [[
   }
 ]] parse succeeds
 
-test analysis: innerClassInheritance_after [[
+test analysis 1: innerClassInheritance_after [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends A.C {
+  
+    }
+  [A]
+      package p;
+  
+    class A {
+        private static class C {
+  
+        }
+  
+    }
+  }
+]] analysis succeeds
+
+test analysis 2: innerClassInheritance_after [[
   test;
   [p] {
   [B]

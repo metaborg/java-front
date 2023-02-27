@@ -21,7 +21,28 @@ test parse: ParameterMethodReference_after [[
     }
 ]] parse succeeds
 
-test analysis: ParameterMethodReference_after [[
+test analysis 1: ParameterMethodReference_after [[
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull() {
+            return this != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<Destination> stream){
+        stream.filter(Destination::notNull);
+      }
+  
+    }
+]] analysis succeeds
+
+test analysis 2: ParameterMethodReference_after [[
   test;
   [Test]
       import java.util.stream.Stream;

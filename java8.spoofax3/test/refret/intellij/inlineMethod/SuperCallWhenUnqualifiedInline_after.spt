@@ -18,7 +18,25 @@ test parse: SuperCallWhenUnqualifiedInline_after [[
     }
 ]] parse succeeds
 
-test analysis: SuperCallWhenUnqualifiedInline_after [[
+test analysis 1: SuperCallWhenUnqualifiedInline_after [[
+  test;
+  [Test]
+      class A {
+      void bar() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          super.bar();
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: SuperCallWhenUnqualifiedInline_after [[
   test;
   [Test]
       class A {

@@ -19,7 +19,26 @@ test parse: QualifiedThis_after [[
     }
 ]] parse succeeds
 
-test analysis: QualifiedThis_after [[
+test analysis 1: QualifiedThis_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest) {
+            class Inner {
+                {
+                    moveMethodTest.bar();
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar() {}
+  
+    }
+]] analysis succeeds
+
+test analysis 2: QualifiedThis_after [[
   test;
   [Test]
       class Foreign {

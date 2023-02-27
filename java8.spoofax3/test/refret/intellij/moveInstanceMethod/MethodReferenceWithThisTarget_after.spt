@@ -18,7 +18,25 @@ test parse: MethodReferenceWithThisTarget_after [[
     }
 ]] parse succeeds
 
-test analysis: MethodReferenceWithThisTarget_after [[
+test analysis 1: MethodReferenceWithThisTarget_after [[
+  test;
+  [Test]
+      import java.util.function.Consumer;
+  
+    class Source {
+    }
+  
+    class Destination {
+      public void doSomething(String s) {
+      }
+  
+        public void foo() {
+          Consumer<String> doSomething = this::doSomething;
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: MethodReferenceWithThisTarget_after [[
   test;
   [Test]
       import java.util.function.Consumer;

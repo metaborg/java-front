@@ -18,7 +18,25 @@ test parse: AvoidMultipleSubstitutionInParameterTypes_after [[
     }
 ]] parse succeeds
 
-test analysis: AvoidMultipleSubstitutionInParameterTypes_after [[
+test analysis 1: AvoidMultipleSubstitutionInParameterTypes_after [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] analysis succeeds
+
+test analysis 2: AvoidMultipleSubstitutionInParameterTypes_after [[
   test;
   [Test]
   

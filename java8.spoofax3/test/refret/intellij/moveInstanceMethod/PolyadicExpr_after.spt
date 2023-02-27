@@ -29,7 +29,36 @@ test parse: PolyadicExpr_after [[
     }
 ]] parse succeeds
 
-test analysis: PolyadicExpr_after [[
+test analysis 1: PolyadicExpr_after [[
+  test;
+  [Test]
+      class A {
+  
+        void n(B b) {
+            b.m(this);
+        }
+  
+    }
+  
+    class B {
+        private final int i;
+  
+        public B(int i) {
+            this.i = i;
+        }
+  
+  
+        public int getI() {
+            return i;
+        }
+  
+        void m(A a) {
+            System.out.print("display for me the shape" + a + " " + getI() + "times");
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: PolyadicExpr_after [[
   test;
   [Test]
       class A {

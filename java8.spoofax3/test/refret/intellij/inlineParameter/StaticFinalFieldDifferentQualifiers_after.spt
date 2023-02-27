@@ -20,7 +20,27 @@ test parse: StaticFinalFieldDifferentQualifiers_after [[
     }
 ]] parse succeeds
 
-test analysis: StaticFinalFieldDifferentQualifiers_after [[
+test analysis 1: StaticFinalFieldDifferentQualifiers_after [[
+  test;
+  [A]
+      public class A {
+      void test() {
+        String[] myValue = CONST;
+      }
+  
+      void callTest() {
+        test();
+      }
+  
+      void callTest2() {
+        test();
+      }
+  
+      public static final String[] CONST = new String[] { "A", "B" };
+    }
+]] analysis succeeds
+
+test analysis 2: StaticFinalFieldDifferentQualifiers_after [[
   test;
   [A]
       public class A {

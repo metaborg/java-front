@@ -26,7 +26,33 @@ test parse: UsageInAnonymousClass_after [[
     }
 ]] parse succeeds
 
-test analysis: UsageInAnonymousClass_after [[
+test analysis 1: UsageInAnonymousClass_after [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void moo(B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              A.this.moo(this);
+            }
+          };
+        }
+  
+        }
+  
+    }
+]] analysis succeeds
+
+test analysis 2: UsageInAnonymousClass_after [[
   test;
   [Test]
   

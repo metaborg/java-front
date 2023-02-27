@@ -23,7 +23,30 @@ test parse: staticImport_after [[
   }
 ]] parse succeeds
 
-test analysis: staticImport_after [[
+test analysis 1: staticImport_after [[
+  test;
+  [Usage]
+      import static p.Test.CONSTANT;
+    import static p.Test.statMeth;
+    class Usage {
+      public void context() {
+          String v = CONSTANT;
+          statMeth();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public static final String CONSTANT = "";
+  
+        public static void statMeth() {}
+    }
+  }
+]] analysis succeeds
+
+test analysis 2: staticImport_after [[
   test;
   [Usage]
       import static p.Test.CONSTANT;

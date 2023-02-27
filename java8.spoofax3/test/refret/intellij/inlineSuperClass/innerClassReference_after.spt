@@ -20,7 +20,27 @@ test parse: innerClassReference_after [[
     }
 ]] parse succeeds
 
-test analysis: innerClassReference_after [[
+test analysis 1: innerClassReference_after [[
+  test;
+  [Test]
+      class Test {
+       public void contextChild() {
+          StInner inner1 = new StInner();
+          Test.InstInner inner2 = this.new InstInner();
+       }
+  
+        void foo() {
+           StInner inner1 = new StInner();
+           Test.InstInner inner2 = this.new InstInner();
+        }
+  
+        public static class StInner {}
+  
+        public class InstInner {}
+    }
+]] analysis succeeds
+
+test analysis 2: innerClassReference_after [[
   test;
   [Test]
       class Test {

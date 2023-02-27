@@ -16,7 +16,23 @@ test parse: IDEADEV6807_after [[
     }
 ]] parse succeeds
 
-test analysis: IDEADEV6807_after [[
+test analysis 1: IDEADEV6807_after [[
+  test;
+  [Test]
+      class Base {
+        protected int f;
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = f;
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: IDEADEV6807_after [[
   test;
   [Test]
       class Base {

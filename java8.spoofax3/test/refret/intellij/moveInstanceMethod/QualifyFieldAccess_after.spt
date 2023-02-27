@@ -17,7 +17,24 @@ test parse: QualifyFieldAccess_after [[
     }
 ]] parse succeeds
 
-test analysis: QualifyFieldAccess_after [[
+test analysis 1: QualifyFieldAccess_after [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int x) {
+                this.x = x; // Context: this
+            }
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: QualifyFieldAccess_after [[
   test;
   [Test]
       public class Test {

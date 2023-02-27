@@ -22,7 +22,29 @@ test parse: simple_after [[
   }
 ]] parse succeeds
 
-test analysis: simple_after [[
+test analysis 1: simple_after [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        s.foo();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void foo() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]] analysis succeeds
+
+test analysis 2: simple_after [[
   test;
   [Usage]
       import p.Test;

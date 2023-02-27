@@ -17,7 +17,24 @@ test parse: PrivateFieldInSuperClassInSameFile_after [[
     }
 ]] parse succeeds
 
-test analysis: PrivateFieldInSuperClassInSameFile_after [[
+test analysis 1: PrivateFieldInSuperClassInSameFile_after [[
+  test;
+  [Test]
+      class Test {
+      class A {
+        private Integer i = 0;
+  
+      }
+  
+      class B extends A {
+        void bar(A a) {
+            a.i.toString();
+        }
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: PrivateFieldInSuperClassInSameFile_after [[
   test;
   [Test]
       class Test {

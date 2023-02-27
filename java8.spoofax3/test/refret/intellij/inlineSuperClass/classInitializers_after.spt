@@ -18,7 +18,25 @@ test parse: classInitializers_after [[
     }
 ]] parse succeeds
 
-test analysis: classInitializers_after [[
+test analysis 1: classInitializers_after [[
+  test;
+  [Test]
+      class Test {
+        static {
+          System.out.println("static");
+        }
+  
+        {
+          System.out.println("instance");
+        }
+  
+        void foo() {
+        Test s = new Test();
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: classInitializers_after [[
   test;
   [Test]
       class Test {

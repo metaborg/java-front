@@ -17,7 +17,24 @@ test parse: StripFieldQualifier_after [[
     }
 ]] parse succeeds
 
-test analysis: StripFieldQualifier_after [[
+test analysis 1: StripFieldQualifier_after [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int y) {
+                x = y;
+            }
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: StripFieldQualifier_after [[
   test;
   [Test]
       public class Test {

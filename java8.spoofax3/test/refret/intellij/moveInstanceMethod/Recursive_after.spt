@@ -11,7 +11,18 @@ test parse: Recursive_after [[
     }
 ]] parse succeeds
 
-test analysis: Recursive_after [[
+test analysis 1: Recursive_after [[
+  test;
+  [MoveMethodTest]
+      public class MoveMethodTest {
+        void foo () {
+          foo();
+          foo();
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: Recursive_after [[
   test;
   [MoveMethodTest]
       public class MoveMethodTest {

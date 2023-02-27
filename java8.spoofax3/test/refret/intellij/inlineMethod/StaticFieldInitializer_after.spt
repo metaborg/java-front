@@ -16,7 +16,23 @@ test parse: StaticFieldInitializer_after [[
     }
 ]] parse succeeds
 
-test analysis: StaticFieldInitializer_after [[
+test analysis 1: StaticFieldInitializer_after [[
+  test;
+  [Test]
+      class A{
+        static int field;
+  
+        static {
+            doSomething();
+            field = 1;
+        }
+  
+        static void doSomething() { }
+  
+    }
+]] analysis succeeds
+
+test analysis 2: StaticFieldInitializer_after [[
   test;
   [Test]
       class A{

@@ -15,7 +15,22 @@ test parse: CallUnderIf_after [[
     }
 ]] parse succeeds
 
-test analysis: CallUnderIf_after [[
+test analysis 1: CallUnderIf_after [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]] analysis succeeds
+
+test analysis 2: CallUnderIf_after [[
   test;
   [Foo]
       public class Foo {

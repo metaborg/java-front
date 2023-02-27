@@ -23,7 +23,30 @@ test parse: QualifyThisHierarchy_after [[
     }
 ]] parse succeeds
 
-test analysis: QualifyThisHierarchy_after [[
+test analysis 1: QualifyThisHierarchy_after [[
+  test;
+  [D]
+      public class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    class DImpl extends D {
+    }
+  
+    class F {
+  
+        void foo(D d) {
+          class MyRunnable {
+            public void run() {
+              d.iAmProtected();
+            }
+          }
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: QualifyThisHierarchy_after [[
   test;
   [D]
       public class D {

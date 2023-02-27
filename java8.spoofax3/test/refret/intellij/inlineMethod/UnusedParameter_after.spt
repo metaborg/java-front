@@ -20,7 +20,27 @@ test parse: UnusedParameter_after [[
     }
 ]] parse succeeds
 
-test analysis: UnusedParameter_after [[
+test analysis 1: UnusedParameter_after [[
+  test;
+  [Test]
+      class Temp {
+      class Set {
+        native Object size();
+      }
+  
+      public Object foo(Set bar) {
+        if (bar.size() < 2) {// Inline this
+            bar.size(); // or inline this
+            return null;
+        }
+  
+        return bar;
+      }
+  
+    }
+]] analysis succeeds
+
+test analysis 2: UnusedParameter_after [[
   test;
   [Test]
       class Temp {

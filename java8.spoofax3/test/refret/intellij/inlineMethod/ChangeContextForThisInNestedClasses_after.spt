@@ -20,7 +20,27 @@ test parse: ChangeContextForThisInNestedClasses_after [[
     }
 ]] parse succeeds
 
-test analysis: ChangeContextForThisInNestedClasses_after [[
+test analysis 1: ChangeContextForThisInNestedClasses_after [[
+  test;
+  [Test]
+      abstract class Test {
+  
+        void foo() {
+      }
+    }
+    class Test2 extends Test {
+  
+      {
+          new Object() {
+            void foo() {
+              Test2.this.foo();
+            }
+          };
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: ChangeContextForThisInNestedClasses_after [[
   test;
   [Test]
       abstract class Test {
