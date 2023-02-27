@@ -25,7 +25,32 @@ test parse: SuperMethodInAnonymousClass_after [[
       }
 ]] parse succeeds
 
-test analysis: SuperMethodInAnonymousClass_after [[
+test analysis 1: SuperMethodInAnonymousClass_after [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void g() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                g();
+            }
+          }.run();
+        }
+      }
+]] analysis succeeds
+
+test analysis 2: SuperMethodInAnonymousClass_after [[
   test;
   [Test]
       class A {

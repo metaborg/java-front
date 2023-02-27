@@ -17,7 +17,24 @@ test parse: staticMembers_after [[
     }
 ]] parse succeeds
 
-test analysis: staticMembers_after [[
+test analysis 1: staticMembers_after [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        Test.foo();
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: staticMembers_after [[
   test;
   [Test]
       class Test {

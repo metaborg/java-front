@@ -25,7 +25,32 @@ test parse: AndChain_after [[
     }
 ]] parse succeeds
 
-test analysis: AndChain_after [[
+test analysis 1: AndChain_after [[
+  test;
+  [MyQueue]
+      import java.util.NoSuchElementException;
+  
+    public class MyQueue {
+      private long[] items = new long[16];
+  
+      private int head;
+      private int tail;
+  
+      public boolean isEmpty() { return head == tail; }
+  
+        // true if the first element of the queue is greater than specified number
+      public boolean firstIsGreaterThan(int x) {
+          if (isEmpty()) return false;
+          if (isEmpty())
+            throw new NoSuchElementException("Queue is empty");
+          return items[ head ] > x;
+      }
+  
+      // other methods
+    }
+]] analysis succeeds
+
+test analysis 2: AndChain_after [[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;

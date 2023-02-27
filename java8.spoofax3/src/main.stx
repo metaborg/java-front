@@ -82,6 +82,7 @@ rules // alternative initial constraint for reference retention
       s_java_lang_Runnable s_java_lang_Runnable_static
       s_java_lang_System s_java_lang_System_static
       s_java_lang_Override s_java_lang_Override_static
+      s_java_lang_Math s_java_lang_Math_static
       s_java_util
       s_java_util_List s_java_util_List_static
       s_java_util_Collection s_java_util_Collection_static
@@ -127,6 +128,8 @@ rules // alternative initial constraint for reference retention
     new s_java_lang_Integer s_java_lang_Integer_static,
     s_java_lang_Integer -STATIC_MEMBERS-> s_java_lang_Integer_static,
     declareType2(s_java_lang, s_java_lang, F(), Id("Integer"), s_java_lang_Integer, CLASS()),
+    // constructor(int)
+    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_lang_Integer))),
 
     // class java.lang.String
     new s_java_lang_String s_java_lang_String_static,
@@ -163,6 +166,14 @@ rules // alternative initial constraint for reference retention
     s_java_lang_Override -STATIC_MEMBERS-> s_java_lang_Override_static,
     s_java_lang_Override -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("Override"), s_java_lang_Override, CLASS()),
+
+    // class java.lang.Math
+    new s_java_lang_Math s_java_lang_Math_static,
+    s_java_lang_Math -STATIC_MEMBERS-> s_java_lang_Math_static,
+    s_java_lang_Math -IMPORT_PKG-> s_java_lang,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Math"), s_java_lang_Math, CLASS()),
+    // int random()
+    declareMthdName(s_java_lang_Math, Id("random"), ARGS([]), TYPED(INT())),
 
 
     // package java.io
@@ -256,11 +267,13 @@ rules // alternative initial constraint for reference retention
     s_java_math -PARENT_PKG-> s_java,
     declarePkg(s_java, Id("math"), s_java_math),
 
-    // class java.io.PrintStream
+    // class java.math.BigDecimal
     new s_java_math_BigDecimal s_java_math_BigDecimal_static,
     s_java_math_BigDecimal -STATIC_MEMBERS-> s_java_math_BigDecimal_static,
     s_java_math_BigDecimal -IMPORT_PKG-> s_java_math,
     declareType2(s_java_math, s_java_math, F(), Id("BigDecimal"), s_java_math_BigDecimal, CLASS()),
+    // constructor()
+    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_math_BigDecimal))),
 
 
     // type-check as regular file

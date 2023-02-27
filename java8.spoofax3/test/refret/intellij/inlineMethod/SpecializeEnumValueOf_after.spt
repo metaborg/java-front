@@ -20,7 +20,27 @@ test parse: SpecializeEnumValueOf_after [[
   }
 ]] parse succeeds
 
-test analysis: SpecializeEnumValueOf_after [[
+test analysis 1: SpecializeEnumValueOf_after [[
+  test;
+  [foo] {
+  [bar] {
+  [baz] {
+  [Test]
+      package foo.bar.baz;
+  
+    class Test {
+      enum X {A, B, C};
+  
+      void test() {
+          System.out.println(X.B);
+      }
+    }
+  }
+  }
+  }
+]] analysis succeeds
+
+test analysis 2: SpecializeEnumValueOf_after [[
   test;
   [foo] {
   [bar] {

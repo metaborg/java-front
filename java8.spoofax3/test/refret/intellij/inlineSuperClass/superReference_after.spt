@@ -12,7 +12,19 @@ test parse: superReference_after [[
     }
 ]] parse succeeds
 
-test analysis: superReference_after [[
+test analysis 1: superReference_after [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        method();
+      }
+  
+        public void method() {}
+    }
+]] analysis succeeds
+
+test analysis 2: superReference_after [[
   test;
   [Test]
       class Test {

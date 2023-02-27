@@ -22,7 +22,29 @@ test parse: RefStaticMethod_after [[
     }
 ]] parse succeeds
 
-test analysis: RefStaticMethod_after [[
+test analysis 1: RefStaticMethod_after [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int init() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = StaticRefMove.init();
+          System.out.println(subj);
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: RefStaticMethod_after [[
   test;
   [StaticRefMove]
       public class StaticRefMove {

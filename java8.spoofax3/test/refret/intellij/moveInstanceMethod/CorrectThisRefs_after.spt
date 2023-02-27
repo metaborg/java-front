@@ -19,7 +19,26 @@ test parse: CorrectThisRefs_after [[
     }
 ]] parse succeeds
 
-test analysis: CorrectThisRefs_after [[
+test analysis 1: CorrectThisRefs_after [[
+  test;
+  [Test]
+      class A {
+    }
+  
+    class B {
+  
+        void bar() {
+          new Runnable() {
+            @Override
+            public void run() {
+              System.out.println(B.this);
+            }
+          }.run();
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: CorrectThisRefs_after [[
   test;
   [Test]
       class A {

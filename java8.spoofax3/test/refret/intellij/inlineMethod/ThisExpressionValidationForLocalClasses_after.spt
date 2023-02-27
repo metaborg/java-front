@@ -23,7 +23,30 @@ test parse: ThisExpressionValidationForLocalClasses_after [[
     }
 ]] parse succeeds
 
-test analysis: ThisExpressionValidationForLocalClasses_after [[
+test analysis 1: ThisExpressionValidationForLocalClasses_after [[
+  test;
+  [Test]
+      class A {
+      void m() {
+        class Local {}
+        n();
+      }
+      void n() {}
+    }
+  
+    class B extends A {
+      void n() {}
+    }
+  
+    class C extends B {
+      {
+          class Local {}
+          n();
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: ThisExpressionValidationForLocalClasses_after [[
   test;
   [Test]
       class A {

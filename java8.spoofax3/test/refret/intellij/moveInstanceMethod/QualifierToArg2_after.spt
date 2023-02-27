@@ -29,7 +29,36 @@ test parse: QualifierToArg2_after [[
     }
 ]] parse succeeds
 
-test analysis: QualifierToArg2_after [[
+test analysis 1: QualifierToArg2_after [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager commandManager) {
+          commandManager.g();
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: QualifierToArg2_after [[
   test;
   [Test]
       class CommandQueue {

@@ -19,7 +19,26 @@ test parse: Recursive1_after [[
     }
 ]] parse succeeds
 
-test analysis: Recursive1_after [[
+test analysis 1: Recursive1_after [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: Recursive1_after [[
   test;
   [Test]
       class FirstClass {

@@ -29,7 +29,36 @@ test parse: ConflictingLocalVariableAndTargetClassField_after [[
     }
 ]] parse succeeds
 
-test analysis: ConflictingLocalVariableAndTargetClassField_after [[
+test analysis 1: ConflictingLocalVariableAndTargetClassField_after [[
+  test;
+  [Test]
+  
+    import java.util.ArrayList;
+    import java.util.List;
+  
+    class Data {
+        final List<Datum> datums;
+  
+        Data(List<Datum> datums) {
+            this.datums = datums;
+        }
+  
+        public List<Datum> filter() {
+            List<Datum> datums = new ArrayList<>();
+            for (Datum datum : this.datums) {
+                if (datum != null) datums.add(datum);
+            }
+            return datums;
+        }
+  
+        static class Datum { }
+    }
+  
+    class DataUser {
+    }
+]] analysis succeeds
+
+test analysis 2: ConflictingLocalVariableAndTargetClassField_after [[
   test;
   [Test]
   

@@ -21,7 +21,28 @@ test parse: SuperInsideHierarchy_after [[
     }
 ]] parse succeeds
 
-test analysis: SuperInsideHierarchy_after [[
+test analysis 1: SuperInsideHierarchy_after [[
+  test;
+  [Test]
+      class A {
+      void foo(){
+        //do smth in A
+      }
+    }
+  
+    class B extends A {
+  
+        void test(){
+            super.foo();  // Context: super
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: SuperInsideHierarchy_after [[
   test;
   [Test]
       class A {

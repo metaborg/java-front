@@ -15,7 +15,22 @@ test parse: thisQualificationInsideAnonymous_after [[
     }
 ]] parse succeeds
 
-test analysis: thisQualificationInsideAnonymous_after [[
+test analysis 1: thisQualificationInsideAnonymous_after [[
+  test;
+  [Test]
+      class Test {
+        protected final Object myBar;
+        protected final Object myBizz;
+  
+        public Test() {
+            Test.this.myBar = new Object() {
+            };
+            Test.this.myBizz = null;
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: thisQualificationInsideAnonymous_after [[
   test;
   [Test]
       class Test {

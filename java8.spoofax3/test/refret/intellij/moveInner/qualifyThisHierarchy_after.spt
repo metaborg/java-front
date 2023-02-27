@@ -32,7 +32,39 @@ test parse: qualifyThisHierarchy_after [[
   }
 ]] parse succeeds
 
-test analysis: qualifyThisHierarchy_after [[
+test analysis 1: qualifyThisHierarchy_after [[
+  test;
+  [pack1] {
+  [MyRunnable]
+      package pack1;
+  
+    public class MyRunnable {
+        private final DImpl d;
+  
+        public MyRunnable(DImpl d) {
+            this.d = d;
+        }
+  
+        public void run() {
+        d.iAmProtected();
+      }
+    }
+  
+  [DImpl]
+      package pack1;
+    class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    public class DImpl extends D {
+    }
+  
+  
+  }
+]] analysis succeeds
+
+test analysis 2: qualifyThisHierarchy_after [[
   test;
   [pack1] {
   [MyRunnable]

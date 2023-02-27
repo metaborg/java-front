@@ -22,7 +22,29 @@ test parse: RefThis_after [[
     }
 ]] parse succeeds
 
-test analysis: RefThis_after [[
+test analysis 1: RefThis_after [[
+  test;
+  [Subject]
+      class User {
+  
+        int hashCode() { return 0; }
+  
+      public class Subject {
+        private int myInt;
+  
+        public void withClass() {
+          myInt += User.this.hashCode();
+        }
+      }
+  
+      private void oper() {
+        Subject subj = new Subject();
+        subj.withClass();
+      }
+    }
+]] analysis succeeds
+
+test analysis 2: RefThis_after [[
   test;
   [Subject]
       class User {

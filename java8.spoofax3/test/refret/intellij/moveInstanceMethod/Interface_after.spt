@@ -22,7 +22,29 @@ test parse: Interface_after [[
     }
 ]] parse succeeds
 
-test analysis: Interface_after [[
+test analysis 1: Interface_after [[
+  test;
+  [Test]
+      interface Foreign {
+        default void foo (Test1 test1) {
+            test1.field++;
+        }
+    }
+  
+    class ForeignImpl implements Foreign {
+    }
+  
+  
+    public abstract class Test1 {
+        int field;
+  
+        void bar () {
+            new ForeignImpl().foo(this);
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: Interface_after [[
   test;
   [Test]
       interface Foreign {

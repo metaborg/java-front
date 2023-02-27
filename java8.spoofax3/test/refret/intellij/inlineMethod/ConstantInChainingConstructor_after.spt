@@ -17,7 +17,24 @@ test parse: ConstantInChainingConstructor_after [[
     }
 ]] parse succeeds
 
-test analysis: ConstantInChainingConstructor_after [[
+test analysis 1: ConstantInChainingConstructor_after [[
+  test;
+  [Test]
+      class Test {
+        public static final int ID=0;
+  
+        public Test(int id) {
+        }
+    }
+  
+    class Rest {
+        public static void test() {
+            new Test(Test.ID);
+        }
+    }
+]] analysis succeeds
+
+test analysis 2: ConstantInChainingConstructor_after [[
   test;
   [Test]
       class Test {

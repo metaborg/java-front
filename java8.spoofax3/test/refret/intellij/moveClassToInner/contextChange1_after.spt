@@ -24,7 +24,31 @@ test parse: contextChange1_after [[
   }
 ]] parse succeeds
 
-test analysis: contextChange1_after [[
+test analysis 1: contextChange1_after [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class A {
+        public static class Class1 {
+            Class2 a;
+        }
+    }
+  
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+]] analysis succeeds
+
+test analysis 2: contextChange1_after [[
   test;
   [pack2] {
   [A]
