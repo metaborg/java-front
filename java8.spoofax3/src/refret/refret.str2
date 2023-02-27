@@ -26,7 +26,10 @@ rules
 
 rules
 
-  fix-reference(|ref, tgt): ast -> ast'
+  fix-reference(|ref, tgt) = fix-reference-with-ctx(|ref, tgt, None())
+  fix-reference(|ref, tgt, inst) = fix-reference-with-ctx(|ref, tgt, Some(inst))
+
+  fix-reference-with-ctx(|ref, tgt, inst): ast -> ast'
     // retrieve original analysis
     with a       := <stx--get-ast-analysis> ast
 
@@ -37,7 +40,7 @@ rules
 
     // lock indicated reference, create placeholder and fix!
     with ast'    := < explicate-injections-java8-Start
-                    ; rr-create-placeholder(|ref-idx, tgt', a)
+                    ; rr-create-placeholder(|ref-idx, tgt', inst, a)
                     ; rr--fix-references(|a)
                     // ; where(pp-aterm; dbg)
                     ; implicate-injections-java8-Start
@@ -45,12 +48,12 @@ rules
 
 rules
 
-  rr-create-placeholder(|idx, tgt, a) = oncetd({ sort:
-		  								  where(is-name-of-sort => sort)
-		  								; where(somebu(stx--get-ast-index; ?idx))
-		  								; rr--lock-reference(|tgt, a, sort)
-		  								; rr--create-placeholder(|[tgt])
-		  								})
+  rr-create-placeholder(|idx, tgt, inst, a) = oncetd({ sort:
+		  						                where(is-name-of-sort => sort)
+		  								      ; where(somebu(stx--get-ast-index; ?idx))
+		  								      ; rr--lock-reference(|tgt, a, sort)
+		  								      ; rr--create-placeholder(|[tgt, inst])
+		  								      })
 
 rules
 
@@ -64,11 +67,11 @@ rules
 rules // qualifier oracle
 
   qualify-reference(|ctxs, sortName, a): ref -> prop*
-    with [tgt]   := ctxs
-       ; ref-idx := <collect-id; stx--get-ast-index> ref
-       ; prop*   := <qualify-class-reference(|tgt, sortName, a)
-                     <+ qualify-expression(|tgt, sortName, a)
-                     <+ ![(ref, ref-idx)]
-                    > ref
+    with [tgt, inst] := ctxs
+       ; ref-idx     := <collect-id; stx--get-ast-index> ref
+       ; prop*       := <qualify-class-reference(|tgt, sortName, a)
+                         <+ qualify-expression(|tgt, sortName, a)
+                         <+ ![(ref, ref-idx)]
+                        > (inst, ref)
 
 

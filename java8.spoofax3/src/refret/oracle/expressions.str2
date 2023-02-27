@@ -18,7 +18,7 @@ imports
 rules
 
   qualify-expression(|?, string, blob) :: ? -> List(Expression * ?)
-  qualify-expression(|tgt, sortName, a): e@ExpressionName2Expression(ExpressionName(x)) -> <map(!(<id>, ref-idx))> prop*
+  qualify-expression(|tgt, sortName, a): (None(), e@ExpressionName2Expression(ExpressionName(x))) -> <map(!(<id>, ref-idx))> prop*
     with               <debug> sortName
        ; ref-idx    := <stx--get-ast-index> x
        ; s-ref      := <scope-prop(|a)> x
