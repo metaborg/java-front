@@ -21,7 +21,7 @@ public class A {
   package q;
   public class B {
     public static int [[x]];
-    public class C {
+    public static class C {
       public static int [[x]];
     }
   }
@@ -53,7 +53,7 @@ public class A {
   package q;
   public class B {
     public static int x;
-    public class C {
+    public static class C {
       public static int x;
     }
   }
@@ -63,8 +63,7 @@ public class A {
   }
 }
 ]]
-/*
-// Disabled: Statix bug!
+
 run fix-reference(|#6, #2) to
 [[
 test;
@@ -87,7 +86,7 @@ public class A {
   package q;
   public class B {
     public static int x;
-    public class C {
+    public static class C {
       public static int x;
     }
   }
@@ -97,7 +96,7 @@ public class A {
   }
 }
 ]]
-*/
+
 run fix-reference(|#6, #3) to
 [[
 test;
@@ -120,7 +119,7 @@ public class A {
   package q;
   public class B {
     public static int x;
-    public class C {
+    public static class C {
       public static int x;
     }
   }
@@ -130,7 +129,7 @@ public class A {
   }
 }
 ]]
-/*
+
 // Disabled: Statix bug!
 run fix-reference(|#6, #4) to
 [[
@@ -154,7 +153,7 @@ public class A {
   package q;
   public class B {
     public static int x;
-    public class C {
+    public static class C {
       public static int x;
     }
   }
@@ -164,7 +163,7 @@ public class A {
   }
 }
 ]]
-*/
+
 run fix-reference(|#6, #5) to
 [[
 test;
@@ -187,7 +186,7 @@ public class A {
   package q;
   public class B {
     public static int x;
-    public class C {
+    public static class C {
       public static int x;
     }
   }
