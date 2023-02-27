@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/QualifyFieldAccess_after
 
-test parse: QualifyFieldAccess_after [[
+test QualifyFieldAccess_after: parsing [[
   test;
   [Test]
       public class Test {
@@ -17,7 +17,7 @@ test parse: QualifyFieldAccess_after [[
     }
 ]] parse succeeds
 
-test analysis 1: QualifyFieldAccess_after [[
+test QualifyFieldAccess_after: default analysis [[
   test;
   [Test]
       public class Test {
@@ -34,7 +34,7 @@ test analysis 1: QualifyFieldAccess_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: QualifyFieldAccess_after [[
+test QualifyFieldAccess_after: test analysis [[
   test;
   [Test]
       public class Test {
@@ -51,7 +51,7 @@ test analysis 2: QualifyFieldAccess_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: QualifyFieldAccess_after [[
+test QualifyFieldAccess_after: refret test 1 [[
   test;
   [Test]
       public class Test {

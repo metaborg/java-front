@@ -1,6 +1,6 @@
 module refret/intellij/inlineParameter/RefQualifiedThis_after
 
-test parse: RefQualifiedThis_after [[
+test RefQualifiedThis_after: parsing [[
   test;
   [Subject]
       class Outer {
@@ -22,7 +22,7 @@ test parse: RefQualifiedThis_after [[
     }
 ]] parse succeeds
 
-test analysis 1: RefQualifiedThis_after [[
+test RefQualifiedThis_after: default analysis [[
   test;
   [Subject]
       class Outer {
@@ -44,7 +44,7 @@ test analysis 1: RefQualifiedThis_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: RefQualifiedThis_after [[
+test RefQualifiedThis_after: test analysis [[
   test;
   [Subject]
       class Outer {
@@ -66,7 +66,7 @@ test analysis 2: RefQualifiedThis_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: RefQualifiedThis_after [[
+test RefQualifiedThis_after: refret test 1 [[
   test;
   [Subject]
       class [[Outer]] {

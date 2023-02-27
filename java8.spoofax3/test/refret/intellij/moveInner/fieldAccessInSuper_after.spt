@@ -1,6 +1,6 @@
 module refret/intellij/moveInner/fieldAccessInSuper_after
 
-test parse: fieldAccessInSuper_after [[
+test fieldAccessInSuper_after: parsing [[
   test;
   [p] {
   [B]
@@ -30,7 +30,7 @@ test parse: fieldAccessInSuper_after [[
   }
 ]] parse succeeds
 
-test analysis 1: fieldAccessInSuper_after [[
+test fieldAccessInSuper_after: default analysis [[
   test;
   [p] {
   [B]
@@ -60,7 +60,7 @@ test analysis 1: fieldAccessInSuper_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: fieldAccessInSuper_after [[
+test fieldAccessInSuper_after: test analysis [[
   test;
   [p] {
   [B]
@@ -90,7 +90,7 @@ test analysis 2: fieldAccessInSuper_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: fieldAccessInSuper_after [[
+test fieldAccessInSuper_after: refret test 1 [[
   test;
   [p] {
   [B]

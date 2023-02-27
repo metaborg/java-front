@@ -1,6 +1,6 @@
 module refret/intellij/inlineSuperClass/arrayTypeElements_after
 
-test parse: arrayTypeElements_after [[
+test arrayTypeElements_after: parsing [[
   test;
   [Test]
       class Test {
@@ -17,7 +17,7 @@ test parse: arrayTypeElements_after [[
     }
 ]] parse succeeds
 
-test analysis 1: arrayTypeElements_after [[
+test arrayTypeElements_after: default analysis [[
   test;
   [Test]
       class Test {
@@ -34,7 +34,7 @@ test analysis 1: arrayTypeElements_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: arrayTypeElements_after [[
+test arrayTypeElements_after: test analysis [[
   test;
   [Test]
       class Test {
@@ -51,7 +51,7 @@ test analysis 2: arrayTypeElements_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: arrayTypeElements_after [[
+test arrayTypeElements_after: refret test 1 [[
   test;
   [Test]
       class [[Test]] {
@@ -83,7 +83,7 @@ test refret 0: arrayTypeElements_after [[
     }
 ]]
 
-test refret 1: arrayTypeElements_after [[
+test arrayTypeElements_after: refret test 2 [[
   test;
   [Test]
       class Test {
@@ -115,7 +115,7 @@ test refret 1: arrayTypeElements_after [[
     }
 ]]
 
-test refret 2: arrayTypeElements_after [[
+test arrayTypeElements_after: refret test 3 [[
   test;
   [Test]
       class [[Test]] {
@@ -147,7 +147,7 @@ test refret 2: arrayTypeElements_after [[
     }
 ]]
 
-test refret 3: arrayTypeElements_after [[
+test arrayTypeElements_after: refret test 4 [[
   test;
   [Test]
       class Test {

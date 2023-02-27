@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/UnusedParameter_after
 
-test parse: UnusedParameter_after [[
+test UnusedParameter_after: parsing [[
   test;
   [Test]
       class Temp {
@@ -9,7 +9,7 @@ test parse: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this
+        if (bar.size() != null) {// Inline this
             bar.size(); // or inline this
             return null;
         }
@@ -20,7 +20,7 @@ test parse: UnusedParameter_after [[
     }
 ]] parse succeeds
 
-test analysis 1: UnusedParameter_after [[
+test UnusedParameter_after: default analysis [[
   test;
   [Test]
       class Temp {
@@ -29,7 +29,7 @@ test analysis 1: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this
+        if (bar.size() != null) {// Inline this
             bar.size(); // or inline this
             return null;
         }
@@ -40,7 +40,7 @@ test analysis 1: UnusedParameter_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: UnusedParameter_after [[
+test UnusedParameter_after: test analysis [[
   test;
   [Test]
       class Temp {
@@ -49,7 +49,7 @@ test analysis 2: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this
+        if (bar.size() != null) {// Inline this
             bar.size(); // or inline this
             return null;
         }
@@ -60,7 +60,7 @@ test analysis 2: UnusedParameter_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: UnusedParameter_after [[
+test UnusedParameter_after: refret test 1 [[
   test;
   [Test]
       class Temp {
@@ -69,7 +69,7 @@ test refret 0: UnusedParameter_after [[
       }
   
       public Object foo(Set [[bar]]) {
-        if ([[size]]() < 2) {// Inline this
+        if ([[size]]() != null) {// Inline this
             bar.size(); // or inline this
             return null;
         }
@@ -87,7 +87,7 @@ test refret 0: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this
+        if (bar.size() != null) {// Inline this
             bar.size(); // or inline this
             return null;
         }
@@ -98,7 +98,7 @@ test refret 0: UnusedParameter_after [[
     }
 ]]
 
-test refret 1: UnusedParameter_after [[
+test UnusedParameter_after: refret test 2 [[
   test;
   [Test]
       class Temp {
@@ -107,7 +107,7 @@ test refret 1: UnusedParameter_after [[
       }
   
       public Object foo(Set [[bar]]) {
-        if (bar.size() < 2) {// Inline this
+        if (bar.size() != null) {// Inline this
             [[size]](); // or inline this
             return null;
         }
@@ -125,7 +125,7 @@ test refret 1: UnusedParameter_after [[
       }
   
       public Object foo(Set bar) {
-        if (bar.size() < 2) {// Inline this
+        if (bar.size() != null) {// Inline this
             bar.size(); // or inline this
             return null;
         }

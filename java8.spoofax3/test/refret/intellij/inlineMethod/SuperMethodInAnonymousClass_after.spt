@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/SuperMethodInAnonymousClass_after
 
-test parse: SuperMethodInAnonymousClass_after [[
+test SuperMethodInAnonymousClass_after: parsing [[
   test;
   [Test]
       class A {
@@ -25,7 +25,7 @@ test parse: SuperMethodInAnonymousClass_after [[
       }
 ]] parse succeeds
 
-test analysis 1: SuperMethodInAnonymousClass_after [[
+test SuperMethodInAnonymousClass_after: default analysis [[
   test;
   [Test]
       class A {
@@ -50,7 +50,7 @@ test analysis 1: SuperMethodInAnonymousClass_after [[
       }
 ]] analysis succeeds
 
-test analysis 2: SuperMethodInAnonymousClass_after [[
+test SuperMethodInAnonymousClass_after: test analysis [[
   test;
   [Test]
       class A {
@@ -75,7 +75,7 @@ test analysis 2: SuperMethodInAnonymousClass_after [[
       }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: SuperMethodInAnonymousClass_after [[
+test SuperMethodInAnonymousClass_after: refret test 1 [[
   test;
   [Test]
       class A {

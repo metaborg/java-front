@@ -1,6 +1,6 @@
 module refret/intellij/moveInner/qualifyThisHierarchy_after
 
-test parse: qualifyThisHierarchy_after [[
+test qualifyThisHierarchy_after: parsing [[
   test;
   [pack1] {
   [MyRunnable]
@@ -32,7 +32,7 @@ test parse: qualifyThisHierarchy_after [[
   }
 ]] parse succeeds
 
-test analysis 1: qualifyThisHierarchy_after [[
+test qualifyThisHierarchy_after: default analysis [[
   test;
   [pack1] {
   [MyRunnable]
@@ -64,7 +64,7 @@ test analysis 1: qualifyThisHierarchy_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: qualifyThisHierarchy_after [[
+test qualifyThisHierarchy_after: test analysis [[
   test;
   [pack1] {
   [MyRunnable]
@@ -96,7 +96,7 @@ test analysis 2: qualifyThisHierarchy_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: qualifyThisHierarchy_after [[
+test qualifyThisHierarchy_after: refret test 1 [[
   test;
   [pack1] {
   [MyRunnable]

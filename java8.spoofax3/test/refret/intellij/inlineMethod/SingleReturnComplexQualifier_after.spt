@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/SingleReturnComplexQualifier_after
 
-test parse: SingleReturnComplexQualifier_after [[
+test SingleReturnComplexQualifier_after: parsing [[
   test;
   [Test]
       class Bar {
@@ -36,7 +36,7 @@ test parse: SingleReturnComplexQualifier_after [[
     }
 ]] parse succeeds
 
-test analysis 1: SingleReturnComplexQualifier_after [[
+test SingleReturnComplexQualifier_after: default analysis [[
   test;
   [Test]
       class Bar {
@@ -72,7 +72,7 @@ test analysis 1: SingleReturnComplexQualifier_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: SingleReturnComplexQualifier_after [[
+test SingleReturnComplexQualifier_after: test analysis [[
   test;
   [Test]
       class Bar {
@@ -108,7 +108,7 @@ test analysis 2: SingleReturnComplexQualifier_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: SingleReturnComplexQualifier_after [[
+test SingleReturnComplexQualifier_after: refret test 1 [[
   test;
   [Test]
       class Bar {
@@ -178,7 +178,7 @@ test refret 0: SingleReturnComplexQualifier_after [[
     }
 ]]
 
-test refret 1: SingleReturnComplexQualifier_after [[
+test SingleReturnComplexQualifier_after: refret test 2 [[
   test;
   [Test]
       class Bar {
@@ -248,7 +248,7 @@ test refret 1: SingleReturnComplexQualifier_after [[
     }
 ]]
 
-test refret 2: SingleReturnComplexQualifier_after [[
+test SingleReturnComplexQualifier_after: refret test 3 [[
   test;
   [Test]
       class Bar {
@@ -318,7 +318,7 @@ test refret 2: SingleReturnComplexQualifier_after [[
     }
 ]]
 
-test refret 3: SingleReturnComplexQualifier_after [[
+test SingleReturnComplexQualifier_after: refret test 4 [[
   test;
   [Test]
       class Bar {

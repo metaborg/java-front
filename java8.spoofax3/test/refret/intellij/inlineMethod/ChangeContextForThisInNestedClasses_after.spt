@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/ChangeContextForThisInNestedClasses_after
 
-test parse: ChangeContextForThisInNestedClasses_after [[
+test ChangeContextForThisInNestedClasses_after: parsing [[
   test;
   [Test]
       abstract class Test {
@@ -20,7 +20,7 @@ test parse: ChangeContextForThisInNestedClasses_after [[
     }
 ]] parse succeeds
 
-test analysis 1: ChangeContextForThisInNestedClasses_after [[
+test ChangeContextForThisInNestedClasses_after: default analysis [[
   test;
   [Test]
       abstract class Test {
@@ -40,7 +40,7 @@ test analysis 1: ChangeContextForThisInNestedClasses_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: ChangeContextForThisInNestedClasses_after [[
+test ChangeContextForThisInNestedClasses_after: test analysis [[
   test;
   [Test]
       abstract class Test {
@@ -60,7 +60,7 @@ test analysis 2: ChangeContextForThisInNestedClasses_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: ChangeContextForThisInNestedClasses_after [[
+test ChangeContextForThisInNestedClasses_after: refret test 1 [[
   test;
   [Test]
       abstract class Test {

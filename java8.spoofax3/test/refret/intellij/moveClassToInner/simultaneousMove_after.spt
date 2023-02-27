@@ -1,6 +1,6 @@
 module refret/intellij/moveClassToInner/simultaneousMove_after
 
-test parse: simultaneousMove_after [[
+test simultaneousMove_after: parsing [[
   test;
   [pack2] {
   [A]
@@ -40,7 +40,7 @@ test parse: simultaneousMove_after [[
   }
 ]] parse succeeds
 
-test analysis 1: simultaneousMove_after [[
+test simultaneousMove_after: default analysis [[
   test;
   [pack2] {
   [A]
@@ -80,7 +80,7 @@ test analysis 1: simultaneousMove_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: simultaneousMove_after [[
+test simultaneousMove_after: test analysis [[
   test;
   [pack2] {
   [A]
@@ -120,7 +120,7 @@ test analysis 2: simultaneousMove_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: simultaneousMove_after [[
+test simultaneousMove_after: refret test 1 [[
   test;
   [pack2] {
   [A]
@@ -198,7 +198,7 @@ test refret 0: simultaneousMove_after [[
   }
 ]]
 
-test refret 1: simultaneousMove_after [[
+test simultaneousMove_after: refret test 2 [[
   test;
   [pack2] {
   [A]
@@ -276,7 +276,7 @@ test refret 1: simultaneousMove_after [[
   }
 ]]
 
-test refret 2: simultaneousMove_after [[
+test simultaneousMove_after: refret test 3 [[
   test;
   [pack2] {
   [A]
@@ -354,7 +354,7 @@ test refret 2: simultaneousMove_after [[
   }
 ]]
 
-test refret 3: simultaneousMove_after [[
+test simultaneousMove_after: refret test 4 [[
   test;
   [pack2] {
   [A]

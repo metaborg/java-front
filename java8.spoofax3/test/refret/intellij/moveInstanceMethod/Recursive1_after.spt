@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/Recursive1_after
 
-test parse: Recursive1_after [[
+test Recursive1_after: parsing [[
   test;
   [Test]
       class FirstClass {
@@ -19,7 +19,7 @@ test parse: Recursive1_after [[
     }
 ]] parse succeeds
 
-test analysis 1: Recursive1_after [[
+test Recursive1_after: default analysis [[
   test;
   [Test]
       class FirstClass {
@@ -38,7 +38,7 @@ test analysis 1: Recursive1_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: Recursive1_after [[
+test Recursive1_after: test analysis [[
   test;
   [Test]
       class FirstClass {
@@ -57,7 +57,7 @@ test analysis 2: Recursive1_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: Recursive1_after [[
+test Recursive1_after: refret test 1 [[
   test;
   [Test]
       class FirstClass {
@@ -93,7 +93,7 @@ test refret 0: Recursive1_after [[
     }
 ]]
 
-test refret 1: Recursive1_after [[
+test Recursive1_after: refret test 2 [[
   test;
   [Test]
       class FirstClass {

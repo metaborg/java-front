@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/StaticFieldInitializer_after
 
-test parse: StaticFieldInitializer_after [[
+test StaticFieldInitializer_after: parsing [[
   test;
   [Test]
       class A{
@@ -16,7 +16,7 @@ test parse: StaticFieldInitializer_after [[
     }
 ]] parse succeeds
 
-test analysis 1: StaticFieldInitializer_after [[
+test StaticFieldInitializer_after: default analysis [[
   test;
   [Test]
       class A{
@@ -32,7 +32,7 @@ test analysis 1: StaticFieldInitializer_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: StaticFieldInitializer_after [[
+test StaticFieldInitializer_after: test analysis [[
   test;
   [Test]
       class A{
@@ -48,7 +48,7 @@ test analysis 2: StaticFieldInitializer_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: StaticFieldInitializer_after [[
+test StaticFieldInitializer_after: refret test 1 [[
   test;
   [Test]
       class A{

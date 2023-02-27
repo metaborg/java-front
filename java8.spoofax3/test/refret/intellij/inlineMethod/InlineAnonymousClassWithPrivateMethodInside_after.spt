@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/InlineAnonymousClassWithPrivateMethodInside_after
 
-test parse: InlineAnonymousClassWithPrivateMethodInside_after [[
+test InlineAnonymousClassWithPrivateMethodInside_after: parsing [[
   test;
   [Foo]
       public class Foo {
@@ -26,7 +26,7 @@ test parse: InlineAnonymousClassWithPrivateMethodInside_after [[
     }
 ]] parse succeeds
 
-test analysis 1: InlineAnonymousClassWithPrivateMethodInside_after [[
+test InlineAnonymousClassWithPrivateMethodInside_after: default analysis [[
   test;
   [Foo]
       public class Foo {
@@ -52,7 +52,7 @@ test analysis 1: InlineAnonymousClassWithPrivateMethodInside_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: InlineAnonymousClassWithPrivateMethodInside_after [[
+test InlineAnonymousClassWithPrivateMethodInside_after: test analysis [[
   test;
   [Foo]
       public class Foo {
@@ -78,7 +78,7 @@ test analysis 2: InlineAnonymousClassWithPrivateMethodInside_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: InlineAnonymousClassWithPrivateMethodInside_after [[
+test InlineAnonymousClassWithPrivateMethodInside_after: refret test 1 [[
   test;
   [Foo]
       public class Foo {

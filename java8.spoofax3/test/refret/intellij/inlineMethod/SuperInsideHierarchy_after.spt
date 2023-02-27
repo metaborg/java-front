@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/SuperInsideHierarchy_after
 
-test parse: SuperInsideHierarchy_after [[
+test SuperInsideHierarchy_after: parsing [[
   test;
   [Test]
       class A {
@@ -21,7 +21,7 @@ test parse: SuperInsideHierarchy_after [[
     }
 ]] parse succeeds
 
-test analysis 1: SuperInsideHierarchy_after [[
+test SuperInsideHierarchy_after: default analysis [[
   test;
   [Test]
       class A {
@@ -42,7 +42,7 @@ test analysis 1: SuperInsideHierarchy_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: SuperInsideHierarchy_after [[
+test SuperInsideHierarchy_after: test analysis [[
   test;
   [Test]
       class A {
@@ -63,7 +63,7 @@ test analysis 2: SuperInsideHierarchy_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: SuperInsideHierarchy_after [[
+test SuperInsideHierarchy_after: refret test 1 [[
   test;
   [Test]
       class A {

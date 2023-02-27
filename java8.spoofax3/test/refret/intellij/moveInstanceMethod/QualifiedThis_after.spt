@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/QualifiedThis_after
 
-test parse: QualifiedThis_after [[
+test QualifiedThis_after: parsing [[
   test;
   [Test]
       class Foreign {
@@ -19,7 +19,7 @@ test parse: QualifiedThis_after [[
     }
 ]] parse succeeds
 
-test analysis 1: QualifiedThis_after [[
+test QualifiedThis_after: default analysis [[
   test;
   [Test]
       class Foreign {
@@ -38,7 +38,7 @@ test analysis 1: QualifiedThis_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: QualifiedThis_after [[
+test QualifiedThis_after: test analysis [[
   test;
   [Test]
       class Foreign {
@@ -57,7 +57,7 @@ test analysis 2: QualifiedThis_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: QualifiedThis_after [[
+test QualifiedThis_after: refret test 1 [[
   test;
   [Test]
       class Foreign {

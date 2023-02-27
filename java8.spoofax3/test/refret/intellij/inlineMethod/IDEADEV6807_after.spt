@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/IDEADEV6807_after
 
-test parse: IDEADEV6807_after [[
+test IDEADEV6807_after: parsing [[
   test;
   [Test]
       class Base {
@@ -16,7 +16,7 @@ test parse: IDEADEV6807_after [[
     }
 ]] parse succeeds
 
-test analysis 1: IDEADEV6807_after [[
+test IDEADEV6807_after: default analysis [[
   test;
   [Test]
       class Base {
@@ -32,7 +32,7 @@ test analysis 1: IDEADEV6807_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: IDEADEV6807_after [[
+test IDEADEV6807_after: test analysis [[
   test;
   [Test]
       class Base {
@@ -48,7 +48,7 @@ test analysis 2: IDEADEV6807_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: IDEADEV6807_after [[
+test IDEADEV6807_after: refret test 1 [[
   test;
   [Test]
       class Base {

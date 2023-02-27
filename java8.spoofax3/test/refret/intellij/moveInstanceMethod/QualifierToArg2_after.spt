@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/QualifierToArg2_after
 
-test parse: QualifierToArg2_after [[
+test QualifierToArg2_after: parsing [[
   test;
   [Test]
       class CommandQueue {
@@ -29,7 +29,7 @@ test parse: QualifierToArg2_after [[
     }
 ]] parse succeeds
 
-test analysis 1: QualifierToArg2_after [[
+test QualifierToArg2_after: default analysis [[
   test;
   [Test]
       class CommandQueue {
@@ -58,7 +58,7 @@ test analysis 1: QualifierToArg2_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: QualifierToArg2_after [[
+test QualifierToArg2_after: test analysis [[
   test;
   [Test]
       class CommandQueue {
@@ -87,7 +87,7 @@ test analysis 2: QualifierToArg2_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: QualifierToArg2_after [[
+test QualifierToArg2_after: refret test 1 [[
   test;
   [Test]
       class CommandQueue {

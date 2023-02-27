@@ -1,6 +1,6 @@
 module refret/intellij/inlineParameter/StaticFinalField_after
 
-test parse: StaticFinalField_after [[
+test StaticFinalField_after: parsing [[
   test;
   [A]
       public class A {
@@ -20,7 +20,7 @@ test parse: StaticFinalField_after [[
     }
 ]] parse succeeds
 
-test analysis 1: StaticFinalField_after [[
+test StaticFinalField_after: default analysis [[
   test;
   [A]
       public class A {
@@ -40,7 +40,7 @@ test analysis 1: StaticFinalField_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: StaticFinalField_after [[
+test StaticFinalField_after: test analysis [[
   test;
   [A]
       public class A {
@@ -60,7 +60,7 @@ test analysis 2: StaticFinalField_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: StaticFinalField_after [[
+test StaticFinalField_after: refret test 1 [[
   test;
   [A]
       public class A {
@@ -98,7 +98,7 @@ test refret 0: StaticFinalField_after [[
     }
 ]]
 
-test refret 1: StaticFinalField_after [[
+test StaticFinalField_after: refret test 2 [[
   test;
   [A]
       public class A {
@@ -136,7 +136,7 @@ test refret 1: StaticFinalField_after [[
     }
 ]]
 
-test refret 2: StaticFinalField_after [[
+test StaticFinalField_after: refret test 3 [[
   test;
   [A]
       public class A {

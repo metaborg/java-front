@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/ThisExpressionValidationForLocalClasses_after
 
-test parse: ThisExpressionValidationForLocalClasses_after [[
+test ThisExpressionValidationForLocalClasses_after: parsing [[
   test;
   [Test]
       class A {
@@ -23,7 +23,7 @@ test parse: ThisExpressionValidationForLocalClasses_after [[
     }
 ]] parse succeeds
 
-test analysis 1: ThisExpressionValidationForLocalClasses_after [[
+test ThisExpressionValidationForLocalClasses_after: default analysis [[
   test;
   [Test]
       class A {
@@ -46,7 +46,7 @@ test analysis 1: ThisExpressionValidationForLocalClasses_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: ThisExpressionValidationForLocalClasses_after [[
+test ThisExpressionValidationForLocalClasses_after: test analysis [[
   test;
   [Test]
       class A {
@@ -69,7 +69,7 @@ test analysis 2: ThisExpressionValidationForLocalClasses_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: ThisExpressionValidationForLocalClasses_after [[
+test ThisExpressionValidationForLocalClasses_after: refret test 1 [[
   test;
   [Test]
       class A {

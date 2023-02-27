@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/QualifyField_after
 
-test parse: QualifyField_after [[
+test QualifyField_after: parsing [[
   test;
   [Test]
       class Flim {
@@ -17,7 +17,7 @@ test parse: QualifyField_after [[
     }
 ]] parse succeeds
 
-test analysis 1: QualifyField_after [[
+test QualifyField_after: default analysis [[
   test;
   [Test]
       class Flim {
@@ -34,7 +34,7 @@ test analysis 1: QualifyField_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: QualifyField_after [[
+test QualifyField_after: test analysis [[
   test;
   [Test]
       class Flim {
@@ -51,7 +51,7 @@ test analysis 2: QualifyField_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: QualifyField_after [[
+test QualifyField_after: refret test 1 [[
   test;
   [Test]
       class Flim {

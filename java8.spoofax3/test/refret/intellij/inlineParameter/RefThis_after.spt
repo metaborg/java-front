@@ -1,6 +1,6 @@
 module refret/intellij/inlineParameter/RefThis_after
 
-test parse: RefThis_after [[
+test RefThis_after: parsing [[
   test;
   [Subject]
       class User {
@@ -22,7 +22,7 @@ test parse: RefThis_after [[
     }
 ]] parse succeeds
 
-test analysis 1: RefThis_after [[
+test RefThis_after: default analysis [[
   test;
   [Subject]
       class User {
@@ -44,7 +44,7 @@ test analysis 1: RefThis_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: RefThis_after [[
+test RefThis_after: test analysis [[
   test;
   [Subject]
       class User {
@@ -66,7 +66,7 @@ test analysis 2: RefThis_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: RefThis_after [[
+test RefThis_after: refret test 1 [[
   test;
   [Subject]
       class [[User]] {

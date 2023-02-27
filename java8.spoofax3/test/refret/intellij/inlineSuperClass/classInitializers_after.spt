@@ -1,6 +1,6 @@
 module refret/intellij/inlineSuperClass/classInitializers_after
 
-test parse: classInitializers_after [[
+test classInitializers_after: parsing [[
   test;
   [Test]
       class Test {
@@ -18,7 +18,7 @@ test parse: classInitializers_after [[
     }
 ]] parse succeeds
 
-test analysis 1: classInitializers_after [[
+test classInitializers_after: default analysis [[
   test;
   [Test]
       class Test {
@@ -36,7 +36,7 @@ test analysis 1: classInitializers_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: classInitializers_after [[
+test classInitializers_after: test analysis [[
   test;
   [Test]
       class Test {
@@ -54,7 +54,7 @@ test analysis 2: classInitializers_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: classInitializers_after [[
+test classInitializers_after: refret test 1 [[
   test;
   [Test]
       class [[Test]] {

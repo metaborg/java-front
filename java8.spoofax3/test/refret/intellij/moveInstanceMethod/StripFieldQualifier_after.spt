@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/StripFieldQualifier_after
 
-test parse: StripFieldQualifier_after [[
+test StripFieldQualifier_after: parsing [[
   test;
   [Test]
       public class Test {
@@ -17,7 +17,7 @@ test parse: StripFieldQualifier_after [[
     }
 ]] parse succeeds
 
-test analysis 1: StripFieldQualifier_after [[
+test StripFieldQualifier_after: default analysis [[
   test;
   [Test]
       public class Test {
@@ -34,7 +34,7 @@ test analysis 1: StripFieldQualifier_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: StripFieldQualifier_after [[
+test StripFieldQualifier_after: test analysis [[
   test;
   [Test]
       public class Test {
@@ -51,7 +51,7 @@ test analysis 2: StripFieldQualifier_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: StripFieldQualifier_after [[
+test StripFieldQualifier_after: refret test 1 [[
   test;
   [Test]
       public class Test {
@@ -83,7 +83,7 @@ test refret 0: StripFieldQualifier_after [[
     }
 ]]
 
-test refret 1: StripFieldQualifier_after [[
+test StripFieldQualifier_after: refret test 2 [[
   test;
   [Test]
       public class Test {

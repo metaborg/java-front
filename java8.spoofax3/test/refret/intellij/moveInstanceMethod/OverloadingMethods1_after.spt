@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/OverloadingMethods1_after
 
-test parse: OverloadingMethods1_after [[
+test OverloadingMethods1_after: parsing [[
   test;
   [Test]
       class B extends A {
@@ -17,7 +17,7 @@ test parse: OverloadingMethods1_after [[
     }
 ]] parse succeeds
 
-test analysis 1: OverloadingMethods1_after [[
+test OverloadingMethods1_after: default analysis [[
   test;
   [Test]
       class B extends A {
@@ -34,7 +34,7 @@ test analysis 1: OverloadingMethods1_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: OverloadingMethods1_after [[
+test OverloadingMethods1_after: test analysis [[
   test;
   [Test]
       class B extends A {
@@ -51,7 +51,7 @@ test analysis 2: OverloadingMethods1_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: OverloadingMethods1_after [[
+test OverloadingMethods1_after: refret test 1 [[
   test;
   [Test]
       class B extends A {

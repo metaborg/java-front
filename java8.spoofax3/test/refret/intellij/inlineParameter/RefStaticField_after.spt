@@ -1,6 +1,6 @@
 module refret/intellij/inlineParameter/RefStaticField_after
 
-test parse: RefStaticField_after [[
+test RefStaticField_after: parsing [[
   test;
   [A]
       public class A {
@@ -19,7 +19,7 @@ test parse: RefStaticField_after [[
     }
 ]] parse succeeds
 
-test analysis 1: RefStaticField_after [[
+test RefStaticField_after: default analysis [[
   test;
   [A]
       public class A {
@@ -38,7 +38,7 @@ test analysis 1: RefStaticField_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: RefStaticField_after [[
+test RefStaticField_after: test analysis [[
   test;
   [A]
       public class A {
@@ -57,7 +57,7 @@ test analysis 2: RefStaticField_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: RefStaticField_after [[
+test RefStaticField_after: refret test 1 [[
   test;
   [A]
       public class A {

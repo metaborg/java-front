@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/UsageInAnonymousClass_after
 
-test parse: UsageInAnonymousClass_after [[
+test UsageInAnonymousClass_after: parsing [[
   test;
   [Test]
   
@@ -26,7 +26,7 @@ test parse: UsageInAnonymousClass_after [[
     }
 ]] parse succeeds
 
-test analysis 1: UsageInAnonymousClass_after [[
+test UsageInAnonymousClass_after: default analysis [[
   test;
   [Test]
   
@@ -52,7 +52,7 @@ test analysis 1: UsageInAnonymousClass_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: UsageInAnonymousClass_after [[
+test UsageInAnonymousClass_after: test analysis [[
   test;
   [Test]
   
@@ -78,7 +78,7 @@ test analysis 2: UsageInAnonymousClass_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: UsageInAnonymousClass_after [[
+test UsageInAnonymousClass_after: refret test 1 [[
   test;
   [Test]
   

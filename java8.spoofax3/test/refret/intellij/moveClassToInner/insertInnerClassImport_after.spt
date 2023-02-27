@@ -1,6 +1,6 @@
 module refret/intellij/moveClassToInner/insertInnerClassImport_after
 
-test parse: insertInnerClassImport_after [[
+test insertInnerClassImport_after: parsing [[
   test;
   [pack2] {
   [A]
@@ -24,7 +24,7 @@ test parse: insertInnerClassImport_after [[
   }
 ]] parse succeeds
 
-test analysis 1: insertInnerClassImport_after [[
+test insertInnerClassImport_after: default analysis [[
   test;
   [pack2] {
   [A]
@@ -48,7 +48,7 @@ test analysis 1: insertInnerClassImport_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: insertInnerClassImport_after [[
+test insertInnerClassImport_after: test analysis [[
   test;
   [pack2] {
   [A]
@@ -72,7 +72,7 @@ test analysis 2: insertInnerClassImport_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: insertInnerClassImport_after [[
+test insertInnerClassImport_after: refret test 1 [[
   test;
   [pack2] {
   [A]
@@ -118,7 +118,7 @@ test refret 0: insertInnerClassImport_after [[
   }
 ]]
 
-test refret 1: insertInnerClassImport_after [[
+test insertInnerClassImport_after: refret test 2 [[
   test;
   [pack2] {
   [A]

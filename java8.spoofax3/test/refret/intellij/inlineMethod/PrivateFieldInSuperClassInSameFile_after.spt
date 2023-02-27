@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/PrivateFieldInSuperClassInSameFile_after
 
-test parse: PrivateFieldInSuperClassInSameFile_after [[
+test PrivateFieldInSuperClassInSameFile_after: parsing [[
   test;
   [Test]
       class Test {
@@ -17,7 +17,7 @@ test parse: PrivateFieldInSuperClassInSameFile_after [[
     }
 ]] parse succeeds
 
-test analysis 1: PrivateFieldInSuperClassInSameFile_after [[
+test PrivateFieldInSuperClassInSameFile_after: default analysis [[
   test;
   [Test]
       class Test {
@@ -34,7 +34,7 @@ test analysis 1: PrivateFieldInSuperClassInSameFile_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: PrivateFieldInSuperClassInSameFile_after [[
+test PrivateFieldInSuperClassInSameFile_after: test analysis [[
   test;
   [Test]
       class Test {
@@ -51,7 +51,7 @@ test analysis 2: PrivateFieldInSuperClassInSameFile_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: PrivateFieldInSuperClassInSameFile_after [[
+test PrivateFieldInSuperClassInSameFile_after: refret test 1 [[
   test;
   [Test]
       class Test {

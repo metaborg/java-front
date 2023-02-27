@@ -1,6 +1,6 @@
 module refret/intellij/inlineParameter/ConflictingFieldName_after
 
-test parse: ConflictingFieldName_after [[
+test ConflictingFieldName_after: parsing [[
   test;
   [Test]
       class A {
@@ -19,7 +19,7 @@ test parse: ConflictingFieldName_after [[
     }
 ]] parse succeeds
 
-test analysis 1: ConflictingFieldName_after [[
+test ConflictingFieldName_after: default analysis [[
   test;
   [Test]
       class A {
@@ -38,7 +38,7 @@ test analysis 1: ConflictingFieldName_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: ConflictingFieldName_after [[
+test ConflictingFieldName_after: test analysis [[
   test;
   [Test]
       class A {
@@ -57,7 +57,7 @@ test analysis 2: ConflictingFieldName_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: ConflictingFieldName_after [[
+test ConflictingFieldName_after: refret test 1 [[
   test;
   [Test]
       class A {

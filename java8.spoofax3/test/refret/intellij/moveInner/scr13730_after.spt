@@ -1,6 +1,6 @@
 module refret/intellij/moveInner/scr13730_after
 
-test parse: scr13730_after [[
+test scr13730_after: parsing [[
   test;
   [pack1] {
   [TopLevel]
@@ -42,7 +42,7 @@ test parse: scr13730_after [[
   }
 ]] parse succeeds
 
-test analysis 1: scr13730_after [[
+test scr13730_after: default analysis [[
   test;
   [pack1] {
   [TopLevel]
@@ -84,7 +84,7 @@ test analysis 1: scr13730_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: scr13730_after [[
+test scr13730_after: test analysis [[
   test;
   [pack1] {
   [TopLevel]
@@ -126,7 +126,7 @@ test analysis 2: scr13730_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: scr13730_after [[
+test scr13730_after: refret test 1 [[
   test;
   [pack1] {
   [TopLevel]
@@ -208,7 +208,7 @@ test refret 0: scr13730_after [[
   }
 ]]
 
-test refret 1: scr13730_after [[
+test scr13730_after: refret test 2 [[
   test;
   [pack1] {
   [TopLevel]
@@ -290,7 +290,7 @@ test refret 1: scr13730_after [[
   }
 ]]
 
-test refret 2: scr13730_after [[
+test scr13730_after: refret test 3 [[
   test;
   [pack1] {
   [TopLevel]
@@ -372,7 +372,7 @@ test refret 2: scr13730_after [[
   }
 ]]
 
-test refret 3: scr13730_after [[
+test scr13730_after: refret test 4 [[
   test;
   [pack1] {
   [TopLevel]

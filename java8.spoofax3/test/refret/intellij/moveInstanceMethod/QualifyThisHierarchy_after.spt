@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/QualifyThisHierarchy_after
 
-test parse: QualifyThisHierarchy_after [[
+test QualifyThisHierarchy_after: parsing [[
   test;
   [D]
       public class D {
@@ -23,7 +23,7 @@ test parse: QualifyThisHierarchy_after [[
     }
 ]] parse succeeds
 
-test analysis 1: QualifyThisHierarchy_after [[
+test QualifyThisHierarchy_after: default analysis [[
   test;
   [D]
       public class D {
@@ -46,7 +46,7 @@ test analysis 1: QualifyThisHierarchy_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: QualifyThisHierarchy_after [[
+test QualifyThisHierarchy_after: test analysis [[
   test;
   [D]
       public class D {
@@ -69,7 +69,7 @@ test analysis 2: QualifyThisHierarchy_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: QualifyThisHierarchy_after [[
+test QualifyThisHierarchy_after: refret test 1 [[
   test;
   [D]
       public class D {

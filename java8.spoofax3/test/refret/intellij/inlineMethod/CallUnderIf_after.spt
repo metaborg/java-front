@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/CallUnderIf_after
 
-test parse: CallUnderIf_after [[
+test CallUnderIf_after: parsing [[
   test;
   [Foo]
       public class Foo {
@@ -15,7 +15,7 @@ test parse: CallUnderIf_after [[
     }
 ]] parse succeeds
 
-test analysis 1: CallUnderIf_after [[
+test CallUnderIf_after: default analysis [[
   test;
   [Foo]
       public class Foo {
@@ -30,7 +30,7 @@ test analysis 1: CallUnderIf_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: CallUnderIf_after [[
+test CallUnderIf_after: test analysis [[
   test;
   [Foo]
       public class Foo {
@@ -45,7 +45,7 @@ test analysis 2: CallUnderIf_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: CallUnderIf_after [[
+test CallUnderIf_after: refret test 1 [[
   test;
   [Foo]
       public class Foo {
@@ -73,7 +73,7 @@ test refret 0: CallUnderIf_after [[
     }
 ]]
 
-test refret 1: CallUnderIf_after [[
+test CallUnderIf_after: refret test 2 [[
   test;
   [Foo]
       public class Foo {

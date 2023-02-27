@@ -1,6 +1,6 @@
 module refret/intellij/moveInner/innerClassInheritance_after
 
-test parse: innerClassInheritance_after [[
+test innerClassInheritance_after: parsing [[
   test;
   [p] {
   [B]
@@ -21,7 +21,7 @@ test parse: innerClassInheritance_after [[
   }
 ]] parse succeeds
 
-test analysis 1: innerClassInheritance_after [[
+test innerClassInheritance_after: default analysis [[
   test;
   [p] {
   [B]
@@ -42,7 +42,7 @@ test analysis 1: innerClassInheritance_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: innerClassInheritance_after [[
+test innerClassInheritance_after: test analysis [[
   test;
   [p] {
   [B]
@@ -63,7 +63,7 @@ test analysis 2: innerClassInheritance_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: innerClassInheritance_after [[
+test innerClassInheritance_after: refret test 1 [[
   test;
   [p] {
   [B]

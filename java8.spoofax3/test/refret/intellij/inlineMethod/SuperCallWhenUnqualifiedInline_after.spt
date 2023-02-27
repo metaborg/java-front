@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/SuperCallWhenUnqualifiedInline_after
 
-test parse: SuperCallWhenUnqualifiedInline_after [[
+test SuperCallWhenUnqualifiedInline_after: parsing [[
   test;
   [Test]
       class A {
@@ -18,7 +18,7 @@ test parse: SuperCallWhenUnqualifiedInline_after [[
     }
 ]] parse succeeds
 
-test analysis 1: SuperCallWhenUnqualifiedInline_after [[
+test SuperCallWhenUnqualifiedInline_after: default analysis [[
   test;
   [Test]
       class A {
@@ -36,7 +36,7 @@ test analysis 1: SuperCallWhenUnqualifiedInline_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: SuperCallWhenUnqualifiedInline_after [[
+test SuperCallWhenUnqualifiedInline_after: test analysis [[
   test;
   [Test]
       class A {
@@ -54,7 +54,7 @@ test analysis 2: SuperCallWhenUnqualifiedInline_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: SuperCallWhenUnqualifiedInline_after [[
+test SuperCallWhenUnqualifiedInline_after: refret test 1 [[
   test;
   [Test]
       class A {

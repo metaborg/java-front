@@ -1,6 +1,6 @@
 module refret/intellij/inlineSuperClass/newArrayComplexDimensionsExpr_after
 
-test parse: newArrayComplexDimensionsExpr_after [[
+test newArrayComplexDimensionsExpr_after: parsing [[
   test;
   [Test]
       class Test {
@@ -19,7 +19,7 @@ test parse: newArrayComplexDimensionsExpr_after [[
     }
 ]] parse succeeds
 
-test analysis 1: newArrayComplexDimensionsExpr_after [[
+test newArrayComplexDimensionsExpr_after: default analysis [[
   test;
   [Test]
       class Test {
@@ -38,7 +38,7 @@ test analysis 1: newArrayComplexDimensionsExpr_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: newArrayComplexDimensionsExpr_after [[
+test newArrayComplexDimensionsExpr_after: test analysis [[
   test;
   [Test]
       class Test {
@@ -57,7 +57,7 @@ test analysis 2: newArrayComplexDimensionsExpr_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: newArrayComplexDimensionsExpr_after [[
+test newArrayComplexDimensionsExpr_after: refret test 1 [[
   test;
   [Test]
       class Test {

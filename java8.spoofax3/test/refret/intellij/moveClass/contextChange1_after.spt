@@ -1,6 +1,6 @@
 module refret/intellij/moveClass/contextChange1_after
 
-test parse: contextChange1_after [[
+test contextChange1_after: parsing [[
   test;
   [pack2] {
   [Class1]
@@ -21,7 +21,7 @@ test parse: contextChange1_after [[
   }
 ]] parse succeeds
 
-test analysis 1: contextChange1_after [[
+test contextChange1_after: default analysis [[
   test;
   [pack2] {
   [Class1]
@@ -42,7 +42,7 @@ test analysis 1: contextChange1_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: contextChange1_after [[
+test contextChange1_after: test analysis [[
   test;
   [pack2] {
   [Class1]
@@ -63,7 +63,7 @@ test analysis 2: contextChange1_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: contextChange1_after [[
+test contextChange1_after: refret test 1 [[
   test;
   [pack2] {
   [Class1]
@@ -103,7 +103,7 @@ test refret 0: contextChange1_after [[
   }
 ]]
 
-test refret 1: contextChange1_after [[
+test contextChange1_after: refret test 2 [[
   test;
   [pack2] {
   [Class1]

@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/ConflictingLocalVariableAndTargetClassField_after
 
-test parse: ConflictingLocalVariableAndTargetClassField_after [[
+test ConflictingLocalVariableAndTargetClassField_after: parsing [[
   test;
   [Test]
   
@@ -29,7 +29,7 @@ test parse: ConflictingLocalVariableAndTargetClassField_after [[
     }
 ]] parse succeeds
 
-test analysis 1: ConflictingLocalVariableAndTargetClassField_after [[
+test ConflictingLocalVariableAndTargetClassField_after: default analysis [[
   test;
   [Test]
   
@@ -58,7 +58,7 @@ test analysis 1: ConflictingLocalVariableAndTargetClassField_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: ConflictingLocalVariableAndTargetClassField_after [[
+test ConflictingLocalVariableAndTargetClassField_after: test analysis [[
   test;
   [Test]
   
@@ -87,7 +87,7 @@ test analysis 2: ConflictingLocalVariableAndTargetClassField_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: ConflictingLocalVariableAndTargetClassField_after [[
+test ConflictingLocalVariableAndTargetClassField_after: refret test 1 [[
   test;
   [Test]
   

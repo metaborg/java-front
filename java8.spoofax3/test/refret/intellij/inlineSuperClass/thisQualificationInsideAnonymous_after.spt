@@ -1,6 +1,6 @@
 module refret/intellij/inlineSuperClass/thisQualificationInsideAnonymous_after
 
-test parse: thisQualificationInsideAnonymous_after [[
+test thisQualificationInsideAnonymous_after: parsing [[
   test;
   [Test]
       class Test {
@@ -15,7 +15,7 @@ test parse: thisQualificationInsideAnonymous_after [[
     }
 ]] parse succeeds
 
-test analysis 1: thisQualificationInsideAnonymous_after [[
+test thisQualificationInsideAnonymous_after: default analysis [[
   test;
   [Test]
       class Test {
@@ -30,7 +30,7 @@ test analysis 1: thisQualificationInsideAnonymous_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: thisQualificationInsideAnonymous_after [[
+test thisQualificationInsideAnonymous_after: test analysis [[
   test;
   [Test]
       class Test {
@@ -45,7 +45,7 @@ test analysis 2: thisQualificationInsideAnonymous_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: thisQualificationInsideAnonymous_after [[
+test thisQualificationInsideAnonymous_after: refret test 1 [[
   test;
   [Test]
       class Test {
@@ -73,7 +73,7 @@ test refret 0: thisQualificationInsideAnonymous_after [[
     }
 ]]
 
-test refret 1: thisQualificationInsideAnonymous_after [[
+test thisQualificationInsideAnonymous_after: refret test 2 [[
   test;
   [Test]
       class Test {

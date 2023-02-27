@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/ChainedBuilderCall_after
 
-test parse: ChainedBuilderCall_after [[
+test ChainedBuilderCall_after: parsing [[
   test;
   [Test]
   
@@ -43,7 +43,7 @@ test parse: ChainedBuilderCall_after [[
     class LegacyType {}
 ]] parse succeeds
 
-test analysis 1: ChainedBuilderCall_after [[
+test ChainedBuilderCall_after: default analysis [[
   test;
   [Test]
   
@@ -86,7 +86,7 @@ test analysis 1: ChainedBuilderCall_after [[
     class LegacyType {}
 ]] analysis succeeds
 
-test analysis 2: ChainedBuilderCall_after [[
+test ChainedBuilderCall_after: test analysis [[
   test;
   [Test]
   
@@ -129,7 +129,7 @@ test analysis 2: ChainedBuilderCall_after [[
     class LegacyType {}
 ]] run test-analyze to SUCCEED()
 
-test refret 0: ChainedBuilderCall_after [[
+test ChainedBuilderCall_after: refret test 1 [[
   test;
   [Test]
   
@@ -213,7 +213,7 @@ test refret 0: ChainedBuilderCall_after [[
     class LegacyType {}
 ]]
 
-test refret 1: ChainedBuilderCall_after [[
+test ChainedBuilderCall_after: refret test 2 [[
   test;
   [Test]
   

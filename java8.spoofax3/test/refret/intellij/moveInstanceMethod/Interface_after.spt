@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/Interface_after
 
-test parse: Interface_after [[
+test Interface_after: parsing [[
   test;
   [Test]
       interface Foreign {
@@ -22,7 +22,7 @@ test parse: Interface_after [[
     }
 ]] parse succeeds
 
-test analysis 1: Interface_after [[
+test Interface_after: default analysis [[
   test;
   [Test]
       interface Foreign {
@@ -44,7 +44,7 @@ test analysis 1: Interface_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: Interface_after [[
+test Interface_after: test analysis [[
   test;
   [Test]
       interface Foreign {
@@ -66,7 +66,7 @@ test analysis 2: Interface_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: Interface_after [[
+test Interface_after: refret test 1 [[
   test;
   [Test]
       interface Foreign {

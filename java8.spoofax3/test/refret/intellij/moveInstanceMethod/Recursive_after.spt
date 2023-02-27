@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/Recursive_after
 
-test parse: Recursive_after [[
+test Recursive_after: parsing [[
   test;
   [MoveMethodTest]
       public class MoveMethodTest {
@@ -11,7 +11,7 @@ test parse: Recursive_after [[
     }
 ]] parse succeeds
 
-test analysis 1: Recursive_after [[
+test Recursive_after: default analysis [[
   test;
   [MoveMethodTest]
       public class MoveMethodTest {
@@ -22,7 +22,7 @@ test analysis 1: Recursive_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: Recursive_after [[
+test Recursive_after: test analysis [[
   test;
   [MoveMethodTest]
       public class MoveMethodTest {
@@ -33,7 +33,7 @@ test analysis 2: Recursive_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: Recursive_after [[
+test Recursive_after: refret test 1 [[
   test;
   [MoveMethodTest]
       public class MoveMethodTest {
@@ -53,7 +53,7 @@ test refret 0: Recursive_after [[
     }
 ]]
 
-test refret 1: Recursive_after [[
+test Recursive_after: refret test 2 [[
   test;
   [MoveMethodTest]
       public class MoveMethodTest {

@@ -1,6 +1,6 @@
 module refret/intellij/moveClass/qualifiedRef_after
 
-test parse: qualifiedRef_after [[
+test qualifiedRef_after: parsing [[
   test;
   [p2] {
   [Test]
@@ -27,7 +27,7 @@ test parse: qualifiedRef_after [[
   }
 ]] parse succeeds
 
-test analysis 1: qualifiedRef_after [[
+test qualifiedRef_after: default analysis [[
   test;
   [p2] {
   [Test]
@@ -54,7 +54,7 @@ test analysis 1: qualifiedRef_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: qualifiedRef_after [[
+test qualifiedRef_after: test analysis [[
   test;
   [p2] {
   [Test]
@@ -81,7 +81,7 @@ test analysis 2: qualifiedRef_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: qualifiedRef_after [[
+test qualifiedRef_after: refret test 1 [[
   test;
   [p2] {
   [Test]
@@ -133,7 +133,7 @@ test refret 0: qualifiedRef_after [[
   }
 ]]
 
-test refret 1: qualifiedRef_after [[
+test qualifiedRef_after: refret test 2 [[
   test;
   [p2] {
   [Test]
@@ -185,7 +185,7 @@ test refret 1: qualifiedRef_after [[
   }
 ]]
 
-test refret 2: qualifiedRef_after [[
+test qualifiedRef_after: refret test 3 [[
   test;
   [p2] {
   [Test]

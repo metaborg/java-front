@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/PolyadicExpr_after
 
-test parse: PolyadicExpr_after [[
+test PolyadicExpr_after: parsing [[
   test;
   [Test]
       class A {
@@ -29,7 +29,7 @@ test parse: PolyadicExpr_after [[
     }
 ]] parse succeeds
 
-test analysis 1: PolyadicExpr_after [[
+test PolyadicExpr_after: default analysis [[
   test;
   [Test]
       class A {
@@ -58,7 +58,7 @@ test analysis 1: PolyadicExpr_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: PolyadicExpr_after [[
+test PolyadicExpr_after: test analysis [[
   test;
   [Test]
       class A {
@@ -87,7 +87,7 @@ test analysis 2: PolyadicExpr_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: PolyadicExpr_after [[
+test PolyadicExpr_after: refret test 1 [[
   test;
   [Test]
       class A {

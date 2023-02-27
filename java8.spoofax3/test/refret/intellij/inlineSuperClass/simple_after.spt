@@ -1,6 +1,6 @@
 module refret/intellij/inlineSuperClass/simple_after
 
-test parse: simple_after [[
+test simple_after: parsing [[
   test;
   [Usage]
       import p.Test;
@@ -22,7 +22,7 @@ test parse: simple_after [[
   }
 ]] parse succeeds
 
-test analysis 1: simple_after [[
+test simple_after: default analysis [[
   test;
   [Usage]
       import p.Test;
@@ -44,7 +44,7 @@ test analysis 1: simple_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: simple_after [[
+test simple_after: test analysis [[
   test;
   [Usage]
       import p.Test;
@@ -66,7 +66,7 @@ test analysis 2: simple_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: simple_after [[
+test simple_after: refret test 1 [[
   test;
   [Usage]
       import p.Test;

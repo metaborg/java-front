@@ -1,6 +1,6 @@
 module refret/intellij/inlineSuperClass/innerClassReference_after
 
-test parse: innerClassReference_after [[
+test innerClassReference_after: parsing [[
   test;
   [Test]
       class Test {
@@ -20,7 +20,7 @@ test parse: innerClassReference_after [[
     }
 ]] parse succeeds
 
-test analysis 1: innerClassReference_after [[
+test innerClassReference_after: default analysis [[
   test;
   [Test]
       class Test {
@@ -40,7 +40,7 @@ test analysis 1: innerClassReference_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: innerClassReference_after [[
+test innerClassReference_after: test analysis [[
   test;
   [Test]
       class Test {
@@ -60,7 +60,7 @@ test analysis 2: innerClassReference_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: innerClassReference_after [[
+test innerClassReference_after: refret test 1 [[
   test;
   [Test]
       class Test {
@@ -98,7 +98,7 @@ test refret 0: innerClassReference_after [[
     }
 ]]
 
-test refret 1: innerClassReference_after [[
+test innerClassReference_after: refret test 2 [[
   test;
   [Test]
       class Test {

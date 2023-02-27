@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/CorrectThisRefs_after
 
-test parse: CorrectThisRefs_after [[
+test CorrectThisRefs_after: parsing [[
   test;
   [Test]
       class A {
@@ -19,7 +19,7 @@ test parse: CorrectThisRefs_after [[
     }
 ]] parse succeeds
 
-test analysis 1: CorrectThisRefs_after [[
+test CorrectThisRefs_after: default analysis [[
   test;
   [Test]
       class A {
@@ -38,7 +38,7 @@ test analysis 1: CorrectThisRefs_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: CorrectThisRefs_after [[
+test CorrectThisRefs_after: test analysis [[
   test;
   [Test]
       class A {
@@ -57,7 +57,7 @@ test analysis 2: CorrectThisRefs_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: CorrectThisRefs_after [[
+test CorrectThisRefs_after: refret test 1 [[
   test;
   [Test]
       class A {

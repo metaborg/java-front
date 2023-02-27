@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/SCR22644_after
 
-test parse: SCR22644_after [[
+test SCR22644_after: parsing [[
   test;
   [SuperClass]
       public class SuperClass {
@@ -19,7 +19,7 @@ test parse: SCR22644_after [[
     }
 ]] parse succeeds
 
-test analysis 1: SCR22644_after [[
+test SCR22644_after: default analysis [[
   test;
   [SuperClass]
       public class SuperClass {
@@ -38,7 +38,7 @@ test analysis 1: SCR22644_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: SCR22644_after [[
+test SCR22644_after: test analysis [[
   test;
   [SuperClass]
       public class SuperClass {
@@ -57,7 +57,7 @@ test analysis 2: SCR22644_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: SCR22644_after [[
+test SCR22644_after: refret test 1 [[
   test;
   [SuperClass]
       public class SuperClass {

@@ -1,6 +1,6 @@
 module refret/intellij/moveClass/classAndSecondary_after
 
-test parse: classAndSecondary_after [[
+test classAndSecondary_after: parsing [[
   test;
   [pack2] {
   [Class1]
@@ -30,7 +30,7 @@ test parse: classAndSecondary_after [[
   }
 ]] parse succeeds
 
-test analysis 1: classAndSecondary_after [[
+test classAndSecondary_after: default analysis [[
   test;
   [pack2] {
   [Class1]
@@ -60,7 +60,7 @@ test analysis 1: classAndSecondary_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: classAndSecondary_after [[
+test classAndSecondary_after: test analysis [[
   test;
   [pack2] {
   [Class1]
@@ -90,7 +90,7 @@ test analysis 2: classAndSecondary_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: classAndSecondary_after [[
+test classAndSecondary_after: refret test 1 [[
   test;
   [pack2] {
   [Class1]
@@ -148,7 +148,7 @@ test refret 0: classAndSecondary_after [[
   }
 ]]
 
-test refret 1: classAndSecondary_after [[
+test classAndSecondary_after: refret test 2 [[
   test;
   [pack2] {
   [Class1]
@@ -206,7 +206,7 @@ test refret 1: classAndSecondary_after [[
   }
 ]]
 
-test refret 2: classAndSecondary_after [[
+test classAndSecondary_after: refret test 3 [[
   test;
   [pack2] {
   [Class1]
@@ -264,7 +264,7 @@ test refret 2: classAndSecondary_after [[
   }
 ]]
 
-test refret 3: classAndSecondary_after [[
+test classAndSecondary_after: refret test 4 [[
   test;
   [pack2] {
   [Class1]

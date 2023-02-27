@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/SpecializeEnumValueOf_after
 
-test parse: SpecializeEnumValueOf_after [[
+test SpecializeEnumValueOf_after: parsing [[
   test;
   [foo] {
   [bar] {
@@ -20,7 +20,7 @@ test parse: SpecializeEnumValueOf_after [[
   }
 ]] parse succeeds
 
-test analysis 1: SpecializeEnumValueOf_after [[
+test SpecializeEnumValueOf_after: default analysis [[
   test;
   [foo] {
   [bar] {
@@ -40,7 +40,7 @@ test analysis 1: SpecializeEnumValueOf_after [[
   }
 ]] analysis succeeds
 
-test analysis 2: SpecializeEnumValueOf_after [[
+test SpecializeEnumValueOf_after: test analysis [[
   test;
   [foo] {
   [bar] {
@@ -60,7 +60,7 @@ test analysis 2: SpecializeEnumValueOf_after [[
   }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: SpecializeEnumValueOf_after [[
+test SpecializeEnumValueOf_after: refret test 1 [[
   test;
   [foo] {
   [bar] {

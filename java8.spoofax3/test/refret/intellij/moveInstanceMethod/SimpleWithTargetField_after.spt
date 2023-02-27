@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/SimpleWithTargetField_after
 
-test parse: SimpleWithTargetField_after [[
+test SimpleWithTargetField_after: parsing [[
   test;
   [Test]
       class Foreign {
@@ -19,7 +19,7 @@ test parse: SimpleWithTargetField_after [[
     }
 ]] parse succeeds
 
-test analysis 1: SimpleWithTargetField_after [[
+test SimpleWithTargetField_after: default analysis [[
   test;
   [Test]
       class Foreign {
@@ -38,7 +38,7 @@ test analysis 1: SimpleWithTargetField_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: SimpleWithTargetField_after [[
+test SimpleWithTargetField_after: test analysis [[
   test;
   [Test]
       class Foreign {
@@ -57,7 +57,7 @@ test analysis 2: SimpleWithTargetField_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: SimpleWithTargetField_after [[
+test SimpleWithTargetField_after: refret test 1 [[
   test;
   [Test]
       class Foreign {

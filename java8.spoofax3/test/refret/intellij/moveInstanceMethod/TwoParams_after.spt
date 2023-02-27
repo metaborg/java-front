@@ -1,6 +1,6 @@
 module refret/intellij/moveInstanceMethod/TwoParams_after
 
-test parse: TwoParams_after [[
+test TwoParams_after: parsing [[
   test;
   [Test]
       class Foreign {
@@ -17,7 +17,7 @@ test parse: TwoParams_after [[
     }
 ]] parse succeeds
 
-test analysis 1: TwoParams_after [[
+test TwoParams_after: default analysis [[
   test;
   [Test]
       class Foreign {
@@ -34,7 +34,7 @@ test analysis 1: TwoParams_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: TwoParams_after [[
+test TwoParams_after: test analysis [[
   test;
   [Test]
       class Foreign {
@@ -51,7 +51,7 @@ test analysis 2: TwoParams_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: TwoParams_after [[
+test TwoParams_after: refret test 1 [[
   test;
   [Test]
       class Foreign {

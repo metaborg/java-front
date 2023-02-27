@@ -1,6 +1,6 @@
 module refret/intellij/inlineObject/InlineBitString_after
 
-test parse: InlineBitString_after [[
+test InlineBitString_after: parsing [[
   test;
   [Test]
       class Main {
@@ -32,7 +32,7 @@ test parse: InlineBitString_after [[
     }
 ]] parse succeeds
 
-test analysis 1: InlineBitString_after [[
+test InlineBitString_after: default analysis [[
   test;
   [Test]
       class Main {
@@ -64,7 +64,7 @@ test analysis 1: InlineBitString_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: InlineBitString_after [[
+test InlineBitString_after: test analysis [[
   test;
   [Test]
       class Main {
@@ -96,7 +96,7 @@ test analysis 2: InlineBitString_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: InlineBitString_after [[
+test InlineBitString_after: refret test 1 [[
   test;
   [Test]
       class Main {
@@ -158,7 +158,7 @@ test refret 0: InlineBitString_after [[
     }
 ]]
 
-test refret 1: InlineBitString_after [[
+test InlineBitString_after: refret test 2 [[
   test;
   [Test]
       class Main {

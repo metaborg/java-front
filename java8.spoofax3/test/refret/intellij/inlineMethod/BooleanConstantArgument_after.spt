@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/BooleanConstantArgument_after
 
-test parse: BooleanConstantArgument_after [[
+test BooleanConstantArgument_after: parsing [[
   test;
   [Test]
       interface PsiElement {
@@ -20,7 +20,7 @@ test parse: BooleanConstantArgument_after [[
     }
 ]] parse succeeds
 
-test analysis 1: BooleanConstantArgument_after [[
+test BooleanConstantArgument_after: default analysis [[
   test;
   [Test]
       interface PsiElement {
@@ -40,7 +40,7 @@ test analysis 1: BooleanConstantArgument_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: BooleanConstantArgument_after [[
+test BooleanConstantArgument_after: test analysis [[
   test;
   [Test]
       interface PsiElement {
@@ -60,7 +60,7 @@ test analysis 2: BooleanConstantArgument_after [[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: BooleanConstantArgument_after [[
+test BooleanConstantArgument_after: refret test 1 [[
   test;
   [Test]
       interface PsiElement {
@@ -98,7 +98,7 @@ test refret 0: BooleanConstantArgument_after [[
     }
 ]]
 
-test refret 1: BooleanConstantArgument_after [[
+test BooleanConstantArgument_after: refret test 2 [[
   test;
   [Test]
       interface PsiElement {

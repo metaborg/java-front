@@ -1,6 +1,6 @@
 module refret/intellij/inlineMethod/AndChain_after
 
-test parse: AndChain_after [[
+test AndChain_after: parsing [[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;
@@ -25,7 +25,7 @@ test parse: AndChain_after [[
     }
 ]] parse succeeds
 
-test analysis 1: AndChain_after [[
+test AndChain_after: default analysis [[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;
@@ -50,7 +50,7 @@ test analysis 1: AndChain_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: AndChain_after x[[
+test AndChain_after: test analysis [[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;
@@ -75,7 +75,7 @@ test analysis 2: AndChain_after x[[
     }
 ]] run test-analyze to SUCCEED()
 
-test refret 0: AndChain_after [[
+test AndChain_after: refret test 1 [[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;
@@ -123,7 +123,7 @@ test refret 0: AndChain_after [[
     }
 ]]
 
-test refret 1: AndChain_after [[
+test AndChain_after: refret test 2 [[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;
@@ -171,7 +171,7 @@ test refret 1: AndChain_after [[
     }
 ]]
 
-test refret 2: AndChain_after [[
+test AndChain_after: refret test 3 [[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;
