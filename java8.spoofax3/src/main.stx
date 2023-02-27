@@ -119,7 +119,7 @@ rules // alternative initial constraint for reference retention
     s_java_lang_Object -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("Object"), s_java_lang_Object, CLASS()),
     // constructor()
-    // declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Object))),
+    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Object))),
     // boolean equals(Object)
     declareMthdName(s_java_lang_Object, Id("equals"), ARGS([REF(s_java_lang_Object)]), TYPED(BOOLEAN())),
     // int hashCode()
@@ -130,7 +130,7 @@ rules // alternative initial constraint for reference retention
     s_java_lang_Integer -STATIC_MEMBERS-> s_java_lang_Integer_static,
     declareType2(s_java_lang, s_java_lang, F(), Id("Integer"), s_java_lang_Integer, CLASS()),
     // constructor(int)
-    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_lang_Integer))),
+    declareMthdName(s_java_lang_Integer, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_lang_Integer))),
 
     // class java.lang.String
     new s_java_lang_String s_java_lang_String_static,
@@ -152,7 +152,7 @@ rules // alternative initial constraint for reference retention
     s_java_lang_Runnable -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("Runnable"), s_java_lang_Runnable, CLASS()),
     // constructor()
-    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Runnable))),
+    declareMthdName(s_java_lang_Runnable, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Runnable))),
     // void run()
     declareMthdName(s_java_lang_Runnable, Id("run"), ARGS([]), VOID()),
 
@@ -232,7 +232,7 @@ rules // alternative initial constraint for reference retention
     s_java_util_ArrayList -STATIC_MEMBERS-> s_java_util_ArrayList_static,
     s_java_util_ArrayList -IMPORT_PKG-> s_java_util,
     declareType2(s_java_util, s_java_util, F(), Id("ArrayList"), s_java_util_ArrayList, CLASS()),
-    declareMthdName(s_java_util_ArrayList, Id("<init>"), ARGS([REF(s_java_lang_String)]), TYPED(REF(s_java_util_ArrayList))),
+    declareMthdName(s_java_util_ArrayList, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_util_ArrayList))),
 
     // class java.util.NoSuchElementException
     new s_java_util_NoSuchElementException s_java_util_NoSuchElementException_static,
@@ -284,7 +284,7 @@ rules // alternative initial constraint for reference retention
     s_java_math_BigDecimal -IMPORT_PKG-> s_java_math,
     declareType2(s_java_math, s_java_math, F(), Id("BigDecimal"), s_java_math_BigDecimal, CLASS()),
     // constructor()
-    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_math_BigDecimal))),
+    declareMthdName(s_java_math_BigDecimal, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_math_BigDecimal))),
 
 
     // type-check as regular file
