@@ -1,0 +1,84 @@
+module refret/intellij/moveInner/innerClassInheritance_after
+
+test parse: innerClassInheritance_after [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends A.C {
+  
+    }
+  [A]
+      package p;
+  
+    class A {
+        private static class C {
+  
+        }
+  
+    }
+  }
+]] parse succeeds
+
+test analysis: innerClassInheritance_after [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends A.C {
+  
+    }
+  [A]
+      package p;
+  
+    class A {
+        private static class C {
+  
+        }
+  
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: innerClassInheritance_after [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends [[C]] {
+  
+    }
+  [A]
+      package p;
+  
+    class A {
+        private static class [[C]] {
+  
+        }
+  
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends A.C {
+  
+    }
+  [A]
+      package p;
+  
+    class A {
+        private static class C {
+  
+        }
+  
+    }
+  }
+]]
+

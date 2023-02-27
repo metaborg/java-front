@@ -1,0 +1,92 @@
+module refret/intellij/moveInstanceMethod/QualifyThisHierarchy_after
+
+test parse: QualifyThisHierarchy_after [[
+  test;
+  [D]
+      public class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    class DImpl extends D {
+    }
+  
+    class F {
+  
+        void foo(D d) {
+          class MyRunnable {
+            public void run() {
+              d.iAmProtected();  // TODO: Context: d
+            }
+          }
+        }
+    }
+]] parse succeeds
+
+test analysis: QualifyThisHierarchy_after [[
+  test;
+  [D]
+      public class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    class DImpl extends D {
+    }
+  
+    class F {
+  
+        void foo(D d) {
+          class MyRunnable {
+            public void run() {
+              d.iAmProtected();  // TODO: Context: d
+            }
+          }
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: QualifyThisHierarchy_after [[
+  test;
+  [D]
+      public class D {
+      protected void [[iAmProtected]]() {
+      }
+    }
+  
+    class DImpl extends D {
+    }
+  
+    class F {
+  
+        void foo(D d) {
+          class MyRunnable {
+            public void run() {
+              [[iAmProtected]]();  // TODO: Context: d
+            }
+          }
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [D]
+      public class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    class DImpl extends D {
+    }
+  
+    class F {
+  
+        void foo(D d) {
+          class MyRunnable {
+            public void run() {
+              d.iAmProtected();  // TODO: Context: d
+            }
+          }
+        }
+    }
+]]
+

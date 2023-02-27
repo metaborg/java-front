@@ -1,0 +1,68 @@
+module refret/intellij/moveInstanceMethod/QualifyField_after
+
+test parse: QualifyField_after [[
+  test;
+  [Test]
+      class Flim {
+        Flam flam = new Flam();
+  
+        public static void main(String[] args) {
+            Flim flim = new Flim();
+            flim.flam.beep();
+        }
+    }
+  
+    class Flam {
+        void beep() {}
+    }
+]] parse succeeds
+
+test analysis: QualifyField_after [[
+  test;
+  [Test]
+      class Flim {
+        Flam flam = new Flam();
+  
+        public static void main(String[] args) {
+            Flim flim = new Flim();
+            flim.flam.beep();
+        }
+    }
+  
+    class Flam {
+        void beep() {}
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: QualifyField_after [[
+  test;
+  [Test]
+      class Flim {
+        Flam flam = new Flam();
+  
+        public static void main(String[] args) {
+            Flim flim = new Flim();
+            [[flim.beep]]();
+        }
+    }
+  
+    class Flam {
+        void [[beep]]() {}
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class Flim {
+        Flam flam = new Flam();
+  
+        public static void main(String[] args) {
+            Flim flim = new Flim();
+            flim.flam.beep();
+        }
+    }
+  
+    class Flam {
+        void beep() {}
+    }
+]]
+

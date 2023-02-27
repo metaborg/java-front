@@ -1,0 +1,142 @@
+module refret/intellij/moveClassToInner/contextChange1_after
+
+test parse: contextChange1_after [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class A {
+        public static class Class1 {
+            Class2 a;
+        }
+    }
+  
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+]] parse succeeds
+
+test analysis: contextChange1_after [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class A {
+        public static class Class1 {
+            Class2 a;
+        }
+    }
+  
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: contextChange1_after [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    import [[Class2]];
+  
+    public class A {
+        public static class Class1 {
+            Class2 a;
+        }
+    }
+  
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class [[Class2]] {
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class A {
+        public static class Class1 {
+            Class2 a;
+        }
+    }
+  
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+]]
+
+test refret 1: contextChange1_after [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class A {
+        public static class Class1 {
+            [[Class2]] a;
+        }
+    }
+  
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class [[Class2]] {
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class A {
+        public static class Class1 {
+            Class2 a;
+        }
+    }
+  
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+]]
+

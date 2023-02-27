@@ -1,0 +1,88 @@
+module refret/intellij/inlineMethod/CallUnderIf_after
+
+test parse: CallUnderIf_after [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]] parse succeeds
+
+test analysis: CallUnderIf_after [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: CallUnderIf_after [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer [[myI]];
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent([[myI]]) + getComponent(myI));
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]]
+
+test refret 1: CallUnderIf_after [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer [[myI]];
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent([[myI]]));
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]]
+

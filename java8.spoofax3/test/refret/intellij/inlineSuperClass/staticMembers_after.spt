@@ -1,0 +1,100 @@
+module refret/intellij/inlineSuperClass/staticMembers_after
+
+test parse: staticMembers_after [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        Test.foo();
+      }
+    }
+]] parse succeeds
+
+test analysis: staticMembers_after [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        Test.foo();
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: staticMembers_after [[
+  test;
+  [Test]
+      class Test {
+        public static final String [[S]] = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println([[Super.S]]);
+        Test.foo();
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        Test.foo();
+      }
+    }
+]]
+
+test refret 1: staticMembers_after [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void [[foo]](){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        [[Super.foo]]();
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        Test.foo();
+      }
+    }
+]]
+

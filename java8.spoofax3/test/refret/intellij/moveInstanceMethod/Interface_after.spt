@@ -1,0 +1,88 @@
+module refret/intellij/moveInstanceMethod/Interface_after
+
+test parse: Interface_after [[
+  test;
+  [Test]
+      interface Foreign {
+        default void foo (Test1 test1) {
+            test1.field++;
+        }
+    }
+  
+    class ForeignImpl implements Foreign {
+    }
+  
+  
+    public abstract class Test1 {
+        int field;
+  
+        void bar () {
+            new ForeignImpl().foo(this);
+        }
+    }
+]] parse succeeds
+
+test analysis: Interface_after [[
+  test;
+  [Test]
+      interface Foreign {
+        default void foo (Test1 test1) {
+            test1.field++;
+        }
+    }
+  
+    class ForeignImpl implements Foreign {
+    }
+  
+  
+    public abstract class Test1 {
+        int field;
+  
+        void bar () {
+            new ForeignImpl().foo(this);
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: Interface_after [[
+  test;
+  [Test]
+      interface Foreign {
+        default void foo (Test1 [[test1]]) {
+            [[field]]++;
+        }
+    }
+  
+    class ForeignImpl implements Foreign {
+    }
+  
+  
+    public abstract class Test1 {
+        int [[field]];
+  
+        void bar () {
+            new ForeignImpl().foo(this);
+        }
+    }
+]] run fix-reference(|#2, #3, #1) to [[
+  test;
+  [Test]
+      interface Foreign {
+        default void foo (Test1 test1) {
+            test1.field++;
+        }
+    }
+  
+    class ForeignImpl implements Foreign {
+    }
+  
+  
+    public abstract class Test1 {
+        int field;
+  
+        void bar () {
+            new ForeignImpl().foo(this);
+        }
+    }
+]]
+

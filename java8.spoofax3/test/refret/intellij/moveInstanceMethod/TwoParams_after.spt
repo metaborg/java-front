@@ -1,0 +1,68 @@
+module refret/intellij/moveInstanceMethod/TwoParams_after
+
+test parse: TwoParams_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           moveMethodTest.bar (inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar(Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]] parse succeeds
+
+test analysis: TwoParams_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           moveMethodTest.bar (inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar(Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: TwoParams_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           [[bar]] (inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void [[bar]](Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           moveMethodTest.bar (inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar(Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]]
+

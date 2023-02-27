@@ -1,0 +1,52 @@
+module refret/intellij/inlineMethod/ArrayAccess_after
+
+test parse: ArrayAccess_after [[
+  test;
+  [Test]
+      class A {
+        public void usage() {
+            int[] array = new int[150];
+            for (int i = 0; i < array.length; i++) {
+                System.out.println(array[i]);
+            }
+        }
+    }
+]] parse succeeds
+
+test analysis: ArrayAccess_after [[
+  test;
+  [Test]
+      class A {
+        public void usage() {
+            int[] array = new int[150];
+            for (int i = 0; i < array.length; i++) {
+                System.out.println(array[i]);
+            }
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: ArrayAccess_after [[
+  test;
+  [Test]
+      class A {
+        public void usage() {
+            int[] [[array]] = new int[150];
+            for (int i = 0; i < array.length; i++) {
+                System.out.println([[array]][i]);
+            }
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+        public void usage() {
+            int[] array = new int[150];
+            for (int i = 0; i < array.length; i++) {
+                System.out.println(array[i]);
+            }
+        }
+    }
+]]
+

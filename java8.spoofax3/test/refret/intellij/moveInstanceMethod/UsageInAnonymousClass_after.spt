@@ -1,0 +1,104 @@
+module refret/intellij/moveInstanceMethod/UsageInAnonymousClass_after
+
+test parse: UsageInAnonymousClass_after [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void moo(B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              A.this.moo(this);
+            }
+          };
+        }
+  
+        }
+  
+    }
+]] parse succeeds
+
+test analysis: UsageInAnonymousClass_after [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void moo(B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              A.this.moo(this);
+            }
+          };
+        }
+  
+        }
+  
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: UsageInAnonymousClass_after [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void [[moo]](B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              [[moo]](this);
+            }
+          };
+        }
+  
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void moo(B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              A.this.moo(this);
+            }
+          };
+        }
+  
+        }
+  
+    }
+]]
+

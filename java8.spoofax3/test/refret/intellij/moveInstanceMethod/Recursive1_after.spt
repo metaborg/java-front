@@ -1,0 +1,112 @@
+module refret/intellij/moveInstanceMethod/Recursive1_after
+
+test parse: Recursive1_after [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]] parse succeeds
+
+test analysis: Recursive1_after [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: Recursive1_after [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().[[x]]();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void [[x]]() {
+            if (this != null) g().x();
+        }
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]]
+
+test refret 1: Recursive1_after [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void [[x]]() {
+            if (this != null) g().[[x]]();
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]]
+
