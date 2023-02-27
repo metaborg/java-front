@@ -30,8 +30,8 @@ rules
                          , FieldAccess2Expression(Field(This(), x))
                          , FieldAccess2Expression(SuperField(x))
                          ]
-                       , q-prop*
                        , s-prop*
+                       , q-prop*
                        ]
 
   // static accesses
