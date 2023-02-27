@@ -1,0 +1,68 @@
+module refret/intellij/moveInstanceMethod/QualifyFieldAccess_after
+
+test parse: QualifyFieldAccess_after [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int x) {
+                this.x = x;
+            }
+        }
+    }
+]] parse succeeds
+
+test analysis: QualifyFieldAccess_after [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int x) {
+                this.x = x;
+            }
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: QualifyFieldAccess_after [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int [[x]];
+  
+            public void foo(int x) {
+                [[bar.x]] = x;
+            }
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int x) {
+                this.x = x;
+            }
+        }
+    }
+]]
+

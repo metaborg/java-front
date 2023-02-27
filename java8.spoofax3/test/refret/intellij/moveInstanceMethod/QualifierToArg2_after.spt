@@ -1,0 +1,116 @@
+module refret/intellij/moveInstanceMethod/QualifierToArg2_after
+
+test parse: QualifierToArg2_after [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager commandManager) {
+          commandManager.g();       // TODO: Context
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]] parse succeeds
+
+test analysis: QualifierToArg2_after [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager commandManager) {
+          commandManager.g();       // TODO: Context
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: QualifierToArg2_after [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager commandManager) {
+          [[g]]();       // TODO: Context
+        }
+    }
+  
+    class CommandManager {
+  
+        void [[g]]() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager commandManager) {
+          commandManager.g();       // TODO: Context
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]]
+

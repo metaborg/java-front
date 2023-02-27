@@ -1,0 +1,76 @@
+module refret/intellij/moveInstanceMethod/QualifiedThis_after
+
+test parse: QualifiedThis_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest) {
+            class Inner {
+                {
+                    moveMethodTest.bar();
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar() {}
+  
+    }
+]] parse succeeds
+
+test analysis: QualifiedThis_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest) {
+            class Inner {
+                {
+                    moveMethodTest.bar();
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar() {}
+  
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: QualifiedThis_after [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest) {
+            class Inner {
+                {
+                    [[MoveMethodTest.this.bar]]();
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void [[bar]]() {}
+  
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest) {
+            class Inner {
+                {
+                    moveMethodTest.bar();
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar() {}
+  
+    }
+]]
+

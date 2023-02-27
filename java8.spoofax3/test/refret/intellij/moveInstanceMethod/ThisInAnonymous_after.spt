@@ -1,0 +1,88 @@
+module refret/intellij/moveInstanceMethod/ThisInAnonymous_after
+
+test parse: ThisInAnonymous_after [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void acceptChildren(JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            acceptChildren(new JetVisitor() {
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]] parse succeeds
+
+test analysis: ThisInAnonymous_after [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void acceptChildren(JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            acceptChildren(new JetVisitor() {
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]] run test-analyze to SUCCEED()
+
+test refret 0: ThisInAnonymous_after [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void [[acceptChildren]](JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            [[aClass.acceptChildren]](new JetVisitor() {
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void acceptChildren(JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            acceptChildren(new JetVisitor() {
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]]
+
