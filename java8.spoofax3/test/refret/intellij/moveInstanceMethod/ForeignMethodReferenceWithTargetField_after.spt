@@ -1,8 +1,123 @@
 module refret/intellij/moveInstanceMethod/ForeignMethodReferenceWithTargetField_after
 
-// [[{disabled}]]
+/*
+test ForeignMethodReferenceWithTargetField_after: parsing [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull(String it) {
+            return it != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<String> stream, Test ref){
+        stream.filter(ref.destination::notNull);
+      }
+  
+    }
+]] parse succeeds
+*/
 
-// [[{disabled}]]
+/*
+test ForeignMethodReferenceWithTargetField_after: default analysis [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull(String it) {
+            return it != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<String> stream, Test ref){
+        stream.filter(ref.destination::notNull);
+      }
+  
+    }
+]] analysis succeeds
+*/
 
-// [[{disabled}]]
+/*
+test ForeignMethodReferenceWithTargetField_after: test analysis [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull(String it) {
+            return it != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<String> stream, Test ref){
+        stream.filter(ref.destination::notNull);
+      }
+  
+    }
+]] run test-analyze to SUCCEED()
+*/
+
+/*
+test ForeignMethodReferenceWithTargetField_after: refret test 1 [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean [[notNull]](String it) {
+            return it != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<String> stream, Test [[ref]]){
+        stream.filter([[ref.destination::notNull]]);
+      }
+  
+    }
+]] run fix-reference(|#3, #1, #2) to [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull(String it) {
+            return it != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<String> stream, Test ref){
+        stream.filter(ref.destination::notNull);
+      }
+  
+    }
+]]
+*/
 

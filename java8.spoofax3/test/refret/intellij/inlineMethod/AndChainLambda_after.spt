@@ -1,16 +1,255 @@
 module refret/intellij/inlineMethod/AndChainLambda_after
 
-// [[{disabled}]]
+/*
+test AndChainLambda_after: parsing [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]] parse succeeds
+*/
 
-// [[{disabled}]]
+/*
+test AndChainLambda_after: default analysis [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]] analysis succeeds
+*/
 
-// [[{disabled}]]
+/*
+test AndChainLambda_after: test analysis [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]] run test-analyze to SUCCEED()
+*/
 
-// [[{disabled}]]
+/*
+test AndChainLambda_after: refret test 1 [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return [[s]] -> {
+            if ([[s]].isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]]
+*/
 
-// [[{disabled}]]
+/*
+test AndChainLambda_after: refret test 2 [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return [[s]] -> {
+            if (s.isEmpty()) return false;
+            int length = [[s]].length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]]
+*/
 
-// [[{disabled}]]
+/*
+test AndChainLambda_after: refret test 3 [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return [[s]] -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = [[s]].charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]]
+*/
 
-// [[{disabled}]]
+/*
+test AndChainLambda_after: refret test 4 [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int [[length]] = s.length();
+            int ch = s.charAt(0);
+            return [[length]] + ch > 0;
+        };
+      }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]]
+*/
+
+/*
+test AndChainLambda_after: refret test 5 [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int [[ch]] = s.charAt(0);
+            return length + [[ch]] > 0;
+        };
+      }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> {
+            if (s.isEmpty()) return false;
+            int length = s.length();
+            int ch = s.charAt(0);
+            return length + ch > 0;
+        };
+      }
+  
+    }
+]]
+*/
 
