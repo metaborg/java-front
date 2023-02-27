@@ -10,7 +10,7 @@ test parse: RefQualifiedThis_after [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println(&2());
+            System.out.println(Outer.this.toString());
           }
         }
   
@@ -32,7 +32,7 @@ test analysis: RefQualifiedThis_after [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println(&2());
+            System.out.println(Outer.this.toString());
           }
         }
   
@@ -47,7 +47,7 @@ test analysis: RefQualifiedThis_after [[
 test refret 0: RefQualifiedThis_after [[
   test;
   [Subject]
-      class Outer {
+      class [[Outer]] {
   
       String [[toString]]() { return ""; }
   
@@ -64,7 +64,7 @@ test refret 0: RefQualifiedThis_after [[
         }
       }
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #2, #1) to [[
   test;
   [Subject]
       class Outer {
@@ -74,7 +74,7 @@ test refret 0: RefQualifiedThis_after [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println(&2());
+            System.out.println(Outer.this.toString());
           }
         }
   

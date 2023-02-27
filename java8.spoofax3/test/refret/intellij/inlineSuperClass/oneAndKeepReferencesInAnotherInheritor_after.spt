@@ -8,7 +8,7 @@ test parse: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class Test extends Super {
         public static final String CONST = "CONST";
   
         {
@@ -35,7 +35,7 @@ test analysis: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class Test extends Super {
         public static final String CONST = "CONST";
   
         {
@@ -62,7 +62,7 @@ test refret 0: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class [[Test]] extends Sup<caret>er {
+      abstract class [[Test]] extends Super {
         public static final String [[CONST]] = "CONST";
   
         {
@@ -87,7 +87,7 @@ test refret 0: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class Test extends Super {
         public static final String CONST = "CONST";
   
         {
@@ -114,7 +114,7 @@ test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class Test extends Super {
         public static final String CONST = "CONST";
   
         {
@@ -139,7 +139,7 @@ test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class Test extends Super {
         public static final String CONST = "CONST";
   
         {
@@ -166,7 +166,7 @@ test refret 2: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class Test extends Super {
         public static final String CONST = "CONST";
   
         {
@@ -191,7 +191,7 @@ test refret 2: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class Test extends Super {
         public static final String CONST = "CONST";
   
         {

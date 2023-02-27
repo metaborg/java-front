@@ -42,7 +42,7 @@ test refret 0: QualifiedThis_after [[
   test;
   [Test]
       class Foreign {
-        void foo(MoveMethodTest moveMethodTest) {
+        void foo(MoveMethodTest [[moveMethodTest]]) {
             class Inner {
                 {
                     [[MoveMethodTest.this.bar]]();
@@ -55,7 +55,7 @@ test refret 0: QualifiedThis_after [[
         void [[bar]]() {}
   
     }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Test]
       class Foreign {

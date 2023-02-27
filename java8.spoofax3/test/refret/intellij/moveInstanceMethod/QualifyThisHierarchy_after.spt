@@ -16,7 +16,7 @@ test parse: QualifyThisHierarchy_after [[
         void foo(D d) {
           class MyRunnable {
             public void run() {
-              d.iAmProtected();  // TODO: Context: d
+              d.iAmProtected();
             }
           }
         }
@@ -39,7 +39,7 @@ test analysis: QualifyThisHierarchy_after [[
         void foo(D d) {
           class MyRunnable {
             public void run() {
-              d.iAmProtected();  // TODO: Context: d
+              d.iAmProtected();
             }
           }
         }
@@ -59,15 +59,15 @@ test refret 0: QualifyThisHierarchy_after [[
   
     class F {
   
-        void foo(D d) {
+        void foo(D [[d]]) {
           class MyRunnable {
             public void run() {
-              [[iAmProtected]]();  // TODO: Context: d
+              [[iAmProtected]]();
             }
           }
         }
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #1, #2) to [[
   test;
   [D]
       public class D {
@@ -83,7 +83,7 @@ test refret 0: QualifyThisHierarchy_after [[
         void foo(D d) {
           class MyRunnable {
             public void run() {
-              d.iAmProtected();  // TODO: Context: d
+              d.iAmProtected();
             }
           }
         }

@@ -10,7 +10,7 @@ test parse: fieldAccessInSuper_after [[
         private final A a;
   
         public B(A a) {
-        super(a.foo());
+        super(a.foo());    // Context: A.this?
             this.a = a;
         }
     }
@@ -40,7 +40,7 @@ test analysis: fieldAccessInSuper_after [[
         private final A a;
   
         public B(A a) {
-        super(a.foo());
+        super(a.foo());    // Context: A.this?
             this.a = a;
         }
     }
@@ -70,7 +70,7 @@ test refret 0: fieldAccessInSuper_after [[
         private final A a;
   
         public B(A a) {
-        super([[A.this.foo]]());
+        super([[A.this.foo]]());    // Context: A.this?
             this.a = a;
         }
     }
@@ -98,7 +98,7 @@ test refret 0: fieldAccessInSuper_after [[
         private final A a;
   
         public B(A a) {
-        super(a.foo());
+        super(a.foo());    // Context: A.this?
             this.a = a;
         }
     }

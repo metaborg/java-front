@@ -6,7 +6,7 @@ test parse: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
                 intersection = new BitString(result & mask | other.myBits, mask | other.myMask);
@@ -38,7 +38,7 @@ test analysis: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
                 intersection = new BitString(result & mask | other.myBits, mask | other.myMask);
@@ -70,7 +70,7 @@ test refret 0: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString [[other]] = super.getBitwiseMask();
+            BitString [[other]] = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
                 intersection = new BitString(result & mask | [[myBits]], mask | other.myMask);
@@ -100,7 +100,7 @@ test refret 0: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
                 intersection = new BitString(result & mask | other.myBits, mask | other.myMask);
@@ -132,7 +132,7 @@ test refret 1: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString [[other]] = super.getBitwiseMask();
+            BitString [[other]] = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
                 intersection = new BitString(result & mask | other.myBits, mask | [[myMask]]);
@@ -162,7 +162,7 @@ test refret 1: InlineBitString_after [[
       class Main {
         BitString test(long result, long mask) {
             BitString intersection = null;
-            BitString other = super.getBitwiseMask();
+            BitString other = null;
             long intersectMask = mask & other.myMask;
             if ((result & mask & intersectMask) == (other.myBits & intersectMask)) {
                 intersection = new BitString(result & mask | other.myBits, mask | other.myMask);

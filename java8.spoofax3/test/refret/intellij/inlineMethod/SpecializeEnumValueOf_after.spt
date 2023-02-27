@@ -2,7 +2,9 @@ module refret/intellij/inlineMethod/SpecializeEnumValueOf_after
 
 test parse: SpecializeEnumValueOf_after [[
   test;
-  [foo.bar.baz] {
+  [foo] {
+  [bar] {
+  [baz] {
   [Test]
       package foo.bar.baz;
   
@@ -13,12 +15,16 @@ test parse: SpecializeEnumValueOf_after [[
           System.out.println(X.B);
       }
     }
+  }
+  }
   }
 ]] parse succeeds
 
 test analysis: SpecializeEnumValueOf_after [[
   test;
-  [foo.bar.baz] {
+  [foo] {
+  [bar] {
+  [baz] {
   [Test]
       package foo.bar.baz;
   
@@ -30,11 +36,15 @@ test analysis: SpecializeEnumValueOf_after [[
       }
     }
   }
+  }
+  }
 ]] run test-analyze to SUCCEED()
 
 test refret 0: SpecializeEnumValueOf_after [[
   test;
-  [foo.bar.baz] {
+  [foo] {
+  [bar] {
+  [baz] {
   [Test]
       package foo.bar.baz;
   
@@ -46,9 +56,13 @@ test refret 0: SpecializeEnumValueOf_after [[
       }
     }
   }
+  }
+  }
 ]] run fix-reference(|#2, #1) to [[
   test;
-  [foo.bar.baz] {
+  [foo] {
+  [bar] {
+  [baz] {
   [Test]
       package foo.bar.baz;
   
@@ -59,6 +73,8 @@ test refret 0: SpecializeEnumValueOf_after [[
           System.out.println(X.B);
       }
     }
+  }
+  }
   }
 ]]
 

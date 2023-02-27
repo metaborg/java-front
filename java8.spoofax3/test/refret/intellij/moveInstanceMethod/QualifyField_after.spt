@@ -41,7 +41,7 @@ test refret 0: QualifyField_after [[
         Flam flam = new Flam();
   
         public static void main(String[] args) {
-            Flim flim = new Flim();
+            Flim [[flim]] = new Flim();
             [[flim.beep]]();
         }
     }
@@ -49,7 +49,7 @@ test refret 0: QualifyField_after [[
     class Flam {
         void [[beep]]() {}
     }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Test]
       class Flim {

@@ -45,11 +45,11 @@ test refret 0: OverloadingMethods1_after [[
     }
   
     class C {
-        void n(B b){
+        void n(B [[b]]){
           [[m]]();
         }
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #1, #2) to [[
   test;
   [Test]
       class B extends A {

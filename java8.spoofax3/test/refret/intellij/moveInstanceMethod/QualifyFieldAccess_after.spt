@@ -11,7 +11,7 @@ test parse: QualifyFieldAccess_after [[
             private int x;
   
             public void foo(int x) {
-                this.x = x;
+                this.x = x; // Context: this
             }
         }
     }
@@ -28,7 +28,7 @@ test analysis: QualifyFieldAccess_after [[
             private int x;
   
             public void foo(int x) {
-                this.x = x;
+                this.x = x; // Context: this
             }
         }
     }
@@ -45,7 +45,7 @@ test refret 0: QualifyFieldAccess_after [[
             private int [[x]];
   
             public void foo(int x) {
-                [[bar.x]] = x;
+                [[bar.x]] = x; // Context: this
             }
         }
     }
@@ -60,7 +60,7 @@ test refret 0: QualifyFieldAccess_after [[
             private int x;
   
             public void foo(int x) {
-                this.x = x;
+                this.x = x; // Context: this
             }
         }
     }

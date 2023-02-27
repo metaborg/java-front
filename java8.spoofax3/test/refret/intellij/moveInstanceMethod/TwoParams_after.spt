@@ -38,7 +38,7 @@ test refret 0: TwoParams_after [[
   test;
   [Test]
       class Foreign {
-        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+        void foo(MoveMethodTest [[moveMethodTest]], MoveMethodTest.Inner inner) {
            [[bar]] (inner);
         }
     }
@@ -49,7 +49,7 @@ test refret 0: TwoParams_after [[
         class Inner {
         }
     }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Test]
       class Foreign {
