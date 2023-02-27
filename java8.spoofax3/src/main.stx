@@ -84,9 +84,11 @@ rules // alternative initial constraint for reference retention
       s_java_lang_Override s_java_lang_Override_static
       s_java_lang_Throwable s_java_lang_Throwable_static
       s_java_lang_Math s_java_lang_Math_static
+      s_java_lang_Enum s_java_lang_Enum_static
       s_java_util
-      s_java_util_List s_java_util_List_static
       s_java_util_Collection s_java_util_Collection_static
+      s_java_util_List s_java_util_List_static
+      s_java_util_Set s_java_util_Set_static
       s_java_util_LinkedHashSet s_java_util_LinkedHashSet_static
       s_java_util_ArrayList s_java_util_ArrayList_static
       s_java_util_NoSuchElementException s_java_util_NoSuchElementException_static
@@ -124,10 +126,14 @@ rules // alternative initial constraint for reference retention
     declareMthdName(s_java_lang_Object, Id("equals"), ARGS([REF(s_java_lang_Object)]), TYPED(BOOLEAN())),
     // int hashCode()
     declareMthdName(s_java_lang_Object, Id("hashCode"), ARGS([]), TYPED(INT())),
+    // string toString()
+    declareMthdName(s_java_lang_Object, Id("toString"), ARGS([]), TYPED(REF(s_java_lang_String))),
 
     // class java.lang.Integer
     new s_java_lang_Integer s_java_lang_Integer_static,
     s_java_lang_Integer -STATIC_MEMBERS-> s_java_lang_Integer_static,
+    s_java_lang_Integer -IMPORT_PKG-> s_java_lang,
+    s_java_lang_Integer -EXTENDS-> s_java_lang_Object,
     declareType2(s_java_lang, s_java_lang, F(), Id("Integer"), s_java_lang_Integer, CLASS()),
     // constructor(int)
     declareMthdName(s_java_lang_Integer, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_lang_Integer))),
@@ -136,6 +142,7 @@ rules // alternative initial constraint for reference retention
     new s_java_lang_String s_java_lang_String_static,
     s_java_lang_String -STATIC_MEMBERS-> s_java_lang_String_static,
     s_java_lang_String -IMPORT_PKG-> s_java_lang,
+    s_java_lang_String -EXTENDS-> s_java_lang_Object,
     declareType2(s_java_lang, s_java_lang, F(), Id("String"), s_java_lang_String, CLASS()),
     !typeName["java/lang/String"] in s_java_lang_String,
     // char charAt(int)
@@ -156,6 +163,7 @@ rules // alternative initial constraint for reference retention
     new s_java_lang_Runnable s_java_lang_Runnable_static,
     s_java_lang_Runnable -STATIC_MEMBERS-> s_java_lang_Runnable_static,
     s_java_lang_Runnable -IMPORT_PKG-> s_java_lang,
+    s_java_lang_Runnable -EXTENDS-> s_java_lang_Object,
     declareType2(s_java_lang, s_java_lang, F(), Id("Runnable"), s_java_lang_Runnable, CLASS()),
     // constructor()
     declareMthdName(s_java_lang_Runnable, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Runnable))),
@@ -166,6 +174,7 @@ rules // alternative initial constraint for reference retention
     new s_java_lang_System s_java_lang_System_static,
     s_java_lang_System -STATIC_MEMBERS-> s_java_lang_System_static,
     s_java_lang_System -IMPORT_PKG-> s_java_lang,
+    s_java_lang_System -EXTENDS-> s_java_lang_Object,
     declareType2(s_java_lang, s_java_lang, F(), Id("System"), s_java_lang_System, CLASS()),
     // static PrintStream out
     declareExprName(s_java_lang_System_static, Id("out"), REF(s_java_io_PrintStream)),
@@ -180,6 +189,7 @@ rules // alternative initial constraint for reference retention
     new s_java_lang_Throwable s_java_lang_Throwable_static,
     s_java_lang_Throwable -STATIC_MEMBERS-> s_java_lang_Throwable_static,
     s_java_lang_Throwable -IMPORT_PKG-> s_java_lang,
+    s_java_lang_Throwable -EXTENDS-> s_java_lang_Object,
     declareType2(s_java_lang, s_java_lang, F(), Id("Throwable"), s_java_lang_Throwable, CLASS()),
     !typeName["java/lang/Throwable"] in s_java_lang_Throwable,
 
@@ -187,9 +197,18 @@ rules // alternative initial constraint for reference retention
     new s_java_lang_Math s_java_lang_Math_static,
     s_java_lang_Math -STATIC_MEMBERS-> s_java_lang_Math_static,
     s_java_lang_Math -IMPORT_PKG-> s_java_lang,
+    s_java_lang_Math -EXTENDS-> s_java_lang_Object,
     declareType2(s_java_lang, s_java_lang, F(), Id("Math"), s_java_lang_Math, CLASS()),
-    // int random()
-    declareMthdName(s_java_lang_Math, Id("random"), ARGS([]), TYPED(INT())),
+    // static int random()
+    declareMthdName(s_java_lang_Math_static, Id("random"), ARGS([]), TYPED(INT())),
+
+    // class java.lang.Enum
+    new s_java_lang_Enum s_java_lang_Enum_static,
+    s_java_lang_Enum -STATIC_MEMBERS-> s_java_lang_Enum_static,
+    s_java_lang_Enum -IMPORT_PKG-> s_java_lang,
+    s_java_lang_Enum -EXTENDS-> s_java_lang_Object,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Enum"), s_java_lang_Enum, CLASS()),
+    !typeName["java/lang/Enum"] in s_java_lang_Enum,
 
 
     // package java.io
@@ -208,6 +227,12 @@ rules // alternative initial constraint for reference retention
     declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([REF(s_java_lang_String)]), VOID()),
     // void println(int)
     declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([INT()]), VOID()),
+    // void print(Object)
+    declareMthdName(s_java_io_PrintStream, Id("print"), ARGS([REF(s_java_lang_Object)]), VOID()),
+    // void print(String)
+    declareMthdName(s_java_io_PrintStream, Id("print"), ARGS([REF(s_java_lang_String)]), VOID()),
+    // void print(int)
+    declareMthdName(s_java_io_PrintStream, Id("print"), ARGS([INT()]), VOID()),
 
 
     // package java.util
@@ -215,37 +240,56 @@ rules // alternative initial constraint for reference retention
     s_java_util -PARENT_PKG-> s_java,
     declarePkg(s_java, Id("util"), s_java_util),
 
-    // class java.util.List
-    new s_java_util_List s_java_util_List_static,
-    s_java_util_List -STATIC_MEMBERS-> s_java_util_List_static,
-    s_java_util_List -IMPORT_PKG-> s_java_util,
-    declareType2(s_java_util, s_java_util, F(), Id("List"), s_java_util_List, CLASS()),
-
-    // class java.util.Collection
+    // interface java.util.Collection extends Iterable
     new s_java_util_Collection s_java_util_Collection_static,
     s_java_util_Collection -STATIC_MEMBERS-> s_java_util_Collection_static,
     s_java_util_Collection -IMPORT_PKG-> s_java_util,
-    declareType2(s_java_util, s_java_util, F(), Id("Collection"), s_java_util_Collection, CLASS()),
+    s_java_util_Collection -IMPLEMENTS-> s_java_lang_Iterable,
+    declareType2(s_java_util, s_java_util, F(), Id("Collection"), s_java_util_Collection, INTF()),
+    // void add(Object)
+    declareMthdName(s_java_util_Collection, Id("add"), ARGS([REF(s_java_lang_Object)]), VOID()),
 
-    // class java.util.LinkedHashSet
+    // interface java.util.List extends Collection
+    new s_java_util_List s_java_util_List_static,
+    s_java_util_List -STATIC_MEMBERS-> s_java_util_List_static,
+    s_java_util_List -IMPORT_PKG-> s_java_util,
+    s_java_util_List -IMPLEMENTS-> s_java_util_Collection,
+    declareType2(s_java_util, s_java_util, F(), Id("List"), s_java_util_List, INTF()),
+
+    // interface java.util.Set extends Collection
+    new s_java_util_Set s_java_util_Set_static,
+    s_java_util_Set -STATIC_MEMBERS-> s_java_util_Set_static,
+    s_java_util_Set -IMPORT_PKG-> s_java_util,
+    s_java_util_Set -IMPLEMENTS-> s_java_util_Collection,
+    declareType2(s_java_util, s_java_util, F(), Id("Set"), s_java_util_Set, INTF()),
+
+    // class java.util.LinkedHashSet implements Set
     new s_java_util_LinkedHashSet s_java_util_LinkedHashSet_static,
     s_java_util_LinkedHashSet -STATIC_MEMBERS-> s_java_util_LinkedHashSet_static,
     s_java_util_LinkedHashSet -IMPORT_PKG-> s_java_util,
+    s_java_util_LinkedHashSet -EXTENDS-> s_java_lang_Object,
+    s_java_util_LinkedHashSet -IMPLEMENTS-> s_java_util_Set,
     declareType2(s_java_util, s_java_util, F(), Id("LinkedHashSet"), s_java_util_LinkedHashSet, CLASS()),
 
-    // class java.util.ArrayList
+    // class java.util.ArrayList implements List
     new s_java_util_ArrayList s_java_util_ArrayList_static,
     s_java_util_ArrayList -STATIC_MEMBERS-> s_java_util_ArrayList_static,
     s_java_util_ArrayList -IMPORT_PKG-> s_java_util,
+    s_java_util_ArrayList -EXTENDS-> s_java_lang_Object,
+    s_java_util_ArrayList -IMPLEMENTS-> s_java_util_List,
     declareType2(s_java_util, s_java_util, F(), Id("ArrayList"), s_java_util_ArrayList, CLASS()),
+    // constructor()
+    declareMthdName(s_java_util_ArrayList, Id("<init>"), ARGS([]), TYPED(REF(s_java_util_ArrayList))),
+    // constructor(int)
     declareMthdName(s_java_util_ArrayList, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_util_ArrayList))),
 
-    // class java.util.NoSuchElementException
+    // class java.util.NoSuchElementException extends Throwable
     new s_java_util_NoSuchElementException s_java_util_NoSuchElementException_static,
     s_java_util_NoSuchElementException -STATIC_MEMBERS-> s_java_util_NoSuchElementException_static,
     s_java_util_NoSuchElementException -IMPORT_PKG-> s_java_util,
     s_java_util_NoSuchElementException -EXTENDS-> s_java_lang_Throwable, // Ignore Exception for now
     declareType2(s_java_util, s_java_util, F(), Id("NoSuchElementException"), s_java_util_NoSuchElementException, CLASS()),
+    // constructor(String)
     declareMthdName(s_java_util_NoSuchElementException, Id("<init>"), ARGS([REF(s_java_lang_String)]), TYPED(REF(s_java_util_NoSuchElementException))),
 
 
@@ -254,11 +298,11 @@ rules // alternative initial constraint for reference retention
     s_java_util_stream -PARENT_PKG-> s_java_util,
     declarePkg(s_java_util, Id("stream"), s_java_util_stream),
 
-    // class java.util.stream.Stream
+    // interface java.util.stream.Stream
     new s_java_util_stream_Stream s_java_util_stream_Stream_static,
     s_java_util_stream_Stream -STATIC_MEMBERS-> s_java_util_stream_Stream_static,
     s_java_util_stream_Stream -IMPORT_PKG-> s_java_util_stream,
-    declareType2(s_java_util_stream, s_java_util_stream, F(), Id("Stream"), s_java_util_stream_Stream, CLASS()),
+    declareType2(s_java_util_stream, s_java_util_stream, F(), Id("Stream"), s_java_util_stream_Stream, INTF()),
 
 
     // package java.util.function
@@ -266,17 +310,17 @@ rules // alternative initial constraint for reference retention
     s_java_util_function -PARENT_PKG-> s_java_util,
     declarePkg(s_java_util, Id("function"), s_java_util_function),
 
-    // class java.util.function.Consumer
+    // interface java.util.function.Consumer
     new s_java_util_function_Consumer s_java_util_function_Consumer_static,
     s_java_util_function_Consumer -STATIC_MEMBERS-> s_java_util_function_Consumer_static,
     s_java_util_function_Consumer -IMPORT_PKG-> s_java_util_function,
-    declareType2(s_java_util_function, s_java_util_function, F(), Id("Consumer"), s_java_util_function_Consumer, CLASS()),
+    declareType2(s_java_util_function, s_java_util_function, F(), Id("Consumer"), s_java_util_function_Consumer, INTF()),
 
-    // class java.util.function.Consumer
+    // interface java.util.function.Predicate
     new s_java_util_function_Predicate s_java_util_function_Predicate_static,
     s_java_util_function_Predicate -STATIC_MEMBERS-> s_java_util_function_Predicate_static,
     s_java_util_function_Predicate -IMPORT_PKG-> s_java_util_function,
-    declareType2(s_java_util_function, s_java_util_function, F(), Id("Predicate"), s_java_util_function_Predicate, CLASS()),
+    declareType2(s_java_util_function, s_java_util_function, F(), Id("Predicate"), s_java_util_function_Predicate, INTF()),
 
 
     // package java.math
@@ -291,6 +335,8 @@ rules // alternative initial constraint for reference retention
     declareType2(s_java_math, s_java_math, F(), Id("BigDecimal"), s_java_math_BigDecimal, CLASS()),
     // constructor()
     declareMthdName(s_java_math_BigDecimal, Id("<init>"), ARGS([INT()]), TYPED(REF(s_java_math_BigDecimal))),
+    // static BigDecimal valueOf(long)
+    declareMthdName(s_java_math_BigDecimal_static, Id("valueOf"), ARGS([LONG()]), TYPED(REF(s_java_math_BigDecimal))),
 
 
     // type-check as regular file
