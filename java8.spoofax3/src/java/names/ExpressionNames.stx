@@ -52,11 +52,13 @@ rules
   resolveExprNames(s, ID(id)) = varPathList :-
     varPathList == resolveLexicalExprNames(s, id).
 
-  resolveExprNames(s, QID(qid, id)) = varPathList :-
-  {s_amb}
-    s_amb == ambDeclScope(resolveAmbName(s, qid)),
-    varPathList == resolveMemberExprNames(s_amb, id).
+  resolveExprNames(s, QID(qid, id)) = resolveExprNames1(resolveAmbName(s, qid), id).
 
+    resolveExprNames1: AMB_DECL * Id -> list(VAR_PATH)
+    resolveExprNames1(VAR__DECL(varDecl), id) = resolveMemberExprNames(typeScope(varDeclType(varDecl)), id).
+    resolveExprNames1(TYPE__DECL(typeDecl), id) = resolveAllStaticMemberExprNames(typeDeclScope(typeDecl), id).
+    resolveExprNames1(PKG__DECL(_), id) = _ :-
+      false | error $[Cannot resolve variable [id] in package.] @id.
 
   resolveLexicalExprNames : scope * Id -> list(VAR_PATH)
 
@@ -216,13 +218,13 @@ rules
     s_ty == typeScope(varDeclType(varDecl)),
     varDecl' == singleVarDecl(id, resolveMemberExprNames(s_ty, id)).
 
-  resolveMemberAmbName(TYPE__DECL(typeDecl), id) = resolveMemberAmbName1(s, id, resolveMemberExprNames(s, id)) :-
+  resolveMemberAmbName(TYPE__DECL(typeDecl), id) = resolveMemberAmbName1(s, id, resolveAllStaticMemberExprNames(s, id)) :-
     s == typeDeclScope(typeDecl).
 
       resolveMemberAmbName1 : scope * Id * list(VAR_PATH) -> AMB_DECL
       resolveMemberAmbName2 : scope * Id * list(TYPE_PATH) -> AMB_DECL
 
-      resolveMemberAmbName1(s, id, []) = resolveMemberAmbName2(s, id, resolveMemberTypeNames(s, id)).
+      resolveMemberAmbName1(s, id, []) = resolveMemberAmbName2(s, id, resolveAllStaticMemberTypeNames(s, id)).
 
       resolveMemberAmbName1(s, id, varPathList) = VAR__DECL(varDecl) :-
         varDecl == singleVarDecl(id, varPathList).
