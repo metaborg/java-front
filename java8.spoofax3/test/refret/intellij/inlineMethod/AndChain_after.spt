@@ -50,7 +50,7 @@ test analysis 1: AndChain_after [[
     }
 ]] analysis succeeds
 
-test analysis 2: AndChain_after [[
+test analysis 2: AndChain_after x[[
   test;
   [MyQueue]
       import java.util.NoSuchElementException;

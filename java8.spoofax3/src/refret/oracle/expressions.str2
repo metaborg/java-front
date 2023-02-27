@@ -8,12 +8,15 @@ imports
   statix/runtime/-
 
   refret/-
+  refret/oracle/-
 
   signatures/syntax/java/lexical/-
   signatures/syntax/java/names/-
+  signatures/syntax/java/types/-
   signatures/syntax/java/expressions/-
 
   injections/syntax/java/expressions/-
+  injections/syntax/java/types/-
 
 rules
 
@@ -25,12 +28,17 @@ rules
        ; s-ref      := <scope-prop(|a)> x
        ; s-tgt      := <scope-prop(|a); escape-static(|a)> tgt
        ; s-prop*    := <reconstruct-static-names(|a, x)> s-tgt
-       ; q-prop*    := <qualify-instance-field(|a, x)> (inst, s-ref)
+       ; inst'      := <to-opt-expr> inst
+       ; q-prop*    := <qualify-instance-field(|a, x)> (inst', s-ref)
        ; prop*      := <flatten-list> 
                        [ [ e ]
                        , s-prop*
                        , q-prop*
                        ]
+
+  to-opt-expr :: Option(?) -> Option(Expression)
+  to-opt-expr = is(Option(Expression))
+  to-opt-expr = ?Some(<id>); collect-id; !Some(ExpressionName2Expression(ExpressionName(<id>)))
 
   // static accesses
   reconstruct-static-names(|blob, Id) :: Term -> List(Expression)
@@ -44,7 +52,12 @@ rules
 
   // field access with given instance
   qualify-instance-field(|blob, Id) :: Option(Expression) * Term -> List(Expression)
-  qualify-instance-field(|a, x): (Some(inst), s-ref) -> [FieldAccess2Expression(Field(inst, x))]
+  qualify-instance-field(|a, x): (Some(inst), s-ref) -> prop*
+    with q-prop* := <reconstruct-field-access(|a, x)> s-ref
+       ; c-prop* := <this-type(|a); insert-casts(|a, inst, x)> s-ref
+       ; prop*   := [ FieldAccess2Expression(Field(inst, x))
+                    , c-prop*
+                    ]
   qualify-instance-field(|a, x): (None(), s-ref) -> prop*
     with q-prop* := <reconstruct-field-access(|a, x)> s-ref
        ; prop*   := [ FieldAccess2Expression(Field(This(), x))
@@ -55,13 +68,25 @@ rules
   // this/super field accesses
   reconstruct-field-access(|blob, Id) :: Term -> List(Expression)
   reconstruct-field-access(|a, x): s-ref -> prop*
-    with e-cls*      := <this-type(|a); reconstruct-enclosing-classes(|a); Fst; reverse; Tl> s-ref
-       ; this-prop*  := <map(mk-this-prop(|x))> e-cls*
-       ; super-prop* := <map(mk-super-prop(|x))> e-cls*
-       ; prop*       := <flatten-list> [this-prop*, super-prop*]
+    with T            := <this-type(|a)> s-ref
+       ; e-cls*       := <reconstruct-enclosing-classes(|a)> T
+       ; e-cls'*      := <map(Fst); reverse; Tl> e-cls*
+       ; this-prop*   := <map(mk-this-prop(|x))> e-cls'*
+       ; super-prop*  := <map(mk-super-prop(|x))> e-cls'*
+       ; cast-prop*   := <reconstruct-super-classes(|a); (Tl; Tl; map(insert-casts(|a, This(), x))) <+ ![]> T
+       ; c-this-prop* := <flatmap(mk-casted-this-prop(|a, x))> e-cls*
+       ; prop*        := <flatten> [this-prop*, super-prop*, cast-prop*, c-this-prop*]
 
   mk-this-prop(|Id) :: Id -> Expression
   mk-this-prop(|x): q -> FieldAccess2Expression(Field(QThis(TypeName(q)), x))
+
+  mk-casted-this-prop(|blob, Id) :: Id * Term -> List(Expression)
+  mk-casted-this-prop(|a, x): T@(x-T, s-T) -> prop*
+    with if super* := <reconstruct-super-classes(|a); Tl; Tl> T then
+           prop* := <map(insert-casts(|a, QThis(TypeName(x-T)), x))> super*
+         else
+           prop* := []
+         end
 
   mk-super-prop(|Id) :: Id -> Expression
   mk-super-prop(|x): q -> FieldAccess2Expression(QSuperField(TypeName(q), x))
@@ -71,3 +96,16 @@ rules
   mk-type-name: QName(xs) -> QTypeName(q, x)
     with (x*, x) := <split-init-last> xs
        ; q       := <foldl'(!PackageOrTypeName(<id>), { n, q: ?(n, q); !QPackageOrTypeName(q, n) })> x*
+
+  // superclass casts
+  insert-casts(|blob, Expression, Id) :: Id * Term -> List(Expression)
+  insert-casts(|a, expr, x) : T@(x-T, s-T) -> prop*
+    with p-cls* := <reconstruct-super-classes(|a); reverse; Tl> T
+       ; prop*  := <flatmap(reconstruct-static-qualifiers(|a)); map(mk-cast(|expr); mk-field-access(|x))> p-cls*
+
+  mk-field-access(|Id) :: Expression -> Expression
+  mk-field-access(|x): expr -> FieldAccess2Expression(Field(expr, x))
+
+  mk-cast(|Expression) :: QName -> Expression
+  mk-cast(|expr): qn -> CastReference(ClassType2ReferenceType(ct), [], expr)
+    with ct := <mk-qualified-class-type(|[], NoTypeArguments())> qn

@@ -29,14 +29,18 @@ rules
           in s |-> [(_, s')].
 
   enclosingClass: scope -> (Id * scope)
-  enclosingClass(s) = (x, s') :- {p T}
+  enclosingClass(s) = (typeDeclId(T), dst(p)) :-
     query thisType
       filter INSTANCE_LEX? (LEX | STATIC_LEX)
          min LEX < STATIC_LEX
-          in s |-> [(p, T)],
-    x == typeDeclId(T),
-    s' == dst(p).
+          in s |-> [(p, T)].
 
+  superClass: scope -> TYPE_DECL
+  superClass(s) = superTypeDecl :- {s' thisTypeDecl}
+    escapeStatic(s) == s',
+    thisTypeDecl == this(s'),
+    superTypeDecl == super(thisTypeDecl).    
+  
 
   dst : path -> scope
   dst(_PathEmpty(s)) = s.

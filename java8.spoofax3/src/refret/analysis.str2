@@ -33,6 +33,12 @@ rules // query analysis result
   //   (i.e., not the scope of the class).
   enclosing-class(|blob) :: Term -> Id * Term
   enclosing-class(|a) = MkSingleton; evaluate-constraint(|a, "refret!enclosingClass")
+  
+  // Finds enclosing class: also works in static declaration scope.
+  // Returns name of enclosing class and scope in which it is declared 
+  //   (i.e., not the scope of the class).
+  super-class(|blob) :: Term -> Id * Term
+  super-class(|a) = MkSingleton; evaluate-constraint(|a, "refret!superClass")
 
   // Returns the closest type declaration.
   this-type(|blob) :: Term -> Id * Term
@@ -55,18 +61,28 @@ rules // reconstruct enclosing context from analysis
          end
 
   // inner classes
-  reconstruct-enclosing-classes(|blob) :: Id * Term -> List(Id) * Term
+  reconstruct-enclosing-classes(|blob) :: Id * Term -> List(Id * Term)
   reconstruct-enclosing-classes(|a): (x, s) -> res
     with if <enclosing-class(|a)> s => (x', s') then
-           (x*, s'') := <reconstruct-enclosing-classes(|a)> (x', s')
-         ; res := ([x*, x], s'')
+           T*  := <reconstruct-enclosing-classes(|a)> (x', s')
+         ; res := [T*, (x, s)]
          else
-           res := ([x], s)
+           res := [(x, s)]
+         end
+
+  // inner classes
+  reconstruct-super-classes(|blob) :: Id * Term -> List(Id * Term)
+  reconstruct-super-classes(|a): (x, s) -> res
+    with if <super-class(|a)> s => (x', s') then
+           T*  := <reconstruct-super-classes(|a)> (x', s')
+         ; res := [T*, (x, s)]
+         else
+           res := [(x, s)]
          end
 
   reconstruct-static-qualifiers(|blob) :: Id * Term -> List(QName)
   reconstruct-static-qualifiers(|a) : (x, s-tgt) -> p-cls*
-    with (cls*, s)  := <reconstruct-enclosing-classes(|a)> (x, s-tgt)
+    with (cls*, s)  := <reconstruct-enclosing-classes(|a); unzip; (id, last)> (x, s-tgt)
        ; q-cls*     := <mk-qnames> cls*
        ; (p, s-pkg) := <this-pkg(|a)> s
 	   ; pkg*       := <reconstruct-package(|a); filter(not(?Id("(unnamed)")))> (p, s-pkg)

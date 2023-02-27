@@ -7,6 +7,7 @@ imports
   signatures/syntax/java/lexical/-
   signatures/syntax/java/names/-
   signatures/syntax/java/types/-
+  signatures/syntax/java/classes/-
 
   injections/syntax/java/expressions/-
 
@@ -38,9 +39,14 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
   is-name-of-sort: MethodName(_) -> "MethodName"
 
   is-name-of-sort: Id(_) -> "Id"
+  
+  is-name-of-sort: Some(x) -> <is-name-of-sort> x
+  
 
   // Collect rightmost leaf if it is an `Id(_)` term
   collect-id = ?Id(_)
   collect-id = ?ClassType(_, <collect-id>, _)
   collect-id = ?ClassOrInterfaceTypeMember(_, _, <collect-id>, _)
-  collect-id = where(is-name-of-sort; not(equal(|"ClassType"))); get-arguments; last; collect-id
+  collect-id = ?VariableDecl(<collect-id>)
+  collect-id = ?VariableDeclInit(<collect-id>, _)
+  collect-id = get-arguments; last; collect-id

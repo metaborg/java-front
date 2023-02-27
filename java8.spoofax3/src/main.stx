@@ -82,6 +82,7 @@ rules // alternative initial constraint for reference retention
       s_java_lang_Runnable s_java_lang_Runnable_static
       s_java_lang_System s_java_lang_System_static
       s_java_lang_Override s_java_lang_Override_static
+      s_java_lang_Throwable s_java_lang_Throwable_static
       s_java_lang_Math s_java_lang_Math_static
       s_java_util
       s_java_util_List s_java_util_List_static
@@ -136,12 +137,14 @@ rules // alternative initial constraint for reference retention
     s_java_lang_String -STATIC_MEMBERS-> s_java_lang_String_static,
     s_java_lang_String -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("String"), s_java_lang_String, CLASS()),
+    !typeName["java/lang/String"] in s_java_lang_String,
 
     // interface java.lang.Iterable
     new s_java_lang_Iterable s_java_lang_Iterable_static,
     s_java_lang_Iterable -STATIC_MEMBERS-> s_java_lang_Iterable_static,
     s_java_lang_Iterable -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("Iterable"), s_java_lang_Iterable, INTF()),
+    !typeName["java/lang/Iterable"] in s_java_lang_Iterable,
 
     // class java.lang.Runnable
     new s_java_lang_Runnable s_java_lang_Runnable_static,
@@ -166,6 +169,13 @@ rules // alternative initial constraint for reference retention
     s_java_lang_Override -STATIC_MEMBERS-> s_java_lang_Override_static,
     s_java_lang_Override -IMPORT_PKG-> s_java_lang,
     declareType2(s_java_lang, s_java_lang, F(), Id("Override"), s_java_lang_Override, CLASS()),
+
+    // class java.lang.Throwable
+    new s_java_lang_Throwable s_java_lang_Throwable_static,
+    s_java_lang_Throwable -STATIC_MEMBERS-> s_java_lang_Throwable_static,
+    s_java_lang_Throwable -IMPORT_PKG-> s_java_lang,
+    declareType2(s_java_lang, s_java_lang, F(), Id("Throwable"), s_java_lang_Throwable, CLASS()),
+    !typeName["java/lang/Throwable"] in s_java_lang_Throwable,
 
     // class java.lang.Math
     new s_java_lang_Math s_java_lang_Math_static,
@@ -228,6 +238,7 @@ rules // alternative initial constraint for reference retention
     new s_java_util_NoSuchElementException s_java_util_NoSuchElementException_static,
     s_java_util_NoSuchElementException -STATIC_MEMBERS-> s_java_util_NoSuchElementException_static,
     s_java_util_NoSuchElementException -IMPORT_PKG-> s_java_util,
+    s_java_util_NoSuchElementException -EXTENDS-> s_java_lang_Throwable, // Ignore Exception for now
     declareType2(s_java_util, s_java_util, F(), Id("NoSuchElementException"), s_java_util_NoSuchElementException, CLASS()),
     declareMthdName(s_java_util_NoSuchElementException, Id("<init>"), ARGS([REF(s_java_lang_String)]), TYPED(REF(s_java_util_NoSuchElementException))),
 

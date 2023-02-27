@@ -9,10 +9,19 @@ imports
 
   signatures/syntax/java/lexical/-
 
+
 rules
 
   foldl'(a -> b, a * b -> b|) :: List(a) -> b
   foldl'(s1, s2) = ?[h| tl]; !(tl, <s1> h); foldl(s2)
+
+  flatmap(a -> List(b)) :: List(a) -> List(b)
+  flatmap(mapper) = map(mapper); flatten
+
+  flatten :: List(List(a)) -> List(a)
+  flatten: [] -> []
+  flatten: [[]| tl] -> <flatten> tl
+  flatten: [[h| tl]| tl'] -> [h | <flatten> [tl| tl']]
 
 rules
 
