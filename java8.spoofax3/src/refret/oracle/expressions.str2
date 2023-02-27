@@ -75,7 +75,7 @@ rules
        ; super-prop*  := <map(mk-super-prop(|x))> e-cls'*
        ; cast-prop*   := <reconstruct-super-classes(|a); (Tl; Tl; map(insert-casts(|a, This(), x))) <+ ![]> T
        ; c-this-prop* := <flatmap(mk-casted-this-prop(|a, x))> e-cls*
-       ; prop*        := <flatten> [this-prop*, super-prop*, cast-prop*, c-this-prop*]
+       ; prop*        := <flatten-list> [this-prop*, super-prop*, cast-prop*, c-this-prop*]
 
   mk-this-prop(|Id) :: Id -> Expression
   mk-this-prop(|x): q -> FieldAccess2Expression(Field(QThis(TypeName(q)), x))
@@ -109,3 +109,4 @@ rules
   mk-cast(|Expression) :: QName -> Expression
   mk-cast(|expr): qn -> CastReference(ClassType2ReferenceType(ct), [], expr)
     with ct := <mk-qualified-class-type(|[], NoTypeArguments())> qn
+
