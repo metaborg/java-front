@@ -1,0 +1,256 @@
+module refret/intellij/inlineMethod/ChainedBuilderCall_after
+
+test parse: ChainedBuilderCall_after [[
+  test;
+  [Test]
+  
+    class MyObjBuilder {
+        private NewType memberVar1;
+  
+        public NewType convertToNewType(LegacyType arg) {
+            return new NewType();
+        }
+  
+        public MyObjBuilder memberVar1(NewType arg) {
+            this.memberVar1 = arg;
+            return this;
+        }
+  
+        public MyObj memberVar2() {
+            return new MyObj();
+        }
+    }
+  
+    class Main {
+        public static void main(String[] args) {
+            LegacyType lt = new LegacyType();
+            MyObjBuilder myObjBuilder = MyObj.builder();
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            MyObj obj = myObjBuilder
+                    .memberVar2();
+        }
+    }
+  
+    class NewType {
+    }
+  
+    class MyObj {
+        public static MyObjBuilder builder() {
+            return new MyObjBuilder();
+        }
+    }
+  
+    class LegacyType {}
+]] parse succeeds
+
+test analysis: ChainedBuilderCall_after [[
+  test;
+  [Test]
+  
+    class MyObjBuilder {
+        private NewType memberVar1;
+  
+        public NewType convertToNewType(LegacyType arg) {
+            return new NewType();
+        }
+  
+        public MyObjBuilder memberVar1(NewType arg) {
+            this.memberVar1 = arg;
+            return this;
+        }
+  
+        public MyObj memberVar2() {
+            return new MyObj();
+        }
+    }
+  
+    class Main {
+        public static void main(String[] args) {
+            LegacyType lt = new LegacyType();
+            MyObjBuilder myObjBuilder = MyObj.builder();
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            MyObj obj = myObjBuilder
+                    .memberVar2();
+        }
+    }
+  
+    class NewType {
+    }
+  
+    class MyObj {
+        public static MyObjBuilder builder() {
+            return new MyObjBuilder();
+        }
+    }
+  
+    class LegacyType {}
+]] run test-analyze to SUCCEED()
+
+test refret 0: ChainedBuilderCall_after [[
+  test;
+  [Test]
+  
+    class MyObjBuilder {
+        private NewType memberVar1;
+  
+        public NewType [[convertToNewType]](LegacyType arg) {
+            return new NewType();
+        }
+  
+        public MyObjBuilder memberVar1(NewType arg) {
+            this.memberVar1 = arg;
+            return this;
+        }
+  
+        public MyObj memberVar2() {
+            return new MyObj();
+        }
+    }
+  
+    class Main {
+        public static void main(String[] args) {
+            LegacyType lt = new LegacyType();
+            MyObjBuilder myObjBuilder = MyObj.builder();
+            [[memberVar1]](myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            MyObj obj = myObjBuilder
+                    .memberVar2();
+        }
+    }
+  
+    class NewType {
+    }
+  
+    class MyObj {
+        public static MyObjBuilder builder() {
+            return new MyObjBuilder();
+        }
+    }
+  
+    class LegacyType {}
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+  
+    class MyObjBuilder {
+        private NewType memberVar1;
+  
+        public NewType convertToNewType(LegacyType arg) {
+            return new NewType();
+        }
+  
+        public MyObjBuilder memberVar1(NewType arg) {
+            this.memberVar1 = arg;
+            return this;
+        }
+  
+        public MyObj memberVar2() {
+            return new MyObj();
+        }
+    }
+  
+    class Main {
+        public static void main(String[] args) {
+            LegacyType lt = new LegacyType();
+            MyObjBuilder myObjBuilder = MyObj.builder();
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            MyObj obj = myObjBuilder
+                    .memberVar2();
+        }
+    }
+  
+    class NewType {
+    }
+  
+    class MyObj {
+        public static MyObjBuilder builder() {
+            return new MyObjBuilder();
+        }
+    }
+  
+    class LegacyType {}
+]]
+
+test refret 1: ChainedBuilderCall_after [[
+  test;
+  [Test]
+  
+    class MyObjBuilder {
+        private NewType memberVar1;
+  
+        public NewType convertToNewType(LegacyType arg) {
+            return new NewType();
+        }
+  
+        public MyObjBuilder [[memberVar1]](NewType arg) {
+            this.memberVar1 = arg;
+            return this;
+        }
+  
+        public MyObj memberVar2() {
+            return new MyObj();
+        }
+    }
+  
+    class Main {
+        public static void main(String[] args) {
+            LegacyType lt = new LegacyType();
+            MyObjBuilder myObjBuilder = MyObj.builder();
+            myObjBuilder.memberVar1([[convertToNewType]](lt));      // TODO: Context: "myObjBuilder"
+            MyObj obj = myObjBuilder
+                    .memberVar2();
+        }
+    }
+  
+    class NewType {
+    }
+  
+    class MyObj {
+        public static MyObjBuilder builder() {
+            return new MyObjBuilder();
+        }
+    }
+  
+    class LegacyType {}
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+  
+    class MyObjBuilder {
+        private NewType memberVar1;
+  
+        public NewType convertToNewType(LegacyType arg) {
+            return new NewType();
+        }
+  
+        public MyObjBuilder memberVar1(NewType arg) {
+            this.memberVar1 = arg;
+            return this;
+        }
+  
+        public MyObj memberVar2() {
+            return new MyObj();
+        }
+    }
+  
+    class Main {
+        public static void main(String[] args) {
+            LegacyType lt = new LegacyType();
+            MyObjBuilder myObjBuilder = MyObj.builder();
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            MyObj obj = myObjBuilder
+                    .memberVar2();
+        }
+    }
+  
+    class NewType {
+    }
+  
+    class MyObj {
+        public static MyObjBuilder builder() {
+            return new MyObjBuilder();
+        }
+    }
+  
+    class LegacyType {}
+]]
+

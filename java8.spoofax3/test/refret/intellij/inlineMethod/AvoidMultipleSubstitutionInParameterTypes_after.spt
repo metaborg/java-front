@@ -1,0 +1,140 @@
+module refret/intellij/inlineMethod/AvoidMultipleSubstitutionInParameterTypes_after
+
+test parse: AvoidMultipleSubstitutionInParameterTypes_after [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] parse succeeds
+
+test analysis: AvoidMultipleSubstitutionInParameterTypes_after [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: AvoidMultipleSubstitutionInParameterTypes_after [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          [[nested]](list, root);
+      }
+  
+  
+        private static <S> void [[nested]](Collection<S> result, S element) {}
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]]
+
+test refret 1: AvoidMultipleSubstitutionInParameterTypes_after [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> [[list]]) {
+          nested([[list]], root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]]
+
+test refret 2: AvoidMultipleSubstitutionInParameterTypes_after [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> [[root]], LinkedHashSet<List<T>> list) {
+          nested(list, [[root]]);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]]
+

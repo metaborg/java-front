@@ -1,0 +1,52 @@
+module refret/intellij/ChangeSignature/canModify/A_test14_out
+
+test parse: A_test14_out [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private int m(int j, int i){
+    		return m(3, m(2, 1));
+    	}
+    }
+  }
+]] parse succeeds
+
+test analysis: A_test14_out [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private int m(int j, int i){
+    		return m(3, m(2, 1));
+    	}
+    }
+  }
+]] run test-analyze to SUCCEED()
+
+test refret 0: A_test14_out [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private int [[m]](int j, int i){
+    		return m(3, [[m]](2, 1));
+    	}
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [p] {
+  [A]
+      package p;
+    class A{
+    	private int m(int j, int i){
+    		return m(3, m(2, 1));
+    	}
+    }
+  }
+]]
+

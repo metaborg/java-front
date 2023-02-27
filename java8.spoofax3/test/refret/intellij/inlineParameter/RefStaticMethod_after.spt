@@ -1,0 +1,88 @@
+module refret/intellij/inlineParameter/RefStaticMethod_after
+
+test parse: RefStaticMethod_after [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int init() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = StaticRefMove.init(); // TODO: Context
+          System.out.println(subj);
+      }
+    }
+]] parse succeeds
+
+test analysis: RefStaticMethod_after [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int init() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = StaticRefMove.init(); // TODO: Context
+          System.out.println(subj);
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: RefStaticMethod_after [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int [[init]]() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = [[init]](); // TODO: Context
+          System.out.println(subj);
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int init() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = StaticRefMove.init(); // TODO: Context
+          System.out.println(subj);
+      }
+    }
+]]
+

@@ -1,0 +1,48 @@
+module refret/intellij/inlineSuperClass/superReference_after
+
+test parse: superReference_after [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        method();
+      }
+  
+        public void method() {}
+    }
+]] parse succeeds
+
+test analysis: superReference_after [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        method();
+      }
+  
+        public void method() {}
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: superReference_after [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        [[method]]();
+      }
+  
+        public void [[method]]() {}
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        method();
+      }
+  
+        public void method() {}
+    }
+]]
+

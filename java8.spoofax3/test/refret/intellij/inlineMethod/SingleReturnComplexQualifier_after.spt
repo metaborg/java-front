@@ -1,0 +1,354 @@
+module refret/intellij/inlineMethod/SingleReturnComplexQualifier_after
+
+test parse: SingleReturnComplexQualifier_after [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]] parse succeeds
+
+test analysis: SingleReturnComplexQualifier_after [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]] run test-analyze to SUCCEED()
+
+test refret 0: SingleReturnComplexQualifier_after [[
+  test;
+  [Test]
+      class Bar {
+  
+        int [[methodTrue]]() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println([[methodTrue]]());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]]
+
+test refret 1: SingleReturnComplexQualifier_after [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int [[methodFalse]]() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println([[methodFalse]]());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]]
+
+test refret 2: SingleReturnComplexQualifier_after [[
+  test;
+  [Test]
+      class Bar {
+  
+        int [[methodTrue]]() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = [[methodTrue]]();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]]
+
+test refret 3: SingleReturnComplexQualifier_after [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int [[methodFalse]]() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = [[methodFalse]]();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Bar {
+  
+        int methodTrue() {
+        return 3;
+      }
+  
+      int methodFalse() {
+        return 5;
+      }
+    }
+  
+    class Foo {
+      // IDEA-229317
+      void method() {
+          Bar bar2 = new Bar();
+  
+          System.out.println(bar2.methodTrue());   // TODO: context
+          Bar bar1 = new Bar();
+  
+          System.out.println(bar1.methodFalse());   // TODO: context
+          int result;
+          Bar bar = new Bar();
+          if (Math.random() > 0.5) {
+              result = bar.methodTrue();   // TODO: context
+          } else {
+              result = bar.methodFalse();   // TODO: context
+          }
+  
+          System.out.println(result);
+      }
+    }
+]]
+
