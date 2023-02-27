@@ -6,7 +6,7 @@ test parse: QualifierToArg2_after [[
       class CommandQueue {
   
         void f(CommandManager commandManager) {
-          commandManager.g();       // TODO: Context
+          commandManager.g();
         }
     }
   
@@ -35,7 +35,7 @@ test analysis: QualifierToArg2_after [[
       class CommandQueue {
   
         void f(CommandManager commandManager) {
-          commandManager.g();       // TODO: Context
+          commandManager.g();
         }
     }
   
@@ -63,8 +63,8 @@ test refret 0: QualifierToArg2_after [[
   [Test]
       class CommandQueue {
   
-        void f(CommandManager commandManager) {
-          [[g]]();       // TODO: Context
+        void f(CommandManager [[commandManager]]) {
+          [[g]]();
         }
     }
   
@@ -85,13 +85,13 @@ test refret 0: QualifierToArg2_after [[
             myManager.getCommandQueue().f(myManager);
         }
     }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Test]
       class CommandQueue {
   
         void f(CommandManager commandManager) {
-          commandManager.g();       // TODO: Context
+          commandManager.g();
         }
     }
   

@@ -11,7 +11,7 @@ test parse: RefThis_after [[
         private int myInt;
   
         public void withClass() {
-          myInt += User.this.hashCode();   // TODO: Context
+          myInt += User.this.hashCode();
         }
       }
   
@@ -33,7 +33,7 @@ test analysis: RefThis_after [[
         private int myInt;
   
         public void withClass() {
-          myInt += User.this.hashCode();   // TODO: Context
+          myInt += User.this.hashCode();
         }
       }
   
@@ -47,7 +47,7 @@ test analysis: RefThis_after [[
 test refret 0: RefThis_after [[
   test;
   [Subject]
-      class User {
+      class [[User]] {
   
         int [[hashCode]]() { return 0; }
   
@@ -55,7 +55,7 @@ test refret 0: RefThis_after [[
         private int myInt;
   
         public void withClass() {
-          myInt += [[hashCode]]();   // TODO: Context
+          myInt += [[hashCode]]();
         }
       }
   
@@ -64,7 +64,7 @@ test refret 0: RefThis_after [[
         subj.withClass();
       }
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #2, #1) to [[
   test;
   [Subject]
       class User {
@@ -75,7 +75,7 @@ test refret 0: RefThis_after [[
         private int myInt;
   
         public void withClass() {
-          myInt += User.this.hashCode();   // TODO: Context
+          myInt += User.this.hashCode();
         }
       }
   

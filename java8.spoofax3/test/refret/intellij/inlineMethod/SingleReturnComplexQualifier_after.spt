@@ -19,16 +19,16 @@ test parse: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -55,16 +55,16 @@ test analysis: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -91,16 +91,16 @@ test refret 0: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println([[methodTrue]]());   // TODO: context
+          System.out.println([[methodTrue]]());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -125,16 +125,16 @@ test refret 0: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -161,16 +161,16 @@ test refret 1: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println([[methodFalse]]());   // TODO: context
+          System.out.println([[methodFalse]]());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -195,16 +195,16 @@ test refret 1: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -231,16 +231,16 @@ test refret 2: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = [[methodTrue]]();   // TODO: context
+              result = [[methodTrue]]();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -265,16 +265,16 @@ test refret 2: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);
@@ -301,16 +301,16 @@ test refret 3: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = [[methodFalse]]();   // TODO: context
+              result = [[methodFalse]]();
           }
   
           System.out.println(result);
@@ -335,16 +335,16 @@ test refret 3: SingleReturnComplexQualifier_after [[
       void method() {
           Bar bar2 = new Bar();
   
-          System.out.println(bar2.methodTrue());   // TODO: context
+          System.out.println(&2());
           Bar bar1 = new Bar();
   
-          System.out.println(bar1.methodFalse());   // TODO: context
+          System.out.println(&1());
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
-              result = bar.methodTrue();   // TODO: context
+              result = &0();
           } else {
-              result = bar.methodFalse();   // TODO: context
+              result = &0();
           }
   
           System.out.println(result);

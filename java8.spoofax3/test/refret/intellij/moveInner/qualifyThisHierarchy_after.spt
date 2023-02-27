@@ -14,7 +14,7 @@ test parse: qualifyThisHierarchy_after [[
         }
   
         public void run() {
-        d.iAmProtected();    // TODO: Context: d
+        d.iAmProtected();
       }
     }
   
@@ -46,7 +46,7 @@ test analysis: qualifyThisHierarchy_after [[
         }
   
         public void run() {
-        d.iAmProtected();    // TODO: Context: d
+        d.iAmProtected();
       }
     }
   
@@ -71,14 +71,14 @@ test refret 0: qualifyThisHierarchy_after [[
       package pack1;
   
     public class MyRunnable {
-        private final DImpl d;
+        private final DImpl [[d]];
   
         public MyRunnable(DImpl d) {
             this.d = d;
         }
   
         public void run() {
-        [[iAmProtected]]();    // TODO: Context: d
+        [[iAmProtected]]();
       }
     }
   
@@ -94,7 +94,7 @@ test refret 0: qualifyThisHierarchy_after [[
   
   
   }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [pack1] {
   [MyRunnable]
@@ -108,7 +108,7 @@ test refret 0: qualifyThisHierarchy_after [[
         }
   
         public void run() {
-        d.iAmProtected();    // TODO: Context: d
+        d.iAmProtected();
       }
     }
   

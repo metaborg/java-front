@@ -25,7 +25,7 @@ test parse: ChainedBuilderCall_after [[
         public static void main(String[] args) {
             LegacyType lt = new LegacyType();
             MyObjBuilder myObjBuilder = MyObj.builder();
-            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));
             MyObj obj = myObjBuilder
                     .memberVar2();
         }
@@ -68,7 +68,7 @@ test analysis: ChainedBuilderCall_after [[
         public static void main(String[] args) {
             LegacyType lt = new LegacyType();
             MyObjBuilder myObjBuilder = MyObj.builder();
-            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));
             MyObj obj = myObjBuilder
                     .memberVar2();
         }
@@ -110,8 +110,8 @@ test refret 0: ChainedBuilderCall_after [[
     class Main {
         public static void main(String[] args) {
             LegacyType lt = new LegacyType();
-            MyObjBuilder myObjBuilder = MyObj.builder();
-            [[memberVar1]](myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            MyObjBuilder [[myObjBuilder]] = MyObj.builder();
+            [[memberVar1]](myObjBuilder.convertToNewType(lt));
             MyObj obj = myObjBuilder
                     .memberVar2();
         }
@@ -127,7 +127,7 @@ test refret 0: ChainedBuilderCall_after [[
     }
   
     class LegacyType {}
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #1, #2) to [[
   test;
   [Test]
   
@@ -152,7 +152,7 @@ test refret 0: ChainedBuilderCall_after [[
         public static void main(String[] args) {
             LegacyType lt = new LegacyType();
             MyObjBuilder myObjBuilder = MyObj.builder();
-            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));
             MyObj obj = myObjBuilder
                     .memberVar2();
         }
@@ -194,8 +194,8 @@ test refret 1: ChainedBuilderCall_after [[
     class Main {
         public static void main(String[] args) {
             LegacyType lt = new LegacyType();
-            MyObjBuilder myObjBuilder = MyObj.builder();
-            myObjBuilder.memberVar1([[convertToNewType]](lt));      // TODO: Context: "myObjBuilder"
+            MyObjBuilder [[myObjBuilder]] = MyObj.builder();
+            myObjBuilder.memberVar1([[convertToNewType]](lt));
             MyObj obj = myObjBuilder
                     .memberVar2();
         }
@@ -211,7 +211,7 @@ test refret 1: ChainedBuilderCall_after [[
     }
   
     class LegacyType {}
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #1, #2) to [[
   test;
   [Test]
   
@@ -236,7 +236,7 @@ test refret 1: ChainedBuilderCall_after [[
         public static void main(String[] args) {
             LegacyType lt = new LegacyType();
             MyObjBuilder myObjBuilder = MyObj.builder();
-            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));      // TODO: Context: "myObjBuilder"
+            myObjBuilder.memberVar1(myObjBuilder.convertToNewType(lt));
             MyObj obj = myObjBuilder
                     .memberVar2();
         }

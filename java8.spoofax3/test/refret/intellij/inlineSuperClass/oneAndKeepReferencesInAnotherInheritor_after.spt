@@ -13,7 +13,7 @@ test parse: oneAndKeepReferencesInAnotherInheritor_after [[
   
         {
         System.out.println(CONST);
-        System.out.println(Test.CONST);   // TODO: Context
+        System.out.println(Test.CONST);
       }
     }
     abstract class Test1 extends Super {
@@ -40,7 +40,7 @@ test analysis: oneAndKeepReferencesInAnotherInheritor_after [[
   
         {
         System.out.println(CONST);
-        System.out.println(Test.CONST);   // TODO: Context
+        System.out.println(Test.CONST);
       }
     }
     abstract class Test1 extends Super {
@@ -62,12 +62,12 @@ test refret 0: oneAndKeepReferencesInAnotherInheritor_after [[
     }
   
   [Test]
-      abstract class Test extends Sup<caret>er {
+      abstract class [[Test]] extends Sup<caret>er {
         public static final String [[CONST]] = "CONST";
   
         {
         System.out.println(CONST);
-        System.out.println([[Super.CONST]]);   // TODO: Context
+        System.out.println([[Super.CONST]]);
       }
     }
     abstract class Test1 extends Super {
@@ -79,7 +79,7 @@ test refret 0: oneAndKeepReferencesInAnotherInheritor_after [[
     abstract class Test2{
       System.out.println(Super.CONST);
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #2, #1) to [[
   test;
   [Super]
       class Super {
@@ -92,7 +92,7 @@ test refret 0: oneAndKeepReferencesInAnotherInheritor_after [[
   
         {
         System.out.println(CONST);
-        System.out.println(Test.CONST);   // TODO: Context
+        System.out.println(Test.CONST);
       }
     }
     abstract class Test1 extends Super {
@@ -109,7 +109,7 @@ test refret 0: oneAndKeepReferencesInAnotherInheritor_after [[
 test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
   test;
   [Super]
-      class Super {
+      class [[Super]] {
       public static final String [[CONST]] = "CONST";
     }
   
@@ -119,7 +119,7 @@ test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
   
         {
         System.out.println(CONST);
-        System.out.println(Test.CONST);   // TODO: Context
+        System.out.println(Test.CONST);
       }
     }
     abstract class Test1 extends Super {
@@ -131,7 +131,7 @@ test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
     abstract class Test2{
       System.out.println(Super.CONST);
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #2, #1) to [[
   test;
   [Super]
       class Super {
@@ -144,7 +144,7 @@ test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
   
         {
         System.out.println(CONST);
-        System.out.println(Test.CONST);   // TODO: Context
+        System.out.println(Test.CONST);
       }
     }
     abstract class Test1 extends Super {
@@ -161,7 +161,7 @@ test refret 1: oneAndKeepReferencesInAnotherInheritor_after [[
 test refret 2: oneAndKeepReferencesInAnotherInheritor_after [[
   test;
   [Super]
-      class Super {
+      class [[Super]] {
       public static final String [[CONST]] = "CONST";
     }
   
@@ -171,7 +171,7 @@ test refret 2: oneAndKeepReferencesInAnotherInheritor_after [[
   
         {
         System.out.println(CONST);
-        System.out.println(Test.CONST);   // TODO: Context
+        System.out.println(Test.CONST);
       }
     }
     abstract class Test1 extends Super {
@@ -183,7 +183,7 @@ test refret 2: oneAndKeepReferencesInAnotherInheritor_after [[
     abstract class Test2{
       System.out.println([[Super.CONST]]);
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #2, #1) to [[
   test;
   [Super]
       class Super {
@@ -196,7 +196,7 @@ test refret 2: oneAndKeepReferencesInAnotherInheritor_after [[
   
         {
         System.out.println(CONST);
-        System.out.println(Test.CONST);   // TODO: Context
+        System.out.println(Test.CONST);
       }
     }
     abstract class Test1 extends Super {

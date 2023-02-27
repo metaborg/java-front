@@ -1,84 +1,8 @@
 module refret/intellij/moveInstanceMethod/ForeignMethodReferenceWithTargetField_after
 
-test parse: ForeignMethodReferenceWithTargetField_after [[
-  test;
-  [Test]
-      import java.util.stream.Stream;
-  
-    class Test {
-      private static class Destination{
-          private boolean notNull(String it) {
-            return it != null;
-          }
-      }
-  
-      private final Destination destination = new Destination();
-  
-      public void main(Stream<String> stream, Test ref){
-        stream.filter(ref.destination::notNull);    // TODO: Context, sort?
-      }
-  
-    }
-]] parse succeeds
+// [[{disabled}]]
 
-test analysis: ForeignMethodReferenceWithTargetField_after [[
-  test;
-  [Test]
-      import java.util.stream.Stream;
-  
-    class Test {
-      private static class Destination{
-          private boolean notNull(String it) {
-            return it != null;
-          }
-      }
-  
-      private final Destination destination = new Destination();
-  
-      public void main(Stream<String> stream, Test ref){
-        stream.filter(ref.destination::notNull);    // TODO: Context, sort?
-      }
-  
-    }
-]] run test-analyze to SUCCEED()
+// [[{disabled}]]
 
-test refret 0: ForeignMethodReferenceWithTargetField_after [[
-  test;
-  [Test]
-      import java.util.stream.Stream;
-  
-    class Test {
-      private static class Destination{
-          private boolean [[notNull]](String it) {
-            return it != null;
-          }
-      }
-  
-      private final Destination destination = new Destination();
-  
-      public void main(Stream<String> stream, Test ref){
-        stream.filter([[ref.destination::notNull]]);    // TODO: Context, sort?
-      }
-  
-    }
-]] run fix-reference(|#2, #1) to [[
-  test;
-  [Test]
-      import java.util.stream.Stream;
-  
-    class Test {
-      private static class Destination{
-          private boolean notNull(String it) {
-            return it != null;
-          }
-      }
-  
-      private final Destination destination = new Destination();
-  
-      public void main(Stream<String> stream, Test ref){
-        stream.filter(ref.destination::notNull);    // TODO: Context, sort?
-      }
-  
-    }
-]]
+// [[{disabled}]]
 

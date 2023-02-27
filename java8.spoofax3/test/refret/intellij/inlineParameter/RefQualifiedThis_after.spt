@@ -10,7 +10,7 @@ test parse: RefQualifiedThis_after [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println(Outer.this.toString()); // TODO: Context
+            System.out.println(&2());
           }
         }
   
@@ -32,7 +32,7 @@ test analysis: RefQualifiedThis_after [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println(Outer.this.toString()); // TODO: Context
+            System.out.println(&2());
           }
         }
   
@@ -54,7 +54,7 @@ test refret 0: RefQualifiedThis_after [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println([[toString]]()); // TODO: Context
+            System.out.println([[toString]]());
           }
         }
   
@@ -74,7 +74,7 @@ test refret 0: RefQualifiedThis_after [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println(Outer.this.toString()); // TODO: Context
+            System.out.println(&2());
           }
         }
   
