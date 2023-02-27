@@ -141,6 +141,9 @@ rules // alternative initial constraint for reference retention
     new s_java_lang_Runnable s_java_lang_Runnable_static,
     s_java_lang_Runnable -STATIC_MEMBERS-> s_java_lang_Runnable_static,
     declareType2(s_java_lang, s_java_lang, F(), Id("Runnable"), s_java_lang_Runnable, CLASS()),
+    // constructor()
+    declareMthdName(s_java_lang_Object, Id("<init>"), ARGS([]), TYPED(REF(s_java_lang_Runnable))),
+    // void run()
     declareMthdName(s_java_lang_Runnable, Id("run"), ARGS([]), VOID()),
 
     // class java.lang.System
@@ -165,6 +168,8 @@ rules // alternative initial constraint for reference retention
     new s_java_io_PrintStream s_java_io_PrintStream_static,
     s_java_io_PrintStream -STATIC_MEMBERS-> s_java_io_PrintStream_static,
     declareType2(s_java_io, s_java_io, F(), Id("PrintStream"), s_java_io_PrintStream, CLASS()),
+    // void println(Object)
+    declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([REF(s_java_lang_Object)]), VOID()),
     // void println(String)
     declareMthdName(s_java_io_PrintStream, Id("println"), ARGS([REF(s_java_lang_String)]), VOID()),
     // void println(int)
