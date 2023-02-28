@@ -63,7 +63,7 @@ test Recursive1_after: refret test 1 [[
       class FirstClass {
   
         void y() {
-            new SecondClass().[[x()]];
+            [[new SecondClass().x()]];
         }
     }
   
@@ -107,7 +107,7 @@ test Recursive1_after: refret test 2 [[
         SecondClass g() { return null; }
   
         void [[x]]() {
-            if (this != null) g().[[x]]();
+            if (this != null) [[g().x()]];
         }
     }
 ]] run fix-reference(|#2, #1) to [[

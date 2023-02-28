@@ -107,7 +107,7 @@ test QualifierToArg1_after: refret test 1 [[
     class Application {
         CommandManager myManager;
         {
-            myManager.getCommandQueue().[[f()]];
+            [[myManager.getCommandQueue().f()]];
         }
     }
 ]] run fix-reference(|#2, #1) to [[
