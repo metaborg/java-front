@@ -55,7 +55,7 @@ rules
   qualify-instance-field(|a, x): (Some(inst), s-ref) -> prop*
     with q-prop* := <reconstruct-field-access(|a, x)> s-ref
        ; c-prop* := <this-type(|a); insert-casts(|a, inst, x)> s-ref
-       ; prop*   := [ FieldAccess2Expression(Field(inst, x))
+       ; prop*   := [ <mk-field-access(|x)> inst
                     , c-prop*
                     ]
   qualify-instance-field(|a, x): (None(), s-ref) -> prop*
@@ -104,6 +104,8 @@ rules
        ; prop*  := <flatmap(reconstruct-static-qualifiers(|a)); map(mk-cast(|expr); mk-field-access(|x))> p-cls*
 
   mk-field-access(|Id) :: Expression -> Expression
+  mk-field-access(|x): ExpressionName2Expression(ExpressionName(q)) -> ExpressionName2Expression(QExpressionName(AmbiguousName(q), x))
+  mk-field-access(|x): ExpressionName2Expression(QExpressionName(q, x')) -> ExpressionName2Expression(QExpressionName(QAmbiguousName(q, x'), x))
   mk-field-access(|x): expr -> FieldAccess2Expression(Field(expr, x))
 
   mk-cast(|Expression) :: QName -> Expression
