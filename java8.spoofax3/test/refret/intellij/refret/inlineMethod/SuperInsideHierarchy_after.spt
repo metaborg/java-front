@@ -1,0 +1,42 @@
+module refret/intellij/refret/inlineMethod/SuperInsideHierarchy_after
+
+test SuperInsideHierarchy_after: refret test 1 [[
+  test;
+  [Test]
+      class A {
+      void [[foo]](){
+        //do smth in A
+      }
+    }
+  
+    class B extends A {
+  
+        void test(){
+            [[foo()]];  // Context: super
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+      void foo(){
+        //do smth in A
+      }
+    }
+  
+    class B extends A {
+  
+        void test(){
+            super.foo();  // Context: super
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]]
+

@@ -1,0 +1,46 @@
+module refret/intellij/analysis/inlineMethod/AvoidMultipleSubstitutionInParameterTypes_after_2
+
+/*
+test AvoidMultipleSubstitutionInParameterTypes_after_2: default analysis [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] analysis succeeds
+*/
+
+/*
+test AvoidMultipleSubstitutionInParameterTypes_after_2: test analysis [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] run test-analyze to SUCCEED()
+*/
+

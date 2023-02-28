@@ -1,0 +1,38 @@
+module refret/intellij/refret/moveInstanceMethod/QualifiedThis_after
+
+test QualifiedThis_after: refret test 1 [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest [[moveMethodTest]]) {
+            class Inner {
+                {
+                    [[MoveMethodTest.this.bar()]];
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void [[bar]]() {}
+  
+    }
+]] run fix-reference(|#2, #3, #1) to [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest) {
+            class Inner {
+                {
+                    moveMethodTest.bar();
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar() {}
+  
+    }
+]]
+

@@ -1,0 +1,66 @@
+module refret/intellij/analysis/moveInner/qualifyThisHierarchy_after
+
+test qualifyThisHierarchy_after: default analysis [[
+  test;
+  [pack1] {
+  [MyRunnable]
+      package pack1;
+  
+    public class MyRunnable {
+        private final DImpl d;
+  
+        public MyRunnable(DImpl d) {
+            this.d = d;
+        }
+  
+        public void run() {
+        d.iAmProtected();
+      }
+    }
+  
+  [DImpl]
+      package pack1;
+    class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    public class DImpl extends D {
+    }
+  
+  
+  }
+]] analysis succeeds
+
+test qualifyThisHierarchy_after: test analysis [[
+  test;
+  [pack1] {
+  [MyRunnable]
+      package pack1;
+  
+    public class MyRunnable {
+        private final DImpl d;
+  
+        public MyRunnable(DImpl d) {
+            this.d = d;
+        }
+  
+        public void run() {
+        d.iAmProtected();
+      }
+    }
+  
+  [DImpl]
+      package pack1;
+    class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    public class DImpl extends D {
+    }
+  
+  
+  }
+]] run test-analyze to SUCCEED()
+

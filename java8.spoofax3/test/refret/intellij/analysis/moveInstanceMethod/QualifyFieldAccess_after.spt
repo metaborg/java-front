@@ -1,0 +1,36 @@
+module refret/intellij/analysis/moveInstanceMethod/QualifyFieldAccess_after
+
+test QualifyFieldAccess_after: default analysis [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int x) {
+                this.x = x; // Context: this
+            }
+        }
+    }
+]] analysis succeeds
+
+test QualifyFieldAccess_after: test analysis [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int x) {
+                this.x = x; // Context: this
+            }
+        }
+    }
+]] run test-analyze to SUCCEED()
+

@@ -1,0 +1,26 @@
+module refret/intellij/analysis/inlineMethod/ConflictingField_after
+
+test ConflictingField_after: default analysis [[
+  test;
+  [Test]
+      class Test {
+        public int i;
+  
+        public void usage() {
+            int i = this.i;
+        }
+    }
+]] analysis succeeds
+
+test ConflictingField_after: test analysis [[
+  test;
+  [Test]
+      class Test {
+        public int i;
+  
+        public void usage() {
+            int i = this.i;
+        }
+    }
+]] run test-analyze to SUCCEED()
+

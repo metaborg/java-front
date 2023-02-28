@@ -1,0 +1,130 @@
+module refret/intellij/refret/inlineSuperClass/arrayTypeElements_after
+
+test arrayTypeElements_after: refret test 1 [[
+  test;
+  [Test]
+      class [[Test]] {
+      public Test() {
+      }
+  
+        public static [[Test]][] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+
+test arrayTypeElements_after: refret test 2 [[
+  test;
+  [Test]
+      class Test {
+      public [[Test]]() {
+      }
+  
+        public static Test[] getArray() {
+          return new [[Test]][0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+
+test arrayTypeElements_after: refret test 3 [[
+  test;
+  [Test]
+      class [[Test]] {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static [[Test]][] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+
+test arrayTypeElements_after: refret test 4 [[
+  test;
+  [Test]
+      class Test {
+      public [[Test]]() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new [[Test]][]{};
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]]
+

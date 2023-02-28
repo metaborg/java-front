@@ -1,0 +1,18 @@
+module refret/intellij/parsing/inlineMethod/StaticFieldInitializer_after
+
+test StaticFieldInitializer_after: parsing [[
+  test;
+  [Test]
+      class A{
+        static int field;
+  
+        static {
+            doSomething();
+            field = 1;
+        }
+  
+        static void doSomething() { }
+  
+    }
+]] parse succeeds
+

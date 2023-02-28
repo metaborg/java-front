@@ -1,0 +1,40 @@
+module refret/intellij/analysis/moveInstanceMethod/Recursive1_after
+
+test Recursive1_after: default analysis [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]] analysis succeeds
+
+test Recursive1_after: test analysis [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]] run test-analyze to SUCCEED()
+

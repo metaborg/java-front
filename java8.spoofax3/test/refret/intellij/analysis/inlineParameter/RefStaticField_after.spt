@@ -1,0 +1,40 @@
+module refret/intellij/analysis/inlineParameter/RefStaticField_after
+
+test RefStaticField_after: default analysis [[
+  test;
+  [A]
+      public class A {
+        void test() {
+            String s = B.f;
+            System.out.println(s);
+        }
+  
+        void callTest() {
+            test();
+        }
+    }
+  
+    class B {
+        public static String f = null;
+    }
+]] analysis succeeds
+
+test RefStaticField_after: test analysis [[
+  test;
+  [A]
+      public class A {
+        void test() {
+            String s = B.f;
+            System.out.println(s);
+        }
+  
+        void callTest() {
+            test();
+        }
+    }
+  
+    class B {
+        public static String f = null;
+    }
+]] run test-analyze to SUCCEED()
+

@@ -1,0 +1,42 @@
+module refret/intellij/analysis/inlineMethod/SpecializeEnumValueOf_after
+
+test SpecializeEnumValueOf_after: default analysis [[
+  test;
+  [foo] {
+  [bar] {
+  [baz] {
+  [Test]
+      package foo.bar.baz;
+  
+    class Test {
+      enum X {A, B, C};
+  
+      void test() {
+          System.out.println(X.B);
+      }
+    }
+  }
+  }
+  }
+]] analysis succeeds
+
+test SpecializeEnumValueOf_after: test analysis [[
+  test;
+  [foo] {
+  [bar] {
+  [baz] {
+  [Test]
+      package foo.bar.baz;
+  
+    class Test {
+      enum X {A, B, C};
+  
+      void test() {
+          System.out.println(X.B);
+      }
+    }
+  }
+  }
+  }
+]] run test-analyze to SUCCEED()
+

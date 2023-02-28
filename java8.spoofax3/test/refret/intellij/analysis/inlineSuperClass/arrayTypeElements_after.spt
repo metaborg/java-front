@@ -1,0 +1,36 @@
+module refret/intellij/analysis/inlineSuperClass/arrayTypeElements_after
+
+test arrayTypeElements_after: default analysis [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] analysis succeeds
+
+test arrayTypeElements_after: test analysis [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] run test-analyze to SUCCEED()
+

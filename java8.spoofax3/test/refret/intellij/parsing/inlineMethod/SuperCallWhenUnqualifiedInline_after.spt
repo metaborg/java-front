@@ -1,0 +1,20 @@
+module refret/intellij/parsing/inlineMethod/SuperCallWhenUnqualifiedInline_after
+
+test SuperCallWhenUnqualifiedInline_after: parsing [[
+  test;
+  [Test]
+      class A {
+      void bar() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          super.bar();
+      }
+    }
+]] parse succeeds
+

@@ -1,0 +1,36 @@
+module refret/intellij/analysis/inlineMethod/ConstantInChainingConstructor_after
+
+test ConstantInChainingConstructor_after: default analysis [[
+  test;
+  [Test]
+      class Test {
+        public static final int ID=0;
+  
+        public Test(int id) {
+        }
+    }
+  
+    class Rest {
+        public static void test() {
+            new Test(Test.ID);
+        }
+    }
+]] analysis succeeds
+
+test ConstantInChainingConstructor_after: test analysis [[
+  test;
+  [Test]
+      class Test {
+        public static final int ID=0;
+  
+        public Test(int id) {
+        }
+    }
+  
+    class Rest {
+        public static void test() {
+            new Test(Test.ID);
+        }
+    }
+]] run test-analyze to SUCCEED()
+

@@ -1,0 +1,116 @@
+module refret/intellij/refret/inlineParameter/StaticFinalFieldDifferentQualifiers_after
+
+test StaticFinalFieldDifferentQualifiers_after: refret test 1 [[
+  test;
+  [A]
+      public class A {
+      void test() {
+        String[] myValue = [[CONST]];
+      }
+  
+      void callTest() {
+        test();
+      }
+  
+      void callTest2() {
+        test();
+      }
+  
+      public static final String[] [[CONST]] = new String[] { "A", "B" };
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [A]
+      public class A {
+      void test() {
+        String[] myValue = CONST;
+      }
+  
+      void callTest() {
+        test();
+      }
+  
+      void callTest2() {
+        test();
+      }
+  
+      public static final String[] CONST = new String[] { "A", "B" };
+    }
+]]
+
+test StaticFinalFieldDifferentQualifiers_after: refret test 2 [[
+  test;
+  [A]
+      public class A {
+      void [[test]]() {
+        String[] myValue = CONST;
+      }
+  
+      void callTest() {
+        [[test()]];
+      }
+  
+      void callTest2() {
+        test();
+      }
+  
+      public static final String[] CONST = new String[] { "A", "B" };
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [A]
+      public class A {
+      void test() {
+        String[] myValue = CONST;
+      }
+  
+      void callTest() {
+        test();
+      }
+  
+      void callTest2() {
+        test();
+      }
+  
+      public static final String[] CONST = new String[] { "A", "B" };
+    }
+]]
+
+test StaticFinalFieldDifferentQualifiers_after: refret test 3 [[
+  test;
+  [A]
+      public class A {
+      void [[test]]() {
+        String[] myValue = CONST;
+      }
+  
+      void callTest() {
+        test();
+      }
+  
+      void callTest2() {
+        [[test()]];
+      }
+  
+      public static final String[] CONST = new String[] { "A", "B" };
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [A]
+      public class A {
+      void test() {
+        String[] myValue = CONST;
+      }
+  
+      void callTest() {
+        test();
+      }
+  
+      void callTest2() {
+        test();
+      }
+  
+      public static final String[] CONST = new String[] { "A", "B" };
+    }
+]]
+

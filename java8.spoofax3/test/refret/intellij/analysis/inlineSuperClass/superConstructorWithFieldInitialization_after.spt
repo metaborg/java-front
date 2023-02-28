@@ -1,0 +1,26 @@
+module refret/intellij/analysis/inlineSuperClass/superConstructorWithFieldInitialization_after
+
+test superConstructorWithFieldInitialization_after: default analysis [[
+  test;
+  [Test]
+      class Test {
+        private final String field;
+  
+        Test(){
+            Test.this.field = "text";
+        }
+    }
+]] analysis succeeds
+
+test superConstructorWithFieldInitialization_after: test analysis [[
+  test;
+  [Test]
+      class Test {
+        private final String field;
+  
+        Test(){
+            Test.this.field = "text";
+        }
+    }
+]] run test-analyze to SUCCEED()
+

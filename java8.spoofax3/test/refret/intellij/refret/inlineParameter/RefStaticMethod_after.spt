@@ -1,0 +1,44 @@
+module refret/intellij/refret/inlineParameter/RefStaticMethod_after
+
+test RefStaticMethod_after: refret test 1 [[
+  test;
+  [StaticRefMove]
+      public class [[StaticRefMove]] {
+      public static int [[init]]() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = [[init()]];
+          System.out.println(subj);
+      }
+    }
+]] run fix-reference(|#3, #2, #1) to [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int init() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = StaticRefMove.init();
+          System.out.println(subj);
+      }
+    }
+]]
+

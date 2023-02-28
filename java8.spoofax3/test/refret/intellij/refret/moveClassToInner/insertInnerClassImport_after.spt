@@ -1,0 +1,94 @@
+module refret/intellij/refret/moveClassToInner/insertInnerClassImport_after
+
+test insertInnerClassImport_after: refret test 1 [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class [[Class1]] {
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import [[Class1]];
+  
+    public class Class2 {
+      Class1 myClass1;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class Class1 {
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import pack2.A.Class1;
+  
+    public class Class2 {
+      Class1 myClass1;
+    }
+  }
+]]
+
+test insertInnerClassImport_after: refret test 2 [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class [[Class1]] {
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import pack2.A.Class1;
+  
+    public class Class2 {
+      [[Class1]] myClass1;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class Class1 {
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import pack2.A.Class1;
+  
+    public class Class2 {
+      Class1 myClass1;
+    }
+  }
+]]
+

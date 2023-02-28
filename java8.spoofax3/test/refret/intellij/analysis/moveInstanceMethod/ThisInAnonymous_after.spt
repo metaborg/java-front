@@ -1,0 +1,46 @@
+module refret/intellij/analysis/moveInstanceMethod/ThisInAnonymous_after
+
+test ThisInAnonymous_after: default analysis [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void acceptChildren(JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            acceptChildren(new JetVisitor() {   // Context: this
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]] analysis succeeds
+
+test ThisInAnonymous_after: test analysis [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void acceptChildren(JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            acceptChildren(new JetVisitor() {   // Context: this
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]] run test-analyze to SUCCEED()
+

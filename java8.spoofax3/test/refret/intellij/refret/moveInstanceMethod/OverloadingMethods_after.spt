@@ -1,0 +1,46 @@
+module refret/intellij/refret/moveInstanceMethod/OverloadingMethods_after
+
+test OverloadingMethods_after: refret test 1 [[
+  test;
+  [A]
+      public class A {
+  
+        public void show(B b){
+            [[m(this)]];
+        }
+  
+        public void m (C c){
+            System.out.println(this);
+        }
+  
+    }
+  
+    class B{
+        public void [[m]](A a){
+            System.out.println(a);
+        }
+    }
+    class C{}
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [A]
+      public class A {
+  
+        public void show(B b){
+            b.m(this);
+        }
+  
+        public void m (C c){
+            System.out.println(this);
+        }
+  
+    }
+  
+    class B{
+        public void m(A a){
+            System.out.println(a);
+        }
+    }
+    class C{}
+]]
+

@@ -1,0 +1,42 @@
+module refret/intellij/refret/moveInstanceMethod/MethodReferenceWithThisTarget_after
+
+/*
+test MethodReferenceWithThisTarget_after: refret test 1 [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.function.Consumer;
+  
+    class Source {
+    }
+  
+    class Destination {
+      public void [[doSomething]](String s) {
+      }
+  
+        public void foo() {
+          Consumer<String> doSomething = [[doSomething]];
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.function.Consumer;
+  
+    class Source {
+    }
+  
+    class Destination {
+      public void doSomething(String s) {
+      }
+  
+        public void foo() {
+          Consumer<String> doSomething = this::doSomething;
+        }
+    }
+]]
+*/
+

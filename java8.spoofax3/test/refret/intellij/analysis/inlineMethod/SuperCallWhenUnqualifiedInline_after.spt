@@ -1,0 +1,38 @@
+module refret/intellij/analysis/inlineMethod/SuperCallWhenUnqualifiedInline_after
+
+test SuperCallWhenUnqualifiedInline_after: default analysis [[
+  test;
+  [Test]
+      class A {
+      void bar() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          super.bar();
+      }
+    }
+]] analysis succeeds
+
+test SuperCallWhenUnqualifiedInline_after: test analysis [[
+  test;
+  [Test]
+      class A {
+      void bar() {}
+    }
+  
+    class B extends A {
+      void foo() {
+        super.bar();
+      }
+  
+      void err() {
+          super.bar();
+      }
+    }
+]] run test-analyze to SUCCEED()
+

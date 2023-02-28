@@ -1,0 +1,36 @@
+module refret/intellij/analysis/moveInstanceMethod/OverloadingMethods1_after
+
+test OverloadingMethods1_after: default analysis [[
+  test;
+  [Test]
+      class B extends A {
+    }
+  
+    class A {
+      void m(){}
+    }
+  
+    class C {
+        void n(B b){
+          b.m();
+        }
+    }
+]] analysis succeeds
+
+test OverloadingMethods1_after: test analysis [[
+  test;
+  [Test]
+      class B extends A {
+    }
+  
+    class A {
+      void m(){}
+    }
+  
+    class C {
+        void n(B b){
+          b.m();
+        }
+    }
+]] run test-analyze to SUCCEED()
+

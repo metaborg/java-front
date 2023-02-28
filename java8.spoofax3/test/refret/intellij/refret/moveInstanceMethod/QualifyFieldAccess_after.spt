@@ -1,0 +1,34 @@
+module refret/intellij/refret/moveInstanceMethod/QualifyFieldAccess_after
+
+test QualifyFieldAccess_after: refret test 1 [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int [[x]];
+  
+            public void foo(int x) {
+                [[bar.x]] = x; // Context: this
+            }
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int x) {
+                this.x = x; // Context: this
+            }
+        }
+    }
+]]
+

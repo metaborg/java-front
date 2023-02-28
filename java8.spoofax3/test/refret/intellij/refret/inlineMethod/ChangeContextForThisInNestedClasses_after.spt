@@ -1,0 +1,40 @@
+module refret/intellij/refret/inlineMethod/ChangeContextForThisInNestedClasses_after
+
+test ChangeContextForThisInNestedClasses_after: refret test 1 [[
+  test;
+  [Test]
+      abstract class Test {
+  
+        void [[foo]]() {
+      }
+    }
+    class Test2 extends Test {
+  
+      {
+          new Object() {
+            void foo() {
+              [[Test.this.foo()]];
+            }
+          };
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      abstract class Test {
+  
+        void foo() {
+      }
+    }
+    class Test2 extends Test {
+  
+      {
+          new Object() {
+            void foo() {
+              Test2.this.foo();
+            }
+          };
+      }
+    }
+]]
+
