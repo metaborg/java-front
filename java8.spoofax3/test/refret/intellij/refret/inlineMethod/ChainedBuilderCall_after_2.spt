@@ -7,11 +7,11 @@ test ChainedBuilderCall_after_2: refret test 1 [[
     class MyObjBuilder {
         private NewType memberVar1;
   
-        public NewType convertToNewType(LegacyType arg) {
+        public NewType [[convertToNewType]](LegacyType arg) {
             return new NewType();
         }
   
-        public MyObjBuilder [[memberVar1]](NewType arg) {
+        public MyObjBuilder memberVar1(NewType arg) {
             this.memberVar1 = arg;
             return this;
         }
