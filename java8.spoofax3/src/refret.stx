@@ -17,7 +17,7 @@ rules
   thisDecl: scope -> TYPE_DECL
   thisDecl(s) = typeDecl :-
     query thisType
-      filter INSTANCE_LEX? (LEX* | STATIC_LEX*)
+      filter INSTANCE_LEX? LEX* STATIC_LEX*
          min $ < LEX, LEX < STATIC_LEX
           in s |-> [(_, typeDecl)].
 
