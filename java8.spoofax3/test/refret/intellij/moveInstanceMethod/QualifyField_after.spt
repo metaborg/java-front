@@ -59,7 +59,7 @@ test QualifyField_after: refret test 1 [[
   
         public static void main(String[] args) {
             Flim [[flim]] = new Flim();
-            [[flim.beep]]();
+            [[flim.beep()]];
         }
     }
   

@@ -41,7 +41,7 @@ test superReference_after: refret test 1 [[
   [Test]
       class Test {
       public void context() {
-        [[method]]();
+        [[method()]];
       }
   
         public void [[method]]() {}

@@ -71,7 +71,7 @@ test SimpleWithTargetField_after: refret test 1 [[
         Foreign [[myForeign]];
   
         void bar () {
-            [[foo]](this);
+            [[foo(this)]];
         }
     }
 ]] run fix-reference(|#3, #1, #2) to [[

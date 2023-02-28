@@ -38,7 +38,7 @@ test Recursive_after: refret test 1 [[
   [MoveMethodTest]
       public class MoveMethodTest {
         void [[foo]] () {
-          [[foo]]();
+          [[foo()]];
           foo();
         }
     }
@@ -59,7 +59,7 @@ test Recursive_after: refret test 2 [[
       public class MoveMethodTest {
         void [[foo]] () {
           foo();
-          [[foo]]();
+          [[foo()]];
         }
     }
 ]] run fix-reference(|#2, #1) to [[

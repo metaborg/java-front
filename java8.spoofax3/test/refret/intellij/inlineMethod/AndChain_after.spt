@@ -91,7 +91,7 @@ test AndChain_after: refret test 1 [[
         // true if the first element of the queue is greater than specified number
       public boolean firstIsGreaterThan(int x) {
           if (isEmpty()) return false;
-          if ([[isEmpty]]())
+          if ([[isEmpty()]])
             throw new NoSuchElementException("Queue is empty");
           return items[ head ] > x;
       }

@@ -82,7 +82,7 @@ test RefStaticMethod_after: refret test 1 [[
   
     class StaticRefMoveSubject {
       public void subject() {
-          int subj = [[init]]();
+          int subj = [[init()]];
           System.out.println(subj);
       }
     }

@@ -95,7 +95,7 @@ test staticMembers_after: refret test 2 [[
   
         void bar() {
         System.out.println(Test.S);
-        [[Super.foo]]();
+        [[Super.foo()]];
       }
     }
 ]] run fix-reference(|#2, #1) to [[

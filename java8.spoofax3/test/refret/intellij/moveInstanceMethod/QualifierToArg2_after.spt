@@ -93,7 +93,7 @@ test QualifierToArg2_after: refret test 1 [[
       class CommandQueue {
   
         void f(CommandManager [[commandManager]]) {
-          [[g]]();
+          [[g()]];
         }
     }
   

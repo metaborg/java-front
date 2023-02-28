@@ -65,7 +65,7 @@ test SCR22644_after: refret test 1 [[
   
     public class SubClass extends SuperClass {
         public void doSomethingElse() {
-            [[doSomething]](this);
+            [[doSomething(this)]];
         }
     }
   

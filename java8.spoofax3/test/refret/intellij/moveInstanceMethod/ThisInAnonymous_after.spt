@@ -77,11 +77,11 @@ test ThisInAnonymous_after: refret test 1 [[
         void [[acceptChildren]](JetVisitor v) {}
   
         private void prepareAnonymousClasses() {
-            [[aClass.acceptChildren]](new JetVisitor() {   // Context: this
+            [[aClass.acceptChildren(new JetVisitor() {   // Context: this
                 public void visitJetElement(JetElement element) {
                     element.acceptChildren(this);
                 }
-            });
+            })]];
         }
     }
   

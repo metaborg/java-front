@@ -127,7 +127,7 @@ test SingleReturnComplexQualifier_after: refret test 1 [[
       void method() {
           Bar [[bar2]] = new Bar();
   
-          System.out.println([[methodTrue]]());
+          System.out.println([[methodTrue()]]);
           Bar bar1 = new Bar();
   
           System.out.println(bar1.methodFalse());
@@ -200,7 +200,7 @@ test SingleReturnComplexQualifier_after: refret test 2 [[
           System.out.println(bar2.methodTrue());
           Bar [[bar1]] = new Bar();
   
-          System.out.println([[methodFalse]]());
+          System.out.println([[methodFalse()]]);
           int result;
           Bar bar = new Bar();
           if (Math.random() > 0.5) {
@@ -274,7 +274,7 @@ test SingleReturnComplexQualifier_after: refret test 3 [[
           int result;
           Bar [[bar]] = new Bar();
           if (Math.random() > 0.5) {
-              result = [[methodTrue]]();
+              result = [[methodTrue()]];
           } else {
               result = bar.methodFalse();
           }
@@ -346,7 +346,7 @@ test SingleReturnComplexQualifier_after: refret test 4 [[
           if (Math.random() > 0.5) {
               result = bar.methodTrue();
           } else {
-              result = [[methodFalse]]();
+              result = [[methodFalse()]];
           }
   
           System.out.println(result);

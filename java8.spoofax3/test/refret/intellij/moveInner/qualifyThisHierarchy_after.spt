@@ -110,7 +110,7 @@ test qualifyThisHierarchy_after: refret test 1 [[
         }
   
         public void run() {
-        [[iAmProtected]]();
+        [[iAmProtected()]];
       }
     }
   

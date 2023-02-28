@@ -90,7 +90,7 @@ test InlineAnonymousClassWithPrivateMethodInside_after: refret test 1 [[
   
     class Bar {
       public static void main(String[] args) {
-          [[bar]](new Runnable() {
+          [[bar(new Runnable() {
             @Override
             public void run() {
               doRun();
@@ -99,7 +99,7 @@ test InlineAnonymousClassWithPrivateMethodInside_after: refret test 1 [[
             private void doRun() {
               // Woo-hoo
             }
-          });
+          })]];
       }
     }
 ]] run fix-reference(|#2, #1) to [[

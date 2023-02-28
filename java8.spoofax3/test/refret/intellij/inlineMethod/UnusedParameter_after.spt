@@ -69,7 +69,7 @@ test UnusedParameter_after: refret test 1 [[
       }
   
       public Object foo(Set [[bar]]) {
-        if ([[size]]() != null) {// Inline this
+        if ([[size()]] != null) {// Inline this
             bar.size(); // or inline this
             return null;
         }
@@ -108,7 +108,7 @@ test UnusedParameter_after: refret test 2 [[
   
       public Object foo(Set [[bar]]) {
         if (bar.size() != null) {// Inline this
-            [[size]](); // or inline this
+            [[size()]]; // or inline this
             return null;
         }
   

@@ -75,7 +75,7 @@ test OverloadingMethods_after: refret test 1 [[
       public class A {
   
         public void show(B b){
-            [[m]](this);
+            [[m(this)]];
         }
   
         public void m (C c){
