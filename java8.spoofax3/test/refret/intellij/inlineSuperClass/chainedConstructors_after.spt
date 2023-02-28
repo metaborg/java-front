@@ -67,7 +67,7 @@ test chainedConstructors_after: refret test 1 [[
         int i;
   
         public Test() {
-            [[this]](1);
+            [[this(1)]];
         }
   
         Test(int i, int j) {
@@ -113,7 +113,7 @@ test chainedConstructors_after: refret test 2 [[
         }
   
         Test(int i) {
-          [[this]](i, 0);
+          [[this(i, 0)]];
         }
     }
 ]] run fix-reference(|#2, #1) to [[

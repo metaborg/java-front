@@ -76,7 +76,7 @@ test RefQualifiedThis_after: refret test 1 [[
       class User {
         public class Subject {
           public void withClass() {
-            System.out.println([[toString]]());
+            System.out.println([[toString()]]);
           }
         }
   

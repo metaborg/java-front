@@ -73,7 +73,7 @@ test simple_after: refret test 1 [[
   
     class Usage {
       void bar(Test [[s]]) {
-        [[foo]]();
+        [[foo()]];
       }
     }
   [p] {

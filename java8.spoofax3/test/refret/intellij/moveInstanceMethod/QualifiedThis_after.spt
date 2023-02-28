@@ -64,7 +64,7 @@ test QualifiedThis_after: refret test 1 [[
         void foo(MoveMethodTest [[moveMethodTest]]) {
             class Inner {
                 {
-                    [[MoveMethodTest.this.bar]]();
+                    [[MoveMethodTest.this.bar()]];
                 }
             }
         }

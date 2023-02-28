@@ -85,7 +85,7 @@ test QualifyThisHierarchy_after: refret test 1 [[
         void foo(D [[d]]) {
           class MyRunnable {
             public void run() {
-              [[iAmProtected]]();
+              [[iAmProtected()]];
             }
           }
         }

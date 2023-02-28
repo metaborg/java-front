@@ -93,7 +93,7 @@ test PolyadicExpr_after: refret test 1 [[
       class A {
   
         void n(B b) {
-            [[m]](this);
+            [[m()]];
         }
   
     }

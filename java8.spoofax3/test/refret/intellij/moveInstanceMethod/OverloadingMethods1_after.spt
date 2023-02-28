@@ -63,7 +63,7 @@ test OverloadingMethods1_after: refret test 1 [[
   
     class C {
         void n(B [[b]]){
-          [[m]]();
+          [[m()]];
         }
     }
 ]] run fix-reference(|#3, #1, #2) to [[

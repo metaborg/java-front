@@ -75,7 +75,7 @@ test SuperInsideHierarchy_after: refret test 1 [[
     class B extends A {
   
         void test(){
-            [[foo]]();  // Context: super
+            [[foo()]];  // Context: super
         }
   
       void foo() {

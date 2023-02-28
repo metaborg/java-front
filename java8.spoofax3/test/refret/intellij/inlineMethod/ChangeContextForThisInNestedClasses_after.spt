@@ -73,7 +73,7 @@ test ChangeContextForThisInNestedClasses_after: refret test 1 [[
       {
           new Object() {
             void foo() {
-              [[Test.this.foo]]();
+              [[Test.this.foo()]];
             }
           };
       }

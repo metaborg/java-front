@@ -71,7 +71,7 @@ test newArrayComplexDimensionsExpr_after: refret test 1 [[
   [Usage]
       class Usage {
       void ba() {
-        Test[][] s = new Test[ [[bar]]()][];
+        Test[][] s = new Test[ [[bar()]]][];
       }
     }
 ]] run fix-reference(|#2, #1) to [[

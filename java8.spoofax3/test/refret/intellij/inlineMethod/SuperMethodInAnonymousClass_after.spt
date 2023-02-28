@@ -93,7 +93,7 @@ test SuperMethodInAnonymousClass_after: refret test 1 [[
   
             @Override
             public void run() {
-                [[g]]();
+                [[g()]];
             }
           }.run();
         }

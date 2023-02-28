@@ -107,7 +107,7 @@ test StaticFinalFieldDifferentQualifiers_after: refret test 2 [[
       }
   
       void callTest() {
-        [[test]]();
+        [[test()]];
       }
   
       void callTest2() {
@@ -149,7 +149,7 @@ test StaticFinalFieldDifferentQualifiers_after: refret test 3 [[
       }
   
       void callTest2() {
-        [[test]]();
+        [[test()]];
       }
   
       public static final String[] CONST = new String[] { "A", "B" };

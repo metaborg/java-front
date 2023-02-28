@@ -61,12 +61,12 @@ test PrivateFieldInSuperClassInSameFile_after: refret test 1 [[
       }
   
       class B extends A {
-        void bar(A a) {
+        void bar(A [[a]]) {
             [[i]].toString();
         }
       }
     }
-]] run fix-reference(|#2, #1) to [[
+]] run fix-reference(|#3, #1, #2) to [[
   test;
   [Test]
       class Test {

@@ -100,7 +100,7 @@ test fieldAccessInSuper_after: refret test 1 [[
         private final A a;
   
         public B(A a) {
-        super([[A.this.foo]]());    // Context: A.this?
+        super([[A.this.foo()]]);    // Context: A.this?
             this.a = a;
         }
     }
