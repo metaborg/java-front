@@ -1,0 +1,124 @@
+module refret/oracle/methods
+
+imports
+
+  strategolib
+
+  signatures/syntax/java/names/-
+  signatures/syntax/java/lexical/-
+  signatures/syntax/java/expressions/-
+  signatures/syntax/java/types/-
+
+  injections/syntax/java/expressions/-
+
+  refret/-
+  refret/oracle/expressions
+
+  statix/api
+  statix/runtime/-
+
+rules
+
+  qualify-method(|Id, string, blob) :: ? -> List(Expression * ?)
+
+  qualify-method(|tgt, _, a) = (to-opt-expr, is(Expression))
+                             ; where(Snd => e)
+                             ; where(<stx--get-ast-index> tgt => tgt-idx)
+                             ; qualify-method(|tgt, a)
+
+  qualify-method(|Id, blob) :: Option(Expression) * Expression -> List(Expression * ?)
+
+  qualify-method(|tgt, a): (inst, i@Invoke(m, args)) -> res
+    with  x       := <collect-id> m
+       ;  ref-idx := <stx--get-ast-index> x
+    where res     := <qualify--method(|a, tgt, NoTypeArguments()); map(!(<id>, ref-idx))> (inst, i, x)
+
+  qualify-method(|tgt, a): (inst, i@InvokeQExp(recv, targs, x, args)) -> res
+     with ref-idx := <stx--get-ast-index> x
+    where res     := <qualify--method(|a, tgt, NoTypeArguments()); map(!(<id>, ref-idx))> (inst, i, x)
+
+  qualify-method(|tgt, a): (inst, i@InvokeSuper(targs, x, args)) -> res
+     with ref-idx := <stx--get-ast-index> x
+    where res     := <qualify--method(|a, tgt, NoTypeArguments()); map(!(<id>, ref-idx))> (inst, i, x)
+
+  qualify-method(|tgt, a): (inst, i@InvokeQSuper(t, targs, x, args)) -> res
+     with ref-idx := <stx--get-ast-index> x
+    where res     := <qualify--method(|a, tgt, NoTypeArguments()); map(!(<id>, ref-idx))> (inst, i, x)
+
+  qualify--method(|blob, Id, TypeArguments-OPT) :: Option(Expression) * Expression * Id -> List(Expression)
+
+  qualify--method(|a, tgt, targs) : (Some(inst), invk, x) -> prop*
+    with s-ref   := <expr-scope-prop(|a)> invk
+       ; s-tgt   := <scope-prop(|a)> tgt
+       ; args    := <get-args> invk
+       ; q-cls   := <(recv-opt; mk-qualified-recv(|inst); map(!InvokeQExp(<id>, targs, x, args))) <+ ![]> invk // can fail if there's either a non-name inst or receiver
+       ; s-cls   := <this-type(|a); reconstruct-static-qualifiers(|a); map(mk-method-invocation(|x, targs, args))> s-tgt
+       ; prop*   := <flatten> [ s-cls
+                              , q-cls
+                              ]
+
+  qualify--method(|a, tgt, targs) : (None(), invk, x) -> prop*
+    with s-ref   := <expr-scope-prop(|a)> invk
+       ; s-tgt   := <scope-prop(|a)> tgt
+       ; args    := <get-args> invk
+       ; T-ref   := <this-type(|a)> s-ref
+       ; T-tgt   := <this-type(|a)> s-tgt
+       ; enc*    := <reconstruct-enclosing-classes(|a); map(Fst)> T-ref
+       ; s-cls   := <reconstruct-static-qualifiers(|a); map(mk-method-invocation(|x, targs, args))> T-tgt
+       ; t-cls   := <map(mk-this-method-invocation(|x, targs, args))> enc* 
+       ; e-cls   := <map(mk-super-method-invocation(|x, targs, args))> enc* 
+       ; prop*   := <flatten> [ [ invk, InvokeSuper(targs, x, args) ]
+                              , s-cls
+                              , t-cls 
+                              , e-cls 
+                              ]
+
+rules
+
+  mk-method-invocation(|Id, TypeArguments-OPT, List(Expression)) :: QName -> Expression
+  mk-method-invocation(|x, targs, args) : QName([q]) -> InvokeQExp(ExpressionName2Expression(ExpressionName(q)), targs, x, args)
+  mk-method-invocation(|x, targs, args) : QName([x' | x*]) -> InvokeQExp(q, targs, x, args)
+    with q := <mk-expr-name(|x')> QName(x*)
+
+  mk-this-method-invocation(|Id, TypeArguments-OPT, List(Expression)) :: Id -> Expression
+  mk-this-method-invocation(|x, targs, args) = !InvokeQExp(QThis(TypeName(<id>)), targs, x, args)
+
+  mk-super-method-invocation(|Id, TypeArguments-OPT, List(Expression)) :: Id -> Expression
+  mk-super-method-invocation(|x, targs, args) = !InvokeQSuper(TypeName(<id>), targs, x, args)
+
+  get-args :: Expression -> List(Expression)
+  get-args = get-arguments; last
+
+rules // merge context and original receiver
+
+  mk-qualified-recv(|Expression) :: Option(Expression) -> List(Expression)
+  mk-qualified-recv(|inst) : None() -> [inst]
+  mk-qualified-recv(|inst) : Some(This()) -> [inst]
+  mk-qualified-recv(|inst) : Some(recv) -> recv*
+    where id-recv* := <expr-to-id-list> recv
+        ; id-inst* := <expr-to-id-list> inst
+    with  recv*    := <prefix-instance; map(mk-expr-name)> (id-inst*, id-recv*)
+
+  prefix-instance :: List(Id) * List(Id) -> List(QName)
+  prefix-instance : (inst, []) -> [QName(inst)]
+
+  prefix-instance : (inst*, recv*@[h | tl*]) -> [QName([inst*, recv*]), l*]
+    with l* := <prefix-instance> (inst*, tl*)
+
+  expr-to-id-list :: Expression -> List(Id)
+  expr-to-id-list = ?ExpressionName2Expression(<expr-name-to-id-list>)
+
+  expr-name-to-id-list :: ExpressionName -> List(Id)
+  expr-name-to-id-list = ?ExpressionName(<MkSingleton>)
+  expr-name-to-id-list:  QExpressionName(q, x) -> res
+    with x*  := <amb-name-to-id-list> q
+       ; res := <at-end(![x])> x*
+
+  amb-name-to-id-list :: AmbiguousName -> List(Id)
+  amb-name-to-id-list = ?AmbiguousName(<MkSingleton>)
+  amb-name-to-id-list:  QAmbiguousName(q, x) -> res
+    with x*  := <amb-name-to-id-list> q
+       ; res := <at-end(![x])> x*
+
+  recv-opt :: Expression -> Option(Expression)
+  recv-opt = ?InvokeQExp(<!Some(<id>)>, _, _, _) <+ !None()

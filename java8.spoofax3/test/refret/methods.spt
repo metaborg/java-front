@@ -1,0 +1,237 @@
+module refret/methods
+
+test qualify static methods [[
+test;
+
+[A]
+class A {
+  static void [[m]]() { }
+}
+
+[Main]
+class Main {
+  static void [[m]]() { }
+  static void test(A [[a]]) {
+    [[m()]];
+  }
+}
+]]
+run fix-reference(|#4, #2) to [[
+test;
+
+[A]
+class A {
+  static void m() { }
+}
+
+[Main]
+class Main {
+  static void m() { }
+  static void test(A a) {
+    m();
+  }
+}
+]]
+run fix-reference(|#4, #1) to [[
+test;
+
+[A]
+class A {
+  static void m() { }
+}
+
+[Main]
+class Main {
+  static void m() { }
+  static void test(A a) {
+    A.m();
+  }
+}
+]]
+run fix-reference(|#4, #1, #3) to [[
+test;
+
+[A]
+class A {
+  static void m() { }
+}
+
+[Main]
+class Main {
+  static void [[m]]() { }
+  static void test(A a) {
+    A.m();
+  }
+}
+]]
+
+
+test qualify instance methods with context [[
+test;
+
+[A]
+class A {
+  void [[m]]() { }
+}
+
+[Main]
+class Main {
+  static void [[m]]() { }
+  static void test(A [[a]]) {
+    [[m()]];
+  }
+}
+]]
+run fix-reference(|#4, #1, #3) to [[
+test;
+
+[A]
+class A {
+  void m() { }
+}
+
+[Main]
+class Main {
+  static void m() { }
+  static void test(A a) {
+    a.m();
+  }
+}
+]]
+
+
+test qualify instance methods with context -- remove this [[
+test;
+
+[A]
+class A {
+  void [[m]]() { }
+}
+
+[Main]
+class Main {
+  void [[m]]() { }
+  void test(A [[a]]) {
+    [[this.m()]];
+  }
+}
+]]
+run fix-reference(|#4, #1, #3) to [[
+test;
+
+[A]
+class A {
+  void m() { }
+}
+
+[Main]
+class Main {
+  void m() { }
+  void test(A a) {
+    a.m();
+  }
+}
+]]
+
+
+test qualify instance methods with context -- use super [[
+test;
+
+[A]
+class A1 {
+  void [[m]]() { }
+}
+
+class A2 extends A1 {
+  void [[m]]() { }
+  void test(A1 a) {
+    [[m()]];
+  }
+}
+]]
+run fix-reference(|#3, #2) to [[
+test;
+
+[A]
+class A1 {
+  void m() { }
+}
+
+class A2 extends A1 {
+  void m() { }
+  void test(A1 a) {
+    m();
+  }
+}
+]]
+run fix-reference(|#3, #1) to [[
+test;
+
+[A]
+class A1 {
+  void m() { }
+}
+
+class A2 extends A1 {
+  void m() { }
+  void test(A1 a) {
+    super.m();
+  }
+}
+]]
+
+
+test qualify enclosing super methods [[
+test;
+
+[A]
+class A1 {
+  void [[m]]() { }
+}
+
+class A2 extends A1 {
+  void [[m]]() { }
+  class E {
+    void m() { }
+    void test(A1 a) {
+      [[m()]];
+    }
+  }
+}
+]]
+run fix-reference(|#3, #2) to [[
+test;
+
+[A]
+class A1 {
+  void m() { }
+}
+
+class A2 extends A1 {
+  void m() { }
+  class E {
+    void m() { }
+    void test(A1 a) {
+      A2.this.m();
+    }
+  }
+}
+]]
+run fix-reference(|#3, #1) to [[
+test;
+
+[A]
+class A1 {
+  void m() { }
+}
+
+class A2 extends A1 {
+  void m() { }
+  class E {
+    void m() { }
+    void test(A1 a) {
+      A2.super.m();
+    }
+  }
+}
+]]

@@ -7,6 +7,7 @@ imports
   statix/api
 
   signatures/syntax/java/lexical/-
+  signatures/syntax/java/expressions/-
 
   refret/qname
 
@@ -94,3 +95,6 @@ rules // access properties
 
   scope-prop(|blob) :: Id -> Term
   scope-prop(|a) = stx-get-ast-property(|a, "scope")
+
+  expr-scope-prop(|blob) :: Expression -> Term
+  expr-scope-prop(|a) = stx-get-ast-property(|a, "scope")

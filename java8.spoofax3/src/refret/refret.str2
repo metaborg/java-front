@@ -12,6 +12,7 @@ imports
   signatures/syntax/java/lexical/-
   signatures/syntax/java/names/-
   signatures/syntax/java/types/-
+  signatures/syntax/java/expressions/-
   injections/-
 
   refret/references
@@ -70,8 +71,12 @@ rules // qualifier oracle
     with [tgt, inst] := ctxs
        ; ref-idx     := <collect-id; stx--get-ast-index> ref
        ; prop*       := <qualify-class-reference(|tgt, sortName, a)
-                         <+ qualify-expression(|tgt, sortName, a)
+                         <+ ((id, not(is-method-invocation-exp)); qualify-expression(|tgt, sortName, a))
+                         <+ ((id,     is-method-invocation-exp ); qualify-method(|tgt, sortName, a))
                          <+ ![(ref, ref-idx)]
                         > (inst, ref)
 
+rules
 
+  is-method-invocation-exp :: TP
+  is-method-invocation-exp = dbg; (?Invoke(_,_) + ?InvokeQExp(_, _, _,_) + ?InvokeSuper(_, _,_) + ?InvokeQSuper(_, _, _,_))

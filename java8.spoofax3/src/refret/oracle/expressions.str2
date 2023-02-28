@@ -46,6 +46,9 @@ rules
     with q-name*   := <this-type(|a); reconstruct-static-qualifiers(|a)> s-tgt
        ; prop*     := <map(mk-expr-name(|x); !ExpressionName2Expression(<id>))> q-name*
 
+  mk-expr-name :: QName -> ExpressionName
+  mk-expr-name : QName([x|x*]) -> <mk-expr-name(|x)> QName(x*)
+
   mk-expr-name(|Id) :: QName -> ExpressionName
   mk-expr-name(|x): QName(x*) -> QExpressionName(q, x)
     with q := <foldl'(!AmbiguousName(<id>), { n, q: ?(n, q); !QAmbiguousName(q, n) })> x*

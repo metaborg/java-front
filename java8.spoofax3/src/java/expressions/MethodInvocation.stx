@@ -14,17 +14,18 @@ imports
 
 rules // 15.12. Method Invocation Expressions
 
-  exprOk(s, Invoke(mthdName, exprList)) = T :-
+  exprOk(s, i@Invoke(mthdName, exprList)) = T :-
   {Ts mthdDecl R}
     Ts == exprListOk(s, exprList),
 
     mthdDecl == mthdNameOk(s, mthdName, Ts),
+    @i.scope := s,
     R == mthdDeclReturn(mthdDecl),
     T == invokeReturn(R),
 
     true.
 
-  exprOk(s, InvokeQExp(ExpressionName2Expression(exprName), typeArgsOpt, id, exprList)) = T :-
+  exprOk(s, i@InvokeQExp(ExpressionName2Expression(exprName), typeArgsOpt, id, exprList)) = T :-
   {recvDecl Ts mthdDecl R}
     recvDecl == recvNameOk(s, exprName),
 
@@ -33,12 +34,13 @@ rules // 15.12. Method Invocation Expressions
     Ts == exprListOk(s, exprList),
 
     mthdDecl == resolveRecvMemberMthdName(recvDecl, id, Ts),
+    @i.scope := s,
     R == mthdDeclReturn(mthdDecl),
     T == invokeReturn(R),
 
     true.
 
-  exprOk(s, InvokeQExp(expr, typeArgsOpt, id, exprList)) = T :-
+  exprOk(s, i@InvokeQExp(expr, typeArgsOpt, id, exprList)) = T :-
   {s_ty Ts mthdDecl R}
     s_ty == typeScope(exprOk(s, expr)),
 
@@ -47,12 +49,13 @@ rules // 15.12. Method Invocation Expressions
     Ts == exprListOk(s, exprList),
 
     mthdDecl == resolveMemberMthdName(s_ty, id, Ts),
+    @i.scope := s,
     R == mthdDeclReturn(mthdDecl),
     T == invokeReturn(R),
 
     true.
 
-  exprOk(s, InvokeSuper(typeArgsOpt, id, exprList)) = T :-
+  exprOk(s, i@InvokeSuper(typeArgsOpt, id, exprList)) = T :-
   {s_ty Ts mthdDecl R}
     s_ty == typeDeclScope(super(this(s))),
 
@@ -61,12 +64,13 @@ rules // 15.12. Method Invocation Expressions
     Ts == exprListOk(s, exprList),
 
     mthdDecl == resolveMemberMthdName(s_ty, id, Ts),
+    @i.scope := s,
     R == mthdDeclReturn(mthdDecl),
     T == invokeReturn(R),
 
     true.
 
-  exprOk(s, InvokeQSuper(typeName, typeArgsOpt, id, exprList)) = T :-
+  exprOk(s, i@InvokeQSuper(typeName, typeArgsOpt, id, exprList)) = T :-
   {typeDecl s_ty Ts mthdDecl R}
     typeDecl == typeNameOk(s, typeName),
     s_ty == typeDeclScope(super(qualThis(typeDecl, s))),
@@ -76,6 +80,7 @@ rules // 15.12. Method Invocation Expressions
     Ts == exprListOk(s, exprList),
 
     mthdDecl == resolveMemberMthdName(s_ty, id, Ts),
+    @i.scope := s,
     R == mthdDeclReturn(mthdDecl),
     T == invokeReturn(R),
 

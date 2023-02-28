@@ -8,6 +8,7 @@ imports
   signatures/syntax/java/names/-
   signatures/syntax/java/types/-
   signatures/syntax/java/classes/-
+  signatures/syntax/java/expressions/-
 
   injections/syntax/java/expressions/-
 
@@ -15,6 +16,7 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
 
   collect-ref = collect-one(where(strip-annos; is-name-of-sort))
 
+  is-name-of-sort :: ? -> string
   is-name-of-sort: ClassType(_, _, _) -> "ClassType"
   is-name-of-sort: ClassOrInterfaceTypeMember(_, _, _, _) -> "ClassType"
 
@@ -27,26 +29,43 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
   is-name-of-sort: PackageOrTypeName(_) -> "PackageOrTypeName"
   is-name-of-sort: QPackageOrTypeName(_, _) -> "PackageOrTypeName"
 
+  // expression names
   is-name-of-sort: ExpressionName(_) -> "ExpressionName"
   is-name-of-sort: QExpressionName(_, _) -> "ExpressionName" 
-
-  is-name-of-sort: ExpressionName2Expression(ExpressionName(_)) -> "Expression"
-  is-name-of-sort: ExpressionName2Expression(QExpressionName(_, _)) -> "Expression"
 
   is-name-of-sort: AmbiguousName(_) -> "AmbiguousName"
   is-name-of-sort: QAmbiguousName(_, _) -> "AmbiguousName"
 
+  is-name-of-sort: ExpressionName2Expression(ExpressionName(_)) -> "Expression"
+  is-name-of-sort: ExpressionName2Expression(QExpressionName(_, _)) -> "Expression"
+
+  // methods
+  is-name-of-sort: Invoke(_, _) -> "Expression"
+  is-name-of-sort: InvokeQExp(_, _, _, _) -> "Expression"
+  is-name-of-sort: InvokeSuper(_, _, _) -> "Expression"
+  is-name-of-sort: InvokeQSuper(_, _, _, _) -> "Expression"
+
   is-name-of-sort: MethodName(_) -> "MethodName"
 
   is-name-of-sort: Id(_) -> "Id"
-  
+
   is-name-of-sort: Some(x) -> <is-name-of-sort> x
-  
+
 
   // Collect rightmost leaf if it is an `Id(_)` term
+  collect-id :: ? -> Id
+
   collect-id = ?Id(_)
+
   collect-id = ?ClassType(_, <collect-id>, _)
   collect-id = ?ClassOrInterfaceTypeMember(_, _, <collect-id>, _)
+
   collect-id = ?VariableDecl(<collect-id>)
   collect-id = ?VariableDeclInit(<collect-id>, _)
+
+  collect-id = ?Invoke(<collect-id>, _)
+  collect-id = ?InvokeQExp(_, _, <collect-id>, _)
+  collect-id = ?InvokeSuper(_, <collect-id>, _)
+  collect-id = ?InvokeQSuper(_, _, <collect-id>, _)
+
   collect-id = get-arguments; last; collect-id
