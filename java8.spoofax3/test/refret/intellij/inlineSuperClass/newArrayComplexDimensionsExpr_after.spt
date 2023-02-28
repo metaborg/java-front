@@ -14,7 +14,7 @@ test newArrayComplexDimensionsExpr_after: parsing [[
   [Usage]
       class Usage {
       void ba() {
-        Test[][] s = new Test[ Test.bar()][];
+        Test[][] s = new Test[ Test.bar() ][];
       }
     }
 ]] parse succeeds
@@ -33,7 +33,7 @@ test newArrayComplexDimensionsExpr_after: default analysis [[
   [Usage]
       class Usage {
       void ba() {
-        Test[][] s = new Test[ Test.bar()][];
+        Test[][] s = new Test[ Test.bar() ][];
       }
     }
 ]] analysis succeeds
@@ -52,7 +52,7 @@ test newArrayComplexDimensionsExpr_after: test analysis [[
   [Usage]
       class Usage {
       void ba() {
-        Test[][] s = new Test[ Test.bar()][];
+        Test[][] s = new Test[ Test.bar() ][];
       }
     }
 ]] run test-analyze to SUCCEED()
@@ -71,7 +71,7 @@ test newArrayComplexDimensionsExpr_after: refret test 1 [[
   [Usage]
       class Usage {
       void ba() {
-        Test[][] s = new Test[ [[bar()]]][];
+        Test[][] s = new Test[ [[bar()]] ][];
       }
     }
 ]] run fix-reference(|#2, #1) to [[
@@ -88,7 +88,7 @@ test newArrayComplexDimensionsExpr_after: refret test 1 [[
   [Usage]
       class Usage {
       void ba() {
-        Test[][] s = new Test[ Test.bar()][];
+        Test[][] s = new Test[ Test.bar() ][];
       }
     }
 ]]
