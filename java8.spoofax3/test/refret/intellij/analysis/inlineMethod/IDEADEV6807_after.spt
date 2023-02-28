@@ -1,0 +1,34 @@
+module refret/intellij/analysis/inlineMethod/IDEADEV6807_after
+
+test IDEADEV6807_after: default analysis [[
+  test;
+  [Test]
+      class Base {
+        protected int f;
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = f;
+        }
+    }
+]] analysis succeeds
+
+test IDEADEV6807_after: test analysis [[
+  test;
+  [Test]
+      class Base {
+        protected int f;
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = f;
+        }
+    }
+]] run test-analyze to SUCCEED()
+

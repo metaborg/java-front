@@ -1,0 +1,58 @@
+module refret/intellij/refret/moveInstanceMethod/QualifierToArg2_after
+
+test QualifierToArg2_after: refret test 1 [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager [[commandManager]]) {
+          [[g()]];
+        }
+    }
+  
+    class CommandManager {
+  
+        void [[g]]() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]] run fix-reference(|#2, #3, #1) to [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager commandManager) {
+          commandManager.g();
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]]
+

@@ -1,0 +1,48 @@
+module refret/intellij/analysis/inlineMethod/ThisExpressionValidationForLocalClasses_after
+
+test ThisExpressionValidationForLocalClasses_after: default analysis [[
+  test;
+  [Test]
+      class A {
+      void m() {
+        class Local {}
+        n();
+      }
+      void n() {}
+    }
+  
+    class B extends A {
+      void n() {}
+    }
+  
+    class C extends B {
+      {
+          class Local {}
+          n();
+      }
+    }
+]] analysis succeeds
+
+test ThisExpressionValidationForLocalClasses_after: test analysis [[
+  test;
+  [Test]
+      class A {
+      void m() {
+        class Local {}
+        n();
+      }
+      void n() {}
+    }
+  
+    class B extends A {
+      void n() {}
+    }
+  
+    class C extends B {
+      {
+          class Local {}
+          n();
+      }
+    }
+]] run test-analyze to SUCCEED()
+

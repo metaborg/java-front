@@ -1,0 +1,78 @@
+module refret/intellij/refret/inlineSuperClass/innerClassReference_after
+
+test innerClassReference_after: refret test 1 [[
+  test;
+  [Test]
+      class Test {
+       public void contextChild() {
+          [[StInner]] inner1 = new StInner();
+          Test.InstInner inner2 = this.new InstInner();
+       }
+  
+        void foo() {
+           StInner inner1 = new StInner();
+           Test.InstInner inner2 = this.new InstInner();
+        }
+  
+        public static class [[StInner]] {}
+  
+        public class InstInner {}
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class Test {
+       public void contextChild() {
+          StInner inner1 = new StInner();
+          Test.InstInner inner2 = this.new InstInner();
+       }
+  
+        void foo() {
+           StInner inner1 = new StInner();
+           Test.InstInner inner2 = this.new InstInner();
+        }
+  
+        public static class StInner {}
+  
+        public class InstInner {}
+    }
+]]
+
+test innerClassReference_after: refret test 2 [[
+  test;
+  [Test]
+      class Test {
+       public void contextChild() {
+          StInner inner1 = new StInner();
+          [[InstInner]] inner2 = this.new InstInner();
+       }
+  
+        void foo() {
+           StInner inner1 = new StInner();
+           Test.InstInner inner2 = this.new InstInner();
+        }
+  
+        public static class StInner {}
+  
+        public class [[InstInner]] {}
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class Test {
+       public void contextChild() {
+          StInner inner1 = new StInner();
+          Test.InstInner inner2 = this.new InstInner();
+       }
+  
+        void foo() {
+           StInner inner1 = new StInner();
+           Test.InstInner inner2 = this.new InstInner();
+        }
+  
+        public static class StInner {}
+  
+        public class InstInner {}
+    }
+]]
+

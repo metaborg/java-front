@@ -1,0 +1,42 @@
+module refret/intellij/refret/inlineMethod/AvoidMultipleSubstitutionInParameterTypes_after_1
+
+/*
+test AvoidMultipleSubstitutionInParameterTypes_after_1: refret test 1 [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          [[nested(list, root)]];
+      }
+  
+  
+        private static <S> void [[nested]](Collection<S> result, S element) {}
+    }
+]] run fix-reference(|#1, #2) to [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]]
+*/
+

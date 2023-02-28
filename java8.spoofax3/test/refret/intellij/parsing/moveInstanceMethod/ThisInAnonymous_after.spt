@@ -1,0 +1,24 @@
+module refret/intellij/parsing/moveInstanceMethod/ThisInAnonymous_after
+
+test ThisInAnonymous_after: parsing [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void acceptChildren(JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            acceptChildren(new JetVisitor() {   // Context: this
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]] parse succeeds
+

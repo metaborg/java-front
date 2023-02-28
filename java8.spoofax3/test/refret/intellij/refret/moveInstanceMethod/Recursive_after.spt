@@ -1,0 +1,42 @@
+module refret/intellij/refret/moveInstanceMethod/Recursive_after
+
+test Recursive_after: refret test 1 [[
+  test;
+  [MoveMethodTest]
+      public class MoveMethodTest {
+        void [[foo]] () {
+          [[foo()]];
+          foo();
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [MoveMethodTest]
+      public class MoveMethodTest {
+        void foo () {
+          foo();
+          foo();
+        }
+    }
+]]
+
+test Recursive_after: refret test 2 [[
+  test;
+  [MoveMethodTest]
+      public class MoveMethodTest {
+        void [[foo]] () {
+          foo();
+          [[foo()]];
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [MoveMethodTest]
+      public class MoveMethodTest {
+        void foo () {
+          foo();
+          foo();
+        }
+    }
+]]
+

@@ -1,0 +1,21 @@
+module refret/intellij/parsing/moveInstanceMethod/QualifiedThis_after
+
+test QualifiedThis_after: parsing [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest) {
+            class Inner {
+                {
+                    moveMethodTest.bar();
+                }
+            }
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar() {}
+  
+    }
+]] parse succeeds
+

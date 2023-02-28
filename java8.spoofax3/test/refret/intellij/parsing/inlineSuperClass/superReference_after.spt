@@ -1,0 +1,14 @@
+module refret/intellij/parsing/inlineSuperClass/superReference_after
+
+test superReference_after: parsing [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        method();
+      }
+  
+        public void method() {}
+    }
+]] parse succeeds
+

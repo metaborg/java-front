@@ -1,0 +1,24 @@
+module refret/intellij/parsing/inlineParameter/RefQualifiedThis_after
+
+test RefQualifiedThis_after: parsing [[
+  test;
+  [Subject]
+      class Outer {
+  
+      String toString() { return ""; }
+  
+      class User {
+        public class Subject {
+          public void withClass() {
+            System.out.println(Outer.this.toString());
+          }
+        }
+  
+        private void oper() {
+          Subject subj = new Subject();
+          subj.withClass();
+        }
+      }
+    }
+]] parse succeeds
+

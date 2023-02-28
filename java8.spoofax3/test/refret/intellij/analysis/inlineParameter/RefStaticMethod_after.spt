@@ -1,0 +1,46 @@
+module refret/intellij/analysis/inlineParameter/RefStaticMethod_after
+
+test RefStaticMethod_after: default analysis [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int init() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = StaticRefMove.init();
+          System.out.println(subj);
+      }
+    }
+]] analysis succeeds
+
+test RefStaticMethod_after: test analysis [[
+  test;
+  [StaticRefMove]
+      public class StaticRefMove {
+      public static int init() {
+        return 1;
+      }
+  
+      public void context() {
+        StaticRefMoveSubject v = new StaticRefMoveSubject();
+        v.subject();
+      }
+    }
+  
+    class StaticRefMoveSubject {
+      public void subject() {
+          int subj = StaticRefMove.init();
+          System.out.println(subj);
+      }
+    }
+]] run test-analyze to SUCCEED()
+

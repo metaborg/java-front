@@ -1,0 +1,50 @@
+module refret/intellij/analysis/moveClassToInner/insertInnerClassImport_after
+
+test insertInnerClassImport_after: default analysis [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class Class1 {
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import pack2.A.Class1;
+  
+    public class Class2 {
+      Class1 myClass1;
+    }
+  }
+]] analysis succeeds
+
+test insertInnerClassImport_after: test analysis [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class Class1 {
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import pack2.A.Class1;
+  
+    public class Class2 {
+      Class1 myClass1;
+    }
+  }
+]] run test-analyze to SUCCEED()
+

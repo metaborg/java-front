@@ -1,0 +1,36 @@
+module refret/intellij/analysis/inlineMethod/PrivateFieldInSuperClassInSameFile_after
+
+test PrivateFieldInSuperClassInSameFile_after: default analysis [[
+  test;
+  [Test]
+      class Test {
+      class A {
+        private Integer i = 0;
+  
+      }
+  
+      class B extends A {
+        void bar(A a) {
+            a.i.toString();
+        }
+      }
+    }
+]] analysis succeeds
+
+test PrivateFieldInSuperClassInSameFile_after: test analysis [[
+  test;
+  [Test]
+      class Test {
+      class A {
+        private Integer i = 0;
+  
+      }
+  
+      class B extends A {
+        void bar(A a) {
+            a.i.toString();
+        }
+      }
+    }
+]] run test-analyze to SUCCEED()
+

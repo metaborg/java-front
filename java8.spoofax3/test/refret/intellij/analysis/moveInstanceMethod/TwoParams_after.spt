@@ -1,0 +1,36 @@
+module refret/intellij/analysis/moveInstanceMethod/TwoParams_after
+
+test TwoParams_after: default analysis [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           moveMethodTest.bar (inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar(Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]] analysis succeeds
+
+test TwoParams_after: test analysis [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           moveMethodTest.bar (inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar(Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]] run test-analyze to SUCCEED()
+

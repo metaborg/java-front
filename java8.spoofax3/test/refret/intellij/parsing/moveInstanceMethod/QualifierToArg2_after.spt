@@ -1,0 +1,31 @@
+module refret/intellij/parsing/moveInstanceMethod/QualifierToArg2_after
+
+test QualifierToArg2_after: parsing [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f(CommandManager commandManager) {
+          commandManager.g();
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f(myManager);
+        }
+    }
+]] parse succeeds
+

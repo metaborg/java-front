@@ -1,0 +1,48 @@
+module refret/intellij/analysis/moveInstanceMethod/OverloadingMethods_after
+
+test OverloadingMethods_after: default analysis [[
+  test;
+  [A]
+      public class A {
+  
+        public void show(B b){
+            b.m(this);
+        }
+  
+        public void m (C c){
+            System.out.println(this);
+        }
+  
+    }
+  
+    class B{
+        public void m(A a){
+            System.out.println(a);
+        }
+    }
+    class C{}
+]] analysis succeeds
+
+test OverloadingMethods_after: test analysis [[
+  test;
+  [A]
+      public class A {
+  
+        public void show(B b){
+            b.m(this);
+        }
+  
+        public void m (C c){
+            System.out.println(this);
+        }
+  
+    }
+  
+    class B{
+        public void m(A a){
+            System.out.println(a);
+        }
+    }
+    class C{}
+]] run test-analyze to SUCCEED()
+

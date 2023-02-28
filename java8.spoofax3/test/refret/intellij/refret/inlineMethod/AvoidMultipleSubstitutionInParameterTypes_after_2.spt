@@ -1,0 +1,82 @@
+module refret/intellij/refret/inlineMethod/AvoidMultipleSubstitutionInParameterTypes_after_2
+
+/*
+test AvoidMultipleSubstitutionInParameterTypes_after_2: refret test 1 [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> [[list]]) {
+          nested([[list]], root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]]
+*/
+
+/*
+test AvoidMultipleSubstitutionInParameterTypes_after_2: refret test 2 [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> [[root]], LinkedHashSet<List<T>> list) {
+          nested(list, [[root]]);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]] run fix-reference(|#2, #1) to [[
+  [[{disabled}]] // Generics
+  
+  test;
+  [Test]
+  
+    import java.util.Collection;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+  
+    class A {
+      <T> void bar(List<T> root, LinkedHashSet<List<T>> list) {
+          nested(list, root);
+      }
+  
+  
+        private static <S> void nested(Collection<S> result, S element) {}
+    }
+]]
+*/
+

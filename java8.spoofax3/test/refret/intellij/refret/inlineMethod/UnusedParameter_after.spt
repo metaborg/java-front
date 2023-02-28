@@ -1,0 +1,78 @@
+module refret/intellij/refret/inlineMethod/UnusedParameter_after
+
+test UnusedParameter_after: refret test 1 [[
+  test;
+  [Test]
+      class Temp {
+      class Set {
+        native Object [[size]]();
+      }
+  
+      public Object foo(Set [[bar]]) {
+        if ([[size()]] != null) {// Inline this
+            bar.size(); // or inline this
+            return null;
+        }
+  
+        return bar;
+      }
+  
+    }
+]] run fix-reference(|#3, #1, #2) to [[
+  test;
+  [Test]
+      class Temp {
+      class Set {
+        native Object size();
+      }
+  
+      public Object foo(Set bar) {
+        if (bar.size() != null) {// Inline this
+            bar.size(); // or inline this
+            return null;
+        }
+  
+        return bar;
+      }
+  
+    }
+]]
+
+test UnusedParameter_after: refret test 2 [[
+  test;
+  [Test]
+      class Temp {
+      class Set {
+        native Object [[size]]();
+      }
+  
+      public Object foo(Set [[bar]]) {
+        if (bar.size() != null) {// Inline this
+            [[size()]]; // or inline this
+            return null;
+        }
+  
+        return bar;
+      }
+  
+    }
+]] run fix-reference(|#3, #1, #2) to [[
+  test;
+  [Test]
+      class Temp {
+      class Set {
+        native Object size();
+      }
+  
+      public Object foo(Set bar) {
+        if (bar.size() != null) {// Inline this
+            bar.size(); // or inline this
+            return null;
+        }
+  
+        return bar;
+      }
+  
+    }
+]]
+

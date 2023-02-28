@@ -1,0 +1,46 @@
+module refret/intellij/analysis/moveInstanceMethod/MethodReferenceWithThisTarget_after
+
+/*
+test MethodReferenceWithThisTarget_after: default analysis [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.function.Consumer;
+  
+    class Source {
+    }
+  
+    class Destination {
+      public void doSomething(String s) {
+      }
+  
+        public void foo() {
+          Consumer<String> doSomething = this::doSomething;
+        }
+    }
+]] analysis succeeds
+*/
+
+/*
+test MethodReferenceWithThisTarget_after: test analysis [[
+  [[{disabled}]] // Method reference
+  
+  test;
+  [Test]
+      import java.util.function.Consumer;
+  
+    class Source {
+    }
+  
+    class Destination {
+      public void doSomething(String s) {
+      }
+  
+        public void foo() {
+          Consumer<String> doSomething = this::doSomething;
+        }
+    }
+]] run test-analyze to SUCCEED()
+*/
+

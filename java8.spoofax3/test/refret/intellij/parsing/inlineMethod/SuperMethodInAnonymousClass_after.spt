@@ -1,0 +1,27 @@
+module refret/intellij/parsing/inlineMethod/SuperMethodInAnonymousClass_after
+
+test SuperMethodInAnonymousClass_after: parsing [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void g() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                g();
+            }
+          }.run();
+        }
+      }
+]] parse succeeds
+

@@ -1,0 +1,58 @@
+module refret/intellij/refret/inlineMethod/CallUnderIf_after
+
+test CallUnderIf_after: refret test 1 [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer [[myI]];
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent([[myI]]) + getComponent(myI));
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]]
+
+test CallUnderIf_after: refret test 2 [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer [[myI]];
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent([[myI]]));
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]]
+
