@@ -69,12 +69,12 @@ test LocalVariableResult_after: refret test 1 [[
       class A {
   
         Integer f(int i) {
-            Integer result;
+            Integer [[result]];
             if (i > 0) {
                 [[result]] = new Integer(i);
             }
             else {
-                Integer [[result]];
+                Integer result;
                 result = new Integer(0);
                 result = result;
             }
@@ -82,7 +82,7 @@ test LocalVariableResult_after: refret test 1 [[
         }
   
     }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #1) to [[
   test;
   [Test]
       class A {
