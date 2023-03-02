@@ -2,6 +2,7 @@ package mb.java8;
 
 import javax.inject.Inject;
 
+import mb.java8.primitives.JavaPerformanceLibrary;
 import mb.log.api.LoggerFactory;
 import mb.nabl2.terms.stratego.StrategoTerms;
 import mb.resource.ResourceService;
@@ -25,11 +26,12 @@ public class Java8StrategoRuntimeBuilderFactory extends Java8BaseStrategoRuntime
         ResourceService resourceService,
         HierarchicalResource definitionDir,
         RRPrimitiveLibrary referenceRetentionPrimitives,
+        JavaPerformanceLibrary javaPerformanceLibrary,
         InteropRegisterer referenceRetentionInteropRegisterer,
         TegoRuntime tegoRuntime,
         StrategoTerms strategoTerms  
     ) {
-		super(loggerFactory, resourceService, definitionDir, referenceRetentionPrimitives, referenceRetentionInteropRegisterer);
+		super(loggerFactory, resourceService, definitionDir, referenceRetentionPrimitives, javaPerformanceLibrary, referenceRetentionInteropRegisterer);
         this.tegoRuntime = tegoRuntime;
 		this.strategoTerms = strategoTerms;
     }
