@@ -3,7 +3,7 @@ module refret/intellij/refret/inlineParameter/RefThis_after
 test RefThis_after: refret test 1 [[
   test;
   [Subject]
-      class [[User]] {
+      class User {
   
         int [[hashCode]]() { return 0; }
   
@@ -20,7 +20,7 @@ test RefThis_after: refret test 1 [[
         subj.withClass();
       }
     }
-]] run fix-reference(|#3, #2, #1) to [[
+]] run fix-reference(|#2, #1) to [[
   test;
   [Subject]
       class User {

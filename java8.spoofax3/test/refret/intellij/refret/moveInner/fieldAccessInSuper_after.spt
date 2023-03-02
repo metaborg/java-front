@@ -9,7 +9,7 @@ test fieldAccessInSuper_after: refret test 1 [[
     class B extends S{
         private final A a;
   
-        public B(A a) {
+        public B(A [[a]]) {
         super([[A.this.foo()]]);    // Context: A.this?
             this.a = a;
         }
@@ -28,7 +28,7 @@ test fieldAccessInSuper_after: refret test 1 [[
         int [[foo]](){}
     }
   }
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [p] {
   [B]

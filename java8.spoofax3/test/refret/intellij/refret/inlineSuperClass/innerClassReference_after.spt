@@ -44,7 +44,7 @@ test innerClassReference_after: refret test 2 [[
       class Test {
        public void contextChild() {
           StInner inner1 = new StInner();
-          [[InstInner]] inner2 = this.new InstInner();
+          [[Test.InstInner]] inner2 = this.new InstInner();
        }
   
         void foo() {

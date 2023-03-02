@@ -1,5 +1,7 @@
 module refret/intellij/refret/moveInstanceMethod/QualifyField_after
 
+// Unsupported: guess access through field `flam`.
+
 test QualifyField_after: refret test 1 [[
   test;
   [Test]

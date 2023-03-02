@@ -17,7 +17,7 @@ test superConstructorWithFieldInitialization_after: refret test 1 [[
         private final String field;
   
         Test(){
-            Test.this.field = "text";
+            field = "text"; // Was `Test.this.field`, but our proposal is better.
         }
     }
 ]]

@@ -5,7 +5,7 @@ test OverloadingMethods_after: refret test 1 [[
   [A]
       public class A {
   
-        public void show(B b){
+        public void show(B [[b]]){
             [[m(this)]];
         }
   
@@ -21,7 +21,7 @@ test OverloadingMethods_after: refret test 1 [[
         }
     }
     class C{}
-]] run fix-reference(|#1, #2) to [[
+]] run fix-reference(|#2, #3, #1) to [[
   test;
   [A]
       public class A {

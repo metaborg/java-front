@@ -35,8 +35,8 @@ test arrayTypeElements_after: refret test 1 [[
 test arrayTypeElements_after: refret test 2 [[
   test;
   [Test]
-      class Test {
-      public [[Test]]() {
+      class [[Test]] {
+      public Test() {
       }
   
         public static Test[] getArray() {
@@ -99,8 +99,8 @@ test arrayTypeElements_after: refret test 3 [[
 test arrayTypeElements_after: refret test 4 [[
   test;
   [Test]
-      class Test {
-      public [[Test]]() {
+      class [[Test]] {
+      public Test() {
       }
   
         public static Test[] getArray() {

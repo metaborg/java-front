@@ -21,7 +21,7 @@ test thisQualificationInsideAnonymous_after: refret test 1 [[
         protected final Object myBizz;
   
         public Test() {
-            Test.this.myBar = new Object() {
+            myBar = new Object() { // Was `Test.this.myBar`, but our option is better.
             };
             Test.this.myBizz = null;
         }
@@ -51,7 +51,7 @@ test thisQualificationInsideAnonymous_after: refret test 2 [[
         public Test() {
             Test.this.myBar = new Object() {
             };
-            Test.this.myBizz = null;
+            myBizz = null; // Was `Test.this.myBar`, but our option is better.
         }
     }
 ]]

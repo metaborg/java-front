@@ -3,7 +3,7 @@ module refret/intellij/refret/inlineSuperClass/staticImport_after
 test staticImport_after: refret test 1 [[
   test;
   [Usage]
-      import static [[CONSTANT]];
+      import static [[q.CONSTANT]];
     import static p.Test.statMeth;
     class Usage {
       public void context() {
@@ -48,7 +48,7 @@ test staticImport_after: refret test 2 [[
   test;
   [Usage]
       import static p.Test.CONSTANT;
-    import static [[statMeth]];
+    import static [[q.statMeth]];
     class Usage {
       public void context() {
           String v = CONSTANT;

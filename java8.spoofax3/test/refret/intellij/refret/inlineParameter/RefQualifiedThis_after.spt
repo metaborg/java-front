@@ -3,7 +3,7 @@ module refret/intellij/refret/inlineParameter/RefQualifiedThis_after
 test RefQualifiedThis_after: refret test 1 [[
   test;
   [Subject]
-      class [[Outer]] {
+      class Outer {
   
       String [[toString]]() { return ""; }
   
@@ -20,7 +20,7 @@ test RefQualifiedThis_after: refret test 1 [[
         }
       }
     }
-]] run fix-reference(|#3, #2, #1) to [[
+]] run fix-reference(|#2, #1) to [[
   test;
   [Subject]
       class Outer {
