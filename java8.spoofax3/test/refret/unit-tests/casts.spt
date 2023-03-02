@@ -1,6 +1,6 @@
 module refret/casts
 
-test castsx [[
+test casts [[
 test;
 
 [p] {

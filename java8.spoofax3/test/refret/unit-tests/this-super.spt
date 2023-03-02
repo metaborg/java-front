@@ -1,4 +1,4 @@
-module refret/refret
+module refret/this-super
 
 test qualify field -- this [[
 test;
