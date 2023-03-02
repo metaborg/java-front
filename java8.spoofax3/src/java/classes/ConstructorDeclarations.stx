@@ -29,6 +29,7 @@ rules // 8.8. Constructor Declarations
     new s_ctorHead,
     s_ctorHead -LEX-> s,
 
+
     typeParamsOptOk(s_ctorHead, typeParamsOpt),
     ctorIdOk(s, id),
     params == formalParamsOk(s_ctorHead, formalParams, s_ctorHead),
@@ -57,7 +58,8 @@ rules // 8.8. Constructor Declarations
   ctorIdOk : scope * Id
 
   ctorIdOk(s, id) :-
-    typeDeclId(this(s)) == id.
+    typeDeclId(this(s)) == id,
+    @id.scope := s.
 
 
   ctorInvOptOk : scope * ConstructorInvocation-OPT

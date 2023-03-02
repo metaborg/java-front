@@ -41,27 +41,30 @@ rules // 7.5. Import Declarations
     s_imp -SINGLE_STATIC_IMPORT-> s_imp',
 
     types == resolveAllStaticMemberTypeNames(s_ty, id),
-    importStaticTypeList(types, s_imp'),
+    importStaticTypeList(id, types, s_imp'),
 
     mthds == resolveAllStaticMemberMthdNames(s_ty, id),
-    importStaticMthdList(mthds, s_imp'),
+    importStaticMthdList(id, mthds, s_imp'),
 
     vars == resolveAllStaticMemberExprNames(s_ty, id),
-    importStaticExprList(vars, s_imp'),
+    importStaticExprList(id, vars, s_imp'),
 
     importStaticNotEmpty(id, types, mthds, vars).
 
-      importStaticType : TYPE_PATH * scope
-      importStaticTypeList maps importStaticType(list(*), *)
-      importStaticType((_, typeDecl), s_imp) :- aliasType(s_imp, typeDecl).
+      importStaticType : Id * TYPE_PATH * scope
+      importStaticTypeList maps importStaticType(*, list(*), *)
+      importStaticType(id, (_, typeDecl@(id', _)), s_imp) :- aliasType(s_imp, typeDecl),
+        @id.ref := id'.
 
-      importStaticMthd : MTHD_PATH * scope
-      importStaticMthdList maps importStaticMthd(list(*), *)
-      importStaticMthd((_, mthdDecl), s_imp) :- aliasMthdName(s_imp, mthdDecl).
+      importStaticMthd : Id * MTHD_PATH * scope
+      importStaticMthdList maps importStaticMthd(*, list(*), *)
+      importStaticMthd(id, (_, mthdDecl@(id', _, _)), s_imp) :- aliasMthdName(s_imp, mthdDecl),
+        @id.ref := id'.
 
-      importStaticExpr : VAR_PATH * scope
-      importStaticExprList maps importStaticExpr(list(*), *)
-      importStaticExpr((_, varDecl), s_imp) :- aliasExprName(s_imp, varDecl).
+      importStaticExpr : Id * VAR_PATH * scope
+      importStaticExprList maps importStaticExpr(*, list(*), *)
+      importStaticExpr(id, (_, varDecl@(id', _)), s_imp) :- aliasExprName(s_imp, varDecl),
+        @id.ref := id'.
 
       importStaticNotEmpty : Id * list(TYPE_PATH) * list(MTHD_PATH) * list(VAR_PATH)
       importStaticNotEmpty(id, [], [], []) :- false | error $[Cannot resolve static type/method/expression [id].].

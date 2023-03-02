@@ -25,16 +25,17 @@ rules
     with               <debug> sortName
        ; x          := <collect-id> e
        ; ref-idx    := <stx--get-ast-index> x
-       ; s-ref      := <scope-prop(|a)> x
+       ; s-ref      := <collect-om(gen-scope-prop(|a)); Hd> e
        ; s-tgt      := <scope-prop(|a); escape-static(|a)> tgt
-       ; s-prop*    := <reconstruct-static-names(|a, x)> s-tgt
+       ; id-prop    := <gen-id-prop(|e)> inst 
+       ; s-prop     := <reconstruct-static-names(|a, x)> s-tgt
        ; inst'      := <to-opt-expr> inst
-       ; q-prop*    := <qualify-instance-field(|a, x)> (inst', s-ref)
-       ; prop*      := <flatten-list> 
-                       [ [ e ]
-                       , s-prop*
-                       , q-prop*
-                       ]
+       ; q-prop     := <qualify-instance-field(|a, x, e)> (inst', s-ref)
+       ; prop*      := <flatten> [id-prop, s-prop, q-prop]
+
+  gen-id-prop(|a) :: Option(?) -> List(a)
+  gen-id-prop(|e): None() -> [e]
+  gen-id-prop(|e): Some(_) -> []
 
   to-opt-expr :: Option(?) -> Option(Expression)
   to-opt-expr = is(Option(Expression))
@@ -47,24 +48,26 @@ rules
        ; prop*     := <map(mk-expr-name(|x); !ExpressionName2Expression(<id>))> q-name*
 
   mk-expr-name :: QName -> ExpressionName
-  mk-expr-name : QName([x|x*]) -> <mk-expr-name(|x)> QName(x*)
+  mk-expr-name : QName(xs) -> name
+    with (xs, x') := <split-init-last> xs
+       ; name     := <mk-expr-name(|x')> QName(xs)
 
   mk-expr-name(|Id) :: QName -> ExpressionName
   mk-expr-name(|x): QName(x*) -> QExpressionName(q, x)
     with q := <foldl'(!AmbiguousName(<id>), { n, q: ?(n, q); !QAmbiguousName(q, n) })> x*
 
   // field access with given instance
-  qualify-instance-field(|blob, Id) :: Option(Expression) * Term -> List(Expression)
-  qualify-instance-field(|a, x): (Some(inst), s-ref) -> prop*
-    with q-prop* := <reconstruct-field-access(|a, x)> s-ref
-       ; c-prop* := <this-type(|a); insert-casts(|a, inst, x)> s-ref
-       ; prop*   := [ <mk-field-access(|x)> inst
-                    , c-prop*
-                    ]
-  qualify-instance-field(|a, x): (None(), s-ref) -> prop*
+  qualify-instance-field(|blob, Id, Expression) :: Option(Expression) * Term -> List(Expression)
+  qualify-instance-field(|a, x, e): (Some(inst), s-ref) -> prop*
+    with // s-recv  := <expr-type-scope(|a)> (s-ref, inst)
+         c-prop  := <this-type(|a); insert-casts(|a, inst, x)> s-ref
+       ; prop*   := [ <mk-field-access(|x)> inst | c-prop]
+
+  qualify-instance-field(|a, x, e): (None(), s-ref) -> prop*
     with q-prop* := <reconstruct-field-access(|a, x)> s-ref
        ; prop*   := [ FieldAccess2Expression(Field(This(), x))
                     , FieldAccess2Expression(SuperField(x))
+                    , QThis(TypeName(x))
                     | q-prop*
                     ]
 
@@ -103,8 +106,8 @@ rules
   // superclass casts
   insert-casts(|blob, Expression, Id) :: Id * Term -> List(Expression)
   insert-casts(|a, expr, x) : T@(x-T, s-T) -> prop*
-    with p-cls* := <reconstruct-super-classes(|a); reverse; Tl> T
-       ; prop*  := <flatmap(reconstruct-static-qualifiers(|a)); map(mk-cast(|expr); mk-field-access(|x))> p-cls*
+    with p-cls* := <dbg(!"cast-T: "); reconstruct-super-classes(|a); dbg(!"super-T"); reverse; Tl> T
+       ; prop*  := <flatmap(dbg(!"type:"); reconstruct-static-qualifiers(|a); dbg(!"q-types: ")); map(mk-cast(|expr); mk-field-access(|x)); dbg(!"c-props: ")> p-cls*
 
   mk-field-access(|Id) :: Expression -> Expression
   mk-field-access(|x): ExpressionName2Expression(ExpressionName(q)) -> ExpressionName2Expression(QExpressionName(AmbiguousName(q), x))
@@ -113,5 +116,5 @@ rules
 
   mk-cast(|Expression) :: QName -> Expression
   mk-cast(|expr): qn -> CastReference(ClassType2ReferenceType(ct), [], expr)
-    with ct := <mk-qualified-class-type(|[], NoTypeArguments())> qn
+    with ct := <mk-qualified-class-type(mk-single-class-type, mk-composite-class-type|[], NoTypeArguments())> qn
 

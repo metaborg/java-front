@@ -51,11 +51,9 @@ rules
     with s-ref   := <expr-scope-prop(|a)> invk
        ; s-tgt   := <scope-prop(|a)> tgt
        ; args    := <get-args> invk
-       ; q-cls   := <(recv-opt; mk-qualified-recv(|inst); map(!InvokeQExp(<id>, targs, x, args))) <+ ![]> invk // can fail if there's either a non-name inst or receiver
+       ; q-cls   := <(dbg(!"recv: "); recv-opt; dbg(!"recv-opt: "); mk-qualified-recv(|inst); dbg(!"q-recv: "); map(!InvokeQExp(<id>, targs, x, args); dbg(!"inkv: "))) <+ ![]> invk // can fail if there's either a non-name inst or receiver
        ; s-cls   := <this-type(|a); reconstruct-static-qualifiers(|a); map(mk-method-invocation(|x, targs, args))> s-tgt
-       ; prop*   := <flatten> [ s-cls
-                              , q-cls
-                              ]
+       ; prop*   := <flatten> [s-cls, q-cls]
 
   qualify--method(|a, tgt, targs) : (None(), invk, x) -> prop*
     with s-ref   := <expr-scope-prop(|a)> invk
@@ -63,22 +61,20 @@ rules
        ; args    := <get-args> invk
        ; T-ref   := <this-type(|a)> s-ref
        ; T-tgt   := <this-type(|a)> s-tgt
+       ; q-cls   := <dbg(!"strp-recv: "); recv-opt; dbg(!"recv-opt: "); strip-recv(|x, targs, args); dbg(!"q-cls: ")> invk
        ; enc*    := <reconstruct-enclosing-classes(|a); map(Fst)> T-ref
        ; s-cls   := <reconstruct-static-qualifiers(|a); map(mk-method-invocation(|x, targs, args))> T-tgt
        ; t-cls   := <map(mk-this-method-invocation(|x, targs, args))> enc* 
        ; e-cls   := <map(mk-super-method-invocation(|x, targs, args))> enc* 
-       ; prop*   := <flatten> [ [ invk, InvokeSuper(targs, x, args) ]
-                              , s-cls
-                              , t-cls 
-                              , e-cls 
-                              ]
+       ; prop*   := <flatten> [ [ invk, Invoke(MethodName(x), args), InvokeSuper(targs, x, args) ], q-cls, s-cls, t-cls, e-cls]
 
 rules
 
   mk-method-invocation(|Id, TypeArguments-OPT, List(Expression)) :: QName -> Expression
   mk-method-invocation(|x, targs, args) : QName([q]) -> InvokeQExp(ExpressionName2Expression(ExpressionName(q)), targs, x, args)
-  mk-method-invocation(|x, targs, args) : QName([x' | x*]) -> InvokeQExp(q, targs, x, args)
-    with q := <mk-expr-name(|x')> QName(x*)
+  mk-method-invocation(|x, targs, args) : QName(xs) -> InvokeQExp(q, targs, x, args)
+    with (x*, x') := <split-init-last> xs
+       ; q        := <mk-expr-name(|x')> QName(x*)
 
   mk-this-method-invocation(|Id, TypeArguments-OPT, List(Expression)) :: Id -> Expression
   mk-this-method-invocation(|x, targs, args) = !InvokeQExp(QThis(TypeName(<id>)), targs, x, args)
@@ -89,6 +85,13 @@ rules
   get-args :: Expression -> List(Expression)
   get-args = get-arguments; last
 
+  strip-recv(|Id, TypeArguments-OPT, List(Expression)) :: Option(Expression) -> List(Expression)
+  strip-recv(|x, targs, args): None() -> []
+  strip-recv(|x, targs, args): Some(inst) -> prop*
+	where qn*    := <expr-to-id-list; mk-qnames> inst
+	 with prop*  := <map(mk-method-invocation(|x, targs, args))> qn*
+  strip-recv(|x, targs, args): Some(inst) -> [inst]
+
 rules // merge context and original receiver
 
   mk-qualified-recv(|Expression) :: Option(Expression) -> List(Expression)
@@ -98,6 +101,7 @@ rules // merge context and original receiver
     where id-recv* := <expr-to-id-list> recv
         ; id-inst* := <expr-to-id-list> inst
     with  recv*    := <prefix-instance; map(mk-expr-name)> (id-inst*, id-recv*)
+  mk-qualified-recv(|inst) : Some(_) -> [inst]
 
   prefix-instance :: List(Id) * List(Id) -> List(QName)
   prefix-instance : (inst, []) -> [QName(inst)]

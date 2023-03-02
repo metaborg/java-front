@@ -11,6 +11,7 @@ imports
   signatures/syntax/java/lexical/-
   signatures/syntax/java/names/-
   signatures/syntax/java/types/-
+  signatures/syntax/java/classes/-
   signatures/syntax/java/interfaces/-
 
   refret/-
@@ -18,23 +19,50 @@ imports
 rules // classes and packages
 
   qualify-class-reference(|Id, string, blob) :: ? -> List(ClassType * ?)
-  qualify-class-reference(|tgt, sortName, a): (None(), t@ClassType(ann*, x, tp*)) -> prop*
+  qualify-class-reference(|tgt, sortName, a) : (None(), c@ClassType(ann*, x, tp)) -> prop*
+    with prop* := <qualify--class-reference(mk-single-class-type, mk-composite-class-type|tgt, sortName, a)> (ann*, x, tp)
+
+  qualify-unann-class-reference(|Id, string, blob) :: ? -> List(UnannClassType * ?)
+  qualify-unann-class-reference(|tgt, sortName, a) : (None(), c@UnannClassType(x, tp)) -> prop*
+    with prop* := <qualify--class-reference(mk-single-unann-class-type, mk-composite-unann-class-type|tgt, sortName, a)> ([], x, tp)
+
+  qualify--class-reference(
+      List(Annotation) * Id * TypeArguments-OPT -> c,
+	  c * List(Annotation) * Id * TypeArguments-OPT -> c
+    | Id, string, blob
+  ) :: List(Annotation) * Id * TypeArguments-OPT -> List(c * ?)
+  qualify--class-reference(mk-single,mk-composite|tgt, sortName, a): (ann*, x, tp*) -> prop*
     with ref-idx    := <stx--get-ast-index> x
        ; s-tgt      := <scope-prop(|a)> tgt
-       ; s-tgt'     := <type-scope(|a)> (x, s-tgt)
+       ; s-tgt'     := <type-scope(|a) <+ Snd> (x, s-tgt)
        ; p-cls*     := <reconstruct-static-qualifiers(|a)> (x, s-tgt')
-       ; q-cls      := <map(mk-qualified-class-type(|ann*, tp*)); make-set> p-cls*
+       ; q-cls      := <map(mk-qualified-class-type(mk-single,mk-composite|ann*, tp*)); make-set> p-cls*
 	   ; prop*      := <map(!(<id>, ref-idx))> q-cls
 
   // Make qualified class reference names
 
-  mk-qualified-class-type(|List(Annotation), TypeArguments-OPT) :: QName -> ClassType
-  mk-qualified-class-type(|ann*, tp*): QName([x]) -> ClassType(ann*, x, tp*)
+  mk-qualified-class-type(
+      List(Annotation) * Id * TypeArguments-OPT -> c,
+	  c * List(Annotation) * Id * TypeArguments-OPT -> c
+	| List(Annotation), TypeArguments-OPT
+  ) :: QName -> c
+  mk-qualified-class-type(mk-single,mk-composite|ann*, tp*): QName([x]) -> <mk-single> (ann*, x, tp*)
 
-  mk-qualified-class-type(|ann*, tp*): QName(xs) -> ClassOrInterfaceTypeMember(q, ann*, x, tp*)
+  mk-qualified-class-type(mk-single,mk-composite|ann*, tp*): QName(xs) -> <mk-composite> (q, ann*, x, tp*)
     with (x*, x) := <split-init-last> xs
-       ; q       := <foldl'(mk-top-level-pkg-name, mk-nested-pkg-name)> x*
+       ; q       := <foldl'(!([], <id>, NoTypeArguments()); mk-single, {x, q: \ (x, q) -> <mk-composite> (q, [], x, NoTypeArguments()) \})> x*
 
+rules
 
-  mk-top-level-pkg-name = !ClassType([], <id>, NoTypeArguments())
-  mk-nested-pkg-name: (x, q) -> ClassOrInterfaceTypeMember(q, [], x, NoTypeArguments())
+  mk-single-class-type :: List(Annotation) * Id * TypeArguments-OPT -> ClassType
+  mk-single-class-type: (ann*, x, tp) -> ClassType(ann*, x, tp)
+
+  mk-composite-class-type :: ClassType * List(Annotation) * Id * TypeArguments-OPT -> ClassType
+  mk-composite-class-type: (q, ann*, x, tp) -> ClassOrInterfaceTypeMember(q, ann*, x, tp)
+
+  mk-single-unann-class-type :: List(Annotation) * Id * TypeArguments-OPT -> UnannClassType
+  mk-single-unann-class-type: ([], x, tp) -> UnannClassType(x, tp)
+
+  mk-composite-unann-class-type :: UnannClassType * List(Annotation) * Id * TypeArguments-OPT -> UnannClassType
+  mk-composite-unann-class-type: (q, ann*, x, tp) -> UnannClassOrInterfaceTypeMember(q, ann*, x, tp)
+  

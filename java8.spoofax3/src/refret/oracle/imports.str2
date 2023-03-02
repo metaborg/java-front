@@ -1,0 +1,31 @@
+module refret/oracle/imports
+
+imports
+
+  strategolib
+
+  statix/api
+  statix/runtime/-
+
+  signatures/syntax/java/packages/-
+
+  refret/-
+  refret/oracle/expressions
+
+rules
+
+  qualify-import(|?, string, blob) :: ? -> List(ImportDeclaration * ?)
+  qualify-import(|tgt, sort, a): (_, SingleTypeImport(t)) -> [(prop, ref-idx)]
+    with x         := <try(collect-ref); collect-id> t
+       ; ref-idx   := <stx--get-ast-index> x
+       ; s-tgt     := <scope-prop(|a); escape-static(|a)> tgt
+       ; s-tgt'    := <type-scope(|a); dbg(!"this-type: ")> (tgt, s-tgt)
+       ; q         := <reconstruct-static-qualifiers(|a); last; dbg(!"qname: ")> (tgt, s-tgt')
+       ; prop      := <QName(at-last(![x])); mk-type-name; !SingleTypeImport(<id>)> q
+
+  qualify-import(|tgt, sort, a): (_, SingleStaticImport(_, x)) -> [(prop, ref-idx)]
+    with ref-idx   := <stx--get-ast-index> x
+       ; T         := <scope-prop(|a); dbg(!"tgt-s: "); this-type(|a)> tgt
+       ; q         := <reconstruct-static-qualifiers(|a); last> T
+       ; prop      := <mk-type-name; !SingleStaticImport(<id>, x)> q
+       

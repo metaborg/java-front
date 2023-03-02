@@ -49,6 +49,9 @@ rules // query analysis result
   escape-static(|blob) :: Term -> Term
   escape-static(|a) = MkSingleton; evaluate-constraint(|a, "refret!escapeStatic")
 
+  expr-type-scope(|blob) :: Term * Expression -> Term
+  expr-type-scope(|a) = TupleToList; evaluate-constraint(|a, "refret!expressionTypeScope")
+
 rules // reconstruct enclosing context from analysis
 
   // packages
@@ -98,3 +101,6 @@ rules // access properties
 
   expr-scope-prop(|blob) :: Expression -> Term
   expr-scope-prop(|a) = stx-get-ast-property(|a, "scope")
+
+  gen-scope-prop(|blob) :: ? -> Term
+  gen-scope-prop(|a) = (is(Id); scope-prop(|a)) <+ (is(Expression); expr-scope-prop(|a))

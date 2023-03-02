@@ -11,8 +11,12 @@ imports
 
   signatures/syntax/java/lexical/-
   signatures/syntax/java/names/-
-  signatures/syntax/java/types/-
   signatures/syntax/java/expressions/-
+  signatures/syntax/java/types/-
+  signatures/syntax/java/classes/-
+  signatures/syntax/java/packages/-
+
+  injections/syntax/java/expressions/-
   injections/-
 
   refret/references
@@ -35,26 +39,46 @@ rules
     with a       := <stx--get-ast-analysis> ast
 
     // retrieve indices of reference to test
-    with ref'    := <collect-ref; collect-id> ref
-       ; tgt'    := <collect-ref; collect-id> tgt
-       ; ref-idx := <stx--get-ast-index> ref'
+    with ref'    := <(collect-ref <+ collect-id); dbg(!"ref: ")> ref
+       ; t-idx   := <stx--get-ast-index> ref'
+       ; ref-idx := <collect-id; stx--get-ast-index> ref'
+       ; tgt'    := <dbg; collect-id; dbg(!"tgt: ")> tgt
+
+    with t-n     := <get-arguments; Hd> ref-idx
 
     // lock indicated reference, create placeholder and fix!
     with ast'    := < explicate-injections-java8-Start
-                    ; rr-create-placeholder(|ref-idx, tgt', inst, a)
-                    ; rr--fix-references(|a)
+                    ; rr-create-placeholder(|t-idx, ref-idx, tgt', inst, a)
+                    ; profile(rr--fix-references(|a))
+                    ; with(prim("write_measurement", t-n, <Snd>))
+                    ; Fst
                     // ; where(pp-aterm; dbg)
+                    ; with(MkSingleton; stx-evaluate(|"main", "refret!validate") <+ (dbg(!"evaluation failed:"; fail)))
                     ; implicate-injections-java8-Start
                     > ast
 
 rules
 
-  rr-create-placeholder(|idx, tgt, inst, a) = oncetd({ sort:
-		  						                where(is-name-of-sort => sort)
-		  								      ; where(somebu(stx--get-ast-index; ?idx))
-		  								      ; rr--lock-reference(|tgt, a, sort)
-		  								      ; rr--create-placeholder(|[tgt, inst])
-		  								      })
+  rr-create-placeholder(|t-idx, idx, tgt, inst, a) = oncetd(
+		  						                         where(try(is(ImportDeclaration); dbg(!"import: ")); match-node(|t-idx))
+		  						                       ; dbg(!"selected: ")
+		  						                       ; with(is-name-of-sort; dbg(!"kind: ") => kind)
+		  								               ; rr--lock-reference(|tgt, a, kind)
+		  								               ; rr--create-placeholder(|[tgt, inst])
+		  								               )
+
+  match-node(|idx) = ?ExpressionName2Expression(<stx--get-ast-index>); ?idx
+  match-node(|idx) = ?ClassType(_, <stx--get-ast-index>, _); ?idx
+  match-node(|idx) = ?ClassOrInterfaceTypeMember(_, _, <match-node(|idx)>, _)
+  match-node(|idx) = stx--get-ast-index; ?idx
+  match-node(|idx) = ?UnannClassType(<stx--get-ast-index>, _); ?idx
+  match-node(|idx) = ?UnannClassOrInterfaceTypeMember(_, _, <stx--get-ast-index>, _); ?idx
+  match-node(|idx) = ?SingleStaticImport(<match-inner-node(|idx)>, _)
+  match-node(|idx) = ?SingleStaticImport(_, <stx--get-ast-index>); ?idx
+  match-node(|idx) = ?SingleTypeImport(<match-inner-node(|idx)>)
+
+  match-inner-node(|idx) = ?QTypeName(_, <stx--get-ast-index>); ?idx
+  match-inner-node(|idx) = ?TypeName(<stx--get-ast-index>); ?idx
 
 rules
 
@@ -67,16 +91,18 @@ rules
 
 rules // qualifier oracle
 
-  qualify-reference(|ctxs, sortName, a): ref -> prop*
-    with [tgt, inst] := ctxs
+  qualify-reference(|ctxs, sortName, a): ref -> <make-set; where(strip-annos; dbg(!"prop: "))> prop*
+    with [tgt, inst] := <dbg(!"ctx: ")> ctxs
        ; ref-idx     := <collect-id; stx--get-ast-index> ref
-       ; prop*       := <qualify-class-reference(|tgt, sortName, a)
-                         <+ ((id, not(is-method-invocation-exp)); qualify-expression(|tgt, sortName, a))
-                         <+ ((id,     is-method-invocation-exp ); qualify-method(|tgt, sortName, a))
+       ; prop*       := <   ((id, is(ClassType)); qualify-class-reference(|tgt, sortName, a))
+                         <+ ((id, is(UnannClassType)); qualify-unann-class-reference(|tgt, sortName, a))
+                         <+ ((id, is(Expression); not(is-method-invocation-exp)); qualify-expression(|tgt, sortName, a))
+                         <+ ((id, is(Expression);     is-method-invocation-exp ); qualify-method(|tgt, sortName, a))
+                         <+ ((id, is(ImportDeclaration)); qualify-import(|tgt, sortName, a))
                          <+ ![(ref, ref-idx)]
                         > (inst, ref)
 
 rules
 
   is-method-invocation-exp :: TP
-  is-method-invocation-exp = dbg; (?Invoke(_,_) + ?InvokeQExp(_, _, _,_) + ?InvokeSuper(_, _,_) + ?InvokeQSuper(_, _, _,_))
+  is-method-invocation-exp = ?Invoke(_,_) + ?InvokeQExp(_, _, _,_) + ?InvokeSuper(_, _,_) + ?InvokeQSuper(_, _, _,_)
