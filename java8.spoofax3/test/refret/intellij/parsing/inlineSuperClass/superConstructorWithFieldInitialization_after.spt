@@ -7,7 +7,7 @@ test superConstructorWithFieldInitialization_after: parsing [[
         private final String field;
   
         Test(){
-            Test.this.field = "text";
+            field = "text"; // Was `Test.this.field`, but our proposal is better.
         }
     }
 ]] parse succeeds

@@ -8,9 +8,9 @@ test thisQualificationInsideAnonymous_after: default analysis [[
         protected final Object myBizz;
   
         public Test() {
-            Test.this.myBar = new Object() {
+            myBar = new Object() { // Was `Test.this.myBar`, but our option is better.
             };
-            Test.this.myBizz = null;
+            myBizz = null;        // Was `Test.this.myBizz`, but our option is better.
         }
     }
 ]] analysis succeeds
@@ -23,9 +23,9 @@ test thisQualificationInsideAnonymous_after: test analysis [[
         protected final Object myBizz;
   
         public Test() {
-            Test.this.myBar = new Object() {
+            myBar = new Object() { // Was `Test.this.myBar`, but our option is better.
             };
-            Test.this.myBizz = null;
+            myBizz = null;        // Was `Test.this.myBizz`, but our option is better.
         }
     }
 ]] run test-analyze to SUCCEED()

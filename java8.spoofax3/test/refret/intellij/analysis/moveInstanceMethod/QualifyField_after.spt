@@ -3,6 +3,8 @@ module refret/intellij/analysis/moveInstanceMethod/QualifyField_after
 test QualifyField_after: default analysis [[
   test;
   [Test]
+      // Unsupported: guess access through field `flam`.
+  
       class Flim {
         Flam flam = new Flam();
   
@@ -20,6 +22,8 @@ test QualifyField_after: default analysis [[
 test QualifyField_after: test analysis [[
   test;
   [Test]
+      // Unsupported: guess access through field `flam`.
+  
       class Flim {
         Flam flam = new Flam();
   

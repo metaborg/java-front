@@ -7,7 +7,7 @@ test superConstructorWithFieldInitialization_after: default analysis [[
         private final String field;
   
         Test(){
-            Test.this.field = "text";
+            field = "text"; // Was `Test.this.field`, but our proposal is better.
         }
     }
 ]] analysis succeeds
@@ -19,7 +19,7 @@ test superConstructorWithFieldInitialization_after: test analysis [[
         private final String field;
   
         Test(){
-            Test.this.field = "text";
+            field = "text"; // Was `Test.this.field`, but our proposal is better.
         }
     }
 ]] run test-analyze to SUCCEED()

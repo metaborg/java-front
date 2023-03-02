@@ -1,10 +1,10 @@
 module refret/intellij/refret/moveInstanceMethod/QualifyField_after
 
-// Unsupported: guess access through field `flam`.
-
 test QualifyField_after: refret test 1 [[
   test;
   [Test]
+      // Unsupported: guess access through field `flam`.
+  
       class Flim {
         Flam flam = new Flam();
   
@@ -20,6 +20,8 @@ test QualifyField_after: refret test 1 [[
 ]] run fix-reference(|#2, #3, #1) to [[
   test;
   [Test]
+      // Unsupported: guess access through field `flam`.
+  
       class Flim {
         Flam flam = new Flam();
   
