@@ -576,7 +576,8 @@ public class StxLibCommand implements Runnable {
     private void declareMethod(Scope s, String name, ITerm params, ITerm retType) {
         final Scope s_mthd = newMthdScope();
         addDecl(s_mthd, RETURN_REL, retType);
-        addDecl(s, METHOD_REL, B.newTuple(makeId(name), params, s_mthd));
+        final ITerm id = makeId(name);
+        addDecl(s, METHOD_REL, B.newTuple(id, id, params, s_mthd));
     }
 
     ////////////////////////////////////////////////////////////////////////////

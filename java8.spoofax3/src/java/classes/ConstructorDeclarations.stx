@@ -34,7 +34,7 @@ rules // 8.8. Constructor Declarations
     ctorIdOk(s, id),
     params == formalParamsOk(s_ctorHead, formalParams, s_ctorHead),
     R == TYPED(typeDeclType(this(s))),
-    declareMthdName(s_def, Id("<init>"), params, R),
+    declareMthdNameWithRef(s_def, Id("<init>"), id, params, R),
     throwsOptOk(s_ctorHead, throwsOpt),
 
     new s_ctorBody,

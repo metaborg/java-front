@@ -58,7 +58,7 @@ rules // 7.5. Import Declarations
 
       importStaticMthd : Id * MTHD_PATH * scope
       importStaticMthdList maps importStaticMthd(*, list(*), *)
-      importStaticMthd(id, (_, mthdDecl@(id', _, _)), s_imp) :- aliasMthdName(s_imp, mthdDecl),
+      importStaticMthd(id, (_, mthdDecl@(id', _, _, _)), s_imp) :- aliasMthdName(s_imp, mthdDecl),
         @id.ref := id'.
 
       importStaticExpr : Id * VAR_PATH * scope

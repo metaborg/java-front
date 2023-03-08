@@ -76,6 +76,10 @@ rules
   match-node(|idx) = ?SingleStaticImport(<match-inner-node(|idx)>, _)
   match-node(|idx) = ?SingleStaticImport(_, <stx--get-ast-index>); ?idx
   match-node(|idx) = ?SingleTypeImport(<match-inner-node(|idx)>)
+  match-node(|idx) = ?NewInstance(_, _, <stx--get-ast-index>, [], _, _); ?idx
+  match-node(|idx) = ?NewInstance(_, _, _, <last; ?QualifiedId(_, <id>); stx--get-ast-index>, _, _); ?idx
+  match-node(|idx) = ?NewInstanceWithInitializer(_, _, <stx--get-ast-index>, [], _, _, _); ?idx
+  match-node(|idx) = ?NewInstanceWithInitializer(_, _, _, <last; ?QualifiedId(_, <id>); stx--get-ast-index>, _, _, _); ?idx
 
   match-inner-node(|idx) = ?QTypeName(_, <stx--get-ast-index>); ?idx
   match-inner-node(|idx) = ?TypeName(<stx--get-ast-index>); ?idx

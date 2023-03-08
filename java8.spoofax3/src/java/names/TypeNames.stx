@@ -63,6 +63,10 @@ rules
 
   resolveTypeName(s, qid) = singleTypeDecl(qidId(qid), resolveTypeNames(s, qid)).
 
+  resolveTypeName_ : scope * QID -> TYPE_DECL
+
+  resolveTypeName_(s, qid) = singleTypeDecl_(qidId(qid), resolveTypeNames(s, qid)).
+
 
   resolveTypeNames : scope * QID -> list(TYPE_PATH)
 
@@ -145,6 +149,17 @@ rules
     @id.ref := id'.
 
   singleTypeDecl(id, typeDeclList) = _ :-
+    false | error $[Type [id] is ambiguous] @id.
+
+
+  singleTypeDecl_ : Id * list(TYPE_PATH) -> TYPE_DECL
+
+  singleTypeDecl_(id, []) = _ :-
+    false | error $[Type [id] not found] @id.
+
+  singleTypeDecl_(id, [(_, typeDecl)]) = typeDecl.
+
+  singleTypeDecl_(id, typeDeclList) = _ :-
     false | error $[Type [id] is ambiguous] @id.
 
 

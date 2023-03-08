@@ -12,6 +12,11 @@ imports
 
 rules
 
+  pair-ref-idx(|?) :: a -> a * ?
+  pair-ref-idx(|idx): t -> (t, idx)
+
+rules
+
   foldl'(a -> b, a * b -> b|) :: List(a) -> b
   foldl'(s1, s2) = ?[h| tl]; !(tl, <s1> h); foldl(s2)
 

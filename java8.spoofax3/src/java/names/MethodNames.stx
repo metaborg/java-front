@@ -19,7 +19,7 @@ signature
     VOID  : RETURN
 
   sorts
-    MTHD_DECL = (Id * PARAMS * scope)
+    MTHD_DECL = (Id * Id * PARAMS * scope)
     MTHD_PATH = (path * MTHD_DECL)
 
   sorts PARAMS constructors
@@ -27,7 +27,7 @@ signature
     VARARGS : list(TYPE) * TYPE -> PARAMS
 
   relations
-    mthd   : Id * PARAMS -> scope
+    mthd   : Id * Id * PARAMS -> scope
     return : -> RETURN
 
 
@@ -35,17 +35,22 @@ rules
 
   mthdDeclId : MTHD_DECL -> Id
 
-  mthdDeclId((id, _, _)) = id.
+  mthdDeclId((id, _, _, _)) = id.
+
+
+  mthdDeclRef : MTHD_DECL -> Id
+
+  mthdDeclRef((_, id, _, _)) = id.
 
 
   mthdDeclParams : MTHD_DECL -> PARAMS
 
-  mthdDeclParams((_, params, _)) = params.
+  mthdDeclParams((_, _, params, _)) = params.
 
 
   mthdDeclReturn : MTHD_DECL -> RETURN
 
-  mthdDeclReturn((_, _, s_mthd)) = getReturn(s_mthd).
+  mthdDeclReturn((_, _, _, s_mthd)) = getReturn(s_mthd).
 
 
   mthdNameOk : scope * MethodName * list(TYPE) -> MTHD_DECL
@@ -79,13 +84,13 @@ rules
         |                 (LEX|STATIC_LEX)* ( SINGLE_STATIC_IMPORT
                                             | STATIC_IMPORT_ONDEMAND EXTENDS* IMPLEMENTS* STATIC_MEMBERS
                                             )
-        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+        and { (id', _, params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
       min /* lex mthd ord */
           $ < LEX, $ < STATIC_LEX, $ < EXTENDS, $ < IMPLEMENTS, $ < SINGLE_STATIC_IMPORT, $ < STATIC_IMPORT_ONDEMAND,
           EXTENDS < LEX       , IMPLEMENTS < LEX       , SINGLE_STATIC_IMPORT < LEX       , STATIC_IMPORT_ONDEMAND < LEX       ,
           EXTENDS < STATIC_LEX, IMPLEMENTS < STATIC_LEX, SINGLE_STATIC_IMPORT < STATIC_LEX, STATIC_IMPORT_ONDEMAND < STATIC_LEX,
           SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND
-        and { (_, params), (_, params) }
+        and { (_, _, params), (_, _, params) }
       in s |-> mthdPathList,
     true.
 
@@ -97,10 +102,10 @@ rules
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS?
-        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+        and { (id', _, params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
       min /* mem mthd ord */
           $ < EXTENDS, $ < IMPLEMENTS
-        and { (_, params), (_, params) }
+        and { (_, _, params), (_, _, params) }
       in s |-> mthdPathList,
     true.
 
@@ -112,10 +117,10 @@ rules
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
-        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+        and { (id', _, params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
       min /* mem mthd ord */
           $ < EXTENDS, $ < IMPLEMENTS
-        and { (_, params), (_, params) }
+        and { (_, _, params), (_, _, params) }
       in s |-> mthdPathList,
     true.
 
@@ -127,10 +132,10 @@ rules
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
-        and { (id', _) :- id' == id }
+        and { (id', _, _) :- id' == id }
       min /* mem mthd ord */
           STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
-        and { (_, params), (_, params) }
+        and { (_, _, params), (_, _, params) }
       in s |-> mthdPathList,
     true.
 
@@ -141,7 +146,7 @@ rules
     @id.scope := s,
     query mthd
       filter e
-        and { (id', params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
+        and { (id', _, params) :- id' == id, invokeCompatibleLoose(s, params, Ts) }
       min /* */
         and false
       in s |-> mthdPathList,
@@ -153,38 +158,43 @@ rules
   someMthdDecl(id, Ts, []) = _ :-
     false | error $[No method [id] for arguments [Ts]] @id.
 
-  someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))]) = mthdDecl :-
-    @id.ref := id'.
+  someMthdDecl(id, Ts, [(_, mthdDecl@(id', ref, _, _))]) = mthdDecl :-
+    @id.ref := ref.
 
-  someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))|mthdDeclList]) = mthdDecl :-
-    @id.ref := id',
+  someMthdDecl(id, Ts, [(_, mthdDecl@(id', ref, _, _))|mthdDeclList]) = mthdDecl :-
+    @id.ref := ref,
     try { false } | warning $[Method [id] overloaded for arguments [Ts]] @id.
 
 
   declareMthdName : scope * Id * PARAMS * RETURN
 
   declareMthdName(s, id, params, R) :-
+    declareMthdNameWithRef(s, id, id, params, R).
+
+  declareMthdNameWithRef : scope * Id * Id * PARAMS * RETURN
+
+  declareMthdNameWithRef(s, id, ref, params, R) :-
   {s_mthd}
     new s_mthd,
-    !mthd[id, params, s_mthd] in s,
+    !mthd[id, ref, params, s_mthd] in s,
     @id.scope := s,
     declareReturn(s_mthd, R),
-    noOtherHomonymousMthd(s, (id, params, s_mthd)).
+    noOtherHomonymousMthd(s, (id, ref, params, s_mthd)).
 
 
   aliasMthdNames maps aliasMthdName(*, list(*))
   aliasMthdName : scope * MTHD_DECL
 
-  aliasMthdName(s, (id, params, s_mthd)) :-
-    !mthd[id, params, s_mthd] in s,
+  aliasMthdName(s, (id, ref, params, s_mthd)) :-
+    !mthd[id, ref, params, s_mthd] in s,
     @id.scope := s.
 
 
   noOtherHomonymousMthd: scope * MTHD_DECL
 
-  noOtherHomonymousMthd(s, mthdDecl@(id, params, _)) :-
+  noOtherHomonymousMthd(s, mthdDecl@(id, _, params, _)) :-
     query mthd
-      filter STATIC_MEMBERS? and { (id', params') :- id' == id, params' == params }
+      filter STATIC_MEMBERS? and { (id', _, params') :- id' == id, params' == params }
       in s |-> [(_, mthdDecl)].
 
 

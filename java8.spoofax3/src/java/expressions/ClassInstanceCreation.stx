@@ -34,11 +34,11 @@ rules // 15.9. Class Instance Creation Expressions
     unqualInstOk(s, NewInstanceWithInitializer(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, [])).
 
   unqualInstOk(s, NewInstanceWithInitializer(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_inst) :-
-  {qid U Ts s_instStatic S}
+  {qid U Ts s_instStatic S M}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     qid == qualIdListOk(s, id, qualIdList),
-    U == typeDeclType(resolveTypeName(s, qid)),
+    U == typeDeclType(resolveTypeName_(s, qid)),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     Ts == exprListOk(s, exprList),
 
@@ -46,7 +46,9 @@ rules // 15.9. Class Instance Creation Expressions
     initTypeScope(s_inst, Id("$local$"), CLASS()),
 
     S == setSuperClsOrImplementIntf(s_inst, U),
-    _ == resolveDirectMemberMthdName(typeScope(S), Id("<init>"), Ts),
+    M == resolveDirectMemberMthdName(typeScope(S), Id("<init>"), Ts),
+
+    ctorRefOk(qid, M),
 
     new s_instStatic,
     s_inst -STATIC_MEMBERS-> s_instStatic,
@@ -60,11 +62,11 @@ rules // 15.9. Class Instance Creation Expressions
     qualInstOk(s, T, NewInstanceWithInitializer(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, [])).
 
   qualInstOk(s, T, NewInstanceWithInitializer(typeArgsOpt, annoList, id, qualIdList, typeArgsOrDiamondOpt, exprList, clsBodyDeclList)) = REF(s_inst) :-
-  {s_ty U Ts s_instStatic S}
+  {s_ty U Ts s_instStatic S M}
     _ == typeArgsOptOk(s, typeArgsOpt),
     annoListOk(s, annoList),
     s_ty == typeScope(T),
-    U == typeDeclType(singleTypeDecl(id, resolveMemberTypeNames(s_ty, id))),
+    U == typeDeclType(singleTypeDecl_(id, resolveMemberTypeNames(s_ty, id))),
     typeArgsOrDiamondOptOk(s, typeArgsOrDiamondOpt),
     Ts == exprListOk(s, exprList),
 
@@ -72,7 +74,9 @@ rules // 15.9. Class Instance Creation Expressions
     initTypeScope(s_inst, Id("$local$"), CLASS()),
 
     S == setSuperClsOrImplementIntf(s_inst, U),
-    _ == resolveDirectMemberMthdName(typeScope(S), Id("<init>"), Ts),
+    M == resolveDirectMemberMthdName(typeScope(S), Id("<init>"), Ts),
+
+    ctorRefOk(ID(id), M),
 
     new s_instStatic,
     s_inst -STATIC_MEMBERS-> s_instStatic,
@@ -90,6 +94,9 @@ rules // 15.9. Class Instance Creation Expressions
     qualIdListOk1(s, qid, [QualifiedId(annoList, id)|qualIdList]) = qualIdListOk1(s, QID(qid, id), qualIdList) :-
       annoListOk(s, annoList).
 
+  ctorRefOk: QID * MTHD_DECL
+  ctorRefOk(QID(_, id), (_, ref, _, _)) :- @id.ref := ref.
+  ctorRefOk(ID(id), (_, ref, _, _)) :- @id.ref := ref.
 
   typeArgsOrDiamondOptOk : scope * TypeArgumentsOrDiamond-OPT
   typeArgsOrDiamondOptOk(s, NoTypeArgumentsOrDiamond()).

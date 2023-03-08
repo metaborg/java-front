@@ -21,21 +21,21 @@ imports
 rules
 
   qualify-expression(|?, string, blob) :: ? -> List(Expression * ?)
-  qualify-expression(|tgt, sortName, a): (inst, e) -> <map(!(<id>, ref-idx))> prop*
+  qualify-expression(|tgt, sortName, a): (inst, e) -> prop*
     with               <debug> sortName
        ; x          := <collect-id> e
        ; ref-idx    := <stx--get-ast-index> x
        ; s-ref      := <collect-om(gen-scope-prop(|a)); Hd> e
        ; s-tgt      := <scope-prop(|a); escape-static(|a)> tgt
-       ; id-prop    := <gen-id-prop(|e)> inst 
-       ; s-prop     := <reconstruct-static-names(|a, x)> s-tgt
+       ; id-prop    := <gen-id-prop(|e, ref-idx)> inst 
+       ; s-prop     := <reconstruct-static-names(|a, x); map(pair-ref-idx(|ref-idx))> s-tgt
        ; inst'      := <to-opt-expr> inst
-       ; q-prop     := <qualify-instance-field(|a, x, e)> (inst', s-ref)
+       ; q-prop     := <qualify-instance-field(|a, x, e, ref-idx)> (inst', s-ref)
        ; prop*      := <flatten> [id-prop, s-prop, q-prop]
 
-  gen-id-prop(|a) :: Option(?) -> List(a)
-  gen-id-prop(|e): None() -> [e]
-  gen-id-prop(|e): Some(_) -> []
+  gen-id-prop(|a, ?)   :: Option(?) -> List(a * ?)
+  gen-id-prop(|e, ref-idx): None()  -> [(e, ref-idx)]
+  gen-id-prop(|e, ref-idx): Some(_) -> []
 
   to-opt-expr :: Option(?) -> Option(Expression)
   to-opt-expr = is(Option(Expression))
@@ -44,8 +44,11 @@ rules
   // static accesses
   reconstruct-static-names(|blob, Id) :: Term -> List(Expression)
   reconstruct-static-names(|a, x): s-tgt -> prop*
-    with q-name*   := <this-type(|a); reconstruct-static-qualifiers(|a)> s-tgt
-       ; prop*     := <map(mk-expr-name(|x); !ExpressionName2Expression(<id>))> q-name*
+    with if T := <this-type(|a)> s-tgt then
+           prop* := <reconstruct-static-qualifiers(|a); map(mk-expr-name(|x); !ExpressionName2Expression(<id>))> T
+         else
+           prop* := []
+         end
 
   mk-expr-name :: QName -> ExpressionName
   mk-expr-name : QName(xs) -> name
@@ -57,23 +60,23 @@ rules
     with q := <foldl'(!AmbiguousName(<id>), { n, q: ?(n, q); !QAmbiguousName(q, n) })> x*
 
   // field access with given instance
-  qualify-instance-field(|blob, Id, Expression) :: Option(Expression) * Term -> List(Expression)
-  qualify-instance-field(|a, x, e): (Some(inst), s-ref) -> prop*
+  qualify-instance-field(|blob, Id, Expression, ?) :: Option(Expression) * Term -> List(Expression * ?)
+  qualify-instance-field(|a, x, e, ref-idx): (Some(inst), s-ref) -> prop*
     with // s-recv  := <expr-type-scope(|a)> (s-ref, inst)
          c-prop  := <this-type(|a); insert-casts(|a, inst, x)> s-ref
-       ; prop*   := [ <mk-field-access(|x)> inst | c-prop]
+       ; prop*   := <map(pair-ref-idx(|ref-idx))> [ <mk-field-access(|x)> inst | c-prop]
 
-  qualify-instance-field(|a, x, e): (None(), s-ref) -> prop*
-    with q-prop* := <reconstruct-field-access(|a, x)> s-ref
-       ; prop*   := [ FieldAccess2Expression(Field(This(), x))
-                    , FieldAccess2Expression(SuperField(x))
-                    , QThis(TypeName(x))
+  qualify-instance-field(|a, x, e, ref-idx): (None(), s-ref) -> prop*
+    with q-prop* := <reconstruct-field-access(|a, x, ref-idx)> s-ref
+       ; prop*   := [ (FieldAccess2Expression(Field(This(), x)), ref-idx)
+                    , (FieldAccess2Expression(SuperField(x)), ref-idx)
+                    , (QThis(TypeName(x)), ref-idx)
                     | q-prop*
                     ]
 
   // this/super field accesses
-  reconstruct-field-access(|blob, Id) :: Term -> List(Expression)
-  reconstruct-field-access(|a, x): s-ref -> prop*
+  reconstruct-field-access(|blob, Id, ?) :: Term -> List(Expression * ?)
+  reconstruct-field-access(|a, x, ref-idx): s-ref -> prop'*
     with T            := <this-type(|a)> s-ref
        ; e-cls*       := <reconstruct-enclosing-classes(|a)> T
        ; e-cls'*      := <map(Fst); reverse; Tl> e-cls*
@@ -81,7 +84,9 @@ rules
        ; super-prop*  := <map(mk-super-prop(|x))> e-cls'*
        ; cast-prop*   := <reconstruct-super-classes(|a); (Tl; Tl; map(insert-casts(|a, This(), x))) <+ ![]> T
        ; c-this-prop* := <flatmap(mk-casted-this-prop(|a, x))> e-cls*
-       ; prop*        := <flatten-list> [this-prop*, super-prop*, cast-prop*, c-this-prop*]
+       ; this-ref*    := <map(!(QThis(TypeName(<id>)), <stx--get-ast-index>))> e-cls'*
+       ; prop*        := <flatten-list; map(pair-ref-idx(|ref-idx))> [this-prop*, super-prop*, cast-prop*, c-this-prop*]
+       ; prop'*       := <flatten-list> [prop*, this-ref*]
 
   mk-this-prop(|Id) :: Id -> Expression
   mk-this-prop(|x): q -> FieldAccess2Expression(Field(QThis(TypeName(q)), x))

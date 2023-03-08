@@ -20,9 +20,13 @@ rules // 15.8. Primary Expressions
     T == clsLitOk(s, clsLit),
     true.
 
-  exprOk(s, This()) = typeDeclType(this(s)).
+  exprOk(s, t@This()) = typeDeclType(T@this(s)) :-
+    @t.scope := s,
+    @t.ref := typeDeclId(T).
 
-  exprOk(s, QThis(typeName)) = typeDeclType(qualThis(typeNameOk(s, typeName), s)).
+  exprOk(s, t@QThis(typeName)) = typeDeclType(T@qualThis(typeNameOk(s, typeName), s)) :-
+    @t.scope := s,
+    @t.ref := typeDeclId(T).
 
 
   clsLitOk : scope * ClassLiteral -> TYPE

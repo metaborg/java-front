@@ -37,6 +37,9 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
   is-name-of-sort: InvokeSuper(_, _, _) -> "MethodInvocationExpression"
   is-name-of-sort: InvokeQSuper(_, _, _, _) -> "MethodInvocationExpression"
 
+  is-name-of-sort: NewInstance(_, _, _, _, _, _) -> "UnqualifiedInstance"
+  is-name-of-sort: NewInstanceWithInitializer(_, _, _, _, _, _, _) -> "UnqualifiedInstance"
+
   is-name-of-sort: SingleTypeImport(_) -> "ImportDeclaration"
   is-name-of-sort: SingleStaticImport(_, _) -> "ImportDeclaration"
 
@@ -54,5 +57,9 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
   collect-id = ?Invoke(<collect-id>, _) + ?InvokeQExp(_, _, <collect-id>, _) + ?InvokeSuper(_, <collect-id>, _) + ?InvokeQSuper(_, _, <collect-id>, _)
 
   collect-id = ?EnumConstNoBody(_, <collect-id>, _) + ?EnumConst(_, <collect-id>, _, _)
+
+  collect-id = ?NewInstance(_, _, <collect-id>, _, _, _) + ?NewInstance(_, _, _, <last; collect-id>, _, _)
+  collect-id = ?NewInstanceWithInitializer(_, _, <collect-id>, _, _, _, _)
+  				 + ?NewInstanceWithInitializer(_, _, _, <last; collect-id>, _, _, _)
 
   collect-id = get-arguments; last; dbg; collect-id
