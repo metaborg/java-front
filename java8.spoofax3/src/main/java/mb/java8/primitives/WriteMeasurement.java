@@ -1,5 +1,6 @@
 package mb.java8.primitives;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
@@ -16,27 +17,44 @@ import org.spoofax.terms.util.TermUtils;
 
 public class WriteMeasurement extends AbstractPrimitive {
 
-	private String file = "/Users/aronzwaan/tmp/rr-benchmark-result.csv";
-	
+	private static final int MILLI_SECONDS_PER_SECOND = 1000;
+	private static final Path RESULT_FILE = Paths.get("./rr-benchmark-result.csv");
+
 	public WriteMeasurement() {
 		super("write_measurement", 0, 2);
 	}
 
 	@Override
-	public boolean call(IContext arg0, Strategy[] arg1, IStrategoTerm[] arg2) throws InterpreterException {
+	public boolean call(IContext current, Strategy[] strategies, IStrategoTerm[] terms) throws InterpreterException {
+		if(terms.length != 2) {
+			// Should be redundant due to third constructor argument
+			throw new InterpreterException("write_measurement_0_2: Expected 2 term arguments, got " + terms.length);
+		}
+
+		final IStrategoTerm testNameTerm = terms[0];
+		final IStrategoTerm timeTerm = terms[1];
+
+		if(!TermUtils.isString(testNameTerm)) {
+			throw new InterpreterException("write_measurement_0_2: Expected String as first argument, got " + TermUtils.termTypeToString(testNameTerm.getType()));
+		}
+		if(!TermUtils.isReal(timeTerm)) {
+			throw new InterpreterException("write_measurement_0_2: Expected Real as second argument, got " + TermUtils.termTypeToString(timeTerm.getType()));
+		}
+
+		final String testName = TermUtils.toJavaString(testNameTerm);
+		double time = TermUtils.toJavaReal(timeTerm) * MILLI_SECONDS_PER_SECOND;
+
 		try {
-			System.out.print("Test :::: " + arg2[0] + ";" + arg2[1]);
-			
-			String test = TermUtils.toJavaString(arg2[0]);
-			double time = TermUtils.toJavaInt(arg2[1]);
-			
-			Path path = Paths.get(file);
-			Files.write(path, (test + ";" + time + "\n").getBytes(StandardCharsets.UTF_8), new OpenOption[] { StandardOpenOption.APPEND });
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
+			final byte[] resultLine = formatLine(testName, time).getBytes(StandardCharsets.UTF_8);
+			Files.write(RESULT_FILE, resultLine, new OpenOption[] { StandardOpenOption.CREATE, StandardOpenOption.APPEND });
+		} catch (IOException e) {
+			throw new InterpreterException("write_measurement_0_2: Exception writing result for test " + testName, e);
 		}
 		return true;
+	}
+
+	private String formatLine(String testName, double time) {
+		return String.format("%s; %.0f%n", testName, time);
 	}
 
 }

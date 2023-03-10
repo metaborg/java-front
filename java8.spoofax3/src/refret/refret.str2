@@ -56,7 +56,7 @@ rules
     with ast'    := < explicate-injections-java8-Start
                     ; rr-create-placeholder(|t-idx, ref-idx, tgt', inst, a)
                     ; profile(rr--fix-references(|a))
-                    ; with(prim("write_measurement", t-n, <Snd>))
+                    ; with(write-measurement(|t-n, <Snd; ticks-to-seconds>))
                     ; Fst
                     // ; where(pp-aterm; dbg)
                     ; with(MkSingleton; stx-evaluate(|"main", "refret!validate") <+ (dbg(!"evaluation failed:"; fail)))
@@ -102,6 +102,9 @@ rules
 
   rr--fix-references(|solverResult) = prim("RR_fix_references", solverResult)
 
+
+  write-measurement(|string, real) :: TP
+  write-measurement(|test-name, time) = with(prim("write_measurement", test-name, time))
 
 rules // qualifier oracle
 
