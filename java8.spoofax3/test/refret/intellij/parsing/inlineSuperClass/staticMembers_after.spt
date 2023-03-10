@@ -12,7 +12,7 @@ test staticMembers_after: parsing [[
   
         void bar() {
         System.out.println(Test.S);
-        Test.foo();
+        foo(); // Was Test.foo(), but our proposal is better
       }
     }
 ]] parse succeeds

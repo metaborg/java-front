@@ -5,7 +5,7 @@ test TwoParams_after: default analysis [[
   [Test]
       class Foreign {
         void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
-           moveMethodTest.bar (inner);
+           moveMethodTest.bar(inner);
         }
     }
   
@@ -22,7 +22,7 @@ test TwoParams_after: test analysis [[
   [Test]
       class Foreign {
         void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
-           moveMethodTest.bar (inner);
+           moveMethodTest.bar(inner);
         }
     }
   

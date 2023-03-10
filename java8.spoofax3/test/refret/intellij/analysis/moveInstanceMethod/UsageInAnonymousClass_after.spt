@@ -16,7 +16,7 @@ test UsageInAnonymousClass_after: default analysis [[
           new B() {
             @Override
             public void run() {
-              A.this.moo(this);
+              moo(this); // was A.this.moo(this), but our alternative is better
             }
           };
         }
@@ -42,7 +42,7 @@ test UsageInAnonymousClass_after: test analysis [[
           new B() {
             @Override
             public void run() {
-              A.this.moo(this);
+              moo(this); // was A.this.moo(this), but our alternative is better
             }
           };
         }

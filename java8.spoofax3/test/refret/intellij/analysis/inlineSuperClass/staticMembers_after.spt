@@ -12,7 +12,7 @@ test staticMembers_after: default analysis [[
   
         void bar() {
         System.out.println(Test.S);
-        Test.foo();
+        foo(); // Was Test.foo(), but our proposal is better
       }
     }
 ]] analysis succeeds
@@ -29,7 +29,7 @@ test staticMembers_after: test analysis [[
   
         void bar() {
         System.out.println(Test.S);
-        Test.foo();
+        foo(); // Was Test.foo(), but our proposal is better
       }
     }
 ]] run test-analyze to SUCCEED()

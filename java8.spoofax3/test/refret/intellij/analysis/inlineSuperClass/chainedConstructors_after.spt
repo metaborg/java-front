@@ -7,7 +7,7 @@ test chainedConstructors_after: default analysis [[
         int i;
   
         public Test() {
-            this(1);
+             this(1) ;
         }
   
         Test(int i, int j) {
@@ -27,7 +27,7 @@ test chainedConstructors_after: test analysis [[
         int i;
   
         public Test() {
-            this(1);
+             this(1) ;
         }
   
         Test(int i, int j) {

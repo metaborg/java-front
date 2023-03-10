@@ -5,15 +5,15 @@ test chainedConstructors_after: refret test 1 [[
   [Test]
       class Test {
         int i;
-
+  
         public Test() {
-            [[ this(1); ]]
+            [[ this(1) ]];
         }
-
+  
         Test(int i, int j) {
           this.i = i;
         }
-
+  
         [[Test]](int i) {
           this(i, 0);
         }
@@ -23,15 +23,15 @@ test chainedConstructors_after: refret test 1 [[
   [Test]
       class Test {
         int i;
-
+  
         public Test() {
-            this(1);
+             this(1) ;
         }
-
+  
         Test(int i, int j) {
           this.i = i;
         }
-
+  
         Test(int i) {
           this(i, 0);
         }
@@ -43,15 +43,15 @@ test chainedConstructors_after: refret test 2 [[
   [Test]
       class Test {
         int i;
-
+  
         public Test() {
-            this(1);
+             this(1) ;
         }
-
+  
         [[Test]](int i, int j) {
           this.i = i;
         }
-
+  
         Test(int i) {
           [[this(i, 0);]]
         }
@@ -61,17 +61,18 @@ test chainedConstructors_after: refret test 2 [[
   [Test]
       class Test {
         int i;
-
+  
         public Test() {
-            this(1);
+             this(1) ;
         }
-
+  
         Test(int i, int j) {
           this.i = i;
         }
-
+  
         Test(int i) {
           this(i, 0);
         }
     }
 ]]
+

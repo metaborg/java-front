@@ -7,7 +7,7 @@ test chainedConstructors_after: parsing [[
         int i;
   
         public Test() {
-            this(1);
+             this(1) ;
         }
   
         Test(int i, int j) {

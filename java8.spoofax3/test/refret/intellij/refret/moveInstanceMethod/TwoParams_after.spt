@@ -5,7 +5,7 @@ test TwoParams_after: refret test 1 [[
   [Test]
       class Foreign {
         void foo(MoveMethodTest [[moveMethodTest]], MoveMethodTest.Inner inner) {
-           [[bar (inner)]];
+           [[bar(inner)]];
         }
     }
   
@@ -20,7 +20,7 @@ test TwoParams_after: refret test 1 [[
   [Test]
       class Foreign {
         void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
-           moveMethodTest.bar (inner);
+           moveMethodTest.bar(inner);
         }
     }
   
