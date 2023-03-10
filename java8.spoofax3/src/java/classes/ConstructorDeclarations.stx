@@ -74,23 +74,25 @@ rules // 8.8. Constructor Declarations
 
   ctorInvOk : scope * ConstructorInvocation
 
-  ctorInvOk(s, AltConstrInv(typeArgsOpt, exprList)) :-
-  {id Ts}
+  ctorInvOk(s, i@AltConstrInv(typeArgsOpt, exprList)) :-
+  {id Ts M}
     id == Id("<init>"),
     _ == typeArgsOptOk(s, typeArgsOpt),
     Ts == exprListOk(s, exprList),
-    _ == someMthdDecl(id, Ts,  resolveDirectMemberMthdNames(typeDeclScope(this(s)), id, Ts)),
+    M == someMthdDecl(id, Ts,  resolveDirectMemberMthdNames(typeDeclScope(this(s)), id, Ts)),
+    @i.ref := mthdDeclRef(M),
     true.
 
-  ctorInvOk(s, SuperConstrInv(typeArgsOpt, exprList)) :-
-  {id Ts}
+  ctorInvOk(s, i@SuperConstrInv(typeArgsOpt, exprList)) :-
+  {id Ts M}
     id == Id("<init>"),
     _ == typeArgsOptOk(s, typeArgsOpt),
     Ts == exprListOk(s, exprList),
-    _ == someMthdDecl(id, Ts, resolveDirectMemberMthdNames(typeDeclScope(super(this(s))), id, Ts)),
+    M == someMthdDecl(id, Ts, resolveDirectMemberMthdNames(typeDeclScope(super(this(s))), id, Ts)),
+    @i.ref := mthdDeclRef(M),
     true.
 
-  ctorInvOk(s, ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
+  ctorInvOk(s, i@ExprNameConstrInv(expr, typeArgsOpt, exprList)) :-
     _ == exprOk(s, expr),
     _ == typeArgsOptOk(s, typeArgsOpt),
     _ == exprListOk(s, exprList),
