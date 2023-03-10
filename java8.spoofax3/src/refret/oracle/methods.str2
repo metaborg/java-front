@@ -35,15 +35,15 @@ rules
 
   qualify-method(|tgt, a): (inst, i@InvokeQExp(recv, targs, x, args)) -> res
      with ref-idx := <stx--get-ast-index> x
-    where res     := <qualify--method(|a, tgt, NoTypeArguments()); map(!(<id>, ref-idx))> (inst, i, x)
+    where res     := <qualify--method(|a, tgt, targs); map(!(<id>, ref-idx))> (inst, i, x)
 
   qualify-method(|tgt, a): (inst, i@InvokeSuper(targs, x, args)) -> res
      with ref-idx := <stx--get-ast-index> x
-    where res     := <qualify--method(|a, tgt, NoTypeArguments()); map(!(<id>, ref-idx))> (inst, i, x)
+    where res     := <qualify--method(|a, tgt, targs); map(!(<id>, ref-idx))> (inst, i, x)
 
   qualify-method(|tgt, a): (inst, i@InvokeQSuper(t, targs, x, args)) -> res
      with ref-idx := <stx--get-ast-index> x
-    where res     := <qualify--method(|a, tgt, NoTypeArguments()); map(!(<id>, ref-idx))> (inst, i, x)
+    where res     := <qualify--method(|a, tgt, targs); map(!(<id>, ref-idx))> (inst, i, x)
 
   qualify--method(|blob, Id, TypeArguments-OPT) :: Option(Expression) * Expression * Id -> List(Expression)
 
@@ -95,13 +95,13 @@ rules
 rules // merge context and original receiver
 
   mk-qualified-recv(|Expression) :: Option(Expression) -> List(Expression)
-  mk-qualified-recv(|inst) : None() -> [inst]
-  mk-qualified-recv(|inst) : Some(This()) -> [inst]
+  mk-qualified-recv(|inst) : None() ->  <dbg(!"none-expr: ")> [inst]
+  mk-qualified-recv(|inst) : Some(This()) ->  <dbg(!"this-expr: ")> [inst]
   mk-qualified-recv(|inst) : Some(recv) -> recv*
     where id-recv* := <expr-to-id-list> recv
         ; id-inst* := <expr-to-id-list> inst
-    with  recv*    := <prefix-instance; map(mk-expr-name)> (id-inst*, id-recv*)
-  mk-qualified-recv(|inst) : Some(_) -> [inst]
+    with  recv*    := <prefix-instance; map(dbg(!"pre-expr: "); mk-expr-name; !ExpressionName2Expression(<id>); dbg(!"post-expr: "))> (id-inst*, id-recv*)
+  mk-qualified-recv(|inst) : Some(_) -> <dbg(!"inst-expr: ")> [inst]
 
   prefix-instance :: List(Id) * List(Id) -> List(QName)
   prefix-instance : (inst, []) -> [QName(inst)]

@@ -34,6 +34,12 @@ rules
   fix-reference(|ref, tgt) = fix-reference-with-ctx(|ref, tgt, None())
   fix-reference(|ref, tgt, inst) = fix-reference-with-ctx(|ref, tgt, Some(inst))
 
+  fix-reference(|ref, tgt, inst, fld): ast -> res
+    with inst-id  := <dbg(!"inst: "); collect-id> inst
+       ; fld-id   := <dbg(!"fld: "); collect-id> fld
+       ; inst-acc := ExpressionName2Expression(QExpressionName(AmbiguousName(inst-id), fld-id))
+       ; res      := <fix-reference-with-ctx(|ref, tgt, Some(inst-acc))> ast
+
   fix-reference-with-ctx(|ref, tgt, inst): ast -> ast'
     // retrieve original analysis
     with a       := <stx--get-ast-analysis> ast
@@ -41,7 +47,7 @@ rules
     // retrieve indices of reference to test
     with ref'    := <(collect-ref <+ collect-id); dbg(!"ref: ")> ref
        ; t-idx   := <stx--get-ast-index> ref'
-       ; ref-idx := <collect-id; stx--get-ast-index> ref'
+       ; ref-idx := <(is(ConstructorInvocation) < id + collect-id); stx--get-ast-index> ref'
        ; tgt'    := <dbg; collect-id; dbg(!"tgt: ")> tgt
 
     with t-n     := <get-arguments; Hd> ref-idx
@@ -67,10 +73,11 @@ rules
 		  								               ; rr--create-placeholder(|[tgt, inst])
 		  								               )
 
+  match-node(|idx) = stx--get-ast-index; ?idx
+
   match-node(|idx) = ?ExpressionName2Expression(<stx--get-ast-index>); ?idx
   match-node(|idx) = ?ClassType(_, <stx--get-ast-index>, _); ?idx
   match-node(|idx) = ?ClassOrInterfaceTypeMember(_, _, <match-node(|idx)>, _)
-  match-node(|idx) = stx--get-ast-index; ?idx
   match-node(|idx) = ?UnannClassType(<stx--get-ast-index>, _); ?idx
   match-node(|idx) = ?UnannClassOrInterfaceTypeMember(_, _, <stx--get-ast-index>, _); ?idx
   match-node(|idx) = ?SingleStaticImport(<match-inner-node(|idx)>, _)
@@ -80,6 +87,9 @@ rules
   match-node(|idx) = ?NewInstance(_, _, _, <last; ?QualifiedId(_, <id>); stx--get-ast-index>, _, _); ?idx
   match-node(|idx) = ?NewInstanceWithInitializer(_, _, <stx--get-ast-index>, [], _, _, _); ?idx
   match-node(|idx) = ?NewInstanceWithInitializer(_, _, _, <last; ?QualifiedId(_, <id>); stx--get-ast-index>, _, _, _); ?idx
+  match-node(|idx) = ?ExpressionName2LHS(<stx--get-ast-index>); ?idx
+  match-node(|idx) = ?FieldAccess2LHS(<stx--get-ast-index>); ?idx
+  match-node(|idx) = ?ArrayAccess2LHS(<stx--get-ast-index>); ?idx
 
   match-inner-node(|idx) = ?QTypeName(_, <stx--get-ast-index>); ?idx
   match-inner-node(|idx) = ?TypeName(<stx--get-ast-index>); ?idx
@@ -96,12 +106,14 @@ rules
 rules // qualifier oracle
 
   qualify-reference(|ctxs, sortName, a): ref -> <make-set; where(strip-annos; dbg(!"prop: "))> prop*
-    with [tgt, inst] := <dbg(!"ctx: ")> ctxs
-       ; ref-idx     := <collect-id; stx--get-ast-index> ref
+    with                <dbg(!"ref: ")> ref
+       ; [tgt, inst] := <dbg(!"ctx: ")> ctxs
+       ; ref-idx     := <(is(ConstructorInvocation) <+ collect-id); stx--get-ast-index> ref
        ; prop*       := <   ((id, is(ClassType)); qualify-class-reference(|tgt, sortName, a))
                          <+ ((id, is(UnannClassType)); qualify-unann-class-reference(|tgt, sortName, a))
-                         <+ ((id, is(Expression); not(is-method-invocation-exp)); qualify-expression(|tgt, sortName, a))
-                         <+ ((id, is(Expression);     is-method-invocation-exp ); qualify-method(|tgt, sortName, a))
+                         <+ ((id, is(LHS); dbg(!"l2e: "); lhs-to-expr); qualify-expression(|tgt, sortName, a); filter((expr-to-lhs, id); dbg(!"l2e: ") <+ (dbg(!"l2e fail: "); fail)); dbg(!"t-expr: "))
+                         <+ ((id, is(Expression); not(is-method-invocation-exp); dbg(!"expr: ")); qualify-expression(|tgt, sortName, a))
+                         <+ ((id, is(Expression);     is-method-invocation-exp); qualify-method(|tgt, sortName, a))
                          <+ ((id, is(ImportDeclaration)); qualify-import(|tgt, sortName, a))
                          <+ ![(ref, ref-idx)]
                         > (inst, ref)
@@ -110,3 +122,13 @@ rules
 
   is-method-invocation-exp :: TP
   is-method-invocation-exp = ?Invoke(_,_) + ?InvokeQExp(_, _, _,_) + ?InvokeSuper(_, _,_) + ?InvokeQSuper(_, _, _,_)
+
+  expr-to-lhs :: Expression -> LHS
+  expr-to-lhs: ExpressionName2Expression(e) -> ExpressionName2LHS(e)
+  expr-to-lhs: FieldAccess2Expression(e) -> FieldAccess2LHS(e)
+  expr-to-lhs: ArrayAccess2Expression(e) -> ArrayAccess2LHS(e)
+
+  lhs-to-expr :: LHS -> Expression
+  lhs-to-expr: ExpressionName2LHS(e) -> ExpressionName2Expression(e)
+  lhs-to-expr: FieldAccess2LHS(e) -> FieldAccess2Expression(e)
+  lhs-to-expr: ArrayAccess2LHS(e) -> ArrayAccess2Expression(e)

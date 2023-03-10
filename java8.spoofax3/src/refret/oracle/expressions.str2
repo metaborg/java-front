@@ -38,6 +38,7 @@ rules
   gen-id-prop(|e, ref-idx): Some(_) -> []
 
   to-opt-expr :: Option(?) -> Option(Expression)
+  to-opt-expr = is(Option(ExpressionName)); ?Some(<id>); !Some(ExpressionName2Expression(<id>))
   to-opt-expr = is(Option(Expression))
   to-opt-expr = ?Some(<id>); collect-id; !Some(ExpressionName2Expression(ExpressionName(<id>)))
 
@@ -52,8 +53,8 @@ rules
 
   mk-expr-name :: QName -> ExpressionName
   mk-expr-name : QName(xs) -> name
-    with (xs, x') := <split-init-last> xs
-       ; name     := <mk-expr-name(|x')> QName(xs)
+    with (x*, x') := <dbg(!"mk-expr-1: "); split-init-last; dbg(!"mk-expr-2: ")> xs
+       ; name     := <dbg(!"mk-expr-3: "); mk-expr-name(|x'); dbg(!"mk-expr-4: ")> QName(x*)
 
   mk-expr-name(|Id) :: QName -> ExpressionName
   mk-expr-name(|x): QName(x*) -> QExpressionName(q, x)

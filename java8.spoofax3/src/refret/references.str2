@@ -29,6 +29,10 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
   is-name-of-sort: ExpressionName(_)            -> "ExpressionName"
   is-name-of-sort: QExpressionName(_, _)        -> "ExpressionName"
 
+  is-name-of-sort: ExpressionName2LHS(_) -> "LHS"
+  is-name-of-sort: FieldAccess2LHS(_) -> "LHS"
+  is-name-of-sort: ArrayAccess2LHS(_) -> "LHS"
+
   // methods
   // FIXME: MethodInvocationExpression is not a sort, but is required to distinguish
   // method calls from references in method call arguments.
@@ -43,6 +47,9 @@ rules // recognize references, based on syntax/java/names/Names.sdf3
   is-name-of-sort: SingleTypeImport(_) -> "ImportDeclaration"
   is-name-of-sort: SingleStaticImport(_, _) -> "ImportDeclaration"
 
+  is-name-of-sort: AltConstrInv(_, _) -> "ConstructorInvocation"
+  is-name-of-sort: SuperConstrInv(_, _) -> "ConstructorInvocation"
+  is-name-of-sort: ExprNameConstrInv(_, _, _) -> "ConstructorInvocation"
 
   // Collect rightmost leaf if it is an `Id(_)` term
   collect-id :: ? -> Id
