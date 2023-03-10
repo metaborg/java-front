@@ -18,7 +18,7 @@ import org.spoofax.terms.util.TermUtils;
 public class WriteMeasurement extends AbstractPrimitive {
 
 	private static final int MILLI_SECONDS_PER_SECOND = 1000;
-	private static final Path RESULT_FILE = Paths.get("./rr-benchmark-result.csv");
+	private static final Path RESULT_FILE = Paths.get("./java8.spoofax3/rr-benchmark-result.csv");
 
 	public WriteMeasurement() {
 		super("write_measurement", 0, 2);
