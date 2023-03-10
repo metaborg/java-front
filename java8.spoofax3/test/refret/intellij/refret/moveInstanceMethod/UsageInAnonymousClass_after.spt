@@ -40,7 +40,7 @@ test UsageInAnonymousClass_after: refret test 1 [[
           new B() {
             @Override
             public void run() {
-              A.this.moo(this);
+              moo(this); // was A.this.moo(this), but our alternative is better
             }
           };
         }

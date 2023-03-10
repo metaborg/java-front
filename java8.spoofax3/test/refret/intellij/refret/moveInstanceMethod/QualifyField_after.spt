@@ -3,36 +3,31 @@ module refret/intellij/refret/moveInstanceMethod/QualifyField_after
 test QualifyField_after: refret test 1 [[
   test;
   [Test]
-      // Unsupported: guess access through field `flam`.
-  
       class Flim {
-        Flam flam = new Flam();
-  
+        Flam [[flam]] = new Flam();
+
         public static void main(String[] args) {
             Flim [[flim]] = new Flim();
             [[flim.beep()]];
         }
     }
-  
+
     class Flam {
         void [[beep]]() {}
     }
-]] run fix-reference(|#2, #3, #1) to [[
+]] run fix-reference(|#3, #4, #2, #1) to [[
   test;
   [Test]
-      // Unsupported: guess access through field `flam`.
-  
       class Flim {
         Flam flam = new Flam();
-  
+
         public static void main(String[] args) {
             Flim flim = new Flim();
             flim.flam.beep();
         }
     }
-  
+
     class Flam {
         void beep() {}
     }
 ]]
-

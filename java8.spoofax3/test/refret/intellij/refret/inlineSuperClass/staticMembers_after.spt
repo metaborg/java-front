@@ -59,7 +59,7 @@ test staticMembers_after: refret test 2 [[
   
         void bar() {
         System.out.println(Test.S);
-        Test.foo();
+        foo(); // Was Test.foo(), but our proposal is better
       }
     }
 ]]
