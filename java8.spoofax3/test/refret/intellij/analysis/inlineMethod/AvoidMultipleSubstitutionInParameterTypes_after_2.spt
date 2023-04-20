@@ -2,7 +2,7 @@ module refret/intellij/analysis/inlineMethod/AvoidMultipleSubstitutionInParamete
 
 /*
 test AvoidMultipleSubstitutionInParameterTypes_after_2: default analysis [[
-  [[{disabled}]] // Generics
+  // Generics
   
   test;
   [Test]
@@ -24,7 +24,7 @@ test AvoidMultipleSubstitutionInParameterTypes_after_2: default analysis [[
 
 /*
 test AvoidMultipleSubstitutionInParameterTypes_after_2: test analysis [[
-  [[{disabled}]] // Generics
+  // Generics
   
   test;
   [Test]

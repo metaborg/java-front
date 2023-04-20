@@ -2,7 +2,7 @@ module refret/intellij/parsing/inlineMethod/AvoidMultipleSubstitutionInParameter
 
 /*
 test AvoidMultipleSubstitutionInParameterTypes_after_1: parsing [[
-  [[{disabled}]] // Generics
+  // Generics
   
   test;
   [Test]

@@ -2,7 +2,7 @@ module refret/intellij/analysis/inlineMethod/AndChainLambda_after
 
 /*
 test AndChainLambda_after: default analysis [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -23,7 +23,7 @@ test AndChainLambda_after: default analysis [[
 
 /*
 test AndChainLambda_after: test analysis [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;

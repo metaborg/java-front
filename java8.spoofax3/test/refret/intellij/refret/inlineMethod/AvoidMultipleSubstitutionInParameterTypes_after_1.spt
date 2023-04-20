@@ -2,7 +2,7 @@ module refret/intellij/refret/inlineMethod/AvoidMultipleSubstitutionInParameterT
 
 /*
 test AvoidMultipleSubstitutionInParameterTypes_after_1: refret test 1 [[
-  [[{disabled}]] // Generics
+  // Generics
   
   test;
   [Test]
@@ -20,7 +20,7 @@ test AvoidMultipleSubstitutionInParameterTypes_after_1: refret test 1 [[
         private static <S> void [[nested]](Collection<S> result, S element) {}
     }
 ]] run fix-reference(|#1, #2) to [[
-  [[{disabled}]] // Generics
+  // Generics
   
   test;
   [Test]

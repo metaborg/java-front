@@ -2,7 +2,7 @@ module refret/intellij/refret/inlineMethod/AndChainLambdaSingleLine_after
 
 /*
 test AndChainLambdaSingleLine_after: refret test 1 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -14,7 +14,7 @@ test AndChainLambdaSingleLine_after: refret test 1 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -30,7 +30,7 @@ test AndChainLambdaSingleLine_after: refret test 1 [[
 
 /*
 test AndChainLambdaSingleLine_after: refret test 2 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -42,7 +42,7 @@ test AndChainLambdaSingleLine_after: refret test 2 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -58,7 +58,7 @@ test AndChainLambdaSingleLine_after: refret test 2 [[
 
 /*
 test AndChainLambdaSingleLine_after: refret test 3 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -70,7 +70,7 @@ test AndChainLambdaSingleLine_after: refret test 3 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;

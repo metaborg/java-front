@@ -2,7 +2,7 @@ module refret/intellij/parsing/moveInstanceMethod/ForeignMethodReferenceWithTarg
 
 /*
 test ForeignMethodReferenceWithTargetField_after: parsing [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]

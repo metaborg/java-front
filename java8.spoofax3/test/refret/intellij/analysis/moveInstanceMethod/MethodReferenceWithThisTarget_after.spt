@@ -2,7 +2,7 @@ module refret/intellij/analysis/moveInstanceMethod/MethodReferenceWithThisTarget
 
 /*
 test MethodReferenceWithThisTarget_after: default analysis [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]
@@ -24,7 +24,7 @@ test MethodReferenceWithThisTarget_after: default analysis [[
 
 /*
 test MethodReferenceWithThisTarget_after: test analysis [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]

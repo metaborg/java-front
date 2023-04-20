@@ -2,7 +2,7 @@ module refret/intellij/refret/inlineMethod/AndChainLambda_after
 
 /*
 test AndChainLambda_after: refret test 1 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -19,7 +19,7 @@ test AndChainLambda_after: refret test 1 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -40,7 +40,7 @@ test AndChainLambda_after: refret test 1 [[
 
 /*
 test AndChainLambda_after: refret test 2 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -57,7 +57,7 @@ test AndChainLambda_after: refret test 2 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -78,7 +78,7 @@ test AndChainLambda_after: refret test 2 [[
 
 /*
 test AndChainLambda_after: refret test 3 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -95,7 +95,7 @@ test AndChainLambda_after: refret test 3 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -116,7 +116,7 @@ test AndChainLambda_after: refret test 3 [[
 
 /*
 test AndChainLambda_after: refret test 4 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -133,7 +133,7 @@ test AndChainLambda_after: refret test 4 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -154,7 +154,7 @@ test AndChainLambda_after: refret test 4 [[
 
 /*
 test AndChainLambda_after: refret test 5 [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;
@@ -171,7 +171,7 @@ test AndChainLambda_after: refret test 5 [[
   
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Generics
+  // Generics
   test;
   [Test]
       import java.util.function.Predicate;

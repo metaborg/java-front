@@ -2,7 +2,7 @@ module refret/intellij/analysis/moveInstanceMethod/ParameterMethodReference_afte
 
 /*
 test ParameterMethodReference_after: default analysis [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]
@@ -27,7 +27,7 @@ test ParameterMethodReference_after: default analysis [[
 
 /*
 test ParameterMethodReference_after: test analysis [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]

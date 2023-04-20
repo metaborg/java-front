@@ -2,7 +2,7 @@ module refret/intellij/refret/moveInstanceMethod/MethodReferenceWithThisTarget_a
 
 /*
 test MethodReferenceWithThisTarget_after: refret test 1 [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]
@@ -20,7 +20,7 @@ test MethodReferenceWithThisTarget_after: refret test 1 [[
         }
     }
 ]] run fix-reference(|#2, #1) to [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]

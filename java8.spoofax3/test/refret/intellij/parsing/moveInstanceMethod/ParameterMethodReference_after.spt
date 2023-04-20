@@ -2,7 +2,7 @@ module refret/intellij/parsing/moveInstanceMethod/ParameterMethodReference_after
 
 /*
 test ParameterMethodReference_after: parsing [[
-  [[{disabled}]] // Method reference
+  // Method reference
   
   test;
   [Test]
