@@ -33,5 +33,5 @@ rules
   dbg :: TP
   dbg(? -> string) :: TP
 
-  dbg       = where((pp-aterm <+ strip-annos); debug)
-  dbg(str)  = where((pp-aterm <+ strip-annos); debug(str))
+  dbg       = where(strip-annos; (pp-aterm <+ strip-annos); debug)
+  dbg(str)  = where(strip-annos; (pp-aterm <+ strip-annos); debug(str))

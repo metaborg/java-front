@@ -104,7 +104,7 @@ rules
 
 
   write-measurement(|string, real) :: TP
-  write-measurement(|test-name, time) = with(prim("write_measurement", test-name, time))
+  write-measurement(|test-name, time) = id //with(prim("write_measurement", test-name, time))
 
 rules // qualifier oracle
 

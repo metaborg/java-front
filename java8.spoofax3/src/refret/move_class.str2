@@ -1,0 +1,63 @@
+module move_class
+
+imports
+  strategolib
+  statix/runtime/-
+  statix/api
+
+  libstratego-aterm
+
+imports
+
+  signatures/syntax/java/lexical/-
+  signatures/syntax/java/names/-
+  signatures/syntax/java/expressions/-
+  signatures/syntax/java/types/-
+  signatures/syntax/java/classes/-
+  signatures/syntax/java/packages/-
+
+  injections/syntax/java/expressions/-
+  injections/-
+
+  refret/references
+  refret/util
+  refret/oracle/-
+
+rules
+  
+  move-class(|clsdecl, pkgdecl): ast -> res
+    where <dbg(!"Cls: ")> clsdecl
+        ; <dbg(!"Pkg: ")> pkgdecl
+        ; clsid := <find-enclosing-id; dbg(!"ClsID: ")> clsdecl
+        ; pkgid := <find-enclosing-id; dbg(!"PkgID: ")> pkgdecl
+        // Find the whole source class term
+        ; clsterm := <find-class(|clsid); dbg(!"ClsTerm: ")> ast
+        // Find the whole destination package term
+        ; pkgterm := <find-pkg(|pkgid); dbg(!"PkgTerm: ")> ast
+		// TODO: Lock all references
+		// Remove the source class term
+        ; astWithoutClass := <remove-once-td(?clsterm); dbg(!"ClsRemoved: ")> ast
+        // Add the class to the target package term
+        ; res := <replace(?pkgterm; CompilationUnit(id, id, ![clsterm|<id>])); dbg(!"Replaced: ")> astWithoutClass
+        // TODO: Unlock all references
+        
+  find-enclosing-id = collect-once-td(?Id(_))
+
+  find-class(|clsid) = collect-once-bu(?ClassDeclaration(_, clsid, _, _, _, _))
+  
+  find-pkg(|pkgid) = collect-once-bu(?CompilationUnit(SomePackageDeclaration(PackageDeclaration([], [pkgid])), _, _))
+
+  collect-once-td(s) = oncetd(where(s; ?t)); !t		// alias for: collect-one
+  collect-once-bu(s) = oncebu(where(s; ?t)); !t
+
+  // Replaces one innermost term on which [s] succeeds with the result of [s], and returns the full tree again
+  replace(s) = oncebu(s)
+
+  // Removes the term on which [s] succeeds once top-down if it is in a list.
+  // Does nothing if the term is not found.
+  // Fails if the term is found but not in a list.
+  remove-once-td(s) = one(
+    ?[] + ((dbg(!"Remove Try: "); ?[h|t] ; <s> h; dbg(!"Remove Match: "); !t) <+ [id | remove-once-td(s)]) + (not(s); dbg(!"Remove Recurse: "); remove-once-td(s))
+  )
+   
+   
