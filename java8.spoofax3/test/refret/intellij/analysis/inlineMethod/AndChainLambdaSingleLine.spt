@@ -1,0 +1,34 @@
+module refret/intellij/analysis/inlineMethod/AndChainLambdaSingleLine
+
+/*
+test AndChainLambdaSingleLine: default analysis [[
+  // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> !s.isEmpty() && s.length() + s.charAt(0) > 0;
+      }
+  
+    }
+]] analysis succeeds
+*/
+
+/*
+test AndChainLambdaSingleLine: test analysis [[
+  // Generics
+  test;
+  [Test]
+      import java.util.function.Predicate;
+  
+    class X {
+      Predicate<String> predicate() {
+        return s -> !s.isEmpty() && s.length() + s.charAt(0) > 0;
+      }
+  
+    }
+]] run test-analyze to SUCCEED()
+*/
+

@@ -1,0 +1,44 @@
+module refret/intellij/analysis/moveInner/innerClassInheritance
+
+test innerClassInheritance: default analysis [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends A.C {
+  
+    }
+  [A]
+      package p;
+  
+    class A {
+        private static class C {
+  
+        }
+  
+    }
+  }
+]] analysis succeeds
+
+test innerClassInheritance: test analysis [[
+  test;
+  [p] {
+  [B]
+      package p;
+  
+    class B extends A.C {
+  
+    }
+  [A]
+      package p;
+  
+    class A {
+        private static class C {
+  
+        }
+  
+    }
+  }
+]] run test-analyze to SUCCEED()
+

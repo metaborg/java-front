@@ -1,0 +1,56 @@
+module refret/intellij/analysis/moveClass/qualifiedRef
+
+test qualifiedRef: default analysis [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]] analysis succeeds
+
+test qualifiedRef: test analysis [[
+  test;
+  [p2] {
+  [Test]
+      package p2;
+    import p1.StaticMethod;
+  
+    import java.math.BigDecimal;
+    public class Test extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p1] {
+  [StaticMethod]
+      package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+]] run test-analyze to SUCCEED()
+

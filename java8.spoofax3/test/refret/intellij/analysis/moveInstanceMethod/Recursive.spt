@@ -1,0 +1,24 @@
+module refret/intellij/analysis/moveInstanceMethod/Recursive
+
+test Recursive: default analysis [[
+  test;
+  [MoveMethodTest]
+      public class MoveMethodTest {
+        void foo () {
+          foo();
+          foo();
+        }
+    }
+]] analysis succeeds
+
+test Recursive: test analysis [[
+  test;
+  [MoveMethodTest]
+      public class MoveMethodTest {
+        void foo () {
+          foo();
+          foo();
+        }
+    }
+]] run test-analyze to SUCCEED()
+

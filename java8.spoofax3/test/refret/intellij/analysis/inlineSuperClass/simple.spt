@@ -1,0 +1,46 @@
+module refret/intellij/analysis/inlineSuperClass/simple
+
+test simple: default analysis [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        s.foo();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void foo() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]] analysis succeeds
+
+test simple: test analysis [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        s.foo();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void foo() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]] run test-analyze to SUCCEED()
+

@@ -1,0 +1,34 @@
+module refret/intellij/refret/moveInstanceMethod/OverloadingMethods1
+
+test OverloadingMethods1: refret test 1 [[
+  test;
+  [Test]
+      class B extends A {
+    }
+  
+    class A {
+      void [[m]](){}
+    }
+  
+    class C {
+        void n(B [[b]]){
+          [[m()]];
+        }
+    }
+]] run fix-reference(|#3, #1, #2) to [[
+  test;
+  [Test]
+      class B extends A {
+    }
+  
+    class A {
+      void m(){}
+    }
+  
+    class C {
+        void n(B b){
+          b.m();
+        }
+    }
+]]
+

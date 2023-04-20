@@ -1,0 +1,44 @@
+module refret/intellij/refret/moveInstanceMethod/ThisInAnonymous
+
+test ThisInAnonymous: refret test 1 [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void [[acceptChildren]](JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            [[aClass.acceptChildren(new JetVisitor() {   // Context: this
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            })]];
+        }
+    }
+  
+    class JetVisitor {}
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      public class Test {
+    }
+  
+  
+    class JetElement {
+        void acceptChildren(JetVisitor v) {}
+  
+        private void prepareAnonymousClasses() {
+            acceptChildren(new JetVisitor() {   // Context: this
+                public void visitJetElement(JetElement element) {
+                    element.acceptChildren(this);
+                }
+            });
+        }
+    }
+  
+    class JetVisitor {}
+]]
+

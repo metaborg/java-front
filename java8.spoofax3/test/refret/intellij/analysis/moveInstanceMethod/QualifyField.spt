@@ -1,0 +1,40 @@
+module refret/intellij/analysis/moveInstanceMethod/QualifyField
+
+test QualifyField: default analysis [[
+  test;
+  [Test]
+      // Unsupported: guess access through field `flam`.
+  
+      class Flim {
+        Flam flam = new Flam();
+  
+        public static void main(String[] args) {
+            Flim flim = new Flim();
+            flim.flam.beep();
+        }
+    }
+  
+    class Flam {
+        void beep() {}
+    }
+]] analysis succeeds
+
+test QualifyField: test analysis [[
+  test;
+  [Test]
+      // Unsupported: guess access through field `flam`.
+  
+      class Flim {
+        Flam flam = new Flam();
+  
+        public static void main(String[] args) {
+            Flim flim = new Flim();
+            flim.flam.beep();
+        }
+    }
+  
+    class Flam {
+        void beep() {}
+    }
+]] run test-analyze to SUCCEED()
+

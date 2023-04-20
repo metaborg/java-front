@@ -1,0 +1,44 @@
+module refret/intellij/analysis/inlineMethod/SuperInsideHierarchy
+
+test SuperInsideHierarchy: default analysis [[
+  test;
+  [Test]
+      class A {
+      void foo(){
+        //do smth in A
+      }
+    }
+  
+    class B extends A {
+  
+        void test(){
+            super.foo();  // Context: super
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]] analysis succeeds
+
+test SuperInsideHierarchy: test analysis [[
+  test;
+  [Test]
+      class A {
+      void foo(){
+        //do smth in A
+      }
+    }
+  
+    class B extends A {
+  
+        void test(){
+            super.foo();  // Context: super
+        }
+  
+      void foo() {
+        //do smth
+      }
+    }
+]] run test-analyze to SUCCEED()
+

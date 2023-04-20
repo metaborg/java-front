@@ -1,0 +1,74 @@
+module refret/intellij/refret/moveInstanceMethod/Recursive1
+
+test Recursive1: refret test 1 [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            [[new SecondClass().x()]];
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void [[x]]() {
+            if (this != null) g().x();
+        }
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]]
+
+test Recursive1: refret test 2 [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void [[x]]() {
+            if (this != null) [[g().x()]];
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]]
+

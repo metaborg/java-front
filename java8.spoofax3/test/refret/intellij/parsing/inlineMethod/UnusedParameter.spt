@@ -1,0 +1,22 @@
+module refret/intellij/parsing/inlineMethod/UnusedParameter
+
+test UnusedParameter: parsing [[
+  test;
+  [Test]
+      class Temp {
+      class Set {
+        native Object size();
+      }
+  
+      public Object foo(Set bar) {
+        if (bar.size() != null) {// Inline this
+            bar.size(); // or inline this
+            return null;
+        }
+  
+        return bar;
+      }
+  
+    }
+]] parse succeeds
+

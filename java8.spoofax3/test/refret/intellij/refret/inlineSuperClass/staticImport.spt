@@ -1,0 +1,90 @@
+module refret/intellij/refret/inlineSuperClass/staticImport
+
+test staticImport: refret test 1 [[
+  test;
+  [Usage]
+      import static [[q.CONSTANT]];
+    import static p.Test.statMeth;
+    class Usage {
+      public void context() {
+          String v = CONSTANT;
+          statMeth();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public static final String [[CONSTANT]] = "";
+  
+        public static void statMeth() {}
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Usage]
+      import static p.Test.CONSTANT;
+    import static p.Test.statMeth;
+    class Usage {
+      public void context() {
+          String v = CONSTANT;
+          statMeth();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public static final String CONSTANT = "";
+  
+        public static void statMeth() {}
+    }
+  }
+]]
+
+test staticImport: refret test 2 [[
+  test;
+  [Usage]
+      import static p.Test.CONSTANT;
+    import static [[q.statMeth]];
+    class Usage {
+      public void context() {
+          String v = CONSTANT;
+          statMeth();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public static final String CONSTANT = "";
+  
+        public static void [[statMeth]]() {}
+    }
+  }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Usage]
+      import static p.Test.CONSTANT;
+    import static p.Test.statMeth;
+    class Usage {
+      public void context() {
+          String v = CONSTANT;
+          statMeth();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public static final String CONSTANT = "";
+  
+        public static void statMeth() {}
+    }
+  }
+]]
+

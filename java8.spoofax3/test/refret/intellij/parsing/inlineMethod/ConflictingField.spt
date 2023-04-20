@@ -1,0 +1,14 @@
+module refret/intellij/parsing/inlineMethod/ConflictingField
+
+test ConflictingField: parsing [[
+  test;
+  [Test]
+      class Test {
+        public int i;
+  
+        public void usage() {
+            int i = this.i;
+        }
+    }
+]] parse succeeds
+

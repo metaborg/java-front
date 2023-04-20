@@ -1,0 +1,52 @@
+module refret/intellij/analysis/moveInstanceMethod/ParameterMethodReference
+
+/*
+test ParameterMethodReference: default analysis [[
+  // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull() {
+            return this != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<Destination> stream){
+        stream.filter(Destination::notNull);
+      }
+  
+    }
+]] analysis succeeds
+*/
+
+/*
+test ParameterMethodReference: test analysis [[
+  // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull() {
+            return this != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<Destination> stream){
+        stream.filter(Destination::notNull);
+      }
+  
+    }
+]] run test-analyze to SUCCEED()
+*/
+

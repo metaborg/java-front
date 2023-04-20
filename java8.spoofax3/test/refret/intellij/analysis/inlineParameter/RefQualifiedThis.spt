@@ -1,0 +1,46 @@
+module refret/intellij/analysis/inlineParameter/RefQualifiedThis
+
+test RefQualifiedThis: default analysis [[
+  test;
+  [Subject]
+      class Outer {
+  
+      String toString() { return ""; }
+  
+      class User {
+        public class Subject {
+          public void withClass() {
+            System.out.println(Outer.this.toString());
+          }
+        }
+  
+        private void oper() {
+          Subject subj = new Subject();
+          subj.withClass();
+        }
+      }
+    }
+]] analysis succeeds
+
+test RefQualifiedThis: test analysis [[
+  test;
+  [Subject]
+      class Outer {
+  
+      String toString() { return ""; }
+  
+      class User {
+        public class Subject {
+          public void withClass() {
+            System.out.println(Outer.this.toString());
+          }
+        }
+  
+        private void oper() {
+          Subject subj = new Subject();
+          subj.withClass();
+        }
+      }
+    }
+]] run test-analyze to SUCCEED()
+

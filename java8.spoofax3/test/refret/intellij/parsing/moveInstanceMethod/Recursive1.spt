@@ -1,0 +1,21 @@
+module refret/intellij/parsing/moveInstanceMethod/Recursive1
+
+test Recursive1: parsing [[
+  test;
+  [Test]
+      class FirstClass {
+  
+        void y() {
+            new SecondClass().x();
+        }
+    }
+  
+    class SecondClass {
+        SecondClass g() { return null; }
+  
+        void x() {
+            if (this != null) g().x();
+        }
+    }
+]] parse succeeds
+

@@ -1,0 +1,36 @@
+module refret/intellij/analysis/moveInstanceMethod/StripFieldQualifier
+
+test StripFieldQualifier: default analysis [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int y) {
+                x = y;
+            }
+        }
+    }
+]] analysis succeeds
+
+test StripFieldQualifier: test analysis [[
+  test;
+  [Test]
+      public class Test {
+  
+        private Bar bar = new Bar();
+  
+        private static class Bar {
+            private int x;
+  
+            public void foo(int y) {
+                x = y;
+            }
+        }
+    }
+]] run test-analyze to SUCCEED()
+

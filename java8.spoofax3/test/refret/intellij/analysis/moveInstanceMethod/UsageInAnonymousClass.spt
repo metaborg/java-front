@@ -1,0 +1,54 @@
+module refret/intellij/analysis/moveInstanceMethod/UsageInAnonymousClass
+
+test UsageInAnonymousClass: default analysis [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void moo(B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              moo(this); // was A.this.moo(this), but our alternative is better
+            }
+          };
+        }
+  
+        }
+  
+    }
+]] analysis succeeds
+
+test UsageInAnonymousClass: test analysis [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void moo(B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              moo(this); // was A.this.moo(this), but our alternative is better
+            }
+          };
+        }
+  
+        }
+  
+    }
+]] run test-analyze to SUCCEED()
+

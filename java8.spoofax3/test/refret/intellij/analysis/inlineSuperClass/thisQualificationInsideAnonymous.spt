@@ -1,0 +1,32 @@
+module refret/intellij/analysis/inlineSuperClass/thisQualificationInsideAnonymous
+
+test thisQualificationInsideAnonymous: default analysis [[
+  test;
+  [Test]
+      class Test {
+        protected final Object myBar;
+        protected final Object myBizz;
+  
+        public Test() {
+            myBar = new Object() { // Was `Test.this.myBar`, but our option is better.
+            };
+            myBizz = null;        // Was `Test.this.myBizz`, but our option is better.
+        }
+    }
+]] analysis succeeds
+
+test thisQualificationInsideAnonymous: test analysis [[
+  test;
+  [Test]
+      class Test {
+        protected final Object myBar;
+        protected final Object myBizz;
+  
+        public Test() {
+            myBar = new Object() { // Was `Test.this.myBar`, but our option is better.
+            };
+            myBizz = null;        // Was `Test.this.myBizz`, but our option is better.
+        }
+    }
+]] run test-analyze to SUCCEED()
+

@@ -1,0 +1,42 @@
+module refret/intellij/analysis/inlineSuperClass/innerClassReference
+
+test innerClassReference: default analysis [[
+  test;
+  [Test]
+      class Test {
+       public void contextChild() {
+          StInner inner1 = new StInner();
+          Test.InstInner inner2 = this.new InstInner();
+       }
+  
+        void foo() {
+           StInner inner1 = new StInner();
+           Test.InstInner inner2 = this.new InstInner();
+        }
+  
+        public static class StInner {}
+  
+        public class InstInner {}
+    }
+]] analysis succeeds
+
+test innerClassReference: test analysis [[
+  test;
+  [Test]
+      class Test {
+       public void contextChild() {
+          StInner inner1 = new StInner();
+          Test.InstInner inner2 = this.new InstInner();
+       }
+  
+        void foo() {
+           StInner inner1 = new StInner();
+           Test.InstInner inner2 = this.new InstInner();
+        }
+  
+        public static class StInner {}
+  
+        public class InstInner {}
+    }
+]] run test-analyze to SUCCEED()
+

@@ -1,0 +1,14 @@
+module refret/intellij/parsing/inlineSuperClass/superConstructorWithFieldInitialization
+
+test superConstructorWithFieldInitialization: parsing [[
+  test;
+  [Test]
+      class Test {
+        private final String field;
+  
+        Test(){
+            field = "text"; // Was `Test.this.field`, but our proposal is better.
+        }
+    }
+]] parse succeeds
+

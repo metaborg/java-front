@@ -1,0 +1,38 @@
+module refret/intellij/analysis/inlineSuperClass/classInitializers
+
+test classInitializers: default analysis [[
+  test;
+  [Test]
+      class Test {
+        static {
+          System.out.println("static");
+        }
+  
+        {
+          System.out.println("instance");
+        }
+  
+        void foo() {
+        Test s = new Test();
+      }
+    }
+]] analysis succeeds
+
+test classInitializers: test analysis [[
+  test;
+  [Test]
+      class Test {
+        static {
+          System.out.println("static");
+        }
+  
+        {
+          System.out.println("instance");
+        }
+  
+        void foo() {
+        Test s = new Test();
+      }
+    }
+]] run test-analyze to SUCCEED()
+

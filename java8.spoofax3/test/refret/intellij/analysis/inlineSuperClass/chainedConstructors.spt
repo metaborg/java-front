@@ -1,0 +1,42 @@
+module refret/intellij/analysis/inlineSuperClass/chainedConstructors
+
+test chainedConstructors: default analysis [[
+  test;
+  [Test]
+      class Test {
+        int i;
+  
+        public Test() {
+             this(1); 
+        }
+  
+        Test(int i, int j) {
+          this.i = i;
+        }
+  
+        Test(int i) {
+          this(i, 0);
+        }
+    }
+]] analysis succeeds
+
+test chainedConstructors: test analysis [[
+  test;
+  [Test]
+      class Test {
+        int i;
+  
+        public Test() {
+             this(1); 
+        }
+  
+        Test(int i, int j) {
+          this.i = i;
+        }
+  
+        Test(int i) {
+          this(i, 0);
+        }
+    }
+]] run test-analyze to SUCCEED()
+

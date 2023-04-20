@@ -1,0 +1,28 @@
+module refret/intellij/analysis/inlineMethod/ArrayAccess
+
+test ArrayAccess: default analysis [[
+  test;
+  [Test]
+      class A {
+        public void usage() {
+            int[] array = new int[150];
+            for (int i = 0; i < array.length; i++) {
+                System.out.println(array[i]);
+            }
+        }
+    }
+]] analysis succeeds
+
+test ArrayAccess: test analysis [[
+  test;
+  [Test]
+      class A {
+        public void usage() {
+            int[] array = new int[150];
+            for (int i = 0; i < array.length; i++) {
+                System.out.println(array[i]);
+            }
+        }
+    }
+]] run test-analyze to SUCCEED()
+

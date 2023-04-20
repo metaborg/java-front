@@ -1,0 +1,52 @@
+module refret/intellij/analysis/inlineMethod/SuperMethodInAnonymousClass
+
+test SuperMethodInAnonymousClass: default analysis [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void g() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                g();
+            }
+          }.run();
+        }
+      }
+]] analysis succeeds
+
+test SuperMethodInAnonymousClass: test analysis [[
+  test;
+  [Test]
+      class A {
+  
+        public void g() {
+        }
+      }
+  
+      class B extends A {
+        public void g() {
+  
+        }
+        public void h() {
+          new Runnable() {
+  
+            @Override
+            public void run() {
+                g();
+            }
+          }.run();
+        }
+      }
+]] run test-analyze to SUCCEED()
+

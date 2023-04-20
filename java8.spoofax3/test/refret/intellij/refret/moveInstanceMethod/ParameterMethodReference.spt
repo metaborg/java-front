@@ -1,0 +1,48 @@
+module refret/intellij/refret/moveInstanceMethod/ParameterMethodReference
+
+/*
+test ParameterMethodReference: refret test 1 [[
+  // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean [[notNull]]() {
+            return this != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<Destination> stream){
+        stream.filter([[notNull]]);
+      }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  // Method reference
+  
+  test;
+  [Test]
+      import java.util.stream.Stream;
+  
+    class Test {
+      private static class Destination{
+          private boolean notNull() {
+            return this != null;
+          }
+      }
+  
+      private final Destination destination = new Destination();
+  
+      public void main(Stream<Destination> stream){
+        stream.filter(Destination::notNull);
+      }
+  
+    }
+]]
+*/
+

@@ -1,0 +1,24 @@
+module refret/intellij/refret/inlineSuperClass/superReference
+
+test superReference: refret test 1 [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        [[method()]];
+      }
+  
+        public void [[method]]() {}
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [Test]
+      class Test {
+      public void context() {
+        method();
+      }
+  
+        public void method() {}
+    }
+]]
+

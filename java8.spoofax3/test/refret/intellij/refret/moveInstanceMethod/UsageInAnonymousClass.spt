@@ -1,0 +1,52 @@
+module refret/intellij/refret/moveInstanceMethod/UsageInAnonymousClass
+
+test UsageInAnonymousClass: refret test 1 [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void [[moo]](B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              [[moo(this)]]; // was A.this.moo(this), but our alternative is better
+            }
+          };
+        }
+  
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+  
+    class A<T>  {
+        void moo(B b) {
+          System.out.println(b.foo);
+        }
+  
+        class B {
+        private String foo;
+  
+        public void run() {
+          new B() {
+            @Override
+            public void run() {
+              moo(this); // was A.this.moo(this), but our alternative is better
+            }
+          };
+        }
+  
+        }
+  
+    }
+]]
+

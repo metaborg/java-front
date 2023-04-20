@@ -1,0 +1,44 @@
+module refret/intellij/analysis/inlineMethod/LocalVariableResult
+
+test LocalVariableResult: default analysis [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] analysis succeeds
+
+test LocalVariableResult: test analysis [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] run test-analyze to SUCCEED()
+

@@ -1,0 +1,38 @@
+module refret/intellij/refret/inlineParameter/RefStaticField
+
+test RefStaticField: refret test 1 [[
+  test;
+  [A]
+      public class A {
+        void test() {
+            String s = [[f]];
+            System.out.println(s);
+        }
+  
+        void callTest() {
+            test();
+        }
+    }
+  
+    class B {
+        public static String [[f]] = null;
+    }
+]] run fix-reference(|#1, #2) to [[
+  test;
+  [A]
+      public class A {
+        void test() {
+            String s = B.f;
+            System.out.println(s);
+        }
+  
+        void callTest() {
+            test();
+        }
+    }
+  
+    class B {
+        public static String f = null;
+    }
+]]
+

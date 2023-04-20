@@ -1,0 +1,34 @@
+module refret/intellij/analysis/inlineMethod/StaticFieldInitializer
+
+test StaticFieldInitializer: default analysis [[
+  test;
+  [Test]
+      class A{
+        static int field;
+  
+        static {
+            doSomething();
+            field = 1;
+        }
+  
+        static void doSomething() { }
+  
+    }
+]] analysis succeeds
+
+test StaticFieldInitializer: test analysis [[
+  test;
+  [Test]
+      class A{
+        static int field;
+  
+        static {
+            doSomething();
+            field = 1;
+        }
+  
+        static void doSomething() { }
+  
+    }
+]] run test-analyze to SUCCEED()
+

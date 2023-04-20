@@ -1,0 +1,66 @@
+module refret/intellij/refret/inlineSuperClass/staticMembers
+
+test staticMembers: refret test 1 [[
+  test;
+  [Test]
+      class Test {
+        public static final String [[S]] = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println([[Super.S]]);
+        foo(); // Was Test.foo(), but our proposal is better
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        foo(); // Was Test.foo(), but our proposal is better
+      }
+    }
+]]
+
+test staticMembers: refret test 2 [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void [[foo]](){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        [[Super.foo()]]; // Was Test.foo(), but our proposal is better
+      }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        foo(); // Was Test.foo(), but our proposal is better
+      }
+    }
+]]
+

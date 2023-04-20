@@ -1,0 +1,17 @@
+module refret/intellij/parsing/inlineSuperClass/thisQualificationInsideAnonymous
+
+test thisQualificationInsideAnonymous: parsing [[
+  test;
+  [Test]
+      class Test {
+        protected final Object myBar;
+        protected final Object myBizz;
+  
+        public Test() {
+            myBar = new Object() { // Was `Test.this.myBar`, but our option is better.
+            };
+            myBizz = null;        // Was `Test.this.myBizz`, but our option is better.
+        }
+    }
+]] parse succeeds
+

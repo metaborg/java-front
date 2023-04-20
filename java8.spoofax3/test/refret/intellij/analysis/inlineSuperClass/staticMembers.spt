@@ -1,0 +1,36 @@
+module refret/intellij/analysis/inlineSuperClass/staticMembers
+
+test staticMembers: default analysis [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        foo(); // Was Test.foo(), but our proposal is better
+      }
+    }
+]] analysis succeeds
+
+test staticMembers: test analysis [[
+  test;
+  [Test]
+      class Test {
+        public static final String S = "";
+  
+        static void foo(){
+           System.out.println(S);
+        }
+  
+        void bar() {
+        System.out.println(Test.S);
+        foo(); // Was Test.foo(), but our proposal is better
+      }
+    }
+]] run test-analyze to SUCCEED()
+

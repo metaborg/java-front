@@ -1,0 +1,162 @@
+module refret/intellij/refret/inlineMethod/LocalVariableResult
+
+test LocalVariableResult: refret test 1 [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer [[result]];
+            if (i > 0) {
+                [[result]] = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+
+test LocalVariableResult: refret test 2 [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer [[result]];
+                [[result]] = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+
+test LocalVariableResult: refret test 3 [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer [[result]];
+                result = new Integer(0);
+                [[result]] = result;
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+
+test LocalVariableResult: refret test 4 [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer [[result]];
+                result = new Integer(0);
+                result = [[result]];
+            }
+            return result;
+        }
+  
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class A {
+  
+        Integer f(int i) {
+            Integer result;
+            if (i > 0) {
+                result = new Integer(i);
+            }
+            else {
+                Integer result;
+                result = new Integer(0);
+                result = result;
+            }
+            return result;
+        }
+  
+    }
+]]
+

@@ -1,0 +1,24 @@
+module refret/intellij/refret/inlineMethod/ConflictingField
+
+test ConflictingField: refret test 1 [[
+  test;
+  [Test]
+      class Test {
+        public int [[i]];
+  
+        public void usage() {
+            int i = [[i]];
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        public int i;
+  
+        public void usage() {
+            int i = this.i;
+        }
+    }
+]]
+

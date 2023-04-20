@@ -1,0 +1,24 @@
+module refret/intellij/refret/inlineSuperClass/superConstructorWithFieldInitialization
+
+test superConstructorWithFieldInitialization: refret test 1 [[
+  test;
+  [Test]
+      class Test {
+        private final String [[field]];
+  
+        Test(){
+            [[field]] = "text"; // Was `Test.this.field`, but our proposal is better.
+        }
+    }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [Test]
+      class Test {
+        private final String field;
+  
+        Test(){
+            field = "text"; // Was `Test.this.field`, but our proposal is better.
+        }
+    }
+]]
+

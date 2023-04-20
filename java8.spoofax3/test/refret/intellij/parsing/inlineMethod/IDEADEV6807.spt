@@ -1,0 +1,18 @@
+module refret/intellij/parsing/inlineMethod/IDEADEV6807
+
+test IDEADEV6807: parsing [[
+  test;
+  [Test]
+      class Base {
+        protected int f;
+  
+  
+    }
+  
+    class DRV extends Base {
+        void f() {
+            int f1 = f;
+        }
+    }
+]] parse succeeds
+

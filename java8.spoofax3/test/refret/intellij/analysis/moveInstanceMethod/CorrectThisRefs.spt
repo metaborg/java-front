@@ -1,0 +1,40 @@
+module refret/intellij/analysis/moveInstanceMethod/CorrectThisRefs
+
+test CorrectThisRefs: default analysis [[
+  test;
+  [Test]
+      class A {
+    }
+  
+    class B {
+  
+        void bar() {
+          new Runnable() {
+            @Override
+            public void run() {
+              System.out.println(B.this);
+            }
+          }.run();
+        }
+    }
+]] analysis succeeds
+
+test CorrectThisRefs: test analysis [[
+  test;
+  [Test]
+      class A {
+    }
+  
+    class B {
+  
+        void bar() {
+          new Runnable() {
+            @Override
+            public void run() {
+              System.out.println(B.this);
+            }
+          }.run();
+        }
+    }
+]] run test-analyze to SUCCEED()
+

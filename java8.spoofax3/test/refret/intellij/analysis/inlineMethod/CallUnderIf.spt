@@ -1,0 +1,32 @@
+module refret/intellij/analysis/inlineMethod/CallUnderIf
+
+test CallUnderIf: default analysis [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]] analysis succeeds
+
+test CallUnderIf: test analysis [[
+  test;
+  [Foo]
+      public class Foo {
+        String getComponent(Integer i) { return null; }
+        Integer myI;
+  
+        public void usage() {
+            if (myI != null)
+                System.out.println(getComponent(myI) + getComponent(myI));
+        }
+  
+    }
+]] run test-analyze to SUCCEED()
+

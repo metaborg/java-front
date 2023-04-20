@@ -1,0 +1,54 @@
+module refret/intellij/analysis/moveClassToInner/innerInsideMoved
+
+test innerInsideMoved: default analysis [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class Class1 {
+          class Inner {}
+          Inner i;
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import pack2.A;
+  
+    public class Class2 {
+      A.Class1 myClass1;
+    }
+  }
+]] analysis succeeds
+
+test innerInsideMoved: test analysis [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public static class Class1 {
+          class Inner {}
+          Inner i;
+        }
+    }
+  
+  }
+  [packUser] {
+  [Class2]
+      package packUser;
+  
+    import pack2.A;
+  
+    public class Class2 {
+      A.Class1 myClass1;
+    }
+  }
+]] run test-analyze to SUCCEED()
+

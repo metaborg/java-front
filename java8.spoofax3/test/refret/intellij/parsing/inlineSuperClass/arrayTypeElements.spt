@@ -1,0 +1,19 @@
+module refret/intellij/parsing/inlineSuperClass/arrayTypeElements
+
+test arrayTypeElements: parsing [[
+  test;
+  [Test]
+      class Test {
+      public Test() {
+      }
+  
+        public static Test[] getArray() {
+          return new Test[0];
+        }
+  
+        public static Test[] getArrayWithInitializer() {
+          return new Test[]{};
+        }
+    }
+]] parse succeeds
+

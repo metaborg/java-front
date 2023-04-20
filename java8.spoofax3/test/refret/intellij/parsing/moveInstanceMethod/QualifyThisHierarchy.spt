@@ -1,0 +1,25 @@
+module refret/intellij/parsing/moveInstanceMethod/QualifyThisHierarchy
+
+test QualifyThisHierarchy: parsing [[
+  test;
+  [D]
+      public class D {
+      protected void iAmProtected() {
+      }
+    }
+  
+    class DImpl extends D {
+    }
+  
+    class F {
+  
+        void foo(D d) {
+          class MyRunnable {
+            public void run() {
+              d.iAmProtected();
+            }
+          }
+        }
+    }
+]] parse succeeds
+

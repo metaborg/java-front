@@ -1,0 +1,44 @@
+module refret/intellij/refret/inlineSuperClass/simple
+
+test simple: refret test 1 [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test [[s]]) {
+        [[foo()]];
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void [[foo]]() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]] run fix-reference(|#2, #3, #1) to [[
+  test;
+  [Usage]
+      import p.Test;
+  
+    class Usage {
+      void bar(Test s) {
+        s.foo();
+      }
+    }
+  [p] {
+  [Test]
+      package p;
+  
+    public class Test {
+        public void foo() {
+          System.out.println("Hello");
+        }
+    }
+  }
+]]
+

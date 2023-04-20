@@ -1,0 +1,21 @@
+module refret/intellij/parsing/inlineMethod/SCR22644
+
+test SCR22644: parsing [[
+  test;
+  [SuperClass]
+      public class SuperClass {
+    }
+  
+    public class SubClass extends SuperClass {
+        public void doSomethingElse() {
+            UtilClass.doSomething(this);
+        }
+    }
+  
+    public class UtilClass {
+        public static void doSomething(SuperClass superClass) {
+            // ...
+        }
+    }
+]] parse succeeds
+

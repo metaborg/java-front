@@ -1,0 +1,34 @@
+module refret/intellij/refret/moveInstanceMethod/TwoParams
+
+test TwoParams: refret test 1 [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest [[moveMethodTest]], MoveMethodTest.Inner inner) {
+           [[bar(inner)]];
+        }
+    }
+  
+    class MoveMethodTest {
+        void [[bar]](Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]] run fix-reference(|#2, #3, #1) to [[
+  test;
+  [Test]
+      class Foreign {
+        void foo(MoveMethodTest moveMethodTest, MoveMethodTest.Inner inner) {
+           moveMethodTest.bar(inner);
+        }
+    }
+  
+    class MoveMethodTest {
+        void bar(Inner inner) {}
+  
+        class Inner {
+        }
+    }
+]]
+

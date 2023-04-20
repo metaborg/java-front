@@ -1,0 +1,58 @@
+module refret/intellij/analysis/moveInstanceMethod/QualifierToArg1
+
+test QualifierToArg1: default analysis [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f() {
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f();
+        }
+    }
+]] analysis succeeds
+
+test QualifierToArg1: test analysis [[
+  test;
+  [Test]
+      class CommandQueue {
+  
+        void f() {
+        }
+    }
+  
+    class CommandManager {
+  
+        void g() {
+  
+        }
+  
+        CommandQueue getCommandQueue() {
+            return null;
+        }
+    }
+  
+    class Application {
+        CommandManager myManager;
+        {
+            myManager.getCommandQueue().f();
+        }
+    }
+]] run test-analyze to SUCCEED()
+

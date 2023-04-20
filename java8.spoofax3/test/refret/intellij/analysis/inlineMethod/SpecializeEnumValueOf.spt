@@ -1,0 +1,42 @@
+module refret/intellij/analysis/inlineMethod/SpecializeEnumValueOf
+
+test SpecializeEnumValueOf: default analysis [[
+  test;
+  [foo] {
+  [bar] {
+  [baz] {
+  [Test]
+      package foo.bar.baz;
+  
+    class Test {
+      enum X {A, B, C};
+  
+      void test() {
+          System.out.println(X.B);
+      }
+    }
+  }
+  }
+  }
+]] analysis succeeds
+
+test SpecializeEnumValueOf: test analysis [[
+  test;
+  [foo] {
+  [bar] {
+  [baz] {
+  [Test]
+      package foo.bar.baz;
+  
+    class Test {
+      enum X {A, B, C};
+  
+      void test() {
+          System.out.println(X.B);
+      }
+    }
+  }
+  }
+  }
+]] run test-analyze to SUCCEED()
+
