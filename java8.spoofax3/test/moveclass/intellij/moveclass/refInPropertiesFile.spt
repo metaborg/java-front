@@ -1,0 +1,22 @@
+module moveclass/intellij/moveclass/refInPropertiesFile
+
+test refInPropertiesFile: move class test [[
+  test;
+  [p1] {
+  [MyClass]
+      package p1;
+    class [[MyClass]]{}
+  }
+  [p] {
+  [x]
+      package [[p]];
+  }
+]] run move-class(|#1, #2) to [[
+  test;
+  [p] {
+  [MyClass]
+      package p;
+    class MyClass{}
+  }
+]]
+

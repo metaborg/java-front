@@ -1,0 +1,38 @@
+module moveclass/intellij/analysis/localClass
+
+test localClass: default 'before' analysis [[
+  test;
+  [pack1] {
+  [A]
+      package pack1;
+  
+    public class A {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+  [pack2] {
+  [x]
+      package pack2;
+  }
+]] analysis succeeds
+
+test localClass: default 'after' analysis [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+]] analysis succeeds
+

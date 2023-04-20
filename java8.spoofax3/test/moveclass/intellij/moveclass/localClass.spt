@@ -1,0 +1,36 @@
+module moveclass/intellij/moveclass/localClass
+
+test localClass: move class test [[
+  test;
+  [pack1] {
+  [A]
+      package pack1;
+  
+    public class [[A]] {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+  [pack2] {
+  [x]
+      package [[pack2]];
+  }
+]] run move-class(|#1, #2) to [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+]]
+

@@ -1,0 +1,24 @@
+module moveclass/intellij/parsing/refInPropertiesFile
+
+test refInPropertiesFile: parse 'before' test [[
+  test;
+  [p1] {
+  [MyClass]
+      package p1;
+    class MyClass{}
+  }
+  [p] {
+  [x]
+      package p;
+  }
+]] parse succeeds
+
+test refInPropertiesFile: parse 'after' test [[
+  test;
+  [p] {
+  [MyClass]
+      package p;
+    class MyClass{}
+  }
+]] parse succeeds
+

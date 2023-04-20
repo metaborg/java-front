@@ -1,0 +1,44 @@
+module moveclass/intellij/analysis/moveMultiple1
+
+test moveMultiple1: default 'before' analysis [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class Class1 {
+      Class2 a;
+      Class2 b;
+    }
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+  [pack2] {
+    [x]
+    package pack2;
+  }
+]] analysis succeeds
+
+test moveMultiple1: default 'after' analysis [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class Class1 {
+      pack2.Class2 a;
+      pack2.Class2 b;
+    }
+  }
+  [pack2] {
+  [Class2]
+      package pack2;
+  
+    public class Class2 {
+    }
+  }
+]] analysis succeeds
+

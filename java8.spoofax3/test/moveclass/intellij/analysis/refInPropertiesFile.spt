@@ -1,0 +1,24 @@
+module moveclass/intellij/analysis/refInPropertiesFile
+
+test refInPropertiesFile: default 'before' analysis [[
+  test;
+  [p1] {
+  [MyClass]
+      package p1;
+    class MyClass{}
+  }
+  [p] {
+  [x]
+      package p;
+  }
+]] analysis succeeds
+
+test refInPropertiesFile: default 'after' analysis [[
+  test;
+  [p] {
+  [MyClass]
+      package p;
+    class MyClass{}
+  }
+]] analysis succeeds
+

@@ -1,0 +1,38 @@
+module moveclass/intellij/parsing/localClass
+
+test localClass: parse 'before' test [[
+  test;
+  [pack1] {
+  [A]
+      package pack1;
+  
+    public class A {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+  [pack2] {
+  [x]
+      package pack2;
+  }
+]] parse succeeds
+
+test localClass: parse 'after' test [[
+  test;
+  [pack2] {
+  [A]
+      package pack2;
+  
+    public class A {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+]] parse succeeds
+
