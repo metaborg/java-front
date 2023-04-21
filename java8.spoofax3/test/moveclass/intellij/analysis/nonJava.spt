@@ -24,3 +24,27 @@ test nonJava: default 'after' analysis [[
   }
 ]] analysis succeeds
 
+test nonJava: default 'before' analysis [[
+  test;
+  [pack1] {
+  [Class1]
+    package pack1;
+  
+    public class Class1 { }
+  }
+  [pack2] {
+  [Class1]
+    package pack2;
+  }
+]] run test-analyze to SUCCEED()
+
+test nonJava: default 'after' analysis [[
+  test;
+  [pack2] {
+  [Class1]
+    package pack2;
+  
+    public class Class1 { }
+  }
+]] run test-analyze to SUCCEED()
+

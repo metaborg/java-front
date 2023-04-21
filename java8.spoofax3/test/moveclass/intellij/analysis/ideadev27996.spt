@@ -35,3 +35,38 @@ test ideadev27996: default 'after' analysis [[
   }
 ]] analysis succeeds
 
+test ideadev27996: default 'before' analysis [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    public class X {
+        public void foo(X x) {}
+    }
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package pack2;
+  }
+]] run test-analyze to SUCCEED()
+
+test ideadev27996: default 'after' analysis [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package pack2;
+  
+    public class X {
+        public void foo(X x) {}
+    }
+  }
+]] run test-analyze to SUCCEED()
+

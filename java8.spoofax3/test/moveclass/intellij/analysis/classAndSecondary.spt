@@ -56,3 +56,59 @@ test classAndSecondary: default 'after' analysis [[
   }
 ]] analysis succeeds
 
+test classAndSecondary: default 'before' analysis [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  [User]
+      package pack1;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+  [pack2] {
+  [User]
+      package pack2;
+  }
+]] run test-analyze to SUCCEED()
+
+test classAndSecondary: default 'after' analysis [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack2] {
+  [User]
+    package pack2;
+  
+    public class User {
+      pack1.Class1 class1;
+      pack1.Class2 class2;
+    }
+  }
+]] run test-analyze to SUCCEED()
+

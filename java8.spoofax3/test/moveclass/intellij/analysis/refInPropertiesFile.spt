@@ -22,3 +22,25 @@ test refInPropertiesFile: default 'after' analysis [[
   }
 ]] analysis succeeds
 
+test refInPropertiesFile: default 'before' analysis [[
+  test;
+  [p1] {
+  [MyClass]
+      package p1;
+    class MyClass{}
+  }
+  [p] {
+  [MyClass]
+      package p;
+  }
+]] run test-analyze to SUCCEED()
+
+test refInPropertiesFile: default 'after' analysis [[
+  test;
+  [p] {
+  [MyClass]
+      package p;
+    class MyClass{}
+  }
+]] run test-analyze to SUCCEED()
+

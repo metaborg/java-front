@@ -36,3 +36,39 @@ test localClass: default 'after' analysis [[
   }
 ]] analysis succeeds
 
+test localClass: default 'before' analysis [[
+  test;
+  [pack1] {
+  [A]
+      package pack1;
+  
+    public class A {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+  [pack2] {
+  [A]
+      package pack2;
+  }
+]] run test-analyze to SUCCEED()
+
+test localClass: default 'after' analysis [[
+  test;
+  [pack2] {
+  [A]
+    package pack2;
+  
+    public class A {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+]] run test-analyze to SUCCEED()
+
