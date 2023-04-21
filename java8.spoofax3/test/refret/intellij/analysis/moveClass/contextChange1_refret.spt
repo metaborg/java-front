@@ -1,0 +1,44 @@
+module refret/intellij/analysis/moveClass/contextChange1_refret
+
+test contextChange1_refret: default analysis [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class Class1 {
+      Class2 a;
+    }
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+]] analysis succeeds
+
+test contextChange1_refret: test analysis [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    import pack1.Class2;
+  
+    public class Class1 {
+      Class2 a;
+    }
+  }
+  [pack1] {
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+]] run test-analyze to SUCCEED()
+

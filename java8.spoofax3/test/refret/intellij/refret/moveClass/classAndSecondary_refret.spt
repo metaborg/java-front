@@ -1,0 +1,234 @@
+module refret/intellij/refret/moveClass/classAndSecondary_refret
+
+test classAndSecondary_refret: refret test 1 [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class [[Class1]] {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import [[Class1]];
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+
+test classAndSecondary_refret: refret test 2 [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class [[Class2]] {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import [[Class2]];
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+
+test classAndSecondary_refret: refret test 3 [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class [[Class1]] {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      [[Class1]] class1;
+      Class2 class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+
+test classAndSecondary_refret: refret test 4 [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class [[Class2]] {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      [[Class2]] class2;
+    }
+  }
+]] run fix-reference(|#2, #1) to [[
+  test;
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack1] {
+  [User]
+      package pack1;
+  
+    import pack2.Class1;
+    import pack2.Class2;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+]]
+
