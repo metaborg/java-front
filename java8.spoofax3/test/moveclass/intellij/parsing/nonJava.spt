@@ -4,14 +4,13 @@ test nonJava: parse 'before' test [[
   test;
   [pack1] {
   [Class1]
-      package pack1;
+    package pack1;
   
-    public class Class1 {
-    }
+    public class Class1 { }
   }
   [pack2] {
-    [x]
-      package pack2;
+  [Class1]
+    package pack2;
   }
 ]] parse succeeds
 
@@ -19,10 +18,9 @@ test nonJava: parse 'after' test [[
   test;
   [pack2] {
   [Class1]
-      package pack2;
+    package pack2;
   
-    public class Class1 {
-    }
+    public class Class1 { }
   }
 ]] parse succeeds
 

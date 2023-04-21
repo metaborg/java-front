@@ -8,7 +8,7 @@ test refInPropertiesFile: parse 'before' test [[
     class MyClass{}
   }
   [p] {
-  [x]
+  [MyClass]
       package p;
   }
 ]] parse succeeds

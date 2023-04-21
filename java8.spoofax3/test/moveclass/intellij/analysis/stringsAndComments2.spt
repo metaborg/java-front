@@ -1,0 +1,32 @@
+module moveclass/intellij/analysis/stringsAndComments2
+
+test stringsAndComments2: default 'before' analysis [[
+  test;
+  [pack1] {
+  [AClass]
+    package pack1;
+  
+    public class AClass {
+      String s = "pack1.AClass";
+    }
+  
+  }
+  [pack2] {
+  [AClass]
+    package pack2;
+  }
+]] analysis succeeds
+
+test stringsAndComments2: default 'after' analysis [[
+  test;
+  [pack2] {
+  [AClass]
+    package pack2;
+  
+    public class AClass {
+      // NOTE: String are not changed in our implementation
+      String s = "pack1.AClass";
+    }
+  }
+]] analysis succeeds
+

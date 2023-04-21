@@ -1,26 +1,38 @@
 module moveclass/intellij/moveclass/nonJava
 
+test nonJava: move class test succeeds [[
+  test;
+  [pack1] {
+  [Class1]
+    package pack1;
+  
+    public class [[Class1]] { }
+  }
+  [pack2] {
+  [Class1]
+    package [[pack2]];
+  }
+]] run move-class(|#1, #2)
+
 test nonJava: move class test [[
   test;
   [pack1] {
   [Class1]
-      package pack1;
+    package pack1;
   
-    public class [[Class1]] {
-    }
+    public class [[Class1]] { }
   }
   [pack2] {
-    [Class1]
-      package [[pack2]];
+  [Class1]
+    package [[pack2]];
   }
 ]] run move-class(|#1, #2) to [[
   test;
   [pack2] {
   [Class1]
-      package pack2;
+    package pack2;
   
-    public class Class1 {
-    }
+    public class Class1 { }
   }
 ]]
 

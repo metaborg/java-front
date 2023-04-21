@@ -1,0 +1,48 @@
+module moveclass/intellij/analysis/secondaryClass
+
+test secondaryClass: default 'before' analysis [[
+  test;
+  [pack1] {
+  [Class1]
+    package pack1;
+  
+    public class Class1 { }
+  [User]
+    package pack1;
+  
+    public class User {
+      Class1 class1;
+      pack2.Class2 class2;
+    }
+  }
+  [pack2] {
+  [Class1]
+    package pack2;
+  
+    public class Class2 { }
+  }
+]] analysis succeeds
+
+test secondaryClass: default 'after' analysis [[
+  test;
+  [pack1] {
+  [Class1]
+    package pack1;
+  
+    public class Class1 { }
+    public class Class2 { }
+  [User]
+    package pack1;
+  
+    public class User {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+  [pack2] {
+  [Class1]
+    package pack2;
+  
+  }
+]] analysis succeeds
+

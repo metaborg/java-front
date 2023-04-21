@@ -1,0 +1,37 @@
+module moveclass/intellij/parsing/ideadev27996
+
+test ideadev27996: parse 'before' test [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    public class X {
+        public void foo(X x) {}
+    }
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package pack2;
+  }
+]] parse succeeds
+
+test ideadev27996: parse 'after' test [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package pack2;
+  
+    public class X {
+        public void foo(X x) {}
+    }
+  }
+]] parse succeeds
+

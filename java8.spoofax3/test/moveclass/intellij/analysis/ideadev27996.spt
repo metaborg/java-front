@@ -1,0 +1,37 @@
+module moveclass/intellij/analysis/ideadev27996
+
+test ideadev27996: default 'before' analysis [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    public class X {
+        public void foo(X x) {}
+    }
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package pack2;
+  }
+]] analysis succeeds
+
+test ideadev27996: default 'after' analysis [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package pack2;
+  
+    public class X {
+        public void foo(X x) {}
+    }
+  }
+]] analysis succeeds
+

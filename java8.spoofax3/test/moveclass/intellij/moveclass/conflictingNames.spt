@@ -1,0 +1,102 @@
+module moveclass/intellij/moveclass/conflictingNames
+
+test conflictingNames: move class test succeeds [[
+  test;
+  [p2] {
+  [Test]
+    package p2;
+    public class Test {
+      public static void f() {}
+    }
+  [First]
+    package p2;
+    public class [[First]] {}
+  }
+  [p3] {
+  [First]
+    package [[p3]];
+  }
+  [p1] {
+  [Second]
+    package p1;
+  
+    import p2.*;
+  
+    class Second {
+      {
+        new First();
+        Test.f();
+      }
+    }
+  [First]
+    package p1;
+    public class First extends p2.First {}
+  }
+]] run move-class(|#1, #2)
+
+test conflictingNames: move class test [[
+  test;
+  [p2] {
+  [Test]
+    package p2;
+    public class Test {
+      public static void f() {}
+    }
+  [First]
+    package p2;
+    public class [[First]] {}
+  }
+  [p3] {
+  [First]
+    package [[p3]];
+  }
+  [p1] {
+  [Second]
+    package p1;
+  
+    import p2.*;
+  
+    class Second {
+      {
+        new First();
+        Test.f();
+      }
+    }
+  [First]
+    package p1;
+    public class First extends p2.First {}
+  }
+]] run move-class(|#1, #2) to [[
+  test;
+  [p2] {
+  [Test]
+    package p2;
+    public class Test {
+      public static void f() {}
+    }
+  [First]
+    package p2;
+  }
+  [p3] {
+  [First]
+    package p3;
+    public class First {}
+  }
+  [p1] {
+  [Second]
+    package p1;
+  
+    import p2.*;
+  
+    class Second {
+      {
+        new p3.First();
+        Test.f();
+      }
+    }
+  [First]
+    package p1;
+    public class First extends p3.First {}
+  }
+]]
+

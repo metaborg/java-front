@@ -1,0 +1,52 @@
+module moveclass/intellij/moveclass/ideadev27996
+
+test ideadev27996: move class test succeeds [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    public class [[X]] {
+        public void foo(X x) {}
+    }
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package [[pack2]];
+  }
+]] run move-class(|#1, #2)
+
+test ideadev27996: move class test [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    public class [[X]] {
+        public void foo(X x) {}
+    }
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package [[pack2]];
+  }
+]] run move-class(|#1, #2) to [[
+  test;
+  [pack1] {
+  [X]
+    package pack1;
+  
+    class Y {}
+  }
+  [pack2] {
+  [X]
+    package pack2;
+  
+    public class X {
+        public void foo(X x) {}
+    }
+  }
+]]
+

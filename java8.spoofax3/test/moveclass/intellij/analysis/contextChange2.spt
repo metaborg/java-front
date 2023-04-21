@@ -18,30 +18,28 @@ test contextChange2: default 'before' analysis [[
     }
   }
   [pack2] {
-  [x]
+  [Class1]
     package pack2;
   }
 ]] analysis succeeds
 
 test contextChange2: default 'after' analysis [[
   test;
-  [pack2] {
-  [Class1]
-      package pack2;
-  
-    import pack1.Class2;
-  
-    public class Class1 {
-      void foo(){
-        Class2.xxx();
-      }
-    }
-  }
   [pack1] {
   [Class2]
       package pack1;
   
     public class Class2 {
+    }
+  }
+  [pack2] {
+  [Class1]
+      package pack2;
+  
+    public class Class1 {
+      void foo(){
+        pack1.Class2.xxx();
+      }
     }
   }
 ]] analysis succeeds

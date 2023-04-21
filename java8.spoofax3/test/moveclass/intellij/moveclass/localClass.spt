@@ -1,9 +1,29 @@
 module moveclass/intellij/moveclass/localClass
 
+test localClass: move class test succeeds [[
+  test;
+  [pack1] {
+  [A]
+      package pack1;
+  
+    public class [[A]] {
+        public void method () {
+            class X {
+            }
+            X x = new X();
+        }
+    }
+  }
+  [pack2] {
+  [A]
+      package [[pack2]];
+  }
+]] run move-class(|#1, #2)
+
 test localClass: move class test [[
   test;
   [pack1] {
-  [Asdf]
+  [A]
       package pack1;
   
     public class [[A]] {
@@ -22,7 +42,7 @@ test localClass: move class test [[
   test;
   [pack2] {
   [A]
-      package pack2;
+    package pack2;
   
     public class A {
         public void method () {

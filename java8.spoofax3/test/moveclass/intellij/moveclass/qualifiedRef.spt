@@ -1,16 +1,16 @@
 module moveclass/intellij/moveclass/qualifiedRef
 
-test qualifiedRef: move class test [[
+test qualifiedRef: move class test succeeds [[
   test;
   [p1] {
   [StaticMethod]
-      package p1;
+    package p1;
     public class StaticMethod {
         public static int bar() {return 1;}
     }
   
   [Test]
-      package p1;
+    package p1;
     import java.math.BigDecimal;
     public class [[Test]] extends BigDecimal {
         Test() {super(0);}
@@ -22,14 +22,53 @@ test qualifiedRef: move class test [[
     }
   }
   [p2] {
-  [x]
+  [Test]
+    package [[p2]];
+  }
+]] run move-class(|#1, #2)
+
+test qualifiedRef: move class test [[
+  test;
+  [p1] {
+  [StaticMethod]
+    package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  [Test]
+    package p1;
+    import java.math.BigDecimal;
+    public class [[Test]] extends BigDecimal {
+        Test() {super(0);}
+        void test() {
+            valueOf(0);
+            valueOf(StaticMethod.bar());
+            valueOf(StaticMethod.bar());
+        }
+    }
+  }
+  [p2] {
+  [Test]
     package [[p2]];
   }
 ]] run move-class(|#1, #2) to [[
   test;
+  [p1] {
+  [StaticMethod]
+    package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+  [p1] {
+  [Test]
+    package p1;
+  }
   [p2] {
   [Test]
-      package p2;
+    package p2;
     import p1.StaticMethod;
   
     import java.math.BigDecimal;
@@ -41,14 +80,6 @@ test qualifiedRef: move class test [[
             valueOf(StaticMethod.bar());
         }
     }
-  }
-  [p1] {
-  [StaticMethod]
-      package p1;
-    public class StaticMethod {
-        public static int bar() {return 1;}
-    }
-  
   }
 ]]
 

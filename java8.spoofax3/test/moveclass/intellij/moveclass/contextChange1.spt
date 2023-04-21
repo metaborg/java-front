@@ -1,64 +1,58 @@
-module moveclass/intellij/moveclass/moveMultiple1
+module moveclass/intellij/moveclass/contextChange1
 
-test moveMultiple1: move class test succeeds [[
+test contextChange1: move class test succeeds [[
   test;
   [pack1] {
   [Class1]
     package pack1;
   
-    public class Class1 {
+    public class [[Class1]] {
       Class2 a;
-      Class2 b;
     }
   [Class2]
     package pack1;
   
-    public class [[Class2]] { }
+    public class Class2 { }
   }
   [pack2] {
-    [Class2]
+  [Class1]
     package [[pack2]];
   }
 ]] run move-class(|#1, #2)
 
-test moveMultiple1: move class test [[
+test contextChange1: move class test [[
   test;
   [pack1] {
   [Class1]
     package pack1;
   
-    public class Class1 {
+    public class [[Class1]] {
       Class2 a;
-      Class2 b;
     }
   [Class2]
     package pack1;
   
-    public class [[Class2]] { }
+    public class Class2 { }
   }
   [pack2] {
-    [Class2]
+  [Class1]
     package [[pack2]];
   }
 ]] run move-class(|#1, #2) to [[
   test;
   [pack1] {
-  [Class1]
-    package pack1;
-  
-    public class Class1 {
-      pack2.Class2 a;
-      pack2.Class2 b;
-    }
   [Class2]
     package pack1;
-  
-  }
-  [pack2] {
-  [Class2]
-    package pack2;
   
     public class Class2 { }
+  }
+  [pack2] {
+  [Class1]
+    package pack2;
+  
+    public class Class1 {
+      pack1.Class2 a;
+    }
   }
 ]]
 

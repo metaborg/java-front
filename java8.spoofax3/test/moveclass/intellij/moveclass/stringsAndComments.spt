@@ -1,0 +1,63 @@
+module moveclass/intellij/moveclass/stringsAndComments
+
+test stringsAndComments: move class test succeeds [[
+  test;
+  [Client]
+    public class Client {
+      String s = "pack1.Class1";
+      // pack1.Class1
+      // apack1.Class1
+      // Class1
+    }
+  [pack1] {
+  [Class1]
+    package pack1;
+  
+    public class [[Class1]] { }
+  }
+  [pack2] {
+  [Class1]
+    package [[pack2]];
+  
+  }
+]] run move-class(|#1, #2)
+
+test stringsAndComments: move class test [[
+  test;
+  [Client]
+    public class Client {
+      String s = "pack1.Class1";
+      // pack1.Class1
+      // apack1.Class1
+      // Class1
+    }
+  [pack1] {
+  [Class1]
+    package pack1;
+  
+    public class [[Class1]] { }
+  }
+  [pack2] {
+  [Class1]
+    package [[pack2]];
+  
+  }
+]] run move-class(|#1, #2) to [[
+  test;
+  [Client]
+    public class Client {
+      // NOTE: Strings and comments are not changed in our implementation
+      String s = "pack1.Class1";
+      // pack1.Class1
+      // apack1.Class1
+      // Class1
+    }
+  [pack2] {
+  [Class1]
+    package pack2;
+  
+    public class Class1 { }
+  
+  }
+]]
+

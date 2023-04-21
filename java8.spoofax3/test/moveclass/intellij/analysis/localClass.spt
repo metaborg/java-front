@@ -15,7 +15,7 @@ test localClass: default 'before' analysis [[
     }
   }
   [pack2] {
-  [x]
+  [A]
       package pack2;
   }
 ]] analysis succeeds
@@ -24,7 +24,7 @@ test localClass: default 'after' analysis [[
   test;
   [pack2] {
   [A]
-      package pack2;
+    package pack2;
   
     public class A {
         public void method () {

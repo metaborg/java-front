@@ -1,5 +1,28 @@
 module moveclass/intellij/moveclass/contextChange2
 
+test contextChange2: move class test succeeds [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class [[Class1]] {
+      void foo(){
+        Class2.xxx();
+      }
+    }
+  [Class2]
+      package pack1;
+  
+    public class Class2 {
+    }
+  }
+  [pack2] {
+  [Class1]
+    package [[pack2]];
+  }
+]] run move-class(|#1, #2)
+
 test contextChange2: move class test [[
   test;
   [pack1] {

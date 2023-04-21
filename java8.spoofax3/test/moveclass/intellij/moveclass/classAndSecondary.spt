@@ -1,0 +1,85 @@
+module moveclass/intellij/moveclass/classAndSecondary
+
+test classAndSecondary: move class test succeeds [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  [User]
+      package pack1;
+  
+    public class [[User]] {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+  [pack2] {
+  [User]
+      package [[pack2]];
+  }
+]] run move-class(|#1, #2)
+
+test classAndSecondary: move class test [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  [User]
+      package pack1;
+  
+    public class [[User]] {
+      Class1 class1;
+      Class2 class2;
+    }
+  }
+  [pack2] {
+  [User]
+      package [[pack2]];
+  }
+]] run move-class(|#1, #2) to [[
+  test;
+  [pack1] {
+  [Class1]
+      package pack1;
+  
+    public class Class1 {
+    }
+  
+    /**
+     * Javadoc.
+     */
+    class Class2 {
+  
+    }
+  }
+  [pack2] {
+  [User]
+    package pack2;
+  
+    public class User {
+      pack1.Class1 class1;
+      pack1.Class2 class2;
+    }
+  }
+]]
+

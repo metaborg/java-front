@@ -1,6 +1,6 @@
-module moveclass/intellij/parsing/moveMultiple1
+module moveclass/intellij/parsing/contextChange1
 
-test moveMultiple1: parse 'before' test [[
+test contextChange1: parse 'before' test [[
   test;
   [pack1] {
   [Class1]
@@ -8,7 +8,6 @@ test moveMultiple1: parse 'before' test [[
   
     public class Class1 {
       Class2 a;
-      Class2 b;
     }
   [Class2]
     package pack1;
@@ -16,30 +15,26 @@ test moveMultiple1: parse 'before' test [[
     public class Class2 { }
   }
   [pack2] {
-    [Class2]
+  [Class1]
     package pack2;
   }
 ]] parse succeeds
 
-test moveMultiple1: parse 'after' test [[
+test contextChange1: parse 'after' test [[
   test;
   [pack1] {
-  [Class1]
-    package pack1;
-  
-    public class Class1 {
-      pack2.Class2 a;
-      pack2.Class2 b;
-    }
   [Class2]
     package pack1;
-  
-  }
-  [pack2] {
-  [Class2]
-    package pack2;
   
     public class Class2 { }
+  }
+  [pack2] {
+  [Class1]
+    package pack2;
+  
+    public class Class1 {
+      pack1.Class2 a;
+    }
   }
 ]] parse succeeds
 

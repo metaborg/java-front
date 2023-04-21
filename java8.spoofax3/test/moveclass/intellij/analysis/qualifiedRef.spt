@@ -4,13 +4,13 @@ test qualifiedRef: default 'before' analysis [[
   test;
   [p1] {
   [StaticMethod]
-      package p1;
+    package p1;
     public class StaticMethod {
         public static int bar() {return 1;}
     }
   
   [Test]
-      package p1;
+    package p1;
     import java.math.BigDecimal;
     public class Test extends BigDecimal {
         Test() {super(0);}
@@ -22,16 +22,28 @@ test qualifiedRef: default 'before' analysis [[
     }
   }
   [p2] {
-  [x]
+  [Test]
     package p2;
   }
 ]] analysis succeeds
 
 test qualifiedRef: default 'after' analysis [[
   test;
+  [p1] {
+  [StaticMethod]
+    package p1;
+    public class StaticMethod {
+        public static int bar() {return 1;}
+    }
+  
+  }
+  [p1] {
+  [Test]
+    package p1;
+  }
   [p2] {
   [Test]
-      package p2;
+    package p2;
     import p1.StaticMethod;
   
     import java.math.BigDecimal;
@@ -43,14 +55,6 @@ test qualifiedRef: default 'after' analysis [[
             valueOf(StaticMethod.bar());
         }
     }
-  }
-  [p1] {
-  [StaticMethod]
-      package p1;
-    public class StaticMethod {
-        public static int bar() {return 1;}
-    }
-  
   }
 ]] analysis succeeds
 

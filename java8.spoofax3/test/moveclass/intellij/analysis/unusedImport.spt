@@ -12,11 +12,11 @@ test unusedImport: default 'before' analysis [[
   [F1]
       package p1;
   
-    import p2.F2;
-  
     class F1 {
       F2 f2;
     }
+  [F2]
+      package p1;
   }
 ]] analysis succeeds
 
@@ -24,13 +24,13 @@ test unusedImport: default 'after' analysis [[
   test;
   [p1] {
   [F1]
-      package p1;
+    package p1;
   
     class F1 {
       F2 f2;
     }
   [F2]
-      package p1;
+    package p1;
   
     public class F2 {}
   }

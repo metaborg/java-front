@@ -8,7 +8,7 @@ test refInPropertiesFile: default 'before' analysis [[
     class MyClass{}
   }
   [p] {
-  [x]
+  [MyClass]
       package p;
   }
 ]] analysis succeeds
