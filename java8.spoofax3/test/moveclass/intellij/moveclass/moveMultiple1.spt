@@ -6,18 +6,18 @@ test moveMultiple1: move class test [[
   [Class1]
       package pack1;
   
-    public class [[Class1]] {
+    public class Class1 {
       Class2 a;
       Class2 b;
     }
-  [Class2]
+  [Class2fsdf]
       package pack1;
   
-    public class Class2 {
+    public class [[Class2]] {
     }
   }
   [pack2] {
-    [x]
+    [Class2]
     package [[pack2]];
   }
 ]] run move-class(|#1, #2) to [[

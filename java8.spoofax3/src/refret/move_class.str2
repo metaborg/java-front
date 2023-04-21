@@ -15,10 +15,14 @@ imports
   signatures/syntax/java/types/-
   signatures/syntax/java/classes/-
   signatures/syntax/java/packages/-
+  signatures/syntax/java/Test-sig
 
   injections/syntax/java/expressions/-
+  injections/syntax/java/classes/-
+  injections/syntax/java/packages/-
   injections/-
 
+  refret/refret
   refret/references
   refret/util
   refret/oracle/-
@@ -28,24 +32,71 @@ rules
   move-class(|clsdecl, pkgdecl): ast -> res
     where <dbg(!"Cls: ")> clsdecl
         ; <dbg(!"Pkg: ")> pkgdecl
-        ; clsid := <find-enclosing-id; dbg(!"ClsID: ")> clsdecl
-        ; pkgid := <find-enclosing-id; dbg(!"PkgID: ")> pkgdecl
+        ; a     := <stx--get-ast-analysis> ast
+        ; clsid := <find-enclosing-id; stx--get-ast-index; dbg(!"ClsID: ")> clsdecl
+        ; pkgid := <find-enclosing-id; stx--get-ast-index; dbg(!"PkgID: ")> pkgdecl
+        ; ast'    := <explicate-injections-java8-Start> ast
         // Find the whole source class term
-        ; clsterm := <find-class(|clsid); dbg(!"ClsTerm: ")> ast
+        ; clsterm := <find-class(|clsid); dbg(!"ClsTerm: ")> ast'
         // Find the whole destination package term
-        ; pkgterm := <find-pkg(|pkgid); dbg(!"PkgTerm: ")> ast
-		// TODO: Lock all references
+        ; pkgterm := <find-pkg(|pkgid); dbg(!"PkgTerm: ")> ast'
 		// Remove the source class term
-        ; astWithoutClass := <remove-once-td(?clsterm); dbg(!"ClsRemoved: ")> ast
+        ; astWithoutClass := <remove-td(?clsterm); dbg(!"ClsRemoved: ")> ast'
+        // Create locked reference in AST
+        ; astLockedRefs   := <try-all-once-td(create-locked-reference(|a))> astWithoutClass
+        // ... and clsterm
+        ; clsterm'        := <try-all-once-td(create-locked-reference(|a))> clsterm
         // Add the class to the target package term
-        ; res := <replace(?pkgterm; CompilationUnit(id, id, ![clsterm|<id>])); dbg(!"Replaced: ")> astWithoutClass
+        ; astWithMovedClass := <replace(?pkgterm; CompilationUnit(id, id, ![clsterm'|<id>])); dbg(!"Replaced: ")> astLockedRefs
         // TODO: Unlock all references
+        ; astFixedRefs      := <fix-references(|a); dbg(!"Fixed: "); implicate-injections-java8-Start; dbg(!"Implicated: ")> astWithMovedClass
+        ; res := <remove-empty-units; remove-empty-packages; dbg(!"Sanitized: ")> astFixedRefs
+        
         
   find-enclosing-id = collect-once-td(?Id(_))
 
-  find-class(|clsid) = collect-once-bu(?ClassDeclaration(_, clsid, _, _, _, _))
+  find-class(|clsid) = collect-once-bu(where(?ClassDeclaration2TypeDeclaration(NormalClassDeclaration2ClassDeclaration(ClassDeclaration(_, <stx--get-ast-index; equal(|clsid)>, _, _, _, _)))))
   
-  find-pkg(|pkgid) = collect-once-bu(?CompilationUnit(SomePackageDeclaration(PackageDeclaration([], [pkgid])), _, _))
+  find-pkg(|pkgid) = collect-once-bu(where(?CompilationUnit(SomePackageDeclaration(PackageDeclaration([], [<stx--get-ast-index; equal(|pkgid)>])), _, _)))
+
+  create-locked-reference(|a): node -> node'
+    where            <match-ref> node
+        ; kind    := <is-name-of-sort> node
+        ; x       := <collect-id; dbg(!"RefId: ")> node
+        ; tgt     := <stx-get-ast-ref(|a); dbg(!"Target: ")> x
+        ; tgt-idx := <stx--get-ast-index; dbg(!"TargetIndex: ")> tgt
+    	;            <where(stx--get-ast-index; dbg(!"SourceIndex: "); not(?tgt-idx))> x
+        ;  node'  := <rr--lock-reference(|tgt, a, kind); dbg(!"LockedRef: "); rr--create-placeholder(|[tgt, None()]); dbg(!"PlaceHolder: ")> node
+  
+  fix-references(|a): ast -> ast'
+    with ast' := <rr--fix-references(|a); dbg(!"ast': ")> ast
+       ;         <with(MkSingleton; stx-evaluate(|"main", "refret!validate") <+ (dbg(!"evaluation failed:"; fail)))> ast'
+
+  remove-empty-units = topdown(try(TestPkg(id, remove-all(?TestFile(_, CompilationUnit(_, _, []))))))
+ 
+  remove-empty-packages = topdown(try(is-list; remove-all(?TestPkg(_, []))))
+
+rules // reference selection
+
+  match-ref = ?ExpressionName2Expression(_)
+  match-ref = ?ClassType(_, _, _)
+  match-ref = ?ClassOrInterfaceTypeMember(_, _, _, _)
+  match-ref = ?UnannClassType(_, _)
+  match-ref = ?UnannClassOrInterfaceTypeMember(_, _, _, _)
+  match-ref = ?SingleStaticImport(_, _)
+  match-ref = ?SingleStaticImport(_, _)
+  match-ref = ?SingleTypeImport(_)
+  match-ref = ?NewInstance(_, _, _, [], _, _)
+  match-ref = ?NewInstance(_, _, _, _, _, _)
+  match-ref = ?NewInstanceWithInitializer(_, _, _, [], _, _, _)
+  match-ref = ?NewInstanceWithInitializer(_, _, _, _, _, _, _)
+  match-ref = ?ExpressionName2LHS(_)
+  match-ref = ?FieldAccess2LHS(_)
+  match-ref = ?ArrayAccess2LHS(_)
+
+rules // traversals
+
+  try-all-once-td(s) = s <+ all(try-all-once-td(s)) <+ id
 
   collect-once-td(s) = oncetd(where(s; ?t)); !t		// alias for: collect-one
   collect-once-bu(s) = oncebu(where(s; ?t)); !t
@@ -56,8 +107,6 @@ rules
   // Removes the term on which [s] succeeds once top-down if it is in a list.
   // Does nothing if the term is not found.
   // Fails if the term is found but not in a list.
-  remove-once-td(s) = one(
-    ?[] + ((dbg(!"Remove Try: "); ?[h|t] ; <s> h; dbg(!"Remove Match: "); !t) <+ [id | remove-once-td(s)]) + (not(s); dbg(!"Remove Recurse: "); remove-once-td(s))
-  )
+  remove-td(s) = oncetd({l: is-list; ?l; remove-all(s); not(?l) }) 
    
    

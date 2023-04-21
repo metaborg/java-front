@@ -10,7 +10,7 @@ test nonJava: move class test [[
     }
   }
   [pack2] {
-    [x]
+    [Class1]
       package [[pack2]];
   }
 ]] run move-class(|#1, #2) to [[

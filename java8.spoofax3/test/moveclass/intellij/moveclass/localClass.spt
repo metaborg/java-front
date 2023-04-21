@@ -3,7 +3,7 @@ module moveclass/intellij/moveclass/localClass
 test localClass: move class test [[
   test;
   [pack1] {
-  [A]
+  [Asdf]
       package pack1;
   
     public class [[A]] {
@@ -15,7 +15,7 @@ test localClass: move class test [[
     }
   }
   [pack2] {
-  [x]
+  [A]
       package [[pack2]];
   }
 ]] run move-class(|#1, #2) to [[

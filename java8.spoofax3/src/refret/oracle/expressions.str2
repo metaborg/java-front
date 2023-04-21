@@ -25,7 +25,7 @@ rules
     with               <debug> sortName
        ; x          := <collect-id> e
        ; ref-idx    := <stx--get-ast-index> x
-       ; s-ref      := <collect-om(gen-scope-prop(|a)); Hd> e
+       ; s-ref      := <dbg(!"co-gsp"); collect-om(gen-scope-prop(|a)); dbg(!"res: "); Hd> e
        ; s-tgt      := <scope-prop(|a); escape-static(|a)> tgt
        ; id-prop    := <gen-id-prop(|e, ref-idx)> inst 
        ; s-prop     := <reconstruct-static-names(|a, x); map(pair-ref-idx(|ref-idx))> s-tgt

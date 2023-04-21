@@ -8,7 +8,7 @@ test refInPropertiesFile: move class test [[
     class [[MyClass]]{}
   }
   [p] {
-  [x]
+  [MyClass]
       package [[p]];
   }
 ]] run move-class(|#1, #2) to [[

@@ -41,3 +41,5 @@ rules // Debug test analysis
        ; a      := <stx-editor-analyze(pre-analyze, post-analyze|"main", "programOk"); debug> action
        ; AnalysisResult([(_, Full(_, _, msg*, _, _))]) := a
        ; result := <?[] < (!SUCCEED()) + (pp-aterm; debug; !FAIL())> msg*
+
+        
