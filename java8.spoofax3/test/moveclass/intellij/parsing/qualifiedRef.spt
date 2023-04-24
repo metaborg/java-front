@@ -36,8 +36,6 @@ test qualifiedRef: parse 'after' test [[
         public static int bar() {return 1;}
     }
   
-  }
-  [p1] {
   [Test]
     package p1;
   }

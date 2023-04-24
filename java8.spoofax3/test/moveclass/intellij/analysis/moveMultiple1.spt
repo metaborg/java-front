@@ -31,9 +31,6 @@ test moveMultiple1: default 'after' analysis [[
       pack2.Class2 a;
       pack2.Class2 b;
     }
-  [Class2]
-    package pack1;
-  
   }
   [pack2] {
   [Class2]
@@ -74,9 +71,6 @@ test moveMultiple1: default 'after' analysis [[
       pack2.Class2 a;
       pack2.Class2 b;
     }
-  [Class2]
-    package pack1;
-  
   }
   [pack2] {
   [Class2]

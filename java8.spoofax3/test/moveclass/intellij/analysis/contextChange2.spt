@@ -59,6 +59,7 @@ test contextChange2: default 'before' analysis [[
       package pack1;
   
     public class Class2 {
+      static int xxx() { return 0; }
     }
   }
   [pack2] {
@@ -74,6 +75,7 @@ test contextChange2: default 'after' analysis [[
       package pack1;
   
     public class Class2 {
+      static int xxx() { return 0; }
     }
   }
   [pack2] {

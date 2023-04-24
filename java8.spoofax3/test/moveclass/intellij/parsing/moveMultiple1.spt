@@ -31,9 +31,6 @@ test moveMultiple1: parse 'after' test [[
       pack2.Class2 a;
       pack2.Class2 b;
     }
-  [Class2]
-    package pack1;
-  
   }
   [pack2] {
   [Class2]
