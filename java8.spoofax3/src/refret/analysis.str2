@@ -103,4 +103,4 @@ rules // access properties
   expr-scope-prop(|a) = stx-get-ast-property(|a, "scope")
 
   gen-scope-prop(|blob) :: ? -> Term
-  gen-scope-prop(|a) = (is(Id); scope-prop(|a)) <+ (is(Expression); expr-scope-prop(|a))
+  gen-scope-prop(|a) = (is(Id); scope-prop(|a)) <+ (is(Expression); expr-scope-prop(|a)) <+ (debug(!"No scope prop on: "); fail)
