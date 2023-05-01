@@ -33,9 +33,9 @@ exports:
   - pp/java/**/*.str2
   - signatures/metaborg-java-sig.str2
   - signatures/java/**/*.str2
-- language: SDF
+- language: TemplateLang
   directory: syntax
-- language: SDF
+- language: TemplateLang
   directory: src-gen/syntax
 - language: StatixLang
   directory: src-gen/statix
