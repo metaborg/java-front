@@ -37,6 +37,8 @@ exports:
   directory: syntax
 - language: TemplateLang
   directory: src-gen/syntax
+- language: ATerm
+  directory: src-gen/syntax
 - language: StatixLang
   directory: src-gen/statix
   includes:
