@@ -1,0 +1,59 @@
+module completion
+
+imports
+  libstratego-lib
+
+imports
+  
+  libspoofax/editor/completion/-
+  completion/metaborg-java-cp
+  pp/metaborg-java-pp
+  pp
+ 
+  
+rules
+
+  pp-partial-metaborg-java-string(|sort) = fail
+  pp-partial-metaborg-java-string = fail
+  parenthesize-metaborg-java = fail
+  metaborg-java-get-indent = fail
+  metaborg-java-get-leading-ws = fail
+  metaborg-java-get-separator = fail
+
+  
+  get-proposals-empty-program-metaborg-java                         = ?(sort, _); 
+                                                                 get-proposals-empty-program(pp-partial-metaborg-java-string(|sort), parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-left-recursive-metaborg-java                        = ?(sort, _); 
+                                                                 get-proposals-left-recursive(pp-partial-metaborg-java-string, parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-right-recursive-metaborg-java                       = ?(sort, _); 
+                                                                 get-proposals-right-recursive(pp-partial-metaborg-java-string, parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-placeholder-metaborg-java                           = ?(sort, _, _, _);
+                                                                 get-proposals-placeholder(pp-partial-metaborg-java-string(|sort), parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-optional-metaborg-java                              = ?(sort, _, _);
+                                                                 get-proposals-optional(pp-partial-metaborg-java-string(|sort), parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-list-metaborg-java                                  = ?(sort, _, _, _);
+                                                                 get-proposals-list(pp-partial-metaborg-java-string(|sort), parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-incorrect-programs-metaborg-java                    = ?(sort, _, _, _, _);
+                                                                 get-proposals-incorrect-programs(pp-partial-metaborg-java-string(|sort), parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-incorrect-programs-nested-metaborg-java             = ?(sort, _, _, _, _, _);
+                                                                 get-proposals-incorrect-programs-nested(pp-partial-metaborg-java-string(|sort), parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)
+  get-proposals-incorrect-programs-single-placeholder-metaborg-java = ?(sort, _, _, _, _, _, _);
+                                                                 get-proposals-incorrect-programs-single-placeholder(pp-partial-metaborg-java-string(|sort), parenthesize-metaborg-java, 
+                                                                                             metaborg-java-get-indent, metaborg-java-get-leading-ws, 
+                                                                                             metaborg-java-get-separator)

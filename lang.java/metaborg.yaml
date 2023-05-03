@@ -9,20 +9,33 @@ dependencies:
   - org.metaborg:sdf3.ext.statix:${metaborgVersion}
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
+  - org.metaborg:stratego.lang:${metaborgVersion}
 exports:
 - language: Stratego-Sugar
   directory: src-gen
   includes:
   - injections/metaborg-java-injections.str
   - injections/java/**/*.str
+  - pp/Java_StrategoMix-pp.str
   - pp/metaborg-java-pp.str
   - pp/metaborg-java-parenthesize.str
   - pp/java/**/*.str
   - signatures/metaborg-java-sig.str
   - signatures/java/**/*.str
-- language: SDF
+- language: StrategoLang
+  directory: src-gen
+  includes:
+  - injections/metaborg-java-injections.str2
+  - injections/java/**/*.str2
+  - pp/Java_StrategoMix-pp.str2
+  - pp/metaborg-java-pp.str2
+  - pp/metaborg-java-parenthesize.str2
+  - pp/java/**/*.str2
+  - signatures/metaborg-java-sig.str2
+  - signatures/java/**/*.str2
+- language: TemplateLang
   directory: syntax
-- language: SDF
+- language: TemplateLang
   directory: src-gen/syntax
 - language: StatixLang
   directory: src-gen/statix
@@ -32,9 +45,12 @@ exports:
   includes: "**/*.aterm"
 language:
   sdf:
+    version: sdf3
     sdf2table: java
+    sdf-meta:
+      - Java_StrategoMix
   stratego:
-    format: ctree
+    format: jar
     args:
     - -la
     - stratego-lib

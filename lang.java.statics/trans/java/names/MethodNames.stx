@@ -90,7 +90,7 @@ rules
 
 
   resolveMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
-  
+
   resolveMemberMthdNames(s, id, Ts) = mthdPathList :-
     query mthd
       filter /* mem mthd re */
@@ -104,7 +104,7 @@ rules
 
 
   resolveStaticMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
-  
+
   resolveStaticMemberMthdNames(s, id, Ts) = mthdPathList :-
     query mthd
       filter /* mem mthd re */
@@ -118,21 +118,21 @@ rules
 
 
   resolveAllStaticMemberMthdNames : scope * Id -> list(MTHD_PATH)
-  
+
   resolveAllStaticMemberMthdNames(s, id) = mthdPathList :-
     query mthd
       filter /* mem mthd re */
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
         and { (id', _) :- id' == id }
       min /* mem mthd ord */
-          $ < EXTENDS, $ < IMPLEMENTS
+          STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
         and { (_, params), (_, params) }
       in s |-> mthdPathList,
     true.
 
 
   resolveDirectMemberMthdNames : scope * Id * list(TYPE) -> list(MTHD_PATH)
-  
+
   resolveDirectMemberMthdNames(s, id, Ts) = mthdPathList :-
     query mthd
       filter e
@@ -165,7 +165,7 @@ rules
     declareReturn(s_mthd, R),
     noOtherHomonymousMthd(s, (id, params, s_mthd)).
 
-    
+
   aliasMthdNames maps aliasMthdName(*, list(*))
   aliasMthdName : scope * MTHD_DECL
 
@@ -174,7 +174,7 @@ rules
 
 
   noOtherHomonymousMthd: scope * MTHD_DECL
-  
+
   noOtherHomonymousMthd(s, mthdDecl@(id, params, _)) :-
     query mthd
       filter STATIC_MEMBERS? and { (id', params') :- id' == id, params' == params }

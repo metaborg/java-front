@@ -127,7 +127,7 @@ rules
           EXTENDS* IMPLEMENTS* STATIC_MEMBERS
         and { id' :- id' == id }
       min /* type ord */
-          $ < EXTENDS, $ < IMPLEMENTS
+          STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
         and true
       in s |-> typePathList,
     true.
@@ -191,7 +191,7 @@ rules
 
 
   noOtherHomonymousType: scope * TYPE_DECL
-  
+
   noOtherHomonymousType(s, typeDecl@(id, _)) :-
     query type
       filter STATIC_MEMBERS? and { id' :- id' == id }
