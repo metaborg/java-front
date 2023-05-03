@@ -1,15 +1,15 @@
 ---
-id: org.metaborg:lang.java.javac:1.0.1
+id: org.metaborg:lang.java.javac:1.0.2
 name: metaborg-java-javac
 dependencies:
   compile:
   - org.metaborg:org.metaborg.meta.lang.esv:${metaborgVersion}
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
-  - org.metaborg:lang.java:1.0.1
+  - org.metaborg:lang.java:1.0.2
 contributions:
 - name: metaborg-java
-  id: org.metaborg:lang.java:1.0.1
+  id: org.metaborg:lang.java:1.0.2
 language:
   sdf:
     enabled: false

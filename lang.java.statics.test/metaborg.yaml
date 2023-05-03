@@ -1,11 +1,11 @@
 ---
-id: org.metaborg:lang.java.statics.test:1.0.1
+id: org.metaborg:lang.java.statics.test:1.0.2
 name: metaborg-java-statics-test
 dependencies:
   compile:
-  - org.metaborg:lang.java:1.0.1
-  - org.metaborg:lang.java.statics:1.0.1
-  - org.metaborg:lang.java.javac:1.0.1
+  - org.metaborg:lang.java:1.0.2
+  - org.metaborg:lang.java.statics:1.0.2
+  - org.metaborg:lang.java.javac:1.0.2
   - org.metaborg:org.metaborg.meta.lang.spt:${metaborgVersion}
 sources:
 - language: metaborg-java

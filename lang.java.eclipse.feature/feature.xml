@@ -2,8 +2,8 @@
 <feature
   id="lang.java.eclipse.feature"
   label="Java-Front Spoofax language Eclipse plugin"
-  version="1.0.1"
+  version="1.0.2"
 >
-  <plugin id="lang.java.eclipse" version="1.0.1" unpack="true" />
+  <plugin id="lang.java.eclipse" version="1.0.2" unpack="true" />
   <includes id="org.metaborg.spoofax.eclipse.feature" version="0" />
 </feature>
