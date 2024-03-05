@@ -12,31 +12,31 @@ imports
 
 rules // 15.13. Method Reference Expressions
 
-  exprOk(s, MethodReferenceRType(refType, typeArgsOpt, id)) = _ :-
+  [ExprOk-MethodReferenceRType] exprOk(s, MethodReferenceRType(refType, typeArgsOpt, id)) = _ :-
     _ == refTypeOk(s, refType),
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
-  exprOk(s, MethodReferenceExpr(expr, typeArgsOpt, id)) = _ :-
+  [ExprOk-MethodReferenceExpr] exprOk(s, MethodReferenceExpr(expr, typeArgsOpt, id)) = _ :-
     _ == exprOk(s, expr),
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
-  exprOk(s, MethodReferenceSuper(typeArgsOpt, id)) = _ :-
+  [ExprOk-MethodReferenceSuper] exprOk(s, MethodReferenceSuper(typeArgsOpt, id)) = _ :-
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
-  exprOk(s, MethodReferenceQSuper(typeName, typeArgsOpt, id)) = _ :-
+  [ExprOk-MethodReferenceQSuper] exprOk(s, MethodReferenceQSuper(typeName, typeArgsOpt, id)) = _ :-
     typeNameOk(s, typeName) == _,
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
-  exprOk(s, MethodReferenceCType(clsType, typeArgsOpt)) = _ :-
+  [ExprOk-MethodReferenceCType] exprOk(s, MethodReferenceCType(clsType, typeArgsOpt)) = _ :-
     _ == clsTypeOk(s, clsType),
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.
 
-  exprOk(s, MethodReferenceAType(arrayType, typeArgsOpt)) = _ :-
+  [ExprOk-MethodReferenceAType] exprOk(s, MethodReferenceAType(arrayType, typeArgsOpt)) = _ :-
     _ == arrayTypeOk(s, arrayType),
     _ == typeArgsOptOk(s, typeArgsOpt),
     true.

@@ -13,7 +13,7 @@ imports
 
 rules // 15.11. Field Access Expressions
 
-  exprOk(s, FieldAccess2Expression(fldAccess)) = fldAccessOk(s, fldAccess).
+  [ExprOk-FieldAccess2Expression] exprOk(s, FieldAccess2Expression(fldAccess)) = fldAccessOk(s, fldAccess).
 
 
   fldAccessOk : scope * FieldAccess -> TYPE

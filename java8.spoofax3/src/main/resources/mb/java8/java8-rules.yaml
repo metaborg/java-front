@@ -1,0 +1,118 @@
+---
+entries:
+  # declarations/FieldDeclarations.stx
+  "!unannTypeOk": {}
+  "!unannPrimTypeOk": {}
+  "!unannRefTypeOk": {}
+  "!unannClsTypeOk": {}
+  "!unannPkgOrClsTypeOk": {}
+  "!unannArrayTypeOk": {}
+
+  # expressions/ArrayCreation.stx
+  "!arrayBaseTypeOk": {}
+
+  # expressions/FieldAccess.stx
+  "ExprOk-FieldAccess2Expression": {}
+  "!fldAccessOk": {}
+
+  # expressions/MethodReference.stc
+  "ExprOk-MethodReferenceRType": { isReference: false } # Not implemented in Java Front
+  "ExprOk-MethodReferenceExpr": { isReference: false } # Not implemented in Java Front
+  "ExprOk-MethodReferenceSuper": { isReference: false } # Not implemented in Java Front
+  "ExprOk-MethodReferenceQSuper": { isReference: false } # Not implemented in Java Front
+  "ExprOk-MethodReferenceCType": { isReference: false } # Not implemented in Java Front
+  "ExprOk-MethodReferenceAType": { isReference: false } # Not implemented in Java Front
+
+  # expressions/PrimaryExpressions.stc
+  "ExprOk-This": {}
+  "ExprOk-QThis": {}
+  "!clsLitOk": {}
+
+  # expressions/UnaryOperators.stx
+  "ExprOk-CastPrimitive": {}
+  "ExprOk-CastReference": {}
+  "!additionalBoundOk": {}
+
+  # names/ExpressionNames.stx
+  "!exprNameOk": {}
+  "!exprNameOk1": {}
+  "!resolveExprName": {}
+  "!resolveExprNames": {}
+  "!resolveLexicalExprNames": {}
+  "!resolveMemberExprNames": {}
+  "!resolveAllStaticMemberExprNames": {}
+  "!ambNameOk": {}
+  "!ambNameOk1": {}
+  "!resolveAmbName": {}
+  "!resolveLexicalAmbName": {}
+  "!resolveMemberAmbName": {}
+
+  # names/MethodNames.stx
+  "!mthdNameOk": {}
+  "!resolveLexicalMthdName": {}
+  "!resolveMemberMthdName": {}
+  "!resolveDirectMemberMthdName": {}
+  "!resolveLexicalMthdNames": {}
+  "!resolveStaticMemberMthdNames": {}
+  "!resolveAllStaticMemberMthdNames": {}
+  "!resolveDirectMemberMthdNames": {}
+  "!someMthdDecl": {}
+
+  # names/PackageNames.stx
+  "!pkgNameOk": {}
+  "!pkgNameOk1": {}
+  "!resolvePkgName": {}
+  "!resolveLexicalPkgNames": {}
+  "!resolveMemberPkgNames": {}
+  "!thisPkg": {}
+  "!superPkg": {}
+
+  # names/PackageOrTypeNames.stx
+  "!pkgOrTypeNameOk": {}
+  "!pkgOrTypeNameOk1": {}
+  "!pkgOrTypeDeclScope": {}
+  "!resolvePkgOrTypeName": {}
+  "!resolveLexicalPkgOrTypeName": {}
+  "!resolveMemberPkgOrTypeName": {}
+
+  # names/ReceiverNames.stx
+  "!recvNameOk": {}
+  "!resolveRecv*": {}
+
+  # names/TypeNames.stx
+  "!typeNameOk": {}
+  "!typeNameOk1": {}
+  "!typeDeclScope": {}
+  "!typeDeclType": {}
+  "!typeDeclKind": {}
+  "!resolveTypeName": {}
+  "!resolveTypeNames": {}
+  "!resolveLexicalTypeNames": {}
+  "!resolveMemberTypeNames": {}
+  "!resolveAllStaticMemberTypeNames": {}
+  "!this": {}
+  "!qualThis": {}
+  "!super": {}
+
+  # types/ParameterizedTypes.stx
+  "!typeArgsOptOk": {}
+  "!typeArgsOk": {}
+  "!typeArgOk": {}
+  "!wildCardOk": {}
+
+  # types/PrimitiveTypes.stx
+  "!primTypeOk": {}
+  "!numTypeOk": {}
+
+  # types/ReferenceTypes.stx
+  "!refTypeOk": {}
+  "!clsTypeOk": {}
+  "!pkgOrClsTypeOk": {}
+  "!typeVarOk": {}
+  "!arrayTypeOk": {}
+  "!arrayElementType": {}
+  "!typeScope": {}
+
+  # types/Subtyping.stx
+  "!referenceSuperType": {}
+  "!superTypeScope": {}
