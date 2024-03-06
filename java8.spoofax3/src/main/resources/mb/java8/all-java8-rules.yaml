@@ -1,11 +1,18 @@
 ---
 entries:
   # Blacklist all rules
-  #"*!*": { isReference: false }
+  "*!*": { isReference: false }
 
 
   # main.stx
-  "main!*": { isReference: false }
+  "main!fileOk": { }
+  "main!groupOk": { }
+  "main!programOk": { }
+  "main!projectOk": { }
+  "main!rootScope": { }   # All rules have queries
+  "main!startOk": { }
+  "main!testUnitListOk": { }
+  "main!testUnitOk": { }
 
 
   # java/JRE.stx
@@ -32,12 +39,10 @@ entries:
   "java/JRE!resolveJavaLangType": { }
   "java/JRE!shortOk": { }
   "java/JRE!stringOk": { }
-  "java/JRE!*": { isReference: false }
 
 
   # java/arrays/ArrayInitializers.stx
   "java/arrays/ArrayInitializers!arrayInitOk": { }
-  "java/arrays/ArrayInitializers!*": { isReference: false }
 
 
   # java/classes/ClassDeclarations.stx
@@ -59,7 +64,6 @@ entries:
   "java/classes/ClassDeclarations!superIntfsOptOk": { }
   "java/classes/ClassDeclarations!typeParamsOk": { }
   "java/classes/ClassDeclarations!typeParamsOptOk": { }
-  "java/classes/ClassDeclarations!*": { isReference: false }
 
 
   # java/classes/ConstructorDeclarations.stx
@@ -70,7 +74,6 @@ entries:
   "java/classes/ConstructorDeclarations!ctorModListOk": { }
   "java/classes/ConstructorDeclarations!ctorModOk": { }
   "java/classes/ConstructorDeclarations!declareImplicitCtor": { }
-  "java/classes/ConstructorDeclarations!*": { isReference: false }
 
 
   # java/classes/EnumDeclarations.stx
@@ -88,7 +91,6 @@ entries:
   "java/classes/EnumDeclarations!enumCtorInvOptOk": { }
   "java/classes/EnumDeclarations!enumDeclOk": { }
   "java/classes/EnumDeclarations!enumPredefinedMethods": { }
-  "java/classes/EnumDeclarations!*": { isReference: false }
 
 
   # java/classes/FieldDeclarations.stx
@@ -108,12 +110,10 @@ entries:
   "java/classes/FieldDeclarations!varDeclOk": { }
   "java/classes/FieldDeclarations!varInitListOk": { }
   "java/classes/FieldDeclarations!varInitOk": { }
-  "java/classes/FieldDeclarations!*": { isReference: false }
 
 
   # java/classes/InstanceInitializers.stx
   "java/classes/InstanceInitializers!instInitOk": { }
-  "java/classes/InstanceInitializers!*": { isReference: false }
 
 
   # java/classes/MethodDeclarations.stx
@@ -139,29 +139,24 @@ entries:
   "java/classes/MethodDeclarations!throwsOptOk": { }
   "java/classes/MethodDeclarations!varModListOk": { }
   "java/classes/MethodDeclarations!varModOk": { }
-  "java/classes/MethodDeclarations!*": { isReference: false }
 
 
   # java/classes/StaticInitializers.stx
   "java/classes/StaticInitializers!staticInitOk": { }
-  "java/classes/StaticInitializers!*": { isReference: false }
 
 
   # java/expressions/ArrayAccess.stx
   "java/expressions/ArrayAccess!arrayAccessOk": { }
-  "java/expressions/ArrayAccess!*": { isReference: false }
 
 
   # java/expressions/ArrayCreation.stx
   "java/expressions/ArrayCreation!arrayBaseTypeOk": { }
   "java/expressions/ArrayCreation!arrayCreationExprOk": { }
   "java/expressions/ArrayCreation!dimExprListOk": { }
-  "java/expressions/ArrayCreation!*": { isReference: false }
 
 
   # java/expressions/AssignmentOperators.stx
   "java/expressions/AssignmentOperators!lhsOk": { }
-  "java/expressions/AssignmentOperators!*": { isReference: false }
 
 
   # java/expressions/ClassInstanceCreation.stx
@@ -173,44 +168,37 @@ entries:
   "java/expressions/ClassInstanceCreation!typeArgsOrDiamondOk": { }
   "java/expressions/ClassInstanceCreation!typeArgsOrDiamondOptOk": { }
   "java/expressions/ClassInstanceCreation!unqualInstOk": { }
-  "java/expressions/ClassInstanceCreation!*": { isReference: false }
 
 
   # java/expressions/FieldAccess.stx
-  "java/expressions/FieldAccess!fldAccessOk": { isReference: true }
-  "ExprOk-FieldAccess2Expression": { isReference: true }
+  "java/expressions/FieldAccess!fldAccessOk": { }
 
 
   # java/expressions/LambdaExpressions.stx
   "java/expressions/LambdaExpressions!inferredParamListOk": { }
   "java/expressions/LambdaExpressions!inferredParamOk": { }
   "java/expressions/LambdaExpressions!lambdaParamsOk": { }
-  "java/expressions/LambdaExpressions!*": { isReference: false }
 
 
   # java/expressions/Main.stx
-  "java/expressions/Main!exprListOk": { isReference: false }
-  "java/expressions/Main!exprOk": { } #isReference: false }
+  "java/expressions/Main!exprListOk": { }
+  "java/expressions/Main!exprOk": { }
   "java/expressions/Main!exprOptOk": { }
 
 
   # java/expressions/MethodInvocation.stx
   "java/expressions/MethodInvocation!invokeReturn": { }
-  "java/expressions/MethodInvocation!*": { isReference: false }
 
 
   # java/expressions/PrimaryExpressions.stx
   "java/expressions/PrimaryExpressions!clsLitOk": { }
   "java/expressions/PrimaryExpressions!dimsListOk": { }
   "java/expressions/PrimaryExpressions!dimsOk": { }
-  "java/expressions/PrimaryExpressions!*": { isReference: false }
-  "ExprOk-ExpressionName2Expression": { isReference: true }
 
 
   # java/expressions/UnaryOperators.stx
   "java/expressions/UnaryOperators!additionalBoundListOk": { }
   "java/expressions/UnaryOperators!additionalBoundOk": { }
-  "java/expressions/UnaryOperators!*": { isReference: false }
 
 
   # java/interfaces/AnnotationTypes.stx
@@ -222,7 +210,6 @@ entries:
   "java/interfaces/AnnotationTypes!annoTypeMemDeclOk": { }
   "java/interfaces/AnnotationTypes!defaultValOk": { }
   "java/interfaces/AnnotationTypes!defaultValOptOk": { }
-  "java/interfaces/AnnotationTypes!*": { isReference: false }
 
 
   # java/interfaces/Annotations.stx
@@ -233,14 +220,12 @@ entries:
   "java/interfaces/Annotations!elemValOk": { }
   "java/interfaces/Annotations!elemValPairListOk": { }
   "java/interfaces/Annotations!elemValPairOk": { }
-  "java/interfaces/Annotations!*": { isReference: false }
 
 
   # java/interfaces/ConstantDeclarations.stx
   "java/interfaces/ConstantDeclarations!constDeclOk": { }
   "java/interfaces/ConstantDeclarations!constModListOk": { }
   "java/interfaces/ConstantDeclarations!constModOk": { }
-  "java/interfaces/ConstantDeclarations!*": { isReference: false }
 
 
   # java/interfaces/InterfaceDeclarations.stx
@@ -258,7 +243,6 @@ entries:
   "java/interfaces/InterfaceDeclarations!intfMemDeclOk": { }
   "java/interfaces/InterfaceDeclarations!intfModListOk": { }
   "java/interfaces/InterfaceDeclarations!intfModOk": { }
-  "java/interfaces/InterfaceDeclarations!*": { isReference: false }
 
 
   # java/interfaces/InterfaceMethodDeclarations.stx
@@ -266,42 +250,34 @@ entries:
   "java/interfaces/InterfaceMethodDeclarations!intfMthdDeclOk": { }
   "java/interfaces/InterfaceMethodDeclarations!intfMthdModListOk": { }
   "java/interfaces/InterfaceMethodDeclarations!intfMthdModOk": { }
-  "java/interfaces/InterfaceMethodDeclarations!*": { isReference: false }
 
 
   # java/literals/BooleanLiterals.stx
   "java/literals/BooleanLiterals!boolLitOk": { }
-  "java/literals/BooleanLiterals!*": { isReference: false }
 
 
   # java/literals/CharacterLiterals.stx
   "java/literals/CharacterLiterals!charLitOk": { }
-  "java/literals/CharacterLiterals!*": { isReference: false }
 
 
   # java/literals/FloatingPointLiterals.stx
   "java/literals/FloatingPointLiterals!floatLitOk": { }
-  "java/literals/FloatingPointLiterals!*": { isReference: false }
 
 
   # java/literals/IntegerLiterals.stx
   "java/literals/IntegerLiterals!intLitOk": { }
-  "java/literals/IntegerLiterals!*": { isReference: false }
 
 
   # java/literals/Main.stx
   "java/literals/Main!litOk": { }
-  "java/literals/Main!*": { isReference: false }
 
 
   # java/literals/NullLiteral.stx
   "java/literals/NullLiteral!nullLitOk": { }
-  "java/literals/NullLiteral!*": { isReference: false }
 
 
   # java/literals/StringLiterals.stx
   "java/literals/StringLiterals!stringLitOk": { }
-  "java/literals/StringLiterals!*": { isReference: false }
 
 
   # java/names/ExpressionNames.stx
@@ -313,24 +289,24 @@ entries:
   "java/names/ExpressionNames!declareExprName": { }
   "java/names/ExpressionNames!exprNameOk": { }
   "java/names/ExpressionNames!exprNameOk1": { }
-  "java/names/ExpressionNames!noOtherHomonymousExpr": { isReference: false }   # All rules have queries
+  "java/names/ExpressionNames!noOtherHomonymousExpr": { }   # All rules have queries
   "java/names/ExpressionNames!resolveAllStaticMemberExprNames": { }   # All rules have queries
-  "java/names/ExpressionNames!resolveAmbName": { isReference: true }
-  "java/names/ExpressionNames!resolveExprName": { isReference: true }
-  "java/names/ExpressionNames!resolveExprNames": { isReference: true }
-  "java/names/ExpressionNames!resolveLexicalAmbName": { isReference: true }
-  "java/names/ExpressionNames!resolveLexicalAmbName1": { isReference: true }
-  "java/names/ExpressionNames!resolveLexicalAmbName2": { isReference: true }
-  "java/names/ExpressionNames!resolveLexicalAmbName3": { isReference: true }
-  "java/names/ExpressionNames!resolveLexicalExprNames": { isReference: true }   # All rules have queries
-  "java/names/ExpressionNames!resolveMemberAmbName": { isReference: true }
-  "java/names/ExpressionNames!resolveMemberAmbName1": { isReference: true }
-  "java/names/ExpressionNames!resolveMemberAmbName2": { isReference: true }
-  "java/names/ExpressionNames!resolveMemberAmbName3": { isReference: true }
-  "java/names/ExpressionNames!resolveMemberAmbName4": { isReference: true }
-  "java/names/ExpressionNames!resolveMemberExprNames": { isReference: true }   # All rules have queries
+  "java/names/ExpressionNames!resolveAmbName": { }
+  "java/names/ExpressionNames!resolveExprName": { }
+  "java/names/ExpressionNames!resolveExprNames": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName1": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName2": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName3": { }
+  "java/names/ExpressionNames!resolveLexicalExprNames": { }   # All rules have queries
+  "java/names/ExpressionNames!resolveMemberAmbName": { }
+  "java/names/ExpressionNames!resolveMemberAmbName1": { }
+  "java/names/ExpressionNames!resolveMemberAmbName2": { }
+  "java/names/ExpressionNames!resolveMemberAmbName3": { }
+  "java/names/ExpressionNames!resolveMemberAmbName4": { }
+  "java/names/ExpressionNames!resolveMemberExprNames": { }   # All rules have queries
   "java/names/ExpressionNames!singleVarDecl": { }
-  "java/names/ExpressionNames!varDeclType": { isReference: true }
+  "java/names/ExpressionNames!varDeclType": { }
 
 
   # java/names/Main.stx
@@ -343,33 +319,33 @@ entries:
   "java/names/MethodNames!aliasMthdNames": { }
   "java/names/MethodNames!declareMthdName": { }
   "java/names/MethodNames!declareReturn": { }
-  "java/names/MethodNames!getReturn": { isReference: false }   # All rules have queries
+  "java/names/MethodNames!getReturn": { }   # All rules have queries
   "java/names/MethodNames!mthdDeclId": { }
   "java/names/MethodNames!mthdDeclParams": { }
   "java/names/MethodNames!mthdDeclReturn": { }
   "java/names/MethodNames!mthdNameOk": { }
-  "java/names/MethodNames!noOtherHomonymousMthd": { isReference: false }   # All rules have queries
+  "java/names/MethodNames!noOtherHomonymousMthd": { }   # All rules have queries
   "java/names/MethodNames!resolveAllStaticMemberMthdNames": { }   # All rules have queries
   "java/names/MethodNames!resolveDirectMemberMthdName": { }
   "java/names/MethodNames!resolveDirectMemberMthdNames": { }   # All rules have queries
   "java/names/MethodNames!resolveLexicalMthdName": { }
   "java/names/MethodNames!resolveLexicalMthdNames": { }   # All rules have queries
-  "java/names/MethodNames!resolveMemberMthdName": { isReference: true }
-  "java/names/MethodNames!resolveMemberMthdNames": { isReference: true }   # All rules have queries
+  "java/names/MethodNames!resolveMemberMthdName": { }
+  "java/names/MethodNames!resolveMemberMthdNames": { }   # All rules have queries
   "java/names/MethodNames!resolveReturn": { }   # All rules have queries
-  "java/names/MethodNames!resolveStaticMemberMthdNames": { isReference: true }   # All rules have queries
+  "java/names/MethodNames!resolveStaticMemberMthdNames": { }   # All rules have queries
   "java/names/MethodNames!someMthdDecl": { }
 
 
   # java/names/PackageNames.stx
   "java/names/PackageNames!declarePkg": { }
-  "java/names/PackageNames!noHomonymousPkg": { isReference: false }   # All rules have queries
+  "java/names/PackageNames!noHomonymousPkg": { }   # All rules have queries
   "java/names/PackageNames!pkgDeclId": { }
   "java/names/PackageNames!pkgDeclScope": { }
   "java/names/PackageNames!pkgNameOk": { }
   "java/names/PackageNames!pkgNameOk1": { }
-  "java/names/PackageNames!resolveLexicalPkgNames": { isReference: true }   # All rules have queries
-  "java/names/PackageNames!resolveMemberPkgNames": { isReference: true }   # All rules have queries
+  "java/names/PackageNames!resolveLexicalPkgNames": { }   # All rules have queries
+  "java/names/PackageNames!resolveMemberPkgNames": { }   # All rules have queries
   "java/names/PackageNames!resolvePkgName": { }
   "java/names/PackageNames!singlePkgDecl": { }
   "java/names/PackageNames!superPkg": { }   # All rules have queries
@@ -380,39 +356,39 @@ entries:
   "java/names/PackageOrTypeNames!pkgOrTypeDeclScope": { }
   "java/names/PackageOrTypeNames!pkgOrTypeNameOk": { }
   "java/names/PackageOrTypeNames!pkgOrTypeNameOk1": { }
-  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName": { isReference: true }
-  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName1": { isReference: true }
-  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName2": { isReference: true }
-  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName": { isReference: true }
-  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName1": { isReference: true }
-  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName2": { isReference: true }
-  "java/names/PackageOrTypeNames!resolvePkgOrTypeName": { isReference: true }
+  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName": { }
+  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName1": { }
+  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName2": { }
+  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName": { }
+  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName1": { }
+  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName2": { }
+  "java/names/PackageOrTypeNames!resolvePkgOrTypeName": { }
 
 
   # java/names/ReceiverNames.stx
-  "java/names/ReceiverNames!recvNameOk": { isReference: true }
-  "java/names/ReceiverNames!resolveRecvMemberMthdName": { isReference: true }
-  "java/names/ReceiverNames!resolveRecvMemberMthdNames": { isReference: true }
-  "java/names/ReceiverNames!resolveRecvName": { isReference: true }
-  "java/names/ReceiverNames!resolveRecvName1": { isReference: true }
-  "java/names/ReceiverNames!resolveRecvName2": { isReference: true }
+  "java/names/ReceiverNames!recvNameOk": { }
+  "java/names/ReceiverNames!resolveRecvMemberMthdName": { }
+  "java/names/ReceiverNames!resolveRecvMemberMthdNames": { }
+  "java/names/ReceiverNames!resolveRecvName": { }
+  "java/names/ReceiverNames!resolveRecvName1": { }
+  "java/names/ReceiverNames!resolveRecvName2": { }
 
 
   # java/names/TypeNames.stx
   "java/names/TypeNames!aliasType": { }
   "java/names/TypeNames!aliasTypes": { }
   "java/names/TypeNames!declareType": { }
-  "java/names/TypeNames!noEnclosingHomonymousType": { isReference: false }   # All rules have queries
-  "java/names/TypeNames!noOtherHomonymousType": { isReference: false }   # All rules have queries
-  "java/names/TypeNames!qualThis": { isReference: false }   # All rules have queries
+  "java/names/TypeNames!noEnclosingHomonymousType": { }   # All rules have queries
+  "java/names/TypeNames!noOtherHomonymousType": { }   # All rules have queries
+  "java/names/TypeNames!qualThis": { }   # All rules have queries
   "java/names/TypeNames!resolveAllStaticMemberTypeNames": { }   # All rules have queries
-  "java/names/TypeNames!resolveLexicalTypeNames": { isReference: true }   # All rules have queries
-  "java/names/TypeNames!resolveMemberTypeNames": { isReference: true }   # All rules have queries
+  "java/names/TypeNames!resolveLexicalTypeNames": { }   # All rules have queries
+  "java/names/TypeNames!resolveMemberTypeNames": { }   # All rules have queries
   "java/names/TypeNames!resolveTypeName": { }
-  "java/names/TypeNames!resolveTypeNames": { isReference: true }
+  "java/names/TypeNames!resolveTypeNames": { }
   "java/names/TypeNames!singleTypeDecl": { }
-  "java/names/TypeNames!super": { isReference: false }   # All rules have queries
-  "java/names/TypeNames!this": { isReference: false }   # All rules have queries
+  "java/names/TypeNames!super": { }   # All rules have queries
+  "java/names/TypeNames!this": { }   # All rules have queries
   "java/names/TypeNames!typeDeclId": { }
   "java/names/TypeNames!typeDeclKind": { }
   "java/names/TypeNames!typeDeclScope": { }
@@ -423,7 +399,6 @@ entries:
 
   # java/packages/CompilationUnits.stx
   "java/packages/CompilationUnits!compilationUnitOk": { }
-  "java/packages/CompilationUnits!*": { isReference: false }
 
 
   # java/packages/ImportDeclarations.stx
@@ -436,7 +411,6 @@ entries:
   "java/packages/ImportDeclarations!importStaticNotEmpty": { }
   "java/packages/ImportDeclarations!importStaticType": { }
   "java/packages/ImportDeclarations!importStaticTypeList": { }
-  "java/packages/ImportDeclarations!*": { isReference: false }
 
 
   # java/packages/PackageDeclarations.stx
@@ -445,7 +419,6 @@ entries:
   "java/packages/PackageDeclarations!checkPkgIds2": { }
   "java/packages/PackageDeclarations!pkgDeclOk": { }
   "java/packages/PackageDeclarations!pkgDeclOptOk": { }
-  "java/packages/PackageDeclarations!*": { isReference: false }
 
 
   # java/packages/TypeDeclarations.stx
@@ -457,13 +430,11 @@ entries:
   "java/statements/Blocks!blkOk": { }
   "java/statements/Blocks!blkStmtListOk": { }
   "java/statements/Blocks!blkStmtOk": { }
-  "java/statements/Blocks!*": { isReference: false }
 
 
   # java/statements/LocalVariableDeclarations.stx
   "java/statements/LocalVariableDeclarations!localVarDeclOk": { }
   "java/statements/LocalVariableDeclarations!localVarDeclStmtOk": { }
-  "java/statements/LocalVariableDeclarations!*": { isReference: false }
 
 
   # java/statements/Statements.stx
@@ -484,7 +455,6 @@ entries:
   "java/statements/Statements!switchLabelImport": { }
   "java/statements/Statements!switchLabelListOk": { }
   "java/statements/Statements!switchLabelOk": { }
-  "java/statements/Statements!*": { isReference: false }
 
 
   # java/types/Conversions.stx
@@ -539,7 +509,7 @@ entries:
   "java/types/Conversions!invokeCompatibleTypesStrictREFREF": { }
   "java/types/Conversions!invokeCompatibleTypesStrictSHORT": { }
   "java/types/Conversions!invokeCompatibleTypesStrictTail": { }
-  "java/types/Conversions!isBox": { isReference: false }   # All rules have queries
+  "java/types/Conversions!isBox": { }   # All rules have queries
   "java/types/Conversions!isBox1": { }
   "java/types/Conversions!promoteAddition": { }
   "java/types/Conversions!promoteAddition1": { }
@@ -550,8 +520,7 @@ entries:
   "java/types/Conversions!switchCaseCompatible": { }
   "java/types/Conversions!switchCompatible": { }
   "java/types/Conversions!switchCompatibleREF": { }
-  "java/types/Conversions!unbox": { isReference: false }   # All rules have queries
-  "java/types/Conversions!*": { isReference: false }  # Not sure if I'm excluding some useful stuff here
+  "java/types/Conversions!unbox": { }   # All rules have queries
 
 
   # java/types/Main.stx
@@ -561,8 +530,8 @@ entries:
   "java/types/Main!matchType": { }
   "java/types/Main!setKind": { }
   "java/types/Main!setType": { }
-  "java/types/Main!toKind": { isReference: false }   # All rules have queries
-  "java/types/Main!toType": { isReference: true }   # All rules have queries
+  "java/types/Main!toKind": { }   # All rules have queries
+  "java/types/Main!toType": { }   # All rules have queries
   "java/types/Main!typeOk": { }
 
 
@@ -603,7 +572,6 @@ entries:
   "java/types/ReferenceTypes!typeKind": { }
   "java/types/ReferenceTypes!typeScope": { }
   "java/types/ReferenceTypes!typeVarOk": { }
-  "java/types/ReferenceTypes!*": { isReference: false } # Not sure if I'm excluding some useful things here
 
 
   # java/types/Subtyping.stx
