@@ -24,13 +24,12 @@ entries:
   "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: true }
   "java/types/ReferenceTypes!refTypeOk": { isReference: true }
   "java/statements/Statements!catchTypeOk": { isReference: true }
-  "java/names/ExpressionNames!varDeclType": { isReference: true }
 
   # Whitelist nameOk rules
   "java/names/ExpressionNames!ambNameOk*": { isReference: true }
   "java/names/ExpressionNames!exprNameOk*": { isReference: true }
   "java/names/TypeNames!typeNameOk*": { isReference: true }
-  
+
   # Whitelist typeArg rules
   "java/types/ParameterizedTypes!typeArgOk": { isReference: true }
   "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
