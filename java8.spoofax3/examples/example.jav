@@ -9,4 +9,8 @@ class A {
 class B {
     static int f = 3;
     static int g = A.f;
+    
+    static void main() {
+        f = 4;
+    }
 }
