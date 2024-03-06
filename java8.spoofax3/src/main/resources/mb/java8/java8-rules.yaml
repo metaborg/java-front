@@ -13,6 +13,9 @@ entries:
   "ExprOk-QThis": { isReference: true }
   "ExprOk-MethodReference*": { isReference: false }   # Not supported in the spec
 
+  # Whitelist some LHS rules
+  "java/expressions/AssignmentOperators!lhsOk": { isReference: true }
+
   # Whitelist typeOk rules
   "java/types/Main!typeOk": { isReference: true }
   "java/JRE!javaLangTypeOk": { isReference: true }
@@ -26,9 +29,17 @@ entries:
   "java/statements/Statements!catchTypeOk": { isReference: true }
 
   # Whitelist nameOk rules
-  "java/names/ExpressionNames!ambNameOk*": { isReference: true }
-  "java/names/ExpressionNames!exprNameOk*": { isReference: true }
-  "java/names/TypeNames!typeNameOk*": { isReference: true }
+  "java/names/ExpressionNames!ambNameOk": { isReference: true }
+#  "java/names/ExpressionNames!ambNameOk1": { isReference: true }
+  "java/names/ExpressionNames!exprNameOk": { isReference: true }
+#  "java/names/ExpressionNames!exprNameOk1": { isReference: true }
+  "java/names/TypeNames!typeNameOk": { isReference: true }
+#  "java/names/TypeNames!typeNameOk1": { isReference: true }
+  "java/names/PackageOrTypeNames!pkgOrTypeNameOk": { isReference: true }
+#  "java/names/PackageOrTypeNames!pkgOrTypeNameOk1": { isReference: true }
+  "java/names/PackageNames!pkgNameOk": { isReference: true }
+#  "java/names/PackageNames!pkgNameOk1": { isReference: true }
+  "java/names/MethodNames!mthdNameOk": { isReference: true }
 
   # Whitelist typeArg rules
   "java/types/ParameterizedTypes!typeArgOk": { isReference: true }

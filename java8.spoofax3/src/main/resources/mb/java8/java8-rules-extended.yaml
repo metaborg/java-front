@@ -162,7 +162,7 @@ entries:
 
   # java/expressions/AssignmentOperators.stx
   "java/expressions/AssignmentOperators!*": { isReference: false }
-  "java/expressions/AssignmentOperators!lhsOk": { }
+  "java/expressions/AssignmentOperators!lhsOk": { isReference: true }
   "ExprOk-Assign": { isReference: false }
   "ExprOk-AssignMul": { isReference: false }
   "ExprOk-AssignDiv": { isReference: false }
@@ -376,10 +376,10 @@ entries:
   "java/names/ExpressionNames!aliasExprNames": { }
   "java/names/ExpressionNames!ambDeclScope": { }
   "java/names/ExpressionNames!ambNameOk": { isReference: true }
-  "java/names/ExpressionNames!ambNameOk1": { isReference: true }
+  "java/names/ExpressionNames!ambNameOk1": { isReference: false }
   "java/names/ExpressionNames!declareExprName": { }
   "java/names/ExpressionNames!exprNameOk": { isReference: true }
-  "java/names/ExpressionNames!exprNameOk1": { isReference: true }
+  "java/names/ExpressionNames!exprNameOk1": { isReference: false }
   "java/names/ExpressionNames!noOtherHomonymousExpr": { isReference: false }   # All rules have queries
   "java/names/ExpressionNames!resolveAllStaticMemberExprNames": { }   # All rules have queries
   "java/names/ExpressionNames!resolveAmbName": { isReference: true }
@@ -415,7 +415,7 @@ entries:
   "java/names/MethodNames!mthdDeclId": { }
   "java/names/MethodNames!mthdDeclParams": { }
   "java/names/MethodNames!mthdDeclReturn": { }
-  "java/names/MethodNames!mthdNameOk": { isReference: false }
+  "java/names/MethodNames!mthdNameOk": { isReference: true }
   "java/names/MethodNames!noOtherHomonymousMthd": { isReference: false }   # All rules have queries
   "java/names/MethodNames!resolveAllStaticMemberMthdNames": { }   # All rules have queries
   "java/names/MethodNames!resolveDirectMemberMthdName": { }
@@ -435,7 +435,7 @@ entries:
   "java/names/PackageNames!noHomonymousPkg": { isReference: false }   # All rules have queries
   "java/names/PackageNames!pkgDeclId": { }
   "java/names/PackageNames!pkgDeclScope": { isReference: false }
-  "java/names/PackageNames!pkgNameOk": { isReference: false }
+  "java/names/PackageNames!pkgNameOk": { isReference: true }
   "java/names/PackageNames!pkgNameOk1": { isReference: false }
   "java/names/PackageNames!resolveLexicalPkgNames": { isReference: true }   # All rules have queries
   "java/names/PackageNames!resolveMemberPkgNames": { isReference: true }   # All rules have queries
@@ -449,8 +449,8 @@ entries:
   "java/names/PackageOrTypeNames!*": { isReference: false }
   "java/names/PackageOrTypeNames!resolve*": { isReference: true }
   "java/names/PackageOrTypeNames!pkgOrTypeDeclScope": { isReference: false }
-  "java/names/PackageOrTypeNames!pkgOrTypeNameOk": { }
-  "java/names/PackageOrTypeNames!pkgOrTypeNameOk1": { }
+  "java/names/PackageOrTypeNames!pkgOrTypeNameOk": { isReference: true }
+  "java/names/PackageOrTypeNames!pkgOrTypeNameOk1": { isReference: false }
   "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName": { isReference: true }
   "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName1": { isReference: true }
   "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName2": { isReference: true }
@@ -492,7 +492,7 @@ entries:
   "java/names/TypeNames!typeDeclScope": { isReference: false }
   "java/names/TypeNames!typeDeclType": { }
   "java/names/TypeNames!typeNameOk": { isReference: true }
-  "java/names/TypeNames!typeNameOk1": { isReference: true }
+  "java/names/TypeNames!typeNameOk1": { isReference: false }
 
 
   # java/packages/CompilationUnits.stx
