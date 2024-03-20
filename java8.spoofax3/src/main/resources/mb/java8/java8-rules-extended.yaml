@@ -478,15 +478,15 @@ entries:
   "java/names/TypeNames!declareType": { }
   "java/names/TypeNames!noEnclosingHomonymousType": { isReference: false }   # All rules have queries
   "java/names/TypeNames!noOtherHomonymousType": { isReference: false }   # All rules have queries
-  "java/names/TypeNames!qualThis": { isReference: false }   # All rules have queries
+  "java/names/TypeNames!qualThis": { isReference: true }   # All rules have queries
   "java/names/TypeNames!resolveAllStaticMemberTypeNames": { }   # All rules have queries
   "java/names/TypeNames!resolveLexicalTypeNames": { isReference: true }   # All rules have queries
   "java/names/TypeNames!resolveMemberTypeNames": { isReference: true }   # All rules have queries
   "java/names/TypeNames!resolveTypeName": { }
   "java/names/TypeNames!resolveTypeNames": { isReference: true }
   "java/names/TypeNames!singleTypeDecl": { }
-  "java/names/TypeNames!super": { isReference: false }   # All rules have queries
-  "java/names/TypeNames!this": { isReference: false }   # All rules have queries
+  "java/names/TypeNames!super": { isReference: true }   # All rules have queries
+  "java/names/TypeNames!this": { isReference: true }   # All rules have queries
   "java/names/TypeNames!typeDeclId": { }
   "java/names/TypeNames!typeDeclKind": { }
   "java/names/TypeNames!typeDeclScope": { isReference: false }

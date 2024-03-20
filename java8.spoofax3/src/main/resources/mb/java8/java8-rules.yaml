@@ -15,7 +15,7 @@ entries:
 
   # Whitelist some LHS rules
   "java/expressions/AssignmentOperators!lhsOk": { isReference: true }
-
+# ExpressionName2Expression(ExpressionName
   # Whitelist typeOk rules
   "java/types/Main!typeOk": { isReference: true }
   "java/JRE!javaLangTypeOk": { isReference: true }
@@ -44,4 +44,9 @@ entries:
   # Whitelist typeArg rules
   "java/types/ParameterizedTypes!typeArgOk": { isReference: true }
   "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
+
+  # Whitelist this/super rules
+  "java/names/TypeNames!this": { isReference: true }
+  "java/names/TypeNames!qualThis": { isReference: true }
+  "java/names/TypeNames!super": { isReference: true }
 
