@@ -22,5 +22,5 @@ rules // 15.14. Postfix Expressions
     T' == exprOk(s, expr),
     T == promoteNumericUnary(T').
 
-  exprOk(s, ExpressionName2Expression(exprName)) = varDeclType(exprNameOk(s, exprName)).
+  [ExprOk-ExpressionName2Expression] exprOk(s, ExpressionName2Expression(exprName)) = varDeclType(exprNameOk(s, exprName)).
 
