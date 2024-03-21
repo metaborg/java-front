@@ -98,11 +98,11 @@ entries:
   "java/classes/FieldDeclarations!fldModListOk": { }
   "java/classes/FieldDeclarations!fldModOk": { }
   "java/classes/FieldDeclarations!hasStaticFldMod": { }
-  "java/classes/FieldDeclarations!unannArrayTypeOk": { isReference: true }
-  "java/classes/FieldDeclarations!unannClsTypeOk": { isReference: true }
-  "java/classes/FieldDeclarations!unannPkgOrClsTypeOk": { isReference: true }
+  "java/classes/FieldDeclarations!unannArrayTypeOk": { isReference: false }
+  "java/classes/FieldDeclarations!unannClsTypeOk": { isReference: false }
+  "java/classes/FieldDeclarations!unannPkgOrClsTypeOk": { isReference: false }
   "java/classes/FieldDeclarations!unannPrimTypeOk": { isReference: true }
-  "java/classes/FieldDeclarations!unannRefTypeOk": { isReference: true }
+  "java/classes/FieldDeclarations!unannRefTypeOk": { isReference: false }
   "java/classes/FieldDeclarations!unannTypeOk": { isReference: true }
   "java/classes/FieldDeclarations!varDeclIdOk": { }
   "java/classes/FieldDeclarations!varDeclListOk": { }
@@ -664,9 +664,9 @@ entries:
   "java/types/ReferenceTypes!annDimsEmptyOk": { }
   "java/types/ReferenceTypes!annDimsOk": { }
   "java/types/ReferenceTypes!arrayElementType": { isReference: false }   # All rules have queries
-  "java/types/ReferenceTypes!arrayTypeOk": { isReference: true }
+  "java/types/ReferenceTypes!arrayTypeOk": { isReference: false }
   "java/types/ReferenceTypes!clsTypeListOk": { }
-  "java/types/ReferenceTypes!clsTypeOk": { isReference: true }
+  "java/types/ReferenceTypes!clsTypeOk": { isReference: false }
   "java/types/ReferenceTypes!initTypeScope": { }
   "java/types/ReferenceTypes!isArrayType": { }
   "java/types/ReferenceTypes!isArrayType1": { }
@@ -675,8 +675,8 @@ entries:
   "java/types/ReferenceTypes!isClsType": { }
   "java/types/ReferenceTypes!isIntfType": { }
   "java/types/ReferenceTypes!makeArrayType": { }
-  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: true }
-  "java/types/ReferenceTypes!refTypeOk": { isReference: true }
+  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: false }
+  "java/types/ReferenceTypes!refTypeOk": { isReference: false }
   "java/types/ReferenceTypes!typeKind": { }
   "java/types/ReferenceTypes!typeScope": { }
   "java/types/ReferenceTypes!typeVarOk": { }

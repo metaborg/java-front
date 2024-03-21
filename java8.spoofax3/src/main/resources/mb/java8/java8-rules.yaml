@@ -20,13 +20,17 @@ entries:
   "java/types/Main!typeOk": { isReference: true }
   "java/JRE!javaLangTypeOk": { isReference: true }
   "java/classes/FieldDeclarations!unann*": { isReference: true }
+  "java/classes/FieldDeclarations!unannRefTypeOk": { isReference: false }
+  "java/classes/FieldDeclarations!unannClsTypeOk": { isReference: false }
+  "java/classes/FieldDeclarations!unannPkgOrClsTypeOk": { isReference: false }
+  "java/classes/FieldDeclarations!unannArrayTypeOk": { isReference: false }
   "java/classes/MethodDeclarations!exceptTypeOk": { isReference: true }
   "java/expressions/ArrayCreation!arrayBaseTypeOk": { isReference: true }
-  "java/types/ReferenceTypes!arrayTypeOk": { isReference: true }
-  "java/types/ReferenceTypes!clsTypeOk": { isReference: true }
-  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: true }
-  "java/types/ReferenceTypes!refTypeOk": { isReference: true }
-  "java/statements/Statements!catchTypeOk": { isReference: true }
+  "java/types/ReferenceTypes!refTypeOk": { isReference: false }
+  "java/types/ReferenceTypes!clsTypeOk": { isReference: false }
+  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: false }
+  "java/types/ReferenceTypes!arrayTypeOk": { isReference: false }
+  "java/statements/Statements!catchTypeOk": { isReference: false }
 
   # Whitelist nameOk rules
   "java/names/ExpressionNames!ambNameOk": { isReference: true }
