@@ -17,20 +17,19 @@ entries:
   "java/expressions/AssignmentOperators!lhsOk": { isReference: true }
 # ExpressionName2Expression(ExpressionName
   # Whitelist typeOk rules
-  "java/types/Main!typeOk": { isReference: true }
+#  "java/types/Main!typeOk": { isReference: true }
   "java/JRE!javaLangTypeOk": { isReference: true }
-  "java/classes/FieldDeclarations!unann*": { isReference: true }
-  "java/classes/FieldDeclarations!unannRefTypeOk": { isReference: false }
-  "java/classes/FieldDeclarations!unannClsTypeOk": { isReference: false }
-  "java/classes/FieldDeclarations!unannPkgOrClsTypeOk": { isReference: false }
-  "java/classes/FieldDeclarations!unannArrayTypeOk": { isReference: false }
-  "java/classes/MethodDeclarations!exceptTypeOk": { isReference: true }
-  "java/expressions/ArrayCreation!arrayBaseTypeOk": { isReference: true }
-  "java/types/ReferenceTypes!refTypeOk": { isReference: false }
-  "java/types/ReferenceTypes!clsTypeOk": { isReference: false }
-  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: false }
-  "java/types/ReferenceTypes!arrayTypeOk": { isReference: false }
-  "java/statements/Statements!catchTypeOk": { isReference: false }
+#  "java/classes/FieldDeclarations!unannRefTypeOk": { isReference: false }
+#  "java/classes/FieldDeclarations!unannClsTypeOk": { isReference: false }
+#  "java/classes/FieldDeclarations!unannPkgOrClsTypeOk": { isReference: false }
+#  "java/classes/FieldDeclarations!unannArrayTypeOk": { isReference: false }
+#  "java/classes/MethodDeclarations!exceptTypeOk": { isReference: true }
+#  "java/expressions/ArrayCreation!arrayBaseTypeOk": { isReference: true }
+#  "java/types/ReferenceTypes!refTypeOk": { isReference: false }
+#  "java/types/ReferenceTypes!clsTypeOk": { isReference: false }
+#  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: false }
+#  "java/types/ReferenceTypes!arrayTypeOk": { isReference: false }
+#  "java/statements/Statements!catchTypeOk": { isReference: false }
 
   # Whitelist nameOk rules
   "java/names/ExpressionNames!ambNameOk": { isReference: true }
@@ -46,8 +45,8 @@ entries:
   "java/names/MethodNames!mthdNameOk": { isReference: true }
 
   # Whitelist typeArg rules
-  "java/types/ParameterizedTypes!typeArgOk": { isReference: true }
-  "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
+#  "java/types/ParameterizedTypes!typeArgOk": { isReference: true }
+#  "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
 
   # Whitelist this/super rules
   "java/names/TypeNames!this": { isReference: true }
