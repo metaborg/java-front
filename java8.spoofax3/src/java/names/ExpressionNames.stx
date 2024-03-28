@@ -75,7 +75,8 @@ rules
           EXTENDS < STATIC_LEX, IMPLEMENTS < STATIC_LEX, SINGLE_STATIC_IMPORT < STATIC_LEX, STATIC_IMPORT_ONDEMAND < STATIC_LEX,
           SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND
         and true
-      in s |-> varPathList.
+      in s |-> varPathList,
+      mkVarRefs(id, varPathList).
 
 
   resolveMemberExprNames : scope * Id -> list(VAR_PATH)
@@ -88,7 +89,8 @@ rules
       min /* expr ord */
           $ < EXTENDS, $ < IMPLEMENTS
         and true
-      in s |-> varPathList.
+      in s |-> varPathList,
+      mkVarRefs(id, varPathList).
 
 
   resolveAllStaticMemberExprNames : scope * Id -> list(VAR_PATH)
@@ -101,8 +103,15 @@ rules
       min /* expr ord */
           STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
         and true
-      in s |-> varPathList.
+      in s |-> varPathList,
+      mkVarRefs(id, varPathList).
 
+
+  mkVarRef : Id * VAR_PATH
+  mkVarRefs maps mkVarRef(*, list(*))
+  mkVarRef(id, (_, (id', _))) :-
+  	@id.ref += id'.
+  	
 
   declareExprName : scope * Id * TYPE
 
@@ -126,7 +135,7 @@ rules
     false | error $[Expression [id] not found] @id.
 
   singleVarDecl(id, [(_, varDecl@(id', _))]) = varDecl :-
-    @id.ref := id'.
+    true. //@id.ref := id'.
 
   singleVarDecl(id, varDeclList) = _ :-
     false | error $[Var [id] is ambiguous] @id.

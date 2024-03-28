@@ -66,6 +66,7 @@ rules
           $ < LEX, $ < STATIC_LEX
         and true
       in s |-> pkgPathList,
+      mkPkgRefs(id, pkgPathList),
     true.
 
 
@@ -77,6 +78,7 @@ rules
           e
         and { id' :- id' == id }
       in s |-> pkgPathList,
+      mkPkgRefs(id, pkgPathList),
     true.
 
 
@@ -86,7 +88,7 @@ rules
     false | error $[Package [id] not found] @id.
 
   singlePkgDecl(id, [(_, pkgDecl@(id', _))]) = pkgDecl :-
-    @id.ref := id'.
+    true. //@id.ref := id'.
 
   singlePkgDecl(id, pkgDeclList) = _ :-
     false | error $[Package [id] is ambiguous] @id.
@@ -109,6 +111,12 @@ rules
 //    s_pkg -PKGC-> s_pkg',
 //    true.
 
+  mkPkgRef : Id * PKG_PATH
+  mkPkgRefs maps mkPkgRef(*, list(*))
+  mkPkgRef(id, (_, (id', _))) :-
+  	@id.ref += id'.
+  	
+  	
 
   declarePkg : scope * Id * scope
 

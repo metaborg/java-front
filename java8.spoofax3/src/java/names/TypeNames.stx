@@ -102,6 +102,7 @@ rules
           IMPORT_PKG < TYPE_IMPORT_ONDEMAND, IMPORT_PKG < STATIC_IMPORT_ONDEMAND
         and true
       in s |-> typePathList,
+    mkTypeRefs(id, typePathList),
     true.
 
 
@@ -116,6 +117,7 @@ rules
           $ < EXTENDS, $ < IMPLEMENTS
         and true
       in s |-> typePathList,
+    mkTypeRefs(id, typePathList),
     true.
 
 
@@ -130,6 +132,7 @@ rules
           STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
         and true
       in s |-> typePathList,
+    mkTypeRefs(id, typePathList),
     true.
 
 
@@ -139,11 +142,17 @@ rules
     false | error $[Type [id] not found] @id.
 
   singleTypeDecl(id, [(_, typeDecl@(id', _))]) = typeDecl :-
-    @id.ref := id'.
+    true. //@id.ref := id'.
 
   singleTypeDecl(id, typeDeclList) = _ :-
     false | error $[Type [id] is ambiguous] @id.
 
+
+  mkTypeRef : Id * TYPE_PATH
+  mkTypeRefs maps mkTypeRef(*, list(*))
+  mkTypeRef(id, (_, (id', _))) :-
+  	@id.ref += id'.
+ 
 
   declareType : scope * Id * scope * KIND
 

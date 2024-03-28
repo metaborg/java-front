@@ -86,6 +86,7 @@ rules
           SINGLE_STATIC_IMPORT < STATIC_IMPORT_ONDEMAND
         and { (_, params), (_, params) }
       in s |-> mthdPathList,
+      mkMthdRefs(id, mthdPathList),
     true.
 
 
@@ -100,6 +101,7 @@ rules
           $ < EXTENDS, $ < IMPLEMENTS
         and { (_, params), (_, params) }
       in s |-> mthdPathList,
+      mkMthdRefs(id, mthdPathList),
     true.
 
 
@@ -114,6 +116,7 @@ rules
           $ < EXTENDS, $ < IMPLEMENTS
         and { (_, params), (_, params) }
       in s |-> mthdPathList,
+      mkMthdRefs(id, mthdPathList),
     true.
 
 
@@ -128,6 +131,7 @@ rules
           STATIC_MEMBERS < EXTENDS, STATIC_MEMBERS < IMPLEMENTS
         and { (_, params), (_, params) }
       in s |-> mthdPathList,
+      mkMthdRefs(id, mthdPathList),
     true.
 
 
@@ -140,6 +144,7 @@ rules
       min /* */
         and false
       in s |-> mthdPathList,
+      mkMthdRefs(id, mthdPathList),
     true.
 
 
@@ -149,12 +154,17 @@ rules
     false | error $[No method [id] for arguments [Ts]] @id.
 
   someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))]) = mthdDecl :-
-    @id.ref := id'.
+    true. //@id.ref := id'.
 
   someMthdDecl(id, Ts, [(_, mthdDecl@(id', _, _))|mthdDeclList]) = mthdDecl :-
-    @id.ref := id',
+    //@id.ref := id',
     try { false } | warning $[Method [id] overloaded for arguments [Ts]] @id.
 
+
+  mkMthdRef : Id * MTHD_PATH
+  mkMthdRefs maps mkMthdRef(*, list(*))
+  mkMthdRef(id, (_, (id', _, _))) :-
+  	@id.ref += id'.
 
   declareMthdName : scope * Id * PARAMS * RETURN
 
