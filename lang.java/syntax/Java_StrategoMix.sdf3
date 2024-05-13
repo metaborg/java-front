@@ -6,6 +6,7 @@ imports
   StrategoLang/import-namespaced
   StrategoLang/sugar/terms-namespaced
   StrategoLang/core/identifiers-namespaced
+  StrategoLang/core/modules-namespaced
 
 context-free start-symbols
 
