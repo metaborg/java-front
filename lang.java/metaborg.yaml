@@ -20,6 +20,7 @@ exports:
   - pp/metaborg-java-parenthesize.str
   - pp/java/**/*.str
   - signatures/metaborg-java-sig.str
+  - signatures/permissive-water-sig.str
   - signatures/java/**/*.str
 - language: SDF
   directory: syntax
