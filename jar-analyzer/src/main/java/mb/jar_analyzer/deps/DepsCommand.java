@@ -7,15 +7,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Streams;
-
 import mb.jar_analyzer.jar.JarUtils;
-import mb.nabl2.util.TopoSorter;
-import mb.nabl2.util.TopoSorter.TopoSortedComponents;
+import org.metaborg.util.collection.SetMultimap;
+import org.metaborg.util.iterators.IteratorIterableOnce;
 
 public class DepsCommand implements Runnable {
 
@@ -29,7 +25,9 @@ public class DepsCommand implements Runnable {
                 default:
                     files.add(new File(arg));
                 case "--":
-                    Streams.stream(it).forEach(f -> files.add(new File(f)));
+                    for(String f: new IteratorIterableOnce<>(it)) {
+                        files.add(new File(f));
+                    }
                     break;
             }
         }
@@ -49,10 +47,10 @@ public class DepsCommand implements Runnable {
         out.println("digraph dependencies {");
         out.println("  rankdir=LR;");
         out.println("  node [shape=box];");
-        final TopoSortedComponents<String> sortResult =
+        final TopoSorter.TopoSortedComponents<String> sortResult =
                 TopoSorter.toposort(dependencies.keySet(), dependencies::get, true);
         int subgraphCount = 0;
-        for(Set<String> component : sortResult.components()) {
+        for(Set<String> component : sortResult) {
             missing.removeAll(component);
             if(component.size() > 1) {
                 out.println("  subgraph cluster_" + (subgraphCount++) + " {");
@@ -65,9 +63,9 @@ public class DepsCommand implements Runnable {
                 out.println("  }");
             }
         }
-        for(Entry<String, String> entry : dependencies.entries()) {
+        dependencies.entries().forEach(entry -> {
             out.println("  \"" + entry.getKey() + "\" -> \"" + entry.getValue() + "\";");
-        }
+        });
         out.println("  // " + missing.size() + " unreferenced types");
         for(String m : missing) {
             out.println("//\"" + m + "\";");
