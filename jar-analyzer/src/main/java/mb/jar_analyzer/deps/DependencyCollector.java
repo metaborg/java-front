@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.metaborg.util.collection.CapsuleUtil;
+import org.metaborg.util.collection.SetMultimap;
+import org.metaborg.util.collection.Sets;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
@@ -15,12 +18,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimaps;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 import mb.jar_analyzer.TypeUtil;
 import mb.jar_analyzer.jar.ClassProcessor;
@@ -42,7 +39,7 @@ public class DependencyCollector extends ClassVisitor implements ClassProcessor 
         this.includeCode = includeCode;
         this.visited = new HashSet<>();
         this.nested = new HashMap<>();
-        this.dependencies = HashMultimap.create();
+        this.dependencies = new SetMultimap<>();
     }
 
     public Set<String> getVisited() {
@@ -50,7 +47,7 @@ public class DependencyCollector extends ClassVisitor implements ClassProcessor 
     }
 
     public SetMultimap<String, String> getDependencies() {
-        return Multimaps.unmodifiableSetMultimap(dependencies);
+        return dependencies;
     }
 
     @Override public void accept(ClassReader classReader) {
@@ -82,14 +79,14 @@ public class DependencyCollector extends ClassVisitor implements ClassProcessor 
         if(!name.equals(enclosingName)) {
             if(enclosingName.equals(currentName)) {
                 // merge outgoing dependencies
-                for(String v : dependencies.removeAll(name)) {
+                for(String v : dependencies.remove(name)) {
                     if(!v.equals(currentName)) {
                         dependencies.put(currentName, v);
                     }
                 }
                 // substitute incoming dependencies
                 if(dependencies.containsValue(name)) {
-                    for(String k : ImmutableSet.copyOf(dependencies.keySet())) {
+                    for(String k : CapsuleUtil.toSet(dependencies.keySet())) {
                         if(dependencies.remove(k, name)) {
                             if(!k.equals(currentName)) {
                                 dependencies.put(k, currentName);
