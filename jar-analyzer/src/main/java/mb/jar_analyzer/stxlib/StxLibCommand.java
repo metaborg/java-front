@@ -44,8 +44,8 @@ import mb.nabl2.terms.ITerm;
 import mb.nabl2.terms.stratego.StrategoTerms;
 import mb.scopegraph.oopsla20.IScopeGraph;
 import mb.scopegraph.oopsla20.reference.ScopeGraph;
-import mb.statix.concurrent.IStatixLibrary;
-import mb.statix.concurrent.StatixLibrary;
+import mb.statix.library.IStatixLibrary;
+import mb.statix.library.StatixLibrary;
 import mb.statix.scopegraph.Scope;
 
 public class StxLibCommand implements Runnable {
