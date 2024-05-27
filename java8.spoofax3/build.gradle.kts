@@ -1,9 +1,9 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("org.metaborg.spoofax.compiler.gradle.language") version("999.9.9-refret-SNAPSHOT") apply false
-    id("org.metaborg.spoofax.compiler.gradle.adapter") version("999.9.9-refret-SNAPSHOT") apply false
-    id("org.metaborg.spoofax.lwb.compiler.gradle.language") version("999.9.9-refret-SNAPSHOT")
+    id("org.metaborg.spoofax.compiler.gradle.language") version("0.22.1") apply false
+    id("org.metaborg.spoofax.compiler.gradle.adapter") version("0.22.1") apply false
+    id("org.metaborg.spoofax.lwb.compiler.gradle.language") version("0.22.1")
 }
 
 group = "org.metaborg"
@@ -48,13 +48,4 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-// Use the org.metaborg:*:2.6.0-SNAPSHOT dependencies instead of the Spoofax 3 dependencies
-configurations.all {
-    resolutionStrategy.eachDependency {
-        if (requested.group == "org.metaborg.devenv") {
-            useTarget("org.metaborg:${requested.name}:${spoofax2Version}")
-        }
-    }
 }
