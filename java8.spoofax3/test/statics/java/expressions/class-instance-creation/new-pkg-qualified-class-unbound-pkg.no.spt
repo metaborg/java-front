@@ -1,0 +1,32 @@
+module expressions/class-instance-creation/new-pkg-qualified-class-unbound-pkg_no
+
+language metaborg-java
+
+test new-pkg-qualified-class-unbound-pkg [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[q] {
+
+    [A]
+    package q;
+    public class A {}
+
+}
+
+[p] {
+
+    [B]
+    package p;
+    public class B {
+        public A a = new p.A();
+    }
+
+}
+
+]] analysis fails
+   run javacFails to ""

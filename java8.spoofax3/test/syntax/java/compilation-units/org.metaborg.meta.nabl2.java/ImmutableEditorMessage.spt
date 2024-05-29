@@ -1,0 +1,156 @@
+module ImmutableEditorMessage
+
+language java8
+
+test ImmutableEditorMessage [[ package org.metaborg.meta.nabl2.spoofax.analysis;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link EditorMessage}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableEditorMessage.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "EditorMessage"})
+@Immutable
+public final class ImmutableEditorMessage
+    extends EditorMessage
+    implements Serializable {
+  private final ITerm origin;
+  private final String message;
+  private final int hashCode;
+
+  private ImmutableEditorMessage(ITerm origin, String message) {
+    this.origin = Objects.requireNonNull(origin, "origin");
+    this.message = Objects.requireNonNull(message, "message");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableEditorMessage(
+      ImmutableEditorMessage original,
+      ITerm origin,
+      String message) {
+    this.origin = origin;
+    this.message = message;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code origin} attribute
+   */
+  @Override
+  public ITerm getOrigin() {
+    return origin;
+  }
+
+  /**
+   * @return The value of the {@code message} attribute
+   */
+  @Override
+  public String getMessage() {
+    return message;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link EditorMessage#getOrigin() origin} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for origin
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableEditorMessage setOrigin(ITerm value) {
+    if (this.origin == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "origin");
+    return new ImmutableEditorMessage(this, newValue, this.message);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link EditorMessage#getMessage() message} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for message
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableEditorMessage setMessage(String value) {
+    if (this.message.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "message");
+    return new ImmutableEditorMessage(this, this.origin, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableEditorMessage} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableEditorMessage
+        && equalTo((ImmutableEditorMessage) another);
+  }
+
+  private boolean equalTo(ImmutableEditorMessage another) {
+    return origin.equals(another.origin)
+        && message.equals(another.message);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code origin}, {@code message}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + origin.hashCode();
+    h = h * 17 + message.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code EditorMessage} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "EditorMessage{"
+        + "origin=" + origin
+        + ", message=" + message
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code EditorMessage} instance.
+   * @param origin The value for the {@code origin} attribute
+   * @param message The value for the {@code message} attribute
+   * @return An immutable EditorMessage instance
+   */
+  public static ImmutableEditorMessage of(ITerm origin, String message) {
+    return new ImmutableEditorMessage(origin, message);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link EditorMessage} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable EditorMessage instance
+   */
+  public static ImmutableEditorMessage copyOf(EditorMessage instance) {
+    if (instance instanceof ImmutableEditorMessage) {
+      return (ImmutableEditorMessage) instance;
+    }
+    return ImmutableEditorMessage.of(instance.getOrigin(), instance.getMessage());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

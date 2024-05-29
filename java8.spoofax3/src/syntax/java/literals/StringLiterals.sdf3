@@ -1,0 +1,38 @@
+module syntax/java/literals/StringLiterals
+
+// 3.10.5. String Literals
+
+imports
+  syntax/java/literals/EscapeSequences
+  syntax/java/lexical/UnicodeEscapes
+  syntax/java/lexical/Comments
+
+context-free start-symbols
+
+  StringLiteral
+
+context-free sorts
+
+  StringLiteral
+
+context-free syntax
+
+  StringLiteral.StringLiteral = StringLit
+
+lexical sorts
+
+  StringLit
+  StringPart
+  StringChars
+
+lexical syntax
+
+  StringLit = "\"" StringPart* "\""
+  StringPart = UnicodeEscape
+  StringPart = EscapeSeq
+  StringPart = StringChars
+  StringChars = ~[\"\\\n\r]+
+
+lexical restrictions
+
+  StringChars -/- ~[\"\\\n\r]

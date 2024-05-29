@@ -1,0 +1,209 @@
+module static-access
+
+language metaborg-java
+
+
+///////////////////////////////////////////////////////////////////
+// static type access
+///////////////////////////////////////////////////////////////////
+
+test named static import of static nested type [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {
+    }
+  }  
+
+  [C]
+  package p;
+  import static p.A.B;
+  public class C {
+    B b;
+  }  
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test named static import of non-static nested type [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    public class B {
+    }
+  }  
+
+  [C]
+  package p;
+  import static p.A.B;
+  public class C {
+    B b;
+  }  
+}  
+]] analysis fails
+   run javacFails to ""
+
+test named non-static import of static nested type [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {
+    }
+  }  
+
+  [C]
+  package p;
+  import p.A.B;
+  public class C {
+    B b;
+  }  
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test on-demand static import of static nested type [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {
+    }
+  }  
+
+  [C]
+  package p;
+  import static p.A.*;
+  public class C {
+    B b;
+  }  
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test on-demand static import of package [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+  }  
+}  
+
+[Test]
+import static p.*;
+public class Test {
+  A a;
+}
+]] analysis fails
+   run javacFails to ""
+
+
+///////////////////////////////////////////////////////////////////
+// static type definition
+///////////////////////////////////////////////////////////////////
+
+test static enclosed type's field access from nested static nested type [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    static int i;
+    public static class B {
+      int j = i;
+    }
+  }  
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test non-static enclosed type's field access from nested static nested type [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    int i;
+    public static class B {
+      int j = i;
+    }
+  }  
+}  
+]] analysis fails
+   run javacFails to ""
+
+test top-level static type [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public static class A {
+  }  
+}  
+]] analysis fails
+   run javacFails to ""
+
+test static enclosed type accesses local non-static and enclosed static field [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    static int i;
+    public static class B {
+      int j;
+      int k = i + j;
+    }
+  }  
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test non-static field from enclosed type shadows imported static field [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  import static p.C.i;
+  public class A {
+    boolean i;
+    public static class B {
+      int j;
+      int k = i;
+    }
+  }  
+  [C]
+  package p;
+  public class C {
+    static int i;
+  }
+}  
+]] // analysis fails
+   run javacFails to ""

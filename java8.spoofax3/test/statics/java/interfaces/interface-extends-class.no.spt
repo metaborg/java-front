@@ -1,0 +1,20 @@
+module interfaces/interface-extends-class_no
+
+language metaborg-java
+
+test interface-extends-class [[
+
+test;
+
+
+
+// error: interface expected here
+
+[I]
+interface I extends A {}
+
+[A]
+class A {}
+
+]] analysis fails
+   run javacFails to ""

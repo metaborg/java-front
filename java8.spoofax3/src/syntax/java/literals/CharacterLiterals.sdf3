@@ -1,0 +1,30 @@
+module syntax/java/literals/CharacterLiterals
+
+// 3.10.4. Character Literals
+
+imports
+  syntax/java/literals/EscapeSequences
+  syntax/java/lexical/UnicodeEscapes
+  syntax/java/lexical/Comments
+
+context-free start-symbols
+
+  CharacterLiteral
+
+context-free sorts
+
+  CharacterLiteral
+
+context-free syntax
+
+  CharacterLiteral.CharLiteral = CharLiteral
+
+lexical sorts
+
+  CharLiteral
+
+lexical syntax
+
+  CharLiteral = "'" ~[\n\r\'\\] "'"
+  CharLiteral = "'" EscapeSeq "'"
+  CharLiteral = "'" UnicodeEscape "'"

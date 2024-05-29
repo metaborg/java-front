@@ -1,0 +1,23 @@
+module names/simple-type-name_yes
+
+language metaborg-java
+
+test simple-type-name [[
+
+test;
+
+
+
+
+
+[A]
+public class A {}
+
+[Test]
+public class Test {
+    public A x;
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

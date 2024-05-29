@@ -1,0 +1,24 @@
+module packages/classes-visible-in-compilation-units-of-unnamed-package_yes
+
+language metaborg-java
+
+test classes-visible-in-compilation-units-of-unnamed-package [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public B b;
+}
+
+[B]
+public class B {
+    public A a;
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

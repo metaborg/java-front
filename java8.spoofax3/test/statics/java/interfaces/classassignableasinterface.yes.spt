@@ -1,0 +1,26 @@
+module interfaces/classassignableasinterface_yes
+
+language metaborg-java
+
+test classassignableasinterface [[
+
+test;
+
+
+
+
+
+[A]
+public class A implements I {}
+
+[B]
+public class B {
+    public I f = new A();
+}
+
+[I]
+public interface I {}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

@@ -1,0 +1,55 @@
+---
+entries:
+  # Blacklist all rules
+  "*!*": { isReference: false }
+  # Whitelist all resolve rules
+  "*!resolve*" : { isReference: true }
+
+  # Whitelist some expression rules
+  "ExprOk-FieldAccess2Expression": { isReference: true }
+  "java/expressions/FieldAccess!fldAccessOk": { isReference: true }
+  "ExprOk-ExpressionName2Expression": { isReference: true }
+  "ExprOk-This": { isReference: true }
+  "ExprOk-QThis": { isReference: true }
+  "ExprOk-MethodReference*": { isReference: false }   # Not supported in the spec
+
+  # Whitelist some LHS rules
+  "java/expressions/AssignmentOperators!lhsOk": { isReference: true }
+# ExpressionName2Expression(ExpressionName
+  # Whitelist typeOk rules
+#  "java/types/Main!typeOk": { isReference: true }
+  "java/JRE!javaLangTypeOk": { isReference: true }
+#  "java/classes/FieldDeclarations!unannRefTypeOk": { isReference: false }
+#  "java/classes/FieldDeclarations!unannClsTypeOk": { isReference: false }
+#  "java/classes/FieldDeclarations!unannPkgOrClsTypeOk": { isReference: false }
+#  "java/classes/FieldDeclarations!unannArrayTypeOk": { isReference: false }
+#  "java/classes/MethodDeclarations!exceptTypeOk": { isReference: true }
+#  "java/expressions/ArrayCreation!arrayBaseTypeOk": { isReference: true }
+#  "java/types/ReferenceTypes!refTypeOk": { isReference: false }
+#  "java/types/ReferenceTypes!clsTypeOk": { isReference: false }
+#  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: false }
+#  "java/types/ReferenceTypes!arrayTypeOk": { isReference: false }
+#  "java/statements/Statements!catchTypeOk": { isReference: false }
+
+  # Whitelist nameOk rules
+  "java/names/ExpressionNames!ambNameOk": { isReference: true }
+#  "java/names/ExpressionNames!ambNameOk1": { isReference: true }
+  "java/names/ExpressionNames!exprNameOk": { isReference: true }
+#  "java/names/ExpressionNames!exprNameOk1": { isReference: true }
+  "java/names/TypeNames!typeNameOk": { isReference: true }
+#  "java/names/TypeNames!typeNameOk1": { isReference: true }
+  "java/names/PackageOrTypeNames!pkgOrTypeNameOk": { isReference: true }
+#  "java/names/PackageOrTypeNames!pkgOrTypeNameOk1": { isReference: true }
+  "java/names/PackageNames!pkgNameOk": { isReference: true }
+#  "java/names/PackageNames!pkgNameOk1": { isReference: true }
+  "java/names/MethodNames!mthdNameOk": { isReference: true }
+
+  # Whitelist typeArg rules
+#  "java/types/ParameterizedTypes!typeArgOk": { isReference: true }
+#  "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
+
+  # Whitelist this/super rules
+  "java/names/TypeNames!this": { isReference: true }
+  "java/names/TypeNames!qualThis": { isReference: true }
+  "java/names/TypeNames!super": { isReference: true }
+

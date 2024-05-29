@@ -1,0 +1,13 @@
+module java/packages/Main
+
+imports
+
+  signatures/syntax/java/packages/Main-sig
+
+  java/packages/CompilationUnits
+  java/packages/ImportDeclarations
+  java/packages/PackageDeclarations
+  java/packages/TypeDeclarations
+
+
+rules // Chapter 7. Packages

@@ -1,0 +1,258 @@
+module static-access
+
+language metaborg-java
+
+///////////////////////////////////////////////////////////////////
+// static field access
+///////////////////////////////////////////////////////////////////
+
+test unqualified static field access [[
+
+test;
+
+[A]
+public class A {
+  static int i = 1;
+  int j = i;
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test qualified static field access on type name [[
+
+test;
+  
+[A]
+public class A {
+  static int i = 1;
+  int j = A.i;
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test qualified static field access on expression name [[
+
+test;
+  
+[A]
+public class A {
+  static int i = 1;
+  int j = this.i;
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test unqualified static super field access [[
+
+test;
+
+[A]
+public class A {
+  static int i = 1;
+}  
+
+[B]
+public class B extends A {
+  int j = i;
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test qualified static super field access on type name [[
+
+test;
+  
+[A]
+public class A {
+  static int i = 1;
+}  
+
+[B]
+public class B extends A {
+  int j = B.i;
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test qualified static super field access on expression name [[
+
+test;
+  
+[A]
+public class A {
+  static int i = 1;
+}  
+
+[B]
+public class B extends A {
+  int j = this.i;
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test static field access via on-demand static import [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    static int i = 1;
+  }  
+
+  [B]
+  package p;
+  import static p.A.*;
+  public class B {
+    int j = i;
+  }
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test static field access via named static import [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    static int i = 1;
+  }  
+
+  [B]
+  package p;
+  import static p.A.i;
+  public class B {
+    int j = i;
+  }  
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test non-static field access via named static import [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    int i = 1;
+  }  
+
+  [B]
+  package p;
+  import static p.A.i;
+  public class B {
+    int j = i;
+  }  
+}  
+]] analysis fails
+   run javacFails to ""
+
+test static super field access via named static import [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    static int i = 1;
+  }  
+
+  [B]
+  package p;
+  public class B extends A {
+  }  
+  
+  [C]
+  package p;
+  import static p.B.i;
+  public class C {
+    int j = i;
+  }  
+}  
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test static field access via named non-static import [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A {
+    static int i = 1;
+  }  
+
+  [B]
+  package p;
+  import p.A.i;
+  public class B {
+    int j = i;
+  }  
+}  
+]] analysis fails
+   run javacFails to ""
+
+
+///////////////////////////////////////////////////////////////////
+// static field assignment
+///////////////////////////////////////////////////////////////////
+
+test static field access from static assignment context [[
+
+test;
+  
+[A]
+public class A {
+  static int i = 1;
+  static int j = i;
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test non-static field access from static assignment context [[
+
+test;
+  
+[A]
+public class A {
+  int i = 1;
+  static int j = i;
+}
+]] analysis fails
+   run javacFails to ""
+
+test non-static field access from static nested class context [[
+
+test;
+  
+[A]
+public class A {
+  int i = 1;
+  static class B {
+    int j = i;
+  }
+}
+]] analysis fails
+   run javacFails to ""
+
+test generic non-static field [[
+
+test;
+  
+[p] {
+  [A]
+  package p;
+  public class A<X> {
+    static X x;
+  }
+}
+]] analysis fails
+   run javacFails to ""

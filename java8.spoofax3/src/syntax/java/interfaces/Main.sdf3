@@ -1,0 +1,10 @@
+module syntax/java/interfaces/Main
+
+// Chapter 9. Interfaces
+
+imports
+  syntax/java/interfaces/InterfaceDeclarations
+  syntax/java/interfaces/InterfaceMethodDeclarations
+  syntax/java/interfaces/AnnotationTypes
+  syntax/java/interfaces/Annotations
+  syntax/java/interfaces/ConstantDeclarations

@@ -1,0 +1,279 @@
+module ImmutableApplTerm
+
+language java8
+
+test ImmutableApplTerm [[ package org.metaborg.meta.nabl2.terms.generic;
+
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+import org.metaborg.meta.nabl2.terms.ITermVar;
+import org.pcollections.PSet;
+
+/**
+ * Immutable implementation of {@link ApplTerm}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableApplTerm.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "ApplTerm"})
+@Immutable
+final class ImmutableApplTerm
+    extends ApplTerm
+    implements Serializable {
+  private final String op;
+  private final List<ITerm> args;
+  private final ImmutableClassToInstanceMap<Object> attachments;
+  private final int hashCode;
+
+  private ImmutableApplTerm(String op, Iterable<? extends ITerm> args) {
+    this.op = Objects.requireNonNull(op, "op");
+    this.args = createUnmodifiableList(false, createSafeList(args, true, false));
+    this.attachments = Objects.requireNonNull(super.getAttachments(), "attachments");
+    this.hashCode = super.hashCode();
+  }
+
+  private ImmutableApplTerm(
+      String op,
+      List<ITerm> args,
+      ImmutableClassToInstanceMap<Object> attachments) {
+    this.op = op;
+    this.args = args;
+    this.attachments = attachments;
+    this.hashCode = super.hashCode();
+  }
+
+  /**
+   * @return The value of the {@code op} attribute
+   */
+  @Override
+  public String getOp() {
+    return op;
+  }
+
+  /**
+   * @return The value of the {@code args} attribute
+   */
+  @Override
+  public List<ITerm> getArgs() {
+    return args;
+  }
+
+  /**
+   * @return The value of the {@code attachments} attribute
+   */
+  @Override
+  public ImmutableClassToInstanceMap<Object> getAttachments() {
+    return attachments;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link ApplTerm#getOp() op} attribute.
+   * An equals check used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for op
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableApplTerm setOp(String value) {
+    if (this.op.equals(value)) return this;
+    String newValue = Objects.requireNonNull(value, "op");
+    return new ImmutableApplTerm(newValue, this.args, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link ApplTerm#getArgs() args}.
+   * @param elements The elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableApplTerm setArgs(ITerm... elements) {
+    List<ITerm> newValue = createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
+    return new ImmutableApplTerm(this.op, newValue, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object with elements that replace the content of {@link ApplTerm#getArgs() args}.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param elements An iterable of args elements to set
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableApplTerm setArgs(Iterable<? extends ITerm> elements) {
+    if (this.args == elements) return this;
+    List<ITerm> newValue = createUnmodifiableList(false, createSafeList(elements, true, false));
+    return new ImmutableApplTerm(this.op, newValue, this.attachments);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link ApplTerm#getAttachments() attachments} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for attachments
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableApplTerm setAttachments(ImmutableClassToInstanceMap<Object> value) {
+    if (this.attachments == value) return this;
+    ImmutableClassToInstanceMap<Object> newValue = Objects.requireNonNull(value, "attachments");
+    return new ImmutableApplTerm(this.op, this.args, newValue);
+  }
+
+  /**
+   * Returns the precomputed-on-construction hash code from the supertype implementation of {@code super.hashCode()}.
+   * @return The hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private transient volatile long lazyInitBitmap;
+
+  private static final long ARITY_LAZY_INIT_BIT = 0x1L;
+
+  private transient int arity;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link ApplTerm#getArity() arity} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public int getArity() {
+    if ((lazyInitBitmap & ARITY_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & ARITY_LAZY_INIT_BIT) == 0) {
+          this.arity = super.getArity();
+          lazyInitBitmap |= ARITY_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return arity;
+  }
+
+  private static final long GROUND_LAZY_INIT_BIT = 0x2L;
+
+  private transient boolean ground;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link ApplTerm#isGround() ground} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public boolean isGround() {
+    if ((lazyInitBitmap & GROUND_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & GROUND_LAZY_INIT_BIT) == 0) {
+          this.ground = super.isGround();
+          lazyInitBitmap |= GROUND_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return ground;
+  }
+
+  private static final long VARS_LAZY_INIT_BIT = 0x4L;
+
+  private transient PSet<ITermVar> vars;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Returns a lazily initialized value of the {@link ApplTerm#getVars() vars} attribute.
+   * Initialized once and only once and stored for subsequent access with proper synchronization.
+   * @return A lazily initialized value of the {@code l.name} attribute
+   */
+  @Override
+  public PSet<ITermVar> getVars() {
+    if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+      synchronized (this) {
+        if ((lazyInitBitmap & VARS_LAZY_INIT_BIT) == 0) {
+          this.vars = Objects.requireNonNull(super.getVars(), "vars");
+          lazyInitBitmap |= VARS_LAZY_INIT_BIT;
+        }
+      }
+    }
+    return vars;
+  }
+
+  /**
+   * Construct a new immutable {@code ApplTerm} instance.
+   * @param op The value for the {@code op} attribute
+   * @param args The value for the {@code args} attribute
+   * @return An immutable ApplTerm instance
+   */
+  public static ImmutableApplTerm of(String op, List<ITerm> args) {
+    return of(op, (Iterable<? extends ITerm>) args);
+  }
+
+  /**
+   * Construct a new immutable {@code ApplTerm} instance.
+   * @param op The value for the {@code op} attribute
+   * @param args The value for the {@code args} attribute
+   * @return An immutable ApplTerm instance
+   */
+  public static ImmutableApplTerm of(String op, Iterable<? extends ITerm> args) {
+    return new ImmutableApplTerm(op, args);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link ApplTerm} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable ApplTerm instance
+   */
+  public static ImmutableApplTerm copyOf(ApplTerm instance) {
+    if (instance instanceof ImmutableApplTerm) {
+      return (ImmutableApplTerm) instance;
+    }
+    return ImmutableApplTerm.of(instance.getOp(), instance.getArgs())
+        .setAttachments(instance.getAttachments());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private static <T> List<T> createSafeList(Iterable<? extends T> iterable, boolean checkNulls, boolean skipNulls) {
+    ArrayList<T> list;
+    if (iterable instanceof Collection<?>) {
+      int size = ((Collection<?>) iterable).size();
+      if (size == 0) return Collections.emptyList();
+      list = new ArrayList<T>();
+    } else {
+      list = new ArrayList<T>();
+    }
+    for (T element : iterable) {
+      if (skipNulls && element == null) continue;
+      if (checkNulls) Objects.requireNonNull(element, "element");
+      list.add(element);
+    }
+    return list;
+  }
+
+  private static <T> List<T> createUnmodifiableList(boolean clone, List<T> list) {
+    switch(list.size()) {
+    case 0: return Collections.emptyList();
+    case 1: return Collections.singletonList(list.get(0));
+    default:
+      if (clone) {
+        return Collections.unmodifiableList(new ArrayList<T>(list));
+      } else {
+        if (list instanceof ArrayList<?>) {
+          ((ArrayList<?>) list).trimToSize();
+        }
+        return Collections.unmodifiableList(list);
+      }
+    }
+  }
+} ]] parse succeeds

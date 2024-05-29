@@ -1,0 +1,147 @@
+module ImmutableClosure
+
+language java8
+
+test ImmutableClosure [[ package org.metaborg.meta.nabl2.regexp;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link Closure}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableClosure.<S>of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Closure<S>"})
+@Immutable
+final class ImmutableClosure<S>
+    extends Closure<S>
+    implements Serializable {
+  private final IRegExp<S> rE;
+  private final IRegExpBuilder<S> builder;
+  private final int hashCode;
+
+  private ImmutableClosure(
+      IRegExp<S> rE,
+      IRegExpBuilder<S> builder) {
+    this.rE = Objects.requireNonNull(rE, "rE");
+    this.builder = Objects.requireNonNull(builder, "builder");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableClosure(
+      ImmutableClosure original,
+      IRegExp<S> rE,
+      IRegExpBuilder<S> builder) {
+    this.rE = rE;
+    this.builder = builder;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code rE} attribute
+   */
+  @Override
+  public IRegExp<S> getRE() {
+    return rE;
+  }
+
+  /**
+   * @return The value of the {@code builder} attribute
+   */
+  @Override
+  public IRegExpBuilder<S> getBuilder() {
+    return builder;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Closure#getRE() rE} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for rE
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableClosure<S> setRE(IRegExp<S> value) {
+    if (this.rE == value) return this;
+    IRegExp<S> newValue = Objects.requireNonNull(value, "rE");
+    return new ImmutableClosure<S>(this, newValue, this.builder);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Closure#getBuilder() builder} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for builder
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableClosure<S> setBuilder(IRegExpBuilder<S> value) {
+    if (this.builder == value) return this;
+    IRegExpBuilder<S> newValue = Objects.requireNonNull(value, "builder");
+    return new ImmutableClosure<S>(this, this.rE, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableClosure} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableClosure<?>
+        && equalTo((ImmutableClosure<S>) another);
+  }
+
+  private boolean equalTo(ImmutableClosure<S> another) {
+    return rE.equals(another.rE)
+        && builder.equals(another.builder);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code rE}, {@code builder}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + rE.hashCode();
+    h = h * 17 + builder.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code Closure} instance.
+   * @param rE The value for the {@code rE} attribute
+   * @param builder The value for the {@code builder} attribute
+   * @return An immutable Closure instance
+   */
+  public static <S> ImmutableClosure<S> of(IRegExp<S> rE, IRegExpBuilder<S> builder) {
+    return new ImmutableClosure<S>(rE, builder);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Closure} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param <S> generic parameter S
+   * @param instance The instance to copy
+   * @return A copied immutable Closure instance
+   */
+  public static <S> ImmutableClosure<S> copyOf(Closure<S> instance) {
+    if (instance instanceof ImmutableClosure<?>) {
+      return (ImmutableClosure<S>) instance;
+    }
+    return ImmutableClosure.<S>of(instance.getRE(), instance.getBuilder());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

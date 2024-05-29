@@ -1,0 +1,12 @@
+module syntax/java/classes/Main
+
+// Chapter 8. Classes
+
+imports
+  syntax/java/classes/ClassDeclarations
+  syntax/java/classes/FieldDeclarations
+  syntax/java/classes/MethodDeclarations
+  syntax/java/classes/EnumDeclarations
+  syntax/java/classes/InstanceInitializers
+  syntax/java/classes/StaticInitializers
+  syntax/java/classes/ConstructorDeclarations

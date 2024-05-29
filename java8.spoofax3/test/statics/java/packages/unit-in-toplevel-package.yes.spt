@@ -1,0 +1,18 @@
+module packages/unit-in-toplevel-package_yes
+
+language metaborg-java
+
+test unit-in-toplevel-package [[
+
+test;
+
+
+
+
+
+[p] {
+  [package_info]
+  package p;
+}
+]] analysis succeeds
+   run javacSucceeds to ""

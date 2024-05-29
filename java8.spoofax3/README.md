@@ -1,0 +1,70 @@
+# Java 8 specification in Spoofax 3
+This is an adaptation of `lang.java` for Spoofax 3, with the following changes:
+
+- `syntax/java/Java_StrategoMix.sdf3`
+    - Removed.
+- `syntax/java/classes/ClassDeclarations.sdf3`
+    - Added `TypeParameters-OPT` sort and constructors `NoTypeParameters` and `SomeTypeParameters`.
+    - Added `SuperClass-OPT` sort and constructors `NoSuperClass` and `SomeSuperClass`.
+    - Added `SuperInterfaces-OPT` sort and constructors `NoSuperInterfaces` and `SomeSuperInterfaces`.
+    - Replaced `TypeParameters?` with `TypeParameters-OPT`.
+    - Replaced `SuperClass?` with `SuperClass-OPT`.
+    - Replaced `SuperInterfaces?` with `SuperInterfaces-OPT`.
+- `syntax/java/classes/ConstructorDeclarations.sdf3`
+    - Added `ConstructorInvocation-OPT` sort and constructors `NoConstructorInvocation` and `SomeConstructorInvocation`.
+    - Replaced `ConstructorInvocation?` with `ConstructorInvocation-OPT`.
+    - Replaced `TypeParameters?` with `TypeParameters-OPT` from `ClassDeclarations.sdf3`.
+    - Replaced `Throws?` with `Throws-OPT` from `MethodDeclarations.sdf3`.
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `syntax/java/classes/EnumDeclarations.sdf3`
+    - Added `EnumBodyDeclarations-OPT` sort and constructors `NoEnumBodyDeclarations` and `SomeEnumBodyDeclarations`.
+    - Added `EnumConstantArgs-OPT` sort and constructors `NoEnumConstantArgs` and `SomeEnumConstantArgs`.
+    - Replaced `SuperInterfaces?` with `SuperInterfaces-OPT` from `ClassDeclarations.sdf3`.
+    - Replaced `EnumBodyDeclarations?` with `EnumBodyDeclarations-OPT`.
+    - Replaced `EnumConstantArgs?` with `EnumConstantArgs-OPT`.
+- `syntax/java/classes/FieldDeclarations.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+    - Renamed `UnannPrimitiveType.NumericType` constructor to `UnannNumericType`.
+    - Renamed `UnannPrimitiveType.BooleanType` constructor to `UnannBooleanType`.
+    - Renamed `UnannClassType.ClassType` constructor to `UnannClassType`.
+- `syntax/java/classes/MethodDeclarations.sdf3`
+    - Added `Throws-OPT` sort and constructors `NoThrows` and `SomeThrows`.
+    - Replaced `Throws?` with `Throws-OPT`.
+- `syntax/java/expressions/ClassInstanceCreation.sdf3`
+    - Added `TypeArgumentsOrDiamond-OPT` sort and constructors `NoTypeArgumentsOrDiamond` and `SomeTypeArgumentsOrDiamond`.
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+    - Replaced `TypeArgumentsOrDiamond?` with `TypeArgumentsOrDiamond-OPT`.
+    - Renamed `UnqualifiedInstance.NewInstance` constructor to `NewInstanceWithInitializer`.
+- `syntax/java/expressions/Main.sdf3`
+    - Added `Expression-OPT` sort and constructors `NoExpression` and `SomeExpression`.
+- `syntax/java/expressions/MethodInvocation.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `syntax/java/expressions/MethodReference.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.
+- `syntax/java/interfaces/AnnotationTypes.sdf3`
+    - Added `DefaultValue-OPT` sort and constructors `NoDefaultValue` and `SomeDefaultValue`.
+    - Replaced `DefaultValue?` with `DefaultValue-OPT`.
+- `syntax/java/interfaces/InterfaceDeclarations.sdf3`
+    - Added `ExtendsInterfaces-OPT` sort and constructors `NoExtendsInterfaces` and `SomeExtendsInterfaces`.
+    - Replaced `TypeParameters?` with `TypeParameters-OPT` from `ClassDeclarations.sdf3`.
+    - Replaced `ExtendsInterfaces?` with `ExtendsInterfaces-OPT`.
+- `syntax/java/names/Names.sdf3`
+    - Renamed one `PackageName.PackageName` constructor to `QPackageName`.
+    - Renamed one `TypeName.TypeName` constructor to `QTypeName`.
+    - Renamed one `PackageOrTypeName.PackageOrTypeName` constructor to `QPackageOrTypeName`.
+    - Renamed one `ExpressionName.ExpressionName` constructor to `QExpressionName`.
+    - Renamed one `AmbiguousName.AmbiguousName` constructor to `QAmbiguousName`.
+- `syntax/java/packages/CompilationUnits.sdf3`
+    - Replaced `PackageDeclaration?` with `PackageDeclaration-OPT` from `PackageDeclarations.sdf3`.
+- `syntax/java/statements/Statements.sdf3`
+    - Replaced `Expression?` with `Expression-OPT` from `Main.sdf3`.
+    - Renamed one `Statement.Assert` constructor to `Statement.AssertWithMessage`.
+    - Renamed one `Statement.Break` constructor to `BreakWithLabel`.
+    - Renamed one `Statement.Continue` constructor to `ContinueWithLabel`.
+    - Renamed one `Statement.Return` constructor to `ReturnVoid`.
+    - Renamed one `Statement.TryWithResources` constructor to `TryFinallyWithResources`.
+    - Renamed one `Statement.TryWithResourcesSemiColon` constructor to `TryFinallyWithResourcesSemiColon`.
+- `syntax/java/types/ParameterizedTypes.sdf3`
+    - Added `TypeArguments-OPT` sort and constructors `NoTypeArguments` and `SomeTypeArguments`.
+- `syntax/java/types/ReferenceTypes.sdf3`
+    - Replaced `TypeArguments?` with `TypeArguments-OPT` from `ParameterizedTypes.sdf3`.

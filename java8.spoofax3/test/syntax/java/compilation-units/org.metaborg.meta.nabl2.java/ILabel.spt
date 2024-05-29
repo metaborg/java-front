@@ -1,0 +1,11 @@
+module ILabel
+
+language java8
+
+test ILabel [[ package org.metaborg.meta.nabl2.scopegraph;
+
+public interface ILabel {
+
+    String getName();
+
+} ]] parse succeeds

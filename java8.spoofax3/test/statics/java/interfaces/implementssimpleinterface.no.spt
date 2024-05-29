@@ -1,0 +1,23 @@
+module interfaces/implementssimpleinterface_no
+
+language metaborg-java
+
+test implementssimpleinterface [[
+
+test;
+
+
+
+// error: A is not abstract and does not override abstract method m\(\) in I
+
+[I]
+interface I {
+  public void m();
+}
+
+[A]
+class A implements I {
+}
+
+]] analysis fails
+   run javacFails to ""

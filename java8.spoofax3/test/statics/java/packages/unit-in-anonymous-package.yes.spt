@@ -1,0 +1,16 @@
+module packages/unit-in-anonymous-package_yes
+
+language metaborg-java
+
+test unit-in-anonymous-package [[
+
+test;
+
+
+
+
+
+[package_info]
+
+]] analysis succeeds
+   run javacSucceeds to ""

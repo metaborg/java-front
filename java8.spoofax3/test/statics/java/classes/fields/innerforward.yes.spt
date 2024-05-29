@@ -1,0 +1,21 @@
+module classes/fields/innerforward_yes
+
+language metaborg-java
+
+test innerforward [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public B f;
+    public class B {}
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

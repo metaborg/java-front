@@ -1,0 +1,10 @@
+module IUnitContrib
+
+language java8
+
+
+test IUnitContrib [[ package org.metaborg.core.unit;
+
+public interface IUnitContrib {
+    String id();
+} ]] parse succeeds

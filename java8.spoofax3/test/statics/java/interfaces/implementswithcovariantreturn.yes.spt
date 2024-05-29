@@ -1,0 +1,29 @@
+module interfaces/implementswithcovariantreturn_yes
+
+language metaborg-java
+
+test implementswithcovariantreturn [[
+
+test;
+
+
+
+
+
+[I]
+interface I {
+  public A m();
+}
+
+[A]
+class A implements I {
+  public B m() {
+    return null;
+  }
+}
+
+[B]
+class B extends A {}
+
+]] analysis succeeds
+   run javacSucceeds to ""

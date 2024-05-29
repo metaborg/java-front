@@ -1,0 +1,19 @@
+module syntax/java/expressions/MethodInvocation
+
+// 15.12. Method Invocation Expressions
+
+imports
+  syntax/java/expressions/Main
+  syntax/java/names/Names
+  syntax/java/lexical/Identifiers
+  syntax/java/types/ParameterizedTypes
+
+context-free syntax
+
+  Expression.Invoke          = <<MethodName>(<{Expression ", "}*>)>
+//  ambiguous with Expression?
+//  Expression.InvokeQTypeName = <<TypeName>.<TypeArguments-OPT> <Id>(<{Expression ", "}*>)>
+//  Expression.InvokeQExpName  = <<ExpressionName>.<TypeArguments-OPT> <Id>(<{Expression ", "}*>)>
+  Expression.InvokeQExp      = <<Expression>.<TypeArguments-OPT> <Id>(<{Expression ", "}*>)>
+  Expression.InvokeSuper     = <super.<TypeArguments-OPT> <Id>(<{Expression ", "}*>)>
+  Expression.InvokeQSuper    = <<TypeName>.super.<TypeArguments-OPT> <Id>(<{Expression ", "}*>)>

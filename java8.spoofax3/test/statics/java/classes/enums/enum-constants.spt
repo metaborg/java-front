@@ -1,0 +1,161 @@
+module classes/enums/enum-constants
+
+language metaborg-java
+
+test refer to constant of imported enum [[
+
+test;
+
+
+
+
+[Test]
+import p.E;
+public class Test {
+  E f = E.C3;
+}
+
+[p] {
+  [E]
+  package p;
+  
+  public enum E {
+    C1, C2
+  }
+}
+
+]] analysis fails
+   run javacFails to ""
+   run javacFails to ""
+
+test refer to constant of imported enum [[
+
+test;
+
+
+
+
+[Test]
+import p.E;
+public class Test {
+  E f = E.C1;
+}
+
+[p] {
+  [E]
+  package p;
+  
+  public enum E {
+    C1, C2
+  }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""
+   run javacSucceeds to ""
+
+test refer to single-static-imported constant [[
+
+test;
+
+
+
+
+[Test]
+import p.E;
+import static p.E.C1;
+public class Test {
+  E f = C1;
+}
+
+[p] {
+  [E]
+  package p;
+  
+  public enum E {
+    C1, C2
+  }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""
+   run javacSucceeds to ""
+
+test refer to static-ondemand-imported constant [[
+
+test;
+
+
+
+
+[Test]
+import p.E;
+import static p.E.*;
+public class Test {
+  E f = C1;
+}
+
+[p] {
+  [E]
+  package p;
+  
+  public enum E {
+    C1, C2
+  }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""
+   run javacSucceeds to ""
+
+test enum constant local field [[
+
+test;
+
+
+
+
+[p] {
+  [E]
+  package p;
+  
+  public enum E {
+    C1 {
+      int i;
+    },
+    C2
+  }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""
+   run javacSucceeds to ""
+   
+test cannot refer to enum constant field [[
+
+test;
+
+
+
+
+[Test]
+import p.E;
+public class Test {
+  int i = E.C1.i;
+}
+
+[p] {
+  [E]
+  package p;
+  
+  public enum E {
+    C1 {
+      int i;
+    },
+    C2
+  }
+}
+
+]] analysis fails
+   run javacFails to ""
+   run javacFails to ""

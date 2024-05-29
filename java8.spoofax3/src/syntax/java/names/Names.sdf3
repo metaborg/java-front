@@ -1,0 +1,29 @@
+module syntax/java/names/Names
+
+// 6.5. Determining the Meaning of a Name
+
+imports
+  syntax/java/lexical/Identifiers
+
+context-free sorts
+
+  PackageName
+  TypeName
+  PackageOrTypeName
+  ExpressionName
+  AmbiguousName
+  MethodName
+
+context-free syntax
+
+  PackageName.PackageName              = Id
+  PackageName.QPackageName             = <<PackageName>.<Id>>
+  TypeName.TypeName                    = Id
+  TypeName.QTypeName                   = <<PackageOrTypeName>.<Id>>
+  PackageOrTypeName.PackageOrTypeName  = Id
+  PackageOrTypeName.QPackageOrTypeName = <<PackageOrTypeName>.<Id>>
+  ExpressionName.ExpressionName        = Id
+  ExpressionName.QExpressionName       = <<AmbiguousName>.<Id>>
+  AmbiguousName.AmbiguousName          = Id
+  AmbiguousName.QAmbiguousName         = <<AmbiguousName>.<Id>>
+  MethodName.MethodName                = Id

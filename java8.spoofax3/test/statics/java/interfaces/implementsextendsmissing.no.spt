@@ -1,0 +1,28 @@
+module interfaces/implementsextendsmissing_no
+
+language metaborg-java
+
+test implementsextendsmissing [[
+
+test;
+
+
+
+// error: A is not abstract and does not override abstract method .* in I
+
+[I]
+interface I {
+  public void m(A a);
+  public B n(B a);
+}
+
+[A]
+class A extends B implements I {
+  public void m(A a) {}
+}
+
+[B]
+class B {}
+
+]] analysis fails
+   run javacFails to ""

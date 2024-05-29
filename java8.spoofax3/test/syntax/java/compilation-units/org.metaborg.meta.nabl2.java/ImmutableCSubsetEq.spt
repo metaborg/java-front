@@ -1,0 +1,215 @@
+module ImmutableCSubsetEq
+
+language java8
+
+test ImmutableCSubsetEq [[ package org.metaborg.meta.nabl2.constraints.sets;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.MessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CSubsetEq}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCSubsetEq.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CSubsetEq"})
+@Immutable
+public final class ImmutableCSubsetEq
+    extends CSubsetEq
+    implements Serializable {
+  private final ITerm left;
+  private final ITerm right;
+  private final @Nullable String projection;
+  private final MessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCSubsetEq(
+      ITerm left,
+      ITerm right,
+      Optional<String> projection,
+      MessageInfo messageInfo) {
+    this.left = Objects.requireNonNull(left, "left");
+    this.right = Objects.requireNonNull(right, "right");
+    this.projection = projection.orElse(null);
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCSubsetEq(
+      ImmutableCSubsetEq original,
+      ITerm left,
+      ITerm right,
+      @Nullable String projection,
+      MessageInfo messageInfo) {
+    this.left = left;
+    this.right = right;
+    this.projection = projection;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code left} attribute
+   */
+  @Override
+  public ITerm getLeft() {
+    return left;
+  }
+
+  /**
+   * @return The value of the {@code right} attribute
+   */
+  @Override
+  public ITerm getRight() {
+    return right;
+  }
+
+  /**
+   * @return The value of the {@code projection} attribute
+   */
+  @Override
+  public Optional<String> getProjection() {
+    return Optional.ofNullable(projection);
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public MessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CSubsetEq#getLeft() left} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for left
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCSubsetEq setLeft(ITerm value) {
+    if (this.left == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "left");
+    return new ImmutableCSubsetEq(this, newValue, this.right, this.projection, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CSubsetEq#getRight() right} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for right
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCSubsetEq setRight(ITerm value) {
+    if (this.right == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "right");
+    return new ImmutableCSubsetEq(this, this.left, newValue, this.projection, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a <i>present</i> value for the optional {@link CSubsetEq#getProjection() projection} attribute.
+   * @param value The value for projection
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableCSubsetEq setProjection(String value) {
+    @Nullable String newValue = Objects.requireNonNull(value, "projection");
+    if (Objects.equals(this.projection, newValue)) return this;
+    return new ImmutableCSubsetEq(this, this.left, this.right, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting an optional value for the {@link CSubsetEq#getProjection() projection} attribute.
+   * An equality check is used on inner nullable value to prevent copying of the same value by returning {@code this}.
+   * @param optional A value for projection
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableCSubsetEq setProjection(Optional<String> optional) {
+    @Nullable String value = optional.orElse(null);
+    if (Objects.equals(this.projection, value)) return this;
+    return new ImmutableCSubsetEq(this, this.left, this.right, value, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CSubsetEq#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCSubsetEq setMessageInfo(MessageInfo value) {
+    if (this.messageInfo == value) return this;
+    MessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCSubsetEq(this, this.left, this.right, this.projection, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCSubsetEq} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCSubsetEq
+        && equalTo((ImmutableCSubsetEq) another);
+  }
+
+  private boolean equalTo(ImmutableCSubsetEq another) {
+    return left.equals(another.left)
+        && right.equals(another.right)
+        && Objects.equals(projection, another.projection)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code left}, {@code right}, {@code projection}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + left.hashCode();
+    h = h * 17 + right.hashCode();
+    h = h * 17 + Objects.hashCode(projection);
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CSubsetEq} instance.
+   * @param left The value for the {@code left} attribute
+   * @param right The value for the {@code right} attribute
+   * @param projection The value for the {@code projection} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CSubsetEq instance
+   */
+  public static ImmutableCSubsetEq of(ITerm left, ITerm right, Optional<String> projection, MessageInfo messageInfo) {
+    return new ImmutableCSubsetEq(left, right, projection, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CSubsetEq} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CSubsetEq instance
+   */
+  public static ImmutableCSubsetEq copyOf(CSubsetEq instance) {
+    if (instance instanceof ImmutableCSubsetEq) {
+      return (ImmutableCSubsetEq) instance;
+    }
+    return ImmutableCSubsetEq.of(instance.getLeft(), instance.getRight(), instance.getProjection(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

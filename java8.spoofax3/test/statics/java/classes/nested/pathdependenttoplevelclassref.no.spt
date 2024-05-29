@@ -1,0 +1,29 @@
+module classes/nested/pathdependenttoplevelclassref_no
+
+language metaborg-java
+
+test pathdependenttoplevelclassref [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[A]
+public class A {}
+
+[B]
+public class B {}
+
+[T]
+public class T {
+    public void m() {
+        A a = new A();
+        a.new B();
+    }
+}
+
+
+]] analysis fails
+   run javacFails to ""

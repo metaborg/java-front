@@ -1,0 +1,238 @@
+module packages/imports
+
+language metaborg-java
+
+test single-type-import of type defined in the unit [[
+
+test;
+
+[p] {
+  [A]
+  package p;
+  import p.A;
+  public class A {}
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test single-type-import of class with same name as a type defined in the unit [[
+
+test;
+
+[p] {
+  [A]
+  package p;
+  import q.A;
+  public class A {}
+}
+
+[q] {
+  [A]
+  package q;
+  public class A {}
+}
+]] analysis fails
+   run javacFails to ""
+
+test two single-type-imports of homonymous types [[
+
+test;
+
+[Test]
+import p.A;
+import q.A;
+public class Test {
+  
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {}
+}
+
+[q] {
+  [A]
+  package q;
+  public class A {}
+}
+]] analysis fails
+   run javacFails to ""
+
+test two single-type-imports of the same type [[
+
+test;
+
+[Test]
+import p.A;
+import p.A;
+public class Test {
+  
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {}
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test type and static import of same type [[
+
+test;
+
+[Test]
+import p.A.B;
+import static p.A.B;
+public class Test {
+  
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {}
+  }
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test type and static import of different homonymous type [[
+
+test;
+
+[Test]
+import q.B;
+import static p.A.B;
+public class Test {
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {}
+  }
+}
+
+[q] {
+  [B]
+  package q;
+  public class B {}
+}
+]] analysis fails
+   run javacFails to ""
+
+test static import of non-static type [[
+
+test;
+
+[Test]
+import static p.A.B;
+public class Test {
+  
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {
+    public class B {}
+  }
+}
+]] analysis fails
+   run javacFails to ""
+
+test two type-import-on-demand of same package [[
+
+test;
+
+[Test]
+import p.*;
+import p.*;
+public class Test {
+  A a;
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {
+  }
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test two single-static-imports of homonymous types [[
+
+test;
+
+[Test]
+import static p.A.B;
+import static q.A.B;
+public class Test {
+  
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {}
+  }
+}
+
+[q] {
+  [A]
+  package q;
+  public class A {
+    public static class B {}
+  }
+}
+]] analysis fails
+   run javacFails to ""
+
+test two single-static-imports of the same type [[
+
+test;
+
+[Test]
+import static p.A.B;
+import static p.A.B;
+public class Test {
+  B b;
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {}
+  }
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+
+test type-import-on-demand and static-imports-on-demand of the same type [[
+
+test;
+
+[Test]
+import p.A.*;
+import static p.A.*;
+public class Test {
+  B b;
+}
+
+[p] {
+  [A]
+  package p;
+  public class A {
+    public static class B {}
+  }
+}
+]] analysis succeeds
+   run javacSucceeds to ""
+

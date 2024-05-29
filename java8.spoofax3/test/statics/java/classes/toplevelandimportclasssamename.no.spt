@@ -1,0 +1,27 @@
+module classes/toplevelandimportclasssamename_no
+
+language metaborg-java
+
+test toplevelandimportclasssamename [[
+
+test;
+
+
+
+// error: List is already defined in this compilation unit
+
+[javas] {
+    [util] {
+        [List]
+        package javas.util;
+        public class List {}
+    }
+}
+
+[List]
+import javas.util.List;
+public class List {}
+
+
+]] analysis fails
+   run javacFails to ""

@@ -1,0 +1,50 @@
+module syntax/java/interfaces/InterfaceDeclarations
+
+// 9.1. Interface Declarations
+
+imports
+  syntax/java/lexical/Identifiers
+  syntax/java/lexical/Modifiers
+  syntax/java/lexical/SemiColon
+  syntax/java/classes/ClassDeclarations
+  syntax/java/types/ReferenceTypes
+  syntax/java/interfaces/Annotations
+  syntax/java/interfaces/ConstantDeclarations
+  syntax/java/interfaces/InterfaceMethodDeclarations
+  syntax/java/interfaces/AnnotationTypes
+
+context-free sorts
+
+  InterfaceDeclaration
+  InterfaceModifier
+  ExtendsInterfaces-OPT
+  ExtendsInterfaces
+  InterfaceMemberDeclaration
+
+context-free syntax
+
+
+  InterfaceDeclaration.NormalInterface = <
+  <{InterfaceModifier " "}*> interface <Id><TypeParameters-OPT> <ExtendsInterfaces-OPT> {
+    <{InterfaceMemberDeclaration "\n"}*>
+  }>
+
+  InterfaceDeclaration = AnnotationTypeDeclaration
+
+  InterfaceModifier = Annotation
+  InterfaceModifier = Public
+  InterfaceModifier = Protected
+  InterfaceModifier = Private
+  InterfaceModifier = Abstract
+  InterfaceModifier = Static
+  InterfaceModifier = Strictfp
+
+  ExtendsInterfaces-OPT.NoExtendsInterfaces   =
+  ExtendsInterfaces-OPT.SomeExtendsInterfaces = ExtendsInterfaces
+  ExtendsInterfaces.ExtendsInterfaces         = <extends <{ClassType ", "}+>>
+
+  InterfaceMemberDeclaration = ConstantDeclaration
+  InterfaceMemberDeclaration = InterfaceMethodDeclaration
+  InterfaceMemberDeclaration = ClassDeclaration
+  InterfaceMemberDeclaration = InterfaceDeclaration
+  InterfaceMemberDeclaration = SemiColon

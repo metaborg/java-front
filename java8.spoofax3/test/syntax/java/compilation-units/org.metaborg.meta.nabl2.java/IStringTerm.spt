@@ -1,0 +1,11 @@
+module IStringTerm
+
+language java8
+
+test IStringTerm [[ package org.metaborg.meta.nabl2.terms;
+
+public interface IStringTerm extends ITerm {
+
+    String getValue();
+
+} ]] parse succeeds

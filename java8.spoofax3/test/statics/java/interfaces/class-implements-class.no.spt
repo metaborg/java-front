@@ -1,0 +1,20 @@
+module interfaces/class-implements-class_no
+
+language metaborg-java
+
+test class-implements-class [[
+
+test;
+
+
+
+// error: interface expected here
+
+[B]
+class B {}
+
+[A]
+class A implements B {}
+
+]] analysis fails
+   run javacFails to ""

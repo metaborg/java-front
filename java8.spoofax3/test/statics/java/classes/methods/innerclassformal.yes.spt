@@ -1,0 +1,25 @@
+module classes/methods/innerclassformal_yes
+
+language metaborg-java
+
+test innerclassformal [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class I {}
+}
+
+[B]
+public class B {
+    public void b(A a, A.I i) {}
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

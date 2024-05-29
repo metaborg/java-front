@@ -1,0 +1,31 @@
+module classes/nested/innerclassref_yes
+
+language metaborg-java
+
+test innerclassref [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class B {}
+}
+
+[B]
+public class B {}
+
+[C]
+public class C {
+    public void m() {
+        A a = new A();
+        A.B ab = a.new B(); // B resolves in the type of a
+    }
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

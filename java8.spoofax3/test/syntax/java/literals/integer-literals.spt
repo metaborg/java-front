@@ -1,0 +1,50 @@
+module literals/integer-literals
+
+language java8
+
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
+
+test largest int [[2147483648]] parse succeeds
+test zero [[0]] parse succeeds
+test largest hexadecimal  [[0x7fff_ffff]] parse succeeds
+test largest octal [[0177_7777_7777]] parse succeeds
+test largest binary [[0b0111_1111_1111_1111_1111_1111_1111_1111]] parse succeeds
+test largest neg hexadecimal [[0x8000_0000]] parse succeeds
+test largest neg octal [[0200_0000_0000]] parse succeeds
+test largest neg binary [[0b1000_0000_0000_0000_0000_0000_0000_0000]] parse succeeds
+test -1 hexadecimal [[0xffff_ffff]] parse succeeds
+test -1 octal [[0377_7777_7777]] parse succeeds
+test -1 binary [[0b1111_1111_1111_1111_1111_1111_1111_1111]] parse succeeds
+test largest decimal long [[9223372036854775808L]] parse succeeds
+test largest hexadecimal long  [[0x7fff_ffff_ffff_ffffL]] parse succeeds
+test largest octal long [[07_7777_7777_7777_7777_7777L]] parse succeeds
+test largest binary long [[0b0111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111L]] parse succeeds
+test largest neg hexadecimal long [[0x8000_0000_0000_0000L]] parse succeeds
+test largest neg octal long [[010_0000_0000_0000_0000_0000L]] parse succeeds
+test largest neg binary long [[0b1000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000L]] parse succeeds
+test int example 1 [[0]] parse succeeds
+test int example 2 [[2]] parse succeeds
+test int example 3 [[0372]] parse succeeds
+test int example 4 [[0xDada_Cafe]] parse succeeds
+test int example 5 [[1996]] parse succeeds
+test int example 6 [[0x00_FF__00_FF]] parse succeeds
+test long example 1 [[0l]] parse succeeds
+test long example 2 [[0777L]] parse succeeds
+test long example 3 [[0x100000000L]] parse succeeds
+test long example 4 [[2_147_483_648L]] parse succeeds
+test long example 5 [[0xC0B0L]] parse succeeds
+test ending with _ [[1_]] parse fails
+test ending with _ [[0b1_]] parse fails
+test starting with _ [[0b_1]] parse fails
+test binary [[0b]] parse fails
+test binary [[0b1]] parse succeeds
+test binary [[0b0]] parse succeeds
+test binary ending with _ [[0b0_]] parse fails
+test binary starting with _ [[0b_0]] parse fails
+

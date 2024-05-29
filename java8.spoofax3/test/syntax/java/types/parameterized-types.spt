@@ -1,0 +1,23 @@
+module parameterized-types
+
+language java8
+
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]] x;
+    }
+  }
+]]
+
+test well-formed param type 1 [[ Seq<String> ]] parse succeeds
+test well-formed param type 2 [[ Seq<Seq<String>> ]] parse succeeds
+test well-formed param type 3 [[ Seq<String>.Zipper<Integer> ]] parse succeeds
+test well-formed param type 4 [[ Pair<String,Integer> ]] parse succeeds
+test ill-formed param type 5 [[ Seq<int> ]] parse fails
+test wildcard 1 [[Collection<?>]] parse succeeds
+test array wildcard [[Class<?>[] ]] parse succeeds
+test wildcard extends [[Collection<? extends E>]] parse succeeds
+test type extends [[MiscMath<? extends Number>]] parse succeeds
+test wildcard super [[ReferenceQueue<? super T>]] parse succeeds
+test type member [[Outer<Integer>.Inner]] parse succeeds

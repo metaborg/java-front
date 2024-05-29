@@ -1,0 +1,13 @@
+module identifiers
+
+language java8
+
+// Note: Normally, fixtures or start symbols would be used for tests like these. However, at the time of writing, Spoofax 3 contains bugs
+// regarding fixures and start symbols, causing incorrectly failing tests or Eclipse throwing errors.
+
+test example 1 [[class A {void b(){int String;}}]] parse succeeds
+test example 2 [[class A {void b(){int i3;}}]] parse succeeds
+test example 3 [[class A {void b(){int αρετη;}}]] parse fails
+test example 4 [[class A {void b(){int MAX_VALUE;}}]] parse succeeds
+test example 5 [[class A {void b(){int isLetterOrDigit;}}]] parse succeeds
+test example 6 [[class A {void b(){int _1;}}]] parse succeeds

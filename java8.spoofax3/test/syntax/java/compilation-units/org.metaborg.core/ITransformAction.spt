@@ -1,0 +1,12 @@
+module ITransformAction
+
+language java8
+
+
+test ITransformAction [[ package org.metaborg.core.action;
+
+public interface ITransformAction extends IAction {
+    ITransformGoal goal();
+
+    TransformActionFlags flags();
+} ]] parse succeeds

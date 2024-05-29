@@ -1,0 +1,13 @@
+module ITermIndex
+
+language java8
+
+test ITermIndex [[ package org.metaborg.meta.nabl2.terms;
+
+public interface ITermIndex {
+
+    String getResource();
+
+    int getId();
+
+} ]] parse succeeds

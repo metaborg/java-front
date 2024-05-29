@@ -1,0 +1,6 @@
+module syntax/java/arrays/Main
+
+// Chapter 10. Arrays
+
+imports
+  syntax/java/arrays/ArrayInitializers

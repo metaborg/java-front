@@ -1,0 +1,31 @@
+module classes/nested/innersubtype_yes
+
+language metaborg-java
+
+test innersubtype [[
+
+test;
+
+
+
+
+
+[A]
+class A {
+    class B {}
+}
+
+[C]
+class C extends A {
+    class D extends B {}
+}
+
+[Test]
+class Test {
+    A.B m() {
+        return new C().new D();
+    }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

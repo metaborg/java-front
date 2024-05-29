@@ -1,0 +1,33 @@
+module syntax/java/Test
+
+// The Java Language Specification
+// Java SE 8 Edition
+
+imports
+  syntax/java/Main
+  syntax/java/lexical/Comments
+  syntax/java/lexical/Identifiers
+  syntax/java/lexical/LineTerminators
+  syntax/java/packages/CompilationUnits
+
+context-free sorts
+
+  Expectation TestUnit
+
+context-free syntax
+
+  CompilationUnit.Test = <
+    test;
+    <{TestUnit "\n"}*>
+  >
+
+  TestUnit.TestPkg = <
+    [<ID>] {
+      <{TestUnit "\n"}*>
+    }
+  >
+
+  TestUnit.TestFile = <
+    [<ID>]
+    <CompilationUnit>
+  >

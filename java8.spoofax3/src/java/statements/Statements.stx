@@ -1,0 +1,281 @@
+module java/statements/Statements
+
+imports
+
+  signatures/syntax/java/statements/Statements-sig
+
+  java/JRE
+  java/classes/FieldDeclarations
+  java/classes/MethodDeclarations
+  java/expressions/Main
+  java/names/Main
+  java/names/MethodNames
+  java/statements/Blocks
+  java/statements/Main
+  java/types/Conversions
+  java/types/ReferenceTypes
+  java/types/Subtyping
+  java/util/Boolean
+
+
+rules // 14.5. Statements
+
+  stmtOk : scope * Statement
+
+  stmtOk(s, Labeled(id, stmt)) :-
+    stmtOk(s, stmt),
+    true.
+
+
+  stmtOk(s, If(expr_cond, stmt_then)) :-
+  {T}
+    T == exprOk(s, expr_cond),
+    conditionCompatible(T),
+    stmtOk(s, stmt_then),
+    true.
+
+  stmtOk(s, IfElse(expr_cond, stmt_then, stmt_else)) :-
+  {T}
+    T == exprOk(s, expr_cond),
+    conditionCompatible(T),
+    stmtOk(s, stmt_then),
+    stmtOk(s, stmt_else),
+    true.
+
+
+  stmtOk(s, While(expr_cond, stmt)) :-
+  {T}
+    T == exprOk(s, expr_cond),
+    conditionCompatible(T),
+    stmtOk(s, stmt),
+    true.
+
+
+  stmtOk(s, For(forInit, exprOpt, forUpdate, stmt)) :-
+  {s_for T}
+    new s_for, s_for -LEX-> s,
+    forInitOk(s_for, forInit),
+    T == exprOptOk(s_for, exprOpt),
+    conditionCompatible(T),
+    forUpdateOk(s_for, forUpdate),
+    stmtOk(s_for, stmt).
+
+  stmtOk(s, ForEach(varModList, unannType, varDeclId, expr, stmt)) :-
+  {s_foreach T T'}
+    new s_foreach, s_foreach -LEX-> s,
+    varModListOk(s, varModList),
+    T == unannTypeOk(s, unannType),
+    varDeclIdOk(s, T, varDeclId, s_foreach),
+    T' == exprOk(s, expr),
+    isIterable(T') == T(),
+    try { false } | warning "Unchecked element type of Iterable" @expr,
+    stmtOk(s_foreach, stmt).
+
+  forInitOk : scope * ForInit
+
+  forInitOk(s, Exprs2ForInit(exprs)) :-
+    exprsOk(s, exprs).
+
+  forInitOk(s, VarDecls(varModList, unannType, varDeclList)) :-
+  {T}
+    varModListOk(s, varModList),
+    T == unannTypeOk(s, unannType),
+    varDeclListOk(s, T, varDeclList, s).
+
+  forUpdateOk : scope * ForUpdate
+
+  forUpdateOk(s, Exprs2ForUpdate(exprs)) :-
+    exprsOk(s, exprs),
+    true.
+
+  exprsOk : scope * Exprs
+
+  exprsOk(s, ExprList(exprList)) :-
+    _ == exprListOk(s, exprList),
+    true.
+
+
+  stmtOk(s, Block2Statement(blk)) :-
+    blkOk(s, blk),
+    true.
+
+
+  stmtOk(s, ExpressionStatement(expr)) :-
+    _ == exprOk(s, expr),
+    true.
+
+
+  stmtOk(s, Assert(expr)) :-
+    _ == exprOk(s, expr),
+    true.
+
+  stmtOk(s, AssertWithMessage(expr1, expr2)) :-
+    _ == exprOk(s, expr1),
+    _ == exprOk(s, expr2),
+    true.
+
+
+  stmtOk(s, Switch(expr, switchGroupList, switchLabelList)) :-
+  {T s_lbl s_blk}
+    T == exprOk(s, expr),
+    switchCompatible(T),
+    new s_blk, s_blk -LEX-> s,
+    new s_lbl, s_lbl -LEX-> s,
+    switchLabelImport(s_lbl, T),
+    switchGroupListOk(s_blk, s_lbl, T, switchGroupList),
+    switchLabelListOk(s_lbl, T, switchLabelList).
+
+  switchLabelImport : scope * TYPE
+  switchLabelImport(s_lbl, REF(s_ty)) :- s_lbl -STATIC_IMPORT_ONDEMAND-> s_ty.
+  switchLabelImport(_, _).
+
+  switchGroupOk : scope * scope * TYPE * SwitchGroup
+  switchGroupListOk maps switchGroupOk(*, *, *, list(*))
+
+  switchGroupOk(s, s_lbl, T, SwitchGroup(switchLabelList, blkStmtList)) :-
+    switchLabelListOk(s_lbl, T, switchLabelList),
+    blkStmtListOk(s, blkStmtList).
+
+  switchLabelOk : scope * TYPE * SwitchLabel
+  switchLabelListOk maps switchLabelOk(*, *, list(*))
+
+  switchLabelOk(s, T, CaseExpr(expr)) :-
+  {T'}
+    T' == exprOk(s, expr),
+    switchCaseCompatible(T, T').
+
+  switchLabelOk(s, T, DefaultCase()) :-
+    true.
+
+
+  stmtOk(s, DoWhile(stmt, expr)) :-
+  {T}
+    stmtOk(s, stmt),
+    T == exprOk(s, expr),
+    conditionCompatible(T),
+    true.
+
+
+  stmtOk(s, Break()) :-
+    true.
+
+  stmtOk(s, BreakWithLabel(id)) :-
+    true.
+
+
+  stmtOk(s, Continue()) :-
+    true.
+
+  stmtOk(s, ContinueWithLabel(id)) :-
+    true.
+
+
+  stmtOk(s, ReturnVoid()) :-
+    resolveReturn(s) == VOID().
+
+  stmtOk(s, Return(expr)) :-
+  {T T'}
+    TYPED(T) == resolveReturn(s),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, T').
+
+
+  stmtOk(s, Synchronized(expr, blk)) :-
+    _ == exprOk(s, expr),
+    blkOk(s, blk),
+    true.
+
+
+  stmtOk(s, Throw(expr)) :-
+  {T}
+    T == exprOk(s, expr),
+    isThrowable(T) == T().
+
+
+  stmtOk(s, Try(blk, catchClauseList)) :-
+    blkOk(s, blk),
+    catchClauseListOk(s, catchClauseList).
+
+  stmtOk(s, TryFinally(blk, catchClauseList, finallyBlk)) :-
+    blkOk(s, blk),
+    catchClauseListOk(s, catchClauseList),
+    blkOk(s, finallyBlk).
+
+  catchClauseOk : scope * CatchClause
+  catchClauseListOk maps catchClauseOk(*, list(*))
+
+  catchClauseOk(s, Catch(catchFormalParam, blk)) :-
+  {s_catch}
+    new s_catch, s_catch -LEX-> s,
+    catchFormalParamOk(s, catchFormalParam, s_catch),
+    blkOk(s_catch, blk).
+
+  catchFormalParamOk : scope * CatchFormalParameter * scope
+
+  catchFormalParamOk(s, CatchParam(varModList, catchType, varDeclId), s_def) :-
+  {T}
+    varModListOk(s, varModList),
+    T == catchTypeOk(s, catchType),
+    varDeclIdOk(s, T, varDeclId, s_def).
+
+  catchTypeOk : scope * CatchType -> TYPE
+
+  catchTypeOk(s, CatchType(unannClsType, catchTypeRestList)) = T :-
+    T == unannClsTypeOk(s, unannClsType),
+    isThrowable(T) == T(),
+    _ == catchTypeRestListOk(s, catchTypeRestList). // FIXME include in T
+
+  catchTypeRestOk : scope * CatchTypeRest -> TYPE
+  catchTypeRestListOk maps catchTypeRestOk(*, list(*)) = list(*)
+
+  catchTypeRestOk(s, CatchTypeElem(clsType)) = T :-
+    T == clsTypeOk(s, clsType),
+    isThrowable(T) == T().
+
+
+  stmtOk(s, TryWithResources(resourceList, blk_catch, catchClauseList)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s, resourceList, s_try),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
+    true.
+
+  stmtOk(s, TryWithResourcesSemiColon(resourceList, blk_catch, catchClauseList)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s, resourceList, s_try),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
+    true.
+
+  stmtOk(s, TryFinallyWithResources(resourceList, blk_catch, catchClauseList, blk_finally)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s, resourceList, s_try),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
+    blkOk(s_try, blk_finally),
+    true.
+
+  stmtOk(s, TryFinallyWithResourcesSemiColon(resourceList, blk_catch, catchClauseList, blk_finally)) :-
+  {s_try}
+    new s_try, s_try -LEX-> s,
+    resourceListOk(s, resourceList, s_try),
+    blkOk(s_try, blk_catch),
+    catchClauseListOk(s_try, catchClauseList),
+    blkOk(s_try, blk_finally),
+    true.
+
+  resourceOk : scope * Resource * scope
+  resourceListOk maps resourceOk(*, list(*), *)
+
+  resourceOk(s, Resource(varModList, unannType, varDeclId, expr), s_def) :-
+  {T T'}
+    varModListOk(s, varModList),
+    T == unannTypeOk(s, unannType),
+    varDeclIdOk(s, T, varDeclId, s_def),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, T'),
+    true.
+

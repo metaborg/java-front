@@ -1,0 +1,12 @@
+module IMenuAction
+
+language java8
+
+
+test IMenuAction [[ package org.metaborg.core.menu;
+
+import org.metaborg.core.action.ITransformAction;
+
+public interface IMenuAction extends IMenuItem {
+    ITransformAction action();
+} ]] parse succeeds

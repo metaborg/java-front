@@ -1,0 +1,10 @@
+module MessageType
+
+language java8
+
+
+test MessageType [[ package org.metaborg.core.messages;
+
+public enum MessageType {
+    PARSER, ANALYSIS, TRANSFORMATION, INTERNAL
+} ]] parse succeeds

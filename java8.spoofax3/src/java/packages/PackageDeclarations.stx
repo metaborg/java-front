@@ -1,0 +1,51 @@
+module java/packages/PackageDeclarations
+
+imports
+
+  signatures/syntax/java/packages/PackageDeclarations-sig
+
+  java/interfaces/Annotations
+  java/names/Main
+  java/names/PackageNames
+  java/packages/Main
+
+
+// 7.4. Package Declarations
+
+rules
+
+  pkgDeclOptOk : scope * PackageDeclaration-OPT
+
+  pkgDeclOptOk(s, NoPackageDeclaration()) :- checkPkgIds(thisPkg(s), [Id("(unnamed)")]).
+
+  pkgDeclOptOk(s, SomePackageDeclaration(pkgDecl)) :- pkgDeclOk(s, pkgDecl).
+
+
+  pkgDeclOk : scope * PackageDeclaration
+
+  pkgDeclOk(s, PackageDeclaration(annoList, idList)) :-
+    annoListOk(s, annoList),
+    checkPkgIds(thisPkg(s), idList),
+    true.
+
+
+  checkPkgIds : PKG_DECL * list(Id)
+
+  checkPkgIds(pkgDecl, idList) :-
+  {idList'}
+    idList' == checkPkgIds1(pkgDecl, idList, []),
+    checkPkgIds2(idList', idList) | error $[Compilation unit declared in [idList] but defined in [idList']].
+
+      checkPkgIds1 : PKG_DECL * list(Id) * list(Id) -> list(Id)
+
+      checkPkgIds1(pkgDecl, [id], idList') = [id'|idList'] :-
+        id' == pkgDeclId(pkgDecl).
+
+      checkPkgIds1(pkgDecl, [id|idList], idList') = checkPkgIds1(superPkg(pkgDecl), idList, [id'|idList']) :-
+        id' == pkgDeclId(pkgDecl).
+
+      checkPkgIds2 : list(Id) * list(Id)
+
+      checkPkgIds2(idList, idList).
+
+      checkPkgIds2(idList, idList') :- false.

@@ -1,0 +1,24 @@
+module interfaces/implementsmethodwithwrongreturntype_no
+
+language metaborg-java
+
+test implementsmethodwithwrongreturntype [[
+
+test;
+
+
+
+// error: m\(\) in A cannot implement m\(\) in I
+
+[I]
+interface I {
+  public void m();
+}
+
+[A]
+class A implements I {
+  public int m();
+}
+
+]] analysis fails
+   run javacFails to ""

@@ -1,0 +1,40 @@
+module syntax/java/classes/ConstructorDeclarations
+
+// 8.8. Constructor Declarations
+
+imports
+  syntax/java/classes/ClassDeclarations
+  syntax/java/lexical/Identifiers
+  syntax/java/lexical/Modifiers
+  syntax/java/classes/MethodDeclarations
+  syntax/java/types/ParameterizedTypes
+  syntax/java/names/Names
+  syntax/java/interfaces/Annotations
+  syntax/java/expressions/Main
+  syntax/java/statements/Blocks
+
+context-free sorts
+
+  ConstructorDeclaration
+  ConstructorModifier
+  ConstructorInvocation-OPT
+  ConstructorInvocation
+
+context-free syntax
+
+  ConstructorDeclaration.ConstrDecl = <
+  <{ConstructorModifier " "}*> <TypeParameters-OPT> <Id>(<FormalParams>) <Throws-OPT>{
+    <ConstructorInvocation-OPT>
+    <{BlockStatement "\n"}*>
+  }>
+
+  ConstructorModifier = Annotation
+  ConstructorModifier = Public
+  ConstructorModifier = Private
+  ConstructorModifier = Protected
+
+  ConstructorInvocation-OPT.NoConstructorInvocation   =
+  ConstructorInvocation-OPT.SomeConstructorInvocation = ConstructorInvocation
+  ConstructorInvocation.AltConstrInv                  = <<TypeArguments-OPT>this(<{Expression ", "}*>);>
+  ConstructorInvocation.SuperConstrInv                = <<TypeArguments-OPT>super(<{Expression ", "}*>);>
+  ConstructorInvocation.ExprNameConstrInv             = <<Expression>.<TypeArguments-OPT>super(<{Expression ", "}*>);>

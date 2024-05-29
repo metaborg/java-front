@@ -1,0 +1,590 @@
+---
+entries:
+  # Blacklist all rules
+  "*!*": { isReference: false }
+
+
+  # main.stx
+  "main!fileOk": { }
+  "main!groupOk": { }
+  "main!programOk": { }
+  "main!projectOk": { }
+  "main!rootScope": { }   # All rules have queries
+  "main!startOk": { }
+  "main!testUnitListOk": { }
+  "main!testUnitOk": { }
+
+
+  # java/JRE.stx
+  "java/JRE!booleanOk": { }
+  "java/JRE!byteOk": { }
+  "java/JRE!characterOk": { }
+  "java/JRE!classOk": { }
+  "java/JRE!doubleOk": { }
+  "java/JRE!enumOk": { }
+  "java/JRE!floatOk": { }
+  "java/JRE!importJavaLang": { }
+  "java/JRE!integerOk": { }
+  "java/JRE!isEnum": { }
+  "java/JRE!isIterable": { }
+  "java/JRE!isJREClass": { }
+  "java/JRE!isJREClass1": { }
+  "java/JRE!isString": { }
+  "java/JRE!isThrowable": { }
+  "java/JRE!iterableOk": { }
+  "java/JRE!javaLangTypeOk": { }
+  "java/JRE!longOk": { }
+  "java/JRE!objectOk": { }
+  "java/JRE!resolveJavaLang": { }
+  "java/JRE!resolveJavaLangType": { }
+  "java/JRE!shortOk": { }
+  "java/JRE!stringOk": { }
+
+
+  # java/arrays/ArrayInitializers.stx
+  "java/arrays/ArrayInitializers!arrayInitOk": { }
+
+
+  # java/classes/ClassDeclarations.stx
+  "java/classes/ClassDeclarations!addSuperIntf": { }
+  "java/classes/ClassDeclarations!addSuperIntfList": { }
+  "java/classes/ClassDeclarations!clsBodyDeclListOk": { }
+  "java/classes/ClassDeclarations!clsBodyDeclOk": { }
+  "java/classes/ClassDeclarations!clsDeclOk": { }
+  "java/classes/ClassDeclarations!clsMemDeclOk": { }
+  "java/classes/ClassDeclarations!clsModListOk": { }
+  "java/classes/ClassDeclarations!clsModOk": { }
+  "java/classes/ClassDeclarations!declareImplicitCtorIfMissing": { }
+  "java/classes/ClassDeclarations!declareType2": { }
+  "java/classes/ClassDeclarations!hasStaticClsMod": { }
+  "java/classes/ClassDeclarations!normalClsDeclOk": { }
+  "java/classes/ClassDeclarations!setSuperCls": { }
+  "java/classes/ClassDeclarations!superClsOptOk": { }
+  "java/classes/ClassDeclarations!superIntfsOk": { }
+  "java/classes/ClassDeclarations!superIntfsOptOk": { }
+  "java/classes/ClassDeclarations!typeParamsOk": { }
+  "java/classes/ClassDeclarations!typeParamsOptOk": { }
+
+
+  # java/classes/ConstructorDeclarations.stx
+  "java/classes/ConstructorDeclarations!ctorDeclOk": { }
+  "java/classes/ConstructorDeclarations!ctorIdOk": { }
+  "java/classes/ConstructorDeclarations!ctorInvOk": { }
+  "java/classes/ConstructorDeclarations!ctorInvOptOk": { }
+  "java/classes/ConstructorDeclarations!ctorModListOk": { }
+  "java/classes/ConstructorDeclarations!ctorModOk": { }
+  "java/classes/ConstructorDeclarations!declareImplicitCtor": { }
+
+
+  # java/classes/EnumDeclarations.stx
+  "java/classes/EnumDeclarations!declareImplicitEnumCtor": { }
+  "java/classes/EnumDeclarations!declareImplicitEnumCtorIfMissing": { }
+  "java/classes/EnumDeclarations!enumBodyDeclListOk": { }
+  "java/classes/EnumDeclarations!enumBodyDeclOk": { }
+  "java/classes/EnumDeclarations!enumBodyDeclsOk": { }
+  "java/classes/EnumDeclarations!enumBodyDeclsOptOk": { }
+  "java/classes/EnumDeclarations!enumConstArgsOptOk": { }
+  "java/classes/EnumDeclarations!enumConstListOk": { }
+  "java/classes/EnumDeclarations!enumConstOk": { }
+  "java/classes/EnumDeclarations!enumCtorDeclOk": { }
+  "java/classes/EnumDeclarations!enumCtorInvOk": { }
+  "java/classes/EnumDeclarations!enumCtorInvOptOk": { }
+  "java/classes/EnumDeclarations!enumDeclOk": { }
+  "java/classes/EnumDeclarations!enumPredefinedMethods": { }
+
+
+  # java/classes/FieldDeclarations.stx
+  "java/classes/FieldDeclarations!fldDeclOk": { }
+  "java/classes/FieldDeclarations!fldModListOk": { }
+  "java/classes/FieldDeclarations!fldModOk": { }
+  "java/classes/FieldDeclarations!hasStaticFldMod": { }
+  "java/classes/FieldDeclarations!unannArrayTypeOk": { }
+  "java/classes/FieldDeclarations!unannClsTypeOk": { }
+  "java/classes/FieldDeclarations!unannPkgOrClsTypeOk": { }
+  "java/classes/FieldDeclarations!unannPrimTypeOk": { }
+  "java/classes/FieldDeclarations!unannRefTypeOk": { }
+  "java/classes/FieldDeclarations!unannTypeOk": { }
+  "java/classes/FieldDeclarations!varDeclIdOk": { }
+  "java/classes/FieldDeclarations!varDeclListOk": { }
+  "java/classes/FieldDeclarations!varDeclListOk2": { }
+  "java/classes/FieldDeclarations!varDeclOk": { }
+  "java/classes/FieldDeclarations!varInitListOk": { }
+  "java/classes/FieldDeclarations!varInitOk": { }
+
+
+  # java/classes/InstanceInitializers.stx
+  "java/classes/InstanceInitializers!instInitOk": { }
+
+
+  # java/classes/MethodDeclarations.stx
+  "java/classes/MethodDeclarations!append": { }
+  "java/classes/MethodDeclarations!append1": { }
+  "java/classes/MethodDeclarations!exceptTypeListOk": { }
+  "java/classes/MethodDeclarations!exceptTypeOk": { }
+  "java/classes/MethodDeclarations!formalParamListOk": { }
+  "java/classes/MethodDeclarations!formalParamOk": { }
+  "java/classes/MethodDeclarations!formalParamsOk": { }
+  "java/classes/MethodDeclarations!hasStaticMthdMod": { }
+  "java/classes/MethodDeclarations!lastFormalParamOk": { }
+  "java/classes/MethodDeclarations!mthdBodyOk": { }
+  "java/classes/MethodDeclarations!mthdDeclOk": { }
+  "java/classes/MethodDeclarations!mthdHeaderOk": { }
+  "java/classes/MethodDeclarations!mthdHeaderOk2": { }
+  "java/classes/MethodDeclarations!mthdModListOk": { }
+  "java/classes/MethodDeclarations!mthdModOk": { }
+  "java/classes/MethodDeclarations!recvParamOk": { }
+  "java/classes/MethodDeclarations!resultOk": { }
+  "java/classes/MethodDeclarations!resultWithDimsOk": { }
+  "java/classes/MethodDeclarations!throwsOk": { }
+  "java/classes/MethodDeclarations!throwsOptOk": { }
+  "java/classes/MethodDeclarations!varModListOk": { }
+  "java/classes/MethodDeclarations!varModOk": { }
+
+
+  # java/classes/StaticInitializers.stx
+  "java/classes/StaticInitializers!staticInitOk": { }
+
+
+  # java/expressions/ArrayAccess.stx
+  "java/expressions/ArrayAccess!arrayAccessOk": { }
+
+
+  # java/expressions/ArrayCreation.stx
+  "java/expressions/ArrayCreation!arrayBaseTypeOk": { }
+  "java/expressions/ArrayCreation!arrayCreationExprOk": { }
+  "java/expressions/ArrayCreation!dimExprListOk": { }
+
+
+  # java/expressions/AssignmentOperators.stx
+  "java/expressions/AssignmentOperators!lhsOk": { }
+
+
+  # java/expressions/ClassInstanceCreation.stx
+  "java/expressions/ClassInstanceCreation!qualIdListOk": { }
+  "java/expressions/ClassInstanceCreation!qualIdListOk1": { }
+  "java/expressions/ClassInstanceCreation!qualInstOk": { }
+  "java/expressions/ClassInstanceCreation!setSuperClsOrImplementIntf": { }
+  "java/expressions/ClassInstanceCreation!setSuperClsOrImplementIntf1": { }
+  "java/expressions/ClassInstanceCreation!typeArgsOrDiamondOk": { }
+  "java/expressions/ClassInstanceCreation!typeArgsOrDiamondOptOk": { }
+  "java/expressions/ClassInstanceCreation!unqualInstOk": { }
+
+
+  # java/expressions/FieldAccess.stx
+  "java/expressions/FieldAccess!fldAccessOk": { }
+
+
+  # java/expressions/LambdaExpressions.stx
+  "java/expressions/LambdaExpressions!inferredParamListOk": { }
+  "java/expressions/LambdaExpressions!inferredParamOk": { }
+  "java/expressions/LambdaExpressions!lambdaParamsOk": { }
+
+
+  # java/expressions/Main.stx
+  "java/expressions/Main!exprListOk": { }
+  "java/expressions/Main!exprOk": { }
+  "java/expressions/Main!exprOptOk": { }
+
+
+  # java/expressions/MethodInvocation.stx
+  "java/expressions/MethodInvocation!invokeReturn": { }
+
+
+  # java/expressions/PrimaryExpressions.stx
+  "java/expressions/PrimaryExpressions!clsLitOk": { }
+  "java/expressions/PrimaryExpressions!dimsListOk": { }
+  "java/expressions/PrimaryExpressions!dimsOk": { }
+
+
+  # java/expressions/UnaryOperators.stx
+  "java/expressions/UnaryOperators!additionalBoundListOk": { }
+  "java/expressions/UnaryOperators!additionalBoundOk": { }
+
+
+  # java/interfaces/AnnotationTypes.stx
+  "java/interfaces/AnnotationTypes!annoTypeDeclOk": { }
+  "java/interfaces/AnnotationTypes!annoTypeElemDeclOk": { }
+  "java/interfaces/AnnotationTypes!annoTypeElemModListOk": { }
+  "java/interfaces/AnnotationTypes!annoTypeElemModOk": { }
+  "java/interfaces/AnnotationTypes!annoTypeMemDeclListOk": { }
+  "java/interfaces/AnnotationTypes!annoTypeMemDeclOk": { }
+  "java/interfaces/AnnotationTypes!defaultValOk": { }
+  "java/interfaces/AnnotationTypes!defaultValOptOk": { }
+
+
+  # java/interfaces/Annotations.stx
+  "java/interfaces/Annotations!annoListOk": { }
+  "java/interfaces/Annotations!annoOk": { }
+  "java/interfaces/Annotations!elemValArrayInitOk": { }
+  "java/interfaces/Annotations!elemValListOk": { }
+  "java/interfaces/Annotations!elemValOk": { }
+  "java/interfaces/Annotations!elemValPairListOk": { }
+  "java/interfaces/Annotations!elemValPairOk": { }
+
+
+  # java/interfaces/ConstantDeclarations.stx
+  "java/interfaces/ConstantDeclarations!constDeclOk": { }
+  "java/interfaces/ConstantDeclarations!constModListOk": { }
+  "java/interfaces/ConstantDeclarations!constModOk": { }
+
+
+  # java/interfaces/InterfaceDeclarations.stx
+  "java/interfaces/InterfaceDeclarations!addImplicitClassMemMods": { }
+  "java/interfaces/InterfaceDeclarations!addImplicitClassMemMods1": { }
+  "java/interfaces/InterfaceDeclarations!addImplicitClassMemMods2": { }
+  "java/interfaces/InterfaceDeclarations!addImplicitIntfMemMods": { }
+  "java/interfaces/InterfaceDeclarations!addImplicitIntfMemMods1": { }
+  "java/interfaces/InterfaceDeclarations!addImplicitIntfMemMods2": { }
+  "java/interfaces/InterfaceDeclarations!extendsIntfsOk": { }
+  "java/interfaces/InterfaceDeclarations!extendsIntfsOptOk": { }
+  "java/interfaces/InterfaceDeclarations!hasStaticIntfMod": { }
+  "java/interfaces/InterfaceDeclarations!intfDeclOk": { }
+  "java/interfaces/InterfaceDeclarations!intfMemDeclListOk": { }
+  "java/interfaces/InterfaceDeclarations!intfMemDeclOk": { }
+  "java/interfaces/InterfaceDeclarations!intfModListOk": { }
+  "java/interfaces/InterfaceDeclarations!intfModOk": { }
+
+
+  # java/interfaces/InterfaceMethodDeclarations.stx
+  "java/interfaces/InterfaceMethodDeclarations!hasStaticIntfMthdMod": { }
+  "java/interfaces/InterfaceMethodDeclarations!intfMthdDeclOk": { }
+  "java/interfaces/InterfaceMethodDeclarations!intfMthdModListOk": { }
+  "java/interfaces/InterfaceMethodDeclarations!intfMthdModOk": { }
+
+
+  # java/literals/BooleanLiterals.stx
+  "java/literals/BooleanLiterals!boolLitOk": { }
+
+
+  # java/literals/CharacterLiterals.stx
+  "java/literals/CharacterLiterals!charLitOk": { }
+
+
+  # java/literals/FloatingPointLiterals.stx
+  "java/literals/FloatingPointLiterals!floatLitOk": { }
+
+
+  # java/literals/IntegerLiterals.stx
+  "java/literals/IntegerLiterals!intLitOk": { }
+
+
+  # java/literals/Main.stx
+  "java/literals/Main!litOk": { }
+
+
+  # java/literals/NullLiteral.stx
+  "java/literals/NullLiteral!nullLitOk": { }
+
+
+  # java/literals/StringLiterals.stx
+  "java/literals/StringLiterals!stringLitOk": { }
+
+
+  # java/names/ExpressionNames.stx
+  "java/names/ExpressionNames!aliasExprName": { }
+  "java/names/ExpressionNames!aliasExprNames": { }
+  "java/names/ExpressionNames!ambDeclScope": { }
+  "java/names/ExpressionNames!ambNameOk": { }
+  "java/names/ExpressionNames!ambNameOk1": { }
+  "java/names/ExpressionNames!declareExprName": { }
+  "java/names/ExpressionNames!exprNameOk": { }
+  "java/names/ExpressionNames!exprNameOk1": { }
+  "java/names/ExpressionNames!noOtherHomonymousExpr": { }   # All rules have queries
+  "java/names/ExpressionNames!resolveAllStaticMemberExprNames": { }   # All rules have queries
+  "java/names/ExpressionNames!resolveAmbName": { }
+  "java/names/ExpressionNames!resolveExprName": { }
+  "java/names/ExpressionNames!resolveExprNames": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName1": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName2": { }
+  "java/names/ExpressionNames!resolveLexicalAmbName3": { }
+  "java/names/ExpressionNames!resolveLexicalExprNames": { }   # All rules have queries
+  "java/names/ExpressionNames!resolveMemberAmbName": { }
+  "java/names/ExpressionNames!resolveMemberAmbName1": { }
+  "java/names/ExpressionNames!resolveMemberAmbName2": { }
+  "java/names/ExpressionNames!resolveMemberAmbName3": { }
+  "java/names/ExpressionNames!resolveMemberAmbName4": { }
+  "java/names/ExpressionNames!resolveMemberExprNames": { }   # All rules have queries
+  "java/names/ExpressionNames!singleVarDecl": { }
+  "java/names/ExpressionNames!varDeclType": { }
+
+
+  # java/names/Main.stx
+  "java/names/Main!addLexical": { }
+  "java/names/Main!qidId": { }
+
+
+  # java/names/MethodNames.stx
+  "java/names/MethodNames!aliasMthdName": { }
+  "java/names/MethodNames!aliasMthdNames": { }
+  "java/names/MethodNames!declareMthdName": { }
+  "java/names/MethodNames!declareReturn": { }
+  "java/names/MethodNames!getReturn": { }   # All rules have queries
+  "java/names/MethodNames!mthdDeclId": { }
+  "java/names/MethodNames!mthdDeclParams": { }
+  "java/names/MethodNames!mthdDeclReturn": { }
+  "java/names/MethodNames!mthdNameOk": { }
+  "java/names/MethodNames!noOtherHomonymousMthd": { }   # All rules have queries
+  "java/names/MethodNames!resolveAllStaticMemberMthdNames": { }   # All rules have queries
+  "java/names/MethodNames!resolveDirectMemberMthdName": { }
+  "java/names/MethodNames!resolveDirectMemberMthdNames": { }   # All rules have queries
+  "java/names/MethodNames!resolveLexicalMthdName": { }
+  "java/names/MethodNames!resolveLexicalMthdNames": { }   # All rules have queries
+  "java/names/MethodNames!resolveMemberMthdName": { }
+  "java/names/MethodNames!resolveMemberMthdNames": { }   # All rules have queries
+  "java/names/MethodNames!resolveReturn": { }   # All rules have queries
+  "java/names/MethodNames!resolveStaticMemberMthdNames": { }   # All rules have queries
+  "java/names/MethodNames!someMthdDecl": { }
+
+
+  # java/names/PackageNames.stx
+  "java/names/PackageNames!declarePkg": { }
+  "java/names/PackageNames!noHomonymousPkg": { }   # All rules have queries
+  "java/names/PackageNames!pkgDeclId": { }
+  "java/names/PackageNames!pkgDeclScope": { }
+  "java/names/PackageNames!pkgNameOk": { }
+  "java/names/PackageNames!pkgNameOk1": { }
+  "java/names/PackageNames!resolveLexicalPkgNames": { }   # All rules have queries
+  "java/names/PackageNames!resolveMemberPkgNames": { }   # All rules have queries
+  "java/names/PackageNames!resolvePkgName": { }
+  "java/names/PackageNames!singlePkgDecl": { }
+  "java/names/PackageNames!superPkg": { }   # All rules have queries
+  "java/names/PackageNames!thisPkg": { }   # All rules have queries
+
+
+  # java/names/PackageOrTypeNames.stx
+  "java/names/PackageOrTypeNames!pkgOrTypeDeclScope": { }
+  "java/names/PackageOrTypeNames!pkgOrTypeNameOk": { }
+  "java/names/PackageOrTypeNames!pkgOrTypeNameOk1": { }
+  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName": { }
+  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName1": { }
+  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName2": { }
+  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName": { }
+  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName1": { }
+  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName2": { }
+  "java/names/PackageOrTypeNames!resolvePkgOrTypeName": { }
+
+
+  # java/names/ReceiverNames.stx
+  "java/names/ReceiverNames!recvNameOk": { }
+  "java/names/ReceiverNames!resolveRecvMemberMthdName": { }
+  "java/names/ReceiverNames!resolveRecvMemberMthdNames": { }
+  "java/names/ReceiverNames!resolveRecvName": { }
+  "java/names/ReceiverNames!resolveRecvName1": { }
+  "java/names/ReceiverNames!resolveRecvName2": { }
+
+
+  # java/names/TypeNames.stx
+  "java/names/TypeNames!aliasType": { }
+  "java/names/TypeNames!aliasTypes": { }
+  "java/names/TypeNames!declareType": { }
+  "java/names/TypeNames!noEnclosingHomonymousType": { }   # All rules have queries
+  "java/names/TypeNames!noOtherHomonymousType": { }   # All rules have queries
+  "java/names/TypeNames!qualThis": { }   # All rules have queries
+  "java/names/TypeNames!resolveAllStaticMemberTypeNames": { }   # All rules have queries
+  "java/names/TypeNames!resolveLexicalTypeNames": { }   # All rules have queries
+  "java/names/TypeNames!resolveMemberTypeNames": { }   # All rules have queries
+  "java/names/TypeNames!resolveTypeName": { }
+  "java/names/TypeNames!resolveTypeNames": { }
+  "java/names/TypeNames!singleTypeDecl": { }
+  "java/names/TypeNames!super": { }   # All rules have queries
+  "java/names/TypeNames!this": { }   # All rules have queries
+  "java/names/TypeNames!typeDeclId": { }
+  "java/names/TypeNames!typeDeclKind": { }
+  "java/names/TypeNames!typeDeclScope": { }
+  "java/names/TypeNames!typeDeclType": { }
+  "java/names/TypeNames!typeNameOk": { }
+  "java/names/TypeNames!typeNameOk1": { }
+
+
+  # java/packages/CompilationUnits.stx
+  "java/packages/CompilationUnits!compilationUnitOk": { }
+
+
+  # java/packages/ImportDeclarations.stx
+  "java/packages/ImportDeclarations!importDeclListOk": { }
+  "java/packages/ImportDeclarations!importDeclOk": { }
+  "java/packages/ImportDeclarations!importStaticExpr": { }
+  "java/packages/ImportDeclarations!importStaticExprList": { }
+  "java/packages/ImportDeclarations!importStaticMthd": { }
+  "java/packages/ImportDeclarations!importStaticMthdList": { }
+  "java/packages/ImportDeclarations!importStaticNotEmpty": { }
+  "java/packages/ImportDeclarations!importStaticType": { }
+  "java/packages/ImportDeclarations!importStaticTypeList": { }
+
+
+  # java/packages/PackageDeclarations.stx
+  "java/packages/PackageDeclarations!checkPkgIds": { }
+  "java/packages/PackageDeclarations!checkPkgIds1": { }
+  "java/packages/PackageDeclarations!checkPkgIds2": { }
+  "java/packages/PackageDeclarations!pkgDeclOk": { }
+  "java/packages/PackageDeclarations!pkgDeclOptOk": { }
+
+
+  # java/packages/TypeDeclarations.stx
+  "java/packages/TypeDeclarations!typeDeclListOk": { }
+  "java/packages/TypeDeclarations!typeDeclOk": { }
+
+
+  # java/statements/Blocks.stx
+  "java/statements/Blocks!blkOk": { }
+  "java/statements/Blocks!blkStmtListOk": { }
+  "java/statements/Blocks!blkStmtOk": { }
+
+
+  # java/statements/LocalVariableDeclarations.stx
+  "java/statements/LocalVariableDeclarations!localVarDeclOk": { }
+  "java/statements/LocalVariableDeclarations!localVarDeclStmtOk": { }
+
+
+  # java/statements/Statements.stx
+  "java/statements/Statements!catchClauseListOk": { }
+  "java/statements/Statements!catchClauseOk": { }
+  "java/statements/Statements!catchFormalParamOk": { }
+  "java/statements/Statements!catchTypeOk": { }
+  "java/statements/Statements!catchTypeRestListOk": { }
+  "java/statements/Statements!catchTypeRestOk": { }
+  "java/statements/Statements!exprsOk": { }
+  "java/statements/Statements!forInitOk": { }
+  "java/statements/Statements!forUpdateOk": { }
+  "java/statements/Statements!resourceListOk": { }
+  "java/statements/Statements!resourceOk": { }
+  "java/statements/Statements!stmtOk": { }
+  "java/statements/Statements!switchGroupListOk": { }
+  "java/statements/Statements!switchGroupOk": { }
+  "java/statements/Statements!switchLabelImport": { }
+  "java/statements/Statements!switchLabelListOk": { }
+  "java/statements/Statements!switchLabelOk": { }
+
+
+  # java/types/Conversions.stx
+  "java/types/Conversions!assignCompatible": { }
+  "java/types/Conversions!assignCompatibleBOOLEAN": { }
+  "java/types/Conversions!assignCompatibleBYTE": { }
+  "java/types/Conversions!assignCompatibleCHAR": { }
+  "java/types/Conversions!assignCompatibleDOUBLE": { }
+  "java/types/Conversions!assignCompatibleFLOAT": { }
+  "java/types/Conversions!assignCompatibleINT": { }
+  "java/types/Conversions!assignCompatibleLONG": { }
+  "java/types/Conversions!assignCompatibleList": { }
+  "java/types/Conversions!assignCompatibleREF": { }
+  "java/types/Conversions!assignCompatibleREFREF": { }
+  "java/types/Conversions!assignCompatibleSHORT": { }
+  "java/types/Conversions!box": { }
+  "java/types/Conversions!castCompatible": { }
+  "java/types/Conversions!condType": { }
+  "java/types/Conversions!condTypeREFREF": { }
+  "java/types/Conversions!conditionCompatible": { }
+  "java/types/Conversions!equalsCompatible": { }
+  "java/types/Conversions!equalsCompatibleREFREF": { }
+  "java/types/Conversions!invokeCompatibleLoose": { }
+  "java/types/Conversions!invokeCompatibleLoose1": { }
+  "java/types/Conversions!invokeCompatibleLoose2": { }
+  "java/types/Conversions!invokeCompatibleStrict": { }
+  "java/types/Conversions!invokeCompatibleStrict1": { }
+  "java/types/Conversions!invokeCompatibleStrict2": { }
+  "java/types/Conversions!invokeCompatibleTypesLoose": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseBOOLEAN": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseBYTE": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseCHAR": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseDOUBLE": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseFLOAT": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseINT": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseLONG": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseList": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseREF": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseREFREF": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseSHORT": { }
+  "java/types/Conversions!invokeCompatibleTypesLooseTail": { }
+  "java/types/Conversions!invokeCompatibleTypesStrict": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictBOOLEAN": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictBYTE": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictCHAR": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictDOUBLE": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictFLOAT": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictINT": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictLONG": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictList": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictREF": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictREFREF": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictSHORT": { }
+  "java/types/Conversions!invokeCompatibleTypesStrictTail": { }
+  "java/types/Conversions!isBox": { }   # All rules have queries
+  "java/types/Conversions!isBox1": { }
+  "java/types/Conversions!promoteAddition": { }
+  "java/types/Conversions!promoteAddition1": { }
+  "java/types/Conversions!promoteBooleanOrNumericBinary": { }
+  "java/types/Conversions!promoteNumericBinary": { }
+  "java/types/Conversions!promoteNumericUnary": { }
+  "java/types/Conversions!stringCompatible": { }
+  "java/types/Conversions!switchCaseCompatible": { }
+  "java/types/Conversions!switchCompatible": { }
+  "java/types/Conversions!switchCompatibleREF": { }
+  "java/types/Conversions!unbox": { }   # All rules have queries
+
+
+  # java/types/Main.stx
+  "java/types/Main!fromKind": { }
+  "java/types/Main!fromType": { }
+  "java/types/Main!matchKind": { }
+  "java/types/Main!matchType": { }
+  "java/types/Main!setKind": { }
+  "java/types/Main!setType": { }
+  "java/types/Main!toKind": { }   # All rules have queries
+  "java/types/Main!toType": { }   # All rules have queries
+  "java/types/Main!typeOk": { }
+
+
+  # java/types/ParameterizedTypes.stx
+  "java/types/ParameterizedTypes!typeArgListOk": { }
+  "java/types/ParameterizedTypes!typeArgOk": { }
+  "java/types/ParameterizedTypes!typeArgsOk": { }
+  "java/types/ParameterizedTypes!typeArgsOptOk": { }
+  "java/types/ParameterizedTypes!wildCardOk": { }
+
+
+  # java/types/PrimitiveTypes.stx
+  "java/types/PrimitiveTypes!isFloatingPoint": { }
+  "java/types/PrimitiveTypes!isIntegral": { }
+  "java/types/PrimitiveTypes!isNumeric": { }
+  "java/types/PrimitiveTypes!numTypeOk": { }
+  "java/types/PrimitiveTypes!primTypeOk": { }
+
+
+  # java/types/ReferenceTypes.stx
+  "java/types/ReferenceTypes!annDimListOk": { }
+  "java/types/ReferenceTypes!annDimsEmptyOk": { }
+  "java/types/ReferenceTypes!annDimsOk": { }
+  "java/types/ReferenceTypes!arrayElementType": { }   # All rules have queries
+  "java/types/ReferenceTypes!arrayTypeOk": { }
+  "java/types/ReferenceTypes!clsTypeListOk": { }
+  "java/types/ReferenceTypes!clsTypeOk": { }
+  "java/types/ReferenceTypes!initTypeScope": { }
+  "java/types/ReferenceTypes!isArrayType": { }
+  "java/types/ReferenceTypes!isArrayType1": { }
+  "java/types/ReferenceTypes!isClsOrIntfKind": { }
+  "java/types/ReferenceTypes!isClsOrIntfType": { }
+  "java/types/ReferenceTypes!isClsType": { }
+  "java/types/ReferenceTypes!isIntfType": { }
+  "java/types/ReferenceTypes!makeArrayType": { }
+  "java/types/ReferenceTypes!pkgOrClsTypeOk": { }
+  "java/types/ReferenceTypes!refTypeOk": { }
+  "java/types/ReferenceTypes!typeKind": { }
+  "java/types/ReferenceTypes!typeScope": { }
+  "java/types/ReferenceTypes!typeVarOk": { }
+
+
+  # java/types/Subtyping.stx
+  "java/types/Subtyping!referenceSuperType": { }
+  "java/types/Subtyping!superTypeScope": { }   # All rules have queries
+  "java/types/Subtyping!superTypeScope1": { }
+
+
+  # java/types/TypeVariable.stx
+  "java/types/TypeVariable!typeParamListOk": { }
+  "java/types/TypeVariable!typeParamOk": { }
+
+
+  # java/util/Boolean.stx
+  "java/util/Boolean!isF": { }
+  "java/util/Boolean!isT": { }

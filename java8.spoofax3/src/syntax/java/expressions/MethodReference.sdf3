@@ -1,0 +1,28 @@
+module syntax/java/expressions/MethodReference
+
+// 15.13. Method Reference Expressions
+
+imports
+  syntax/java/expressions/Main
+  syntax/java/types/ReferenceTypes
+  syntax/java/types/ParameterizedTypes
+  syntax/java/lexical/Identifiers
+  syntax/java/names/Names
+  syntax/java/expressions/UnaryOperators
+
+context-free syntax
+
+  Expression.MethodReferenceRType  = <<ReferenceType>::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceExpr   = <<Expression>::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceSuper  = <super::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceQSuper = <<TypeName>.super::<TypeArguments-OPT><Id>>
+  Expression.MethodReferenceCType  = <<ClassType>::<TypeArguments-OPT> new>
+  Expression.MethodReferenceAType  = <<ArrayType>::<TypeArguments-OPT> new>
+
+context-free priorities
+  Expression.MethodReferenceExpr > Expression = ExpressionName,
+  Expression.MethodReferenceExpr > Expression.CastReference
+
+template options
+
+  tokenize : "::"

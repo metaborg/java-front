@@ -1,0 +1,17 @@
+module java/literals/CharacterLiterals
+
+imports
+
+  signatures/syntax/java/literals/CharacterLiterals-sig
+
+  java/literals/Main
+  java/types/Main
+  java/types/PrimitiveTypes
+
+
+rules // 3.10.4. Character Literals
+
+  charLitOk : CharacterLiteral -> TYPE
+
+  charLitOk(CharLiteral(_)) = CHAR().
+

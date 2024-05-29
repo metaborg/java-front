@@ -1,0 +1,12 @@
+module Function1
+
+language java8
+
+test Function1 [[ package org.metaborg.meta.nabl2.util.functions;
+
+@FunctionalInterface
+public interface Function1<T, R> {
+
+    R apply(T t);
+
+} ]] parse succeeds

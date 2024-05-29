@@ -1,0 +1,19 @@
+module syntax/java/statements/LocalVariableDeclarations
+
+// 14.4. Local Variable Declaration Statements
+
+imports
+  syntax/java/classes/FieldDeclarations
+  syntax/java/classes/MethodDeclarations
+  syntax/java/interfaces/Annotations
+
+context-free sorts
+
+  LocalVariableDeclarationStatement
+  LocalVariableDeclaration
+
+context-free syntax
+
+  LocalVariableDeclarationStatement.LocVarDeclStm = <<LocalVariableDeclaration>;> //{prefer}
+  LocalVariableDeclaration.LocalVarDecl = <
+  <{VariableModifier " "}*> <UnannType> <{VarDecl ", "}+>> {prefer}

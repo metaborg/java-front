@@ -1,0 +1,33 @@
+module packages/qualified-reference-to-missing-class_no
+
+language metaborg-java
+
+test qualified-reference-to-missing-class [[
+
+test;
+
+
+
+
+[p] {
+
+    [A]
+    package p;
+    public class A {
+        public q.r.C c;
+    }
+
+}
+
+[q] {
+    [r] {
+
+        [B]
+        package q.r;
+        public class B {}
+
+    }
+}
+
+]] analysis fails
+   run javacFails to ""

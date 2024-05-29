@@ -1,0 +1,25 @@
+module lexical/comments
+
+language java8
+
+fixture [[
+  class MyClass {
+    void myMethod()
+    [[...]]
+    {
+    }
+  }
+]]
+
+test single line comment [[// this is a comment]] parse succeeds
+
+test multi line comment
+[[/* this is a comment
+
+*/]] parse succeeds
+
+test example comment specification
+[[/* this comment /* // /** ends here: */]] parse succeeds
+
+test no nested comments
+[[// /* this comment /* // /** ends here: */]] parse succeeds

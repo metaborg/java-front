@@ -1,0 +1,22 @@
+module classes/nested/inner-class-instantiation-unqualified-in-nested-class-of-enclosing-class_yes
+
+language metaborg-java
+
+test inner-class-instantiation-unqualified-in-nested-class-of-enclosing-class [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class B {}
+    public class C {
+        public B b = new B();
+    }
+}
+
+]] analysis succeeds
+   run javacSucceeds to ""

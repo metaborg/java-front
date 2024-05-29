@@ -1,0 +1,21 @@
+module classes/inheritance/inheritnestedclass_yes
+
+language metaborg-java
+
+test inheritnestedclass [[
+
+test;
+
+
+
+
+
+[A]
+public class A {
+    public class B {}
+    public class C extends A.B {}
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

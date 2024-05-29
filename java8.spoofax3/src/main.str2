@@ -1,0 +1,42 @@
+module main
+
+imports
+
+  statixruntime
+  statix/api
+  statix/runtime/-
+  injections/-
+  signatures/start-sig
+  pp
+  completion
+
+  libspoofax/analysis/constraint
+
+rules // Analysis
+
+  pre-analyze  = explicate-injections-java8-Start
+  post-analyze = implicate-injections-java8-Start
+
+  editor-analyze = is-spt-input < stx-editor-analyze(pre-analyze,post-analyze|"main", "programOk")
+                                + stx-editor-analyze(pre-analyze,group-key,post-analyze|"main", "projectOk", "groupOk", "fileOk")
+  editor-resolve = stx-editor-resolve
+  editor-hover   = stx-editor-hover
+
+  group-key: (resource, ast) -> key
+    with rel-path := <current-language-relative-source-or-include-path> resource
+       ; key := <string-tokenize;if ?[file-name] then !["(unnamed)", file-name] end> (['/','\\'], rel-path)
+
+  is-spt-input = ?AnalyzeSingle(changes, p, c)
+
+signature
+  sorts AnalyzeResult constructors
+    SUCCEED  : AnalyzeResult
+    FAIL     : List(EditorMessage) -> AnalyzeResult
+
+rules // Debug test analysis
+
+  test-analyze: ast -> result
+    with action := AnalyzeSingle([("./test", Added(ast))], (), ())
+       ; a      := <stx-editor-analyze(pre-analyze, post-analyze|"main", "programOk"); debug> action
+       ; AnalysisResult([(_, Full(_, _, msg*, _, _))]) := a
+       ; result := <?[] < (!SUCCEED()) + (!FAIL(msg*))> msg*

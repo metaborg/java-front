@@ -1,0 +1,14 @@
+module literals/integer-literals
+
+language java8
+
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
+
+test true literal [[true]] parse succeeds
+test false literal [[false]] parse succeeds

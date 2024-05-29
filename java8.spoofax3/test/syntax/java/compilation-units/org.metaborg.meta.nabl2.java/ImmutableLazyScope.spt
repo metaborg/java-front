@@ -1,0 +1,157 @@
+module ImmutableLazyScope
+
+language java8
+
+test ImmutableLazyScope [[ package org.metaborg.meta.nabl2.solver;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+import org.metaborg.meta.nabl2.unification.Unifier;
+
+/**
+ * Immutable implementation of {@link NamebindingSolver.LazyScope}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableLazyScope.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "NamebindingSolver.LazyScope"})
+@Immutable
+final class ImmutableLazyScope
+    extends NamebindingSolver.LazyScope
+    implements Serializable {
+  private final ITerm term;
+  private final Unifier unifier;
+  private final int hashCode;
+
+  private ImmutableLazyScope(ITerm term, Unifier unifier) {
+    this.term = Objects.requireNonNull(term, "term");
+    this.unifier = Objects.requireNonNull(unifier, "unifier");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableLazyScope(
+      ImmutableLazyScope original,
+      ITerm term,
+      Unifier unifier) {
+    this.term = term;
+    this.unifier = unifier;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code term} attribute
+   */
+  @Override
+  public ITerm getTerm() {
+    return term;
+  }
+
+  /**
+   * @return The value of the {@code unifier} attribute
+   */
+  @Override
+  public Unifier getUnifier() {
+    return unifier;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link NamebindingSolver.LazyScope#getTerm() term} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for term
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableLazyScope setTerm(ITerm value) {
+    if (this.term == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "term");
+    return new ImmutableLazyScope(this, newValue, this.unifier);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link NamebindingSolver.LazyScope#getUnifier() unifier} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for unifier
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableLazyScope setUnifier(Unifier value) {
+    if (this.unifier == value) return this;
+    Unifier newValue = Objects.requireNonNull(value, "unifier");
+    return new ImmutableLazyScope(this, this.term, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableLazyScope} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableLazyScope
+        && equalTo((ImmutableLazyScope) another);
+  }
+
+  private boolean equalTo(ImmutableLazyScope another) {
+    return term.equals(another.term)
+        && unifier.equals(another.unifier);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code term}, {@code unifier}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + term.hashCode();
+    h = h * 17 + unifier.hashCode();
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code LazyScope} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    return "LazyScope{"
+        + "term=" + term
+        + ", unifier=" + unifier
+        + "}";
+  }
+
+  /**
+   * Construct a new immutable {@code LazyScope} instance.
+   * @param term The value for the {@code term} attribute
+   * @param unifier The value for the {@code unifier} attribute
+   * @return An immutable LazyScope instance
+   */
+  public static ImmutableLazyScope of(ITerm term, Unifier unifier) {
+    return new ImmutableLazyScope(term, unifier);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link NamebindingSolver.LazyScope} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable LazyScope instance
+   */
+  public static ImmutableLazyScope copyOf(NamebindingSolver.LazyScope instance) {
+    if (instance instanceof ImmutableLazyScope) {
+      return (ImmutableLazyScope) instance;
+    }
+    return ImmutableLazyScope.of(instance.getTerm(), instance.getUnifier());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

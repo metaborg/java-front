@@ -1,0 +1,25 @@
+module syntax/java/types/ParameterizedTypes
+
+// 4.5. Parameterized Types
+
+imports
+  syntax/java/types/ReferenceTypes
+  syntax/java/interfaces/Annotations
+
+context-free sorts
+
+  TypeArguments
+  TypeArguments-OPT
+  TypeArgument
+  WildCard
+
+context-free syntax
+
+  TypeArguments-OPT.NoTypeArguments   =
+  TypeArguments-OPT.SomeTypeArguments = TypeArguments
+  TypeArguments.TypeArguments = [<[{TypeArgument ", "}+]>]
+  TypeArgument = ReferenceType
+  TypeArgument = WildCard
+  WildCard.WildCard = <<{Annotation " "}*> ?>
+  WildCard.WildCardExtends = <<{Annotation " "}*> ? extends <ReferenceType>>
+  WildCard.WildCardSuper = <<{Annotation " "}*> ? super <ReferenceType>>

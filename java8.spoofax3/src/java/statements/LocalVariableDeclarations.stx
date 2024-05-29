@@ -1,0 +1,30 @@
+module java/statements/LocalVariableDeclarations
+
+imports
+
+  signatures/syntax/java/statements/LocalVariableDeclarations-sig
+
+  java/classes/FieldDeclarations
+  java/classes/MethodDeclarations
+  java/statements/Main
+
+
+rules // 14.4. Local Variable Declaration Statements
+
+
+  localVarDeclStmtOk : scope * LocalVariableDeclarationStatement
+
+  localVarDeclStmtOk(s, LocVarDeclStm(localVarDecl)) :-
+    localVarDeclOk(s, localVarDecl),
+    true.
+
+
+  localVarDeclOk : scope * LocalVariableDeclaration
+
+  localVarDeclOk(s, LocalVarDecl(varModList, unannType, varDeclList)) :-
+  {T}
+    varModListOk(s, varModList),
+    T == unannTypeOk(s, unannType),
+    varDeclListOk(s, T, varDeclList, s),
+    true.
+

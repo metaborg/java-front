@@ -1,0 +1,6 @@
+shared.defaultArtifactId=java8
+shared.defaultClassPrefix=Java8
+shared.defaultGroupId=org.metaborg
+shared.defaultPackageId=mb.java8
+shared.defaultVersion=0.1.0
+stratego.source.files.languageStrategyAffix=java8

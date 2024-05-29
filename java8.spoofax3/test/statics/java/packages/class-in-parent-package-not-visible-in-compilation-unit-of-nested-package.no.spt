@@ -1,0 +1,31 @@
+module packages/class-in-parent-package-not-visible-in-compilation-unit-of-nested-package_no
+
+language metaborg-java
+
+test class-in-parent-package-not-visible-in-compilation-unit-of-nested-package [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[p] {
+
+    [A]
+    package p;
+    public class A {}
+
+    [q] {
+
+        [B]
+        package p.q;
+        public class B {
+            public A a;
+        }
+
+    }
+}
+
+]] analysis fails
+   run javacFails to ""

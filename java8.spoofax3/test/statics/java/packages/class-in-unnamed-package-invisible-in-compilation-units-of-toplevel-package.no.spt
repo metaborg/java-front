@@ -1,0 +1,28 @@
+module packages/class-in-unnamed-package-invisible-in-compilation-units-of-toplevel-package_no
+
+language metaborg-java
+
+test class-in-unnamed-package-invisible-in-compilation-units-of-toplevel-package [[
+
+test;
+
+
+
+// error: cannot find symbol
+
+[A]
+public class A {
+}
+
+[p] {
+
+    [B]
+    package p;
+    public class B {
+        public A a;
+    }
+
+}
+
+]] analysis fails
+   run javacFails to ""

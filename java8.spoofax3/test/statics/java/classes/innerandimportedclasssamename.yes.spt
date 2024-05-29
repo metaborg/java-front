@@ -1,0 +1,31 @@
+module classes/innerandimportedclasssamename_yes
+
+language metaborg-java
+
+test innerandimportedclasssamename [[
+
+test;
+
+
+
+
+
+[jav] {
+    [util] {
+
+        [List]
+        package jav.util;
+        public class List {}
+
+    }
+}
+
+[Test]
+import jav.util.List;
+public class Test {
+    public class List {}
+}
+
+
+]] analysis succeeds
+   run javacSucceeds to ""

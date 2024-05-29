@@ -1,0 +1,22 @@
+module syntax/java/packages/CompilationUnits
+
+// 7.3. Compilation Units
+
+imports
+  syntax/java/packages/PackageDeclarations
+  syntax/java/packages/ImportDeclarations
+  syntax/java/packages/TypeDeclarations
+
+context-free sorts
+
+  CompilationUnit
+
+context-free syntax
+
+
+  CompilationUnit.CompilationUnit = <
+  <PackageDeclaration-OPT>
+
+  <{ImportDeclaration "\n"}*>
+
+  <{TypeDeclaration "\n"}*>>

@@ -1,0 +1,13 @@
+module literals/null-literal
+
+language java8
+
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
+
+test null literal [[null]] parse succeeds

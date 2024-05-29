@@ -1,0 +1,98 @@
+module java/expressions/AssignmentOperators
+
+imports
+
+  signatures/syntax/java/expressions/AssignmentOperators-sig
+
+  java/expressions/Main
+  java/expressions/ArrayAccess
+  java/expressions/FieldAccess
+  java/names/ExpressionNames
+  java/types/Conversions
+
+
+rules // 15.26. Assignment Operators
+
+  exprOk(s, Assign(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, T').
+
+  exprOk(s, AssignMul(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignDiv(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignMod(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignAdd(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    _ == promoteAddition(s, T, T').
+
+  exprOk(s, AssignSub(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignLeftShift(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignRightShift(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignURightShift(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignAnd(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignXor(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+  exprOk(s, AssignOr(lhs, expr)) = T :-
+  {T'}
+    T == lhsOk(s, lhs),
+    T' == exprOk(s, expr),
+    assignCompatible(s, T, promoteNumericBinary(T, T')).
+
+
+  lhsOk : scope * LHS -> TYPE
+
+  lhsOk(s, ExpressionName2LHS(exprName)) = varDeclType(exprNameOk(s, exprName)).
+
+  lhsOk(s, FieldAccess2LHS(fldAccess)) = fldAccessOk(s, fldAccess).
+
+  lhsOk(s, ArrayAccess2LHS(arrayAccess)) = T :-
+    T == arrayAccessOk(s, arrayAccess),
+    true.
+

@@ -1,0 +1,15 @@
+module literals/string-literals
+
+language java8
+
+fixture [[
+  class MyClass {
+    void myMethod() {
+      [[...]];
+    }
+  }
+]]
+
+test example 1 [[""]] parse succeeds
+test example 2 [["\""]] parse succeeds
+test example 3 [["This is a string"]] parse succeeds

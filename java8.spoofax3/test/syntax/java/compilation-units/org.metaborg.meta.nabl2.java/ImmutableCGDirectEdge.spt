@@ -1,0 +1,204 @@
+module ImmutableCGDirectEdge
+
+language java8
+
+test ImmutableCGDirectEdge [[ package org.metaborg.meta.nabl2.constraints.namebinding;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.IMessageInfo;
+import org.metaborg.meta.nabl2.scopegraph.terms.Label;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CGDirectEdge}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCGDirectEdge.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CGDirectEdge"})
+@Immutable
+public final class ImmutableCGDirectEdge
+    extends CGDirectEdge
+    implements Serializable {
+  private final ITerm sourceScope;
+  private final Label label;
+  private final ITerm targetScope;
+  private final IMessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCGDirectEdge(
+      ITerm sourceScope,
+      Label label,
+      ITerm targetScope,
+      IMessageInfo messageInfo) {
+    this.sourceScope = Objects.requireNonNull(sourceScope, "sourceScope");
+    this.label = Objects.requireNonNull(label, "label");
+    this.targetScope = Objects.requireNonNull(targetScope, "targetScope");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCGDirectEdge(
+      ImmutableCGDirectEdge original,
+      ITerm sourceScope,
+      Label label,
+      ITerm targetScope,
+      IMessageInfo messageInfo) {
+    this.sourceScope = sourceScope;
+    this.label = label;
+    this.targetScope = targetScope;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code sourceScope} attribute
+   */
+  @Override
+  public ITerm getSourceScope() {
+    return sourceScope;
+  }
+
+  /**
+   * @return The value of the {@code label} attribute
+   */
+  @Override
+  public Label getLabel() {
+    return label;
+  }
+
+  /**
+   * @return The value of the {@code targetScope} attribute
+   */
+  @Override
+  public ITerm getTargetScope() {
+    return targetScope;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public IMessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGDirectEdge#getSourceScope() sourceScope} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for sourceScope
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGDirectEdge setSourceScope(ITerm value) {
+    if (this.sourceScope == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "sourceScope");
+    return new ImmutableCGDirectEdge(this, newValue, this.label, this.targetScope, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGDirectEdge#getLabel() label} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for label
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGDirectEdge setLabel(Label value) {
+    if (this.label == value) return this;
+    Label newValue = Objects.requireNonNull(value, "label");
+    return new ImmutableCGDirectEdge(this, this.sourceScope, newValue, this.targetScope, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGDirectEdge#getTargetScope() targetScope} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for targetScope
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGDirectEdge setTargetScope(ITerm value) {
+    if (this.targetScope == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "targetScope");
+    return new ImmutableCGDirectEdge(this, this.sourceScope, this.label, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CGDirectEdge#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCGDirectEdge setMessageInfo(IMessageInfo value) {
+    if (this.messageInfo == value) return this;
+    IMessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCGDirectEdge(this, this.sourceScope, this.label, this.targetScope, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCGDirectEdge} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCGDirectEdge
+        && equalTo((ImmutableCGDirectEdge) another);
+  }
+
+  private boolean equalTo(ImmutableCGDirectEdge another) {
+    return sourceScope.equals(another.sourceScope)
+        && label.equals(another.label)
+        && targetScope.equals(another.targetScope)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code sourceScope}, {@code label}, {@code targetScope}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + sourceScope.hashCode();
+    h = h * 17 + label.hashCode();
+    h = h * 17 + targetScope.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CGDirectEdge} instance.
+   * @param sourceScope The value for the {@code sourceScope} attribute
+   * @param label The value for the {@code label} attribute
+   * @param targetScope The value for the {@code targetScope} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CGDirectEdge instance
+   */
+  public static ImmutableCGDirectEdge of(ITerm sourceScope, Label label, ITerm targetScope, IMessageInfo messageInfo) {
+    return new ImmutableCGDirectEdge(sourceScope, label, targetScope, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CGDirectEdge} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CGDirectEdge instance
+   */
+  public static ImmutableCGDirectEdge copyOf(CGDirectEdge instance) {
+    if (instance instanceof ImmutableCGDirectEdge) {
+      return (ImmutableCGDirectEdge) instance;
+    }
+    return ImmutableCGDirectEdge.of(instance.getSourceScope(), instance.getLabel(), instance.getTargetScope(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

@@ -1,0 +1,144 @@
+module ImmutableTermPair
+
+language java8
+
+test ImmutableTermPair [[ package org.metaborg.meta.nabl2.terms.generic;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link TermPair}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableTermPair.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "TermPair"})
+@Immutable
+public final class ImmutableTermPair
+    extends TermPair
+    implements Serializable {
+  private final ITerm first;
+  private final ITerm second;
+  private final int hashCode;
+
+  private ImmutableTermPair(ITerm first, ITerm second) {
+    this.first = Objects.requireNonNull(first, "first");
+    this.second = Objects.requireNonNull(second, "second");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableTermPair(
+      ImmutableTermPair original,
+      ITerm first,
+      ITerm second) {
+    this.first = first;
+    this.second = second;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code first} attribute
+   */
+  @Override
+  ITerm getFirst() {
+    return first;
+  }
+
+  /**
+   * @return The value of the {@code second} attribute
+   */
+  @Override
+  public ITerm getSecond() {
+    return second;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link TermPair#getFirst() first} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for first
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTermPair setFirst(ITerm value) {
+    if (this.first == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "first");
+    return new ImmutableTermPair(this, newValue, this.second);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link TermPair#getSecond() second} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for second
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableTermPair setSecond(ITerm value) {
+    if (this.second == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "second");
+    return new ImmutableTermPair(this, this.first, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableTermPair} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableTermPair
+        && equalTo((ImmutableTermPair) another);
+  }
+
+  private boolean equalTo(ImmutableTermPair another) {
+    return first.equals(another.first)
+        && second.equals(another.second);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code first}, {@code second}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + first.hashCode();
+    h = h * 17 + second.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code TermPair} instance.
+   * @param first The value for the {@code first} attribute
+   * @param second The value for the {@code second} attribute
+   * @return An immutable TermPair instance
+   */
+  public static ImmutableTermPair of(ITerm first, ITerm second) {
+    return new ImmutableTermPair(first, second);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link TermPair} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable TermPair instance
+   */
+  public static ImmutableTermPair copyOf(TermPair instance) {
+    if (instance instanceof ImmutableTermPair) {
+      return (ImmutableTermPair) instance;
+    }
+    return ImmutableTermPair.of(instance.getFirst(), instance.getSecond());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

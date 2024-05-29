@@ -1,0 +1,11 @@
+module IIntTerm
+
+language java8
+
+test IIntTerm [[ package org.metaborg.meta.nabl2.terms;
+
+public interface IIntTerm extends ITerm {
+
+    int getValue();
+
+} ]] parse succeeds

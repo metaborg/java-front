@@ -1,0 +1,233 @@
+module ImmutableInitialResult
+
+language java8
+
+test ImmutableInitialResult [[ package org.metaborg.meta.nabl2.spoofax.analysis;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.IConstraint;
+import org.metaborg.meta.nabl2.solver.SolverConfig;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link InitialResult}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableInitialResult.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "InitialResult"})
+@Immutable
+public final class ImmutableInitialResult
+    extends InitialResult
+    implements Serializable {
+  private final Iterable<IConstraint> constraints;
+  private final Args args;
+  private final SolverConfig config;
+  private final @Nullable ITerm customResult;
+  private final int hashCode;
+
+  private ImmutableInitialResult(
+      Iterable<IConstraint> constraints,
+      Args args,
+      SolverConfig config) {
+    this.constraints = Objects.requireNonNull(constraints, "constraints");
+    this.args = Objects.requireNonNull(args, "args");
+    this.config = Objects.requireNonNull(config, "config");
+    this.customResult = null;
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableInitialResult(
+      Iterable<IConstraint> constraints,
+      Args args,
+      SolverConfig config,
+      @Nullable ITerm customResult) {
+    this.constraints = constraints;
+    this.args = args;
+    this.config = config;
+    this.customResult = customResult;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code constraints} attribute
+   */
+  @Override
+  public Iterable<IConstraint> getConstraints() {
+    return constraints;
+  }
+
+  /**
+   * @return The value of the {@code args} attribute
+   */
+  @Override
+  public Args getArgs() {
+    return args;
+  }
+
+  /**
+   * @return The value of the {@code config} attribute
+   */
+  @Override
+  public SolverConfig getConfig() {
+    return config;
+  }
+
+  /**
+   * @return The value of the {@code customResult} attribute
+   */
+  @Override
+  public Optional<ITerm> getCustomResult() {
+    return Optional.ofNullable(customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link InitialResult#getConstraints() constraints} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for constraints
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableInitialResult setConstraints(Iterable<IConstraint> value) {
+    if (this.constraints == value) return this;
+    Iterable<IConstraint> newValue = Objects.requireNonNull(value, "constraints");
+    return new ImmutableInitialResult(newValue, this.args, this.config, this.customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link InitialResult#getArgs() args} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for args
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableInitialResult setArgs(Args value) {
+    if (this.args == value) return this;
+    Args newValue = Objects.requireNonNull(value, "args");
+    return new ImmutableInitialResult(this.constraints, newValue, this.config, this.customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link InitialResult#getConfig() config} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for config
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableInitialResult setConfig(SolverConfig value) {
+    if (this.config == value) return this;
+    SolverConfig newValue = Objects.requireNonNull(value, "config");
+    return new ImmutableInitialResult(this.constraints, this.args, newValue, this.customResult);
+  }
+
+  /**
+   * Copy the current immutable object by setting a <i>present</i> value for the optional {@link InitialResult#getCustomResult() customResult} attribute.
+   * @param value The value for customResult
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableInitialResult setCustomResult(ITerm value) {
+    @Nullable ITerm newValue = Objects.requireNonNull(value, "customResult");
+    if (this.customResult == newValue) return this;
+    return new ImmutableInitialResult(this.constraints, this.args, this.config, newValue);
+  }
+
+  /**
+   * Copy the current immutable object by setting an optional value for the {@link InitialResult#getCustomResult() customResult} attribute.
+   * A shallow reference equality check is used on unboxed optional value to prevent copying of the same value by returning {@code this}.
+   * @param optional A value for customResult
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableInitialResult setCustomResult(Optional<ITerm> optional) {
+    @Nullable ITerm value = optional.orElse(null);
+    if (this.customResult == value) return this;
+    return new ImmutableInitialResult(this.constraints, this.args, this.config, value);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableInitialResult} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableInitialResult
+        && equalTo((ImmutableInitialResult) another);
+  }
+
+  private boolean equalTo(ImmutableInitialResult another) {
+    return constraints.equals(another.constraints)
+        && args.equals(another.args)
+        && config.equals(another.config)
+        && Objects.equals(customResult, another.customResult);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code constraints}, {@code args}, {@code config}, {@code customResult}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + constraints.hashCode();
+    h = h * 17 + args.hashCode();
+    h = h * 17 + config.hashCode();
+    h = h * 17 + Objects.hashCode(customResult);
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code InitialResult} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder("InitialResult{");
+    builder.append("constraints=").append(constraints);
+    builder.append(", ");
+    builder.append("args=").append(args);
+    builder.append(", ");
+    builder.append("config=").append(config);
+    if (customResult != null) {
+      builder.append(", ");
+      builder.append("customResult=").append(customResult);
+    }
+    return builder.append("}").toString();
+  }
+
+  /**
+   * Construct a new immutable {@code InitialResult} instance.
+   * @param constraints The value for the {@code constraints} attribute
+   * @param args The value for the {@code args} attribute
+   * @param config The value for the {@code config} attribute
+   * @return An immutable InitialResult instance
+   */
+  public static ImmutableInitialResult of(Iterable<IConstraint> constraints, Args args, SolverConfig config) {
+    return new ImmutableInitialResult(constraints, args, config);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link InitialResult} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable InitialResult instance
+   */
+  public static ImmutableInitialResult copyOf(InitialResult instance) {
+    if (instance instanceof ImmutableInitialResult) {
+      return (ImmutableInitialResult) instance;
+    }
+    return ImmutableInitialResult.of(instance.getConstraints(), instance.getArgs(), instance.getConfig())
+        .setCustomResult(instance.getCustomResult());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

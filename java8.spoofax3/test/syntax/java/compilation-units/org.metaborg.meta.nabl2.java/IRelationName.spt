@@ -1,0 +1,13 @@
+module IRelationName
+
+language java8
+
+test IRelationName [[ package org.metaborg.meta.nabl2.relations;
+
+import java.util.Optional;
+
+public interface IRelationName {
+
+    Optional<String> getName();
+
+} ]] parse succeeds

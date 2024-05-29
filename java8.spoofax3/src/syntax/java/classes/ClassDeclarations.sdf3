@@ -1,0 +1,76 @@
+module syntax/java/classes/ClassDeclarations
+
+// 8.1. Class Declarations
+
+imports
+  syntax/java/lexical/Identifiers
+  syntax/java/lexical/Modifiers
+  syntax/java/lexical/SemiColon
+  syntax/java/types/ReferenceTypes
+  syntax/java/classes/FieldDeclarations
+  syntax/java/classes/MethodDeclarations
+  syntax/java/classes/InstanceInitializers
+  syntax/java/classes/StaticInitializers
+  syntax/java/classes/EnumDeclarations
+  syntax/java/classes/ConstructorDeclarations
+  syntax/java/interfaces/Annotations
+  syntax/java/interfaces/InterfaceDeclarations
+  syntax/java/types/TypeVariable
+
+context-free sorts
+
+  ClassDeclaration
+  NormalClassDeclaration
+  ClassModifier
+  TypeParameters-OPT
+  TypeParameters
+  SuperClass-OPT
+  SuperClass
+  SuperInterfaces-OPT
+  SuperInterfaces
+  ClassBodyDeclaration
+  ClassMemberDeclaration
+
+context-free syntax
+
+  ClassDeclaration = NormalClassDeclaration
+  ClassDeclaration  = EnumDeclaration
+
+  NormalClassDeclaration.ClassDeclaration = <
+  <{ClassModifier " "}*> class <Id><TypeParameters-OPT> <SuperClass-OPT> <SuperInterfaces-OPT> {
+    <{ClassBodyDeclaration "\n"}*>
+  }>
+
+  ClassModifier = Annotation
+  ClassModifier = Public
+  ClassModifier = Protected
+  ClassModifier = Private
+  ClassModifier = Abstract
+  ClassModifier = Static
+  ClassModifier = Final
+  ClassModifier = Strictfp
+
+  TypeParameters-OPT.NoTypeParameters         =
+  TypeParameters-OPT.SomeTypeParameters       = TypeParameters
+  TypeParameters.TypeParameters               = [<[{TypeParameter ","}+]>]
+
+  // TypeParameter is already defined in 4.4 / syntax/java/types/TypeVariable
+
+  SuperClass-OPT.NoSuperClass   =
+  SuperClass-OPT.SomeSuperClass = SuperClass
+  SuperClass.SuperClass         = <extends <ClassType>>
+
+  SuperInterfaces-OPT.NoSuperInterfaces   =
+  SuperInterfaces-OPT.SomeSuperInterfaces = SuperInterfaces
+  SuperInterfaces.SuperInterface          = <implements <{ClassType ", "}+>>
+
+  ClassBodyDeclaration = ClassMemberDeclaration
+  ClassBodyDeclaration  = InstanceInitializer
+  ClassBodyDeclaration  = StaticInitializer
+  ClassBodyDeclaration  = ConstructorDeclaration
+
+  ClassMemberDeclaration = FieldDeclaration
+  ClassMemberDeclaration = MethodDeclaration
+  ClassMemberDeclaration = ClassDeclaration
+  ClassMemberDeclaration = InterfaceDeclaration
+  ClassMemberDeclaration = SemiColon

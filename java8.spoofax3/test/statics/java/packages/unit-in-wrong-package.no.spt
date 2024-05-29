@@ -1,0 +1,22 @@
+module packages/unit-in-wrong-package_no
+
+language metaborg-java
+
+test unit-in-wrong-package [[
+
+test;
+
+
+
+// error: 
+
+[p] {
+
+    [A]
+    package q;
+    public class A {}
+
+}
+
+]] analysis fails
+   run javacFails to ""

@@ -1,0 +1,240 @@
+module ImmutableCDeclProperty
+
+language java8
+
+test ImmutableCDeclProperty [[ package org.metaborg.meta.nabl2.constraints.namebinding;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.MessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CDeclProperty}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCDeclProperty.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CDeclProperty"})
+@Immutable
+public final class ImmutableCDeclProperty
+    extends CDeclProperty
+    implements Serializable {
+  private final ITerm declaration;
+  private final ITerm key;
+  private final ITerm value;
+  private final int priority;
+  private final MessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCDeclProperty(
+      ITerm declaration,
+      ITerm key,
+      ITerm value,
+      int priority,
+      MessageInfo messageInfo) {
+    this.declaration = Objects.requireNonNull(declaration, "declaration");
+    this.key = Objects.requireNonNull(key, "key");
+    this.value = Objects.requireNonNull(value, "value");
+    this.priority = priority;
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCDeclProperty(
+      ImmutableCDeclProperty original,
+      ITerm declaration,
+      ITerm key,
+      ITerm value,
+      int priority,
+      MessageInfo messageInfo) {
+    this.declaration = declaration;
+    this.key = key;
+    this.value = value;
+    this.priority = priority;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code declaration} attribute
+   */
+  @Override
+  public ITerm getDeclaration() {
+    return declaration;
+  }
+
+  /**
+   * @return The value of the {@code key} attribute
+   */
+  @Override
+  public ITerm getKey() {
+    return key;
+  }
+
+  /**
+   * @return The value of the {@code value} attribute
+   */
+  @Override
+  public ITerm getValue() {
+    return value;
+  }
+
+  /**
+   * @return The value of the {@code priority} attribute
+   */
+  @Override
+  public int getPriority() {
+    return priority;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public MessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CDeclProperty#getDeclaration() declaration} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for declaration
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCDeclProperty setDeclaration(ITerm value) {
+    if (this.declaration == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "declaration");
+    return validate(new ImmutableCDeclProperty(this, newValue, this.key, this.value, this.priority, this.messageInfo));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CDeclProperty#getKey() key} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for key
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCDeclProperty setKey(ITerm value) {
+    if (this.key == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "key");
+    return validate(new ImmutableCDeclProperty(this, this.declaration, newValue, this.value, this.priority, this.messageInfo));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CDeclProperty#getValue() value} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for value
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCDeclProperty setValue(ITerm value) {
+    if (this.value == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "value");
+    return validate(new ImmutableCDeclProperty(this, this.declaration, this.key, newValue, this.priority, this.messageInfo));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CDeclProperty#getPriority() priority} attribute.
+   * A value equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for priority
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCDeclProperty setPriority(int value) {
+    if (this.priority == value) return this;
+    return validate(new ImmutableCDeclProperty(this, this.declaration, this.key, this.value, value, this.messageInfo));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CDeclProperty#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCDeclProperty setMessageInfo(MessageInfo value) {
+    if (this.messageInfo == value) return this;
+    MessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return validate(new ImmutableCDeclProperty(this, this.declaration, this.key, this.value, this.priority, newValue));
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCDeclProperty} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCDeclProperty
+        && equalTo((ImmutableCDeclProperty) another);
+  }
+
+  private boolean equalTo(ImmutableCDeclProperty another) {
+    return declaration.equals(another.declaration)
+        && key.equals(another.key)
+        && value.equals(another.value)
+        && priority == another.priority
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code declaration}, {@code key}, {@code value}, {@code priority}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + declaration.hashCode();
+    h = h * 17 + key.hashCode();
+    h = h * 17 + value.hashCode();
+    h = h * 17 + priority;
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CDeclProperty} instance.
+   * @param declaration The value for the {@code declaration} attribute
+   * @param key The value for the {@code key} attribute
+   * @param value The value for the {@code value} attribute
+   * @param priority The value for the {@code priority} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CDeclProperty instance
+   */
+  public static ImmutableCDeclProperty of(ITerm declaration, ITerm key, ITerm value, int priority, MessageInfo messageInfo) {
+    return validate(new ImmutableCDeclProperty(declaration, key, value, priority, messageInfo));
+  }
+
+  private static ImmutableCDeclProperty validate(ImmutableCDeclProperty instance) {
+    instance.check();
+    return instance;
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CDeclProperty} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CDeclProperty instance
+   */
+  public static ImmutableCDeclProperty copyOf(CDeclProperty instance) {
+    if (instance instanceof ImmutableCDeclProperty) {
+      return (ImmutableCDeclProperty) instance;
+    }
+    return ImmutableCDeclProperty.of(instance.getDeclaration(), instance.getKey(), instance.getValue(), instance.getPriority(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private Object readResolve() throws ObjectStreamException {
+    return validate(this);
+  }
+} ]] parse succeeds

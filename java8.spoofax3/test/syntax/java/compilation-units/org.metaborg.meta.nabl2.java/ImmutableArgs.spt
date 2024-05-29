@@ -1,0 +1,173 @@
+module ImmutableArgs
+
+language java8
+
+test ImmutableArgs [[ package org.metaborg.meta.nabl2.spoofax.analysis;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link Args}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableArgs.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "Args"})
+@Immutable
+public final class ImmutableArgs
+    extends Args
+    implements Serializable {
+  private final Iterable<ITerm> params;
+  private final @Nullable ITerm type;
+  private final int hashCode;
+
+  private ImmutableArgs(
+      Iterable<ITerm> params,
+      Optional<ITerm> type) {
+    this.params = Objects.requireNonNull(params, "params");
+    this.type = type.orElse(null);
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableArgs(
+      ImmutableArgs original,
+      Iterable<ITerm> params,
+      @Nullable ITerm type) {
+    this.params = params;
+    this.type = type;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code params} attribute
+   */
+  @Override
+  public Iterable<ITerm> getParams() {
+    return params;
+  }
+
+  /**
+   * @return The value of the {@code type} attribute
+   */
+  @Override
+  public Optional<ITerm> getType() {
+    return Optional.ofNullable(type);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link Args#getParams() params} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for params
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableArgs setParams(Iterable<ITerm> value) {
+    if (this.params == value) return this;
+    Iterable<ITerm> newValue = Objects.requireNonNull(value, "params");
+    return new ImmutableArgs(this, newValue, this.type);
+  }
+
+  /**
+   * Copy the current immutable object by setting a <i>present</i> value for the optional {@link Args#getType() type} attribute.
+   * @param value The value for type
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableArgs setType(ITerm value) {
+    @Nullable ITerm newValue = Objects.requireNonNull(value, "type");
+    if (this.type == newValue) return this;
+    return new ImmutableArgs(this, this.params, newValue);
+  }
+
+  /**
+   * Copy the current immutable object by setting an optional value for the {@link Args#getType() type} attribute.
+   * A shallow reference equality check is used on unboxed optional value to prevent copying of the same value by returning {@code this}.
+   * @param optional A value for type
+   * @return A modified copy of {@code this} object
+   */
+  public final ImmutableArgs setType(Optional<ITerm> optional) {
+    @Nullable ITerm value = optional.orElse(null);
+    if (this.type == value) return this;
+    return new ImmutableArgs(this, this.params, value);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableArgs} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableArgs
+        && equalTo((ImmutableArgs) another);
+  }
+
+  private boolean equalTo(ImmutableArgs another) {
+    return params.equals(another.params)
+        && Objects.equals(type, another.type);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code params}, {@code type}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + params.hashCode();
+    h = h * 17 + Objects.hashCode(type);
+    return h;
+  }
+
+  /**
+   * Prints the immutable value {@code Args} with attribute values.
+   * @return A string representation of the value
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder("Args{");
+    builder.append("params=").append(params);
+    if (type != null) {
+      builder.append(", ");
+      builder.append("type=").append(type);
+    }
+    return builder.append("}").toString();
+  }
+
+  /**
+   * Construct a new immutable {@code Args} instance.
+   * @param params The value for the {@code params} attribute
+   * @param type The value for the {@code type} attribute
+   * @return An immutable Args instance
+   */
+  public static ImmutableArgs of(Iterable<ITerm> params, Optional<ITerm> type) {
+    return new ImmutableArgs(params, type);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link Args} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable Args instance
+   */
+  public static ImmutableArgs copyOf(Args instance) {
+    if (instance instanceof ImmutableArgs) {
+      return (ImmutableArgs) instance;
+    }
+    return ImmutableArgs.of(instance.getParams(), instance.getType());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

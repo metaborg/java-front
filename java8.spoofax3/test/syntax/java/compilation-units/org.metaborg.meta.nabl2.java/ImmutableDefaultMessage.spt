@@ -1,0 +1,72 @@
+module ImmutableDefaultMessage
+
+language java8
+
+test ImmutableDefaultMessage [[ package org.metaborg.meta.nabl2.constraints.messages;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * Immutable implementation of {@link MessageContent.DefaultMessage}.
+ * <p>
+ * Use the static factory method to get the default singleton instance:
+ * {@code ImmutableDefaultMessage.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "MessageContent.DefaultMessage"})
+@Immutable
+final class ImmutableDefaultMessage
+    extends MessageContent.DefaultMessage
+    implements Serializable {
+  private final int hashCode;
+
+  private ImmutableDefaultMessage() {
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableDefaultMessage} that have equal attribute values.
+   * As instances of the {@code ImmutableDefaultMessage} class are interned, the {@code equals} method is implemented
+   * as an efficient reference equality check.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    return this == another;
+  }
+
+  /**
+   * Returns a constant hash code value.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    return 658220124;
+  }
+
+  private static final ImmutableDefaultMessage INSTANCE = new ImmutableDefaultMessage();
+
+  /**
+   * Returns the default immutable singleton value of {@code DefaultMessage}
+   * @return An immutable instance of DefaultMessage
+   */
+  public static ImmutableDefaultMessage of() {
+    return INSTANCE;
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private Object readResolve() throws ObjectStreamException {
+    return INSTANCE;
+  }
+} ]] parse succeeds

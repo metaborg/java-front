@@ -1,0 +1,175 @@
+module ImmutableCResolve
+
+language java8
+
+test ImmutableCResolve [[ package org.metaborg.meta.nabl2.constraints.namebinding;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.MessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+
+/**
+ * Immutable implementation of {@link CResolve}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCResolve.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CResolve"})
+@Immutable
+public final class ImmutableCResolve
+    extends CResolve
+    implements Serializable {
+  private final ITerm reference;
+  private final ITerm declaration;
+  private final MessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCResolve(
+      ITerm reference,
+      ITerm declaration,
+      MessageInfo messageInfo) {
+    this.reference = Objects.requireNonNull(reference, "reference");
+    this.declaration = Objects.requireNonNull(declaration, "declaration");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCResolve(
+      ImmutableCResolve original,
+      ITerm reference,
+      ITerm declaration,
+      MessageInfo messageInfo) {
+    this.reference = reference;
+    this.declaration = declaration;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code reference} attribute
+   */
+  @Override
+  public ITerm getReference() {
+    return reference;
+  }
+
+  /**
+   * @return The value of the {@code declaration} attribute
+   */
+  @Override
+  public ITerm getDeclaration() {
+    return declaration;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public MessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CResolve#getReference() reference} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for reference
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCResolve setReference(ITerm value) {
+    if (this.reference == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "reference");
+    return new ImmutableCResolve(this, newValue, this.declaration, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CResolve#getDeclaration() declaration} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for declaration
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCResolve setDeclaration(ITerm value) {
+    if (this.declaration == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "declaration");
+    return new ImmutableCResolve(this, this.reference, newValue, this.messageInfo);
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CResolve#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCResolve setMessageInfo(MessageInfo value) {
+    if (this.messageInfo == value) return this;
+    MessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return new ImmutableCResolve(this, this.reference, this.declaration, newValue);
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCResolve} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCResolve
+        && equalTo((ImmutableCResolve) another);
+  }
+
+  private boolean equalTo(ImmutableCResolve another) {
+    return reference.equals(another.reference)
+        && declaration.equals(another.declaration)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code reference}, {@code declaration}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + reference.hashCode();
+    h = h * 17 + declaration.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CResolve} instance.
+   * @param reference The value for the {@code reference} attribute
+   * @param declaration The value for the {@code declaration} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CResolve instance
+   */
+  public static ImmutableCResolve of(ITerm reference, ITerm declaration, MessageInfo messageInfo) {
+    return new ImmutableCResolve(reference, declaration, messageInfo);
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CResolve} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CResolve instance
+   */
+  public static ImmutableCResolve copyOf(CResolve instance) {
+    if (instance instanceof ImmutableCResolve) {
+      return (ImmutableCResolve) instance;
+    }
+    return ImmutableCResolve.of(instance.getReference(), instance.getDeclaration(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+} ]] parse succeeds

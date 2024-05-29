@@ -1,0 +1,214 @@
+module ImmutableCAstProperty
+
+language java8
+
+test ImmutableCAstProperty [[ package org.metaborg.meta.nabl2.constraints.ast;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+import org.metaborg.meta.nabl2.constraints.messages.IMessageInfo;
+import org.metaborg.meta.nabl2.terms.ITerm;
+import org.metaborg.meta.nabl2.terms.generic.TermIndex;
+
+/**
+ * Immutable implementation of {@link CAstProperty}.
+ * <p>
+ * Use the static factory method to create immutable instances:
+ * {@code ImmutableCAstProperty.of()}.
+ */
+@SuppressWarnings({"all"})
+@ParametersAreNonnullByDefault
+@Generated({"Immutables.generator", "CAstProperty"})
+@Immutable
+public final class ImmutableCAstProperty
+    extends CAstProperty
+    implements Serializable {
+  private final TermIndex index;
+  private final ITerm key;
+  private final ITerm value;
+  private final IMessageInfo messageInfo;
+  private final int hashCode;
+
+  private ImmutableCAstProperty(
+      TermIndex index,
+      ITerm key,
+      ITerm value,
+      IMessageInfo messageInfo) {
+    this.index = Objects.requireNonNull(index, "index");
+    this.key = Objects.requireNonNull(key, "key");
+    this.value = Objects.requireNonNull(value, "value");
+    this.messageInfo = Objects.requireNonNull(messageInfo, "messageInfo");
+    this.hashCode = computeHashCode();
+  }
+
+  private ImmutableCAstProperty(
+      ImmutableCAstProperty original,
+      TermIndex index,
+      ITerm key,
+      ITerm value,
+      IMessageInfo messageInfo) {
+    this.index = index;
+    this.key = key;
+    this.value = value;
+    this.messageInfo = messageInfo;
+    this.hashCode = computeHashCode();
+  }
+
+  /**
+   * @return The value of the {@code index} attribute
+   */
+  @Override
+  public TermIndex getIndex() {
+    return index;
+  }
+
+  /**
+   * @return The value of the {@code key} attribute
+   */
+  @Override
+  public ITerm getKey() {
+    return key;
+  }
+
+  /**
+   * @return The value of the {@code value} attribute
+   */
+  @Override
+  public ITerm getValue() {
+    return value;
+  }
+
+  /**
+   * @return The value of the {@code messageInfo} attribute
+   */
+  @Override
+  public IMessageInfo getMessageInfo() {
+    return messageInfo;
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CAstProperty#getIndex() index} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for index
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCAstProperty setIndex(TermIndex value) {
+    if (this.index == value) return this;
+    TermIndex newValue = Objects.requireNonNull(value, "index");
+    return validate(new ImmutableCAstProperty(this, newValue, this.key, this.value, this.messageInfo));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CAstProperty#getKey() key} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for key
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCAstProperty setKey(ITerm value) {
+    if (this.key == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "key");
+    return validate(new ImmutableCAstProperty(this, this.index, newValue, this.value, this.messageInfo));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CAstProperty#getValue() value} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for value
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCAstProperty setValue(ITerm value) {
+    if (this.value == value) return this;
+    ITerm newValue = Objects.requireNonNull(value, "value");
+    return validate(new ImmutableCAstProperty(this, this.index, this.key, newValue, this.messageInfo));
+  }
+
+  /**
+   * Copy the current immutable object by setting a value for the {@link CAstProperty#getMessageInfo() messageInfo} attribute.
+   * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
+   * @param value A new value for messageInfo
+   * @return A modified copy of the {@code this} object
+   */
+  public final ImmutableCAstProperty setMessageInfo(IMessageInfo value) {
+    if (this.messageInfo == value) return this;
+    IMessageInfo newValue = Objects.requireNonNull(value, "messageInfo");
+    return validate(new ImmutableCAstProperty(this, this.index, this.key, this.value, newValue));
+  }
+
+  /**
+   * This instance is equal to all instances of {@code ImmutableCAstProperty} that have equal attribute values.
+   * @return {@code true} if {@code this} is equal to {@code another} instance
+   */
+  @Override
+  public boolean equals(@Nullable Object another) {
+    if (this == another) return true;
+    return another instanceof ImmutableCAstProperty
+        && equalTo((ImmutableCAstProperty) another);
+  }
+
+  private boolean equalTo(ImmutableCAstProperty another) {
+    return index.equals(another.index)
+        && key.equals(another.key)
+        && value.equals(another.value)
+        && messageInfo.equals(another.messageInfo);
+  }
+
+  /**
+   * Returns a precomputed-on-construction hash code from attributes: {@code index}, {@code key}, {@code value}, {@code messageInfo}.
+   * @return hashCode value
+   */
+  @Override
+  public int hashCode() {
+    return hashCode;
+  }
+
+  private int computeHashCode() {
+    int h = 31;
+    h = h * 17 + index.hashCode();
+    h = h * 17 + key.hashCode();
+    h = h * 17 + value.hashCode();
+    h = h * 17 + messageInfo.hashCode();
+    return h;
+  }
+
+  /**
+   * Construct a new immutable {@code CAstProperty} instance.
+   * @param index The value for the {@code index} attribute
+   * @param key The value for the {@code key} attribute
+   * @param value The value for the {@code value} attribute
+   * @param messageInfo The value for the {@code messageInfo} attribute
+   * @return An immutable CAstProperty instance
+   */
+  public static ImmutableCAstProperty of(TermIndex index, ITerm key, ITerm value, IMessageInfo messageInfo) {
+    return validate(new ImmutableCAstProperty(index, key, value, messageInfo));
+  }
+
+  private static ImmutableCAstProperty validate(ImmutableCAstProperty instance) {
+    instance.check();
+    return instance;
+  }
+
+  /**
+   * Creates an immutable copy of a {@link CAstProperty} value.
+   * Uses accessors to get values to initialize the new immutable instance.
+   * If an instance is already immutable, it is returned as is.
+   * @param instance The instance to copy
+   * @return A copied immutable CAstProperty instance
+   */
+  public static ImmutableCAstProperty copyOf(CAstProperty instance) {
+    if (instance instanceof ImmutableCAstProperty) {
+      return (ImmutableCAstProperty) instance;
+    }
+    return ImmutableCAstProperty.of(instance.getIndex(), instance.getKey(), instance.getValue(), instance.getMessageInfo());
+  }
+
+  private static final long serialVersionUID = 42L;
+
+  private Object readResolve() throws ObjectStreamException {
+    return validate(this);
+  }
+} ]] parse succeeds
