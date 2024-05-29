@@ -11,8 +11,6 @@ Library(
   , Scope("/./java/lang/Object.skeleton.jav", "s_cls_4-0")
   , Scope("/./java/lang/Object.skeleton.jav", "s_mthd_39-0")
   , Scope("/./java", "d_1-0")
-  , Scope("/./java/lang", "d_2-0")
-  , Scope("/./java", "d_2-0")
   , Scope("/./java", "s_grp-0")
   , Scope("/./java/lang", "d_1-0")
   , Scope("/./java/lang", "s_grp-0")
@@ -20,7 +18,7 @@ Library(
 , [ ( Scope("/./java", "s_grp-0")
     , Some(Scope("/./java", "s_grp-0"))
     , [ (Label("java/names/Main!PARENT"), [Scope("/.", "s_prj-0")])
-      , (Label("java/names/PackageNames!pkg"), [Scope("/./java/lang", "d_2-0"), Scope("/./java/lang", "d_2-0")])
+      , (Label("java/names/PackageNames!pkg"), [Scope("/./java/lang", "d_1-0")])
       , (Label("java/names/PackageNames!thisPkg"), [Scope("/./java", "d_1-0")])
       ]
     )
@@ -50,7 +48,7 @@ Library(
     )
   , ( Scope("/./java/lang", "s_grp-0")
     , Some(Scope("/./java/lang", "s_grp-0"))
-    , [ (Label("java/names/TypeNames!type"), [Scope("/./java/lang/Object.skeleton.jav", "d_91-0"), Scope("/./java/lang/Object.skeleton.jav", "d_91-0")])
+    , [ (Label("java/names/TypeNames!type"), [Scope("/./java/lang/Object.skeleton.jav", "d_91-0")])
       , (Label("java/names/Main!PARENT"), [Scope("/./java", "s_grp-0")])
       , (Label("java/names/PackageNames!thisPkg"), [Scope("/./java/lang", "d_1-0")])
       ]
@@ -64,11 +62,11 @@ Library(
     )
   , ( Scope("/.", "s_prj-0")
     , None()
-    , [ (Label("java/names/PackageNames!pkg"), [Scope("/./java", "d_2-0"), Scope("/./java", "d_2-0")])
+    , [ (Label("java/names/PackageNames!pkg"), [Scope("/./java", "d_1-0")])
       ]
     )
   , ( Scope("/./java/lang/Object.skeleton.jav", "d_40-0")
-    , Some((Id("<init>"), [], Scope("/./java/lang/Object.skeleton.jav", "s_mthd_39-0")))
+    , Some((Id("<init>"), ARGS([]), Scope("/./java/lang/Object.skeleton.jav", "s_mthd_39-0")))
     , []
     )
   , (Scope("/./java/lang/Object.skeleton.jav", "d_93-0"), Some(REF(Scope("/./java/lang/Object.skeleton.jav", "s_cls_4-0"))), [])
@@ -83,14 +81,6 @@ Library(
     )
   , (Scope("/./java/lang/Object.skeleton.jav", "s_mthd_39-0"), Some(Scope("/./java/lang/Object.skeleton.jav", "s_mthd_39-0")), [])
   , ( Scope("/./java", "d_1-0")
-    , Some((Id("java"), Scope("/./java", "s_grp-0")))
-    , []
-    )
-  , ( Scope("/./java/lang", "d_2-0")
-    , Some((Id("lang"), Scope("/./java/lang", "s_grp-0")))
-    , []
-    )
-  , ( Scope("/./java", "d_2-0")
     , Some((Id("java"), Scope("/./java", "s_grp-0")))
     , []
     )
