@@ -49,7 +49,7 @@ entries:
 #  "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
 
   # Whitelist this/super rules
-  "java/names/TypeNames!this": { isReference: true }
-  "java/names/TypeNames!qualThis": { isReference: true }
-  "java/names/TypeNames!super": { isReference: true }
+#  "java/names/TypeNames!this": { isReference: true }
+#  "java/names/TypeNames!qualThis": { isReference: true }
+#  "java/names/TypeNames!super": { isReference: true }
 
