@@ -31,6 +31,9 @@ entries:
 #  "java/types/ReferenceTypes!pkgOrClsTypeOk": { isReference: false }
 #  "java/types/ReferenceTypes!arrayTypeOk": { isReference: false }
 #  "java/statements/Statements!catchTypeOk": { isReference: false }
+  "java/types/Main!toType": { isReference: true }
+  "java/names/ExpressionNames!ambDeclScope": { isReference: true }
+  "java/names/ExpressionNames!varDeclType": { isReference: true }
 
   # Whitelist nameOk rules
   "java/names/ExpressionNames!ambNameOk": { isReference: true }
