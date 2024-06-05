@@ -35,6 +35,14 @@ entries:
   "java/names/ExpressionNames!ambDeclScope": { isReference: true }
   "java/names/ExpressionNames!varDeclType": { isReference: true }
 
+  "java/names/ExpressionNames!resolveLexicalAmbName1": { alwaysExpand: true }
+  "java/names/ExpressionNames!resolveMemberAmbName1": { alwaysExpand: true }
+  "java/names/ExpressionNames!resolveMemberAmbName3": { alwaysExpand: true }
+  "java/names/ExpressionNames!resolveLexicalAmbName2": { alwaysExpand: true }
+  "java/names/PackageOrTypeNames!resolveLexicalPkgOrTypeName1": { alwaysExpand: true }
+  "java/names/PackageOrTypeNames!resolveMemberPkgOrTypeName1": { alwaysExpand: true }
+  "java/names/ReceiverNames!resolveRecvName1": { alwaysExpand: true }
+
   # Whitelist nameOk rules
   "java/names/ExpressionNames!ambNameOk": { isReference: true }
 #  "java/names/ExpressionNames!ambNameOk1": { isReference: true }
