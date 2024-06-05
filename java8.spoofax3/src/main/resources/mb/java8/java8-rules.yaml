@@ -8,6 +8,7 @@ entries:
   # Whitelist some expression rules
   "ExprOk-FieldAccess2Expression": { isReference: true }
   "java/expressions/FieldAccess!fldAccessOk": { isReference: true }
+
   "ExprOk-ExpressionName2Expression": { isReference: true }
   "ExprOk-This": { isReference: true }
   "ExprOk-QThis": { isReference: true }
@@ -49,7 +50,7 @@ entries:
 #  "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
 
   # Whitelist this/super rules
-#  "java/names/TypeNames!this": { isReference: true }
+  "java/names/TypeNames!this": { isReference: true }
 #  "java/names/TypeNames!qualThis": { isReference: true }
 #  "java/names/TypeNames!super": { isReference: true }
 
