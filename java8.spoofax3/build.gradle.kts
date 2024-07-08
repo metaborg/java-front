@@ -23,7 +23,7 @@ ext["spoofax2Version"] = spoofax2Version
 ext["spoofax2BaselineVersion"] = spoofax2BaselineVersion
 ext["spoofax2DevenvVersion"] = spoofax2DevenvVersion
 
-val javaVersion = JavaLanguageVersion.of(11)
+val javaVersion = JavaLanguageVersion.of(17)
 
 java {
     toolchain.languageVersion.set(javaVersion)
