@@ -65,3 +65,11 @@ entries:
 #  "java/names/TypeNames!qualThis": { isReference: true }
 #  "java/names/TypeNames!super": { isReference: true }
 
+orders:
+- order:
+  - [ "ExprOk-This" ]
+  - [ "ExprOk-QThis" ]
+  - [ "ExprOk-ExpressionName2Expression", "ExprOk-FieldAccess2Expression" ]
+- order:
+  - [ "TypeNameOk1-TypeName" ]
+  - [ "TypeNameOk1-QTypeName" ]
