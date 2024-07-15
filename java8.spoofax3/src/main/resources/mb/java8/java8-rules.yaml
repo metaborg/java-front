@@ -73,3 +73,9 @@ orders:
 - order:
   - [ "TypeNameOk1-TypeName" ]
   - [ "TypeNameOk1-QTypeName" ]
+- order:
+  - [ "ExprNameOk1-ExprName" ]
+  - [ "ExprNameOk1-QExprName" ]
+- order:
+  - [ "ResolveExprNames-ID" ]
+  - [ "ResolveExprNames-QID" ]
