@@ -1,9 +1,9 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("org.metaborg.spoofax.compiler.gradle.language") version("0.22.1") apply false
-    id("org.metaborg.spoofax.compiler.gradle.adapter") version("0.22.1") apply false
-    id("org.metaborg.spoofax.lwb.compiler.gradle.language") version("0.22.1")
+    id("org.metaborg.spoofax.compiler.gradle.language") version("0.23.0") apply false
+    id("org.metaborg.spoofax.compiler.gradle.adapter") version("0.23.0") apply false
+    id("org.metaborg.spoofax.lwb.compiler.gradle.language") version("0.23.0")
 }
 
 group = "org.metaborg"
