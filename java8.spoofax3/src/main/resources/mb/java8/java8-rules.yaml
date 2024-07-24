@@ -56,6 +56,12 @@ entries:
 #  "java/names/PackageNames!pkgNameOk1": { isReference: true }
   "java/names/MethodNames!mthdNameOk": { isReference: true }
 
+#  "FldAccessOk-SuperField": { disable: true }
+#  "FldAccessOk-QSuperField": { disable: true }
+#  "TypeNameOk1-QTypeName": { disable: true }
+
+#  "java/names/TypeNames!singleTypeDecl": { disable: true }
+
   # Whitelist typeArg rules
 #  "java/types/ParameterizedTypes!typeArgOk": { isReference: true }
 #  "java/types/ParameterizedTypes!wildCardOk": { isReference: true }
@@ -64,6 +70,11 @@ entries:
   "java/names/TypeNames!this": { isReference: true }
 #  "java/names/TypeNames!qualThis": { isReference: true }
 #  "java/names/TypeNames!super": { isReference: true }
+
+  # Number of var decls should follow directly from query, no need to expand explicitly
+  # "*!single*Decl": { disable: true }
+  # "*!mk*Refs": { disable: true }
+
 
 orders:
 - order:
