@@ -60,7 +60,7 @@ entries:
 #  "FldAccessOk-QSuperField": { disable: true }
 #  "TypeNameOk1-QTypeName": { disable: true }
 
-#  "java/names/TypeNames!singleTypeDecl": { disable: true }
+  "*!single*Decl": { disable: true }
 
   # Whitelist typeArg rules
 #  "java/types/ParameterizedTypes!typeArgOk": { isReference: true }
