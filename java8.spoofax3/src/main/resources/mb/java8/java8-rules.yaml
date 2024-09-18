@@ -100,3 +100,4 @@ nonReferenceConstructors:
   - "IntLiteral2Literal`1"
   - "Deci`1"
   - "InvokeQExp`4"
+  - "NewInstance`6"
