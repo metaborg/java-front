@@ -13,6 +13,7 @@ entries:
   "ExprOk-This": { isReference: true }
   "ExprOk-QThis": { isReference: true }
   "ExprOk-MethodReference*": { isReference: false }   # Not supported in the spec
+  "ExprOk-ArrayAccess2Expression": { isReference: false }  # Array access is not a reference
 
   # Whitelist some LHS rules
   "java/expressions/AssignmentOperators!lhsOk": { isReference: true }
@@ -90,3 +91,12 @@ orders:
 - order:
   - [ "ResolveExprNames-ID" ]
   - [ "ResolveExprNames-QID" ]
+
+# These constructors should not occur in reference terms when invoking `generate`
+nonReferenceConstructors:
+  - "ArrayAccess2LHS`1"
+  - "ArrayAccess`2"
+  - "Literal2Expression`1"
+  - "IntLiteral2Literal`1"
+  - "Deci`1"
+  - "InvokeQExp`4"
